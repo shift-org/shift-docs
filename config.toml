@@ -1,4 +1,4 @@
-baseURL = "https://shift-docs.netlify.com/"
+baseURL = "https://docs.shift2bikes.org/"
 languageCode = "en-us"
 title = "shift2bikes website reboot"
 theme = "hugo-theme-learn"
