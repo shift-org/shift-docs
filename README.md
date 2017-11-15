@@ -10,11 +10,11 @@ built using:
 - && the content from [the legacy shift website](https://shift2bikes.org)
 - && [Netlify web hosting](https://www.netlify.com) to serve the content
 
-You can browse the current state here:  https://shift-docs.netlify.com
+You can browse the current state here:  https://docs.shift2bikes.org
 
 ## Contributing
 
-- [pull requests](https://help.github.com/articles/creating-a-pull-request/) welcome.  You can check out [a link to the build status and log and a preview of your site](https://app.netlify.com/sites/shift-docs/deploys)
+- [pull requests](https://help.github.com/articles/creating-a-pull-request/) welcome.  You can check out [a link to the build status and log and a preview of your changes](https://app.netlify.com/sites/shift-docs/deploys)
 - or [contact fool](mailto:gently@gmail.com) for an invitation to the CMS so you can edit it in your browser.
 
 ## Local development
@@ -26,3 +26,6 @@ You can browse the current state here:  https://shift-docs.netlify.com
 6. start server for site: `hugo serve`
 7. browse at [http://localhost:1313](http://localhost:1313) in your browser
 
+## Netlify deployment
+1. [fork repo](https://help.github.com/articles/fork-a-repo/)
+2. deploy on netlify by linking your repo.  Included configuration file `netlify.toml` should mean 0 configuration required.
