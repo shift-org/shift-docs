@@ -28,4 +28,4 @@ You can browse the current state here:  https://docs.shift2bikes.org
 
 ## Netlify deployment
 1. [fork repo](https://help.github.com/articles/fork-a-repo/)
-2. deploy on netlify by linking your repo.  Included configuration file `netlify.toml` should mean 0 configuration required.
+2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 configuration required to get the site running (though the CMS will not work without some [additional configuration](https://www.netlifycms.org/docs/quick-start/#authentication))
