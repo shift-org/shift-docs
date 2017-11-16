@@ -1,7 +1,7 @@
 baseURL = "https://docs.shift2bikes.org/"
 languageCode = "en-us"
 title = "shift2bikes website reboot"
-theme = "minimal"
+theme = "hugo-theme-learn"
 
 [params]
   editURL = "/admin/#/collections/"
