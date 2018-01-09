@@ -42,4 +42,4 @@ Linked docs are all placeholders in [the "To Create" category](/to-create)
 
 ### Contributing
 
-See https://github.com/fool/shift-hugo-docs for how to propose or create changes
+See https://github.com/Shift2Bikes/shift-docs for how to propose or create changes
