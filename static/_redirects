@@ -1,4 +1,6 @@
-/cal  http://shift2bikes.org/fun/ 200
-/cal/*  http://shift2bikes.org/fun/:splat 200
-/fun  http://shift2bikes.org/fun/ 200
+# need fun to be a fun/ so that relative links are correct
+/fun /fun/ 200
+
+# this would work if all of the assets were contained under the /fun path, but they aren't quite
+
 /fun/*  http://shift2bikes.org/fun/:splat 200
