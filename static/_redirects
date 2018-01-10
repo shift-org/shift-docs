@@ -1,0 +1,4 @@
+/cal  http://shift2bikes.org/fun/ 200
+/cal/*  http://shift2bikes.org/fun/:splat 200
+/fun  http://shift2bikes.org/fun/ 200
+/fun/*  http://shift2bikes.org/fun/:splat 200
