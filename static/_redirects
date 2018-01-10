@@ -8,3 +8,7 @@
 # some images still live in old file tree
 
 /cal/* http://shift2bikes.org/cal/:splat 200
+
+# and this one is probably being redirected to from somewhere I can't find...
+
+/fun/images/shiftLogo_plain.gif  http://shift2bikes.org/images/shiftLogo_plain.gif  301
