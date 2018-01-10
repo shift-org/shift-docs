@@ -1,5 +1,5 @@
 # need fun to be a fun/ so that relative links are correct
-/fun /fun/ 200
+/fun /fun/ 301!
 
 # this would work if all of the assets were contained under the /fun path, but they aren't quite
 
