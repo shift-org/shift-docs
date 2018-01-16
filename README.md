@@ -15,7 +15,7 @@ You can browse the current state here:  https://docs.shift2bikes.org
 ## Contributing
 
 - If you want to change something about the site configuration or theme, [pull requests](https://help.github.com/articles/creating-a-pull-request/) are welcome.  Once you create a PR, you can immediately check out [a link to the build status and log and a preview of your changes](https://app.netlify.com/sites/shift-docs/deploys)
-- If you only want to edit content (including creating new docs), [visit the CMS here](/admin/#) and sign up - then you can edit it in your browser similar to wordpress.
+- If you only want to edit content (including creating new docs), [visit the CMS here](https://docs.shift2bikes.org/admin/#) and sign up - then you can edit it in your browser similar to wordpress.
 
 ## Local development
 1. clone repo: `git clone https://github.com/fool/shift-docs-hugo.git`
