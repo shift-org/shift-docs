@@ -1,0 +1,34 @@
+App:
+* API Round trip
+* Vue component structure
+  * .vue files
+  * SCSS loader
+  * Styled components are win, copy from other project
+
+Node:
+* ORMy stuffs
+* DB Bootstrap - load seed
+* DB Seeding
+  * Create migration for structure
+  * Clean DB
+  * Run all migrations
+  * Run data generation/injection
+  * Dump Seed
+
+Architecture:
+* Data model
+* Component heirarchy
+
+Team:
+* Bootstrap/check deps (one command start)
+* Beautify js
+* Watch everything needed
+  * Docker compose
+  * app (bundle)
+  * app (nodemon)
+  * hugo
+
+Deployment:
+* Netlify integration
+* Netlify CMS
+* App push (db, express)

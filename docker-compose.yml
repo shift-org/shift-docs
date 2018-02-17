@@ -1,0 +1,55 @@
+version: "2"
+
+volumes:
+  db: {}
+
+services:
+
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ./app/build/:/var/www/build/
+      - ./site/public/:/var/www/site/
+      - ./borzoi/nginx/:/etc/borzoi/nginx/
+    links:
+      - node
+    environment:
+      - NGINX_CONF
+      - NGINX_CERT_NAME
+    ports:
+      - "${NGINX_HTTPS_PORT}:443"
+    entrypoint: /nift/nginx/entrypoint.sh
+    command: ["nginx", "-g", "daemon off;"]
+
+  db:
+    restart: always
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_HOST
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3306
+
+  node: &node
+    build: "app/"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./app:/home/node/app
+    expose:
+      - "8081"
+    command: "npm run start"
+  
+  webpack:
+    << : *node
+    expose: []
+    command: "npm run build"
+      
