@@ -2,7 +2,7 @@
 
 set -e
 
-echo nginx/entrypoint.sh
+echo borzoi/nginx/entrypoint.sh
 
 echo Clearing /etc/nginx/conf.d/
 
@@ -10,9 +10,9 @@ rm -rf /etc/nginx/conf.d/
 mkdir -p /etc/nginx/conf.d/
 
 echo Linking ${NGINX_CONF}
-ln -s /etc/borzoi/nginx/sites-available/${NGINX_CONF} /etc/nginx/conf.d/${NGINX_CONF}
+ln -s /opt/borzoi/nginx/sites-available/${NGINX_CONF} /etc/nginx/conf.d/${NGINX_CONF}
 
-CERTS=/etc/borzoi/nginx/ssl
+CERTS=/opt/borzoi/nginx/ssl
 NGINX_CRT=${CERTS}/${NGINX_CERT_NAME}.crt
 NGINX_KEY=${CERTS}/${NGINX_CERT_NAME}.key
 

@@ -1,4 +1,4 @@
-import "express"
+const express = require("express");
 const app = express();
 
 app.get('/', function (req, res) {
@@ -9,6 +9,6 @@ app.get('/api', function (req, res) {
     res.send('Hello World via api!');
   });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(8081, function () {
+  console.log('Example app listening on port 8081!');
 });

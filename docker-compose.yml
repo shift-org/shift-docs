@@ -9,9 +9,9 @@ services:
     image: nginx
     restart: always
     volumes:
-      - ./app/build/:/var/www/build/
+      - ./app/build/:/var/www/app/
       - ./site/public/:/var/www/site/
-      - ./borzoi/nginx/:/etc/borzoi/nginx/
+      - ./borzoi/nginx/:/opt/borzoi/nginx/
     links:
       - node
     environment:
@@ -19,7 +19,7 @@ services:
       - NGINX_CERT_NAME
     ports:
       - "${NGINX_HTTPS_PORT}:443"
-    entrypoint: /nift/nginx/entrypoint.sh
+    entrypoint: /opt/borzoi/nginx/entrypoint.sh
     command: ["nginx", "-g", "daemon off;"]
 
   db:
@@ -37,19 +37,27 @@ services:
       - 3306
 
   node: &node
-    build: "app/"
+    image: node:8
     user: "node"
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
     volumes:
+      - ./borzoi/node/:/opt/borzoi/node/
       - ./app:/home/node/app
     expose:
       - "8081"
+    entrypoint: /opt/borzoi/node/entrypoint.sh
     command: "npm run start"
   
   webpack:
     << : *node
     expose: []
     command: "npm run build"
-      
+  
+  hugo:
+    image: jojomi/hugo:0.36
+    volumes:
+      - ./site/:/src
+      - ./site/public/:/output
+    command: "hugo"

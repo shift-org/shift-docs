@@ -23,6 +23,9 @@ Team:
 * Bootstrap/check deps (one command start)
 * Beautify js
 * Watch everything needed
+  * package.json -> restart node container
+  * nginx conf -> test conf, hot reload nginx
+  * entrypoint -> restart container
   * Docker compose
   * app (bundle)
   * app (nodemon)

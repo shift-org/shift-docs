@@ -7,6 +7,7 @@ export MYSQL_PASSWORD=ok124
 
 export NGINX_CONF=shift.conf
 export NGINX_HTTPS_PORT=4443
+export NGINX_CERT_NAME=default
 
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -14,7 +15,7 @@ export BORZOI="${ROOT}/borzoi"
 export BORZOI_MOTD="=== Herro bby ==="
 
 #### DOCKER ####
-export SERVICES="db nginx express"
+export SERVICES="db nginx node webpack"
 export COMPOSE_PROJECT_NAME="shift"
 
 
