@@ -23,12 +23,13 @@ You can find the existing ported content in [the "Existing" category](/existing)
 ### Missing things that we should have for launch
 
 Linked docs are all placeholders in [the "To Create" category](/to-create)
-* [what is pedalpalooza and how to pedalpalooze](/pedalpalooza.md)
-* [our posse](/posse.md) - associated organizations and groups
-* [how to participate](/participation.md)
-* [Contacting us](/contact.md)
+* [what is pedalpalooza and how to pedalpalooze](/to-create/pedalpalooza)
+* [our posse](/to-create/posse) - associated organizations and groups
+* [how to participate](/to-create/participation)
+* [Contacting us](/to-create/contact)
+* [ride leadership tips](/to-create/lead-a-ride)
 
-What else is missing?
+**What else is missing?**
 
 ### Things we need to port from old website still
 * history (biz meeting notes, images, ride reports, etc)
