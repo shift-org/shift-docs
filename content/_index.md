@@ -27,7 +27,7 @@ If you want to volunteer, great!  There are lots of things you could do to help:
 
 
 
-If you'd like to donate, that's great too! We don't spend or gather a lot of money, but it does cost money to host our website and to pay the artists who create art for us (particularly [pedalpalooza](/to-create/pedalpalooza) - check out the [gallery of past posters](/existing/gallery)!)
+If you'd like to donate, that's great too! We don't spend or gather a lot of money, but it does cost money to host our website and to pay the artists who create art for us (particularly [pedalpalooza](/to-create/pedalpalooza) - check out the [gallery of past posters](/existing/pedalpalooza-posters-past)!)
 
  <center><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                 <input type="hidden" name="cmd" value="_s-xclick">
