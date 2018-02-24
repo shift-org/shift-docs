@@ -28,3 +28,10 @@ If you want to volunteer, great!  There are lots of things you could do to help:
 
 
 If you'd like to donate, that's great too! We don't spend or gather a lot of money, but it does cost money to host our website and to pay the artists who create art for us (particularly [pedalpalooza](/to-create/pedalpalooza) - check out the [gallery of past posters](/existing/gallery)!)
+
+ <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
+                <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
