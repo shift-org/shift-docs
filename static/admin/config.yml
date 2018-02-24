@@ -8,6 +8,17 @@ media_folder: "static/images/uploads" # Media files will be stored in the repo u
 public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
 
 collections:
+  - name: "home"
+    label: "Home"
+    files:
+      - name: "homepage"
+        label: "Home Page"
+        file: "content/_index.md"
+        create: true
+        slug: "{{slug}}"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Body", name: "body", widget: "markdown"}
   - name: "existing" # Used in routes, e.g., /admin/collections/existing
     label: "Existing Content" # Used in the UI
     folder: "content/existing/" # The path to the folder where the documents are stored
