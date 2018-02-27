@@ -1,7 +1,7 @@
 App:
 * API Round trip
-* Vue component structure
-  * .vue files
+* React component structure
+  * Webpack conf
   * SCSS loader
   * Styled components are win, copy from other project
 
@@ -17,7 +17,7 @@ Node:
 
 Architecture:
 * Data model
-* Component heirarchy
+* Component hierarchy
 
 Team:
 * Bootstrap/check deps (one command start)
