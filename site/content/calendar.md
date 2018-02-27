@@ -1,4 +1,4 @@
-Hi there this is the calendar:
+Hi there this is the calendar!!
 
 <div data-js="example"></div>
 

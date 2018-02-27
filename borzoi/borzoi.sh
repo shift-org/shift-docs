@@ -36,6 +36,24 @@ sub_up() { #                      - Bring all services up
     sub_compose up -d ${SERVICES}
 }
 
+sub_watch() { #                   - Watch all files and rebuild as needed
+    echo "${BORZOI_MOTD}"
+    sub_watch_js &
+    sub_watch_hugo &
+    wait
+}
+
+sub_watch_js() { #                - Watch js files and rebuild if needed
+    echo "${BORZOI_MOTD}"
+    sub_compose run --rm webpack npm run watch
+}
+
+
+sub_watch_hugo() { #              - Watch static site and rebuild if needed
+    echo "${BORZOI_MOTD}"
+    sub_compose run --rm hugo hugo -w
+}
+
 sub_down() { #                    - Stop and remove services
     echo "${BORZOI_MOTD}"
     sub_compose down
