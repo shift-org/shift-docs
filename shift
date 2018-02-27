@@ -15,7 +15,7 @@ export BORZOI="${ROOT}/borzoi"
 export BORZOI_MOTD="=== Herro bby ==="
 
 #### DOCKER ####
-export SERVICES="db nginx node webpack"
+export SERVICES="db nginx node hugo webpack"
 export COMPOSE_PROJECT_NAME="shift"
 
 

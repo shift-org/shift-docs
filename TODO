@@ -35,3 +35,10 @@ Deployment:
 * Netlify integration
 * Netlify CMS
 * App push (db, express)
+
+Issues during deployment:
+* Hugo didn't run
+* Theme didn't checkout
+* Didn't support space
+* Webpack didn't work
+* Redirect to invalid port
