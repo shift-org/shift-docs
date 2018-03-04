@@ -41,6 +41,10 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_HOST
     volumes:
       - ./borzoi/node/:/opt/borzoi/node/
       - ./app:/home/node/app
