@@ -1,5 +1,5 @@
 ---
-title: boring budget stuff
+title: boring budget/finance stuff
 date: '2018-03-08T07:42:50-08:00'
 weight: '999'
 ---
