@@ -1,33 +1,25 @@
 ---
-title: "Pedalpalooza History"
-date: 2017-11-12T16:25:29-08:00
-draft: false
-weight: 4
+title: Pedalpalooza
+date: 2017-11-13T01:15:16.319Z
+weight: '1'
 ---
+Pedalpalooza is an annual festival in Metro Portland, Oregon.  During the festival, there are hundreds of volunteer-organized free events open to the general public.  Each year there are well over 10,000 participants in these events, which are almost entirely on bikes and free.  There are some annual flagship rides which usually have over 1000 riders, and many first-time ever rides - some of which will have only 1 or 2 riders.  They're all fun!
 
-Portland's had a summer bike festival every year since 2002.  
+[**Pedalpalooza 2018 starts on the first of June and ends on the 30th - a full month of bike fun!**](http://shift2bikes.org/pedalpalooza)
 
-## Posters
+## History
 
-Posters from each year are available here:  http://shift2bikes.org/posters
+The tradition of a summer bike fun festival in Portland started in Summer of 2002, when the nomadic [BikeSummer festival](http://criticalmass.wikia.com/wiki/Bike_Summer!) came to Portland.  We had so much fun that we decided we should keep having bike fun festivals and went through a couple of iterations - including [Mini Bike Summer](https://www.portlandmercury.com/news/summer-bike-events/Content?oid=29035) in 2003 before Pedalpalooza was dreamed up in 2004.  It's happened every year since then, and grown quite a bit!  
 
-## Events
+## Flagship rides
 
-Here's the historical archives of event listings by year..
+- **The Kickoff Ride**.  The first major ride of pedalpalooza, on day 1 of the festival. It's been led by a variety of community members over the years.  It's always family friendly, usually having a slow pace with a route on major city streets. For the past 4 years, it's also been the main venue for passing out pedalpalooza pennants which folks attach to their bikes for the duration of the festival so you can "follow the flag to fun!"
 
-- [**2017**](http://shift2bikes.org/cal/viewpp2017.php) For the first time: a whole **month** of bike fun, June 1 - June 30th.  327 events!
-- [**2016**](http://shift2bikes.org/cal/viewpp2016.php) 292 events!
-- [**2015**](http://shift2bikes.org/cal/viewpp2015.php) 294 events!
-- [**2014**](http://shift2bikes.org/cal/viewpp2014.php) 298 events!
-- [**2013**](http://shift2bikes.org/cal/viewpp2013.php) 280 events, 3+ weeks of bike fun, from June 6th through 29th.  The big naked ride Saturday, June 8th, was almost certainly the largest every, anywhere.
-- [**2012**](http://shift2bikes.org/cal/viewpp2012.php) For the first time, we expanded to 3+ weeks of bike fun!  The intent was to spread out roughly the same number of events over more days, so you could participate in more of them.  298 events... or 313 if you count each instance of repeating events.
-- [**2011**](http://shift2bikes.org/cal/viewpp2011.php) About 270 events -- slightly less than 2010.  The big naked ride was also slightly down, due to weather fears.  Be brave!  Be ambitious!  Try harder in 2012!
-- [**2010**](http://shift2bikes.org/cal/viewpp2010.php) We had roughly 300 events, and a very strong attendance.  The naked ride alone had somewhere between 7000 and 12,500 riders.
-- [**2009**](http://shift2bikes.org/cal/viewpp2009.php) In 2009 the number of events was down a tiny bit, but the number of people at each event seemed to double.  One highlight is that we had about 5000 people for the World Naked Bike Ride... or nearly 1% of Portlanders!
-- [**2008**](http://shift2bikes.org/cal/viewpp2008.php) Vastly larger than previous years.  The Portland Mercury increased their involvement.  Shift hosted the International Toward Carfree Cities Conference.  The City of Portland had its first Sunday Parkways (Ciclovia).  Soaring fuel pricess increased interest in bikes.  The result: 185 events in the printed calendar, and 197 events in the online calendar (not counting repeating events).  Larger crowds all around.  Wonderful. 
-- [**2007**](http://shift2bikes.org/pedalpalooza/pp2007.php) The printed calendar had 130 events, and the online calendar ended up with 140.  That's may sound a hair's breadth smaller than PP2006, but actually most of the events attracted far more people in 2007.  Yea Bikes!  Go Team!  Rah!  Rah!  [Ride Reports (PDF)](http://www.shift2bikes.org/pedalpalooza/ridereports/pp_reports_2007.pdf)
-- [**2006**](http://shift2bikes.org/pedalpalooza/pp2006.php) The printed calendar had 133 events, and the online calendar ended up with 143 (taking cancellations into account).
-- [**2005**](http://shift2bikes.org/pedalpalooza/pp2005.shtml) That Pedalpalooza was huge.  The printed calendar had 95 events, but the online calendar, which could be updated throughout the festival, ended up with 114 events.
-- [**2004**](http://shift2bikes.org/pedalpalooza/pp2004.shtml") The first year that it was called "Pedalpalooza" and the first with a 16-day Thursday-to-Saturday schedule.  It had 68 events.
-- [**2003**](http://shift2bikes.org/pedalpalooza/pp2003.shtml) Mini BikeSummer.  49 events.  Apparently Portland was the first (and so far only?) BikeSummer site to continue the festival on following years.  This first year, it was organized in cooperation with [Zoobomb](http://www.zoobomb.net/).  (Check out [a brief history of Shift and Zoobomb](http://www.shift2bikes.org/pedalpalooza/zbshift.shtml))
-- [**2002**](http://web.archive.org/web/20020428220445/http://www.bikesummer.org/2002/events/index.htm) BikeSummer!  In August, not June?  Wow, the things we forget. 97 events.
+- **The local version of The World Naked Bike Ride**.  Usually the largest organized point-to-point bike ride in the state (with a planned route, infrastructure like portapotties and security staff, and around 10,000 participants). See [the PDX WNBR website](http://pdxwnbr.org) for more details.  The 2018 ride is on June 23rd.
+
+- **Loud and Lit** - A loud, bright, dance party ride, usually featuring well over 1,000 participants.
+
+- **Sunday Parkways** - The Portland Bureau of Transportation runs a series of events on Sundays during the summer during which a loop of streets in various neighborhoods is closed to car traffic, so people can walk and bike and use other human-powered transport to enjoy the streets together.  [This year's June Sunday Parkways is on June 24th](https://www.portlandoregon.gov/transportation/67622) in North Portland.
+
+
+
