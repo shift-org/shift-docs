@@ -3,13 +3,15 @@ title: Leading a Social Ride
 date: 2018-02-24T21:58:11.032Z
 weight: '4'
 ---
-<!-- not sure this is the best way to get the graphic shown here, but seems to work -->
 
-<img style="float: right; margin: 0px 0px 15px 15px;" src="/rideleadingcomiccolor.jpg" width="400" />
 
 
 
 You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out [this detailed guide](/ride-leading-guide.pdf)!
+
+<!-- not sure this is the best way to get the graphic shown here, but seems to work -->
+
+<img style="float: right; margin: 0px 0px 15px 15px;" src="/rideleadingcomiccolor.jpg" width="400" />
 
 - **Consider your ridership**: 
 Will the ride be for family-types or for the independently-natured? Give your riders some idea about the ride's behaviorial tone.
