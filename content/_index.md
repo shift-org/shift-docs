@@ -10,7 +10,7 @@ Come ride your bike with us! Most rides are non-competitive and free-wheeling, t
 Shift is a framework and an enabler - a place to connect with folks, rather than an event organizer.  Our two most notable features fall in this category:
 
 1. [Our online calendar](http://shift2bikes.org/fun)
-2. [Pedalpalooza](/to-create/pedalpalooza)
+2. [Pedalpalooza](/pages/pedalpalooza)
 
 ## Participating
 
@@ -18,16 +18,9 @@ Shift is entirely volunteer-run, and participant funded.  Join us!
 
 First and easiest is to [come on a bike ride](http://shift2bikes.org/fun).  That's almost always free and you're welcome on any ride listed on the calendar.
 
-If you want to volunteer, great!  There are lots of things you could do to help:
+If you want to volunteer, great!  There are *lots of things* you could do to help described on our [participation page](/pages/participation).
 
-1. [lead a ride!](/to-create/lead-a-ride)
-2. help facilitate events like [pedalpalooza](/to-create/pedalpalooza).  Join the [shift volunteers mailing list](https://groups.google.com/forum/#!forum/shift-volunteers) and let us know what dreams and/or skills you've got.
-3. help out with [website development](/existing/website-development) - we especially need authors (who need no particular tech skills), folks to help [develop the calendar](https://github.com/Shift2Bikes/shiftcal) and designers to help style this website.
-4. Boosters!  Our social media chops are not great.  Are you willing to help out?  Ping the [shift volunteers mailing list](https://groups.google.com/forum/#!forum/shift-volunteers) and we'll chat with you about how you can help.
-
-
-
-If you'd like to donate, that's great too! We don't spend or gather a lot of money, but it does cost money to host our website and to pay the artists who create art for us (particularly [pedalpalooza](/to-create/pedalpalooza) - check out the [gallery of past posters](/existing/pedalpalooza-posters-past)!)
+If you'd like to donate, that's great too! We don't spend or gather a lot of money, but it does cost money to host our website and to pay the artists who create art for us (particularly [pedalpalooza](/pages/pedalpalooza) - check out the [gallery of past posters](/pages/pedalpalooza-posters-past)!)
 
  <center><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                 <input type="hidden" name="cmd" value="_s-xclick">

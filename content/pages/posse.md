@@ -8,15 +8,15 @@ Think another group should be listed here?  [Let us know on the mailing list](ma
 
 ## Shift spinoff projects
 
-- **[Move by Bike](/mxb)** is a group of folks interested in helping folks move across town entirely by bicycle. In addition to [this webpage with more information](/mxb), there is [a facebook group](https://www.facebook.com/groups/movebybike/).
-- **[Breakfast on the Bridges](/bonb)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. In addition to [this webpage with more information](/bonb) There is also a [facebook group](https://www.facebook.com/bonbpdx/)
+- **[Move by Bike](/pages/mxb)** is a group of folks interested in helping folks move across town entirely by bicycle. In addition to [this webpage with more information](/pages/mxb), there is [a facebook group](https://www.facebook.com/groups/movebybike/).
+- **[Breakfast on the Bridges](/pages/bonb)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. In addition to [this webpage with more information](/pages/bonb) There is also a [facebook group](https://www.facebook.com/bonbpdx/)
 - **PDX World Naked Bike Ride** is still loosely affiliated with shift but spun off since it is more complicated all by itself than the rest of shift put together.  [Their webpage has more information](http://pdxwnbr.org).
 
-- **[The Bike Fair](/mcbf)** (formerly known as the Multnomah County Bike Fair) is [a recurring fair](/mcbf) that happens almost every year during [pedalpalooza](/pedalpalooza)
+- **[The Bike Fair](/pages/mcbf)** (formerly known as the Multnomah County Bike Fair) is [a recurring fair](/pages/mcbf) that happens almost every year during [pedalpalooza](/pages/pedalpalooza)
 
 ## Unaffiliated but related in bike fun
 
-- **Velopalooza** is a summer bike fun festival in Vancouver, BC, Canada - similar to [pedapalooza](/pedalpalooza).  [Check out their website here](http://velopalooza.ca/about-velopalooza/)!
+- **Velopalooza** is a summer bike fun festival in Vancouver, BC, Canada - similar to [pedapalooza](/pages/pedalpalooza).  [Check out their website here](http://velopalooza.ca/about-velopalooza/)!
 
 - **Portland Urban Bike** runs an weekly ride that has happened for more than 3 years straight!  [They have a facebook page](https://www.facebook.com/PortlandUrbanBike/).
 

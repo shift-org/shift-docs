@@ -19,7 +19,7 @@ Bike Summer also provided an organizational model for Shift: a central committee
 
 ## Our Activities
 
-SHIFT also organizes events of our own. Examples of SHIFT-led activities include [coffee give aways](/existing/bonb.md), social rides, educational bike tours, actions to raise awareness about cyclist injuries or deaths, information-sharing events, art-bike parades and more.
+SHIFT also organizes events of our own. Examples of SHIFT-led activities include [breakfast give aways](/pages/bonb.md), social rides, educational bike tours, actions to raise awareness about cyclist injuries or deaths, information-sharing events, art-bike parades and more.
 
 ## Our Mission
 

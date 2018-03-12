@@ -5,7 +5,7 @@ draft: false
 ---
 
 ![mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)
-The Multnomah County Bike Fair aka "Bike Fair" has taken place almost annually since 2007 in beautiful Portland, Oregon usually as the finale of [Pedalpalooza](/to-create/pedalpalooza).
+The Multnomah County Bike Fair aka "Bike Fair" has taken place almost annually since 2007 in beautiful Portland, Oregon usually as the finale of [Pedalpalooza](/pages/pedalpalooza).
 
 It's a family friendly bikey event open to the public, usually featuring events (slow races, bike jousting), entertainment (live music, competitions), and sometimes vendors and beer.  It's open to all, and is usually family friendly.
 

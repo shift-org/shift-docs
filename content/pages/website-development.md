@@ -10,31 +10,21 @@ weight: '1'
 
 Instructions for contribution and modification are in the [README for the GitHub Repository storing the content for this site](https://github.com/Shift2Bikes/shift-docs#overview)
 
-All content on the site could use some editing, so if you see something that could be improved, just do it!
-
-## Content to create and enhance
+If you see something that could be improved, just do it!
 
 At a high level we have 3 major tasks remaining:
 
-### Existing content scraped with minimal editing
-You can find the existing ported content in [the "Existing" category](/existing). 
+### Integrating the new calendar with the website.
+
+The old calendar was quite tangled with the old website, the new calendar is standalone but we'd like to see it on the main page of the new website in addition to updating any links to it in its old location, as it will potentially get a new location on the new site for its standalone pages.
+
+### Review and Editing of content ported 
+You can find the existing ported content in [the "pages" category](/pages). 
 **We're looking to get input from editors on all of it!**
-
-### Missing things that we should have for launch
-
-Linked docs are all placeholders in [the "To Create" category](/to-create)
-* [what is pedalpalooza and how to pedalpalooze](/to-create/pedalpalooza)
-* [our posse](/to-create/posse) - associated organizations and groups
-* [how to participate](/to-create/participation)
-* [Contacting us](/to-create/contact)
-* [ride leadership tips](/to-create/lead-a-ride)
-
-**What else is missing?**
 
 ### Things we need to port from old website still
 * history (biz meeting notes, images, ride reports, etc)
 * xmas carols + stickers + logos
-* ride leadership primer + cartoon
 
    #### This stuff may or may not get ported from the old site
 

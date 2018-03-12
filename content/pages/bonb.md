@@ -82,5 +82,6 @@ BonB Superhero trading cards (on hand at special times) are a popular collectibl
 ## Social Media
 
 - BonB has [a twitter account](https://twitter.com/bonbpdx)
-- Bonb has [some pictures on Flickr](http://flickr.com/photos/tags/bonb/)
+- BonB has [some pictures on Flickr](http://flickr.com/photos/tags/bonb/)
+- BonB has [a facebook page](https://www.facebook.com/bonbpdx/)
 

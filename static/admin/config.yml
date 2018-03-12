@@ -19,9 +19,9 @@ collections:
         fields:
           - {label: "Title", name: "title", widget: "string"}
           - {label: "Body", name: "body", widget: "markdown"}
-  - name: "existing" # Used in routes, e.g., /admin/collections/existing
+  - name: "pages" # Used in routes, e.g., /admin/collections/pages
     label: "Existing Content" # Used in the UI
-    folder: "content/existing/" # The path to the folder where the documents are stored
+    folder: "content/pages/" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template: title.md
     fields: # The fields for each document, usually in front matter
@@ -29,9 +29,9 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Page #", name: "weight", widget: number}
       - {label: "Body", name: "body", widget: "markdown"}
-  - name: "to-create" # Used in routes, e.g., /admin/collections/to-create
+  - name: "in-progress" # Used in routes, e.g., /admin/collections/in-progress
     label: "Content to Create" # Used in the UI
-    folder: "content/to-create/" # The path to the folder where the documents are stored
+    folder: "content/in-progress/" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template: title.md
     fields: # The fields for each document, usually in front matter
@@ -39,5 +39,3 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Page #", name: "weight", widget: number}
       - {label: "Body", name: "body", widget: "markdown"}
-
-
