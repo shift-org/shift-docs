@@ -12,6 +12,8 @@ Shift is a framework and an enabler - a place to connect with folks, rather than
 1. [Our online calendar](http://shift2bikes.org/fun)
 2. [Pedalpalooza](/pages/pedalpalooza)
 
+**You can see all of the [pages on this website here](/pages).**
+
 ## Participating
 
 Shift is entirely volunteer-run, and participant funded.  Join us!
