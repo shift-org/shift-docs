@@ -1,7 +1,7 @@
 ---
 title: Participation
 date: 2017-11-13T08:17:13.000Z
-weight: '11'
+weight: '4'
 ---
 Shift welcomes all respectful participants!  There are a lot of ways to get involved:
 

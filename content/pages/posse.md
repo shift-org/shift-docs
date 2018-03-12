@@ -1,7 +1,7 @@
 ---
 title: Posse
 date: 2017-11-13T08:14:32.000Z
-weight: '6'
+weight: '10'
 ---
 Think another group should be listed here?  [Let us know on the mailing list](mailto:shift@lists.riseup.net)!
 

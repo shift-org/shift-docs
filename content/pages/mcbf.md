@@ -2,6 +2,7 @@
 title: "Multnomah County Bike Fair"
 date: 2017-11-12T23:33:40-08:00
 draft: false
+weight: '8'
 ---
 
 ![mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)
