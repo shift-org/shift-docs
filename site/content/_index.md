@@ -1,45 +1,32 @@
-# shift's website, the sequel.
+---
+title: 'shift''s website, the sequel.'
+---
+## Shift brings people in the Portland metro area together with bike fun
 
-### Overview
+Shift encourages folks to create and participate in bike fun.  While our focus is local to the Portland area, our mission is wider:  fun on bikes changes lives and the world.
 
-We're updating the content and creating a new website to share the content from http://shift2bikes.org
+Come ride your bike with us! Most rides are non-competitive and free-wheeling, tending toward social speeds and smiles. Once you feel comfortable in the saddle, you are encouraged to lead a ride of your own.
 
-This repository has a hugo site to help navigate this content, but all content is stored as markdown and should be usable with minimal modifications in another modern site framework.
+Shift is a framework and an enabler - a place to connect with folks, rather than an event organizer.  Our two most notable features fall in this category:
 
-### Existing content scraped with minimal editing
+1. [Our online calendar](http://shift2bikes.org/fun)
+2. [Pedalpalooza](/pages/pedalpalooza)
 
-You can find the existing ported content in [the "Existing" category](/existing)
+**You can see all of the [pages on this website here](/pages).**
 
-We're looking to edit this before going live with it.
+## Participating
 
-### TODO
+Shift is entirely volunteer-run, and participant funded.  Join us!
 
+First and easiest is to [come on a bike ride](http://shift2bikes.org/fun).  That's almost always free and you're welcome on any ride listed on the calendar.
 
-#### Need to port from existing website still
+If you want to volunteer, great!  There are *lots of things* you could do to help described on our [participation page](/pages/participation).
 
-- history (biz meeting notes, images, ride reports, etc)
-- xmas carols + stickers + logos
-- ride leadership primer + cartoon
+If you'd like to donate, that's great too! We don't spend or gather a lot of money, but it does cost money to host our website and to pay the artists who create art for us (particularly [pedalpalooza](/pages/pedalpalooza) - check out the [gallery of past posters](/pages/pedalpalooza-posters-past)!)
 
-#### Needs review
-- rest of the "stuff" on the shift website
-- wnbr stuff?
-- safety?
-- visitor info?
-- education page?
-- get lit (probably ok to go away)
-
-#### Need to create content 
-
-What else is missing?
-
-Linked docs are all placeholders in [the "To Create" category](/to-create)
-
-- [what is pedalpalooza and how to pedalpalooze](/pedalpalooza.md)
-- [our posse](/posse.md) - associated organizations and groups
-- [how to participate](/participation.md)
-- [Contacting us](/contact.md)
-
-### Contributing
-
-See https://github.com/Shift2Bikes/shift-docs for how to propose or create changes
+ <center><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
+                <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form></center>
