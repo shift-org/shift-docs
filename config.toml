@@ -146,8 +146,8 @@ paginate = 10
 
 # Enable and disable widgets for the right sidebar
 [params.widgets]
-    categories = true
-    tags = true
+    categories = false
+    tags = false
     search = true
 
 [params.carousel]
@@ -182,7 +182,7 @@ paginate = 10
     enable = true
     # All clients are defined in their own files. You can find example items
     # at 'exampleSite/data/clients'.
-    # For more informtion take a look at the README.
+    # For more information take a look at the README.
     title = "Our Sponsors"
     subtitle = ""
 
