@@ -7,3 +7,6 @@
 [submodule "themes/minimal"]
 	path = themes/minimal
 	url = https://github.com/calintat/minimal.git
+[submodule "themes/landing-page-hugo"]
+	path = themes/landing-page-hugo
+	url = https://github.com/crakjie/landing-page-hugo.git
