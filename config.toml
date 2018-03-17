@@ -17,11 +17,6 @@ paginate = 10
 # Main menu
 
 [[menu.main]]
-    name = "Who We Are"
-    url  = "/who-we-are/"
-    weight = 1
-
-[[menu.main]]
     name = "Calendar"
     url  = "/calendar/"
     weight = 2
@@ -34,34 +29,35 @@ paginate = 10
 [[menu.main]]
     name = "RiseUp"
     url  = "https://lists.riseup.net/www/info/shift"
-    weight = 2
+    weight = 3
 
 [[menu.main]]
     name = "Safety"
     identifier = "faq"
     url  = "/safety/"
-    weight = 3
+    weight = 4
+    
+[[menu.main]]
+    name = "Resources"
+    identifier = "pages"
+    url  = "/pages/"
+    weight = 5
+    
+[[menu.main]]
+    name = "Who We Are"
+    url  = "/who-we-are/"
+    weight = 6
+    
+[[menu.main]]
+    name = "Contact"
+    url  = "/pages/contact/"
+    weight = 7
 
-#[[menu.main]]
-#    name = "Home"
-#    url  = "/"
-#    weight = 1
-#
 #[[menu.main]]
 #    name = "Blog"
 #    url  = "/blog/"
 #    weight = 2
 #
-#[[menu.main]]
-#    name = "FAQ"
-#    identifier = "faq"
-#    url  = "/faq/"
-#    weight = 3
-
-[[menu.main]]
-    name = "Contact"
-    url  = "/contact/"
-    weight = 4
 
 # Top bar social links menu
 
@@ -115,7 +111,7 @@ paginate = 10
     # - you're done. Happy mailing!
     #
     # Enable the contact form by entering your Formspree.io email
-    email = "your@email.com"
+    # email = "your@email.com"
 
     about_us = "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>"
     copyright = "Copyright (c) 2018, Shift2Bikes; all rights reserved."
@@ -123,7 +119,7 @@ paginate = 10
     # Format dates with Go's time formatting
     date_format = "January 2, 2006"
 
-    logo = "img/logo.png"
+#    logo = "images/shiftlogo.jpg"
     address = """<p><strong>Universal Ltd.</strong>
         <br>13/25 New Avenue
         <br>Newtown upon River
