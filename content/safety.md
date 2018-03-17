@@ -4,23 +4,20 @@ description = "Tips to stay safe"
 keywords = ["safety", "tips", "safe"]
 +++
 
-EDUCATION
----------
+## EDUCATION
 
 Portland's **Vision Zero Policy** is an everybody involved effort to make Portland streets safe by recognizing we can have zero fatalities and zero injuries based on these principles:
 
-*   human life is valued first, mobility is second
-*   all road users share without vehicular prejudice
-*   roads systems minimize human fallibility
-*   willness to change from old paradigms
+* human life is valued first, mobility is second
+* all road users share without vehicular prejudice
+* roads systems minimize human fallibility
+* willness to change from old paradigms
 
 [PBOT Overview](https://www.portlandoregon.gov/transportation/66612)
 [PBOT Details](https://www.portlandoregon.gov/transportation/40390)
 [Report](http://ourhealthystreets.org/wp-content/uploads/2015/03/Vision-Zero-Report3.pdf) by [Healthy Streets](http://ourhealthystreets.org/visionzero/)
 
----
-
-**Traffic Safety Organizations**
+## Traffic Safety Organizations
 
 [Willamette Pedestrian Coalition](http://www.wpcwalks.org/) WPC is dedicated to promoting walking and improving the safety and attractiveness of walking in the greater Portland area.
 
@@ -35,7 +32,7 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 [Victoria Transport Policy Institute](http://vtpi.org/) An excellent collection of research papers on transportation issues
 
 
-**Tips for the Cyclists**
+## Tips for the Cyclists
 
 [Oregon Bicyclist Manual](http://www.oregon.gov/ODOT/HWY/BIKEPED/pages/manual_ordering.aspx) Another great resource by ODOT.
 
@@ -43,8 +40,7 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 [Legal resources for cyclists](http://bta4bikes.org/resources/legal.php) What you can do if you are hit, harassed, or witness a dangerous driver.
 
-
-**Statutes**
+### Statutes
 
 [ODOT Cyclist / Pedestrian statutes summary](http://www.oregon.gov/ODOT/HWY/BIKEPED/laws_regs.shtml) where you can find a document that puts the statutes related to cyclists and pedestrians in one place as well as recent updates to Oregon law.
 
@@ -73,12 +69,9 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 10\. **Alternative States** — The alternatives to standard gasoline are growing in number and popularity. Biodiesel, the blend of gasoline and ethanol known as E85, and other alternative fuels aren't available everywhere yet, but check to see if your car can accept what's sold in your community.
 
----
+## Tips for the Motorists
 
-**Tips for the Motorists:**
-
-**Save Motoring Money
-with Ten helpful tips**
+**Save Motoring Money with Ten helpful tips**
 Excerpt from abcnews.com,
 [10 Ways to Beat High Gas Prices](http://abcnews.go.com/Business/story?id=1850884)
 by Marc Lallanilla
