@@ -1,0 +1,72 @@
+<footer id="footer">
+    <div class="container">
+
+       <div class="row centered">
+
+         <div class="col-md-3">
+           <h4>About</h4>
+            <ul>
+              <li>Who we are</li>
+              <li>Contact</li>
+              <li>World Carfree Network</li>
+            </ul>
+           <br>
+           <h4>Tips</h4>
+            <ul>
+              <li>Safety</li>
+              <li>Ride Leading</li>
+            </ul>
+         </div>
+
+         <div class="col-md-3">
+           <h4>Featured Events</h4>
+            <ul>
+              <li>Breakfast on the Bridges</li>
+              <li>PedalPalooza</li>
+              <li>World Naked Bike Ride</li>
+              <li>Move By Bike</li>
+              <li>MCBP</li>
+              <li>Midnight Mystery Ride</li>
+              <li>Get Lit</li>
+            </ul>
+         </div>
+
+         <div class="col-md-3">
+           <h4>Community</h4>
+         </div>
+
+         <div class="col-md-3">
+           <h4>Shift-Shop</h4>
+         </div>
+
+       </div>
+
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- /#footer -->
+
+<!-- *** FOOTER END *** -->
+
+<!-- *** COPYRIGHT ***
+_________________________________________________________ -->
+
+<div id="copyright">
+    <div class="container">
+        <div class="col-md-12">
+            {{ if isset .Site.Params "copyright" }}
+            <p class="pull-left">{{ .Site.Params.copyright | safeHTML }}</p>
+            {{ end }}
+            <p class="pull-right">
+              {{ i18n "templateBy" }} <a href="http://bootstrapious.com/free-templates">Bootstrapious</a>.
+              <!-- Not removing this link is part of the licence conditions of the template. Thanks for understanding :) -->
+
+              {{ i18n "portedBy" }} <a href="https://github.com/devcows/hugo-universal-theme">DevCows</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!-- /#copyright -->
+
+<!-- *** COPYRIGHT END *** -->
