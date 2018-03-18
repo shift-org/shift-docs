@@ -1,12 +1,6 @@
 [submodule "themes/hugo-theme-learn"]
 	path = themes/hugo-theme-learn
 	url = https://github.com/matcornic/hugo-theme-learn.git
-[submodule "themes/gohugo-theme-ananke"]
-	path = themes/gohugo-theme-ananke
-	url = https://github.com/budparr/gohugo-theme-ananke.git
-[submodule "themes/minimal"]
-	path = themes/minimal
-	url = https://github.com/calintat/minimal.git
 [submodule "themes/landing-page-hugo"]
 	path = themes/landing-page-hugo
 	url = https://github.com/crakjie/landing-page-hugo.git
