@@ -1,5 +1,8 @@
-Hi there this is the calendar!!
++++
+title = "Calendar"
+description = "Rides calendar"
+keywords = ["calendar", "rides"]
++++
 
-<div data-js="example"></div>
+This is where the calendar will be. 
 
-<script src="/app/client.bundle.js"></script>

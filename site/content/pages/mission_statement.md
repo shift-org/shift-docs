@@ -3,7 +3,8 @@ title: Mission Statement
 date: 2017-11-12T23:56:33.000Z
 weight: 1
 ---
-**SHIFT revels in expressing Portland’s creative bike culture through performance events and bike fun intended to highlight the positive contributions of bicycling for the community at large.**
+
+## SHIFT revels in expressing Portland’s creative bike culture through performance events and bike fun intended to highlight the positive contributions of bicycling for the community at large.
 
 As a loose-knit and informal bunch of bike-loving folks, we ask for no membership, nor dues, only a shared passion for the bicycle in all its glory: as toy, as transportation, as a tool for social and environmental change!
 
