@@ -1,0 +1,23 @@
+/* File for css addition on s2b_bulma, also refered to in head.html in partials of the same theme */
+
+/* Navbar with CSS/HTML by SCP 03-02-18 */
+ul_nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+li_nav {
+    float: left;
+}
+li_a_nav a{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li_a_nav a:hover {
+    background-color: #111;
+}

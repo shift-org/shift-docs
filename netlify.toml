@@ -1,8 +1,8 @@
 # build settings for netlify
 
 [build]
-  environment = {HUGO_VERSION = "0.26"}
+  environment = {HUGO_VERSION = "0.37.1"}
   command = "hugo"
-  publish = "public"
-  base = "site"
+  base = "site/"
+  publish = "site/public/"
   
