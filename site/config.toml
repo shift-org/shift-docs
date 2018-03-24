@@ -1,6 +1,6 @@
-baseURL = "https://docs.shift2bikes.org/"
+baseURL = "/"
 languageCode = "en-us"
-title = "shift2bikes website reboot"
+title = "shift website reboot"
 theme = "hugo-theme-learn"
 
 [params]
@@ -10,6 +10,6 @@ theme = "hugo-theme-learn"
   enableGitInfo = true
 
 
-# For search functionnality
+# JSON enables lunr.js search functionnality
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
