@@ -3,3 +3,4 @@ site/public/
 app/build/
 app/node_modules/
 borzoi/nginx/ssl/
+.idea/
