@@ -17,42 +17,162 @@ paginate = 10
 # Main menu
 
 [[menu.main]]
+    name = "About"
+    url  = "/about/"
+    weight = 1
+    identifier = "aboutmenu"
+
+# Child of About
+[[menu.main]]
+    name = "Who We Are"
+    url  = "/who-we-are/"
+    weight = 1
+    parent = "aboutmenu"
+# Child of About
+[[menu.main]]
+    name = "Contact"
+    url  = ""
+    weight = 2
+    parent = "aboutmenu"
+# Child of About
+[[menu.main]]
+    name = "World Carfree Network"
+    url  = ""
+    weight = 3
+    parent = "aboutmenu"
+
+[[menu.main]]
     name = "Calendar"
     url  = "/calendar/"
     weight = 2
 
 [[menu.main]]
-    name = "PedalPalooza"
-    url  = "/pedalpalooza/"
-    weight = 1
-
-[[menu.main]]
-    name = "RiseUp"
-    url  = "https://lists.riseup.net/www/info/shift"
+    name = "Featured Events"
+    url  = ""
     weight = 3
+    identifier = "featuredevents"
+
+# Child of Featured Events
+[[menu.main]]
+    name = "PedalPalooza"
+    url  = ""
+    weight = 1
+    parent = "featuredevents"
+# Child of Featured Events
+[[menu.main]]
+    name = "Breakfast On The Bridges"
+    url  = ""
+    weight = 2
+    parent = "featuredevents"
+# Child of Featured Events
+[[menu.main]]
+    name = "World Naked Bike Ride"
+    url  = ""
+    weight = 3
+    parent = "featuredevents"
+# Child of Featured Events
+[[menu.main]]
+    name = "Move By Bike"
+    url  = ""
+    weight = 4
+    parent = "featuredevents"
+# Child of Featured Events
+[[menu.main]]
+    name = "MCBF"
+    url  = ""
+    weight = 5
+    parent = "featuredevents"
+# Child of Featured Events
+[[menu.main]]
+    name = "Midnight Mystery Ride"
+    url  = ""
+    weight = 6
+    parent = "featuredevents"
+# Child of Featured Events
+[[menu.main]]
+    name = "Get Lit"
+    url  = ""
+    weight = 7
+    parent = "featuredevents"
+
 
 [[menu.main]]
-    name = "Safety"
-    identifier = "faq"
+    name = "Community"
     url  = "/safety/"
     weight = 4
-    
+    identifier = "communitynav"
+#    identifier = "faq"
+
+# Child of Community
 [[menu.main]]
-    name = "Resources"
-    identifier = "pages"
+    name = "Get involved"
+    url  = ""
+    weight = 1
+    parent = "communitynav"
+# Child of Community
+[[menu.main]]
+    name = "Become a sponsor"
+    url  = ""
+    weight = 2
+    parent = "communitynav"
+# Child of Community
+[[menu.main]]
+    name = "Email list"
+    url  = ""
+    weight = 3
+    parent = "communitynav"
+# Child of Community
+[[menu.main]]
+    name = "Meeting notes"
+    url  = ""
+    weight = 4
+    parent = "communitynav"
+
+[[menu.main]]
+    name = "Tips"
     url  = "/pages/"
     weight = 5
-    
+    identifier = "tips"
+#    identifier = "pages"
+
+# Child of Tips
 [[menu.main]]
-    name = "Who We Are"
+    name = "Safety"
+    url  = ""
+    weight = 1
+    parent = "tips"
+# Child of Tips
+[[menu.main]]
+    name = "Ride Leading"
+    url  = ""
+    weight = 2
+    parent = "tips"
+
+[[menu.main]]
+    name = "Shift Shop"
     url  = "/who-we-are/"
     weight = 6
-    
+    identifier = "shiftshop"
+
+# Child of Shift Shop
 [[menu.main]]
-    name = "Contact"
-    url  = "/pages/contact/"
+    name = "Bike Racks Rental"
+    url  = ""
+    weight = 1
+    parent = "shiftshop"
+# Child of Shift Shop
+[[menu.main]]
+    name = "Products"
+    url  = ""
+    weight = 2
+    parent = "shiftshop"
+
+[[menu.main]]
+    name = "Ressources"
+    url  = "https://lists.riseup.net/www/info/shift"
     weight = 7
 
+#Uncomment if desire to have the blog feature visible in the navbar
 #[[menu.main]]
 #    name = "Blog"
 #    url  = "/blog/"
