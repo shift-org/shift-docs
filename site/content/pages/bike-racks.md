@@ -2,7 +2,11 @@
 title: "Bike Racks"
 date: 2017-11-12T23:24:59-08:00
 draft: false
-weight: '99'
+weight: 1
+
+menu:
+    main:
+        parent: shiftshop
 ---
 
 Shift has built some easily-transportable bike racks which we'd love to loan to your community or nonprofit group for your event.  They'll accomodate around 70 bikes.

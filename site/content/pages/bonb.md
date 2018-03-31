@@ -2,7 +2,11 @@
 title: "Breakfast on the Bridges"
 date: 2017-11-12T14:52:28-08:00
 draft: false
-weight: 6
+weight: 2
+
+menu:
+    main:
+        parent: featuredevents
 ---
 
 <img src=/images/BonB_header.jpg align=center alt="breakfast on the bridges logo">

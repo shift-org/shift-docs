@@ -22,18 +22,20 @@ paginate = 10
     weight = 1
     identifier = "aboutmenu"
 
-# Child of About
-[[menu.main]]
-    name = "Who We Are"
-    url  = "/who-we-are/"
-    weight = 1
-    parent = "aboutmenu"
-# Child of About
-[[menu.main]]
-    name = "Contact"
-    url  = "/contact/"
-    weight = 2
-    parent = "aboutmenu"
+## Child of About
+#[[menu.main]]
+#    name = "Who We Are"
+#    url  = "/who-we-are/"
+#    weight = 1
+#    parent = "aboutmenu"
+#
+## Child of About
+#[[menu.main]]
+#    name = "Contact"
+#    url  = "/contact/"
+#    weight = 2
+#    parent = "aboutmenu"
+
 # Child of About
 [[menu.main]]
     name = "World Carfree Network"
@@ -52,48 +54,52 @@ paginate = 10
     weight = 3
     identifier = "featuredevents"
 
-# Child of Featured Events
-[[menu.main]]
-    name = "PedalPalooza"
-    url  = "/pages/pedalpalooza/"
-    weight = 1
-    parent = "featuredevents"
-# Child of Featured Events
-[[menu.main]]
-    name = "Breakfast On The Bridges"
-    url  = "/pages/bonb/"
-    weight = 2
-    parent = "featuredevents"
+## Child of Featured Events
+#[[menu.main]]
+#    name = "PedalPalooza"
+#    url  = "/pages/pedalpalooza/"
+#    weight = 1
+#    parent = "featuredevents"
+## Child of Featured Events
+#[[menu.main]]
+#    name = "Breakfast On The Bridges"
+#    url  = "/pages/bonb/"
+#    weight = 2
+#    parent = "featuredevents"
+
 # Child of Featured Events
 [[menu.main]]
     name = "World Naked Bike Ride"
-    url  = ""
+    url  = "https://pdxwnbr.org/"
     weight = 3
     parent = "featuredevents"
-# Child of Featured Events
-[[menu.main]]
-    name = "Move By Bike"
-    url  = "/pages/mbb/"
-    weight = 4
-    parent = "featuredevents"
-# Child of Featured Events
-[[menu.main]]
-    name = "MCBF"
-    url  = "/pages/mcbf/"
-    weight = 5
-    parent = "featuredevents"
+
+## Child of Featured Events
+#[[menu.main]]
+#    name = "Move By Bike"
+#    url  = "/pages/mbb/"
+#    weight = 4
+#    parent = "featuredevents"
+## Child of Featured Events
+#[[menu.main]]
+#    name = "MCBF"
+#    url  = "/pages/mcbf/"
+#    weight = 5
+#    parent = "featuredevents"
+
 # Child of Featured Events
 [[menu.main]]
     name = "Midnight Mystery Ride"
-    url  = ""
+    url  = "http://www.yeabikes.net/midnight/"
     weight = 6
     parent = "featuredevents"
-# Child of Featured Events
-[[menu.main]]
-    name = "Get Lit"
-    url  = ""
-    weight = 7
-    parent = "featuredevents"
+
+## Child of Featured Events
+#[[menu.main]]
+#    name = "Get Lit"
+#    url  = "/pages/get-lit/"
+#    weight = 7
+#    parent = "featuredevents"
 
 
 [[menu.main]]
@@ -103,30 +109,32 @@ paginate = 10
     identifier = "communitynav"
 #    identifier = "faq"
 
-# Child of Community
-[[menu.main]]
-    name = "Get involved"
-    url  = ""
-    weight = 1
-    parent = "communitynav"
-# Child of Community
-[[menu.main]]
-    name = "Become a sponsor"
-    url  = ""
-    weight = 2
-    parent = "communitynav"
+## Child of Community
+#[[menu.main]]
+#    name = "Get involved"
+#    url  = ""
+#    weight = 1
+#    parent = "communitynav"
+## Child of Community
+#[[menu.main]]
+#    name = "Become a sponsor"
+#    url  = ""
+#    weight = 4
+#    parent = "communitynav"
+
 # Child of Community
 [[menu.main]]
     name = "Email list"
     url  = "https://lists.riseup.net/www/info/shift"
-    weight = 3
+    weight = 2
     parent = "communitynav"
-# Child of Community
-[[menu.main]]
-    name = "Meeting notes"
-    url  = ""
-    weight = 4
-    parent = "communitynav"
+
+## Child of Community
+#[[menu.main]]
+#    name = "Meeting notes"
+#    url  = ""
+#    weight = 3
+#    parent = "communitynav"
 
 [[menu.main]]
     name = "Tips"
@@ -134,19 +142,19 @@ paginate = 10
     weight = 5
     identifier = "tips"
 #    identifier = "pages"
-
-# Child of Tips
-[[menu.main]]
-    name = "Safety"
-    url  = "/safety/"
-    weight = 1
-    parent = "tips"
-# Child of Tips
-[[menu.main]]
-    name = "Ride Leading"
-    url  = "/pages/lead-a-ride/"
-    weight = 2
-    parent = "tips"
+#
+## Child of Tips
+#[[menu.main]]
+#    name = "Safety"
+#    url  = "/pages/safety/"
+#    weight = 1
+#    parent = "tips"
+## Child of Tips
+#[[menu.main]]
+#    name = "Ride Leading"
+#    url  = "/pages/lead-a-ride/"
+#    weight = 2
+#    parent = "tips"
 
 [[menu.main]]
     name = "Shift Shop"
@@ -154,18 +162,18 @@ paginate = 10
     weight = 6
     identifier = "shiftshop"
 
-# Child of Shift Shop
-[[menu.main]]
-    name = "Bike Racks Rental"
-    url  = ""
-    weight = 1
-    parent = "shiftshop"
-# Child of Shift Shop
-[[menu.main]]
-    name = "Products"
-    url  = ""
-    weight = 2
-    parent = "shiftshop"
+## Child of Shift Shop
+#[[menu.main]]
+#    name = "Bike Racks Rental"
+#    url  = ""
+#    weight = 1
+#    parent = "shiftshop"
+## Child of Shift Shop
+#[[menu.main]]
+#    name = "Products"
+#    url  = ""
+#    weight = 2
+#    parent = "shiftshop"
 
 [[menu.main]]
     name = "Ressources"

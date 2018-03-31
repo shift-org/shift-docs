@@ -2,6 +2,11 @@
 title: "Who We Are"
 description: "Who We Are"
 keywords: ["Who we are","about"]
+weight: '1'
+
+menu:
+    main:
+        parent: aboutmenu
 ---
 
 SHIFT revels in expressing Portland’s creative bike culture through performance events and bike fun intended to highlight the positive contributions of bicycling for the community at large.

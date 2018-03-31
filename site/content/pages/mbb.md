@@ -2,7 +2,11 @@
 title: "Moving By Bike"
 date: 2017-11-12T15:29:20-08:00
 draft: false
-weight: 7
+weight: 4
+
+menu:
+    main:
+        parent: featuredevents
 ---
 
 <img src=/images/move_by_bike_logo.jpg alt="move by bike logo" align=right>

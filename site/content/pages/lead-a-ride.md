@@ -1,7 +1,11 @@
 ---
 title: Leading a Social Ride
 date: 2018-02-24T21:58:11.032Z
-weight: '5'
+weight: 2
+
+menu:
+    main:
+        parent: tips
 ---
 
 You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out [this detailed guide](/ride-leading-guide.pdf)!

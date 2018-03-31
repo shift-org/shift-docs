@@ -1,7 +1,11 @@
 ---
 title: Contact
 date: 2017-11-13T08:19:34.000Z
-weight: '3'
+weight: '2'
+
+menu:
+    main:
+        parent: aboutmenu
 ---
 
 Shift is a loose volunteer-organized crew.  Most discussion about things like the content on the website, organizational issues, and events takes place on the [mailing list](https://lists.riseup.net/www/info/shift) which you're encouraged but not required to join.  
