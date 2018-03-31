@@ -31,13 +31,13 @@ paginate = 10
 # Child of About
 [[menu.main]]
     name = "Contact"
-    url  = ""
+    url  = "/contact/"
     weight = 2
     parent = "aboutmenu"
 # Child of About
 [[menu.main]]
     name = "World Carfree Network"
-    url  = ""
+    url  = "http://www.worldcarfree.net/wcfd/"
     weight = 3
     parent = "aboutmenu"
 
@@ -55,13 +55,13 @@ paginate = 10
 # Child of Featured Events
 [[menu.main]]
     name = "PedalPalooza"
-    url  = ""
+    url  = "/pages/pedalpalooza/"
     weight = 1
     parent = "featuredevents"
 # Child of Featured Events
 [[menu.main]]
     name = "Breakfast On The Bridges"
-    url  = ""
+    url  = "/pages/bonb/"
     weight = 2
     parent = "featuredevents"
 # Child of Featured Events
@@ -73,13 +73,13 @@ paginate = 10
 # Child of Featured Events
 [[menu.main]]
     name = "Move By Bike"
-    url  = ""
+    url  = "/pages/mbb/"
     weight = 4
     parent = "featuredevents"
 # Child of Featured Events
 [[menu.main]]
     name = "MCBF"
-    url  = ""
+    url  = "/pages/mcbf/"
     weight = 5
     parent = "featuredevents"
 # Child of Featured Events
@@ -98,7 +98,7 @@ paginate = 10
 
 [[menu.main]]
     name = "Community"
-    url  = "/safety/"
+    url  = ""
     weight = 4
     identifier = "communitynav"
 #    identifier = "faq"
@@ -118,7 +118,7 @@ paginate = 10
 # Child of Community
 [[menu.main]]
     name = "Email list"
-    url  = ""
+    url  = "https://lists.riseup.net/www/info/shift"
     weight = 3
     parent = "communitynav"
 # Child of Community
@@ -138,13 +138,13 @@ paginate = 10
 # Child of Tips
 [[menu.main]]
     name = "Safety"
-    url  = ""
+    url  = "/safety/"
     weight = 1
     parent = "tips"
 # Child of Tips
 [[menu.main]]
     name = "Ride Leading"
-    url  = ""
+    url  = "/pages/lead-a-ride/"
     weight = 2
     parent = "tips"
 
