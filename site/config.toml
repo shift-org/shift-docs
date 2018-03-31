@@ -79,11 +79,6 @@ paginate = 10
     weight = 6
     identifier = "shiftshop"
 
-#[[menu.main]]
-#    name = "Resources"
-#    url  = "https://lists.riseup.net/www/info/shift"
-#    weight = 7
-
 # Top bar social links menu
 
 [[menu.topbar]]
