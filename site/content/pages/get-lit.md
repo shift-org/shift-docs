@@ -1,11 +1,11 @@
 ---
 title: Get Lit Program
 date: 2017-11-13T08:19:34.000Z
-weight: 7
+weight: 6
 
 menu:
     main:
-        parent: featuredevents
+        parent: communitynav
 ---
 
 _Get Lit_ installed over 1100 sets of lights on bicycles at various locations around Portland in 2005! The need still exists with more & more bicyclists on the streets everyday. Yea!

@@ -20,5 +20,9 @@ If you want to get in touch with folks about these specific projects, you'll pro
 
 - **[PDX World Naked Bike Ride](https://pdxwnbr.org/contact/)** (website contact form)
 - **[Breakfast on the Bridges](/pages/bonb)** has a [mailing list](mailto:bonb@lists.riseup.net).
-- **[(Portland area) Move by Bike](/pages/mxb)** has a [https://www.facebook.com/groups/movebybike/](facebook page).
-- **[web calendar developers](shift_hackathon@googlegroups.com)** (mailing list)
+
+- **(Portland area)Move by Bike (/pages/mbb)** has a [facebook page](https://www.facebook.com/groups/movebybike).
+
+- **[web calendar developers](mailto:shift_hackathon@googlegroups.com)** (mailing list)
+
+

@@ -19,12 +19,14 @@ paginate = 10
 [[menu.main]]
     name = "About"
     url  = "/about/"
-    weight = 1
+    weight = 6
     identifier = "aboutmenu"
 
 # Child of About
 [[menu.main]]
+    img = "static/images/external-link-alt_Font Awesome.html"
     name = "World Carfree Network"
+    pre = "<i class='glyphicon glyphicon-new-window'></i>"
     url  = "http://www.worldcarfree.net/wcfd/"
     weight = 3
     parent = "aboutmenu"
@@ -37,12 +39,13 @@ paginate = 10
 [[menu.main]]
     name = "Featured Events"
     url  = ""
-    weight = 3
+    weight = 2
     identifier = "featuredevents"
 
 # Child of Featured Events
 [[menu.main]]
     name = "World Naked Bike Ride"
+    pre = "<i class='glyphicon glyphicon-new-window'></i>"
     url  = "https://pdxwnbr.org/"
     weight = 3
     parent = "featuredevents"
@@ -50,6 +53,7 @@ paginate = 10
 # Child of Featured Events
 [[menu.main]]
     name = "Midnight Mystery Ride"
+    pre = "<i class='glyphicon glyphicon-new-window'></i>"
     url  = "http://www.yeabikes.net/midnight/"
     weight = 6
     parent = "featuredevents"
@@ -57,12 +61,13 @@ paginate = 10
 [[menu.main]]
     name = "Community"
     url  = ""
-    weight = 4
+    weight = 3
     identifier = "communitynav"
 
 # Child of Community
 [[menu.main]]
     name = "Email list"
+    pre = "<i class='glyphicon glyphicon-new-window'></i>"
     url  = "https://lists.riseup.net/www/info/shift"
     weight = 2
     parent = "communitynav"
@@ -70,13 +75,13 @@ paginate = 10
 [[menu.main]]
     name = "Tips"
     url  = "/pages/"
-    weight = 5
+    weight = 4
     identifier = "tips"
 
 [[menu.main]]
     name = "Shift Shop"
     url  = "/who-we-are/"
-    weight = 6
+    weight = 5
     identifier = "shiftshop"
 
 # Top bar social links menu

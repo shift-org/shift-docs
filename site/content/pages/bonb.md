@@ -33,7 +33,7 @@ Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have t
 - [Zupan's](http://zupans.com/) 
 - [Sugar Mamas Coffee Cafe](http://www.facebook.com/pages/Sugar-Mamas-Coffee-Cafe/195305340364/)
 - [Portland Pedal Power](http://www.portlandpedalpower.com/about)
-- [Acme Donuts](http://acmedoughnuts.com)
+- Acme Donuts
 
 #### Past Donors
 
