@@ -27,8 +27,8 @@
                     <ul class="dropdown-menu">
                       {{ range .Children }}
                         <li>
-                          <a href="{{ .URL }}" target="_blank">
-                            {{ .Pre }}
+                          <a href="{{ .URL }}" class="{{ .Pre }}">
+                            <!--{{ .Pre }}-->
                             {{ .Name }}
                           </a>
                         </li>

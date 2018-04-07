@@ -14,23 +14,6 @@ paginate = 10
 
 [menu]
 
-# Main menu
-
-[[menu.main]]
-    name = "About"
-    url  = "/about/"
-    weight = 6
-    identifier = "aboutmenu"
-
-# Child of About
-[[menu.main]]
-    img = "static/images/external-link-alt_Font Awesome.html"
-    name = "World Carfree Network"
-    pre = "<i class='glyphicon glyphicon-new-window'></i>"
-    url  = "http://www.worldcarfree.net/wcfd/"
-    weight = 3
-    parent = "aboutmenu"
-
 [[menu.main]]
     name = "Calendar"
     url  = "/calendar/"
@@ -45,7 +28,7 @@ paginate = 10
 # Child of Featured Events
 [[menu.main]]
     name = "World Naked Bike Ride"
-    pre = "<i class='glyphicon glyphicon-new-window'></i>"
+    pre = "s2b-external-link"
     url  = "https://pdxwnbr.org/"
     weight = 3
     parent = "featuredevents"
@@ -53,7 +36,7 @@ paginate = 10
 # Child of Featured Events
 [[menu.main]]
     name = "Midnight Mystery Ride"
-    pre = "<i class='glyphicon glyphicon-new-window'></i>"
+    pre = "s2b-external-link"
     url  = "http://www.yeabikes.net/midnight/"
     weight = 6
     parent = "featuredevents"
@@ -67,7 +50,7 @@ paginate = 10
 # Child of Community
 [[menu.main]]
     name = "Email list"
-    pre = "<i class='glyphicon glyphicon-new-window'></i>"
+    pre = "s2b-external-link"
     url  = "https://lists.riseup.net/www/info/shift"
     weight = 2
     parent = "communitynav"
@@ -84,13 +67,30 @@ paginate = 10
     weight = 5
     identifier = "shiftshop"
 
+# Main menu
+
+[[menu.main]]
+    name = "About"
+    url  = "/about/"
+    weight = 6
+    identifier = "aboutmenu"
+
+# Child of About
+[[menu.main]]
+    img = "static/images/external-link-alt_Font Awesome.html"
+    name = "World Carfree Network"
+    pre = "s2b-external-link"
+    url  = "http://www.worldcarfree.net/wcfd/"
+    weight = 3
+    parent = "aboutmenu"
+
 # Top bar social links menu
 
 [[menu.topbar]]
     weight = 1
     name = "GitHub"
     url = "https://github.com/devcows/hugo-universal-theme"
-    pre = "<i class='fa fa-2x fa-github'></i>"
+    pre = "class='fa fa-2x fa-github' target='_blank'"
 
 [[menu.topbar]]
     weight = 2
