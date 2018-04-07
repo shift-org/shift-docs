@@ -545,18 +545,18 @@ body.boxed .navbar-affixed-top.affix {
   border-radius: 0;
 }
 .btn-template-main {
-  color: #38a7bb;
+  color: #FF9819;
   background-color: #ffffff;
-  border-color: #38a7bb;
+  border-color: #FF9819;
 }
 .btn-template-main:hover,
 .btn-template-main:focus,
 .btn-template-main:active,
 .btn-template-main.active,
 .open > .dropdown-toggle.btn-template-main {
-  color: #38a7bb;
+  color: #FF9819;
   background-color: #e6e6e6;
-  border-color: #2a7d8c;
+  border-color: #FF9819;
 }
 .btn-template-main:active,
 .btn-template-main.active,
@@ -579,11 +579,11 @@ fieldset[disabled] .btn-template-main:active,
 .btn-template-main[disabled].active,
 fieldset[disabled] .btn-template-main.active {
   background-color: #ffffff;
-  border-color: #38a7bb;
+  border-color: #FF9819;
 }
 .btn-template-main .badge {
   color: #ffffff;
-  background-color: #38a7bb;
+  background-color: #FF9819;
 }
 .btn-template-main:hover,
 .btn-template-main:focus,
@@ -639,7 +639,7 @@ fieldset[disabled] .btn-template-transparent-primary.active {
 .btn-template-transparent-primary:active,
 .btn-template-transparent-primary.active {
   background: #fff;
-  color: #38a7bb;
+  color: #FF9819;
   border-color: #fff;
 }
 .btn-template-transparent-black {
@@ -729,7 +729,7 @@ fieldset[disabled] .btn-template-primary.active {
   border-color: #38a7bb;
 }
 .btn-template-primary .badge {
-  color: #38a7bb;
+  color: #FF9819;
   background-color: #ffffff;
 }
 #intro {
@@ -976,7 +976,7 @@ fieldset[disabled] .btn-template-primary.active {
   padding: 5px;
   border: solid 1px #eeeeee;
   border-radius: 0;
-  color: #38a7bb;
+  color: #FF9819;
   margin: 5px 5px 5px 0;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -984,9 +984,9 @@ fieldset[disabled] .btn-template-primary.active {
   font-size: 12px;
 }
 .panel.sidebar-menu ul.tag-cloud li a:hover {
-  color: #38a7bb;
+  color: #FF9819;
   text-decoration: none;
-  border-color: #38a7bb;
+  border-color: #FF9819;
 }
 .panel.sidebar-menu ul.popular,
 .panel.sidebar-menu ul.recent {
@@ -1074,7 +1074,7 @@ fieldset[disabled] .btn-template-primary.active {
   padding: 6px 20px 6px 20px;
   margin: 30px 10px 10px -71px;
   color: #fff;
-  background-color: #38a7bb;
+  background-color: #FF9819;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
 }
 .ribbon .theribbon:before,
@@ -1118,7 +1118,7 @@ fieldset[disabled] .btn-template-primary.active {
 .owl-theme .owl-controls .owl-page.active span,
 .owl-carousel .owl-controls.clickable .owl-page:hover span,
 .owl-theme .owl-controls.clickable .owl-page:hover span {
-  background: #38a7bb;
+  background: #FF9819;
 }
 .owl-carousel .owl-controls .owl-buttons,
 .owl-theme .owl-controls .owl-buttons {
@@ -1299,7 +1299,7 @@ fieldset[disabled] .btn-template-primary.active {
   height: 50px;
 }
 .testimonials .item .testimonial .bottom .icon {
-  color: #38a7bb;
+  color: #FF9819;
   font-size: 30px;
   float: left;
   width: 20%;
@@ -1511,7 +1511,7 @@ fieldset[disabled] .btn-template-primary.active {
   height: 100%;
   opacity: 0;
   filter: alpha(opacity=0);
-  background: #38a7bb;
+  background: #FF9819;
 }
 .box-image .name {
   position: absolute;
@@ -3108,7 +3108,7 @@ fieldset[disabled] .btn-template-primary.active {
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #38a7bb;
+  background-color: #FF9819;
 }
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #888888;
