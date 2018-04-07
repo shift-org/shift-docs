@@ -24,17 +24,16 @@ services:
 
   db:
     restart: always
-    image: mysql:latest
+    image: postgres:10
     environment:
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_HOST
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_HOST
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/postgresql/data
     ports:
-      - 3306
+      - 5432
 
   node: &node
     image: node:8
@@ -42,6 +41,10 @@ services:
     working_dir: /home/node/app
     environment:
       - NODE_ENV=production
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+      - POSTGRES_HOST
     volumes:
       - ./borzoi/node/:/opt/borzoi/node/
       - ./app:/home/node/app
