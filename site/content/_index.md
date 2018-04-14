@@ -1,5 +1,5 @@
 ---
-title: 'shift''s website, the sequel.'
+title: 'Shift 2 Bikes'
 ---
 
 [select this link to find the content](/pages)
