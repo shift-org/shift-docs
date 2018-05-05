@@ -20,22 +20,28 @@ paginate = 10
     weight = 1
 
  # Child of Calendar
+ [[menu.main]]
     name = "Events"
     url  = ""
     weight = 1
     identifier = ""
+    parent = "Calendar"
 
  # Child of Calendar
+ [[menu.main]]
     name = "Add Event"
     url  = ""
     weight = 2
     identifier = ""
+    parent = "Calendar"
 
  # Child of Calendar
+ [[menu.main]]
     name = "Pedalpalooza"
     url  = ""
     weight = 3
     identifier = ""
+    parent = "Calendar"
 
 [[menu.main]]
     name = "Featured Events"
