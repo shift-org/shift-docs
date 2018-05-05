@@ -37,7 +37,7 @@ paginate = 10
 
  # Child of Calendar
  [[menu.main]]
-    name = "Pedalpalooza"
+    name = "Pedalpalooza events"
     url  = ""
     weight = 3
     identifier = ""
