@@ -3182,10 +3182,10 @@ a:focus {
 a:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
+  outline-offset: -2px;Ø
 }
 .img-rounded {
-  border-radius: 0;
+  border-radius: 50%;
 }
 hr {
   margin-top: 20px;
