@@ -198,42 +198,42 @@ $(document).ready( function() {
         });
     }
 
-    $(document).on('click', '#confirm-cancel, #success-ok', function() {
+    $('#confirm-cancel, #success-ok').on('click', function() {
         visitRoute('viewEvents');
     });
 
-    $(document).on('click', '#date-picker-pedalpalooza', function(ev) {
+    $('#date-picker-pedalpalooza').on('click', function(ev) {
         dateJump(ev);
     });
 
-    $(document).on('touchstart', '#date-picker-pedalpalooza', function(ev) {
+    $('#date-picker-pedalpalooza').on('touchstart', function(ev) {
         dateJump(ev);
     });
 
-    $(document).on('click','.navbar-collapse.collapse.in',function(e) {
+    $('.navbar-collapse.collapse.in').on('click',function(e) {
         if( $(e.target).is('a') ) {
             $(this).collapse('hide');
         }
     });
 
-    $(document).on('click', 'a.expand-details', function(e) {
+    $('a.expand-details').on('click', function(e) {
         e.preventDefault();
         return false;
     });
 
-    $(document).on('click', 'button.edit', function(e) {
+    $('button.edit').on('click', function(e) {
         var id = $(e.target).closest('div.event').data('event-id');
         viewAddEventForm(id);
     });
 
-    $(document).on('click', '#preview-edit-button', function() {
+    $('#preview-edit-button').on('click', function() {
         $('#event-entry').show();
         $('.date').remove();
         $('#preview-button').show();
         $('#preview-edit-button').hide();
     });
 
-    $(document).on('click', 'button[data-toggle-target]', function() {
+    $('button[data-toggle-target]').on('click', function() {
         var target = $( this.dataset.toggleTarget );
         if(target.attr('hidden')) {
             target.removeAttr('hidden');
@@ -291,7 +291,7 @@ $(document).ready( function() {
         checkTimeout = setTimeout(checkAnchorsDebounced, 500);
     }
     function checkAnchorsDebounced() {
-        var aList = document.querySelectorAll('a');
+        var aList = document.querySelectorAll('#calendar_list a');
         for (var i=0; i<aList.length; i++) {
             var a = aList[i];
             if (a.hasAttribute('route')) {

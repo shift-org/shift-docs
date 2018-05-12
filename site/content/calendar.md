@@ -7,4 +7,3 @@ type: calpage
 
 ---
 
-This is Calendar content from calendar.md

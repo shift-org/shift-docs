@@ -228,7 +228,7 @@
     }
 
     // Set up email error detection and correction
-    $( document ).on( 'blur', '#email', function () {
+    $('#email').on( 'blur', function () {
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
                 var template = $( '#email-suggestion-template' ).html(),
@@ -245,13 +245,13 @@
         } );
     } );
 
-    $( document ).on( 'click', '#email-suggestion .correction', function () {
+    $('#email-suggestion .correction').on( 'click', function () {
         $( '#email' ).val( $( this ).text() );
         $( '#email-suggestion' )
             .hide();
     } );
 
-    $( document ).on( 'click', '#email-suggestion .glyphicon-remove', function () {
+    $('#email-suggestion .glyphicon-remove').on( 'click', function () {
         $( '#email-suggestion' )
             .hide();
         // They clicked the X button, turn mailcheck off
