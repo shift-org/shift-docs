@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="30.000002"
+   height="29.993073"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="up-grey-arrow.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1185"
+     inkscape:window-height="702"
+     id="namedview24"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="5.4800775"
+     inkscape:cx="47.855617"
+     inkscape:cy="20.026495"
+     inkscape:window-x="29"
+     inkscape:window-y="3"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <title
+     id="title4">up-grey-arrow</title>
+  <defs
+     id="defs6">
+    <linearGradient
+       id="linearGradient4738">
+      <stop
+         stop-color="#ffffff"
+         stop-opacity="0.726563"
+         offset="0"
+         id="stop4740" />
+      <stop
+         stop-color="#ffffff"
+         offset="1"
+         id="stop4742" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4554">
+      <stop
+         stop-color="#ffffff"
+         offset="0"
+         id="stop4556" />
+      <stop
+         stop-color="#ffffff"
+         stop-opacity="0"
+         offset="1"
+         id="stop4558" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient4738"
+       id="linearGradient6038"
+       x1="-0.499017"
+       y1="-0.91471303"
+       x2="0.34975499"
+       y2="-0.062103" />
+    <linearGradient
+       xlink:href="#linearGradient4554"
+       id="linearGradient6041"
+       x1="146.03911"
+       y1="3.9702282"
+       x2="162.22754"
+       y2="28.299368"
+       gradientTransform="matrix(0.63849682,0,0,0.60248999,-105.81968,-12.349561)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <metadata
+     id="metadata4">image/svg+xml<rdf:RDF>
+  <cc:Work
+     rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type
+       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title>up-grey-arrow</dc:title>
+  </cc:Work>
+</rdf:RDF>
+</metadata>
+  <path
+     style="fill:#663300;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:0;stroke-miterlimit:4;stroke-dashoffset:0;marker-start:none;marker-mid:none;marker-end:none"
+     inkscape:connector-curvature="0"
+     d="m 29.999997,14.996537 c 0,8.282332 -6.714007,14.99653 -14.996594,14.99653 -8.2819533,0 -14.99659285,-6.714198 -14.99659285,-14.99653 C 0.00681015,6.714205 6.7214497,4.9999999e-6 15.003403,4.9999999e-6 23.28599,4.9999999e-6 29.999997,6.714205 29.999997,14.996537 Z"
+     id="path5182"
+     stroke-miterlimit="4" />
+  <path
+     inkscape:connector-curvature="0"
+     style="fill:url(#linearGradient6041);fill-rule:nonzero;stroke-width:0.616072;stroke-miterlimit:4;stroke-dashoffset:0;marker-start:none;marker-mid:none;marker-end:none"
+     id="path5184"
+     d="M 14.9941,0.008255 C 6.7158614,0.008255 0,6.72413 0,15.002244 0,18.979546 1.6231352,22.533661 4.1524481,25.218708 5.4667201,14.364335 14.628169,5.925022 25.835144,5.925022 c 0.302053,0 0.582392,0.06134 0.881964,0.0735 C 23.974447,2.431753 19.837499,0.008258 14.9941,0.008258 Z"
+     stroke-miterlimit="4" />
+  <path
+     style="fill:#ffffff;fill-rule:nonzero;stroke-width:1.75000203;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;marker-start:none;marker-mid:none;marker-end:none"
+     inkscape:connector-curvature="0"
+     d="m 5.2096587,17.528455 2.5623961,2.56239 7.2569202,-7.256939 7.187356,7.187344 2.581357,-2.581371 -9.749727,-9.749733 -9.8383023,9.838309 z"
+     id="path5186"
+     stroke-miterlimit="4" />
+</svg>

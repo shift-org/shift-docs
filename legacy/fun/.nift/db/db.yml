@@ -1,0 +1,19 @@
+version: "2"
+
+volumes:
+  db: {}
+
+services:
+  db:
+    restart: always
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_HOST
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3306
