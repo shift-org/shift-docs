@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /
+# You can leave RewriteBase as /, no matter where the app lives
+# Wizardry is used to rewrite URLs with a dynamic base
+# http://www.zeilenwechsel.de/it/articles/8/Using-mod_rewrite-in-.htaccess-files-without-knowing-the-RewriteBase.html
+RewriteCond $0#%{REQUEST_URI} ([^#]*)#(.*)\1$
+RewriteRule ^.*$ - [E=CWD:%2]
+
+RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet)
+RewriteRule ^event-([0-9]+)$ %{ENV:CWD}crawl.php?id=$1 [L]
+
+RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet)
+RewriteRule (^$|^pedalpalooza$|^index.html$) %{ENV:CWD}crawl.php [L]
+
+RewriteRule ^(event-[0-9]+|pedalpalooza|viewEvents|addEvent|editEvent-[0-9]+-[0-9a-f]+|aboutUs)$ %{ENV:CWD}index.html
