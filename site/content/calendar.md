@@ -2,7 +2,9 @@
 title: "Calendar"
 description: "Rides calendar"
 keywords: ["calendar", "rides"]
+id: calendar_list
+type: calpage
+
 ---
 
-This is where the calendar will be. 
-
+This is Calendar content from calendar.md

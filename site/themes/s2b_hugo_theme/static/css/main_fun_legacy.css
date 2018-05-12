@@ -1,0 +1,495 @@
+/*
+Transparent borders have been added intentionally for accessibility in some places.
+Typically they will not be visible.
+But if someone is using a high contrast display mode, the border will appear.
+*/
+
+.scrollToTop {
+    width:100px;
+    height:70px;
+    text-align:center;
+    color:#630;
+    position:fixed;
+    bottom:75px;
+    right:40px;
+    display:none;
+    z-index:1;
+    background: url('../images/icons/up-arrow.svg') no-repeat 0px 20px;
+    background-position: center;
+}
+
+svg.icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  fill: currentColor;
+  stroke: currentColor;
+  polyline: currentColor;
+}
+
+.preview .eventlink {
+   visibility: hidden;
+}
+
+.facebook-share a {
+    color: #3C5A99;
+    border: 1px solid #3C5A99;
+    border-radius: 2px;
+    width: auto;
+    padding: 4px;
+}
+.facebook-share a:hover {
+    text-decoration: none;
+}
+.facebook-share a:focus {
+    text-decoration: none;
+    color: white;
+    background: #3C5A99;
+}
+.facebook-share img {
+    height: 24px;
+    width: 24px;
+}
+
+.container {
+	padding-left: 5px;
+	padding-right: 5px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.pg-width {
+    margin: 5px 10px 10px 5px;
+}
+
+.plain {
+    margin: 5px 10px 10px 5px;
+    clear: both;
+}
+
+.date h2 {
+    background-color: #fd6;
+    color: #630;
+    border: 1px solid transparent;
+    float:left;
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    font-weight: bold;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.events-list {
+    padding: 0;
+}
+
+.event.row {
+    list-style-type:none;
+    font-size:1em;
+    padding: 10px 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.event.row .summary h3 button {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 0;
+}
+
+.event.featured {
+    background-color: #FCFAF2;
+    border: 1px solid #FFDD66;
+}
+
+.event.featured .featured-text {
+    text-align: center;
+    font-weight: bold;
+    color: #630;
+    text-transform: uppercase;
+}
+
+.event.cancelled del,
+.event.cancelled del * {
+    text-decoration: line-through;
+}
+.event.cancelled ins
+{
+    text-decoration: none;
+}
+
+.cancelled-text {
+    font-weight: normal;
+    text-transform: uppercase;
+    background: #D00000;
+    color: white;
+    padding: 2px 4px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    display: inline-block;
+    width: auto;
+}
+
+.newsflash {
+    color: #D00000;
+    border: 1px dashed #D00000;
+    border-radius: 2px;
+    padding: 2px 4px;
+    overflow-wrap: break-word;
+}
+
+.col-xs-2 {
+    width: 20%;
+}
+
+.col-xs-10 {
+    width: 80%;
+}
+
+.col-xs-2, .col-xs-10 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+h3 {
+    font-size: 1em;
+    font-weight: bold;
+    color: #37b;
+    margin-top: 10px;
+}
+
+.timedetails {
+    text-align: right;
+}
+
+.time {
+    text-align: right;
+}
+
+.time time {
+    margin-top: 10px;
+    display: inline-block;
+}
+.time .audience-F {
+    background: #F2FCF2;
+    color: #008000;
+    padding: 2px 4px;
+    border: 1px solid #008000;
+    border-radius: 2px;
+    display: inline-block;
+    width: auto;
+}
+.time .audience-A {
+    background: #FCF2F2;
+    color: #D00000;
+    padding: 2px 4px;
+    border: 1px solid #D00000;
+    border-radius: 2px;
+    display: inline-block;
+    width: auto;
+}
+
+.summary {
+    padding-left: 10px;
+    border-left: 1px solid grey;
+}
+
+.summary p {
+    margin-bottom: 5px;
+}
+
+.event-details {
+    color: rgb(64, 64, 64);
+    overflow-wrap: break-word;
+}
+
+.btn{
+    color: #37b;
+}
+
+.btn-add-event {
+    color: #630;
+    background: #f90;
+}
+
+.mainDetails p {
+    margin-top: 1em;
+
+}
+.otherButtons a {
+    text-decoration: none;
+}
+
+a.expand-details {
+    color:inherit;
+}
+
+.eventImg img{
+    float: right;
+    width: 50%;
+    height: auto;
+}
+
+#edit-header {
+    width:100%;
+    background:white;
+    padding: 8px 16px;
+}
+
+.affix {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+    border-bottom: 1px solid transparent;
+}
+
+#pedalpalooza-img {
+    max-width: 438px;
+    width: 100%;
+    height: auto;
+}
+
+.control-label {
+    color: #404040;
+    font-weight: normal;
+}
+
+#pp-banner {
+    text-align: center;
+    color: #663300;
+    background: #FCFAF2;
+    border: 1px solid #FFDD66;
+    padding: 1em;
+}
+
+#pp-banner .pp-headline {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#pp-banner button[data-toggle-target] {
+    border: none;
+    background: none;
+    color: #663300;
+    margin-top: 16px;
+}
+
+#pp-description {
+    text-align: left;
+    max-width: 438px;
+    margin: 0 auto;
+}
+
+/* Date Picker CSS */
+#date-select-container {
+    margin: 0 auto;
+}
+#date-select-container-pedalpalooza {
+    margin: 10px 0px;
+}
+.date-select-container-style {
+    width: 310px;
+    background-color: #fff56f;
+}
+form#event-entry .date-select-container-style {
+    width: 280px;
+}
+.date-select-container-style.jump-to-date {
+    float: right;
+    clear: right;
+}
+button.jump-to-date {
+    float: right;
+    border: none;
+    background: none;
+    margin: 4px 0;
+}
+button.jump-to-date .icon.expand {
+    transform: rotate(0deg); /* arrow pointing down */
+}
+button.jump-to-date[aria-expanded="true"] .icon.expand {
+    transform: rotate(180deg); /* arrow pointing up */
+}
+
+#date-select {
+    height: 130px;
+}
+
+#date-select-pp {
+    background-color: #ffbd2c;
+}
+
+.date-select-style {
+    background-color: #ffbd2c;
+    overflow: scroll;
+}
+.date-picker-style {
+    width: 100%;
+}
+#load-earlier {
+    background-color: green;
+}
+#load-later {
+    background-color: red;
+}
+.loading-zone {
+    height: 600px;
+}
+
+.calendar-day {
+    border-top: 1px solid gray;
+    padding: 3px;
+    color: gray;
+    line-height: 1.5em;
+    text-align: center;
+}
+
+.calendar-day:hover {
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.calendar-day.today {
+    background-color: green;
+}
+
+.calendar-day.selected {
+    background-color: red;
+}
+
+.calendar-month-title {
+    position: relative;
+    width: 30px;
+    color: #fff;
+    background-color: #f90;
+    font-weight: bold;
+}
+
+.color-jan, .color-mar, .color-may, .color-jul, .color-sep, .color-nov {
+    background-color: #fc6;
+}
+.color-jan-odd, .color-mar-odd, .color-may-odd,
+.color-jul-odd, .color-sep-odd, .color-nov-odd {
+    background-color: #fd6;
+}
+.color-feb, .color-apr, .color-jun, .color-aug, .color-oct, .color-dec {
+    background-color: #fd6;
+}
+.color-feb-odd, .color-apr-odd, .color-jun-odd,
+.color-aug-odd, .color-oct-odd, .color-dec-odd {
+    background-color: #fe9;
+}
+
+.calendar-month-title span {
+    white-space: nowrap;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    width: 0;
+    left: 10px;
+    bottom: 0;
+    display: block;
+    position: absolute;
+    font-size: .8em;
+}
+.day-of-week {
+    width: 100%;
+    font-size: 0.9em;
+    text-align: center;
+    table-layout: fixed;
+    color: gray;
+}
+#preview-edit-button {
+    display: none;
+}
+/* /Date Picker CSS */
+.modal-body {
+    text-align:center;
+}
+
+.modal-dialog .modal-footer .btn-warning {
+  color: #630;
+  background-image: none;
+  background-color: #f90;
+  text-shadow: none;
+}
+
+button.more-events {
+    display:block;
+    width:100%;
+    text-align:center;
+    font-size: 1.5em;
+    color: #630;
+    background:none;
+    border: 1px solid transparent;
+}
+
+#email-suggestion {
+    display:none;
+    color: red;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+#email-suggestion .correction {
+    color: blue;
+    cursor: pointer;
+}
+
+#email-suggestion .glyphicon {
+    color: grey;
+    cursor: pointer;
+    margin-left: 3px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+
+.optional-label::after {
+    content: " (optional)";
+    color: #707070;
+}
+
+.panel {
+    min-width: 310px;
+}
+
+.panel h2 {
+    font-size: 1.25em;
+}
+
+.input-help {
+    color: #707070;
+}
+
+.panel-default > .panel-heading {
+    background-color: #F2F2F2;
+    background-image: none;
+}
+
+.panel-heading a .icon {
+    height: 20px;
+    width: 20px;
+    padding: 4px;
+    float: left;
+}
+
+.panel-heading a svg use {
+    stroke: currentColor;
+}
+
+[aria-expanded="false"] .icon.expand {
+    transform: rotate(-90deg);
+}
+
+.ride-comic {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comic-thumbnail {
+    float: left;
+    margin-right: 10px;
+}
