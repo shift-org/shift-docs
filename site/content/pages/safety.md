@@ -2,11 +2,11 @@
 title: "Safety"
 description: "Tips to stay safe"
 keywords: ["safety", "tips", "safe"]
-weight: 1
+weight: 8
 
 menu:
     main:
-        parent: tips
+        parent: communitynav
 ---
 
 ## EDUCATION

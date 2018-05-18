@@ -69,3 +69,8 @@
   -moz-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
 }
+
+/*Creates a round corner on the selected images*/
+.img-round-corner {
+	border-radius: 25px;
+}

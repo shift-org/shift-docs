@@ -1747,6 +1747,7 @@ fieldset[disabled] .btn-template-primary.active {
 #heading-breadcrumbs h1 {
   color: #333333;
   text-transform: uppercase;
+  text-align: center;
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 0.08em;
