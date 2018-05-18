@@ -1,0 +1,3 @@
+[submodule "vendor/flourish"]
+	path = vendor/flourish
+	url = git://github.com/flourishlib/flourish-classes.git

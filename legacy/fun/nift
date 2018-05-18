@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+# This defines defaults
+# Environment specific overrides are TODO
+
+# ENV
+export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+export NIFT="${ROOT}/.nift"
+export NIFT_MOTD="===DEFAULT==="
+export NIFT_SLEEP=0
+
+#### DOCKER ####
+export COMPOSE_FILES="\
+-f ${NIFT}/db/db.yml \
+-f ${NIFT}/nginx/nginx.yml \
+-f ${NIFT}/php/php.yml"
+export SERVICES="db nginx php"
+export COMPOSE_PROJECT_NAME="shift"
+
+#### DB ####
+export MYSQL_ROOT_PASSWORD=da642315cb2d390714590dad93e07c50
+export MYSQL_DATABASE=shift
+export MYSQL_USER=shift
+export MYSQL_PASSWORD=ok124
+
+# NGINX
+export NGINX_CONF=php.conf
+export NGINX_CERT_NAME=default
+export NGINX_HTTPS_PORT=4443
+
+export NGINX_WWW=${ROOT}/www
+export NGINX_CERTS=${ROOT}/secret/certs
+
+# PHP
+# TODO: This puts FAR too much in the reach of php, need to reorg
+export PHP_ROOT=${ROOT}
+
+# BOOTSTRAP
+# TODO: prelude to install nift
+source "${NIFT}/nift.sh"
+nift $@

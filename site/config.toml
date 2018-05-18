@@ -16,13 +16,12 @@ paginate = 10
 
 [[menu.main]]
     name = "Calendar"
-    url  = "/calendar/"
     weight = 1
 
  # Child of Calendar
  [[menu.main]]
     name = "Events"
-    url  = ""
+    url  = "/calendar/"
     weight = 1
     identifier = ""
     parent = "Calendar"
@@ -147,7 +146,7 @@ paginate = 10
     # Style options: default (light-blue), blue, green, marsala, pink, red, turquoise, violet
     style = "default"
 
-    # Since this template is static, the ct form uses www.formspree.io as a
+    # Since this template is static, the contact form uses www.formspree.io as a
     # proxy. The form makes a POST request to their servers to send the actual
     # email. Visitors can send up to a 1000 emails each month for free.
     #
@@ -160,9 +159,7 @@ paginate = 10
     # - you're done. Happy mailing!
     #
     # Enable the contact form by entering your Formspree.io email
-     email = "your@email.com"
-
-
+    email = "your@email.com"
 
     about_us = "<p></p>"
     copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"

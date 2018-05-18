@@ -1,0 +1,820 @@
+
+<script src="{{ .Site.BaseURL }}fun/js/mustache_2_3_0.min.js"></script>
+<script type="text/javascript">
+  //Delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
+  Mustache.tags = ["[[", "]]"];
+  window.fun_events_url = '/fun/events.php?';
+</script>
+<script src="{{ .Site.BaseURL }}fun/js/formdata.js"></script>
+<script src="{{ .Site.BaseURL }}fun/js/mailcheck.min.js"></script>
+<script src="{{ .Site.BaseURL }}fun/js/moment.min.js"></script>
+<script src="{{ .Site.BaseURL }}fun/js/helpers.js"></script>
+<script src="{{ .Site.BaseURL }}fun/js/addevent.js"></script>
+<script src="{{ .Site.BaseURL }}fun/js/datepicker.js"></script>
+<script src="{{ .Site.BaseURL }}fun/js/main.js"></script>
+
+
+<script id="pedalpalooza-header" type="text/template">
+  <div id="pp-banner">
+    <a href="images/pp/pp2018.jpg"><img alt="Pedalpalooza is for Everyone" id="pedalpalooza-img" src="images/pp/pp2018-banner.png"></a>
+    <div>
+      <span class="pp-headline">Pedalpalooza!</span>
+      <span>All of June, 2018</span>
+    </div>
+    <button type="button" aria-expanded="true" class="expand-details" data-toggle-target="#pp-description">
+      <svg class="icon expand" role="img" aria-hidden="true">
+        <use xlink:href="#icon-arrow-down" />
+      </svg>
+      <span>About Pedalpalooza</span>
+    </button>
+    <div id="pp-description">
+      <p>Pedalpalooza is a month of bikey fun. With dozens of different events, most organized by individuals, bikers of all persuasions are likely to find many events of interest. Nearly all events are free. </p>
+      <p><a href="addEvent"><strong>Add your events for 2018 now!</strong></a> Seeking inspiration? View the <a href="pedalpaloozaArchive">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, <a href="http://www.shift2bikes.org/contacts/index.php?eCon=CalCrew">contact the calendar crew</a>.</p>
+      <p> Visiting from out of town? We've started a <a href="http://www.shift2bikes.org/allbike.php#Visitor_Info">Visitor Info</a> page.</p>
+      <p> <a href="https://docs.shift2bikes.org/pages/pedalpalooza/">More info…</a> </p>
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
+        <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+    </div>
+  </div>
+
+</script>
+
+<script id="jump-to-date" type="text/template">
+  <button type="button" aria-expanded="false" data-toggle-target="#date-select-container-pedalpalooza" class="jump-to-date">
+    <span>Jump to date</span>
+    <svg class="icon expand" role="img" aria-hidden="true">
+      <use xlink:href="#icon-arrow-down" />
+    </svg>
+  </button>
+  <div id="date-select-container-pedalpalooza" class="date-select-container-style jump-to-date form-group" hidden>
+    <table class="day-of-week">
+      <tbody><tr>
+        <td class="calendar-month-title"></td>
+        <td>Sun</td>
+        <td>Mon</td>
+        <td>Tue</td>
+        <td>Wed</td>
+        <td>Thu</td>
+        <td>Fri</td>
+        <td>Sat</td>
+      </tr></tbody>
+    </table>
+    <div id="date-select-pp">
+      <table id="date-picker-pedalpalooza" class="date-picker-style">
+        <tr class="calendar-row">
+          <td rowspan="3" class="calendar-month-title"><span>June 2018</span></td>
+          <td class="calendar-day   color-jun"></td>
+          <td class="calendar-day   color-jun-odd"></td>
+          <td class="calendar-day   color-jun"></td>
+          <td class="calendar-day   color-jun-odd"></td>
+          <td class="calendar-day   color-jun"></td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-01">1</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-02">2</td>
+        </tr>
+        <tr class="calendar-row">
+          <td class="calendar-day   color-jun" data-date="2018-06-03">3</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-04">4</td>
+          <td class="calendar-day   color-jun" data-date='2018-06-05'>5</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-06">6</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-07">7</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-08">8</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-09">9</td>
+        </tr>
+        <tr class="calendar-row">
+          <td class="calendar-day   color-jun" data-date="2018-06-10">10</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-11">11</td>
+          <td class="calendar-day   color-jun" data-date='2018-06-12'>12</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-13">13</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-14">14</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-15">15</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-16">16</td>
+        </tr>
+        <tr class="calendar-row">
+          <td rowspan="2" class="calendar-month-title">&nbsp;</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-17">17</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-18">18</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-19">19</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-20">20</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-21">21</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-22">22</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-23">23</td>
+        </tr>
+        
+        <tr class="calendar-row">
+          <td class="calendar-day   color-jun" data-date="2018-06-24">24</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-25">25</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-26">26</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-27">27</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-28">28</td>
+          <td class="calendar-day   color-jun-odd" data-date="2018-06-29">29</td>
+          <td class="calendar-day   color-jun" data-date="2018-06-30">30</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</script>
+
+<script id="pedalpaloozaArchive" type="text">
+          <div>
+              <h1>Pedalpalooza Archive</h1>
+  
+              <div class="archive">
+                  <p class="byline">aka, That Fun Thing We Do Every June</p>
+                  <p>In 2002, Portland hosted <a href="http://criticalmass.wikia.com/wiki/Bike_Summer!">Bike Summer</a>, and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.</p>
+  
+                  <ul class="archive-list">
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2017.php">2017</a>
+                          <p class="description">A whole month of bike fun, June 1 - June 30th.  327 events!</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2016.php">2016</a>
+                          <p class="description">292 events!</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2015.php">2015</a>
+                          <p class="description">294 events!</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2014.php">2014</a>
+                          <p class="description">298 events! 308 if you count repeats.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2013.php">2013</a>
+                          <p class="description">280 events, 3+ weeks of bike fun, from June 6th through 29th. The big naked ride Saturday, June 8th, was almost certainly the largest every, anywhere.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2012.php">2012</a>
+                          <p class="description">For the first time, we expanded to 3+ weeks of bike fun! The intent was to spread out roughly the same number of events over more days, so you could participate in more of them. 298 events... or 313 if you count each instance of repeating events.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2011.php">2011</a>
+                          <p class="description">About 270 events &mdash; slightly less than 2010. The big naked ride was also slightly down, due to weather fears. Be brave!  Be ambitious!  Try harder in 2012!</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2010.php">2010</a>
+                          <p class="description">We had roughly 300 events, and a very strong attendance. The naked ride alone had somewhere between 7000 and 12,500 riders.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2009.php">2009</a>
+                          <p class="description">In 2009 the number of events was down a tiny bit, but the number of people at each event seemed to double. One highlight is that we had about 5000 people for the World Naked Bike Ride... or nearly 1% of Portlanders!</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2008.php">2008</a>
+                          <p class="description">Vastly larger than previous years. The Portland Mercury increased their involvement. Shift hosted the International Toward Carfree Cities Conference. The City of Portland had its first Sunday Parkways (Ciclovia). Soaring fuel pricess increased interest in bikes. The result: 185 events in the printed calendar, and 197 events in the online calendar (not counting repeating events). Larger crowds all around. Wonderful.  I'm still sleepy.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2007.php">2007</a>
+                          <p class="description">The printed calendar had 130 events, and the online calendar ended up with 140.  That's may sound a hair's breadth smaller than PP2006, but actually most of the events attracted far more people in 2007.  Yea Bikes!  Go Team!  Rah!  Rah! <a href="http://www.shift2bikes.org/pedalpalooza/ridereports/pp_reports_2007.pdf">Ride Reports (PDF)</a></p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2006.php">2006</a>
+                          <p class="description">The printed calendar had 133 events, and the online calendar ended up with 143 (taking cancellations into account). Which was your favorite?</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2005.shtml">2005</a>
+                          <p class="description">That Pedalpalooza was huge.  The printed calendar had 95 events, but the online calendar, which could be updated throughout the festival, ended up with 114 events.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2004.shtml">2004</a>
+                          <p class="description">The first year that it was called "Pedalpalooza" and the first with a 16-day Thursday-to-Saturday schedule.  It had 68 events.</p>
+                      </li>
+                      <li>
+                          <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2003.shtml">2003</a>
+                          <p class="description">Mini BikeSummer.  49 events.  Apparently Portland was the first (and so far only?) BikeSummer site to continue the festival on following years.  This first year, it was organized in cooperation with <a href="http://www.zoobomb.net/">Zoobomb</a>. (A brief <a href="http://www.shift2bikes.org/pedalpalooza/zbshift.shtml">history of Shift and Zoobomb</a>.)</p>
+                      </li>
+                      <li>
+                          <!-- former url, http://bikesummer.org/2002/events/index.htm -->
+                          <a class="year btn" href="http://web.archive.org/web/20020428220445/http://www.bikesummer.org/2002/events/index.htm">2002</a>
+                          <p class="description">BikeSummer!  In August, not June?  Wow, the things we forget. 97 events.</p>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </script>
+
+<script id="scrollToTop" type="text/template">
+  <a href="#" class="scrollToTop">Back To Top</a>
+</script>
+
+
+<script id="ride-list-heading" type="text/template">
+  <h1>Events</h1>
+</script>
+
+<script id="view-events-template" type="text/template">
+  [[#dates]]
+  <div data-date="[[yyyymmdd]]" class="date[[#preview]] preview[[/preview]]">
+    <h2>[[date]]</h2>
+    <ul class="events-list">
+      [[#events]]
+      
+      <li class="event row [[#cancelled]]cancelled[[/cancelled]] [[#featured]]featured[[/featured]]" data-event-id="[[id]]">
+        [[#featured]]<p class="featured-text" id="featured[[caldaily_id]]"><span aria-hidden="true">★ </span>Featured Event<span aria-hidden="true"> ★</span></p>[[/featured]]
+        <div class="time col-xs-2">
+          [[#cancelled]]<del>[[/cancelled]]
+          
+          <p><time>[[displayStartTime]]</time></p>
+          [[#audienceLabel]]
+          <span class="audience-[[audience]]">[[audienceLabel]]</span>
+          [[/audienceLabel]]
+          
+          [[#cancelled]]</del>[[/cancelled]]
+        </div>
+        <div class="col-xs-10" >
+          <div class="summary">
+            [[# featured ]]
+            [[^ newsflash ]]
+            <h3 aria-describedby="featured[[caldaily_id]]">
+              [[/ newsflash ]]
+              [[/ featured ]]
+              
+              [[^ featured ]]
+              [[# newsflash ]]
+              <h3 aria-describedby="newsflash[[caldaily_id]]">
+                [[/ newsflash ]]
+                [[/ featured ]]
+                
+                [[# featured ]]
+                [[# newsflash ]]
+                <h3 aria-describedby="featured[[caldaily_id]] newsflash[[caldaily_id]]">
+                  [[/ newsflash ]]
+                  [[/ featured ]]
+                  
+                  [[^ featured ]]
+                  [[^ newsflash ]]
+                  <h3>
+                    [[/ newsflash ]]
+                    [[/ featured ]]
+                    
+                    <button type="button" aria-expanded="[[^ expanded ]]false[[/ expanded ]][[# expanded ]]true[[/ expanded ]]" class="expand-details" data-toggle-target="#event-details-[[caldaily_id]]">
+                      <svg class="icon expand" role="img" aria-hidden="true">
+                        <use xlink:href="#icon-arrow-down" />
+                      </svg>
+                      
+                      [[#cancelled]]<del>[[/cancelled]]
+                      
+                      [[title]]
+                      
+                      [[#cancelled]]
+                    </del> <ins><span class="cancelled-text">cancelled</span></ins>
+                      [[/cancelled]]
+                    
+                    </button>
+                  </h3>
+                  
+                  [[#newsflash]]
+                  <ins><p class="newsflash" id="newsflash[[caldaily_id]]"><svg class="icon" role="img" aria-label="Update"><use xlink:href="#icon-newsflash" /></svg> [[newsflash]]</p></ins>
+                  [[/newsflash]]
+                  
+                  [[#cancelled]]<del>[[/cancelled]]
+                  
+                  <div class="location">
+                    [[#mapLink]]
+                    <a href="[[mapLink]]" target="_blank">
+                      <svg class="icon" role="img" aria-label="Location"><use xlink:href="#icon-location" /></svg>
+                      
+                      [[/mapLink]]
+                      [[^mapLink]]
+                      <p>
+                        [[/mapLink]]
+                        
+                        [[venue]][[#address]][[#venue]], [[/venue]][[address]][[/address]]
+                        
+                        [[^mapLink]]
+                      </p>
+                      [[/mapLink]]
+                      [[#mapLink]]
+                    </a>
+                    [[/mapLink]]
+                    
+                    [[#locdetails]]
+                    <p>[[locdetails]]</p>
+                    [[/locdetails]]
+                  </div>
+                  <p><svg class="icon" role="img" aria-label="Organizer"><use xlink:href="#icon-organizer" /></svg> [[organizer]]</p>
+                  
+                  [[#cancelled]]</del>[[/cancelled]]
+          
+          </div>
+        </div>
+        
+        <div class="col-xs-2">
+        </div>
+        <div class="event-details col-xs-10" id="event-details-[[caldaily_id]]" [[^ expanded ]]hidden[[/ expanded ]] >
+        
+        [[#cancelled]]<del>[[/cancelled]]
+        
+        <div class="mainDetails">
+          <div class="eventImg">
+            [[# image]]
+            <img src="[[image]]" />
+            [[/ image]]
+          </div>
+          
+          <p><img src="/fun/images/icons/alarm.png" alt="Time" /> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
+          [[#endtime]]
+          <p><img src="/fun/images/icons/stopwatch.png" alt="End Time" /> [[displayEndTime]]</p>
+          [[/endtime]]
+          
+          <p>[[details]]</p>
+          
+          [[#email]]
+          <p class="contactInfo">
+            <a href="mailto:[[email]]"><img src="/fun/images/icons/email.png" alt="Email" /> [[email]]</a>
+          </p>
+          [[/email]]
+          
+          [[#phone]]
+          <p class="contactInfo">
+            <a href="tel:[[phone]]"><img src="/fun/images/icons/phone.png" alt="Phone" /> [[phone]]</a>
+          </p>
+          [[/phone]]
+          
+          [[ #weburl ]]
+          <p class="contactInfo">
+            <a href="[[weburl]]" target="_blank">
+              <img src="/fun/images/icons/webpage.png" alt="Website" />
+              [[#webname]][[webname]][[/webname]]
+              [[^webname]]Website[[/webname]]
+            </a>
+          </p>
+          [[ /weburl ]]
+          
+          [[#contact]]
+          <p class="contactInfo">
+            [[contact]]
+          </p>
+          [[/contact]]
+          
+          <div class="eventlink">
+            <p class="facebook-share">
+              <a href="https://www.facebook.com/sharer/sharer.php?u=[[shareable]]" target="_blank">
+                <img src="/fun/images/icons/facebook.svg" alt="Facebook"/>Share</a>
+            </p>
+            <p>
+              <a
+                      [[^preview]]
+                      href="event-[[caldaily_id]]"
+                      [[/preview]]
+              class="share-link">
+              Sharable link</a>
+              <a
+                      [[^preview]]
+                      href="[[exportlink]]"
+                      [[/preview]]
+              data-id="[[caldaily_id]]"
+              class="export-link">
+              Export to calendar</a>
+            </p>
+          </div>
+          [[#preview]]
+          <hr>
+          <p>The following will show on the print calendar.</p>
+          <ul>
+            <li>title: [[tinytitle]]</li>
+            <li>description: [[printdescr]]</li>
+            <li>contact info:</li>
+            <ul>
+              <li>[[organizer]]</li>
+              [[# printemail]]<li>[[email]]</li>[[/ printemail]]
+              [[# printphone]]<li>[[phone]]</li>[[/ printphone]]
+              [[# printweburl]]<li>[[weburl]]</li>[[/ printweburl]]
+              [[# printcontact]]<li>[[contact]]</li>[[/ printcontact]]
+            </ul>
+            </li>
+          </ul>
+          [[/preview]]
+          
+          [[#cancelled]]</del>[[/cancelled]]
+  </div>
+  </li>
+  [[/events]]
+  </ul>
+  </div>
+  [[/dates]]
+</script>
+
+<script id="load-more-template" type="text/template">
+  <button type="button" id="load-more" class="more-events">Show additional events</a>
+</script>
+
+<script id="show-all-template" type="text/template">
+  <a id="show-all" class="more-events" href="viewEvents">Show all upcoming events</a>
+</script>
+
+<script id="mustache-edit" type="text/template">
+  
+  <h1>Add Event</h1>
+  <div id="edit-header" >
+    <button id="preview-edit-button" type="button" class="btn btn-add-event">Edit</button>
+    <button id="preview-button" type="button" class="btn btn-add-event">Preview</button>
+    <button id="save-button" type="button" class="btn btn-add-event">Save</button>
+    [[^ id ]]
+    <button id="cancel-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
+    [[/ id ]]
+    
+    <span id="save-result"></span>
+  </div>
+  <br>
+  <form id="event-entry">
+    <input type="hidden" name="id" value="[[id]]" />
+    <input type="hidden" name="secret" value="[[secret]]" />
+    <div class="panel-group" id="event-fields">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#general-fields" aria-expanded="true">
+              Event Description
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use xlink:href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        
+        <div id="general-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="control-label req-label" for="title">Event name</label>
+              <input type="text" class="form-control" name="title" id="title" value="[[title]]" required="true" aria-invalid="false"/>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label req-label" for="details">Details</label>
+              <textarea class="form-control" name="details" id="details" required="true" aria-invalid="false" aria-describedby="details-help">[[details]]</textarea>
+              <p class="input-help" id="details-help">If there are fees, you <strong>must</strong> list them here. If you don't, people will assume the event is free.</p>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label req-label" for="audience">Audience</label>
+              <select name="audience" class="form-control" id="audience">
+                [[# audienceOptions ]]
+                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
+                [[/ audienceOptions ]]
+              </select>
+            </div>
+            
+            [[# image]]
+            <img src="[[image]]" />
+            [[/ image]]
+            <div class="form-group">
+              [[# image]]
+              <label class="control-label optional-label" for="image">Update Image (must have file size less than 2MB) </label>
+              [[/ image]]
+              [[^ image]]
+              <label class="control-label optional-label" for="image">Image (must have file size less than 2MB) </label>
+              [[/ image]]
+              <input type="file" class="form-control" name="image" id="image" />
+            </div>
+          
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#timeandlocation-fields" aria-expanded="true">
+              Time and Location
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use xlink:href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        <div id="timeandlocation-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+            
+            <div class="form-group">
+              <label class="control-label req-label" for="datestring">Date</label>
+              <div id="date-select-container" class="date-select-container-style form-group">
+                <table class="day-of-week">
+                  <tr>
+                    <td class="calendar-month-title"></td>
+                    <td>Sun</td>
+                    <td>Mon</td>
+                    <td>Tue</td>
+                    <td>Wed</td>
+                    <td>Thu</td>
+                    <td>Fri</td>
+                    <td>Sat</td>
+                  </tr>
+                </table>
+                <div id="date-select" class="date-select-style">
+                  <div id="load-earlier" class="loading-zone"></div>
+                  <table id="date-picker" class="date-picker-style">
+                  </table>
+                  <div id="load-later" class="loading-zone"></div>
+                </div>
+                Selected dates:
+                <div id="date-selected"></div>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label req-label" for="time">Time</label>
+              <select name="time" class="form-control" id="time" aria-describedby="time-help">
+                [[# timeOptions ]]
+                <option value="[[time]]" [[# isSelected ]]selected[[/ isSelected ]]>[[time]]</option>
+                [[/ timeOptions ]]
+              </select>
+              <p class="input-help" id="time-help">If your event has multiple times (for example, a "meet time" and a "ride time"), put the first time here. Describe the later times in the time details field, below.</p>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label optional-label" for="timedetails">Time details</label>
+              <input type="text" class="form-control" name="timedetails" id="timedetails" value="[[timedetails]]" aria-describedby="timedetails-help" />
+              <p class="input-help" id="timedetails-help">More detail about your event's time, if needed. Try to keep it short. Example: "Meet at 5:00pm, ride at 5:30pm."</p>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label req-label" for="venue">Location name</label>
+              <input type="text" class="form-control" name="venue" id="venue" value="[[venue]]" required="true" aria-invalid="false" />
+            </div>
+            <div class="form-group">
+              <label class="control-label req-label" for="address">Address</label>
+              <input type="text" class="form-control" name="address" id="address" value="[[address]]" required="true" aria-invalid="false" aria-describedby="address-help" />
+              <p class="input-help" id="address-help">Provide either a street address or cross streets. This should be mappable by online maps such as Google Maps. If you haven't chosen a location yet, enter "TBA" for now.</p>
+            </div>
+            <div class="form-group">
+              <label class="control-label optional-label" for="locdetails">Location details</label>
+              <input type="text" class="form-control" name="locdetails" id="locdetails" value="[[locdetails]]" aria-describedby="locdetails-help" />
+              <p class="input-help" id="locdetails-help">More detail about your event's location, if needed. Example: "Meet near the clock tower."</p>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label" for="area">Area</label>
+              <select name="area" class="form-control" id="area">
+                [[# areaOptions ]]
+                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
+                [[/ areaOptions ]]
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label optional-label" for="eventduration">Event duration, in minutes</label>
+              <input type="text" class="form-control" name="eventduration" id="eventduration" value="[[eventduration]]" aria-describedby="eventduration-help" />
+              <p class="input-help" id="eventduration-help">Leave this blank unless you're confident about when your event will end.</p>
+            </div>
+            <div class="form-group">
+              <label class="control-label optional-label" for="length">Length of route</label>
+              <select name="length" class="form-control" id="length">
+                <option value="--" [[# isSelected ]]selected[[/ isSelected ]]>--</option>
+                [[# lengthOptions ]]
+                <option value="[[range]]" [[# isSelected ]]selected[[/ isSelected ]]>[[range]] miles</option>
+                [[/ lengthOptions ]]
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#contact-fields" aria-expanded="true">
+              Contact Info
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use xlink:href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        <div id="contact-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="control-label req-label" for="organizer">Organizer</label>
+              <input type="text" class="form-control" name="organizer" id="organizer" value="[[organizer]]" required="true" aria-invalid="false" />
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label req-label" for="email">Email</label>
+              <input type="text" class="form-control" name="email" id="email" value="[[email]]" aria-describedby="email-help" required="true" aria-invalid="false" />
+              <p class="input-help" id="email-help">This must be a valid email address where we can reach you. A confirmation message will be mailed to this address.</p>
+              <div id="email-suggestion"></div>
+              
+              <div>
+                <label class="control-label" for="hideemail">
+                  <input type="checkbox" name="hideemail" id="hideemail" value="1" [[# hideemail ]]checked[[/ hideemail ]] />
+                  Don't publish my email address online
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label" for="email-me">
+                  <input type="checkbox" name="email-me" id="email-me" value="1" [[# emailMe ]]checked[[/ emailMe ]] />
+                  Send forum messages to this email address
+                </label>
+              </div>
+            </div>
+            
+            <div>Website for additional details</div>
+            <div class="row">
+              <div class="form-group col-xs-12 col-sm-6">
+                <label class="control-label optional-label" for="webname">Website Name</label>
+                <input type="text" class="form-control" name="webname" id="webname" value="[[webname]]" />
+              </div>
+              <div class="form-group col-xs-12 col-sm-6">
+                <label class="control-label optional-label" for="weburl">URL</label>
+                <input type="text" class="form-control" name="weburl" id="weburl" value="[[weburl]]" />
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label optional-label" for="phone">Phone</label>
+              <input type="text" class="form-control optional-label" name="phone" id="phone" value="[[phone]]" />
+              
+              <label class="control-label" for="hidephone">
+                <input type="checkbox" name="hidephone" id="hidephone" value="1" [[# hidephone ]]checked[[/ hidephone ]] />
+                Don't publish my phone number online
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label class="control-label optional-label" for="contact">Additional Contact Info</label>
+              <input type="text" class="form-control" name="contact" id="contact" value="[[contact]]" />
+              
+              <label class="control-label" for="hidecontact">
+                <input type="checkbox" name="hidecontact" id="hidecontact" value="1" [[# hidecontact ]]checked[[/ hidecontact ]] />
+                Don't publish additional contact information online
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Commented out here between March-June during Pedalpalooza season when these fields are required -->
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#print-fields" aria-expanded="true">
+              Print Calendar Info
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use xlink:href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        <div id="print-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <p class="input-help">The printed calendar has limited space for each event, so we must limit the amount of info for some fields. Be as brief as reasonably possible!</p>
+            <div class="checkbox">
+              <input type="hidden" name="printevent" value="0" />
+              <label class="control-label" for="printevent">
+                <input type="checkbox" name="printevent" id="printevent" aria-describedby="printevent-help" value="1" [[# printevent ]]checked[[/ printevent ]] />
+                Include in the print calendar
+              </label>
+              <p class="input-help" id="printevent-help">You must submit at least 3 weeks in advance. Inclusion not guaranteed.</p>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="tinytitle">Print title (24 characters)</label>
+              <input type="text" class="form-control" name="tinytitle" id="tinytitle" value="[[tinytitle]]" maxlength="24" />
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="printdescr">Print description (120 characters)</label>
+              <textarea class="form-control" name="printdescr" id="printdescr" maxlength="120" >[[printdescr]]</textarea>
+            </div>
+            
+            <fieldset>
+              <legend>Print contact info</legend>
+              <div class="checkbox">
+                <label class="control-label" for="printorganizer">
+                  <input type="checkbox" name="printorganizer" id="printorganizer" value="1" checked disabled />
+                  Organizer
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label" for="printemail">
+                  <input type="checkbox" name="printemail" id="printemail" value="1" [[# printemail ]]checked[[/ printemail ]] />
+                  Email address
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label" for="printphone">
+                  <input type="checkbox" name="printphone" id="printphone" value="1" [[# printphone ]]checked[[/ printphone ]] />
+                  Phone number
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label" for="printweburl">
+                  <input type="checkbox" name="printweburl" id="printweburl" value="1" [[# printweburl ]]checked[[/ printweburl ]] />
+                  Web link
+                </label>
+              </div>
+              <div class="checkbox">
+                <label class="control-label" for="printcontact">
+                  <input type="checkbox" name="printcontact" id="printcontact" value="1" [[# printcontact ]]checked[[/ printcontact ]] />
+                  Additional contact info
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      
+      <div class="ride-comic">
+        <img src="/fun/images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
+        <p>For tips on making your ride successful, we ask that you read the <a href="rideleadingcomic.html">Ride Leading Comic</a> at least once before submitting an event.</p>
+        <div class="checkbox">
+          <input type="hidden" name="read_comic" value="0" />
+          <label class="control-label" for="read_comic">
+            <input type="checkbox" name="read_comic" id="read_comic" value="1" [[# readComic ]]checked[[/ readComic ]] />
+            I have read the Ride Leading Comic
+          </label>
+        </div>
+      </div>
+      
+      [[# id ]]
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#delete-event-fields" aria-expanded="true">
+              Delete Event
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use xlink:href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        
+        <div id="delete-event-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <div class="form-group">
+              <!-- commenting out until cancellation option is added back
+              <p class="input-help">If an event is no longer happening, we recommend cancelling it instead of deleting it. Cancelling it gives you an opportunity to post a message to info riders, like if it's been rescheduled to another date.</p>
+              -->
+              <p class="input-help">If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
+              <p class="input-help"><strong>Once an event is deleted, it can't be restored!</strong> If you're sure: </p>
+              
+              <button id="delete-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#delete-modal">Delete</button>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+      [[/ id ]]
+    
+    </div>
+  </form>
+</script>
+<script id="mustache-select-month" type="text/template">
+  [[#weeks]]
+  <tr class="calendar-row">
+    [[#monthTitle]]
+    <td rowspan="[[weeksInMonth]]" class="calendar-month-title"><span>[[monthTitle]]</span></td>
+    [[/monthTitle]]
+    [[#days]]
+    <td class="calendar-day [[classes]]" data-date="[[date]]">[[day]]</td>
+    [[/days]]
+  </tr>
+  [[/weeks]]
+</script>
+
+<script id="aboutUs" type="text">
+          <div>
+            <h1>About SHIFT</h1>
+  
+        <div class="plain">
+                      <p>SHIFT helps other groups and individuals promote their "bike fun" events. Most of the events in this calendar are not produced by Shift. Anyone is welcome to post events. </p>
+                      <p>SHIFT is the force behind Pedalpalooza. It also coordinates fun bicycling events throughout the year. Our mission is to demonstrate that bicycling is fun, liberating, empowering, sustainable, and environmentally friendly. We ask for no membership, nor dues. We ask for only a shared passion for the bicycle in all its glory: as toy, as transportation, as tool for social and environmental change! </p>
+                      <p>Join the <a href="https://lists.riseup.net/www/subrequest/shift">SHIFT listserve</a>.</p>
+  
+                  <h2>Volunteer</h2>
+                      <p>Breakfast on the Bridges is the last Friday of every month. Present breakfast to bike commuters in an interesting way &mdash; on a bridge! Contact the ever chortling Bard of the Bridges, <a href="http://www.shift2bikes.org/contacts/index.php?eCon=BonB">Timo</a>.</p>
+                      <p>Contribute to our <a href="https://github.com/Shift2Bikes/shiftcal">source code</a>.</p>
+  
+                  <h2>Contact information</h2>
+                      <p><a href="http://www.shift2bikes.org/contacts/">Contact us</a></p>
+  
+                  <h2>Our sponsors</h2>
+                      <p><a href="https://umbrellapdx.org/"><img alt="Umbrella PDX" src="/fun/images/logos/umbrella-pdx-logo.png" width="125"/img></a></p>
+                      <p><a href="https://www.canvashost.com/"><img alt="Canvas Host" src="http://www.canvashost.com/images/canvashost-mobile.jpg" width="125" /img></a></p>
+  
+                  <h2>Donations</h2>
+                      <p>Donate to SHIFT online:
+                      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                          <input type="hidden" name="cmd" value="_s-xclick">
+                          <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
+                          <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                          <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                      </form></p>
+  
+                      <p>Donations to SHIFT can also be made by mailing a check addressed to: </p>
+                      <p>Shift c/o Umbrella
+                      <br>820 SW 2nd Ave. Ste. 200
+                      <br>Portland, OR 97204</p>
+  
+                      <p>Our 501(c)3 sponsor, Umbrella, will handle the rest.</p>
+              </div>
+  
+          </div>
+    </script>
+<script id="email-suggestion-template" type="text/template">
+  Did you mean <span class="correction">[[ suggestion ]]</span>?
+  <sup><span class="glyphicon glyphicon-remove"></span></sup>
+</script>

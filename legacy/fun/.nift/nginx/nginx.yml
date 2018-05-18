@@ -1,0 +1,23 @@
+version: "2"
+
+volumes:
+  nginx.ssl: {}
+
+services:
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ${NIFT}/nginx:/nift/nginx/
+      - ${NGINX_WWW}:/var/www/
+      - ${NGINX_CERTS}:/secret/certs/
+      - nginx.ssl:/etc/nginx/ssl
+    links:
+      - php
+    environment:
+      - NGINX_CONF
+      - NGINX_CERT_NAME
+    ports:
+      - "${NGINX_HTTPS_PORT}:443"
+    entrypoint: /nift/nginx/entrypoint.sh
+    command: ["nginx", "-g", "daemon off;"]
