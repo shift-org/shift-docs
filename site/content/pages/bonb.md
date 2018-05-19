@@ -2,7 +2,11 @@
 title: "Breakfast on the Bridges"
 date: 2017-11-12T14:52:28-08:00
 draft: false
-weight: 6
+weight: 2
+
+menu:
+    main:
+        parent: featuredevents
 ---
 
 <img src=/images/BonB_header.jpg align=center alt="breakfast on the bridges logo">
@@ -29,7 +33,7 @@ Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have t
 - [Zupan's](http://zupans.com/) 
 - [Sugar Mamas Coffee Cafe](http://www.facebook.com/pages/Sugar-Mamas-Coffee-Cafe/195305340364/)
 - [Portland Pedal Power](http://www.portlandpedalpower.com/about)
-- [Acme Donuts](http://acmedoughnuts.com)
+- Acme Donuts
 
 #### Past Donors
 

@@ -40,3 +40,64 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+# Development Overview
+
+* Vincent has a number of wrappers and files that set up the docker environment
+
+
+# Important Project Files
+
+* docker-compose.yml
+  * docker container settings
+  * The defined containers (db, node, etc) become pingable host names from the other running containers.  For example, attached to the node container, you can "ping db"
+  * Contains the container specific mappings between host and docker container persistent volumes for example for the node container:
+
+    volumes:
+      - ./borzoi/node/:/opt/borzoi/node/
+      - ./app:/home/node/app
+
+* shift
+  * Vincent's convenience wrapper that sets up the environment and has various convenience docker commands
+  * contains environment variables that get loaded and are then available for docker to import.  Docker environment variables that will be important are defined separately for each container (see: docker-compose.yml).  Run "env" inside an attached docker container to see the variables that made it into the running container.
+
+* borzoi/borzoi.sh
+  * The environment file that is loaded by the shift script 
+
+
+# Shift Commands (Vincent's Wrapper Stuff)
+
+* ./shift attach node 
+  * node is a reference to the named docker container
+  * Attaches to the running docker container in the shift stack
+* ./shift up
+  * Starts up the docker containers (will also restart)
+* ./shift logs nginx
+  * Will start tailing the logs for the specified container (nginx in this case)
+  * multiple container names can be mentioned
+* ./shift down
+  * stops the docker containers
+
+# Docker Daemon Commands
+
+* docker ps
+  * lists all of the running process and port information from docker (ex: you can see the postgres service port)
+* docker volume ls  
+  * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with shift_
+  * The "shift_" docker namespace comes from the shift file: export COMPOSE_PROJECT_NAME="shift"
+
+# Sequalize Setup
+
+```bash 
+npm install --save pg pg-hstore
+bash npm install --save sequelize
+```
+(from: http://docs.sequelizejs.com/manual/installation/getting-started.html)
+
+
+
+
+
+
+

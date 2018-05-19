@@ -1,5 +1,5 @@
 ---
-title: 'shift''s website, the sequel.'
+title: 'Shift 2 Bikes'
 ---
 ## Shift brings people in the Portland metro area together with bike fun
 

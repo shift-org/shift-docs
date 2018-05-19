@@ -18,6 +18,7 @@
 	position: relative;
 	width: 100%;
 	-ms-touch-action: pan-y;
+	z-index: 1;
 }
 .owl-carousel .owl-wrapper{
 	display: none;
@@ -67,4 +68,9 @@
   -webkit-transform: translate3d(0,0,0);
   -moz-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
+}
+
+/*Creates a round corner on the selected images*/
+.img-round-corner {
+	border-radius: 25px;
 }

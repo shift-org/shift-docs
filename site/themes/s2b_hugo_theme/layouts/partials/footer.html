@@ -3,40 +3,13 @@
 
        <div class="row centered">
 
-         <div class="col-md-3">
-           <h4>About</h4>
-            <ul>
-              <li>Who we are</li>
-              <li>Contact</li>
-              <li>World Carfree Network</li>
+         <div class="col-md-12">
+            <ul id="footer-ul">
+              <li><a href="https://www.facebook.com/shift2bikes">Facebook</a></li>
+              <li><a href="https://github.com/Shift2Bikes">GitHub</a></li>
+              <li><a href="https://twitter.com/pedalpalooza">Twitter</a></li>
             </ul>
            <br>
-           <h4>Tips</h4>
-            <ul>
-              <li>Safety</li>
-              <li>Ride Leading</li>
-            </ul>
-         </div>
-
-         <div class="col-md-3">
-           <h4>Featured Events</h4>
-            <ul>
-              <li>Breakfast on the Bridges</li>
-              <li>PedalPalooza</li>
-              <li>World Naked Bike Ride</li>
-              <li>Move By Bike</li>
-              <li>MCBP</li>
-              <li>Midnight Mystery Ride</li>
-              <li>Get Lit</li>
-            </ul>
-         </div>
-
-         <div class="col-md-3">
-           <h4>Community</h4>
-         </div>
-
-         <div class="col-md-3">
-           <h4>Shift-Shop</h4>
          </div>
 
        </div>
@@ -56,6 +29,7 @@ _________________________________________________________ -->
     <div class="container">
         <div class="col-md-12">
             {{ if isset .Site.Params "copyright" }}
+            <p class="center">Shift 2 Bikes is a project of <a href="https://www.umbrellapdx.org/">Umbrella</a>.</p>
             <p class="pull-left">{{ .Site.Params.copyright | safeHTML }}</p>
             {{ end }}
             <p class="pull-right">

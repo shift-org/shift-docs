@@ -2,6 +2,7 @@ version: "2"
 
 volumes:
   db: {}
+  
 
 services:
 
@@ -11,15 +12,19 @@ services:
     volumes:
       - ./app/build/:/var/www/app/
       - ./site/public/:/var/www/site/
-      - ./borzoi/nginx/:/opt/borzoi/nginx/
+      - ./legacy/cal/:/var/www/cal/
+      - ./legacy/:/opt/legacy/
+      - ./services/nginx/:/opt/services/nginx/
+      - ./services/nginx/conf.d:/etc/nginx/conf.d
     links:
       - node
+      - php
     environment:
-      - NGINX_CONF
       - NGINX_CERT_NAME
+      - NGINX_COMMON_NAME
     ports:
       - "${NGINX_HTTPS_PORT}:443"
-    entrypoint: /opt/borzoi/nginx/entrypoint.sh
+    entrypoint: /opt/services/nginx/entrypoint.sh
     command: ["nginx", "-g", "daemon off;"]
 
   db:
@@ -32,22 +37,28 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_HOST
     volumes:
-      - db:/var/lib/mysql
+      - db:/var/lib/mysql/
     ports:
       - 3306
 
   node: &node
     image: node:8
     user: "node"
-    working_dir: /home/node/app
+    working_dir: /home/node/app/
     environment:
       - NODE_ENV=production
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_DATABASE
+      - MYSQL_HOST
     volumes:
-      - ./borzoi/node/:/opt/borzoi/node/
-      - ./app:/home/node/app
+      - ./services/node/:/opt/services/node/
+      - ./app:/home/node/app/
+    links:
+      - db
     expose:
       - "8081"
-    entrypoint: /opt/borzoi/node/entrypoint.sh
+    entrypoint: /opt/services/node/entrypoint.sh
     command: "npm run start"
   
   webpack:
@@ -58,6 +69,23 @@ services:
   hugo:
     image: jojomi/hugo:0.36
     volumes:
-      - ./site/:/src
-      - ./site/public/:/output
+      - ./site/:/src/
+      - ./site/public/:/output/
     command: "hugo"
+  
+  php:
+    restart: never
+    image: php:5.6-fpm
+    restart: always
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_HOST
+    links:
+      - db
+    volumes:
+      - ./legacy/:/opt/legacy/
+      - ./services/php/:/opt/services/php/
+    entrypoint: /opt/services/php/entrypoint.sh
+    command: php-fpm

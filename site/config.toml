@@ -14,50 +14,98 @@ paginate = 10
 
 [menu]
 
+[[menu.main]]
+    name = "Calendar"
+    weight = 1
+
+ # Child of Calendar
+ [[menu.main]]
+    name = "Events"
+    url  = "/calendar/"
+    weight = 1
+    identifier = ""
+    parent = "Calendar"
+
+ # Child of Calendar
+ [[menu.main]]
+    name = "Add Event"
+    url  = ""
+    weight = 2
+    identifier = ""
+    parent = "Calendar"
+
+ # Child of Calendar
+ [[menu.main]]
+    name = "Pedalpalooza events"
+    url  = ""
+    weight = 3
+    identifier = ""
+    parent = "Calendar"
+
+[[menu.main]]
+    name = "Featured Events"
+    url  = ""
+    weight = 2
+    identifier = "featuredevents"
+
+# Child of Featured Events
+[[menu.main]]
+    name = "World Naked Bike Ride"
+    pre = "s2b-external-link"
+    url  = "https://pdxwnbr.org/"
+    weight = 3
+    parent = "featuredevents"
+
+# Child of Featured Events
+[[menu.main]]
+    name = "Midnight Mystery Ride"
+    pre = "s2b-external-link"
+    url  = "http://www.yeabikes.net/midnight/"
+    weight = 6
+    parent = "featuredevents"
+
+[[menu.main]]
+    name = "Community"
+    url  = ""
+    weight = 3
+    identifier = "communitynav"
+
+# Child of Community
+[[menu.main]]
+    name = "Email list"
+    pre = "s2b-external-link"
+    url  = "https://lists.riseup.net/www/info/shift"
+    weight = 2
+    parent = "communitynav"
+
+#[[menu.main]]
+#    name = "Tips"
+#    url  = "/pages/"
+#    weight = 4
+#    identifier = "tips"
+
+#[[menu.main]]
+#    name = "Shift Shop"
+#    url  = "/who-we-are/"
+#    weight = 5
+#    identifier = "shiftshop"
+
 # Main menu
 
 [[menu.main]]
-    name = "Calendar"
-    url  = "/calendar/"
-    weight = 2
-
-[[menu.main]]
-    name = "PedalPalooza"
-    url  = "/pedalpalooza/"
-    weight = 1
-
-[[menu.main]]
-    name = "RiseUp"
-    url  = "https://lists.riseup.net/www/info/shift"
-    weight = 3
-
-[[menu.main]]
-    name = "Safety"
-    identifier = "faq"
-    url  = "/safety/"
-    weight = 4
-    
-[[menu.main]]
-    name = "Resources"
-    identifier = "pages"
-    url  = "/pages/"
-    weight = 5
-    
-[[menu.main]]
-    name = "Who We Are"
-    url  = "/who-we-are/"
+    name = "About"
+    url  = "/about/"
     weight = 6
-    
-[[menu.main]]
-    name = "Contact"
-    url  = "/pages/contact/"
-    weight = 7
+    identifier = "aboutmenu"
 
-#[[menu.main]]
-#    name = "Blog"
-#    url  = "/blog/"
-#    weight = 2
-#
+# Child of About
+[[menu.main]]
+    img = "static/images/external-link-alt_Font Awesome.html"
+    name = "World Carfree Network"
+    pre = "s2b-external-link"
+    url  = "http://www.worldcarfree.net/wcfd/"
+    weight = 3
+    parent = "aboutmenu"
 
 # Top bar social links menu
 
@@ -65,7 +113,7 @@ paginate = 10
     weight = 1
     name = "GitHub"
     url = "https://github.com/devcows/hugo-universal-theme"
-    pre = "<i class='fa fa-2x fa-github'></i>"
+    pre = "class='fa fa-2x fa-github' target='_blank'"
 
 [[menu.topbar]]
     weight = 2
@@ -111,22 +159,26 @@ paginate = 10
     # - you're done. Happy mailing!
     #
     # Enable the contact form by entering your Formspree.io email
-    # email = "your@email.com"
+    email = "your@email.com"
 
-    about_us = "<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>"
-    copyright = "Copyright (c) 2018, Shift2Bikes; all rights reserved."
+    about_us = "<p></p>"
+    copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"
 
     # Format dates with Go's time formatting
     date_format = "January 2, 2006"
 
 #    logo = "images/shiftlogo.jpg"
-    address = """<p><strong>Universal Ltd.</strong>
-        <br>13/25 New Avenue
-        <br>Newtown upon River
-        <br>45Y 73J
-        <br>England
+    address = """<p>Donations can be made
+        <br>by mailing a check addressed to:
         <br>
-        <strong>Great Britain</strong>
+        <br>Shift c/o Umbrella
+        <br>820 SW 2nd Ave. Ste. 200
+        <br>Portland, OR 97204
+        <br>
+        <br>or via PayPal:
+        <br>
+        <strong></strong>
+        <a href="https://www.paypal.com/donate/?token=fu6x1CRnviEZauVBw53tw8qtQZKBswVUBy64CN0pqf3ikDg3t6Lq6-b2_BAwRkfrLev8kG&country.x=US&locale.x=US"><input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></a>
       </p>
       """
     latitude = "-12.043333"
@@ -138,11 +190,7 @@ paginate = 10
 # Enable or disable top bar with social icons
 [params.topbar]
     enable = true
-    text = """<p class="hidden-sm hidden-xs">Contact us on +420 777 555 333 or hello@universal.com.</p>
-      <p class="hidden-md hidden-lg"><a href="#" data-animate-hover="pulse"><i class="fa fa-phone"></i></a>
-      <a href="#" data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
-      </p>
-      """
+    text = ""
 
 # Enable and disable widgets for the right sidebar
 [params.widgets]

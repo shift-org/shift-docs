@@ -1,0 +1,140 @@
+<form action="/contacts/index.php" method="post" onsubmit="computeCheckSum()">
+
+  <!-- SpamBot killers ------------->
+  <input type="hidden" name="BotKill" maxlength="50" value="">
+  <input type="hidden" name="CheckSum" value="">
+  <!------------------------------------------------------------------------------------------------------->
+
+  <table><tbody><tr><td>
+
+    <table border="0" width="350px" cellspacing="0" cellpadding="0">
+      <tbody><tr><td width="175"><font style="font-size:72pt;">&nbsp;</font></td>
+        <td style="background-color:transparent; padding: 12px 16px 12px 16px; border: 6px double #c60; border-radius:25px;">
+
+          <table style="background-color:transparent;" border="0">
+            <tbody><tr>
+              <td valign="top" colspan="2">
+                <font style="font-size:18pt;">Who to contact?</font>
+                <font style="font-size:14pt;"> &nbsp; (select one)</font>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" width="225px" nowrap="">
+                <font style="font-size:14pt;">
+                  <input type="radio" name="eContact1" value="Info"> Information<br>
+                  <input type="radio" name="eContact1" value="BikeFun"> Bicycle Fun Relations<br>
+                  <input type="radio" name="eContact1" value="CalCrew"> Calendar Crew<br>
+                  <input type="radio" name="eContact1" value="BikeBull"> Bike Bulletin<br>
+                  <input type="radio" name="eContact1" value="MoveXbike"> Move by Bike<br>
+                  <input type="radio" name="eContact1" value="VolunCoord"> Volunteer Coordinator<br>
+                  <br>
+                </font>
+              </td>
+              <td valign="top" width="225px" nowrap="">
+                <font style="font-size:14pt;">
+                  <input type="radio" name="eContact1" value="BonB"> Breakfast on the Bridges<br>
+                  <input type="radio" name="eContact1" value="Safety"> Bike Safety<br>
+                  <input type="radio" name="eContact1" value="MediaRep"> Media Representative<br>
+                  <input type="radio" name="eContact1" value="Finance"> Accounting<br>
+                  <input type="radio" name="eContact1" value="WebTeam"> weBshift website<br>
+                  <input type="radio" name="eContact1" value="Umbrella"> Liaison to Umbrella
+                  <br>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" height="28" colspan="2"><input type="text" name="ContactName" size="45" maxlength="50" value="Your name here"></td>
+            </tr>
+            <tr>
+              <td valign="top" height="28" colspan="2"><input type="text" name="EmailContact" size="45" maxlength="80" value="YourEmail@Here"></td>
+            </tr>
+            <tr>
+              <td valign="top" colspan="2">
+                <font style="font-size:10pt;">
+                  <input type="radio" name="EmailPost" value="No" checked=""> Shift may post my <i>email address</i> for bike fun only, specifically to the calendar.<br>
+                  <input type="radio" name="EmailPost" value="Yes" checked=""> Do not post nor print my <i>email address</i>. Shift may use it to contact me.<br>
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td valign="top" height="28" colspan="2"><input type="text" name="Subject" size="45" maxlength="80" value="A subject title"></td>
+            </tr>
+            <tr>
+              <td valign="top" colspan="2"><textarea cols="55" rows="14" name="Message">A typed message from you</textarea><font style="font-size:6pt;"><br><br></font></td>
+            </tr>
+            <tr>
+              <td valign="top"><input type="submit" name="submit" value="      Send      "></td>
+              <td valign="top" class="helptext">By clicking "Send," the information supplied will be entrusted to no other purpose than to promote bike fun.<br><br></td>
+            </tr>
+            </tbody></table><!------------------------------------------------------------------------------------------------------->
+
+        </td></tr>
+      </tbody></table>
+
+
+
+
+  </td><td>
+
+
+    <table width="800px" cellpadding="0" cellspacing="0" border="0">
+      <tbody><tr>
+        <td width="15px" valign="top"><font style="font-size:12pt;">&nbsp;</font></td>
+        <td width="606px" valign="top"><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">
+
+          <table background="../images/contact-bkdrop.jpg" width="600" height="480" cellpadding="0" cellspacing="0" border="0">
+            <tbody><tr>
+              <td width="36" valign="top"><font style="font-size:12pt;">&nbsp;</font></td>
+              <td width="524" valign="top">
+                <font size="-1" style="font-size:1px;"><br></font>
+                <font size="+1" style="font-size:11pt;">
+                  <br><br>
+                  <b>Donations</b> to SHIFT can be made<br>
+                  by mailing a check Addressed to<br>
+                  Shift c/o Umbrella<br>
+                  820 SW 2nd Ave. Ste. 200<br>
+                  Portland, OR 97204<br>
+                  or via PayPal:
+                  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="BNL2NY7U8GH3Q">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                  </form>
+
+                  <br><br>
+
+                </font></td>
+              <td width="40" valign="top"><font style="font-size:12pt;">&nbsp;</font></td>
+            </tr></tbody></table>
+
+        </font></td>
+      </tr></tbody></table>
+
+  </td></tr></tbody></table>
+
+  <font style="font-size:12pt;"><br><br></font>
+
+
+
+
+
+  <!-- footer include -->
+  <div id="stb_footer">
+    <div id="barB">
+      <nobr>
+        Shift © 2002-2020. &nbsp; &nbsp; Our Sponsors: &nbsp;
+        <a href="http://umbrellapdx.org/"><img src="http://www.shift2bikes.org/includes/Umbrella80x15.jpg" width="80" height="15" border="0"></a>&nbsp; &nbsp; &nbsp;<a href="http://www.canvasdreams.com/sustainability/"><img src="http://www.shift2bikes.org/includes/canvasdreams-80x15.gif" width="80" height="15" border="0"></a>&nbsp; &nbsp; &nbsp;<a href="http://www.shift2bikes.org/contacts/"><img src="http://www.shift2bikes.org/includes/YOUsponsor.jpg" width="80" height="15" border="0"></a>
+      </nobr>
+    </div>
+    <font style="font-size:4pt;"><br></font>
+    <div id="bottomnav">
+      <div class="bottomnav-block"><h4><a href="http://www.shift2bikes.org">shifttobikes.org</a></h4><ul><li><a href="http://www.shift2bikes.org/whoWeAre.php">Who We Are</a></li><li><a href="http://www.shift2bikes.org/contacts/">Contact</a></li><li><a href="http://www.worldcarfree.net/wcfd/">Member of World<br>Carfree Network</a></li></ul></div>
+      <div class="bottomnav-block" style="width: 200px;"><h4>Feature Events</h4><ul><li><a href="http://shift2bikes.org/allbike.php#BonB">BreakfastontheBridges</a></li><li><a href="http://shift2bikes.org/pedalpalooza/">PedalPalooza</a></li><li><a href="http://www.pdxwnbr.org/">World Naked Bike Ride</a></li><li><a href="http://shift2bikes.org/allbike.php#Move_X_Bike">Move by Bike</a></li><li><a href="http://shift2bikes.org/mcbf/">MCBF</a></li><li><a href="http://www.yeabikes.net/midnight/">Midnight Mystery Ride</a></li><li><a href="http://redbatpress.com/bunnyonabikeride.htm">Bunny on a Bike</a></li><li><a href="http://www.shift2bikes.org/GetLit.php">Get Lit</a></li></ul></div>
+      <div class="bottomnav-block"><h4>Community</h4><ul><li><a href="http://www.shift2bikes.org/getInvolved.php">Get Involved</a></li><li><a href="http://lists.riseup.net/www/info/shift">RiseUp</a></li><li><a href="http://lists.riseup.net/www/info/bonb">BreakfastontheBridges</a></li><li><a href="http://www.shift2bikes.org/cal/">Calendar</a></li></ul></div>
+      <div class="bottomnav-block"><h4>Tips</h4><ul><li><a href="http://www.shift2bikes.org/safety/">Safety</a></li><li><a href="http://www.shift2bikes.org/rideorgtips.php">Ride Leading</a></li></ul></div>
+      <div class="bottomnav-block"><h4>Shift-Biz</h4><ul><li><a href="http://shift2bikes.org/allbike.php#Documents">Meeting Notes</a></li></ul></div>
+      <div class="bottomnav-block"><h4>Shift-Shop</h4><ul><li><a href="http://shift2bikes.org/allbike.php#Rack_Rental">Bike Rack Rental</a></li><li><a href="http://shift2bikes.org/allbike.php#Body_Wear">Body Wear</a></li><li><a href="http://shift2bikes.org/allbike.php#Stickers">Stickers</a></li><li><a href="http://shift2bikes.org/posters/index.shtml">Poster Gallery</a></li></ul></div>
+    </div><!-- END bottom nav -->
+  </div><!-- stb_footer -->
+</form>

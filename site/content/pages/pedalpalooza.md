@@ -1,11 +1,15 @@
 ---
 title: Pedalpalooza
 date: 2017-11-13T01:15:16.319Z
-weight: '2'
+weight: 1
+
+menu:
+    main:
+        parent: featuredevents
 ---
 Pedalpalooza is an annual festival in Metro Portland, Oregon.  During the festival, there are hundreds of volunteer-organized free events open to the general public.  Each year there are well over 10,000 participants in these events, which are almost entirely on bikes and free.  There are some annual flagship rides which usually have over 1000 riders, and many first-time ever rides - some of which will have only 1 or 2 riders.  They're all fun!
 
-[**Pedalpalooza 2018 starts on the first of June and ends on the 30th - a full month of bike fun!**](http://shift2bikes.org/pedalpalooza)
+**Pedalpalooza 2018 starts on the first of June and ends on the 30th - a full month of bike fun!**
 
 ## History
 
