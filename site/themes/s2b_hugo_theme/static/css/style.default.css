@@ -2540,6 +2540,14 @@ fieldset[disabled] .btn-template-primary.active {
   padding-left: 0;
   list-style: none;
 }
+
+#footer-ul li{
+  padding-left: 10px;
+  padding-right:10px;
+  text-transform: uppercase;
+  display: inline;
+
+}
 #footer ul a {
   color: #999999;
 }
