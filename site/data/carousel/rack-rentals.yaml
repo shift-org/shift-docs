@@ -1,4 +1,4 @@
-weight: 4
-title: "Need bike racks?"
-description: "<p>Shift can rent you some!</p><p>Check out the Shift Shop section for more information</p>"
-image: "images/carousel/bikeracks.jpg"
+#weight: 4
+#title: "Need bike racks?"
+#description: "<p>Shift can rent you some!</p>< a href="/content/pages/bike-racks.md">Check out the Shift Shop section for more information</a></p>"
+#image: "images/carousel/bikeracks.jpg"
