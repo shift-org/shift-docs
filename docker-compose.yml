@@ -67,11 +67,11 @@ services:
     command: "npm run build"
   
   hugo:
-    image: jojomi/hugo:0.36
+    image: jojomi/hugo:0.37
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/
-    command: "hugo"
+    command: "hugo -v"
   
   php:
     restart: never
