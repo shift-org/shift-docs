@@ -32,10 +32,10 @@ Noting just some of the known organizers who put their energies and talents into
 * **Recruitment**:  Lillian Karabaic
 * **Volunteer Coordinator**:  Steph Routh, VJ Beauchamp
 * **Events/Mayhem**:  Benjamin Doyle, Halley Weaver
-* **Music**:  Timo Forsberg, Brian Smith
+* **Music**:  Timo Forsberg, Brian Sysfail
 * **Beer**:  Scott Nowicki
 * **Food**:  John Dovydenas
 * **Vendors/Clubhouses/Booths**:  Teague Douglas
-* **Organizers**:  Kiran Limaye, Carl Larson, Ashley Thirtyseven, Brian Smith
+* **Organizers**:  Kiran Limaye, Carl Larson, Ashley Thirtyseven, Brian Sysfail
 * **Boosters**:  Meghan Sinnott
 * **Item Storage**:  Brian Scrivner, Ken Southerland 
