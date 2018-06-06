@@ -14,7 +14,7 @@ The Multnomah County Bike Fair aka "Bike Fair" has taken place almost annually s
 
 It's a family friendly bikey event open to the public, usually featuring events (slow races, bike jousting), entertainment (live music, competitions), and sometimes vendors and beer.  It's open to all, and is usually family friendly.
 
-Wanna help make this event awesome again?  2018 participants sought - email [One Hwang](mailto:ohwang00@gmail.com ) or [Sysfail](mailto:sysfail.dobc@gmail.com).  The main stage is all about participation, competition, and antics. Show off your bike dance troupe or run a competition. Tell us your dreams!
+Wanna help make this event awesome again?  2018 participants sought - email [Brian Sysfail](mailto:sysfail.dobc@gmail.com).  The main stage is all about participation, competition, and antics. Show off your bike dance troupe or run a competition. Tell us your dreams!
 
 ## Images from the past
 
