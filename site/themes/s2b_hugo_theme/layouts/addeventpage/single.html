@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="/css/main_fun_legacy.css">
 
   <body>
-    <!-- calpage/single.html -->
+    <!-- addeventpage/single.html -->
 
     <div id="all">
 
@@ -19,11 +19,6 @@
         {{ partial "breadcrumbs.html" . }}
 
         <div id="content">
-            {{ if isset .Params "id" }}
-
-              {{ partial .Params.id . }}
-
-            {{ else }}
 
             <div class="container">
 
@@ -38,12 +33,10 @@
                     </div>
 
                 </div>
-                <!-- /.row -->
-
+              
             </div>
             <!-- /.container -->
 
-            {{ end }}
         </div>
         <!-- /#content -->
 
@@ -53,7 +46,8 @@
     <!-- /#all -->
 
     {{ partial "scripts.html" . }}
-    {{ partial "scripts_calendarlist.html" . }}
+    {{ partial "scripts_addevent.html" . }}
+
 
   </body>
 </html>

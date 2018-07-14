@@ -3,7 +3,7 @@
 <script type="text/javascript">
   //Delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
-  window.fun_events_url = '/fun/events.php?';
+  window.fun_events_url = '{{ .Site.BaseURL }}fun/events.php?';
 </script>
 <script src="{{ .Site.BaseURL }}fun/js/formdata.js"></script>
 <script src="{{ .Site.BaseURL }}fun/js/mailcheck.min.js"></script>

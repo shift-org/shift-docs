@@ -4,7 +4,7 @@ $(document).ready( function() {
     var curPage = null;
 
     function getEventHTML(options, callback) {
-        var url = 'events.php?';
+        var url = window.fun_events_url; //'events.php?';
         if ('id' in options) {
             url += 'id=' + options['id'];
         }
