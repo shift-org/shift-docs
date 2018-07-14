@@ -8,13 +8,10 @@ include(getcwd() . '/../app/init.php');
 
 function build_json_response() {
     if (!isset($_POST['json'])) {
-        return array(
-            'error' => array(
-                'message' => 'No JSON found'
-            )
-        );
+        $data = json_decode(file_get_contents('php://input'), true);
+    } else {
+        $data = json_decode($_POST['json'], true);
     }
-    $data = json_decode($_POST['json'], true);
     if (!$data) {
         return array(
             'error' => array(

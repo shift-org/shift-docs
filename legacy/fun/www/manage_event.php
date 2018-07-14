@@ -22,29 +22,13 @@
 
 include(getcwd() . '/../app/init.php');
 
-function build_json_response() {
-    if (!isset($_POST['json'])) {
-        return array(
-            'error' => array(
-                'message' => "No JSON found"
-            )
-        );
-    }
-    $data = json_decode($_POST['json'], true);
-    if (!$data) {
-        return array(
-            'error' => array(
-                'message' => "JSON could not be decoded"
-            )
-        );
-    }
-
+function validate_json_request($data) {
     $_POST = $data; // fValidation inspects $_POST for field data
     $validator = new fValidation();
 
     $validator->addRequiredFields('title', 'details', 'venue', 'address', 'organizer', 'email', 'read_comic');
     // required only from March to June, during Pedalpalooza
-    $validator->addRequiredFields('tinytitle', 'printdescr');    
+    $validator->addRequiredFields('tinytitle', 'printdescr');
     $validator->addEmailFields('email');
     $validator->addRegexReplacement('#^(.*?): (.*)$#', '\2 for <span class="field-name">\1</span>');
     // If id is specified require secret
@@ -54,59 +38,10 @@ function build_json_response() {
         array('secret')
     );
 
-    $messages = $validator->validate(TRUE, TRUE);
-    if (!$data['read_comic']) {
-        $messages['read_comic'] = 'You must have read the Ride Leading Comic';
-    }
-    if ($messages) {
-        return array(
-            'error' => array(
-                'message' => 'There were errors in your fields',
-                'fields' => $messages
-            )
-        );
-    }
+    return $validator->validate(TRUE, TRUE);
+}
 
-    $inputDateStrings = get($data['dates'], array());
-    $validDates = array();
-    $invalidDates = array();
-    foreach ($inputDateStrings as $dateString) {
-        $date =  DateTime::createFromFormat('Y-m-d', $dateString);
-        if ($date) {
-            $validDates []= $date;
-        }
-        else {
-            $invalidDates []= $dateString;
-        }
-    }
-
-    if ($invalidDates) {
-        $messages['dates'] = "Invalid dates: " . implode(', ', $invalidDates);
-    }
-
-    if (count($validDates) === 1) {
-        $data['datestype'] = 'O';
-        $data['datestring'] = date_format($validDates[0], 'l, F j');
-    } else {
-        // not dealing with 'consecutive'
-        $data['datestype'] = 'S';
-        $data['datestring'] = 'Scattered days';
-    }
-
-    // Converts data to an event, loading the existing one if id is included in data
-    $event = Event::fromArray($data);
-
-    // Else
-    if ($event->exists() && !$event->secretValid($data['secret'])) {
-        return array(
-            'error' => array(
-                'message' => 'Invalid secret, use link from email'
-            )
-        );
-    }
-
-    $messages = $event->validate($return_messages=TRUE, $remove_column_names=TRUE);
-
+function upload_attached_file($event, $messages) {
     if (isset($_FILES['file'])) {
         $uploader = new fUpload();
         $uploader->setMIMETypes(
@@ -122,35 +57,172 @@ function build_json_response() {
         $uploader->setOptional();
         $file_message = $uploader->validate('file', TRUE);
         if ($file_message != null) {
-            $messages['file'] = $file_message;
+            $messages = array('file' => $file_message);
         }
         global $IMAGEDIR;
         $file = $uploader->move($IMAGEDIR, 'file');
         $event->setImage($file->getName());
     }
+    return $messages;
+}
+
+function field_error($messages) {
+    return array(
+        'error' => array(
+            'message' => 'There were errors in your fields',
+            'fields' => $messages
+        )
+    );
+}
+
+function text_error($message) {
+    return array(
+        'error' => array(
+            'message' => $message
+        )
+    );
+}
+
+function validate_date_statuses($data, $messages) {
+    $validDateStatuses = array();
+    $invalidDateStrings = array();
+
+    $inputDateStatuses = get($data['datestatuses'], array());
+    foreach ($inputDateStatuses as $dateStatus) {
+        $dateString = $dateStatus['date'];
+        $date =  DateTime::createFromFormat('Y-m-d', $dateString);
+        if ($date) {
+            $dateStatus['date'] = $date;
+            $validDateStatuses[] = $dateStatus;
+        } else {
+            $invalidDateStrings []= $dateString;
+        }
+    }
+
+    if ($invalidDateStrings) {
+        $messages['dates'] = "Invalid dates: " . implode(', ', $invalidDateStrings);
+    }
+
+    $validatedDateStatuses = array(
+        'validDateStatuses' => $validDateStatuses,
+        'messages' => $messages
+    );
+
+    return $validatedDateStatuses;
+}
+
+function get_dates_type($validDateStatuses) {
+    if (count($validDateStatuses) === 1) {
+        return 'O';
+    } else {
+        // not dealing with 'consecutive'
+        return 'S';
+    }
+}
+
+function get_date_string($validDateStatuses) {
+    if (count($validDateStatuses) === 1) {
+        return date_format(end($validDateStatuses)['date'], 'l, F j');
+    } else {
+        // not dealing with 'consecutive'
+        return 'Scattered days';
+    }
+}
+
+function get_new_date_statuses($dateStatuses) {
+    $newDateStatuses = array();
+
+    foreach ($dateStatuses as $dateStatus) {
+        if (empty($dateStatus['id'])) {
+            $newDateStatuses []= $dateStatus;
+        }
+    }
+
+    return $newDateStatuses;
+}
+
+function get_existing_date_statuses($dateStatuses) {
+    $existingDateStatuses = array();
+
+    foreach ($dateStatuses as $dateStatus) {
+        if (!empty($dateStatus['id'])) {
+            $existingDateStatuses[$dateStatus['id']] = $dateStatus;
+        }
+    }
+
+    return $existingDateStatuses;
+}
+
+function create_new_event_times($event, $newDateStatuses){
+    foreach ($newDateStatuses as $dateStatus) {
+        $event->addEventTime($dateStatus);
+    }
+}
+
+function update_existing_event_times($event, $existingDateStatuses) {
+    $event->updateExistingEventTimes($existingDateStatuses);
+}
+
+function build_json_response() {
+    if (!isset($_POST['json'])) {
+        $data = json_decode(file_get_contents('php://input'), true);
+    } else {
+        $data = json_decode($_POST['json'], true);
+    }
+
+    if (!$data) {
+        return text_error("JSON could not be decoded");
+    }
+
+    $messages = validate_json_request($data);
+
+    if (!$data['read_comic']) {
+        $messages['read_comic'] = "You must have read the Ride Leading Comic";
+    }
 
     if ($messages) {
-        return array(
-            'error' => array(
-                'message' => 'There were errors in your fields',
-                'fields' => $messages
-            )
-        );
+        return field_error($messages);
+    }
+
+    // Converts data to an event, loading the existing one if id is included in data
+    $event = Event::fromArray($data);
+
+    // Else
+    if ($event->exists() && !$event->secretValid($data['secret'])) {
+        return text_error("Invalid secret, use link from email");
+    }
+
+    $messages = $event->validate($return_messages=TRUE, $remove_column_names=TRUE);
+    $messages = upload_attached_file($event, $messages);
+
+    $validatedDateStatuses = validate_date_statuses($data, $messages);
+    $validDateStatuses = $validatedDateStatuses['validDateStatuses'];
+    $messages = $validatedDateStatuses['messages'];
+
+    $data['datestype'] = get_dates_type($validDateStatuses);
+    $data['datestring'] = get_date_string($validDateStatuses);
+
+    $newDateStatuses = get_new_date_statuses($validDateStatuses);
+    $existingDateStatuses = get_existing_date_statuses($validDateStatuses);
+
+    if ($messages) {
+        return field_error($messages);
     }
 
     // if needs secret generate and email
     if (!$event->exists()) {
         $includeSecret = true;
-    }
-    else {
+    } else {
         $includeSecret = false;
     }
 
     // If there are validation errors this starts spewing html, so we validate before
     $event->store();
 
-    // Create/delete EventTimes to match the list of dates included
-    EventTime::matchEventTimesToDates($event, $validDates);
+    // The following operations must occur in the order: UPDATE -> CREATE NEW
+    // Otherwise the update function will delete the newly created EventTimes
+    update_existing_event_times($event, $existingDateStatuses);
+    create_new_event_times($event, $newDateStatuses);
 
     // Returns the created object
     $details = $event->toDetailArray(true);

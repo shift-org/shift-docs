@@ -13,7 +13,7 @@
                 populateEditForm( data, callback );
             });
         } else {
-            populateEditForm({ dates: [] }, callback);
+            populateEditForm({ datestatuses: [] }, callback);
         }
     };
 
@@ -96,14 +96,14 @@
         rendered = Mustache.render(template, shiftEvent);
         callback(rendered);
 
-        $('#date-select').setupDatePicker(shiftEvent['dates'] || []);
+        $('#date-select').setupDatePicker(shiftEvent['datestatuses'] || []);
 
         $('#edit-header').affix({
             offset: {
                 top: 100
             }
         });
-        if (shiftEvent.dates.length === 0) {
+        if (shiftEvent['datestatuses'].length === 0) {
             $('#save-button').prop('disabled', true);
             $('#preview-button').prop('disabled', true);
         }
@@ -207,8 +207,8 @@
             preview: true,
             expanded: true
         };
-        $.each(previewEvent.dates, function(index, value) {
-            var date = $form.formatDate(value);
+        $.each(previewEvent.datestatuses, function(index, value) {
+            var date = $form.formatDate(value['date']);
             mustacheData.dates.push({ date: date, events: [previewEvent] });
         });
         $('#preview-button').hide();
@@ -223,12 +223,12 @@
         $('form').serializeArray().map(function (x) {
             harvestedEvent[x.name] = x.value;
         });
-        harvestedEvent['dates'] = $('#date-picker').dateList();
+        harvestedEvent['datestatuses'] = $('#date-picker').dateStatusesList();
         return harvestedEvent;
     }
 
     // Set up email error detection and correction
-    $('#email').on( 'blur', function () {
+    $( document ).on( 'blur', '#email', function () {
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
                 var template = $( '#email-suggestion-template' ).html(),
@@ -245,13 +245,13 @@
         } );
     } );
 
-    $('#email-suggestion .correction').on( 'click', function () {
+    $( document ).on( 'click', '#email-suggestion .correction', function () {
         $( '#email' ).val( $( this ).text() );
         $( '#email-suggestion' )
             .hide();
     } );
 
-    $('#email-suggestion .glyphicon-remove').on( 'click', function () {
+    $( document ).on( 'click', '#email-suggestion .glyphicon-remove', function () {
         $( '#email-suggestion' )
             .hide();
         // They clicked the X button, turn mailcheck off

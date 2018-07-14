@@ -37,7 +37,10 @@ class Event extends fActiveRecord {
             'datestype' => $this->getDatestype(),
             'area' => $this->getArea(),
             'featured' => $this->getHighlight() != 0,
-            //'printcontact' => $this->getPrintcontact()
+            'printemail' => $this->getPrintemail() != 0,
+            'printphone' => $this->getPrintphone() != 0,
+            'printweburl' => $this->getPrintweburl() != 0,
+            'printcontact' => $this->getPrintcontact() != 0,
         );
 
         $details['email']   = $this->getHideemail() == 0   || $include_hidden ? $this->getEmail() : null;
@@ -88,9 +91,28 @@ class Event extends fActiveRecord {
         $event->setDates(get($input['datestring'], '')); // string field 'dates' needed for legacy admin calendar
         $event->setDatestype(get($input['datestype'], 'O'));
         $event->setArea(get($input['area'], 'P')); // default to 'P'ortland
-        //$event->setPrintcontact(get($input['printcontact'], ''));
+        $event->setPrintemail(get($input['printemail'], 0));
+        $event->setPrintphone(get($input['printphone'], 0));
+        $event->setPrintweburl(get($input['printweburl'], 0));
+        $event->setPrintcontact(get($input['printcontact'], 0));
         // Length
         return $event;
+    }
+
+    public function updateExistingEventTimes($dateStatuses) {
+        foreach ($this->buildEventTimes('id') as $eventTime) {
+            // For all existing EventTimes in the db
+            // Delete or update
+            $eventTime->matchToDateStatus($dateStatuses);
+        }
+
+        // Flourish is suck. I can't figure out the "right" way to do one-to-many cause docs are crap
+        // This clears a cache that causes subsequent operations (buildEventTimes) to return stale data
+        $this->related_records = array();
+    }
+
+    public function addEventTime($dateStatus) {
+        EventTime::createNewEventTime($this->getId(), $dateStatus);
     }
 
     private function getDates() {
@@ -102,11 +124,20 @@ class Event extends fActiveRecord {
         return $eventDates;
     }
 
+    private function getEventDateStatuses() {
+        $eventTimes = $this->buildEventTimes('id');
+        $eventDateStatuses = array();
+        foreach ($eventTimes as $eventTime) {
+            $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+        }
+        return $eventDateStatuses;
+    }
+
     public function toDetailArray($include_hidden=false) {
         // first get the data into an array
         $detailArray = $this->toArray($include_hidden);
         // add all times that exist, maybe none.
-        $detailArray["dates"] = $this->getDates(); // Return the actual dates, not the hacky string
+        $detailArray["datestatuses"] = $this->getEventDateStatuses();
         // return potentially augmented array
         return $detailArray;
     }

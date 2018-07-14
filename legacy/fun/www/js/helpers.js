@@ -21,6 +21,19 @@
             encodeURIComponent(address);
     };
 
+    $.fn.getWebLink = function(url) {
+        if (!url) {
+            return;
+        }
+        // if url doesn't start with http/s, prepend http
+        if (url.split('http://').length == 1 && url.split('https://').length == 1) {
+            return 'http://' + url;
+        } else {
+        // if it already starts with http/s, return it as-is
+            return url;
+        }
+    };
+
     $.fn.formatDate = function(dateString, abbreviated) {
         var parts = dateString.split('-'),
             date = new Date(parts[0], parseInt(parts[1]) - 1, parts[2]);

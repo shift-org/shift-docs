@@ -64,7 +64,8 @@ nav.navbar {
     text-shadow: none;
 }
 
-main a, button {
+main a,
+button {
     color: #0066BB;
 }
 
@@ -126,7 +127,8 @@ svg.icon {
     margin: 5px 10px 10px 5px;
 }
 
-.plain {
+.plain,
+.archive {
     margin: 5px 10px 10px 5px;
     clear: both;
 }
@@ -150,6 +152,39 @@ h1 {
     font-weight: bold;
     font-size: 1em;
     line-height: 1.5em;
+}
+
+.archive .byline {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #663300;
+}
+
+.archive dfn {
+    font-style: normal;
+    font-weight: bold;
+}
+
+.archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.archive-list li {
+    display: flex;
+    align-items: flex-start;
+}
+
+.archive-list .year,
+.archive-list .description {
+    padding: 0.5em;
+}
+
+.archive-list .year {
+    color: #630;
+    background: #f90;
 }
 
 .events-list {
@@ -211,6 +246,13 @@ h1 {
     border-radius: 2px;
     padding: 2px 4px;
     overflow-wrap: break-word;
+    width: 100%;
+    margin-bottom: 4px;
+    text-align: center;
+}
+
+.status-selector {
+    float: right;
 }
 
 .col-xs-2 {
@@ -221,7 +263,8 @@ h1 {
     width: 80%;
 }
 
-.col-xs-2, .col-xs-10 {
+.col-xs-2,
+.col-xs-10 {
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -276,6 +319,10 @@ h3 {
 .event-details {
     color: rgb(64, 64, 64);
     overflow-wrap: break-word;
+}
+
+.event-details .description {
+    white-space: pre-wrap;
 }
 
 .btn{
@@ -374,6 +421,25 @@ form#event-entry .date-select-container-style {
     float: right;
     clear: right;
 }
+#date-selected-container {
+    padding: 0 4px;
+    font-weight: bold;
+}
+#date-selected {
+    list-style-type: none;
+    padding: 0;
+    font-weight: normal;
+}
+#date-selected li {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+#date-selected input.newsflash::placeholder {
+  color: #707070;
+  font-style: italic;
+}
+
 button.jump-to-date {
     float: right;
     border: none;
@@ -385,6 +451,28 @@ button.jump-to-date .icon.expand {
 }
 button.jump-to-date[aria-expanded="true"] .icon.expand {
     transform: rotate(180deg); /* arrow pointing up */
+}
+#date-select-container-pedalpalooza {
+    border-collapse: separate !important;
+}
+
+#date-select-container-pedalpalooza .calendar-day.featured {
+    background-color: #FCFAF2;
+    border: 3px solid #FFDD66;
+    font-weight: bold;
+    color: #630;
+    position: relative;
+}
+#date-select-container-pedalpalooza .legend {
+    text-align: center;
+    margin: 0.75em;
+}
+#date-select-container-pedalpalooza .legend .example {
+    background-color: #FCFAF2;
+    border: 3px solid #FFDD66;
+    color: #630;
+    font-weight: bold;
+    padding: 0.5em;
 }
 
 #date-select {
@@ -415,7 +503,7 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 .calendar-day {
     border-top: 1px solid gray;
     padding: 3px;
-    color: gray;
+    color: #404040;
     line-height: 1.5em;
     text-align: center;
 }
@@ -426,34 +514,40 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 }
 
 .calendar-day.today {
-    background-color: green;
+    background-color: lightgreen;
 }
 
 .calendar-day.selected {
-    background-color: red;
+    background-color: lightpink;
 }
 
 .calendar-month-title {
     position: relative;
     width: 30px;
-    color: #fff;
-    background-color: #f90;
+    color: #630;
+    background-color: #fd6;
     font-weight: bold;
 }
 
-.color-jan, .color-mar, .color-may, .color-jul, .color-sep, .color-nov {
-    background-color: #fc6;
+.color-jan, .color-mar,
+.color-may, .color-jul,
+.color-sep, .color-nov {
+    background-color: #ffffff;
 }
-.color-jan-odd, .color-mar-odd, .color-may-odd,
-.color-jul-odd, .color-sep-odd, .color-nov-odd {
-    background-color: #fd6;
+.color-jan-odd, .color-mar-odd,
+.color-may-odd, .color-jul-odd,
+.color-sep-odd, .color-nov-odd {
+    background-color: #f2f2f2;
 }
-.color-feb, .color-apr, .color-jun, .color-aug, .color-oct, .color-dec {
-    background-color: #fd6;
+.color-feb, .color-apr,
+.color-jun, .color-aug,
+.color-oct, .color-dec {
+    background-color: #ffffff;
 }
-.color-feb-odd, .color-apr-odd, .color-jun-odd,
-.color-aug-odd, .color-oct-odd, .color-dec-odd {
-    background-color: #fe9;
+.color-feb-odd, .color-apr-odd,
+.color-jun-odd, .color-aug-odd,
+.color-oct-odd, .color-dec-odd {
+    background-color: #f2f2f2;
 }
 
 .calendar-month-title span {
@@ -472,7 +566,7 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
     font-size: 0.9em;
     text-align: center;
     table-layout: fixed;
-    color: gray;
+    color: #404040;
 }
 #preview-edit-button {
     display: none;
@@ -530,6 +624,12 @@ button.more-events {
 
 .panel h2 {
     font-size: 1.25em;
+}
+
+#event-entry fieldset legend {
+    font-size: 1em;
+    margin-bottom: 0;
+    border-bottom: none;
 }
 
 .input-help {

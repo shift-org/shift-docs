@@ -21,27 +21,32 @@
     var cellClases = ["color-jan", "color-feb", "color-mar", "color-apr", "color-may", "color-jun",
         "color-jul", "color-aug", "color-sep", "color-oct", "color-nov", "color-dec"];
 
-    // dateList returns the currently selected list of (normalized) dates for consumption by manage_event.php
-    $.fn.dateList = function() {
-        var dates = [];
-        for (var key in dateMap) {
-            if (dateMap.hasOwnProperty(key) && dateMap[key]) {
-                dates.push(key);
-            }
-        }
-        dates.sort($('#date-select').compareDates);
-        return dates;
+    $.fn.dateStatusesList = function() {
+        var selectedDates = $("#date-selected li").toArray();
+        var dateStatuses = selectedDates.map( function(date) {
+          var datestatus = {};
+          datestatus['id'] = date.getAttribute('data-id');
+          datestatus['date'] = date.querySelector('span').innerHTML;
+          datestatus['status'] = date.querySelector('select').value;
+          datestatus['newsflash'] = date.querySelector('.newsflash').value;
+          return datestatus;
+        });
+        return dateStatuses;
     };
 
+
     // setupDatePicker sets up the global variables and populates the date picker element
-    $.fn.setupDatePicker = function(dates) {
+    $.fn.setupDatePicker = function(dateStatuses) {
         // Fill in global variables
         // Set up dateMap
         dateMap = {};
-        for (var i=0; i<dates.length; i++) {
-            dateMap[normalizeDate(dates[i])] = true;
+        dateStatuses.forEach(function(dateStatus) {
+            dateMap[normalizeDate(dateStatus['date'])] = {
+                selected: true,
+                dateStatus: dateStatus
+            }
             selectedCount++;
-        }
+        });
 
         // Scrolling container for the table
         $dateSelect = $('#date-select');
@@ -69,23 +74,46 @@
         $datePicker.click(function(ev) {
             var e = ev.target;
             if (e.hasAttribute('data-date')) {
-                var $e = $(e),
-                    date = $e.attr('data-date');
+                var $e = $(e);
+                var date = $e.attr('data-date');
 
-                dateMap[date] = !dateMap[date];
-                if (dateMap[date]) {
+                if (date in dateMap) {
+                    dateMap[date]['selected'] = !dateMap[date]['selected'];
+                    if (dateMap[date]['selected']) {
+                        selectedCount++;
+                        dateStatuses.push(dateMap[date]['dateStatus']);
+                        $('#save-button').prop('disabled', false);
+                        $('#preview-button').prop('disabled', false);
+                    } else {
+                        selectedCount--;
+                        var match = dateStatuses.findIndex(function(deselectedDate) {
+                            return deselectedDate['date'] == date;
+                        });
+                        dateStatuses.splice(match, 1);
+                        if ( selectedCount === 0 ) {
+                            $('#save-button').prop('disabled', true);
+                            $('#preview-button').prop('disabled', true);
+                        }
+                    }
+                } else {
+                    var newDateStatus = {
+                        id: null,
+                        date: date,
+                        status: 'A',
+                        newsflash: null
+                    };
+                    dateStatuses.push(newDateStatus);
+                    dateMap[date] = {
+                        selected: true,
+                        dateStatus: newDateStatus
+                    };
                     selectedCount++;
                     $('#save-button').prop('disabled', false);
                     $('#preview-button').prop('disabled', false);
-                } else {
-                    selectedCount--;
-                    if ( selectedCount === 0 ) {
-                        $('#save-button').prop('disabled', true);
-                        $('#preview-button').prop('disabled', true);
-                    }
                 }
-                $e.toggleClass('selected', dateMap[date]);
-                $dateSelected.html($datePicker.dateList().join('<br>'));
+                $e.toggleClass('selected', dateMap[date]['selected']);
+                $dateSelected.html("");
+                buildSortedDatesListHTML($dateSelected, dateStatuses);
 
                 return false;
             }
@@ -94,9 +122,39 @@
 
         // Setup the month table scroll checks
         $dateSelect.scroll(checkBounds);
-        $dateSelected.text($datePicker.dateList().join(' '));
+        buildSortedDatesListHTML($dateSelected, dateStatuses);
         checkBounds();
     };
+
+    function buildSortedDatesListHTML(list, dateStatuses) {
+        dateStatuses.sort(function(a, b){
+            // Sort dateStatuses in ascending order for display
+            return new Date(a['date']) - new Date(b['date']);
+        }).forEach(function(dateStatus) {
+            // Display null values as empty strings
+            var dateStatusId = dateStatus['id'] ? dateStatus['id'] : "";
+            var dateStatusNewsFlash = dateStatus['newsflash'] ? dateStatus['newsflash'] : "";
+            var cancelledSelected = dateStatus['status'] === 'C' ? "selected='selected'" : "";
+            var scheduledSelected =  dateStatus['status'] === 'A' ? "selected='selected'" : "";
+
+            // Append selected date
+            list.append([
+                "<li data-id='" + dateStatusId + "'>",
+                    "<span >" + dateStatus['date'] + "</span>",
+                    "<select class='status-selector'>",
+                        "<option value='A' " + scheduledSelected + ">Scheduled</option>",
+                        "<option value='C' " + cancelledSelected + ">Cancelled</option>",
+                    "</select>",
+                    "<input ",
+                        "type='text' ",
+                        "placeholder='newsflash message (optional)' ",
+                        "class='newsflash' ",
+                        "value='" + dateStatusNewsFlash,
+                    "'>",
+                "</li>",
+            ].join(""));
+        });
+    }
 
     function isToday(date) {
         return (date.getDate() === today.getDate()

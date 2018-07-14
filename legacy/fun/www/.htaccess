@@ -12,4 +12,4 @@ RewriteRule ^event-([0-9]+)$ %{ENV:CWD}crawl.php?id=$1 [L]
 RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet)
 RewriteRule (^$|^pedalpalooza$|^index.html$) %{ENV:CWD}crawl.php [L]
 
-RewriteRule ^(event-[0-9]+|pedalpalooza|viewEvents|addEvent|editEvent-[0-9]+-[0-9a-f]+|aboutUs)$ %{ENV:CWD}index.html
+RewriteRule ^(event-[0-9]+|pedalpalooza|viewEvents|addEvent|editEvent-[0-9]+-[0-9a-f]+|aboutUs|pedalpaloozaArchive)$ %{ENV:CWD}index.html

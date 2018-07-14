@@ -4,7 +4,7 @@ $(document).ready( function() {
     var curPage = null;
 
     function getEventHTML(options, callback) {
-        var url = '/fun/events.php?';
+        var url = 'events.php?';
         if ('id' in options) {
             url += 'id=' + options['id'];
         }
@@ -34,12 +34,14 @@ $(document).ready( function() {
                 }
 
                 value.audienceLabel = container.getAudienceLabel(value.audience);
-
                 value.mapLink = container.getMapLink(value.address);
+
                 if ('id' in options) {
                     value.expanded = true;
                 }
+                value.webLink = container.getWebLink(value.weburl);
                 value.exportlink = 'ics.php?id=' + value.id;
+
                 // value.showEditButton = true; // TODO: permissions
                 groupedByDate[date].events.push(value);
             });
@@ -169,6 +171,12 @@ $(document).ready( function() {
         });
     }
 
+    function viewPedalpaloozaArchive() {
+        var content = $('#pedalpaloozaArchive').html();
+        container.empty().append(content);
+        checkAnchors();
+    }
+
     function dateJump(ev) {
         var e = ev.target;
         if (e.hasAttribute('data-date')) {
@@ -198,42 +206,42 @@ $(document).ready( function() {
         });
     }
 
-    $('#confirm-cancel, #success-ok').on('click', function() {
+    $(document).on('click', '#confirm-cancel, #success-ok', function() {
         visitRoute('viewEvents');
     });
 
-    $('#date-picker-pedalpalooza').on('click', function(ev) {
+    $(document).on('click', '#date-picker-pedalpalooza', function(ev) {
         dateJump(ev);
     });
 
-    $('#date-picker-pedalpalooza').on('touchstart', function(ev) {
+    $(document).on('touchstart', '#date-picker-pedalpalooza', function(ev) {
         dateJump(ev);
     });
 
-    $('.navbar-collapse.collapse.in').on('click',function(e) {
+    $(document).on('click','.navbar-collapse.collapse.in',function(e) {
         if( $(e.target).is('a') ) {
             $(this).collapse('hide');
         }
     });
 
-    $('a.expand-details').on('click', function(e) {
+    $(document).on('click', 'a.expand-details', function(e) {
         e.preventDefault();
         return false;
     });
 
-    $('button.edit').on('click', function(e) {
+    $(document).on('click', 'button.edit', function(e) {
         var id = $(e.target).closest('div.event').data('event-id');
         viewAddEventForm(id);
     });
 
-    $('#preview-edit-button').on('click', function() {
+    $(document).on('click', '#preview-edit-button', function() {
         $('#event-entry').show();
         $('.date').remove();
         $('#preview-button').show();
         $('#preview-edit-button').hide();
     });
 
-    $('button[data-toggle-target]').on('click', function() {
+    $(document).on('click', 'button[data-toggle-target]', function() {
         var target = $( this.dataset.toggleTarget );
         if(target.attr('hidden')) {
             target.removeAttr('hidden');
@@ -291,7 +299,7 @@ $(document).ready( function() {
         checkTimeout = setTimeout(checkAnchorsDebounced, 500);
     }
     function checkAnchorsDebounced() {
-        var aList = document.querySelectorAll('#calendar_list a');
+        var aList = document.querySelectorAll('a');
         for (var i=0; i<aList.length; i++) {
             var a = aList[i];
             if (a.hasAttribute('route')) {
@@ -325,6 +333,7 @@ $(document).ready( function() {
     });
     addRoute(/viewEvents$/, viewEvents);
     addRoute(/aboutUs$/, viewAbout);
+    addRoute(/pedalpaloozaArchive$/, viewPedalpaloozaArchive);
     addRoute(/event-([0-9]*)$/, function (frag) {
         var rx = /event-([0-9]*)$/g;
         var arr = rx.exec(frag);

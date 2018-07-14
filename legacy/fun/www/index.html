@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/formdata.js"></script>
     <script src="js/mailcheck.min.js"></script>
@@ -59,7 +59,7 @@
 
     <nav class="navbar navbar-default">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="http://www.shift2bikes.org/">
                 <svg class="logo" role="img" aria-label="Shift" width="152" height="82">
                     <use xlink:href="#shift-logo" />
                 </svg>
@@ -152,10 +152,11 @@
                 <span>About Pedalpalooza</span>
             </button>
             <div id="pp-description">
-                <p>Pedalpalooza is a month of bikey fun. With dozens of different events, most organized by individuals, bikers of all persuasions are likely to find many events of interest. Nearly all events are free. </p>
-                <p><a href="addEvent"><strong>Add your events for 2018 now!</strong></a> Seeking inspiration? View the <a href="http://www.shift2bikes.org/pedalpalooza/index.shtml">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, <a href="http://www.shift2bikes.org/contacts/index.php?eCon=CalCrew">contact the calendar crew</a>.</p>
-                <p> Visiting from out of town? We've started a <a href="http://www.shift2bikes.org/allbike.php#Visitor_Info">Visitor Info</a> page.</p>
-                <p> <a href="https://docs.shift2bikes.org/pages/pedalpalooza/">More info…</a> </p>
+                <p>Pedalpalooza is a month of bikey fun. With hundreds of different events, most organized by individuals, bikers of all persuasions are likely to find many events of interest. Nearly all events are free. </p>
+                <p><a href="addEvent"><strong>Add your events for 2018 now!</strong></a> Seeking inspiration? View the <a href="pedalpaloozaArchive">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, <a href="http://www.shift2bikes.org/contacts/index.php?eCon=CalCrew">contact the calendar crew</a>.</p>
+                <p>Looking for an overview of the full month? Check out the <a href="http://shift2bikes.org/cal/viewpp2018.php">classic cal</a>.</p>
+                <p>Visiting from out of town? We've started a <a href="http://www.shift2bikes.org/allbike.php#Visitor_Info">Visitor Info</a> page.</p>
+                <p> <a href="https://docs.shift2bikes.org/pages/pedalpalooza/">More about Pedalpalooza…</a> </p>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                     <input type="hidden" name="cmd" value="_s-xclick">
                     <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
@@ -196,17 +197,17 @@
                         <td class="calendar-day   color-jun"></td>
                         <td class="calendar-day   color-jun-odd"></td>
                         <td class="calendar-day   color-jun"></td>
-                        <td class="calendar-day   color-jun-odd" data-date="2018-06-01">1</td>
+                        <td class="calendar-day   color-jun-odd featured" data-date="2018-06-01" aria-describedby="pp-featured-day-label">1</td>
                         <td class="calendar-day   color-jun" data-date="2018-06-02">2</td>
                     </tr>
                     <tr class="calendar-row">
                         <td class="calendar-day   color-jun" data-date="2018-06-03">3</td>
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-04">4</td>
-                        <td class="calendar-day   color-jun" data-date='2018-06-05'>5</td>
+                        <td class="calendar-day   color-jun featured" data-date='2018-06-05' aria-describedby="pp-featured-day-label">5</td>
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-06">6</td>
                         <td class="calendar-day   color-jun" data-date="2018-06-07">7</td>
-                        <td class="calendar-day   color-jun-odd" data-date="2018-06-08">8</td>
-                        <td class="calendar-day   color-jun" data-date="2018-06-09">9</td>
+                        <td class="calendar-day   color-jun-odd featured" data-date="2018-06-08" aria-describedby="pp-featured-day-label">8</td>
+                        <td class="calendar-day   color-jun featured" data-date="2018-06-09" aria-describedby="pp-featured-day-label">9</td>
                     </tr>
                     <tr class="calendar-row">
                         <td class="calendar-day   color-jun" data-date="2018-06-10">10</td>
@@ -214,8 +215,8 @@
                         <td class="calendar-day   color-jun" data-date='2018-06-12'>12</td>
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-13">13</td>
                         <td class="calendar-day   color-jun" data-date="2018-06-14">14</td>
-                        <td class="calendar-day   color-jun-odd" data-date="2018-06-15">15</td>
-                        <td class="calendar-day   color-jun" data-date="2018-06-16">16</td>
+                        <td class="calendar-day   color-jun-odd featured" data-date="2018-06-15" aria-describedby="pp-featured-day-label">15</td>
+                        <td class="calendar-day   color-jun featured" data-date="2018-06-16" aria-describedby="pp-featured-day-label">16</td>
                     </tr>
                     <tr class="calendar-row">
                     	<td rowspan="2" class="calendar-month-title">&nbsp;</td>
@@ -225,19 +226,99 @@
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-20">20</td>
                         <td class="calendar-day   color-jun" data-date="2018-06-21">21</td>
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-22">22</td>
-                        <td class="calendar-day   color-jun" data-date="2018-06-23">23</td>
+                        <td class="calendar-day   color-jun featured" data-date="2018-06-23" aria-describedby="pp-featured-day-label">23</td>
                     </tr>
 
                     <tr class="calendar-row">
-                        <td class="calendar-day   color-jun" data-date="2018-06-24">24</td>
+                        <td class="calendar-day   color-jun featured" data-date="2018-06-24" aria-describedby="pp-featured-day-label">24</td>
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-25">25</td>
                         <td class="calendar-day   color-jun" data-date="2018-06-26">26</td>
-                        <td class="calendar-day   color-jun-odd" data-date="2018-06-27">27</td>
+                        <td class="calendar-day   color-jun-odd featured" data-date="2018-06-27" aria-describedby="pp-featured-day-label">27</td>
                         <td class="calendar-day   color-jun" data-date="2018-06-28">28</td>
                         <td class="calendar-day   color-jun-odd" data-date="2018-06-29">29</td>
-                        <td class="calendar-day   color-jun" data-date="2018-06-30">30</td>
+                        <td class="calendar-day   color-jun featured" data-date="2018-06-30" aria-describedby="pp-featured-day-label">30</td>
                     </tr>
                 </table>
+            </div>
+            <p class="legend" aria-hidden="true"><span class="example">★</span> = <span id="pp-featured-day-label">day with featured event</span></p>
+        </div>
+    </script>
+
+    <script id="pedalpaloozaArchive" type="text">
+        <div>
+            <h1>Pedalpalooza Archive</h1>
+
+            <div class="archive">
+                <p class="byline">aka, That Fun Thing We Do Every June</p>
+                <p>In 2002, Portland hosted <a href="http://criticalmass.wikia.com/wiki/Bike_Summer!">Bike Summer</a>, and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.</p>
+
+                <ul class="archive-list">
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2017.php">2017</a>
+                        <p class="description">A whole month of bike fun, June 1 - June 30th.  327 events!</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2016.php">2016</a>
+                        <p class="description">292 events!</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2015.php">2015</a>
+                        <p class="description">294 events!</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2014.php">2014</a>
+                        <p class="description">298 events! 308 if you count repeats.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2013.php">2013</a>
+                        <p class="description">280 events, 3+ weeks of bike fun, from June 6th through 29th. The big naked ride Saturday, June 8th, was almost certainly the largest every, anywhere.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2012.php">2012</a>
+                        <p class="description">For the first time, we expanded to 3+ weeks of bike fun! The intent was to spread out roughly the same number of events over more days, so you could participate in more of them. 298 events... or 313 if you count each instance of repeating events.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2011.php">2011</a>
+                        <p class="description">About 270 events &mdash; slightly less than 2010. The big naked ride was also slightly down, due to weather fears. Be brave!  Be ambitious!  Try harder in 2012!</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2010.php">2010</a>
+                        <p class="description">We had roughly 300 events, and a very strong attendance. The naked ride alone had somewhere between 7000 and 12,500 riders.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2009.php">2009</a>
+                        <p class="description">In 2009 the number of events was down a tiny bit, but the number of people at each event seemed to double. One highlight is that we had about 5000 people for the World Naked Bike Ride... or nearly 1% of Portlanders!</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2008.php">2008</a>
+                        <p class="description">Vastly larger than previous years. The Portland Mercury increased their involvement. Shift hosted the International Toward Carfree Cities Conference. The City of Portland had its first Sunday Parkways (Ciclovia). Soaring fuel pricess increased interest in bikes. The result: 185 events in the printed calendar, and 197 events in the online calendar (not counting repeating events). Larger crowds all around. Wonderful.  I'm still sleepy.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2007.php">2007</a>
+                        <p class="description">The printed calendar had 130 events, and the online calendar ended up with 140.  That's may sound a hair's breadth smaller than PP2006, but actually most of the events attracted far more people in 2007.  Yea Bikes!  Go Team!  Rah!  Rah! <a href="http://www.shift2bikes.org/pedalpalooza/ridereports/pp_reports_2007.pdf">Ride Reports (PDF)</a></p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2006.php">2006</a>
+                        <p class="description">The printed calendar had 133 events, and the online calendar ended up with 143 (taking cancellations into account). Which was your favorite?</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2005.shtml">2005</a>
+                        <p class="description">That Pedalpalooza was huge.  The printed calendar had 95 events, but the online calendar, which could be updated throughout the festival, ended up with 114 events.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2004.shtml">2004</a>
+                        <p class="description">The first year that it was called "Pedalpalooza" and the first with a 16-day Thursday-to-Saturday schedule.  It had 68 events.</p>
+                    </li>
+                    <li>
+                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2003.shtml">2003</a>
+                        <p class="description">Mini BikeSummer.  49 events.  Apparently Portland was the first (and so far only?) BikeSummer site to continue the festival on following years.  This first year, it was organized in cooperation with <a href="http://www.zoobomb.net/">Zoobomb</a>. (A brief <a href="http://www.shift2bikes.org/pedalpalooza/zbshift.shtml">history of Shift and Zoobomb</a>.)</p>
+                    </li>
+                    <li>
+                        <!-- former url, http://bikesummer.org/2002/events/index.htm -->
+                        <a class="year btn" href="http://web.archive.org/web/20020428220445/http://www.bikesummer.org/2002/events/index.htm">2002</a>
+                        <p class="description">BikeSummer!  In August, not June?  Wow, the things we forget. 97 events.</p>
+                    </li>
+                </ul>
             </div>
         </div>
     </script>
@@ -365,7 +446,7 @@
                             <p><img src="images/icons/stopwatch.png" alt="End Time" /> {{displayEndTime}}</p>
                             {{/endtime}}
 
-                            <p>{{details}}</p>
+                            <p class="description">{{details}}</p>
 
                             {{#email}}
                             <p class="contactInfo">
@@ -381,10 +462,10 @@
 
                             {{ #weburl }}
                             <p class="contactInfo">
-                                <a href="{{weburl}}" target="_blank">
+                                <a href="{{webLink}}" target="_blank">
                                     <img src="images/icons/webpage.png" alt="Website" />
                                     {{#webname}}{{webname}}{{/webname}}
-                                    {{^webname}}Website{{/webname}}
+                                    {{^webname}}{{weburl}}{{/webname}}
                                 </a>
                             </p>
                             {{ /weburl }}
@@ -417,12 +498,21 @@
                                 </p>
                             </div>
                             {{#preview}}
-                                 <hr>
-                                 The following will only show on the print calendar.
-                                 <br>
-                                   print title: {{tinytitle}}
-                                 <br>
-                                   print description: {{printdescr}}
+                                <hr>
+                                <p>The following will show on the print calendar.</p>
+                                <ul>
+                                    <li>title: {{tinytitle}}</li>
+                                    <li>description: {{printdescr}}</li>
+                                    <li>contact info:</li>
+                                        <ul>
+                                            <li>{{organizer}}</li>
+                                            {{# printemail}}<li>{{email}}</li>{{/ printemail}}
+                                            {{# printphone}}<li>{{phone}}</li>{{/ printphone}}
+                                            {{# printweburl}}<li>{{weburl}}</li>{{/ printweburl}}
+                                            {{# printcontact}}<li>{{contact}}</li>{{/ printcontact}}
+                                        </ul>
+                                    </li>
+                                </ul>
                             {{/preview}}
 
                             {{#cancelled}}</del>{{/cancelled}}
@@ -444,11 +534,13 @@
 
     <script id="mustache-edit" type="text/template">
 
-        <h1>Add Event</h1>
+        {{^ id }}<h1>Add Event</h1>{{/ id }}
+        {{# id }}<h1>Edit Event</h1>{{/ id }}
+
         <div id="edit-header" >
                 <button id="preview-edit-button" type="button" class="btn btn-add-event">Edit</button>
                 <button id="preview-button" type="button" class="btn btn-add-event">Preview</button>
-                <button id="save-button" type="button" class="btn btn-add-event">Post</button>
+                <button id="save-button" type="button" class="btn btn-add-event">Save</button>
             {{^ id }}
                 <button id="cancel-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
             {{/ id }}
@@ -546,8 +638,10 @@
                                     </table>
                                     <div id="load-later" class="loading-zone"></div>
                                 </div>
-                                Selected dates:
-                                <div id="date-selected"></div>
+                                <div id="date-selected-container">
+                                    Selected dates:
+                                    <ul id="date-selected"></ul>
+                                </div>
                             </div>
                             </div>
 
@@ -714,17 +808,47 @@
                                 <label class="control-label" for="printdescr">Print description (120 characters)</label>
                                 <textarea class="form-control" name="printdescr" id="printdescr" maxlength="120" >{{printdescr}}</textarea>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label" for="printcontact">Print contact info (255 characters)</label>
-                                <input type="text" class="form-control" name="printcontact" id="printcontact" value="{{printcontact}}" maxlength="255" />
-                            </div>
+
+                            <fieldset>
+                                <legend>Print contact info</legend>
+                                <div class="checkbox">
+                                    <label class="control-label" for="printorganizer">
+                                        <input type="checkbox" name="printorganizer" id="printorganizer" value="1" checked disabled />
+                                        Organizer
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="control-label" for="printemail">
+                                        <input type="checkbox" name="printemail" id="printemail" value="1" {{# printemail }}checked{{/ printemail }} />
+                                        Email address
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="control-label" for="printphone">
+                                        <input type="checkbox" name="printphone" id="printphone" value="1" {{# printphone }}checked{{/ printphone }} />
+                                        Phone number
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="control-label" for="printweburl">
+                                        <input type="checkbox" name="printweburl" id="printweburl" value="1" {{# printweburl }}checked{{/ printweburl }} />
+                                        Web link
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label class="control-label" for="printcontact">
+                                        <input type="checkbox" name="printcontact" id="printcontact" value="1" {{# printcontact }}checked{{/ printcontact }} />
+                                        Additional contact info
+                                    </label>
+                                </div>
+                            </fieldset>
                         </div>
                     </div>
                 </div>
 
                 <div class="ride-comic">
                     <img src="images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
-                    <p>For tips on making your ride successful, we ask that you read the <a href="rideleadingcomic.html">Ride Leading Comic</a> at least once before submitting an event.</p>
+                    <p>For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg">Ride Leading Comic</a> at least once before submitting an event.</p>
                     <div class="checkbox">
                         <input type="hidden" name="read_comic" value="0" />
                         <label class="control-label" for="read_comic">
@@ -750,9 +874,7 @@
                     <div id="delete-event-fields" class="panel-collapse collapse in">
                         <div class="panel-body">
                             <div class="form-group">
-                                <!-- commenting out until cancellation option is added back
-                                <p class="input-help">If an event is no longer happening, we recommend cancelling it instead of deleting it. Cancelling it gives you an opportunity to post a message to info riders, like if it's been rescheduled to another date.</p>
-                                -->
+                                <p class="input-help">If an event is no longer happening, we recommend <a href="#timeandlocation-fields">cancelling</a> instead of deleting. Cancelling it gives you an opportunity to post a message to inform riders, like if it's been rescheduled to another date.</p>
                                 <p class="input-help">If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
                                 <p class="input-help"><strong>Once an event is deleted, it can't be restored!</strong> If you're sure: </p>
 
@@ -811,8 +933,8 @@
 
                     <p>Donations to SHIFT can also be made by mailing a check addressed to: </p>
                     <p>Shift c/o Umbrella
-                    <br>820 SW 2nd Ave. Ste. 200
-                    <br>Portland, OR 97204</p>
+                    <br>PO Box 5531
+                    <br>Portland, OR 97228</p>
 
                     <p>Our 501(c)3 sponsor, Umbrella, will handle the rest.</p>
             </div>
