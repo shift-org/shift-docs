@@ -1,14 +1,4 @@
 <script src="{{ .Site.BaseURL }}fun/js/mustache_2_3_0.min.js"></script>
-<script type="text/javascript">
-  //Delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
-  Mustache.tags = ["[[", "]]"];
-  window.fun_events_url = '{{ .Site.BaseURL }}fun/events.php?';
-
-  $(document).ready(function() {
-    console.log("About to run viewAddEventForm");
-    viewAddEventForm();
-  });
-</script>
 <script src="{{ .Site.BaseURL }}fun/js/formdata.js"></script>
 <script src="{{ .Site.BaseURL }}fun/js/mailcheck.min.js"></script>
 <script src="{{ .Site.BaseURL }}fun/js/moment.min.js"></script>
@@ -16,7 +6,22 @@
 <script src="{{ .Site.BaseURL }}fun/js/addevent.js"></script>
 <script src="{{ .Site.BaseURL }}fun/js/datepicker.js"></script>
 <script src="{{ .Site.BaseURL }}fun/js/main.js"></script>
-
+<script type="text/javascript">
+  //Delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
+  Mustache.tags = ["[[", "]]"];
+  window.fun_events_url = '{{ .Site.BaseURL }}fun/events.php?';
+  
+  $(document).ready(function() {
+    if (window.legacycal_renderpage === "addevent") {
+      console.log("About to run viewAddEventForm");
+      viewAddEventForm();
+    } else {
+      console.log("Rendering normal event list");
+      viewEvents();
+    }
+    
+  });
+</script>
 
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">

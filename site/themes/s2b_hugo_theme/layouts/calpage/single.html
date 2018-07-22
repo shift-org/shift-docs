@@ -54,6 +54,11 @@
 
     {{ partial "scripts.html" . }}
     {{ partial "scripts_calendarlist.html" . }}
+    <script type="text/javascript">
+      $(document).ready(function() {
+        alert(".Params.id: {{ .Params.id }}");
+      })
+    </script>
 
   </body>
 </html>
