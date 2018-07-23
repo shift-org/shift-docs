@@ -3,7 +3,7 @@
     $.fn.getAddEventForm = function(id, secret, callback) {
         if (id && secret) {
             // TODO: loading spinner
-            $.get(window.legacycal_serviceurl + '/retrieve_event.php?id=' + id + "&secret=" + secret, function( data ) {
+            $.get( '/fun/retrieve_event.php?id=' + id + "&secret=" + secret, function( data ) {
                 if (data.error) {
                     callback( 'This event has been deleted.' );
                     return;

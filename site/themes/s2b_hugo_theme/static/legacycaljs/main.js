@@ -4,7 +4,7 @@ $(document).ready(function() {
     var curPage = null;
 
     function getEventHTML(options, callback) {
-        var url = window.legacycal_serviceurl + 'events.php?';
+        var url = window.fun_events_url; //'events.php?';
         if ('id' in options) {
             url += 'id=' + options['id'];
         }
@@ -63,7 +63,7 @@ $(document).ready(function() {
         }));
         var opts = {
             type: 'POST',
-            url: window.legacycal_serviceurl + 'delete_event.php',
+            url: 'delete_event.php',
             contentType: false,
             processData: false,
             cache: false,

@@ -1,11 +1,11 @@
-<script src="{{ .Site.BaseURL }}fun/js/mustache_2_3_0.min.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/formdata.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/mailcheck.min.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/moment.min.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/helpers.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/addevent.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/datepicker.js"></script>
-<script src="{{ .Site.BaseURL }}fun/js/main.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/mustache_2_3_0.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/formdata.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/mailcheck.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/moment.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/helpers.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/addevent.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/datepicker.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/main.js"></script>
 <script type="text/javascript">
   //Delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
@@ -14,13 +14,38 @@
   $(document).ready(function() {
     if (window.legacycal_renderpage === "addevent") {
       console.log("About to run viewAddEventForm");
-      viewAddEventForm();
+  
+      var params = parseQueryString();
+      var eventid = params["eventid"];
+      var secret = params["secret"];
+      
+      if (typeof eventid !== "undefined" && typeof secret !== "undefined") {
+        console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
+        viewAddEventForm(eventid, secret);
+      } else {
+        console.log("Loading viewAddEventForm with no parameters");
+        viewAddEventForm();
+      }
+      
     } else {
       console.log("Rendering normal event list");
       viewEvents();
     }
     
   });
+
+
+  function parseQueryString() {
+    var queryParameters = {};
+    location.search.substr(1).split("&").forEach(function (pair) {
+      if (pair === "") return;
+      var parts = pair.split("=");
+      queryParameters[parts[0]] = parts[1] && decodeURIComponent(parts[1].replace(/\+/g, " "));
+    });
+    
+    return queryParameters;
+  }
+  
 </script>
 
 
@@ -814,7 +839,7 @@
       </div>
       
       <div class="ride-comic">
-        <img src="images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
+        <img src="/images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
         <p>For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg">Ride Leading Comic</a> at least once before submitting an event.</p>
         <div class="checkbox">
           <input type="hidden" name="read_comic" value="0" />
