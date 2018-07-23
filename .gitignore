@@ -3,4 +3,5 @@ site/public/
 app/build/
 app/node_modules/
 services/nginx/ssl/
+shift.overrides
 .idea/
