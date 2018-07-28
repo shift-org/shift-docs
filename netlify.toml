@@ -1,7 +1,7 @@
 # build settings for netlify
 
 [build]
-  environment = {HUGO_VERSION = "0.37.1"}
+  environment = {HUGO_VERSION = "0.37.1", SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/fun/"}
   command = "hugo"
   base = "site/"
   publish = "site/public/"
