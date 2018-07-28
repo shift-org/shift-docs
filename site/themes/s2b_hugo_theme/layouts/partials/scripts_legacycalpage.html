@@ -7,7 +7,7 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/datepicker.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/main.js"></script>
 <script type="text/javascript">
-  //Delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
+  //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
   window.fun_events_url = '{{ .Site.BaseURL }}fun/events.php?';
   
@@ -132,7 +132,7 @@
 
 <script id="pedalpalooza-header" type="text/template">
   <div id="pp-banner">
-    <a href="images/pp/pp2018.jpg"><img alt="Pedalpalooza is for Everyone" id="pedalpalooza-img" src="images/pp/pp2018-banner.png"></a>
+    <a href="{{ .Site.BaseURL }}legacycalimages/pp/pp2018.jpg"><img alt="Pedalpalooza is for Everyone" id="pedalpalooza-img" src="{{ .Site.BaseURL }}legacycalimages/pp/pp2018-banner.png"></a>
     <div>
       <span class="pp-headline">Pedalpalooza!</span>
       <span>All of June, 2018</span>
@@ -433,29 +433,29 @@
             [[/ image]]
           </div>
           
-          <p><img src="images/icons/alarm.png" alt="Time" /> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
+          <p><img src="{{ .Site.BaseURL }}legacycalimages/icons/alarm.png" alt="Time" /> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
           [[#endtime]]
-          <p><img src="images/icons/stopwatch.png" alt="End Time" /> [[displayEndTime]]</p>
+          <p><img src="{{ .Site.BaseURL }}legacycalimages/icons/stopwatch.png" alt="End Time" /> [[displayEndTime]]</p>
           [[/endtime]]
           
           <p class="description">[[details]]</p>
           
           [[#email]]
           <p class="contactInfo">
-            <a href="mailto:[[email]]"><img src="images/icons/email.png" alt="Email" /> [[email]]</a>
+            <a href="mailto:[[email]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/email.png" alt="Email" /> [[email]]</a>
           </p>
           [[/email]]
           
           [[#phone]]
           <p class="contactInfo">
-            <a href="tel:[[phone]]"><img src="images/icons/phone.png" alt="Phone" /> [[phone]]</a>
+            <a href="tel:[[phone]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/phone.png" alt="Phone" /> [[phone]]</a>
           </p>
           [[/phone]]
           
           [[ #weburl ]]
           <p class="contactInfo">
             <a href="[[webLink]]" target="_blank">
-              <img src="images/icons/webpage.png" alt="Website" />
+              <img src="{{ .Site.BaseURL }}legacycalimages/icons/webpage.png" alt="Website" />
               [[#webname]][[webname]][[/webname]]
               [[^webname]][[weburl]][[/webname]]
             </a>
@@ -471,7 +471,7 @@
           <div class="eventlink">
             <p class="facebook-share">
               <a href="https://www.facebook.com/sharer/sharer.php?u=[[shareable]]" target="_blank">
-                <img src="images/icons/facebook.svg" alt="Facebook"/>Share</a>
+                <img src="{{ .Site.BaseURL }}legacycalimages/icons/facebook.svg" alt="Facebook"/>Share</a>
             </p>
             <p>
               <a
@@ -912,7 +912,7 @@
                     <p><a href="http://www.shift2bikes.org/contacts/">Contact us</a></p>
 
                 <h2>Our sponsors</h2>
-                    <p><a href="https://umbrellapdx.org/"><img alt="Umbrella PDX" src="images/logos/umbrella-pdx-logo.png" width="125"/img></a></p>
+                    <p><a href="https://umbrellapdx.org/"><img alt="Umbrella PDX" src="{{ .Site.BaseURL }}legacycalimages/logos/umbrella-pdx-logo.png" width="125"/img></a></p>
                     <p><a href="https://www.canvashost.com/"><img alt="Canvas Host" src="http://www.canvashost.com/images/canvashost-mobile.jpg" width="125" /img></a></p>
 
                 <h2>Donations</h2>
