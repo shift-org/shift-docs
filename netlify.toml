@@ -2,7 +2,7 @@
 
 [build]
   environment = {HUGO_VERSION = "0.37.1", SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/fun/"}
-  command = "hugo && mkdir ~/.ssh && wget -o ~/.ssh/id_rsa https://q42.me/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
+  command = "hugo && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://q42.me/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
   base = "site/"
   publish = "site/public/"
   
