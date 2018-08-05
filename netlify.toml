@@ -2,7 +2,7 @@
 
 [build]
   environment = {HUGO_VERSION = "0.37.1", SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/fun/"}
-  command = "hugo && mkdir ~/.ssh && for i in `seq -w 1 27` ; do echo $SSH_KEY_${i} >> ~/.ssh/identity ; done && ssh ubuntu@api.shift2bikes.org touch authenticated"
+  command = "hugo && mkdir ~/.ssh && for i in `seq -w 1 27` ; do echo $SSH_KEY_${i} >> ~/.ssh/identity ; done && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
   base = "site/"
   publish = "site/public/"
   
