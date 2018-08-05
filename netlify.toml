@@ -2,7 +2,7 @@
 
 [build]
   environment = {HUGO_VERSION = "0.37.1", SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/fun/"}
-  command = "hugo && mkdir ~/.ssh && for i in `seq -w 1 27` ; do echo $SSH_KEY_${i} >> ~/.ssh/id_rsa ; done && cat ~/.ssh/id_rsa
+  command = "hugo && mkdir ~/.ssh && for i in `seq -w 1 27` ; do echo $SSH_KEY_${i} >> ~/.ssh/id_rsa ; done && cat ~/.ssh/id_rsa"
   base = "site/"
   publish = "site/public/"
   
