@@ -31,7 +31,7 @@ services:
 
   db:
     restart: always
-    image: mysql:latest
+    image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
