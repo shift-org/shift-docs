@@ -50,7 +50,7 @@ sub_help() { #                    - Show this text
 }
 
 sub_up() { #                      - Bring all services up
-    sub_compose up -d ${CONTAINERS}
+    sub_compose up --force-recreate -d ${CONTAINERS}
     echo "Run './${SCRIPT_NAME} watch' to monitor for changes and rebuild"
 }
 
@@ -79,7 +79,7 @@ sub_reload() { # <service>, ...   - Trigger a code/conf reload
 }
 
 sub_start() { # <service>, ..     - Start service(s)
-    sub_compose up -d $@
+    sub_compose up --force-recreate -d $@
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)

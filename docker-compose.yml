@@ -3,7 +3,6 @@ version: "2"
 volumes:
   db: {}
 
-
 services:
   nginx:
     image: nginx
@@ -49,8 +48,7 @@ services:
     command: "hugo -v"
 
   php:
-    restart: never
-    image: php:5.6-fpm
+    build: ./services/php
     restart: always
     environment:
       - MYSQL_DATABASE

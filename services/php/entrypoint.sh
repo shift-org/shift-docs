@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-docker-php-ext-install pdo pdo_mysql
-
-pecl install xdebug-2.5.5 \
- && docker-php-ext-enable xdebug
-
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
 	set -- php "$@"
