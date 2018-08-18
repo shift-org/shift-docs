@@ -127,7 +127,7 @@ div.section {
   display: inline-block;
   width: 80px;
   height: 80px;
-  color: #fff;
+  color: currentColor;
   line-height: 80px;
   border-radius: 40px;
   border: solid 1px #fff;
@@ -3553,7 +3553,7 @@ a.list-group-item.active > .badge,
 /*!
  * Yamm!3 - Yet another megamenu for Bootstrap 3
  * http://geedmo.github.com/yamm3
- * 
+ *
  * @geedmo - Licensed under the MIT license
  */
 .yamm .nav,
