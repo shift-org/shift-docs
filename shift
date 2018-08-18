@@ -32,6 +32,7 @@ fi
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
+export EVENTIMAGES="${ROOT}/legacy/eventimages"
 
 SCRIPT_NAME=$(basename $0)
 
