@@ -3,50 +3,48 @@
 
 {{ partial "head.html" . }}
 
-<link rel="stylesheet" type="text/css" href="/css/main_fun_legacy.css">
-
 <body>
   <!-- legacycalpage/single.html -->
-  
+
   <div id="all">
     <header>
       {{ partial "nav.html" . }}
     </header>
-    
+
     {{ partial "breadcrumbs.html" . }}
-    
+
     <div id="content">
       <div class="container">
-        
+
         <div class="row">
-          
+
           <div class="col-md-12">
-            
+
             <h1>LEGACY CALPAGE</h1>
             <div>
               {{ .Content }}
             </div>
-  
+
             <main role="main" id="mustache-html" class="container"></main>
 
           </div>
-        
+
         </div>
         <!-- /.row -->
-      
+
       </div>
       <!-- /.container -->
     </div>
     <!-- /#content -->
-    
+
     {{ partial "footer.html" . }}
-  
+
   </div>
   <!-- /#all -->
-  
+
   {{ partial "scripts.html" . }}
   {{ partial "scripts_legacycalpage.html" . }}
-  
+
   <script type="text/javascript">
     window.legacycal_renderpage = "{{ .Params.id }}";
     console.log("window.legacycal_renderpage: ", window.legacycal_renderpage);

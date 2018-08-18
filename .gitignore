@@ -5,3 +5,6 @@ app/node_modules/
 services/nginx/ssl/
 shift.overrides
 .idea/
+.sql
+.today
+.DS_Store
