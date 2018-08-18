@@ -2,15 +2,13 @@ version: "2"
 
 volumes:
   db: {}
-  
+
 
 services:
-
   nginx:
     image: nginx
     restart: always
     volumes:
-      - ./app/build/:/var/www/app/
       - ./site/public/:/var/www/site/
       - ./legacy/cal/:/var/www/cal/
       - ./legacy/:/opt/legacy/
@@ -18,7 +16,6 @@ services:
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
     links:
-      - node
       - php
     environment:
       - NGINX_CERT_NAME
@@ -43,31 +40,6 @@ services:
     ports:
       - 3306
 
-  node: &node
-    image: node:8
-    user: "node"
-    working_dir: /home/node/app/
-    environment:
-      - NODE_ENV=production
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_HOST
-    volumes:
-      - ./services/node/:/opt/services/node/
-      - ./app:/home/node/app/
-    links:
-      - db
-    expose:
-      - "8081"
-    entrypoint: /opt/services/node/entrypoint.sh
-    command: "npm run start"
-  
-  webpack:
-    << : *node
-    expose: []
-    command: "npm run build"
-  
   hugo:
     image: jojomi/hugo:0.37
     volumes:
