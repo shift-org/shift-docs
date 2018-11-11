@@ -1,12 +1,15 @@
 <div class="navbar-affixed-top" data-spy="affix" data-offset-top="200">
 
+    {{ partial "shift-logo.html" . }}
+
     <div class="navbar navbar-default yamm" role="navigation" id="navbar">
 
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand home" href="{{ .Site.BaseURL }}">
-                    <img src="{{ .Site.BaseURL }}images/shiftLogo_plain.gif" alt="{{ .Title }} logo" class="hidden-xs hidden-sm">
-                    <img src="{{ .Site.BaseURL }}images/shiftLogo_small.jpg" alt="{{ .Title }} logo" class="visible-xs visible-sm">
+                    <svg class="logo" role="img" aria-hidden="true" width="100" height="55">
+                        <use xlink:href="#shift-logo" />
+                    </svg>
                     <span class="sr-only">{{ .Title }} - {{ i18n "navHome" }}</span>
                 </a>
                 <div class="navbar-buttons">

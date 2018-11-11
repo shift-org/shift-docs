@@ -29,7 +29,7 @@ class Event extends fActiveRecord {
             'eventduration' => $this->getEventduration() != null && $this->getEventduration() > 0 ? $this->getEventduration() : null,
             'weburl' => $this->getWeburl(),
             'webname' => $this->getWebname(),
-            'image' => $this->getImagePath(),
+            'image' => $this->getImageUrl(),
             'audience' => $this->getAudience(),
             //'printevent' => $this->getPrintevent(),
             'tinytitle' => $this->getTinytitle(),
@@ -171,9 +171,9 @@ class Event extends fActiveRecord {
         }
     }
 
-    private function getImagePath() {
+    private function getImageUrl() {
         global $IMAGEDIR;
-        global $IMAGEPATH;
+        global $IMAGEURL;
 
         $old_name = $this->getImage();
         if ($old_name == null) {
@@ -188,21 +188,18 @@ class Event extends fActiveRecord {
         $ext = $t['extension'];
         $new_name = "$id.$ext";
 
-        if ($new_name === $old_name) {
-            // Named correctly
-            return "$IMAGEPATH/$old_name";
+        if ($old_name !== $new_name) {
+            // Named incorrectly, move, update db, return
+            $new_path = "$IMAGEDIR/$new_name";
+
+            if (file_exists($old_path)) {
+                rename($old_path, $new_path);
+                $this->setImage($new_name);
+                $this->store();
+            }
         }
 
-        // Named incorrectly, move, update db, return
-        $new_path = "$IMAGEDIR/$new_name";
-
-        if (file_exists($old_path)) {
-            rename($old_path, $new_path);
-        }
-        $this->setImage($new_name);
-        $this->store();
-
-        return "$IMAGEPATH/$new_name";
+        return "$IMAGEURL/$new_name";
     }
 
 }
