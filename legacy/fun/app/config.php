@@ -16,5 +16,5 @@ $PROTOCOL = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVE
 $HOST = $_SERVER['SERVER_NAME'];
 $PATH = "/index.html";
 $IMAGEDIR = "/opt/legacy/eventimages";
-$IMAGEPATH = "/eventimages";
+$IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";

@@ -57,6 +57,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_HOST
+      - EVENTIMAGES
     links:
       - db
     volumes:
