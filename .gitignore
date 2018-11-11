@@ -8,3 +8,4 @@ shift.overrides
 *.sql
 *.today
 *.DS_Store
+legacy/eventimages/

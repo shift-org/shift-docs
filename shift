@@ -28,6 +28,12 @@ export COMPOSE_PROJECT_NAME="shift"
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
+export EVENTIMAGES="${ROOT}/legacy/eventimages"
+
+# Check for an overrides
+if [ -f ${ROOT}/shift.overrides ]; then
+    source ${ROOT}/shift.overrides
+fi
 
 # Check for an overrides
 if [ -f ${ROOT}/shift.overrides ]; then
