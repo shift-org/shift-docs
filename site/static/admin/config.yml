@@ -13,7 +13,6 @@ collections:
     files:
       - name: "homepage"
         label: "Home Page"
-        file: "content/_index.md"
         create: true
         slug: "{{slug}}"
         fields:
