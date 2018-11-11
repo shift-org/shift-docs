@@ -31,6 +31,19 @@ svg.icon {
    visibility: hidden;
 }
 
+.eventlink ul {
+    padding: 0;
+    list-style: none;
+}
+.eventlink ul li {
+    display: inline-block;
+    border-right: 1px solid #404040;
+    padding-right: 5px;
+}
+.eventlink ul li:last-child {
+    border-right: none;
+}
+
 .facebook-share a {
     color: #3C5A99;
     border: 1px solid #3C5A99;
