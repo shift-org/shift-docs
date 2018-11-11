@@ -17,3 +17,6 @@ header {
   text-align: center;
 }
 
+#navbar svg.logo {
+    fill: currentColor;
+}
