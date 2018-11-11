@@ -18,10 +18,6 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export CONTAINERS="db nginx php hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
-# Check for an overrides
-if [ -f ${ROOT}/shift.overrides ]; then
-    source ${ROOT}/shift.overrides
-fi
 
 #####
 # === HERE BE DRAGONS ===
@@ -32,6 +28,11 @@ fi
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
+
+# Check for an overrides
+if [ -f ${ROOT}/shift.overrides ]; then
+    source ${ROOT}/shift.overrides
+fi
 
 SCRIPT_NAME=$(basename $0)
 
