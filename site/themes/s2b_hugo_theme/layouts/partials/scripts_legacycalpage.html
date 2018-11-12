@@ -10,15 +10,15 @@
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
   window.fun_events_url = '{{ .Site.BaseURL }}fun/events.php?';
-  
+
   $(document).ready(function() {
     if (window.legacycal_renderpage === "addevent") {
       console.log("About to run viewAddEventForm");
-  
+
       var params = parseQueryString();
       var eventid = params["eventid"];
       var secret = params["secret"];
-      
+
       if (typeof eventid !== "undefined" && typeof secret !== "undefined") {
         console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
         viewAddEventForm(eventid, secret);
@@ -26,12 +26,12 @@
         console.log("Loading viewAddEventForm with no parameters");
         viewAddEventForm();
       }
-      
+
     } else {
       console.log("Rendering normal event list");
       viewEvents();
     }
-    
+
   });
 
 
@@ -42,10 +42,10 @@
       var parts = pair.split("=");
       queryParameters[parts[0]] = parts[1] && decodeURIComponent(parts[1].replace(/\+/g, " "));
     });
-    
+
     return queryParameters;
   }
-  
+
 </script>
 
 
@@ -53,11 +53,11 @@
   <symbol id="icon-location" viewBox="0 0 80 80">
     <path fill-rule="evenodd" d="M21.2223414,40.1091727 C19.1768831,36.7198628 18,32.7473693 18,28.5 C18,16.0735931 28.0735931,6 40.5,6 C52.9264069,6 63,16.0735931 63,28.5 C63,32.6286702 61.8879773,36.4976135 59.947107,39.823655 L40.5,74 L21.2223414,40.1091727 Z M40.5,38 C45.1944204,38 49,34.1944204 49,29.5 C49,24.8055796 45.1944204,21 40.5,21 C35.8055796,21 32,24.8055796 32,29.5 C32,34.1944204 35.8055796,38 40.5,38 Z"/>
   </symbol>
-  
+
   <symbol id="icon-organizer" viewBox="0 0 80 80">
     <path fill-rule="evenodd" d="M52.9056214,38.2017711 C55.8537899,42.1877258 58.491916,46.1204688 60.8199997,50 C65.3379147,57.528678 67.9927053,65.4335097 68.7843714,73.7144951 C68.942054,75.3638318 67.7328248,76.8287066 66.0834876,76.9863841 C65.9885912,76.9954562 65.8933164,77 65.7979873,77 L16.0495024,76.9999956 C14.3926506,76.9999956 13.0495068,75.6568518 13.0495068,74 C13.0495068,73.9434873 13.0511037,73.8869859 13.0542955,73.8305635 C13.4917633,66.097245 16.1569979,58.1537239 21.0499992,50 C23.3821111,46.1137562 25.9050237,42.3147942 28.6187369,38.6031141 C31.9408037,41.060291 36.0507357,42.5131458 40.5,42.5131458 C45.1863826,42.5131458 49.4963003,40.9013082 52.9056188,38.2017676 Z M40.5,40 C30.8350169,40 23,32.1649831 23,22.5 C23,12.8350169 30.8350169,5 40.5,5 C50.1649831,5 58,12.8350169 58,22.5 C58,32.1649831 50.1649831,40 40.5,40 Z"/>
   </symbol>
-  
+
   <symbol id="icon-newsflash" viewBox="0 0 80 80">
     <g fill="none" fill-rule="evenodd" stroke-width="6" transform="translate(4 10)">
       <path d="M3.12553035,61 L19.1818698,54.3433076 L19.4337312,54.4482511 C24.5085876,56.5628005 30.1532262,57.6825425 36,57.6825425 C55.9229334,57.6825425 72,44.7042439 72,28.8412713 C72,12.9782986 55.9229334,0 36,0 C16.0770666,0 0,12.9782986 0,28.8412713 C0,34.9644043 2.39496175,40.8098694 6.7916417,45.6901997 L7.09492946,46.0268502 L3.12553035,61 Z"/>
@@ -66,7 +66,7 @@
       </g>
     </g>
   </symbol>
-  
+
   <symbol id="icon-arrow-down" viewBox="0 0 24 24">
     <polyline fill="none" stroke-width="4" points="0 0 10.01 10.01 0 20.02" transform="rotate(90 8 14)"/>
   </symbol>
@@ -109,7 +109,7 @@
         <p>The event will be permanently deleted. This can't be undone.</p>
       </div>
       <div class="modal-footer">
-        
+
         <button type="button" class="btn" data-dismiss="modal">Back</button>
         <button type="button" id="confirm-delete" data-dismiss="modal" class="btn btn-warning">Delete Event</button>
       </div>
@@ -220,7 +220,7 @@
           <td class="calendar-day   color-jun-odd" data-date="2018-06-22">22</td>
           <td class="calendar-day   color-jun featured" data-date="2018-06-23" aria-describedby="pp-featured-day-label">23</td>
         </tr>
-        
+
         <tr class="calendar-row">
           <td class="calendar-day   color-jun featured" data-date="2018-06-24" aria-describedby="pp-featured-day-label">24</td>
           <td class="calendar-day   color-jun-odd" data-date="2018-06-25">25</td>
@@ -329,17 +329,17 @@
     <h2>[[date]]</h2>
     <ul class="events-list">
       [[#events]]
-      
+
       <li class="event row [[#cancelled]]cancelled[[/cancelled]] [[#featured]]featured[[/featured]]" data-event-id="[[id]]">
         [[#featured]]<p class="featured-text" id="featured[[caldaily_id]]"><span aria-hidden="true">★ </span>Featured Event<span aria-hidden="true"> ★</span></p>[[/featured]]
         <div class="time col-xs-2">
           [[#cancelled]]<del>[[/cancelled]]
-          
+
           <p><time>[[displayStartTime]]</time></p>
           [[#audienceLabel]]
           <span class="audience-[[audience]]">[[audienceLabel]]</span>
           [[/audienceLabel]]
-          
+
           [[#cancelled]]</del>[[/cancelled]]
         </div>
         <div class="col-xs-10" >
@@ -349,109 +349,109 @@
             <h3 aria-describedby="featured[[caldaily_id]]">
               [[/ newsflash ]]
               [[/ featured ]]
-              
+
               [[^ featured ]]
               [[# newsflash ]]
               <h3 aria-describedby="newsflash[[caldaily_id]]">
                 [[/ newsflash ]]
                 [[/ featured ]]
-                
+
                 [[# featured ]]
                 [[# newsflash ]]
                 <h3 aria-describedby="featured[[caldaily_id]] newsflash[[caldaily_id]]">
                   [[/ newsflash ]]
                   [[/ featured ]]
-                  
+
                   [[^ featured ]]
                   [[^ newsflash ]]
                   <h3>
                     [[/ newsflash ]]
                     [[/ featured ]]
-                    
+
                     <button type="button" aria-expanded="[[^ expanded ]]false[[/ expanded ]][[# expanded ]]true[[/ expanded ]]" class="expand-details" data-toggle-target="#event-details-[[caldaily_id]]">
                       <svg class="icon expand" role="img" aria-hidden="true">
                         <use xlink:href="#icon-arrow-down" />
                       </svg>
-                      
+
                       [[#cancelled]]<del>[[/cancelled]]
-                      
+
                       [[title]]
-                      
+
                       [[#cancelled]]
                     </del> <ins><span class="cancelled-text">cancelled</span></ins>
                       [[/cancelled]]
-                    
+
                     </button>
                   </h3>
-                  
+
                   [[#newsflash]]
                   <ins><p class="newsflash" id="newsflash[[caldaily_id]]"><svg class="icon" role="img" aria-label="Update"><use xlink:href="#icon-newsflash" /></svg> [[newsflash]]</p></ins>
                   [[/newsflash]]
-                  
+
                   [[#cancelled]]<del>[[/cancelled]]
-                  
+
                   <div class="location">
                     [[#mapLink]]
                     <a href="[[mapLink]]" target="_blank">
                       <svg class="icon" role="img" aria-label="Location"><use xlink:href="#icon-location" /></svg>
-                      
+
                       [[/mapLink]]
                       [[^mapLink]]
                       <p>
                         [[/mapLink]]
-                        
+
                         [[venue]][[#address]][[#venue]], [[/venue]][[address]][[/address]]
-                        
+
                         [[^mapLink]]
                       </p>
                       [[/mapLink]]
                       [[#mapLink]]
                     </a>
                     [[/mapLink]]
-                    
+
                     [[#locdetails]]
                     <p>[[locdetails]]</p>
                     [[/locdetails]]
                   </div>
                   <p><svg class="icon" role="img" aria-label="Organizer"><use xlink:href="#icon-organizer" /></svg> [[organizer]]</p>
-                  
+
                   [[#cancelled]]</del>[[/cancelled]]
-          
+
           </div>
         </div>
-        
+
         <div class="col-xs-2">
         </div>
         <div class="event-details col-xs-10" id="event-details-[[caldaily_id]]" [[^ expanded ]]hidden[[/ expanded ]] >
-        
+
         [[#cancelled]]<del>[[/cancelled]]
-        
+
         <div class="mainDetails">
           <div class="eventImg">
             [[# image]]
             <img src="[[image]]" />
             [[/ image]]
           </div>
-          
+
           <p><img src="{{ .Site.BaseURL }}legacycalimages/icons/alarm.png" alt="Time" /> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
           [[#endtime]]
           <p><img src="{{ .Site.BaseURL }}legacycalimages/icons/stopwatch.png" alt="End Time" /> [[displayEndTime]]</p>
           [[/endtime]]
-          
+
           <p class="description">[[details]]</p>
-          
+
           [[#email]]
           <p class="contactInfo">
             <a href="mailto:[[email]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/email.png" alt="Email" /> [[email]]</a>
           </p>
           [[/email]]
-          
+
           [[#phone]]
           <p class="contactInfo">
             <a href="tel:[[phone]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/phone.png" alt="Phone" /> [[phone]]</a>
           </p>
           [[/phone]]
-          
+
           [[ #weburl ]]
           <p class="contactInfo">
             <a href="[[webLink]]" target="_blank">
@@ -461,33 +461,37 @@
             </a>
           </p>
           [[ /weburl ]]
-          
+
           [[#contact]]
           <p class="contactInfo">
             [[contact]]
           </p>
           [[/contact]]
-          
+
           <div class="eventlink">
             <p class="facebook-share">
               <a href="https://www.facebook.com/sharer/sharer.php?u=[[shareable]]" target="_blank">
                 <img src="{{ .Site.BaseURL }}legacycalimages/icons/facebook.svg" alt="Facebook"/>Share</a>
             </p>
-            <p>
-              <a
-                      [[^preview]]
+            <ul>
+              <li>
+                <a
+                  [[^preview]]
                       href="event-[[caldaily_id]]"
-                      [[/preview]]
-              class="share-link">
-              Sharable link</a>
-              <a
-                      [[^preview]]
+                  [[/preview]]
+                  class="share-link">
+                  Sharable link</a>
+              </li>
+              <li>
+                <a
+                  [[^preview]]
                       href="[[exportlink]]"
-                      [[/preview]]
-              data-id="[[caldaily_id]]"
-              class="export-link">
-              Export to calendar</a>
-            </p>
+                  [[/preview]]
+                  data-id="[[caldaily_id]]"
+                  class="export-link">
+                  Export to calendar</a>
+              </li>
+            </ul>
           </div>
           [[#preview]]
           <hr>
@@ -506,7 +510,7 @@
             </li>
           </ul>
           [[/preview]]
-          
+
           [[#cancelled]]</del>[[/cancelled]]
   </div>
   </li>
@@ -525,10 +529,10 @@
 </script>
 
 <script id="mustache-edit" type="text/template">
-  
+
   [[^ id ]]<h1>Add Event</h1>[[/ id ]]
   [[# id ]]<h1>Edit Event</h1>[[/ id ]]
-  
+
   <div id="edit-header" >
     <button id="preview-edit-button" type="button" class="btn btn-add-event">Edit</button>
     <button id="preview-button" type="button" class="btn btn-add-event">Preview</button>
@@ -536,7 +540,7 @@
     [[^ id ]]
     <button id="cancel-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
     [[/ id ]]
-    
+
     <span id="save-result"></span>
   </div>
   <br>
@@ -555,20 +559,20 @@
             </a>
           </h2>
         </div>
-        
+
         <div id="general-fields" class="panel-collapse collapse in">
           <div class="panel-body">
             <div class="form-group">
               <label class="control-label req-label" for="title">Event name</label>
               <input type="text" class="form-control" name="title" id="title" value="[[title]]" required="true" aria-invalid="false"/>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label req-label" for="details">Details</label>
               <textarea class="form-control" name="details" id="details" required="true" aria-invalid="false" aria-describedby="details-help">[[details]]</textarea>
               <p class="input-help" id="details-help">If there are fees, you <strong>must</strong> list them here. If you don't, people will assume the event is free.</p>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label req-label" for="audience">Audience</label>
               <select name="audience" class="form-control" id="audience">
@@ -577,7 +581,7 @@
                 [[/ audienceOptions ]]
               </select>
             </div>
-            
+
             [[# image]]
             <img src="[[image]]" />
             [[/ image]]
@@ -590,11 +594,11 @@
               [[/ image]]
               <input type="file" class="form-control" name="image" id="image" />
             </div>
-          
+
           </div>
         </div>
       </div>
-      
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>
@@ -608,7 +612,7 @@
         </div>
         <div id="timeandlocation-fields" class="panel-collapse collapse in">
           <div class="panel-body">
-            
+
             <div class="form-group">
               <label class="control-label req-label" for="datestring">Date</label>
               <div id="date-select-container" class="date-select-container-style form-group">
@@ -636,7 +640,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label req-label" for="time">Time</label>
               <select name="time" class="form-control" id="time" aria-describedby="time-help">
@@ -646,13 +650,13 @@
               </select>
               <p class="input-help" id="time-help">If your event has multiple times (for example, a "meet time" and a "ride time"), put the first time here. Describe the later times in the time details field, below.</p>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label optional-label" for="timedetails">Time details</label>
               <input type="text" class="form-control" name="timedetails" id="timedetails" value="[[timedetails]]" aria-describedby="timedetails-help" />
               <p class="input-help" id="timedetails-help">More detail about your event's time, if needed. Try to keep it short. Example: "Meet at 5:00pm, ride at 5:30pm."</p>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label req-label" for="venue">Location name</label>
               <input type="text" class="form-control" name="venue" id="venue" value="[[venue]]" required="true" aria-invalid="false" />
@@ -667,7 +671,7 @@
               <input type="text" class="form-control" name="locdetails" id="locdetails" value="[[locdetails]]" aria-describedby="locdetails-help" />
               <p class="input-help" id="locdetails-help">More detail about your event's location, if needed. Example: "Meet near the clock tower."</p>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label" for="area">Area</label>
               <select name="area" class="form-control" id="area">
@@ -676,7 +680,7 @@
                 [[/ areaOptions ]]
               </select>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label optional-label" for="eventduration">Event duration, in minutes</label>
               <input type="text" class="form-control" name="eventduration" id="eventduration" value="[[eventduration]]" aria-describedby="eventduration-help" />
@@ -694,7 +698,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>
@@ -712,13 +716,13 @@
               <label class="control-label req-label" for="organizer">Organizer</label>
               <input type="text" class="form-control" name="organizer" id="organizer" value="[[organizer]]" required="true" aria-invalid="false" />
             </div>
-            
+
             <div class="form-group">
               <label class="control-label req-label" for="email">Email</label>
               <input type="text" class="form-control" name="email" id="email" value="[[email]]" aria-describedby="email-help" required="true" aria-invalid="false" />
               <p class="input-help" id="email-help">This must be a valid email address where we can reach you. A confirmation message will be mailed to this address.</p>
               <div id="email-suggestion"></div>
-              
+
               <div>
                 <label class="control-label" for="hideemail">
                   <input type="checkbox" name="hideemail" id="hideemail" value="1" [[# hideemail ]]checked[[/ hideemail ]] />
@@ -732,7 +736,7 @@
                 </label>
               </div>
             </div>
-            
+
             <div>Website for additional details</div>
             <div class="row">
               <div class="form-group col-xs-12 col-sm-6">
@@ -744,21 +748,21 @@
                 <input type="text" class="form-control" name="weburl" id="weburl" value="[[weburl]]" />
               </div>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label optional-label" for="phone">Phone</label>
               <input type="text" class="form-control optional-label" name="phone" id="phone" value="[[phone]]" />
-              
+
               <label class="control-label" for="hidephone">
                 <input type="checkbox" name="hidephone" id="hidephone" value="1" [[# hidephone ]]checked[[/ hidephone ]] />
                 Don't publish my phone number online
               </label>
             </div>
-            
+
             <div class="form-group">
               <label class="control-label optional-label" for="contact">Additional Contact Info</label>
               <input type="text" class="form-control" name="contact" id="contact" value="[[contact]]" />
-              
+
               <label class="control-label" for="hidecontact">
                 <input type="checkbox" name="hidecontact" id="hidecontact" value="1" [[# hidecontact ]]checked[[/ hidecontact ]] />
                 Don't publish additional contact information online
@@ -767,9 +771,9 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Commented out here between March-June during Pedalpalooza season when these fields are required -->
-      
+
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>
@@ -800,7 +804,7 @@
               <label class="control-label" for="printdescr">Print description (120 characters)</label>
               <textarea class="form-control" name="printdescr" id="printdescr" maxlength="120" >[[printdescr]]</textarea>
             </div>
-            
+
             <fieldset>
               <legend>Print contact info</legend>
               <div class="checkbox">
@@ -837,7 +841,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="ride-comic">
         <img src="/images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
         <p>For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg">Ride Leading Comic</a> at least once before submitting an event.</p>
@@ -849,7 +853,7 @@
           </label>
         </div>
       </div>
-      
+
       [[# id ]]
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -862,22 +866,22 @@
             </a>
           </h2>
         </div>
-        
+
         <div id="delete-event-fields" class="panel-collapse collapse in">
           <div class="panel-body">
             <div class="form-group">
               <p class="input-help">If an event is no longer happening, we recommend <a href="#timeandlocation-fields">cancelling</a> instead of deleting. Cancelling it gives you an opportunity to post a message to inform riders, like if it's been rescheduled to another date.</p>
               <p class="input-help">If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
               <p class="input-help"><strong>Once an event is deleted, it can't be restored!</strong> If you're sure: </p>
-              
+
               <button id="delete-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#delete-modal">Delete</button>
             </div>
           </div>
         </div>
-      
+
       </div>
       [[/ id ]]
-    
+
     </div>
   </form>
 </script>
