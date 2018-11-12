@@ -29,4 +29,6 @@ xdebug.max_nesting_level = 500
 xdebug.remote_host=${HOST_IP}
 EOF
 
+chmod 777 $EVENTIMAGES
+
 exec "$@"
