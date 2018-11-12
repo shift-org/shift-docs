@@ -10,7 +10,7 @@ menu:
         parent: 
 ---
 
-_Get Lit_ installed over 1100 sets of lights on bicycles at various locations around Portland in 2005! The need still exists with more & more bicyclists on the streets everyday. Yea!
+_Get Lit_ installed over 1100 sets of lights on bicycles at various locations around Portland in 2005! This is a project from the far past, but a good example of the kind of outreach that Shift can enable.
 
 Excerpts from an Interview
 with Jeff Bernards
