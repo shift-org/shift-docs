@@ -1,5 +1,5 @@
 ---
-title: "Posse"
+title: Posse
 description: "related groups and organizations"
 date: 2017-11-13T08:14:32.000Z
 weight: '5'
