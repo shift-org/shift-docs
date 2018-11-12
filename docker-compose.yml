@@ -12,6 +12,7 @@ services:
       - ./site/public/:/var/www/site/
       - ./legacy/cal/:/var/www/cal/
       - ./legacy/:/opt/legacy/
+      - "${EVENTIMAGES}:/opt/legacy/eventimages"
       - ./services/nginx/:/opt/services/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
@@ -46,7 +47,7 @@ services:
       - ./site/:/src/
       - ./site/public/:/output/
     command: "hugo -v"
-  
+
   php:
     restart: never
     image: php:5.6-fpm
@@ -56,10 +57,12 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_HOST
+      - EVENTIMAGES
     links:
       - db
     volumes:
       - ./legacy/:/opt/legacy/
       - ./services/php/:/opt/services/php/
+      - "${EVENTIMAGES}:/opt/legacy/eventimages"
     entrypoint: /opt/services/php/entrypoint.sh
     command: php-fpm

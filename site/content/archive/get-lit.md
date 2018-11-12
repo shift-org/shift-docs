@@ -1,11 +1,13 @@
 ---
+draft: true
+
 title: Get Lit Program
 date: 2017-11-13T08:19:34.000Z
-weight: 6
+weight: 
 
 menu:
     main:
-        parent: communitynav
+        parent: 
 ---
 
 _Get Lit_ installed over 1100 sets of lights on bicycles at various locations around Portland in 2005! This is a project from the far past, but a good example of the kind of outreach that shift can enable.

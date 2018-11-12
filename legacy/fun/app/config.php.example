@@ -16,5 +16,5 @@ $PROTOCOL = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVE
 $HOST = $_SERVER['SERVER_NAME'];
 $PATH = "/index.html";
 $IMAGEDIR = "/calendarimages";
-$IMAGEPATH = "/calendarimages";
+$IMAGEURL = "/calendarimages";
 $SITENAME = "SHIFT to Bikes";
