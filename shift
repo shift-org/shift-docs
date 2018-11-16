@@ -18,6 +18,15 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export CONTAINERS="db nginx php hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
+#### SMTP ####
+# by default it is setup to log to file, to see use:
+# ./shift attach php
+# $ tail -f /var/log/shift-mail.log
+SMTP_HOST=
+SMTP_USER=
+SMTP_PASS=
+SMTP_LOGIN=
+SMTP_DOMAIN=
 
 #####
 # === HERE BE DRAGONS ===
@@ -30,14 +39,14 @@ export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/legacy/eventimages"
 
-# Check for an overrides
+# Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
     source ${ROOT}/shift.overrides
 fi
 
-# Check for an overrides
-if [ -f ${ROOT}/shift.overrides ]; then
-    source ${ROOT}/shift.overrides
+# Check for secrets
+if [ -f $ROOT/secrets ]; then
+    source $ROOT/secrets
 fi
 
 SCRIPT_NAME=$(basename $0)

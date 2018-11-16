@@ -56,6 +56,11 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_HOST
       - EVENTIMAGES
+      - SMTP_HOST
+      - SMTP_USER
+      - SMTP_PASS
+      - SMTP_LOGIN
+      - SMTP_DOMAIN
     links:
       - db
     volumes:
