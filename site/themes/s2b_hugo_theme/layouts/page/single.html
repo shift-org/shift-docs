@@ -13,38 +13,46 @@
 
         </header>
 
-        {{ partial "breadcrumbs.html" . }}
+        <main>
 
-        <div id="content">
-            {{ if isset .Params "id" }}
+            {{ partial "breadcrumbs.html" . }}
 
-              {{ partial .Params.id . }}
+            <div id="content">
+                {{ if isset .Params "id" }}
 
-            {{ else }}
+                  {{ partial .Params.id . }}
 
-            <div class="container">
+                {{ else }}
 
-                <div class="row">
+                <div class="container">
 
-                    <div class="col-md-12">
+                    <div class="row">
 
-                        <div>
-                          {{ .Content }}
+                        <div class="col-md-12">
+
+                            <div>
+                              {{ .Content }}
+                            </div>
+
                         </div>
 
                     </div>
+                    <!-- /.row -->
 
                 </div>
-                <!-- /.row -->
+                <!-- /.container -->
 
+                {{ end }}
             </div>
-            <!-- /.container -->
+            <!-- /#content -->
 
-            {{ end }}
-        </div>
-        <!-- /#content -->
+        </main>
 
-        {{ partial "footer.html" . }}
+        <footer>
+
+            {{ partial "footer.html" . }}
+
+        </footer>
 
     </div>
     <!-- /#all -->
