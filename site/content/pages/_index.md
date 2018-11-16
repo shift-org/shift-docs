@@ -1,5 +1,7 @@
 ---
 title: 'Shift 2 Bikes'
+weight: 0
+date: 2017-11-13T01:15:16.319Z
 ---
 ## Shift brings people in the Portland metro area together with bike fun
 
