@@ -1,5 +1,6 @@
 # build settings for netlify
 
+# [build] and [build.environment] are defaults, will apply to all builds unless overridden in a context stanza below
 [build]
   
   base = "site/"
@@ -9,11 +10,11 @@
   HUGO_VERSION = "0.37.1"
   SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/fun/"
 
-[context.deploy-preview.build]  
+[context.deploy-preview]  
   # this command builds draft content for deploy previews
   command = "hugo -D && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
 
-[context.branch.build]  
+[context.branch-deploy]  
   # this command builds draft content for deploy previews
   command = "hugo -D && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
 
