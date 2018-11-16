@@ -1,5 +1,12 @@
-# need fun to be a fun/ so that relative links are correct.  Doing it this way doesn't seem to work though
-# /fun /fun/ 301!
+# domain redirects.  Must be at the top of the site.
+https://shift2bikes.com/*	https://www.shift2bikes.org/:splat 301!
+https://www.shift2bikes.com/*	https://www.shift2bikes.org/:splat 301!
+https://shifttobikes.com/*	https://www.shift2bikes.org/:splat 301!
+https://www.shifttobikes.com/*	https://www.shift2bikes.org/:splat 301!
+https://shifttobikes.com/*	https://www.shift2bikes.org/:splat 301!
+https://www.shifttobikes.com/*	https://www.shift2bikes.org/:splat 301!
+https://pedalpalooza.org/*	https://www.shift2bikes.org/pages/pedalpalooza-calendar 302!
+https://www.pedalpalooza.org/*	https://www.shift2bikes.org/pages/pedalpalooza-calendar 302!
 
 # this would work if all of the assets were contained under the /fun path, but they aren't quite
 
