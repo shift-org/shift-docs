@@ -11,33 +11,39 @@
       {{ partial "nav.html" . }}
     </header>
 
-    {{ partial "breadcrumbs.html" . }}
+    <main>
+        {{ partial "breadcrumbs.html" . }}
 
-    <div id="content">
-      <div class="container">
+        <div id="content">
+          <div class="container">
 
-        <div class="row">
+            <div class="row">
 
-          <div class="col-md-12">
+              <div class="col-md-12">
 
-            <h1>LEGACY CALPAGE</h1>
-            <div>
-              {{ .Content }}
+                <h1>LEGACY CALPAGE</h1>
+                <div>
+                  {{ .Content }}
+                </div>
+
+                <div id="mustache-html" class="container"></div>
+
+              </div>
+
             </div>
-
-            <main role="main" id="mustache-html" class="container"></main>
+            <!-- /.row -->
 
           </div>
-
+          <!-- /.container -->
         </div>
-        <!-- /.row -->
+        <!-- /#content -->
+    </main>
 
-      </div>
-      <!-- /.container -->
-    </div>
-    <!-- /#content -->
+    <footer>
 
-    {{ partial "footer.html" . }}
+        {{ partial "footer.html" . }}
+
+    </footer>
 
   </div>
   <!-- /#all -->

@@ -13,6 +13,10 @@ footer {
   text-align: center;
 }
 
+#footer ul a {
+  color: #ccc;
+}
+
 header {
   text-align: center;
 }

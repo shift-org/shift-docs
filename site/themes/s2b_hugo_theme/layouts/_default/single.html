@@ -13,58 +13,65 @@
 
         </header>
 
-        {{ partial "breadcrumbs.html" . }}
+        <main>
 
-        <div id="content">
-            <div class="container">
+            {{ partial "breadcrumbs.html" . }}
 
-                <div class="row">
+            <div id="content">
+                <div class="container">
 
-                    <!-- *** LEFT COLUMN *** -->
+                    <div class="row">
 
-                    <div class="col-md-9" id="blog-post">
+                        <!-- *** LEFT COLUMN *** -->
 
-                        <p class="text-muted text-uppercase mb-small text-right">{{ if .Params.author }}{{ i18n "authorBy" }} <a href="#">{{ .Params.author }}</a> | {{ end }}{{ .Date.Format .Site.Params.date_format }}</p>
+                        <div class="col-md-9" id="blog-post">
 
-                        <div id="post-content">
-                          {{ .Content }}
+                            <p class="text-muted text-uppercase mb-small text-right">{{ if .Params.author }}{{ i18n "authorBy" }} <a href="#">{{ .Params.author }}</a> | {{ end }}{{ .Date.Format .Site.Params.date_format }}</p>
+
+                            <div id="post-content">
+                              {{ .Content }}
+                            </div>
+                            <!-- /#post-content -->
+                            {{ if .Site.DisqusShortname }}
+                            <div id="comments">
+                                {{ template "_internal/disqus.html" . }}
+                            </div>
+                            {{ end }}
+
                         </div>
-                        <!-- /#post-content -->
-                        {{ if .Site.DisqusShortname }}
-                        <div id="comments">
-                            {{ template "_internal/disqus.html" . }}
+                        <!-- /#blog-post -->
+
+                        <!-- *** LEFT COLUMN END *** -->
+
+                        <!-- *** RIGHT COLUMN *** -->
+
+                        <div class="col-md-3">
+
+                            <!-- *** MENUS AND WIDGETS *** -->
+
+                            {{ partial "sidebar.html" . }}
+
+                            <!-- *** MENUS AND FILTERS END *** -->
+
                         </div>
-                        {{ end }}
+                        <!-- /.col-md-3 -->
+
+                        <!-- *** RIGHT COLUMN END *** -->
 
                     </div>
-                    <!-- /#blog-post -->
-
-                    <!-- *** LEFT COLUMN END *** -->
-
-                    <!-- *** RIGHT COLUMN *** -->
-
-                    <div class="col-md-3">
-
-                        <!-- *** MENUS AND WIDGETS *** -->
-
-                        {{ partial "sidebar.html" . }}
-
-                        <!-- *** MENUS AND FILTERS END *** -->
-
-                    </div>
-                    <!-- /.col-md-3 -->
-
-                    <!-- *** RIGHT COLUMN END *** -->
+                    <!-- /.row -->
 
                 </div>
-                <!-- /.row -->
-
+                <!-- /.container -->
             </div>
-            <!-- /.container -->
-        </div>
-        <!-- /#content -->
+            <!-- /#content -->
+        </main>
 
-        {{ partial "footer.html" . }}
+        <footer>
+
+            {{ partial "footer.html" . }}
+
+        </footer>
 
     </div>
     <!-- /#all -->
