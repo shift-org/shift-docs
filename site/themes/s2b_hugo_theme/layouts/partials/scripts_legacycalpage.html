@@ -123,9 +123,11 @@
       <div class="modal-body">
         <p id="success-message"></p>
       </div>
+      <!--
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal" id="success-ok">OK</button>
       </div>
+      -->
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -529,17 +531,6 @@
   [[^ id ]]<h1>Add Event</h1>[[/ id ]]
   [[# id ]]<h1>Edit Event</h1>[[/ id ]]
   
-  <div id="edit-header" >
-    <button id="preview-edit-button" type="button" class="btn btn-add-event">Edit</button>
-    <button id="preview-button" type="button" class="btn btn-add-event">Preview</button>
-    <button id="save-button" type="button" class="btn btn-add-event">Save</button>
-    [[^ id ]]
-    <button id="cancel-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
-    [[/ id ]]
-    
-    <span id="save-result"></span>
-  </div>
-  <br>
   <form id="event-entry">
     <input type="hidden" name="id" value="[[id]]" />
     <input type="hidden" name="secret" value="[[secret]]" />
@@ -793,11 +784,11 @@
               <p class="input-help" id="printevent-help">You must submit at least 3 weeks in advance. Inclusion not guaranteed.</p>
             </div>
             <div class="form-group">
-              <label class="control-label" for="tinytitle">Print title (24 characters)</label>
+              <label class="control-label" for="tinytitle">Short title (Required, 24 characters max)</label>
               <input type="text" class="form-control" name="tinytitle" id="tinytitle" value="[[tinytitle]]" maxlength="24" />
             </div>
             <div class="form-group">
-              <label class="control-label" for="printdescr">Print description (120 characters)</label>
+              <label class="control-label" for="printdescr">Short description (Required, 120 characters max)</label>
               <textarea class="form-control" name="printdescr" id="printdescr" maxlength="120" >[[printdescr]]</textarea>
             </div>
             
@@ -848,6 +839,17 @@
             I have read the Ride Leading Comic
           </label>
         </div>
+      </div>
+  
+      <div id="edit-actions" ><!-- id="edit-header" -->
+        <button id="preview-edit-button" type="button" class="btn btn-add-event">Edit</button>
+        <button id="preview-button" type="button" class="btn btn-add-event">Preview</button>
+        <button id="save-button" type="button" class="btn btn-add-event">Save</button>
+        [[^ id ]]
+        <button id="cancel-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
+        [[/ id ]]
+    
+        <span id="save-result"></span>
       </div>
       
       [[# id ]]

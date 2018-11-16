@@ -132,19 +132,19 @@
                 data: data,
                 success: function(returnVal) {
                     var msg = isNew ?
-                        'Thank you! A link with a URL to edit and manage the ' +
+                        '<strong>Thank you!</strong><br /> A link with a URL to edit and manage the ' +
                             'event has been emailed to ' + postVars.email +
-                            '. You must click this link for the event to become visible.  If you don\'t receive that email within 20 minutes, please contact bikecal@shift2bikes.org for help.' :
+                            '.<br /> You must click this link for the event to become visible.  If you don\'t receive that email within 20 minutes, please contact bikecal@shift2bikes.org for help and reference event id: <strong>' + returnVal.id + '</strong>':
                         'Your event has been updated!';
 
                     if (returnVal.secret) {
-                        var newUrl = 'editEvent-' + returnVal.id + '-' + returnVal.secret;
-						history.pushState({}, newUrl, newUrl);
+                        //var newUrl = 'editEvent-' + returnVal.id + '-' + returnVal.secret;
+						            //history.pushState({}, newUrl, newUrl);
                         $('#secret').val(returnVal.secret);
-                        msg += ' You may also bookmark the current URL before you click OK.'
+                        msg += ' You may also bookmark the current URL before you click OK.';
                     }
-                    $('#success-message').text(msg);
-                    $('#success-modal').modal('show');
+                    $('#success-message').html(msg);
+                    $('#success-modal').modal({backdrop: "static", show: true, keyboard: false });
                     shiftEvent.id = returnVal.id;
                 },
                 error: function(returnVal) {
