@@ -13,6 +13,10 @@
   # this command builds draft content for deploy previews
   command = "hugo -D && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
 
+[context.branch.build]  
+  # this command builds draft content for deploy previews
+  command = "hugo -D && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
+
 [context.production.build]
   # drafts are excluded for prod build
   command = "hugo && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
