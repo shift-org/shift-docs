@@ -1,17 +1,18 @@
 ---
 title: "Pedalpalooza Archive"
 date: 2017-11-15T23:33:40-08:00
-draft: true
-weight: 7
-
-menu:
-    main:
-        parent: communitynav
+draft: false
+weight:
 ---
 
 [comment]: <> (aka, That Fun Thing We Do Every June)
 
 In 2002, Portland hosted [Bike Summer](http://criticalmass.wikia.com/wiki/Bike_Summer!), and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.
+
+*   [2018](http://www.shift2bikes.org/cal/viewpp2018.php)
+
+    Another month of bike fun — all of June! 309 events!
+
 
 *   [2017](http://www.shift2bikes.org/cal/viewpp2017.php)
 
