@@ -14,7 +14,7 @@ date_default_timezone_set('America/Los_Angeles');
 
 $PROTOCOL = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $HOST = $_SERVER['SERVER_NAME'];
-$PATH = "/index.html";
+$PATH = "/";
 $IMAGEDIR = "/opt/legacy/eventimages";
 $IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";
