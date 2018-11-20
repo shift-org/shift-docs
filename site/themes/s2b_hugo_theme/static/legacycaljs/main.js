@@ -165,12 +165,6 @@ $(document).ready(function() {
         });
     }
 
-    function viewPedalpaloozaArchive() {
-        var content = $('#pedalpaloozaArchive').html();
-        container.empty().append(content);
-        checkAnchors();
-    }
-
     function dateJump(ev) {
         var e = ev.target;
         if (e.hasAttribute('data-date')) {
