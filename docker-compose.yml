@@ -56,6 +56,7 @@ services:
       - MYSQL_PASSWORD
       - MYSQL_HOST
       - SHIFT_DOMAIN
+      - NGINX_HTTPS_PORT
       - SHIFT_EMAIL_LOG
       - EVENTIMAGES
       - SMTP_HOST
