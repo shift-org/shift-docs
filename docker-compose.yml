@@ -55,6 +55,7 @@ services:
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_HOST
+      - SERVER_NAME
       - EVENTIMAGES
       - SMTP_HOST
       - SMTP_USER
