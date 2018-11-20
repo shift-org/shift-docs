@@ -18,9 +18,9 @@ collections:
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Page #", name: "weight", widget: number}
       - {label: "Body", name: "body", widget: "markdown"}
-  - name: "playbooks" # Used in routes, e.g., /admin/collections/pages/playbooks
+  - name: "playbooks" # Used in routes, e.g., /admin/collections/playbooks
     label: "Playbooks" # Used in the UI
-    folder: "site/content/pages/playbooks/" # The path to the folder where the documents are stored
+    folder: "site/content/playbooks/" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection
     slug: "{{slug}}" # Filename template: title.md
     fields: # The fields for each document, usually in front matter
