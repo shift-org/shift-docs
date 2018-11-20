@@ -8,4 +8,4 @@ type: legacycalpage
 ---
 
 
-Content from site/content/addevent.md
+If you need help creating or editing an event, [contact the calendar crew](mailto:bikecal@shift2bikes.org).
