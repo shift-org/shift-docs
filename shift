@@ -13,7 +13,7 @@ export NGINX_CERT_NAME=default
 export NGINX_COMMON_NAME=localhost
 export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 
-export SERVER_NAME="localhost"
+export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
 export CONTAINERS="db nginx php hugo"
