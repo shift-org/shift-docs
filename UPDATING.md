@@ -25,9 +25,7 @@ Finally, select "Publish" and your results should be available live within a min
 
 # Creating Content
 
-New pages can be created through the CMS as shown in this screenshot: 
-
-as accessed at: https://docs.shift2bikes.org/admin/#/collections/pages
+New pages can be created through the CMS as accessed at: https://docs.shift2bikes.org/admin/#/collections/pages .  You can't create new chapters there, but pulling up your category (Playbooks/Pages/Archive) will lead to a list of existing content and a button in the upper right for "New Playbooks", "New Pages", or "New Archive".  Playbooks are shown under shift2bikes.org/pages/playbooks, Pages at shift2bikes.org/pages, and Archives are not shown by default but can be linked to as /archive/name-of-markdown-file (without a `.md` extension)
 
 
 # Working on non-static content

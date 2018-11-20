@@ -1,13 +1,9 @@
 ---
-draft: true
 
 title: Get Lit Program
 date: 2017-11-13T08:19:34.000Z
 weight: 
 
-menu:
-    main:
-        parent: 
 ---
 
 _Get Lit_ installed over 1100 sets of lights on bicycles at various locations around Portland in 2005! This is a project from the far past, but a good example of the kind of outreach that Shift can enable.
@@ -18,7 +14,7 @@ with Jeff Bernards
 Interview conducted by William Ross, _age 15, and_
 _a student at the Center for Appropriate Transport._
 Full interview published in [Oregon Cycling](http://www.efn.org/%7Ecat/ocycling/index.php?Vol_15_No._2_April_06:Alice_B_Toeclips_Interview%3A_Jeff_Bernards).
-
+``
 **What did you do to win an Alice award this year?**
 We started a program in Portland called "Get Lit". Its purpose is to bring lights out into the street to help people who can't afford to buy lights, to create a safe biking situation in Portland, to cut down on the number of frustrated car drivers who don't like cyclists without lights and to cut down on the number of accidents in Portland.
 
