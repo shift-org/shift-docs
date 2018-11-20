@@ -104,6 +104,7 @@ sub_rebuild() { # <service>, ...  - Remove and rebuild a service
     echo Rebuilding $@
     sub_stop $@
     sub_compose rm -f $@
+    sub_compose build $@
     sub_compose up -d $@
 }
 

@@ -29,36 +29,26 @@ chmod 777 $EVENTIMAGES
 
 # If smtp secret then configure
 if [ ! -z "$SMTP_HOST" ]; then
-    echo "AuthInfo:$SMTP_HOST \"U:root\" \"I:$SMTP_USER\" \"P:$SMTP_PASS\" \"M:$SMTP_LOGIN\"" > /etc/mail/authinfo
-    makemap hash /etc/mail/authinfo.db < /etc/mail/authinfo
+	sudo postconf -e "relayhost = [$SMTP_HOST]:587" \
+	"smtp_sasl_auth_enable = yes" \
+	"smtp_sasl_security_options = noanonymous" \
+	"smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
+	"smtp_use_tls = yes" \
+	"smtp_tls_security_level = encrypt" \
+	"smtp_tls_note_starttls_offer = yes"
 
-	if [ ! -f /etc/mail/access.orig ]; then
-		cp /etc/mail/access /etc/mail/access.orig
-	fi
-	cp /etc/mail/access.orig /etc/mail/access
-	echo "Connect:$SMTP_HOST RELAY" >> /etc/mail/access
+	echo $SMTP_DOMAIN > /etc/mailname
 
-	if [ ! -f /etc/mail/sendmail.mc.orig ]; then
-		cp /etc/mail/sendmail.mc /etc/mail/sendmail.mc.orig
-	fi
+	echo "[$SMTP_HOST]:587 $SMTP_USER:$SMTP_PASS" > /etc/postfix/sasl_passwd
+	postmap hash:/etc/postfix/sasl_passwd
+	postconf -e "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"
 
-	# add this conf to the start of the file
-	echo "define(\`SMART_HOST', \`$SMTP_HOST')dnl" > /etc/mail/sendmail.mc
-	echo "define(\`RELAY_MAILER_ARGS', \`TCP $h 25')dnl" >> /etc/mail/sendmail.mc
-	echo "define(\`confAUTH_MECHANISMS', \`LOGIN PLAIN')dnl" >> /etc/mail/sendmail.mc
-	echo "FEATURE(\`authinfo', \`hash -o /etc/mail/authinfo.db')dnl" >> /etc/mail/sendmail.mc
-	echo "MASQUERADE_AS(\`$SMTP_DOMAIN')dnl" >> /etc/mail/sendmail.mc
-	echo "FEATURE(masquerade_envelope)dnl" >> /etc/mail/sendmail.mc
-	echo "FEATURE(masquerade_entire_domain)dnl" >> /etc/mail/sendmail.mc
+	service rsyslog start
 
-	# and add the original
-	cat /etc/mail/sendmail.mc.orig >> /etc/mail/sendmail.mc
-
-	chmod 666 /etc/mail/sendmail.cf
-	m4 /etc/mail/sendmail.mc > /etc/mail/sendmail.cf
-	chmod 644 /etc/mail/sendmail.cf
-
-	/etc/init.d/sendmail restart
+	postfix start
+	postfix reload
+else
+	echo "No secrets found, logging email to /var/log/shift-mail.log"
 fi
 
 exec "$@"

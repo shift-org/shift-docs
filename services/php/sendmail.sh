@@ -16,6 +16,3 @@ else
     cat /dev/stdin | tee -a $EMAIL_LOG | sendmail -i -t
 fi
 echo >> $EMAIL_LOG
-
-# need a tee
-# sendmail -i -t @
