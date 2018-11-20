@@ -5,6 +5,7 @@
   
   base = "site/"
   publish = "site/public/"
+  command = 'hugo && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated'
   
 [build.environment]
   HUGO_VERSION = "0.37.1"
@@ -12,12 +13,12 @@
 
 [context.deploy-preview]  
   # this command builds draft content for deploy previews
-  command = "hugo -D && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
+  command = 'hugo -D && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated'
 
 [context.branch-deploy]  
   # this command builds draft content for deploy previews
-  command = "hugo -D && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
+  command = 'hugo -D && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated'
 
 [context.production]
-  # drafts are excluded for prod build
-  command = "hugo && mkdir ~/.ssh && wget -O ~/.ssh/id_rsa https://${KEY_HOST}/yup.txt && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated"
+  # drafts are excluded (no `-D` option to hugo) for prod build
+  command = 'hugo && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated'
