@@ -7,12 +7,10 @@
 # if secrets send to sendmail
 # https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-sendmail.html
 
-EMAIL_LOG=/var/log/shift-mail.log
-
-echo "Sending email $(date):" >> $EMAIL_LOG
+echo "Sending email $(date):" >> $SHIFT_EMAIL_LOG
 if [ -z $SMTP_HOST ]; then
-    cat /dev/stdin >> $EMAIL_LOG
+    cat /dev/stdin >> $SHIFT_EMAIL_LOG
 else
-    cat /dev/stdin | tee -a $EMAIL_LOG | sendmail -i -t
+    cat /dev/stdin | tee -a $SHIFT_EMAIL_LOG | sendmail -i -t
 fi
-echo >> $EMAIL_LOG
+echo >> $SHIFT_EMAIL_LOG

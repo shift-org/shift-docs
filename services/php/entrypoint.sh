@@ -27,6 +27,9 @@ EOF
 mkdir -p $EVENTIMAGES
 chmod 777 $EVENTIMAGES
 
+touch $SHIFT_EMAIL_LOG
+chmod 777 $SHIFT_EMAIL_LOG
+
 # If smtp secret then configure
 if [ ! -z "$SMTP_HOST" ]; then
 	sudo postconf -e "relayhost = [$SMTP_HOST]:587" \
@@ -48,7 +51,7 @@ if [ ! -z "$SMTP_HOST" ]; then
 	postfix start
 	postfix reload
 else
-	echo "No secrets found, logging email to /var/log/shift-mail.log"
+	echo "No secrets found, logging email to $SHIFT_EMAIL_LOG"
 fi
 
 exec "$@"

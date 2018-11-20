@@ -40,6 +40,8 @@ export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/legacy/eventimages"
 
+export SHIFT_EMAIL_LOG=/var/log/shift-mail.log
+
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
     source ${ROOT}/shift.overrides
@@ -119,6 +121,10 @@ sub_compose() { # <cmd...>        - Run a compose with associated files
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
     sub_compose logs --tail=50 -f $@
+}
+
+sub_emails() { #                  - Show recent emails and update with new ones
+    sub_compose exec php tail -f ${SHIFT_EMAIL_LOG}
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected
