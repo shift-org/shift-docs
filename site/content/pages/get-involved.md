@@ -44,7 +44,7 @@ Shift welcomes all respectful participants!  There are a lot of ways to get invo
   - help with [Breakfast on the Bridges](/pages/bonb/).
   - help with [the World Naked Bike Ride](https://pdxwnbr.org/volunteer/)
 
-- donate!  The paypal button at the bottom of the page here lets you give a tax deductible donation to shift via our fiscal sponsor Umbrella.  You can see how we use this money on our [expenses page](/pages/budget-finance-stuff).
+- donate!  The paypal button at the bottom of the page here lets you give a tax deductible donation to shift via our fiscal sponsor Umbrella.  You can see how we use this money on our [expenses page](/pages/budget-finance-stuff/).
 
 <center><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
