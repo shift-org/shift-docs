@@ -67,8 +67,8 @@ sub_ps() { #                      - Print service information
     sub_compose ps
 }
 
-sub_pull() { #                      - Update the codebase to HEAD of https://github.com/Shift2Bikes/shift-docs/tree/master
-    echo "pulling most recent commit from https://github.com/Shift2Bikes/shift-docs/tree/master"
+sub_pull() { #                      - Update the codebase to HEAD of currently deployed branch from https://github.com/Shift2Bikes/shift-docs
+    echo "pulling most recent commit from deployed branch of https://github.com/Shift2Bikes/shift-docs"
     cd ${ROOT} ; git pull
     sub_up
 }
