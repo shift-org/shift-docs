@@ -21,11 +21,16 @@ You can browse the current state here:  https://docs.shift2bikes.org
 - If you only want to edit CONTENT rather than any code or site styling, (including creating new pages), [this doc tells how](/UPDATING.md)
 
 ## Local development
+
+Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the php server:
+
 1. install docker
 2. clone repo: `git clone https://github.com/sdobz/shift-docs.git`
 3. clone submodules `git submodule update --init --recursive`
 4. start shift site `./shift up`
 5. visit `https://localhost:4443/`
+
+Note that no changes to the filesystems INSIDE the container should ever be needed;  they read from your LOCAL filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands OUTIDE of the container (`git checkout otherbranch` or `git pull`).
 
 
 ## Netlify deployment
