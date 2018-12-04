@@ -11,7 +11,7 @@ menu:
 *   **Come to an event!** Visit our [calendar](http://www.shift2bikes.org/cal/).
 
 *   **Join the SHIFT listserve!**
-    Raise your awareness of what is happening in the bike community. Sign up for the [SHIFT listserve](http://lists.riseup.net/www/subrequest/shift). It's like a bulletin board of bike talk! Once subscribed, you have the option of receiving the list via email or not.
+    Raise your awareness of what is happening in the bike community. Sign up for the [Shift email list](/pages/email-list/). It's like a bulletin board of bike talk! Once subscribed, you have the option of receiving the list via email or not.
 
 *   **Volunteer!**
     Shift events need your energy. Easy, short stints available at many fun events. Including...
