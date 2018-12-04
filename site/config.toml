@@ -70,14 +70,6 @@ paginate = 10
     weight = 3
     identifier = "communitynav"
 
-# Child of Community
-[[menu.main]]
-    name = "Email list"
-    pre = "s2b-external-link"
-    url  = "https://lists.riseup.net/www/info/shift"
-    weight = 2
-    parent = "communitynav"
-
 #[[menu.main]]
 #    name = "Tips"
 #    url  = "/pages/"
