@@ -12,3 +12,4 @@ For both groups, the main goal for organizing was to produce another bike festiv
 The following year, Shift took the lead role in organizing the summer bike festival, and renamed it Pedalpalooza because the "MiniBikeSummer" name was too confusing. (Are big bikes allowed? Is it associated with BikeSummer?) Zoobomb later created the MiniBike Winter Olympics. Both groups created many smaller events and parties throughout the year.
 
 Actually, distinction between Zoobomb and Shift isn't that clearcut. There's a lot of overlap of personnel. Every Zoobomber participates in some Shift events, and practically every Shifter zoobombs at least occasionally. There's a cheerful rivalry between the two groups, but also a lot of respect.
+
