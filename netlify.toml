@@ -8,7 +8,7 @@
   command = 'hugo && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org touch authenticated'
 
 [build.environment]
-  HUGO_VERSION = "0.37.1"
+  HUGO_VERSION = "0.51"
   SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/fun/"
 
 [context.deploy-preview]
