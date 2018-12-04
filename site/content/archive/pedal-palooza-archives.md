@@ -72,7 +72,7 @@ In 2002, Portland hosted [Bike Summer](http://criticalmass.wikia.com/wiki/Bike_S
 
 *   [2003](http://www.shift2bikes.org/pedalpalooza/pp2003.shtml)
 
-    Mini BikeSummer. 49 events. Apparently Portland was the first (and so far only?) BikeSummer site to continue the festival on following years. This first year, it was organized in cooperation with [Zoobomb](http://www.zoobomb.net/). (A brief [history of Shift and Zoobomb](http://www.shift2bikes.org/pedalpalooza/zbshift.shtml).)
+    Mini BikeSummer. 49 events. Apparently Portland was the first (and so far only?) BikeSummer site to continue the festival on following years. This first year, it was organized in cooperation with [Zoobomb](https://www.zoobombpdx.org/). (A brief [history of Shift and Zoobomb](/archive/shift-and-zoobomb-history/).)
 
 *   [2002](http://web.archive.org/web/20020428220445/http://www.bikesummer.org/2002/events/index.htm)
 
