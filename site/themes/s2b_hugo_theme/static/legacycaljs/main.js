@@ -322,8 +322,6 @@ $(document).ready(function() {
     //     viewAddEventForm(arr[1], arr[2]);
     // });
     // addRoute(/viewEvents$/, viewEvents);
-    // addRoute(/aboutUs$/, viewAbout);
-    // addRoute(/pedalpaloozaArchive$/, viewPedalpaloozaArchive);
     // addRoute(/event-([0-9]*)$/, function (frag) {
     //     var rx = /event-([0-9]*)$/g;
     //     var arr = rx.exec(frag);
