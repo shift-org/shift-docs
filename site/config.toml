@@ -60,7 +60,7 @@ paginate = 10
 [[menu.main]]
     name = "Midnight Mystery Ride"
     pre = "s2b-external-link"
-    url  = "http://www.yeabikes.net/midnight/"
+    url  = "https://midnightmysteryride.wordpress.com/"
     weight = 6
     parent = "featuredevents"
 
@@ -69,14 +69,6 @@ paginate = 10
     url  = ""
     weight = 3
     identifier = "communitynav"
-
-# Child of Community
-[[menu.main]]
-    name = "Email list"
-    pre = "s2b-external-link"
-    url  = "https://lists.riseup.net/www/info/shift"
-    weight = 2
-    parent = "communitynav"
 
 #[[menu.main]]
 #    name = "Tips"
@@ -238,7 +230,7 @@ paginate = 10
     enable = true
     title = "From our blog"
     subtitle = "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo."
-    
+
 # For search functionality
 
 [outputs]

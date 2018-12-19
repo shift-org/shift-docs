@@ -143,12 +143,6 @@ $(document).ready(function() {
         });
     }
 
-    function viewAbout() {
-        var content = $('#aboutUs').html();
-        container.empty().append(content);
-        checkAnchors();
-    }
-
     function viewPedalpalooza() {
         curPage = "viewPedalpalooza";
         var startDate = new Date("June 1, 2018");
@@ -169,12 +163,6 @@ $(document).ready(function() {
              container.append(eventHTML);
              checkAnchors();
         });
-    }
-
-    function viewPedalpaloozaArchive() {
-        var content = $('#pedalpaloozaArchive').html();
-        container.empty().append(content);
-        checkAnchors();
     }
 
     function dateJump(ev) {
@@ -320,7 +308,7 @@ $(document).ready(function() {
             }
         }
     }
-    
+
     //JG - we are no longer sdi -
     // window.onpopstate = function (ev) {
     //     checkRoute(document.location.pathname);
@@ -334,8 +322,6 @@ $(document).ready(function() {
     //     viewAddEventForm(arr[1], arr[2]);
     // });
     // addRoute(/viewEvents$/, viewEvents);
-    // addRoute(/aboutUs$/, viewAbout);
-    // addRoute(/pedalpaloozaArchive$/, viewPedalpaloozaArchive);
     // addRoute(/event-([0-9]*)$/, function (frag) {
     //     var rx = /event-([0-9]*)$/g;
     //     var arr = rx.exec(frag);
@@ -352,9 +338,9 @@ $(document).ready(function() {
     //     checkRoute( document.location.pathname );
     // }
     //checkAnchors();
-  
+
     //JG - 7/22/2018 exposing some of these rendering functions to the newer interface
-  
+
     console.log("Vincent's main.js - 2");
     window.viewAddEventForm = viewAddEventForm;
     window.viewEvents = viewEvents;

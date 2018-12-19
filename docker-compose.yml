@@ -3,7 +3,6 @@ version: "2"
 volumes:
   db: {}
 
-
 services:
   nginx:
     image: nginx
@@ -49,15 +48,22 @@ services:
     command: "hugo -v"
 
   php:
-    restart: never
-    image: php:5.6-fpm
+    build: ./services/php
     restart: always
     environment:
       - MYSQL_DATABASE
       - MYSQL_USER
       - MYSQL_PASSWORD
       - MYSQL_HOST
+      - SHIFT_DOMAIN
+      - NGINX_HTTPS_PORT
+      - SHIFT_EMAIL_LOG
       - EVENTIMAGES
+      - SMTP_HOST
+      - SMTP_USER
+      - SMTP_PASS
+      - SMTP_LOGIN
+      - SMTP_DOMAIN
     links:
       - db
     volumes:

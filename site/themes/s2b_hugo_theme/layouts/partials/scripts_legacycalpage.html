@@ -48,29 +48,7 @@
 
 </script>
 
-
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="icon-location" viewBox="0 0 80 80">
-    <path fill-rule="evenodd" d="M21.2223414,40.1091727 C19.1768831,36.7198628 18,32.7473693 18,28.5 C18,16.0735931 28.0735931,6 40.5,6 C52.9264069,6 63,16.0735931 63,28.5 C63,32.6286702 61.8879773,36.4976135 59.947107,39.823655 L40.5,74 L21.2223414,40.1091727 Z M40.5,38 C45.1944204,38 49,34.1944204 49,29.5 C49,24.8055796 45.1944204,21 40.5,21 C35.8055796,21 32,24.8055796 32,29.5 C32,34.1944204 35.8055796,38 40.5,38 Z"/>
-  </symbol>
-
-  <symbol id="icon-organizer" viewBox="0 0 80 80">
-    <path fill-rule="evenodd" d="M52.9056214,38.2017711 C55.8537899,42.1877258 58.491916,46.1204688 60.8199997,50 C65.3379147,57.528678 67.9927053,65.4335097 68.7843714,73.7144951 C68.942054,75.3638318 67.7328248,76.8287066 66.0834876,76.9863841 C65.9885912,76.9954562 65.8933164,77 65.7979873,77 L16.0495024,76.9999956 C14.3926506,76.9999956 13.0495068,75.6568518 13.0495068,74 C13.0495068,73.9434873 13.0511037,73.8869859 13.0542955,73.8305635 C13.4917633,66.097245 16.1569979,58.1537239 21.0499992,50 C23.3821111,46.1137562 25.9050237,42.3147942 28.6187369,38.6031141 C31.9408037,41.060291 36.0507357,42.5131458 40.5,42.5131458 C45.1863826,42.5131458 49.4963003,40.9013082 52.9056188,38.2017676 Z M40.5,40 C30.8350169,40 23,32.1649831 23,22.5 C23,12.8350169 30.8350169,5 40.5,5 C50.1649831,5 58,12.8350169 58,22.5 C58,32.1649831 50.1649831,40 40.5,40 Z"/>
-  </symbol>
-
-  <symbol id="icon-newsflash" viewBox="0 0 80 80">
-    <g fill="none" fill-rule="evenodd" stroke-width="6" transform="translate(4 10)">
-      <path d="M3.12553035,61 L19.1818698,54.3433076 L19.4337312,54.4482511 C24.5085876,56.5628005 30.1532262,57.6825425 36,57.6825425 C55.9229334,57.6825425 72,44.7042439 72,28.8412713 C72,12.9782986 55.9229334,0 36,0 C16.0770666,0 0,12.9782986 0,28.8412713 C0,34.9644043 2.39496175,40.8098694 6.7916417,45.6901997 L7.09492946,46.0268502 L3.12553035,61 Z"/>
-      <g stroke-linecap="round" transform="translate(16 23)">
-        <path d="M0 0L40 0M0 13L26 13"/>
-      </g>
-    </g>
-  </symbol>
-
-  <symbol id="icon-arrow-down" viewBox="0 0 24 24">
-    <polyline fill="none" stroke-width="4" points="0 0 10.01 10.01 0 20.02" transform="rotate(90 8 14)"/>
-  </symbol>
-</svg>
+{{ partial "cal-icons.html" . }}
 
 <div class="modal fade" tabindex="-1" id="cancel-modal" role="dialog">
   <div class="modal-dialog modal-sm">
@@ -118,10 +96,10 @@
 
 <script id="pedalpalooza-header" type="text/template">
   <div id="pp-banner">
-    <a href="{{ .Site.BaseURL }}legacycalimages/pp/pp2018.jpg"><img alt="Pedalpalooza is for Everyone" id="pedalpalooza-img" src="{{ .Site.BaseURL }}legacycalimages/pp/pp2018-banner.png"></a>
+    <a href="{{ .Site.BaseURL }}legacycalimages/pp/pp-general.jpg"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Site.BaseURL }}legacycalimages/pp/pp-general-banner.png"></a>
     <div>
       <span class="pp-headline">Pedalpalooza!</span>
-      <span>All of June, 2018</span>
+      <span>2019 dates TBD</span>
     </div>
     <button type="button" aria-expanded="true" class="expand-details" data-toggle-target="#pp-description">
       <svg class="icon expand" role="img" aria-hidden="true">
@@ -130,11 +108,8 @@
       <span>About Pedalpalooza</span>
     </button>
     <div id="pp-description">
-      <p>Pedalpalooza is a month of bikey fun. With hundreds of different events, most organized by individuals, bikers of all persuasions are likely to find many events of interest. Nearly all events are free. </p>
-      <p><a href="addEvent"><strong>Add your events for 2018 now!</strong></a> Seeking inspiration? View the <a href="pedalpaloozaArchive">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, <a href="http://www.shift2bikes.org/contacts/index.php?eCon=CalCrew">contact the calendar crew</a>.</p>
-      <p>Looking for an overview of the full month? Check out the <a href="http://shift2bikes.org/cal/viewpp2018.php">classic cal</a>.</p>
-      <p>Visiting from out of town? We've started a <a href="http://www.shift2bikes.org/allbike.php#Visitor_Info">Visitor Info</a> page.</p>
-      <p> <a href="https://docs.shift2bikes.org/pages/pedalpalooza/">More about Pedalpalooza…</a> </p>
+      <p><a href="/pages/pedalpalooza/">Pedalpalooza</a> is a month of bikey fun. With hundreds of different events, most organized by individuals, bikers of all persuasions are likely to find many events of interest. Nearly all events are free. </p>
+      <p><a href="/addevent/"><strong>Add your events for 2019 now!</strong></a> Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">
         <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
@@ -221,85 +196,6 @@
     <p class="legend" aria-hidden="true"><span class="example">★</span> = <span id="pp-featured-day-label">day with featured event</span></p>
   </div>
 </script>
-
-<script id="pedalpaloozaArchive" type="text">
-        <div>
-            <h1>Pedalpalooza Archive</h1>
-
-            <div class="archive">
-                <p class="byline">aka, That Fun Thing We Do Every June</p>
-                <p>In 2002, Portland hosted <a href="http://criticalmass.wikia.com/wiki/Bike_Summer!">Bike Summer</a>, and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.</p>
-
-                <ul class="archive-list">
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2017.php">2017</a>
-                        <p class="description">A whole month of bike fun, June 1 - June 30th.  327 events!</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2016.php">2016</a>
-                        <p class="description">292 events!</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2015.php">2015</a>
-                        <p class="description">294 events!</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2014.php">2014</a>
-                        <p class="description">298 events! 308 if you count repeats.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2013.php">2013</a>
-                        <p class="description">280 events, 3+ weeks of bike fun, from June 6th through 29th. The big naked ride Saturday, June 8th, was almost certainly the largest every, anywhere.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2012.php">2012</a>
-                        <p class="description">For the first time, we expanded to 3+ weeks of bike fun! The intent was to spread out roughly the same number of events over more days, so you could participate in more of them. 298 events... or 313 if you count each instance of repeating events.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2011.php">2011</a>
-                        <p class="description">About 270 events &mdash; slightly less than 2010. The big naked ride was also slightly down, due to weather fears. Be brave!  Be ambitious!  Try harder in 2012!</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2010.php">2010</a>
-                        <p class="description">We had roughly 300 events, and a very strong attendance. The naked ride alone had somewhere between 7000 and 12,500 riders.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2009.php">2009</a>
-                        <p class="description">In 2009 the number of events was down a tiny bit, but the number of people at each event seemed to double. One highlight is that we had about 5000 people for the World Naked Bike Ride... or nearly 1% of Portlanders!</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/cal/viewpp2008.php">2008</a>
-                        <p class="description">Vastly larger than previous years. The Portland Mercury increased their involvement. Shift hosted the International Toward Carfree Cities Conference. The City of Portland had its first Sunday Parkways (Ciclovia). Soaring fuel pricess increased interest in bikes. The result: 185 events in the printed calendar, and 197 events in the online calendar (not counting repeating events). Larger crowds all around. Wonderful.  I'm still sleepy.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2007.php">2007</a>
-                        <p class="description">The printed calendar had 130 events, and the online calendar ended up with 140.  That's may sound a hair's breadth smaller than PP2006, but actually most of the events attracted far more people in 2007.  Yea Bikes!  Go Team!  Rah!  Rah! <a href="http://www.shift2bikes.org/pedalpalooza/ridereports/pp_reports_2007.pdf">Ride Reports (PDF)</a></p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2006.php">2006</a>
-                        <p class="description">The printed calendar had 133 events, and the online calendar ended up with 143 (taking cancellations into account). Which was your favorite?</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2005.shtml">2005</a>
-                        <p class="description">That Pedalpalooza was huge.  The printed calendar had 95 events, but the online calendar, which could be updated throughout the festival, ended up with 114 events.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2004.shtml">2004</a>
-                        <p class="description">The first year that it was called "Pedalpalooza" and the first with a 16-day Thursday-to-Saturday schedule.  It had 68 events.</p>
-                    </li>
-                    <li>
-                        <a class="year btn" href="http://www.shift2bikes.org/pedalpalooza/pp2003.shtml">2003</a>
-                        <p class="description">Mini BikeSummer.  49 events.  Apparently Portland was the first (and so far only?) BikeSummer site to continue the festival on following years.  This first year, it was organized in cooperation with <a href="http://www.zoobomb.net/">Zoobomb</a>. (A brief <a href="http://www.shift2bikes.org/pedalpalooza/zbshift.shtml">history of Shift and Zoobomb</a>.)</p>
-                    </li>
-                    <li>
-                        <!-- former url, http://bikesummer.org/2002/events/index.htm -->
-                        <a class="year btn" href="http://web.archive.org/web/20020428220445/http://www.bikesummer.org/2002/events/index.htm">2002</a>
-                        <p class="description">BikeSummer!  In August, not June?  Wow, the things we forget. 97 events.</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </script>
 
 <script id="scrollToTop" type="text/template">
   <a href="#" class="scrollToTop">Back To Top</a>
@@ -883,46 +779,6 @@
     [[/days]]
   </tr>
   [[/weeks]]
-</script>
-
-<script id="aboutUs" type="text">
-        <div>
-        	<h1>About SHIFT</h1>
-
-			<div class="plain">
-                    <p>SHIFT helps other groups and individuals promote their "bike fun" events. Most of the events in this calendar are not produced by Shift. Anyone is welcome to post events. </p>
-                    <p>SHIFT is the force behind Pedalpalooza. It also coordinates fun bicycling events throughout the year. Our mission is to demonstrate that bicycling is fun, liberating, empowering, sustainable, and environmentally friendly. We ask for no membership, nor dues. We ask for only a shared passion for the bicycle in all its glory: as toy, as transportation, as tool for social and environmental change! </p>
-                    <p>Join the <a href="https://lists.riseup.net/www/subrequest/shift">SHIFT listserve</a>.</p>
-
-                <h2>Volunteer</h2>
-                    <p>Breakfast on the Bridges is the last Friday of every month. Present breakfast to bike commuters in an interesting way &mdash; on a bridge! Contact the ever chortling Bard of the Bridges, <a href="http://www.shift2bikes.org/contacts/index.php?eCon=BonB">Timo</a>.</p>
-                    <p>Contribute to our <a href="https://github.com/Shift2Bikes/shiftcal">source code</a>.</p>
-
-                <h2>Contact information</h2>
-                    <p><a href="http://www.shift2bikes.org/contacts/">Contact us</a></p>
-
-                <h2>Our sponsors</h2>
-                    <p><a href="https://umbrellapdx.org/"><img alt="Umbrella PDX" src="{{ .Site.BaseURL }}legacycalimages/logos/umbrella-pdx-logo.png" width="125"/img></a></p>
-                    <p><a href="https://www.canvashost.com/"><img alt="Canvas Host" src="http://www.canvashost.com/images/canvashost-mobile.jpg" width="125" /img></a></p>
-
-                <h2>Donations</h2>
-                    <p>Donate to SHIFT online:
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                        <input type="hidden" name="cmd" value="_s-xclick">
-                        <input type="hidden" name="hosted_button_id" value="YJYFXDPLSCW8U">
-                        <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                    </form></p>
-
-                    <p>Donations to SHIFT can also be made by mailing a check addressed to: </p>
-                    <p>Shift c/o Umbrella
-                    <br>PO Box 5531
-                    <br>Portland, OR 97228</p>
-
-                    <p>Our 501(c)3 sponsor, Umbrella, will handle the rest.</p>
-            </div>
-
-        </div>
 </script>
 
 <script id="email-suggestion-template" type="text/template">

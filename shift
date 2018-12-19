@@ -13,11 +13,21 @@ export NGINX_CERT_NAME=default
 export NGINX_COMMON_NAME=localhost
 export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 
+export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
 export CONTAINERS="db nginx php hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
+#### SMTP ####
+# by default it is setup to log to file, to see use:
+# ./shift attach php
+# $ tail -f /var/log/shift-mail.log
+SMTP_HOST=
+SMTP_USER=
+SMTP_PASS=
+SMTP_LOGIN=
+SMTP_DOMAIN=
 
 #####
 # === HERE BE DRAGONS ===
@@ -30,14 +40,16 @@ export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/legacy/eventimages"
 
-# Check for an overrides
+export SHIFT_EMAIL_LOG=/var/log/shift-mail.log
+
+# Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
     source ${ROOT}/shift.overrides
 fi
 
-# Check for an overrides
-if [ -f ${ROOT}/shift.overrides ]; then
-    source ${ROOT}/shift.overrides
+# Check for secrets
+if [ -f $ROOT/secrets ]; then
+    source $ROOT/secrets
 fi
 
 SCRIPT_NAME=$(basename $0)
@@ -50,7 +62,7 @@ sub_help() { #                    - Show this text
 }
 
 sub_up() { #                      - Bring all services up
-    sub_compose up -d ${CONTAINERS}
+    sub_compose up --force-recreate -d ${CONTAINERS}
     echo "Run './${SCRIPT_NAME} watch' to monitor for changes and rebuild"
 }
 
@@ -67,13 +79,19 @@ sub_ps() { #                      - Print service information
     sub_compose ps
 }
 
+sub_pull() { #                      - Update the codebase to HEAD of currently deployed branch from https://github.com/Shift2Bikes/shift-docs
+    echo "pulling most recent commit from deployed branch of https://github.com/Shift2Bikes/shift-docs"
+    cd ${ROOT} ; git pull
+    sub_up
+}
+
 sub_reload() { # <service>, ...   - Trigger a code/conf reload
     echo Reloading $@
     sub_compose kill -s SIGHUP $@
 }
 
 sub_start() { # <service>, ..     - Start service(s)
-    sub_compose up -d $@
+    sub_compose up --force-recreate -d $@
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)
@@ -89,6 +107,7 @@ sub_rebuild() { # <service>, ...  - Remove and rebuild a service
     echo Rebuilding $@
     sub_stop $@
     sub_compose rm -f $@
+    sub_compose build $@
     sub_compose up -d $@
 }
 
@@ -102,6 +121,10 @@ sub_compose() { # <cmd...>        - Run a compose with associated files
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
     sub_compose logs --tail=50 -f $@
+}
+
+sub_emails() { #                  - Show recent emails and update with new ones
+    sub_compose exec php tail -f ${SHIFT_EMAIL_LOG}
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected

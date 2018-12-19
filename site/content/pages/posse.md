@@ -8,7 +8,7 @@ menu:
     main:
         parent: communitynav
 ---
-Think another group should be listed here?  [Let us know on the mailing list](mailto:shift@lists.riseup.net)!
+Think another group should be listed here?  [Let us know on the mailing list](/pages/email-list/)!
 
 
 ## Shift spinoff projects
@@ -45,7 +45,7 @@ Think another group should be listed here?  [Let us know on the mailing list](ma
 
 ## Sponsors
 
-- **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)   
+- **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)
 - **[Canvas Host](https://www.canvashost.com/)** is our webhost as of March 2018, providing us discounted webservice.
 - **[RiseUp](https://riseup.net/)** is our mailing list host and an all-around great group of folks providing communication tools to communities like ours.
 - **[The Portland Mercury](https://www.portlandmercury.com/)** is a weekly newspaper in Portland which has printed our events calendar for [pedalpalooza](/pedalpalooza) at their own expense for many years.
