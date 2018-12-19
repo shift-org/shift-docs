@@ -11,7 +11,7 @@ Come ride your bike with us! Most rides are non-competitive and free-wheeling, t
 
 Shift is a framework and an enabler - a place to connect with folks, rather than an event organizer.  Our two most notable features fall in this category:
 
-1. [Our online calendar](http://shift2bikes.org/fun)
+1. [Our online calendar](/calendar/)
 2. [Pedalpalooza](/pages/pedalpalooza)
 
 **You can see all of the [pages on this website here](/pages).**
@@ -20,7 +20,7 @@ Shift is a framework and an enabler - a place to connect with folks, rather than
 
 Shift is entirely volunteer-run, and participant funded.  Join us!
 
-First and easiest is to [come on a bike ride](http://shift2bikes.org/fun).  That's almost always free and you're welcome on any ride listed on the calendar.
+First and easiest is to [come on a bike ride](/calendar/).  That's almost always free and you're welcome on any ride listed on the calendar.
 
 If you want to volunteer, great!  There are *lots of things* you could do to help described on our [participation page](/pages/participation).
 
