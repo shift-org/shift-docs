@@ -75,7 +75,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 # Shift Commands (Vincent's Wrapper Stuff)
 
 * ./shift attach node 
-  * node is a reference to the named docker container
+  * `node` is a reference to the named docker container.  Note that you want just `nginx`, `db` or `php` not the full image name (`shift_nginx_1`)
   * Attaches to the running docker container in the shift stack
 * ./shift up
   * Starts up the docker containers (will also restart)
