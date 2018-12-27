@@ -28,11 +28,8 @@
       }
 
     } else {
-      if ({{ .Param "startdate" }}) {
+      if ({{ .Param "pp" }}) {
         params["startdate"] = {{ .Param "startdate" }};
-      }
-
-      if ({{ .Param "enddate" }}) {
         params["enddate"] = {{ .Param "enddate" }};
       }
 
