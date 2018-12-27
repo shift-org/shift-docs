@@ -6,7 +6,7 @@ id: pedalpalooza-calendar
 type: legacycalpage
 pp: true
 startdate: June 1, 2019
-enddate: June 28, 2019
+enddate: June 30, 2019
 
 ---
 
