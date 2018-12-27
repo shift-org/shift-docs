@@ -154,26 +154,6 @@ $(document).ready(function() {
         });
     }
 
-    function viewPedalpalooza() {
-        curPage = "viewPedalpalooza";
-        var startDate = new Date("June 1, 2019");
-        var endDate = new Date("June 30, 2019 23:59:59");
-        var pedalpalooza = '/cal/images/pp/pp-general.png';
-        container.empty()
-             //.append($('#jump-to-date').html())
-             .append($('#scrollToTop').html())
-        getEventHTML({
-            startdate: startDate,
-            enddate: endDate
-        }, function (eventHTML) {
-            if (curPage !== "viewPedalpalooza") {
-                return;
-            }
-             container.append(eventHTML);
-             checkAnchors();
-        });
-    }
-
     function dateJump(ev) {
         var e = ev.target;
         if (e.hasAttribute('data-date')) {
