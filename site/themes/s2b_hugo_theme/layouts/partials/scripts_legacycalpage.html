@@ -29,6 +29,7 @@
 
     } else {
       if ({{ .Param "pp" }}) {
+        params["pp"] = {{ .Param "pp" }};
         params["startdate"] = {{ .Param "startdate" }};
         params["enddate"] = {{ .Param "enddate" }};
       }
@@ -177,10 +178,6 @@
 
 <script id="scrollToTop" type="text/template">
   <a href="#" class="scrollToTop">Back To Top</a>
-</script>
-
-<script id="ride-list-heading" type="text/template">
-  <h1>Events</h1>
 </script>
 
 <script id="view-events-template" type="text/template">

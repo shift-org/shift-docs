@@ -98,16 +98,15 @@ $(document).ready(function() {
         var lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
 
         if ('startdate' in options) {
-          firstDayOfRange = options['startdate'];
+          firstDayOfRange = new Date(options['startdate']);
         }
 
         if ('enddate' in options) {
-          lastDayOfRange = options['enddate'];
+          lastDayOfRange = new Date(options['enddate']);
         }
 
         container.empty()
              .append($('#scrollToTop').html())
-             .append($('#ride-list-heading').html());
 
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
         getEventHTML({
@@ -118,7 +117,11 @@ $(document).ready(function() {
                 return;
             }
              container.append(eventHTML);
-             container.append($('#load-more-template').html());
+             if ( !('pp' in options) ) {
+               // PP has set start and end dates,
+               // so don't display "load more" button if PP
+               container.append($('#load-more-template').html());
+             }
              checkAnchors();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
@@ -159,7 +162,6 @@ $(document).ready(function() {
         container.empty()
              //.append($('#jump-to-date').html())
              .append($('#scrollToTop').html())
-             .append($('#ride-list-heading').html());
         getEventHTML({
             startdate: startDate,
             enddate: endDate
