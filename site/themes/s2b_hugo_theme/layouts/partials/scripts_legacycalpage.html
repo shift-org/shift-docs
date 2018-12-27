@@ -28,6 +28,14 @@
       }
 
     } else {
+      if ({{ .Param "startdate" }}) {
+        params["startdate"] = {{ .Param "startdate" }};
+      }
+
+      if ({{ .Param "enddate" }}) {
+        params["enddate"] = {{ .Param "enddate" }};
+      }
+
       console.log("Rendering normal event list");
       viewEvents(params);
     }

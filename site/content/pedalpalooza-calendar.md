@@ -4,6 +4,8 @@ description: "Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: legacypppage
+startdate: 2019-06-01
+enddate: 2019-06-30
 
 ---
 
@@ -11,7 +13,7 @@ type: legacypppage
   <a href="/images/pp/pp-general.png"><img alt="Pedalpalooza" id="pedalpalooza-img" src="/images/pp/pp-general-banner.png"></a>
   <div>
     <span class="pp-headline">Pedalpalooza!</span>
-    <span>All of June, 2018</span>
+    <span>2019 dates TBD</span>
   </div>
   <button type="button" aria-expanded="true" class="expand-details" data-toggle-target="#pp-description">
     <svg class="icon expand" role="img" aria-hidden="true">

@@ -37,7 +37,8 @@ paginate = 10
  # Child of Calendar
  [[menu.main]]
     name = "Pedalpalooza calendar"
-    url  = "/pedalpalooza-calendar/%3Fstartdate%3D2019-06-01%26enddate%3D2019-06-30"
+    #url  = "/pedalpalooza-calendar/%3Fstartdate%3D2019-06-01%26enddate%3D2019-06-30"
+    url  = "/pedalpalooza-calendar/"
     weight = 3
     identifier = ""
     parent = "Calendar"
