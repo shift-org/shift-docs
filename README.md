@@ -25,7 +25,7 @@ You can browse the current state here:  https://docs.shift2bikes.org
 Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the php server:
 
 1. install docker
-2. clone repo: `git clone https://github.com/sdobz/shift-docs.git`
+2. clone repo: `git clone https://github.com/Shift2Bikes/shift-docs.git`
 3. clone submodules `git submodule update --init --recursive`
 4. start shift site `./shift up`
 5. visit `https://localhost:4443/`
@@ -75,7 +75,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 # Shift Commands (Vincent's Wrapper Stuff)
 
 * ./shift attach node 
-  * node is a reference to the named docker container
+  * `node` is a reference to the named docker container.  Note that you want just `nginx`, `db` or `php` not the full image name (`shift_nginx_1`)
   * Attaches to the running docker container in the shift stack
 * ./shift up
   * Starts up the docker containers (will also restart)

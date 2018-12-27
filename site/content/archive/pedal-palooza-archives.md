@@ -2,7 +2,7 @@
 title: "Pedalpalooza Archive"
 date: 2017-11-15T23:33:40-08:00
 draft: false
-weight:
+weight: 2
 ---
 
 [comment]: <> (aka, That Fun Thing We Do Every June)

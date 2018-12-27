@@ -18,7 +18,7 @@ Knowing this, if you would like a herd of bike trailers to show-up at your place
 
 **Please give at least a week's notice.**
 
-Also, check [the calendar](http://shift2bikes.org/fun) to avoid a conflict with other rides, and perhaps pay some attention to make sure your move doesn't follow a Midnight Mystery Ride (unless you like a reduced attendance by some hung-over bikers at your Move by Bike event).
+Also, check the [calendar](/calendar/) to avoid a conflict with other rides, and perhaps pay some attention to make sure your move doesn't follow a Midnight Mystery Ride (unless you like a reduced attendance by some hung-over bikers at your Move by Bike event).
 
 <img src=/images/move_by_bike_group.jpg alt="group of bike movers" align=center>
 
