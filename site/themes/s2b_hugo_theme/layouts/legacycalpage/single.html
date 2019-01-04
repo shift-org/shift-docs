@@ -24,6 +24,9 @@
                 <h1>LEGACY CALPAGE</h1>
                 <div>
                   {{ .Content }}
+                  {{ if isset .Params "pp" }}
+                    {{ partial "pp_header.html" . }}
+                  {{ end }}
                 </div>
 
                 <div id="mustache-html" class="container"></div>

@@ -34,13 +34,14 @@ paginate = 10
     identifier = ""
     parent = "Calendar"
 
-# # Child of Calendar
-# [[menu.main]]
-#    name = "Pedalpalooza events"
-#    url  = ""
-#    weight = 3
-#    identifier = ""
-#    parent = "Calendar"
+ # Child of Calendar
+ [[menu.main]]
+    name = "Pedalpalooza calendar"
+    url  = "/pedalpalooza-calendar/"
+    weight = 3
+    identifier = ""
+    parent = "Calendar"
+
 
 [[menu.main]]
     name = "Featured Events"
