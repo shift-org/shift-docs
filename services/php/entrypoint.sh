@@ -38,13 +38,17 @@ if [ ! -z "$SMTP_HOST" ]; then
 	"smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
 	"smtp_use_tls = yes" \
 	"smtp_tls_security_level = encrypt" \
-	"smtp_tls_note_starttls_offer = yes"
+	"smtp_tls_note_starttls_offer = yes" \
+    "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt" \
+    "smtp_generic_maps = hash:/etc/postfix/generic"
 
-	echo $SMTP_DOMAIN > /etc/mailname
+	echo "www-data@shift2bikes.org bikefun@shift2bikes.org" > /etc/postfix/generic
+	postmap /etc/postfix/generic
 
 	echo "[$SMTP_HOST]:587 $SMTP_USER:$SMTP_PASS" > /etc/postfix/sasl_passwd
 	postmap hash:/etc/postfix/sasl_passwd
-	postconf -e "smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt"
+
+	echo $SMTP_DOMAIN > /etc/mailname
 
 	service rsyslog start
 
