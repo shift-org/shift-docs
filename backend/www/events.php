@@ -1,5 +1,5 @@
 <?php
-include(getcwd() . '/../app/init.php');
+include('../init.php');
 
 /**
  * This endpoint returns a list of events between the GET parameters startdate and enddate of the form:

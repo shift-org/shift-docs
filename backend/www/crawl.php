@@ -1,5 +1,5 @@
 <?php
-include(getcwd() . '/../app/init.php');
+include('../init.php');
 $defaultImage = 'http://www.shift2bikes.org/images/logos/shiftLogo_plain.gif';
 
 function addOgTag($property, $content) {

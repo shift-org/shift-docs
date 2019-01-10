@@ -10,8 +10,8 @@ services:
     volumes:
       - ./site/public/:/var/www/site/
       - ./legacy/cal/:/var/www/cal/
-      - ./legacy/:/opt/legacy/
-      - "${EVENTIMAGES}:/opt/legacy/eventimages"
+      - ./backend/www/:/opt/backend/www/
+      - "${EVENTIMAGES}:/opt/backend/eventimages"
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
@@ -64,8 +64,7 @@ services:
     links:
       - db
     volumes:
-      - ./legacy/:/opt/legacy/
-      - ./services/php/:/opt/services/php/
-      - "${EVENTIMAGES}:/opt/legacy/eventimages"
-    entrypoint: /opt/services/php/entrypoint.sh
+      - ./backend/:/opt/backend/
+      - ./services/php/:/opt/php/
+    entrypoint: /opt/php/entrypoint.sh
     command: php-fpm

@@ -10,4 +10,4 @@ RUN echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set
 RUN apt-get update && apt-get install -q -y postfix libsasl2-modules rsyslog
 RUN mkdir -p /var/spool/postfix/etc/ && cp -f /etc/services /var/spool/postfix/etc/services && cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
 
-RUN echo "sendmail_path=/opt/services/php/sendmail.sh" >> /usr/local/etc/php/conf.d/php-sendmail.ini
+RUN echo "sendmail_path=/opt/php/sendmail.sh" >> /usr/local/etc/php/conf.d/php-sendmail.ini

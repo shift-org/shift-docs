@@ -20,7 +20,7 @@
  *  }
  */
 
-include(getcwd() . '/../app/init.php');
+include('../init.php');
 
 function validate_json_request($data) {
     $_POST = $data; // fValidation inspects $_POST for field data

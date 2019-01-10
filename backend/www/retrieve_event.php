@@ -1,5 +1,5 @@
 <?php
-include(getcwd() . '/../app/init.php');
+include('../init.php');
 
 /**
  * This endpoint returns the detail of an event with the ID passed in with the GET parameter id

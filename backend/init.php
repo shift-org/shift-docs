@@ -33,5 +33,5 @@ function __autoload($class_name)
         return;
     }
 
-    throw new Exception('The class ' . $class_name . ' could not be loaded');
+    throw new Exception("The class $class_name could not be loaded from $file");
 }

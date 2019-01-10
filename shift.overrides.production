@@ -1,4 +1,4 @@
 export NGINX_HTTPS_PORT=443
 export NGINX_HTTP_PORT=80
-export SHIFT_LEGACYCAL_SERVICEURL=https://api.shift2bikes.org/fun/
+export SHIFT_LEGACYCAL_SERVICEURL=https://api.shift2bikes.org/api/
 export SHIFT_DOMAIN=shift2bikes.org

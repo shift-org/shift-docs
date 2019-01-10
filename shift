@@ -36,7 +36,7 @@ SMTP_DOMAIN=
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
-export EVENTIMAGES="${ROOT}/legacy/eventimages"
+export EVENTIMAGES="${ROOT}/backend/eventimages"
 
 export SHIFT_EMAIL_LOG=/var/log/shift-mail.log
 

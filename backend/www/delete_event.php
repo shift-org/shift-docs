@@ -4,7 +4,7 @@
  * This endpoint deletes events, expecting an ID and a secret code
  */
 
-include(getcwd() . '/../app/init.php');
+include('../init.php');
 
 function build_json_response() {
     if (!isset($_POST['json'])) {
