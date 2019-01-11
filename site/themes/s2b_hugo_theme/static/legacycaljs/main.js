@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
     var container = $('#mustache-html');
-    var curPage = null;
 
     function getEventHTML(options, callback) {
         var url = window.api_events_url; //'events.php?';
@@ -84,8 +83,6 @@ $(document).ready(function() {
     }
 
     function viewEvents(options){
-        curPage = "viewEvents";
-
         function daysAfter(d, days) {
             return new Date ((new Date(d)).setDate(d.getDate() + days));
         }
@@ -113,9 +110,6 @@ $(document).ready(function() {
             startdate: firstDayOfRange,
             enddate: lastDayOfRange
         }, function (eventHTML) {
-            if (curPage !== "viewEvents") {
-                return;
-            }
              container.append(eventHTML);
              if ( !('pp' in options) ) {
                // PP has set start and end dates,
@@ -140,15 +134,11 @@ $(document).ready(function() {
     }
 
     function viewEvent(id) {
-        curPage = "viewEvent" + id;
         container.empty()
             .append($('#show-all-template').html())
             .append($('#scrollToTop').html());
 
         getEventHTML({id:id}, function (eventHTML) {
-            if (curPage !== "viewEvent" + id) {
-                return;
-            }
             container.append(eventHTML);
             checkAnchors();
         });
@@ -170,7 +160,6 @@ $(document).ready(function() {
     }
 
     function viewAddEventForm(id, secret) {
-        curPage = "viewAddEventForm";
         container.getAddEventForm( id, secret, function(eventHTML) {
             container.empty().append(eventHTML);
             checkAnchors();
