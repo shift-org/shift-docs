@@ -287,37 +287,6 @@ $(document).ready(function() {
         }
     }
 
-    //JG - we are no longer sdi -
-    // window.onpopstate = function (ev) {
-    //     checkRoute(document.location.pathname);
-    // };
-    //
-    // addRoute(/addEvent$/, viewAddEventForm);
-    // addRoute(/editEvent-[0-9]+-[0-9a-f]+$/, function(frag) {
-    //     var rx = /editEvent-([0-9]+)-([0-9a-f]+)$/g;
-    //     var arr = rx.exec(frag);
-    //     viewAddEventForm(arr[1], arr[2]);
-    // });
-    // addRoute(/viewEvents$/, viewEvents);
-    // addRoute(/event-([0-9]*)$/, function (frag) {
-    //     var rx = /event-([0-9]*)$/g;
-    //     var arr = rx.exec(frag);
-    //     viewEvent(arr[1]);
-    // });
-    // addRoute(/\/$/, viewEvents);
-    // // Support old edit links
-    // // TODO: remove this after people stop using them.
-    // var hash = document.location.hash;
-    // if (hash.indexOf('#editEvent') === 0) {
-    //     var locationHashParts = hash.split('/');
-    //     viewAddEventForm(locationHashParts[1], locationHashParts[2]);
-    // } else {
-    //     checkRoute( document.location.pathname );
-    // }
-    //checkAnchors();
-
-    //JG - 7/22/2018 exposing some of these rendering functions to the newer interface
-
     console.log("Vincent's main.js - 2");
     window.viewAddEventForm = viewAddEventForm;
     window.viewEvents = viewEvents;
