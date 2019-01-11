@@ -10,7 +10,8 @@
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
   window.api_events_url = '{{ .Site.BaseURL }}api/events.php?';
-
+  window.api_event_url = '{{ .Site.BaseURL }}api/retrieve_event.php?id='; //ex: /api/retrieve_event.php?id=6726
+  
   $(document).ready(function() {
     var params = parseQueryString();
     if (window.legacycal_renderpage === "addevent") {
@@ -29,6 +30,21 @@
   
     } else if (window.legacycal_renderpage === "singleevent") {
       console.log("About to render singleevent page");
+  
+      var eventid = params["eventid"];
+      if (!eventid) {
+        console.error("single event page called without and eventId");
+      } else {
+        singleEventUrl = window.api_event_url + eventid;
+        console.log("Loading eventId: ", eventid, " singleEventUrl: ", singleEventUrl);
+        
+        $.get(singleEventUrl, function(data) {
+          console.log("Received event data: ", data);
+          
+          
+        });
+        
+      }
       
     } else {
       if ({{ .Param "pp" }}) {
