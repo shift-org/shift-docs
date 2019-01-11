@@ -18,7 +18,7 @@
 
       var eventid = params["eventid"];
       var secret = params["secret"];
-
+  
       if (typeof eventid !== "undefined" && typeof secret !== "undefined") {
         console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
         viewAddEventForm(eventid, secret);
@@ -26,7 +26,10 @@
         console.log("Loading viewAddEventForm with no parameters");
         viewAddEventForm();
       }
-
+  
+    } else if (window.legacycal_renderpage === "singleevent") {
+      console.log("About to render singleevent page");
+      
     } else {
       if ({{ .Param "pp" }}) {
         params["pp"] = {{ .Param "pp" }};
@@ -725,7 +728,7 @@
         </div>
 
         <div id="delete-event-fields" class="panel-collapse collapse in">
-          <div class="panel-body">
+          This page is in beta mode. Until it is completed          <div class="panel-body">
             <div class="form-group">
               <p class="input-help">If an event is no longer happening, we recommend <a href="#timeandlocation-fields">cancelling</a> instead of deleting. Cancelling it gives you an opportunity to post a message to inform riders, like if it's been rescheduled to another date.</p>
               <p class="input-help">If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
