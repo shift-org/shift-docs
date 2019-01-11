@@ -9,8 +9,6 @@ export MYSQL_PASSWORD=ok124
 
 export NGINX_HTTPS_PORT=4443
 export NGINX_HTTP_PORT=4480
-export NGINX_CERT_NAME=default
-export NGINX_COMMON_NAME=localhost
 export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 
 export SHIFT_DOMAIN="localhost"
@@ -38,7 +36,7 @@ SMTP_DOMAIN=
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
-export EVENTIMAGES="${ROOT}/legacy/eventimages"
+export EVENTIMAGES="${ROOT}/backend/eventimages"
 
 export SHIFT_EMAIL_LOG=/var/log/shift-mail.log
 

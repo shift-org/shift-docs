@@ -3,7 +3,7 @@
 
 # this would work if all of the assets were contained under the /fun path, but they aren't quite
 
-/fun/*  https://api.shift2bikes.org/fun/:splat 200
+/api/*  https://api.shift2bikes.org/api/:splat 200
 
 # some images still live in old file tree
 

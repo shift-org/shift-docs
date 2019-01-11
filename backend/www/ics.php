@@ -1,7 +1,7 @@
 <?php
 
-include(getcwd() . '/../app/init.php');
-include(getcwd() . '/../app/iCalExporter.php');
+include('../init.php');
+include('../iCalExporter.php');
 
 if (isset($_GET['id'])) {
 	$event_id = $_GET['id'];

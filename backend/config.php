@@ -16,6 +16,6 @@ $PROTOCOL = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVE
 $PORT = env_default('NGINX_HTTPS_PORT', '443');
 $HOST = env_default('SHIFT_DOMAIN', $_SERVER['SERVER_NAME']) . ($PORT !== "443" ? ":$PORT" : "");
 $PATH = "/";
-$IMAGEDIR = "/opt/legacy/eventimages";
+$IMAGEDIR = "/opt/backend/eventimages";
 $IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";

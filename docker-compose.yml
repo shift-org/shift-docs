@@ -10,20 +10,17 @@ services:
     volumes:
       - ./site/public/:/var/www/site/
       - ./legacy/cal/:/var/www/cal/
-      - ./legacy/:/opt/legacy/
-      - "${EVENTIMAGES}:/opt/legacy/eventimages"
-      - ./services/nginx/:/opt/services/nginx/
+      - ./backend/www/:/opt/backend/www/
+      - "${EVENTIMAGES}:/opt/backend/eventimages"
+      - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
     links:
       - php
-    environment:
-      - NGINX_CERT_NAME
-      - NGINX_COMMON_NAME
     ports:
       - "${NGINX_HTTPS_PORT}:443"
       - "${NGINX_HTTP_PORT}:80"
-    entrypoint: /opt/services/nginx/entrypoint.sh
+    entrypoint: /opt/nginx/entrypoint.sh
     command: ["nginx", "-g", "daemon off;"]
 
   db:
@@ -67,8 +64,7 @@ services:
     links:
       - db
     volumes:
-      - ./legacy/:/opt/legacy/
-      - ./services/php/:/opt/services/php/
-      - "${EVENTIMAGES}:/opt/legacy/eventimages"
-    entrypoint: /opt/services/php/entrypoint.sh
+      - ./backend/:/opt/backend/
+      - ./services/php/:/opt/php/
+    entrypoint: /opt/php/entrypoint.sh
     command: php-fpm
