@@ -3,7 +3,7 @@ title: "Pedalpalooza calendar"
 description: "Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: legacycalpage
+type: calevents
 pp: true
 startdate: June 1, 2019
 enddate: June 30, 2019

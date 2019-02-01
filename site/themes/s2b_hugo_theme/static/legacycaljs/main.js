@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
     var container = $('#mustache-html');
-    var curPage = null;
 
     function getEventHTML(options, callback) {
         var url = window.api_events_url; //'events.php?';
@@ -84,8 +83,6 @@ $(document).ready(function() {
     }
 
     function viewEvents(options){
-        curPage = "viewEvents";
-
         function daysAfter(d, days) {
             return new Date ((new Date(d)).setDate(d.getDate() + days));
         }
@@ -113,9 +110,6 @@ $(document).ready(function() {
             startdate: firstDayOfRange,
             enddate: lastDayOfRange
         }, function (eventHTML) {
-            if (curPage !== "viewEvents") {
-                return;
-            }
              container.append(eventHTML);
              if ( !('pp' in options) ) {
                // PP has set start and end dates,
@@ -140,15 +134,11 @@ $(document).ready(function() {
     }
 
     function viewEvent(id) {
-        curPage = "viewEvent" + id;
         container.empty()
             .append($('#show-all-template').html())
             .append($('#scrollToTop').html());
 
         getEventHTML({id:id}, function (eventHTML) {
-            if (curPage !== "viewEvent" + id) {
-                return;
-            }
             container.append(eventHTML);
             checkAnchors();
         });
@@ -170,7 +160,6 @@ $(document).ready(function() {
     }
 
     function viewAddEventForm(id, secret) {
-        curPage = "viewAddEventForm";
         container.getAddEventForm( id, secret, function(eventHTML) {
             container.empty().append(eventHTML);
             checkAnchors();
@@ -297,37 +286,6 @@ $(document).ready(function() {
             }
         }
     }
-
-    //JG - we are no longer sdi -
-    // window.onpopstate = function (ev) {
-    //     checkRoute(document.location.pathname);
-    // };
-    //
-    // addRoute(/addEvent$/, viewAddEventForm);
-    // addRoute(/editEvent-[0-9]+-[0-9a-f]+$/, function(frag) {
-    //     var rx = /editEvent-([0-9]+)-([0-9a-f]+)$/g;
-    //     var arr = rx.exec(frag);
-    //     viewAddEventForm(arr[1], arr[2]);
-    // });
-    // addRoute(/viewEvents$/, viewEvents);
-    // addRoute(/event-([0-9]*)$/, function (frag) {
-    //     var rx = /event-([0-9]*)$/g;
-    //     var arr = rx.exec(frag);
-    //     viewEvent(arr[1]);
-    // });
-    // addRoute(/\/$/, viewEvents);
-    // // Support old edit links
-    // // TODO: remove this after people stop using them.
-    // var hash = document.location.hash;
-    // if (hash.indexOf('#editEvent') === 0) {
-    //     var locationHashParts = hash.split('/');
-    //     viewAddEventForm(locationHashParts[1], locationHashParts[2]);
-    // } else {
-    //     checkRoute( document.location.pathname );
-    // }
-    //checkAnchors();
-
-    //JG - 7/22/2018 exposing some of these rendering functions to the newer interface
 
     console.log("Vincent's main.js - 2");
     window.viewAddEventForm = viewAddEventForm;

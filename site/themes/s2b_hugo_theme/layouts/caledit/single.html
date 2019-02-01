@@ -24,6 +24,7 @@
                 <h1>LEGACY CALPAGE</h1>
                 <div>
                   {{ .Content }}
+
                   {{ if isset .Params "pp" }}
                     {{ partial "pp_header.html" . }}
                   {{ end }}
@@ -52,7 +53,7 @@
   <!-- /#all -->
 
   {{ partial "scripts.html" . }}
-  {{ partial "scripts_cal_widget.html" . }}
+  {{ partial "cal/edit.html" . }}
 
   <script type="text/javascript">
     window.legacycal_renderpage = "{{ .Params.id }}";
