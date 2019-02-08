@@ -9,7 +9,7 @@ menu:
 
 Shift tries to be a transparent organization.  Here's some guides on how we run things.
 
-- [What goes into facilitating pedalpalooza](/pages/playbooks/pedalpalooza-playbook/)
-- [How we work with fiscal sponsor Umbrella](/pages/playbooks/shift-umbrella-playbook/)
-- [How we do social media](/pages/playbooks/social-media-playbook/)
-- [Running our website and other related stuff](/pages/playbooks/technology-playbook/)
+- [What goes into facilitating pedalpalooza](/playbooks/pedalpalooza-playbook/)
+- [How we work with fiscal sponsor Umbrella](/playbooks/shift-umbrella-playbook/)
+- [How we do social media](/playbooks/social-media-playbook/)
+- [Running our website and other related stuff](/playbooks/technology-playbook/)
