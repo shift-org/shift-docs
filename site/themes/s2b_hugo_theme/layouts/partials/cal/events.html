@@ -8,8 +8,10 @@
   window.api_events_url = '{{ .Site.BaseURL }}api/events.php?';
 
   $(document).ready(function() {
-    var params = parseQueryString();
-    if (window.legacycal_renderpage === "addevent") {
+    var params = parseURL();
+    if ('eventId' in params) {
+      viewEvent(params['eventId']);
+    } else if (window.legacycal_renderpage === "addevent") {
       console.log("About to run viewAddEventForm");
 
       var eventid = params["eventid"];
@@ -37,15 +39,19 @@
   });
 
 
-  function parseQueryString() {
-    var queryParameters = {};
-    location.search.substr(1).split("&").forEach(function (pair) {
-      if (pair === "") return;
-      var parts = pair.split("=");
-      queryParameters[parts[0]] = parts[1] && decodeURIComponent(parts[1].replace(/\+/g, " "));
-    });
+  function parseURL() {
+    var urlParams = {};
+    var parts = window.location.pathname.split('/');
+    var lastPart = parts[parts.length-1];
 
-    return queryParameters;
+    var singleEventRe = /event-([0-9]+)/g;
+    var singleEvent = singleEventRe.exec(lastPart);
+
+    if (singleEvent && singleEvent.length === 2) {
+      urlParams['eventId'] = parseInt(singleEvent[1]);
+    }
+
+    return urlParams;
   }
 
 </script>
