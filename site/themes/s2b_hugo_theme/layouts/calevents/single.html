@@ -44,26 +44,16 @@
     </main>
 
     <footer>
-
+      
         {{ partial "footer.html" . }}
-
+      
     </footer>
 
   </div>
   <!-- /#all -->
-
   {{ partial "scripts.html" . }}
   {{ partial "cal/events.html" . }}
 
-  <script type="text/javascript">
-    window.legacycal_renderpage = "{{ .Params.id }}";
-    console.log("window.legacycal_renderpage: ", window.legacycal_renderpage);
-
-    window.legacycal_serviceurl = '{{ getenv "SHIFT_LEGACYCAL_SERVICEURL" }}' || "/api/"; //should be something like: https://localhost:4443/api
-    console.log("window.legacycal_serviceurl: ", window.legacycal_serviceurl);
-
-    console.log("legacycalpage/single.html - 2");
-  </script>
 
 </body>
 </html>

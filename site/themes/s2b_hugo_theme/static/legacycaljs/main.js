@@ -1,15 +1,17 @@
+"use strict";
+
 $(document).ready(function() {
 
-    var container = $('#mustache-html');
+    const container = $('#mustache-html');
 
     function getEventHTML(options, callback) {
-        var url = window.api_events_url; //'events.php?';
+        let url; //'events.php?';
         if ('id' in options) {
-            url += 'id=' + options['id'];
+            url = window.api_event_url + options['id'];
+        } else if ('startdate' in options && 'enddate' in options) {
+            url = window.api_event_url + 'startdate=' + moment(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + moment(options['enddate']).format("YYYY-MM-DD");
         }
-        if ('startdate' in options && 'enddate' in options) {
-            url += 'startdate=' + moment(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + moment(options['enddate']).format("YYYY-MM-DD");
-        }
+        console.log("getEventHTML url: ", url);
 
         $.get( url, function( data ) {
             var groupedByDate = [];
@@ -27,7 +29,8 @@ $(document).ready(function() {
                 }
 
                 value.displayStartTime = container.formatTime(value.time);
-                value.displayDate = container.formatDate(groupedByDate[date]['yyyymmdd'], abbreviated=true);
+                let abbreviated = true;
+                value.displayDate = container.formatDate(groupedByDate[date]['yyyymmdd'], abbreviated);
                 if (value.endtime) {
                   value.displayEndTime = container.formatTime(value.endtime);
                 }

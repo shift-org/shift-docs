@@ -12,6 +12,11 @@
   window.api_event_url = '{{ .Site.BaseURL }}api/retrieve_event.php?id='; //ex: /api/retrieve_event.php?id=6726
   
   $(document).ready(function() {
+    window.legacycal_renderpage = "{{ .Params.id }}";
+    console.log("window.legacycal_renderpage: ", window.legacycal_renderpage);
+    window.legacycal_serviceurl = '{{ getenv "SHIFT_LEGACYCAL_SERVICEURL" }}' || "/api/"; //should be something like: https://localhost:4443/api
+    console.log("window.legacycal_serviceurl: ", window.legacycal_serviceurl);
+
     var params = parseQueryString();
     if (window.legacycal_renderpage === "addevent") {
       console.log("About to run viewAddEventForm");
@@ -26,25 +31,6 @@
         console.log("Loading viewAddEventForm with no parameters");
         viewAddEventForm();
       }
-  
-    } else if (window.legacycal_renderpage === "singleevent") {
-      console.log("About to render singleevent page");
-  
-      var eventid = params["eventid"];
-      if (!eventid) {
-        console.error("single event page called without and eventId");
-      } else {
-        singleEventUrl = window.api_event_url + eventid;
-        console.log("Loading eventId: ", eventid, " singleEventUrl: ", singleEventUrl);
-        
-        $.get(singleEventUrl, function(data) {
-          console.log("Received event data: ", data);
-          
-          
-        });
-        
-      }
-      
     } else {
       if ({{ .Param "pp" }}) {
         params["pp"] = {{ .Param "pp" }};

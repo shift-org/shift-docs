@@ -6,23 +6,41 @@
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
   window.api_events_url = '{{ .Site.BaseURL }}api/events.php?';
+  window.api_event_url = '{{ .Site.BaseURL }}api/events.php?id='; //ex: /api/retrieve_event.php?id=6726
 
   $(document).ready(function() {
+    window.legacycal_renderpage = "{{ .Params.id }}";
+    console.log("window.legacycal_renderpage: ", window.legacycal_renderpage);
+    window.legacycal_serviceurl = '{{ getenv "SHIFT_LEGACYCAL_SERVICEURL" }}' || "/api/"; //should be something like: https://localhost:4443/api
+    console.log("window.legacycal_serviceurl: ", window.legacycal_serviceurl);
+  
     var params = parseQueryString();
-    if (window.legacycal_renderpage === "addevent") {
-      console.log("About to run viewAddEventForm");
-
+    
+    if (window.legacycal_renderpage === "singleevent") {
+      console.log("About to render singleevent page");
+  
       var eventid = params["eventid"];
-      var secret = params["secret"];
-
-      if (typeof eventid !== "undefined" && typeof secret !== "undefined") {
-        console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
-        viewAddEventForm(eventid, secret);
+      if (!eventid) {
+        console.error("single event page called without an eventId");
       } else {
-        console.log("Loading viewAddEventForm with no parameters");
-        viewAddEventForm();
-      }
+  
+        console.log("Loading eventId: ", eventid);
+        
+        viewEvents({
+          id: eventid
+        });
 
+        // singleEventUrl = window.api_event_url + eventid;
+        // $.get(singleEventUrl, function(data) {
+        // console.log("Loading eventId: ", eventid, " singleEventUrl: ", singleEventUrl);
+        //   console.log("Received event data: ", data);
+        //
+        //   // viewEvents({
+        //   //   id: eventid
+        //   // });
+        // });
+    
+      }
     } else {
       if ({{ .Param "pp" }}) {
         params["pp"] = {{ .Param "pp" }};
@@ -130,6 +148,10 @@
 
 <script id="scrollToTop" type="text/template">
   <a href="#" class="scrollToTop">Back To Top</a>
+</script>
+
+<script id="view-event-template" type="text/template">
+  <h1>Fuck you idiot!</h1>
 </script>
 
 <script id="view-events-template" type="text/template">
