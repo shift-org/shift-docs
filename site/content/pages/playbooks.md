@@ -1,6 +1,5 @@
 ---
 title: "Playbooks"
-draft: false
 weight: 9
 
 menu:
