@@ -11,19 +11,16 @@
     var params = parseURL();
     if ('eventId' in params) {
       viewEvent(params['eventId']);
-    } else if (window.legacycal_renderpage === "addevent") {
-      console.log("About to run viewAddEventForm");
+    } else if ('editId' in params) {
+      var eventid = params["editId"];
+      var secret = params["editSecret"];
 
-      var eventid = params["eventid"];
-      var secret = params["secret"];
+      console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
+      viewAddEventForm(eventid, secret);
 
-      if (typeof eventid !== "undefined" && typeof secret !== "undefined") {
-        console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
-        viewAddEventForm(eventid, secret);
-      } else {
-        console.log("Loading viewAddEventForm with no parameters");
-        viewAddEventForm();
-      }
+    } else if (window.legacycal_renderpage == "addevent") {
+      console.log("Loading viewAddEventForm for a new event")
+      viewAddEventForm();
 
     } else {
       if ({{ .Param "pp" }}) {
@@ -34,8 +31,8 @@
 
       console.log("Rendering normal event list");
       viewEvents(params);
-    }
 
+    }
   });
 
 
@@ -46,9 +43,15 @@
 
     var singleEventRe = /event-([0-9]+)/g;
     var singleEvent = singleEventRe.exec(lastPart);
-
     if (singleEvent && singleEvent.length === 2) {
       urlParams['eventId'] = parseInt(singleEvent[1]);
+    }
+
+    var editEventRe = /edit-([0-9]+)-([0-9a-zA-Z]*)/g;
+    var editEvent = editEventRe.exec(lastPart);
+    if (editEvent && editEvent.length === 3) {
+      urlParams['editId'] = parseInt(editEvent[1]);
+      urlParams['editSecret'] = editEvent[2];
     }
 
     return urlParams;
