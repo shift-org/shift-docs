@@ -157,7 +157,7 @@ class Event extends fActiveRecord {
 
         $event_id = $this->getId();
         $secret = $this->getPassword();
-        $secret_url = "$base/addevent/?eventid=$event_id&secret=$secret";
+        $secret_url = "$base/addevent/edit-$event_id-$secret";
 
         $headers = 'From: bikefun@shift2bikes.org' . "\r\n" .  'Reply-To: bikefun@shift2bikes.org' . "\r\n";
         $subject = "Shift2Bikes Secret URL for " . $this->getTitle();

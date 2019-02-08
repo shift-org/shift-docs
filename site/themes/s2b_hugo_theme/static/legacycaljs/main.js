@@ -290,4 +290,5 @@ $(document).ready(function() {
     console.log("Vincent's main.js - 2");
     window.viewAddEventForm = viewAddEventForm;
     window.viewEvents = viewEvents;
+    window.viewEvent = viewEvent;
 });

@@ -8,20 +8,19 @@
   window.api_events_url = '{{ .Site.BaseURL }}api/events.php?';
 
   $(document).ready(function() {
-    var params = parseQueryString();
-    if (window.legacycal_renderpage === "addevent") {
-      console.log("About to run viewAddEventForm");
+    var params = parseURL();
+    if ('eventId' in params) {
+      viewEvent(params['eventId']);
+    } else if ('editId' in params) {
+      var eventid = params["editId"];
+      var secret = params["editSecret"];
 
-      var eventid = params["eventid"];
-      var secret = params["secret"];
+      console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
+      viewAddEventForm(eventid, secret);
 
-      if (typeof eventid !== "undefined" && typeof secret !== "undefined") {
-        console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
-        viewAddEventForm(eventid, secret);
-      } else {
-        console.log("Loading viewAddEventForm with no parameters");
-        viewAddEventForm();
-      }
+    } else if (window.legacycal_renderpage == "addevent") {
+      console.log("Loading viewAddEventForm for a new event")
+      viewAddEventForm();
 
     } else {
       if ({{ .Param "pp" }}) {
@@ -32,20 +31,30 @@
 
       console.log("Rendering normal event list");
       viewEvents(params);
-    }
 
+    }
   });
 
 
-  function parseQueryString() {
-    var queryParameters = {};
-    location.search.substr(1).split("&").forEach(function (pair) {
-      if (pair === "") return;
-      var parts = pair.split("=");
-      queryParameters[parts[0]] = parts[1] && decodeURIComponent(parts[1].replace(/\+/g, " "));
-    });
+  function parseURL() {
+    var urlParams = {};
+    var parts = window.location.pathname.split('/');
+    var lastPart = parts[parts.length-1];
 
-    return queryParameters;
+    var singleEventRe = /event-([0-9]+)/g;
+    var singleEvent = singleEventRe.exec(lastPart);
+    if (singleEvent && singleEvent.length === 2) {
+      urlParams['eventId'] = parseInt(singleEvent[1]);
+    }
+
+    var editEventRe = /edit-([0-9]+)-([0-9a-zA-Z]*)/g;
+    var editEvent = editEventRe.exec(lastPart);
+    if (editEvent && editEvent.length === 3) {
+      urlParams['editId'] = parseInt(editEvent[1]);
+      urlParams['editSecret'] = editEvent[2];
+    }
+
+    return urlParams;
   }
 
 </script>
