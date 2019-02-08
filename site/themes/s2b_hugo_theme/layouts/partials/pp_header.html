@@ -1,8 +1,8 @@
 <div id="pp-banner">
-  <a href="/images/pp/pp-general.png"><img alt="Pedalpalooza" id="pedalpalooza-img" src="/images/pp/pp-general-banner.png"></a>
+  <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
   <div>
     <span class="pp-headline">Pedalpalooza!</span>
-    <span>2019 dates TBD</span>
+    <span class="pp-daterange">{{ .Param "daterange"}}</span>
   </div>
   <button type="button" aria-expanded="true" class="expand-details" data-toggle-target="#pp-description">
     <svg class="icon expand" role="img" aria-hidden="true">
