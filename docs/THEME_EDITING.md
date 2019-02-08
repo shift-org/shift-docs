@@ -15,7 +15,7 @@ Here's an overview of the sub-directories:
          Archive: This is where we keep pages that are no longer live but that Shift has not committed to deleting yet. 
          Blog: This is a section that came with the theme that could be useful but has never been implemented yet (like data/features and data/testimonials). 
          Pages: This is where the majority of the page content from the site are located
-         Playbooks: TO BE VERIFIED. 
+         Playbooks: this is documentation (somewhat like shift-docs/docs but the content here is accessible via the website, unlike Docs). 
     
 - **Data:** This is where more permanent short content is stored (like the carousel text/settings on the home page).
            

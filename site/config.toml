@@ -42,7 +42,6 @@ paginate = 10
     identifier = ""
     parent = "Calendar"
 
-
 [[menu.main]]
     name = "Featured Events"
     url  = ""
