@@ -48,7 +48,8 @@
             {
                 weekday: dateStringType,
                 month: dateStringType,
-                day: 'numeric'
+                day: 'numeric',
+                year: 'numeric'
             }
         );
     };
