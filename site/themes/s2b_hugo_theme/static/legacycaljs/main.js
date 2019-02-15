@@ -3,7 +3,7 @@ $(document).ready(function() {
     var container = $('#mustache-html');
 
     function getEventHTML(options, callback) {
-        var url = window.api_events_url; //'events.php?';
+        var url = '/api/events.php?';
         if ('id' in options) {
             url += 'id=' + options['id'];
         }

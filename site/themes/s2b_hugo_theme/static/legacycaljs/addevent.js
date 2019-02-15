@@ -125,7 +125,7 @@
             data.append('json', JSON.stringify(postVars));
             var opts = {
                 type: 'POST',
-                url: window.legacycal_serviceurl + 'manage_event.php',
+                url: '/api/manage_event.php',
                 contentType: false,
                 processData: false,
                 cache: false,

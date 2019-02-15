@@ -8,7 +8,6 @@
 
 [build.environment]
   HUGO_VERSION = "0.37.1"
-  SHIFT_LEGACYCAL_SERVICEURL="https://api.shift2bikes.org/api/"
 
 [context.deploy-preview]
   # this command builds draft content for deploy previews
