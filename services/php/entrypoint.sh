@@ -32,7 +32,7 @@ chmod 777 $SHIFT_EMAIL_LOG
 
 # If smtp secret then configure
 if [ ! -z "$SMTP_HOST" ]; then
-    sudo postconf -e "relayhost = [$SMTP_HOST]:587" \
+    postconf -e "relayhost = [$SMTP_HOST]:587" \
     "smtp_sasl_auth_enable = yes" \
     "smtp_sasl_security_options = noanonymous" \
     "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
