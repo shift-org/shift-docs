@@ -17,11 +17,12 @@ Before you can edit or create pages for the first time, you must do a few things
 1. select the "sign up" portion of the login widget found here: https://docs.shift2bikes.org/admin/# 
 2. and create an account.  
 3. Once you've created a login, you'll need to click a link in the email to the address you've signed up with, to verify your account, 
-4. and then you can login and edit content.  
+4. and then you can login and edit content.  If you know markdown, you can enable the markdown editor, otherwise use rich text.  There is a slider near the top (alongside the "bold" "italics" etc controls) of the big editor on the left side that changes between these modes.
 
-Every "Save" operation in the CMS will cause Netlify to rebuild the site, and you can examine the results via the latest deploy previews here:  https://app.netlify.com/sites/shift-docs/deploys?filter=deploy%20previews
+(Right now this step is not necessary:)
+-Every "Save" operation in the CMS will cause Netlify to rebuild the site, and you can examine the results via the latest deploy previews here:  https://app.netlify.com/sites/shift-docs/deploys?filter=deploy%20previews-
 
-Finally, select "Publish" and your results should be available live within a minute or so.  If that doesn't work, [tech support is available](#having-trouble-changing-content).
+Select "Publish" and your results should be available live within a minute or so.  If that doesn't work, [tech support is available](#having-trouble-changing-content).
 
 # Creating Content
 
