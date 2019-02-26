@@ -39,6 +39,7 @@ $(document).ready(function() {
                     value.expanded = true;
                 }
                 value.webLink = container.getWebLink(value.weburl);
+                value.shareLink = '/calendar/event-' + value.caldaily_id;
                 value.exportlink = 'ics.php?id=' + value.id;
 
                 // value.showEditButton = true; // TODO: permissions
