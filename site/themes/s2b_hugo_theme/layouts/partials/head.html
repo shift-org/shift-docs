@@ -1,4 +1,5 @@
 <head>
+
   <meta charset="utf-8">
   <meta name="robots" content="all,follow">
   <meta name="googlebot" content="index,follow,snippet,archive">
@@ -64,7 +65,8 @@
   <meta property="og:url" content="{{ .URL }}/" />
   <meta property="og:image" content="{{ .Site.Params.logo }}" />
 
+  {{ if or (eq .Type "calevents") (eq .Type "caledit") }}
   <link rel="stylesheet" type="text/css" href="/css/main_fun_legacy.css">
-
+  {{ end }}
 
 </head>
