@@ -33,3 +33,7 @@
   from = "/api/*"
   to = "https://api.shift2bikes.org/api/:splat"
   status = 200
+[[redirects]]
+  from = "/eventimages/*"
+  to = "https://api.shift2bikes.org/eventimages/:splat"
+  status = 200
