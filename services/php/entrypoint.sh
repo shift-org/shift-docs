@@ -24,8 +24,9 @@ xdebug.max_nesting_level = 500
 xdebug.remote_host=${HOST_IP}
 EOF
 
-mkdir -p $EVENTIMAGES
-chmod 777 $EVENTIMAGES
+# Defined in docker-compose.yml
+mkdir -p /opt/backend/eventimages
+chmod 777 /opt/backend/eventimages
 
 touch $SHIFT_EMAIL_LOG
 chmod 777 $SHIFT_EMAIL_LOG
