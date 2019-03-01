@@ -357,7 +357,7 @@ ul.list-style-none {
 }
 .navbar ul.dropdown-menu li a {
   position: relative;
-  color: #999999;
+  color: #555555;
   font-size: 12px;
   display: block;
   -webkit-transition: all 0.2s ease-out;
