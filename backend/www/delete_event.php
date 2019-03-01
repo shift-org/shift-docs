@@ -59,8 +59,9 @@ ob_end_clean();
 if ($contents) {
     $response['contents'] = $contents;
 }
-if (array_key_exists('error', $response))
-    http_response_code(400);
 header('Content-Type: application/json');
 header('Accept: application/json');
+header("Access-Control-Allow-Origin: $ORIGIN");
+if (array_key_exists('error', $response))
+    http_response_code(400);
 echo json_encode($response);
