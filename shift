@@ -21,6 +21,8 @@ export COMPOSE_PROJECT_NAME="shift"
 # by default it is setup to log to file, to see use:
 # ./shift attach php
 # $ tail -f /var/log/shift-mail.log
+# - or -
+# ./shift emails
 SMTP_HOST=
 SMTP_USER=
 SMTP_PASS=
@@ -38,7 +40,7 @@ export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
 
-export SHIFT_EMAIL_LOG=/var/log/shift-mail.log
+export SHIFT_EMAIL_LOG="/opt/php/shift-mail.log"
 
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then

@@ -43,5 +43,6 @@ else {
     );
 }
 
-
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: $ORIGIN");
 fJSON::output($response);

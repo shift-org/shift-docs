@@ -5,7 +5,6 @@
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
-  window.api_events_url = '{{ .Site.BaseURL }}api/events.php?';
 
   $(document).ready(function() {
     var params = parseURL();

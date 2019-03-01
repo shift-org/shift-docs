@@ -60,4 +60,6 @@ if ($enddate < $startdate) {
 
     }
 }
+header('Content-Type: application/json');
+header("Access-Control-Allow-Origin: $ORIGIN");
 fJSON::output($json);

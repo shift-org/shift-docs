@@ -10,3 +10,4 @@ shift.overrides
 *.DS_Store
 backend/eventimages/
 secrets
+/services/php/shift-mail.log

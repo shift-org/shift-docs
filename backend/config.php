@@ -19,3 +19,5 @@ $PATH = "/";
 $IMAGEDIR = "/opt/backend/eventimages";
 $IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";
+
+$ORIGIN = "*";

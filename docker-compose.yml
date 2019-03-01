@@ -55,7 +55,6 @@ services:
       - SHIFT_DOMAIN
       - NGINX_HTTPS_PORT
       - SHIFT_EMAIL_LOG
-      - EVENTIMAGES
       - SMTP_HOST
       - SMTP_USER
       - SMTP_PASS

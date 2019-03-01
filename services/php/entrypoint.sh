@@ -24,15 +24,16 @@ xdebug.max_nesting_level = 500
 xdebug.remote_host=${HOST_IP}
 EOF
 
-mkdir -p $EVENTIMAGES
-chmod 777 $EVENTIMAGES
+# Defined in docker-compose.yml
+mkdir -p /opt/backend/eventimages
+chmod 777 /opt/backend/eventimages
 
 touch $SHIFT_EMAIL_LOG
 chmod 777 $SHIFT_EMAIL_LOG
 
 # If smtp secret then configure
 if [ ! -z "$SMTP_HOST" ]; then
-    sudo postconf -e "relayhost = [$SMTP_HOST]:587" \
+    postconf -e "relayhost = [$SMTP_HOST]:587" \
     "smtp_sasl_auth_enable = yes" \
     "smtp_sasl_security_options = noanonymous" \
     "smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd" \
