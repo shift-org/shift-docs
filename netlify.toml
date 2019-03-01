@@ -12,15 +12,15 @@
 
 [context.deploy-preview]
   # this command builds draft content for deploy previews
-  command = 'hugo -D'
+  command = 'hugo -D && cp 404/index.html 404.html'
 
 [context.branch-deploy]
   # this command builds draft content for deploy previews
-  command = 'hugo -D'
+  command = 'hugo -D  && cp 404/index.html 404.html'
 
 [context.production]
   # drafts are excluded (no `-D` option to hugo) for prod build
-  command = 'hugo && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull"'
+  command = 'hugo && cp 404/index.html 404.html && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull"'
 
 [[redirects]]
   from = "/addevent/*"
