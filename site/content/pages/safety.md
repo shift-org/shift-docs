@@ -24,9 +24,9 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 ## Traffic Safety Organizations
 
-[Willamette Pedestrian Coalition](http://www.wpcwalks.org/) WPC is dedicated to promoting walking and improving the safety and attractiveness of walking in the greater Portland area.
+[Oregon Walks](http://oregonwalks.org/) is dedicated to promoting walking and improving the safety and attractiveness of walking in the greater Portland area.
 
-[Bicycle Transportation Alliance](http://bta4bikes.org/) (BTA) works to promote bicycle use and improve conditions for cyclists throughout Oregon.
+[Street trust](https://www.thestreettrust.org/) works to promote bicycle use and improve conditions for cyclists throughout Oregon.
 
 [Oregon ACTS](http://www.actsoregon.org/) works to improve traffic safety by providing resources, technical training, and education.
 
@@ -54,6 +54,13 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 ![](front.jpg)
 ![](back.jpg)
 
+## Tips for the Motorists
+
+**Save Motoring Money with Ten helpful tips**
+Excerpt from abcnews.com,
+[10 Ways to Beat High Gas Prices](http://abcnews.go.com/Business/story?id=1850884)
+by Marc Lallanilla
+
 1\. **Stay in Tune** — It's simple: vehicle maintenance saves gas. Use the recommended motor oil, replace dirty air filters, keep tires — including the spare — inflated to the proper pressure, and tune up your engine.
 
 2\. **Cool It, Mario Andretti** — Flooring the pedal at every green light, then slamming on the brakes at the last minute, guzzles gas at a surprising rate. More moderate driving can save over 30 percent of the gasoline you use.
@@ -73,13 +80,6 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 9\. **Critical Mass** — Take the bus, train, subway or other mass transit and leave the car at home.
 
 10\. **Alternative States** — The alternatives to standard gasoline are growing in number and popularity. Biodiesel, the blend of gasoline and ethanol known as E85, and other alternative fuels aren't available everywhere yet, but check to see if your car can accept what's sold in your community.
-
-## Tips for the Motorists
-
-**Save Motoring Money with Ten helpful tips**
-Excerpt from abcnews.com,
-[10 Ways to Beat High Gas Prices](http://abcnews.go.com/Business/story?id=1850884)
-by Marc Lallanilla
 
 ![Safety rules image 1](/images/safety_brochure_a.jpg) ![Safety rules image 2](/images/safety_brochure_b.jpg)
 
