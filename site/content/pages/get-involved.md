@@ -2,6 +2,9 @@
 title: Get Involved
 date: 2019-03-13T08:19:34.000Z
 weight: '1'
+menu:	
+    main:	
+        parent: communitynav
 ---
 Shift welcomes all respectful participants. There are a lot of ways to get involved:
 

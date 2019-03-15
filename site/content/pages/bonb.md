@@ -2,6 +2,9 @@
 title: Breakfast on the Bridges
 date: 2019-03-12T22:52:28.000Z
 weight: 2
+menu:	
+    main:	
+        parent: featuredevents
 ---
 
 <img src=/images/BonB_header.jpg align=center alt="breakfast on the bridges logo">

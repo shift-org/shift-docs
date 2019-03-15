@@ -1,7 +1,11 @@
 ---
 title: Participation
 date: 2019-03-13T08:17:13.000Z
+weight: 4
 
+menu:	
+    main:	
+        parent: communitynav
 ---
 Shift welcomes all respectful participants!  There are a lot of ways to get involved:
 
