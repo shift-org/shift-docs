@@ -13,5 +13,3 @@ banner-image: "/images/pp/pp-general-banner.png"
 poster-image: "/images/pp/pp-general.png"
 
 ---
-
-This page is in beta mode. Until it is completed, please see [2019 Pedalpalooza events here](http://www.shift2bikes.org/fun2/pedalpalooza).
