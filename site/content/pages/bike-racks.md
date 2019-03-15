@@ -1,12 +1,7 @@
 ---
-title: "Bike Racks Rental"
-date: 2019-03-12T23:24:59-08:00
-draft: false
+title: Bike Rack Rental
+date: 2019-03-15T07:24:00.000Z
 weight: 2
-
-menu:
-    main:
-        parent: aboutmenu
 ---
 
 Shift has built some easily-transportable bike racks which we'd love to loan to your community or nonprofit group for your event.  They'll accomodate around 70 bikes.
