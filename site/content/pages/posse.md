@@ -14,7 +14,7 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 
 ## Unaffiliated but related in bike fun
 
-* **Velopalooza** is a summer bike fun festival in Vancouver, BC, Canada - similar to [pedapalooza](/pages/pedalpalooza).  [Check out their website here](http://velopalooza.ca/about-velopalooza/)!
+* **Velopalooza** is a summer bike fun festival in Vancouver, BC, Canada - similar to [pedalpalooza](/pages/pedalpalooza).  [Check out their website here](http://velopalooza.ca/about-velopalooza/)!
 * **Portland Urban Bike** runs an weekly ride that has happened for more than 3 years straight!  [They have a facebook page](https://www.facebook.com/PortlandUrbanBike/).
 * **Puddlecycle** is a group that focuses on winter bike fun events in Portland.  [Their website](https://puddlecycle.com/) talks more about their mission and how to participate.
 * **[Portland Autonomous Zone](https://pazpdx.wordpress.com/about/)** is a local DIY/tinkering community with a focus on bikes and is a frequent booster of and participant in shift events.
