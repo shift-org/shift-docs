@@ -1,12 +1,7 @@
 ---
-title: "Breakfast on the Bridges"
-date: 2019-03-12T14:52:28-08:00
-draft: false
+title: Breakfast on the Bridges
+date: 2019-03-12T22:52:28.000Z
 weight: 2
-
-menu:
-    main:
-        parent: featuredevents
 ---
 
 <img src=/images/BonB_header.jpg align=center alt="breakfast on the bridges logo">
@@ -16,9 +11,32 @@ The last Friday of every month Shift volunteers serve breakfast to bicyclists on
 
 Join us for this fun, community-building event. Stop by on your way to work, school, shopping, or where-ever you and your bike are going.
 
-## Contributors
 
-### Donors
+### <center> BonB has [a twitter account](https://twitter.com/bonbpdx), [some pictures on Flickr](http://flickr.com/photos/tags/bonb/), and [a facebook page](https://www.facebook.com/bonbpdx/)</center>
+
+
+## Volunteers
+
+BonB is brought to you by a team of bike-fun-loving morning people (and those of us who drink enough coffee to resemble morning people). It takes many hands and much energy to deliver breakfast to so many cyclists in the morning and we love to share the work load opportunity to spread joy. There's much brewing, baking, and donation retrieval to be done, but if you're not the type who plans ahead just show up and put your friendly smile to use- we always enjoy company on the bridges! If you're interested in helping out, get in touch with [our volunteers](mailto:bonb@lists.riseup.net).
+
+BonB is planned and organized through the occasional meeting and plenty of electronic correspondence through [the BonB mailing list](https://lists.riseup.net/www/info/bonb). Maybe handing out breakfast before the sun comes up isn't your thing? We're always looking for friendly and creative folks to help find donors, pick up and drop off donations, and promote BonB via creative signs and feeding logistics.
+
+
+## Schedule
+
+Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every month**. Well... pretty much. In the month of June we celebrate PedalPalooza by bringing you BonB **every Friday**. We also try to avoid major holidays (when people get to sleep in rather than commute downtown) by shifting the date up or back a week (especially around Thanksgiving in November and Christmas/New Years in December). We also throw special themes into the mix like Superhero BonB in October and Santa Lucia on the Bridge in December.
+
+## Current Locations
+
+We have three regular serving locations as of 2019:
+
+1. **Hawthorne Bridge**: Team Hawthorne stations itself at the West end of the bridge (North side, westbound) where the bike/pedestrian lane splits. Great views of the river and Waterfront Park. We highly encourage moving with the flow of traffic to access the Hawthorne location (this may require going out of your way to safely turn around and access the correct lane). 
+
+2. **Steel Bridge**: Team Steel sets up just east of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
+
+3. **Tillikum Bridge**:  Team Tillikum sets up on the either end of the bridge on the Northbound side, either next to Elephant's Delicatessen on the west side or at the junction with the feeder from the Springwater trail onto the Westbound bridge MUP.
+
+## Donors
 
 Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have the support of several local coffee and pastry shops as well as other food donors. And we're always looking for more! If you'd like to contribute to Breakfast on the Bridges, please [contact us!](mailto:bonb@lists.riseup.net)
 
@@ -47,30 +65,8 @@ Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have t
 
 Many thanks to these generous friends who make Breakfast on the Bridges possible.
 
-### Volunteers
 
-BonB is brought to you by a team of bike-fun-loving morning people (and those of us who drink enough coffee to resemble morning people). It takes many hands and much energy to deliver breakfast to so many cyclists in the morning and we love to share the work load opportunity to spread joy. There's much brewing, baking, and donation retrieval to be done, but if you're not the type who plans ahead just show up and put your friendly smile to use- we always enjoy company on the bridges! If you're interested in helping out, get in touch with [our volunteers](mailto:bonb@lists.riseup.net).
-
-BonB is planned and organized through the occasional meeting and plenty of electronic correspondence through [the BonB mailing list](https://lists.riseup.net/www/info/bonb). Maybe handing out breakfast before the sun comes up isn't your thing? We're always looking for friendly and creative folks to help find donors, pick up and drop off donations, and promote BonB via creative signs and feeding logistics.
-
-
-## Schedule
-
-Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every month**. Well... pretty much. In the month of June we celebrate PedalPalooza by bringing you BonB **every Friday**. We also try to avoid major holidays (when people get to sleep in rather than commute downtown) by shifting the date up or back a week (especially around Thanksgiving in November and Christmas/New Years in December). We also throw special themes into the mix like Superhero BonB in October and Santa Lucia on the Bridge in December.
-
-## Locations
-
-### Current
-
-We have three regular serving locations as of 2019:
-
-1. **Hawthorne Bridge**: Team Hawthorne stations itself at the West end of the bridge (North side, westbound) where the bike/pedestrian lane splits. Great views of the river and Waterfront Park. We highly encourage moving with the flow of traffic to access the Hawthorne location (this may require going out of your way to safely turn around and access the correct lane). 
-
-2. **Steel Bridge**: Team Steel sets up just east of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
-
-3. **Tillikum Bridge**:  Team Tillikum sets up on the either end of the bridge on the Northbound side, either next to Elephant's Delicatessen on the west side or at the junction with the feeder from the Springwater trail onto the Westbound bridge MUP.
-
-### Past
+## Past Locations
 
 1. **Morrison Bridge**: Breakfast was served on the Morrison for a year or two around 2013/2014.  Thanks to Lance and Paul!
 
@@ -83,9 +79,5 @@ Tardy slips are often available for those who are running late. They may not get
 
 BonB Superhero trading cards (on hand at special times) are a popular collectible commodity. You can expect them to triple in value over the next ten years. A whole set may someday go for eight times its original value at auction.
 
-## Social Media
 
-- BonB has [a twitter account](https://twitter.com/bonbpdx)
-- BonB has [some pictures on Flickr](http://flickr.com/photos/tags/bonb/)
-- BonB has [a facebook page](https://www.facebook.com/bonbpdx/)
 
