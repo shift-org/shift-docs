@@ -36,11 +36,11 @@
 # these two are needed for legacy "shareable links"
 [[redirects]]
   from = "/fun/*"
-  to = "https://shift2bikes.org/calendar/:splat"
+  to = "/calendar/:splat"
   status = 301
 [[redirects]]
   from = "/fun2/*"
-  to = "https://shift2bikes.org/calendar/:splat"
+  to = "/calendar/:splat"
   status = 301
 [[redirects]]
   from = "/eventimages/*"
