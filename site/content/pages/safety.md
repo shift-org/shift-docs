@@ -83,4 +83,4 @@ by Marc Lallanilla
 
 ![Safety rules image 1](/images/safety_brochure_a.jpg) ![Safety rules image 2](/images/safety_brochure_b.jpg)
 
-**Comments, Suggestions, Questions?** Write to the [Safety](http://www.shift2bikes.org/contacts/index.php?eCon=Safety) Crew.
+**Comments, Suggestions, Questions?** [Get in touch with suggestions!](/pages/contact).
