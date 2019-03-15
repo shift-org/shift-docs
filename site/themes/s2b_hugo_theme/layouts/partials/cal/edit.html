@@ -54,15 +54,15 @@
   [[^ id ]]<h1>Add Event</h1>[[/ id ]]
   [[# id ]]<h1>Edit Event</h1>[[/ id ]]
 
-  <div id="edit-header" >
-    <button id="preview-edit-button" type="button" class="btn btn-add-event">Edit</button>
-    <button id="preview-button" type="button" class="btn btn-add-event">Preview</button>
-    <button id="save-button" type="button" class="btn btn-add-event">Save</button>
+  <div class="edit-buttons" >
+    <button type="button" class="preview-edit-button btn btn-add-event">Edit</button>
+    <button type="button" class="preview-button btn btn-add-event">Preview</button>
+    <button type="button" class="save-button btn btn-add-event">Save</button>
     [[^ id ]]
-    <button id="cancel-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
+    <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
     [[/ id ]]
 
-    <span id="save-result"></span>
+    <span class="save-result"></span>
   </div>
   <br>
   <form id="event-entry">
@@ -365,7 +365,7 @@
 
       <div class="ride-comic">
         <img src="/images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
-        <p>For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg">Ride Leading Comic</a> at least once before submitting an event.</p>
+        <p>For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg" target="_blank">Ride Leading Comic</a> at least once before submitting an event.</p>
         <div class="checkbox">
           <input type="hidden" name="read_comic" value="0" />
           <label class="control-label" for="read_comic">
@@ -405,6 +405,16 @@
 
     </div>
   </form>
+  <div class="edit-buttons" >
+      <button type="button" class="preview-edit-button btn btn-add-event">Edit</button>
+      <button type="button" class="preview-button btn btn-add-event">Preview</button>
+      <button type="button" class="save-button btn btn-add-event">Save</button>
+      [[^ id ]]
+      <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
+      [[/ id ]]
+  
+      <span class="save-result"></span>
+    </div>
 </script>
 
 <script id="mustache-select-month" type="text/template">

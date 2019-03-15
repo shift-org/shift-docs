@@ -1,6 +1,6 @@
 ---
 title: social media playbook
-date: '2018-03-18T17:23:22-07:00'
+date: '2019-03-15T17:23:22-07:00'
 weight: '3'
 ---
 Shift has a facebook page, so does pedalpalooza.  pedalpalooza has a twitter account.

@@ -82,8 +82,8 @@
                     if (dateMap[date]['selected']) {
                         selectedCount++;
                         dateStatuses.push(dateMap[date]['dateStatus']);
-                        $('#save-button').prop('disabled', false);
-                        $('#preview-button').prop('disabled', false);
+                        $('.save-button').prop('disabled', false);
+                        $('.preview-button').prop('disabled', false);
                     } else {
                         selectedCount--;
                         var match = dateStatuses.findIndex(function(deselectedDate) {
@@ -91,8 +91,8 @@
                         });
                         dateStatuses.splice(match, 1);
                         if ( selectedCount === 0 ) {
-                            $('#save-button').prop('disabled', true);
-                            $('#preview-button').prop('disabled', true);
+                            $('.save-button').prop('disabled', true);
+                            $('.preview-button').prop('disabled', true);
                         }
                     }
                 } else {
@@ -108,8 +108,8 @@
                         dateStatus: newDateStatus
                     };
                     selectedCount++;
-                    $('#save-button').prop('disabled', false);
-                    $('#preview-button').prop('disabled', false);
+                    $('.save-button').prop('disabled', false);
+                    $('.preview-button').prop('disabled', false);
                 }
                 $e.toggleClass('selected', dateMap[date]['selected']);
                 $dateSelected.html("");
@@ -145,12 +145,14 @@
                         "<option value='A' " + scheduledSelected + ">Scheduled</option>",
                         "<option value='C' " + cancelledSelected + ">Cancelled</option>",
                     "</select>",
-                    "<input ",
-                        "type='text' ",
-                        "placeholder='newsflash message (optional)' ",
-                        "class='newsflash' ",
-                        "value='" + dateStatusNewsFlash,
-                    "'>",
+                    "<label>",
+                        "newsflash message (optional)",
+                        "<input ",
+                            "type='text' ",
+                            "class='newsflash' ",
+                            "value='" + dateStatusNewsFlash,
+                        "'>",
+                    "</label>",
                 "</li>",
             ].join(""));
         });

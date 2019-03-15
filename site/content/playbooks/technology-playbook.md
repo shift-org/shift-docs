@@ -1,8 +1,13 @@
 ---
 title: technology playbook
-date: '2018-03-18T17:25:11-07:00'
+date: '2019-03-14T17:25:11-07:00'
 weight: '2'
 ---
+
+This document is out of date as of March 2019.  Check out [more current information in the README on Github](https://github.com/shift-org/shift-docs#overview).
+
+Some of this is still useful.
+
 This is a big ball o wax.
 
 Shift has webhosting through canvashost, a local service provider who gives us a reasonably good deal.  The charge is currently hooked to chris (fool)'s paypal so please don't add services without talking to him!
