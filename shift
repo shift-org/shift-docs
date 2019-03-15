@@ -132,6 +132,7 @@ sub_mysql() { #                   - Open a mysql prompt with the db selected
 }
 
 sub_mysql-pipe() { #              - Pipe sql into this command to send to db
+    cd "${ROOT}"
     docker exec -i $(sub_compose ps -q db) mysql -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} $@
 }
 
