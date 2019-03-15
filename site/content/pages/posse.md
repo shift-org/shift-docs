@@ -15,11 +15,12 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 ## Unaffiliated but related in bike fun
 
 * **Velopalooza** is a summer bike fun festival in Vancouver, BC, Canada - similar to [pedalpalooza](/pages/pedalpalooza).  [Check out their website here](http://velopalooza.ca/about-velopalooza/)!
-* **Portland Urban Bike** runs an weekly ride that has happened for more than 3 years straight!  [They have a facebook page](https://www.facebook.com/PortlandUrbanBike/).
+* **Portland Urban Bike** runs an weekly ride (Thursday Night Ride) that has happened for more than 3 years straight!  [They have a facebook page](https://www.facebook.com/PortlandUrbanBike/).
 * **Puddlecycle** is a group that focuses on winter bike fun events in Portland.  [Their website](https://puddlecycle.com/) talks more about their mission and how to participate.
 * **[Portland Autonomous Zone](https://pazpdx.wordpress.com/about/)** is a local DIY/tinkering community with a focus on bikes and is a frequent booster of and participant in shift events.
-* **[Dropout Bike Club](https://www.dropoutbikeclub.com/)** is a local freak bike club that leads monthly rides.
-* **[BikePortland.org](https://bikeportland.org/)** is an independent daily news source that covers the Portland bike scene.  Their focus is wider than bike fun but includes it.
+* **[Dropout Bike Club](https://www.facebook.com/DropoutBikeClub/)** is a local freak bike club that leads monthly rides.
+* **[Corvidae Bicycle Club](https://www.facebook.com/corvidaeBC/)** is an inclusive fun crew that leads a monthly 2nd sunday social ride from Peninsula Park at 2pm
+* **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.  Their focus is wider than bike fun - but definitel includes it!
 
 [Here's a longer list of local bike groups posted a couple years ago on bikeportland.org](https://bikeportland.org/2016/02/03/find-your-tribe-listing-portlands-many-facebook-bike-groups-174007)
 
@@ -28,11 +29,11 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 * **[The Street Trust](https://www.thestreettrust.org)** formerly known as the Bicycle Transportation alliance is a non-profit organization working to promote and improve public transit, walking and bicycling conditions in Oregon since 1990.
 * **[the Community Cycling Center](http://www.communitycyclingcenter.org/about/)** is a non-profit organization on a mission to broaden access to bicycling and its benefits.
 * **the Portland Bureau of Transportation** has an [active-transportation focused group](https://www.portlandoregon.gov/transportation/59969).  This group organizes [Sunday Parkways](https://www.portlandoregon.gov/transportation/46103) and a bunch of other wonderful bike-focused groups - from a [bike share program](https://www.portlandoregon.gov/transportation/57983) to [safe routes to schools](https://www.portlandoregon.gov/transportation/68009).
-* [WashCoBikes](https://washcobikes.org/) champions cycling in Washington County
+* **[WashCoBikes](https://washcobikes.org/)** champions cycling in Washington County
 
 ## Sponsors
 
 * **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)
-* **[Canvas Host](https://www.canvashost.com/)** is our webhost as of March 2018, providing us discounted webservice.
 * **[RiseUp](https://riseup.net/)** is our mailing list host and an all-around great group of folks providing communication tools to communities like ours.
-* **[The Portland Mercury](https://www.portlandmercury.com/)** is a weekly newspaper in Portland which has printed our events calendar for [pedalpalooza](/pedalpalooza) at their own expense for many years.
+* **[The Portland Mercury](https://www.portlandmercury.com/)** is a weekly newspaper in Portland which has printed our events calendar for [pedalpalooza](/pages/pedalpalooza) at their own expense for many years.
+* **[The City of Portland]** has provided substantial financial and practical sponsorship to Shift over the years and will likely continue to do so.
