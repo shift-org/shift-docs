@@ -1,6 +1,6 @@
 ---
 title: Get Involved
-date: 2017-11-13T08:19:34.000Z
+date: 2019-03-13T08:19:34.000Z
 weight: '1'
 
 menu:
@@ -18,7 +18,7 @@ menu:
 
     _Breakfast on the Bridges_ is the last friday of every month.
     Present breakfast to bike commuters in an interesting way -
-    on a bridge! Contact the ever chortling Bard of the Bridges, [Timo](mailto:timolandia@gmail.com).
+    on a bridge! [Contact the mailing list of volunteers](mailto:bonb@lists.riseup.net).
 
 *   **Help us plan an event!**
     Come to a SHIFT meeting: _First and Third Wednesday of the month (no meetings in June, however). Meet around 7pm at the Acme, 1305 SE 8th, Portland, OR._
@@ -37,8 +37,8 @@ Shift welcomes all respectful participants!  There are a lot of ways to get invo
 - [lead your own ride](/pages/lead-a-ride/)!
 
 - volunteer:
-  - help [edit and create content for this website](https://github.com/Shift2Bikes/shift-docs#contributing)! This process is written up in [more detail on this page](/pages/website-development/) - we especially need authors (who need no particular tech skills), and designers to help style this website.
-  - help with [the calendar](/calendar/) - See [this page](https://github.com/Shift2Bikes/shiftcal#how-to-setup--run-locally) for some more details.
+  - help [edit and create content for this website](https://github.com/shift-org/shift-docs#contributing)! This process is written up in [more detail on this page](/pages/website-development/) - we especially need authors (who need no particular tech skills), and designers to help style this website.
+  - help with [the calendar](/calendar/) - See [this page](https://github.com/shift-org/shift-docs) for some more details.
   - help facilitate events like [pedalpalooza](/pages/pedalpalooza/).  Join the [shift volunteers mailing list](https://groups.google.com/forum/#!forum/shift-volunteers) and let us know what dreams and/or skills you've got.  We need folks to help edit the calendar, encourage folks to create events, help with social media, etc.
   - post related content on our [social media channels](/pages/contact/).  Want a more formal role like moderating our page or tweeting for us?  Ping the [shift volunteers mailing list](https://groups.google.com/forum/#!forum/shift-volunteers) and we'll chat with you about how you can help.
   - help with [Breakfast on the Bridges](/pages/bonb/).

@@ -1,6 +1,6 @@
 ---
 title: Participation
-date: 2017-11-13T08:17:13.000Z
+date: 2019-03-13T08:17:13.000Z
 
 ---
 Shift welcomes all respectful participants!  There are a lot of ways to get involved:

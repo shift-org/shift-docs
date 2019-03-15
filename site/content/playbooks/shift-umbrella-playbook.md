@@ -1,6 +1,6 @@
 ---
 title: Shift/Umbrella playbook
-date: '2018-03-18T17:18:37-07:00'
+date: '2019-03-14T17:18:37-07:00'
 weight: '4'
 ---
 [Umbrella](https://umbrellapdx.org) **really** wants to be spoken to like this:
