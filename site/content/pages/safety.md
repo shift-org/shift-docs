@@ -1,12 +1,12 @@
 ---
 title: Safety
-description: "Tips to stay safe"
+description: Tips to stay safe
 date: 2019-03-15T07:26:39.604Z
 keywords: ["safety", "tips", "safe"]	
-weight: 8
+weight: '8'
 menu:	
-   main:	
-       parent: communitynav
+    main:	
+        parent: communitynav
 ---
 
 ## EDUCATION
