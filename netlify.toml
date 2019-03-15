@@ -21,19 +21,62 @@
   # drafts are excluded (no `-D` option to hugo) for prod build
   command = 'hugo && cp public/404/index.html public/404.html && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull"'
 
+
+## domain redirects to serve from the CDN and canonicalize
+## must be first redirects in this file!
+
 [[redirects]]
-  from = "/addevent/*"
-  to = "/addevent"
-  status = 200
+  from = "https://shift2bikes.com/*"
+  to = "https://www.shift2bikes.org/:splat" 
+  status = 301
+  force = true
 [[redirects]]
-  from = "/calendar/*"
-  to = "/calendar"
-  status = 200
+  from = "https://www.shift2bikes.com/*"
+  to = "https://www.shift2bikes.org/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://shifttobikes.com/*"
+  to = "https://www.shift2bikes.org/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://www.shifttobikes.com/*"
+  to = "https://www.shift2bikes.org/:splat"
+  status =  301
+  force = true
+[[redirects]]
+  from = "https://shifttobikes.com/*"
+  to = "https://www.shift2bikes.org/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://www.shifttobikes.com/*"
+  to = "https://www.shift2bikes.org/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://pedalpalooza.org/*"
+  to = "https://www.shift2bikes.org/pages/pedalpalooza"
+  status = 302
+  force = true
+[[redirects]]
+  from = "https://www.pedalpalooza.org/*"
+  to = "https://www.shift2bikes.org/pages/pedalpalooza"
+  status = 302
+  force = true
+
+# dynamic back end + event images stored over here.  Solves CORS problems to proxy.
 [[redirects]]
   from = "/api/*"
   to = "https://api.shift2bikes.org/api/:splat"
   status = 200
-# these two are needed for legacy "shareable links"
+[[redirects]]
+  from = "/eventimages/*"
+  to = "https://api.shift2bikes.org/eventimages/:splat"
+  status = 200
+
+# these two are needed for legacy "shareable links" from 2017-early 2019 era
 [[redirects]]
   from = "/fun/*"
   to = "/calendar/:splat"
@@ -42,14 +85,20 @@
   from = "/fun2/*"
   to = "/calendar/:splat"
   status = 301
-# we can't translate REALLY legacy links - they used some odd format.  
+
+# we can't translate REALLY legacy links (<2017) - they used some odd format.  
 # But let's at least land on the calendar page.
 [[redirects]]
   from = "/cal/*"
   to = "/calendar/"
   status = 301
-[[redirects]]
-  from = "/eventimages/*"
-  to = "https://api.shift2bikes.org/eventimages/:splat"
-  status = 200
 
+# remove-add trailing slashes kinda?  fool can't really believe this works :P
+[[redirects]]
+  from = "/addevent/*"
+  to = "/addevent"
+  status = 200
+[[redirects]]
+  from = "/calendar/*"
+  to = "/calendar"
+  status = 200
