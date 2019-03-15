@@ -47,3 +47,5 @@ Move by bike veteran and community builder Steph Routh wrote a book about moving
 ## Historical events archive
 
 For a history of past events, see the [Move by Bike events archive](/archive/mbb-events-archive/).
+
+<img src=/images/ed-moves-fool-by_bike.jpg>
