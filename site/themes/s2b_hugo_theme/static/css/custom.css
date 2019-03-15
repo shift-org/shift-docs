@@ -24,3 +24,7 @@ header {
 #navbar svg.logo {
     fill: currentColor;
 }
+
+.navbar-affix-placeholder {
+  height: 67px;
+}
