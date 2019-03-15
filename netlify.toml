@@ -42,6 +42,12 @@
   from = "/fun2/*"
   to = "/calendar/:splat"
   status = 301
+# we can't translate REALLY legacy links - they used some odd format.  
+# But let's at least land on the calendar page.
+[[redirects]]
+  from = "/cal/*"
+  to = "/calendar/"
+  status = 301
 [[redirects]]
   from = "/eventimages/*"
   to = "https://api.shift2bikes.org/eventimages/:splat"
