@@ -1,6 +1,5 @@
 ---
 title: Leading a Social Ride
-date: 2019-03-14T21:58:11.032Z
 weight: 7
 menu:	
     main:	

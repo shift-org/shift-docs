@@ -1,6 +1,5 @@
 ---
 title: "Multnomah County Bike Fair"
-date: 2019-03-12T23:33:40-08:00
 draft: false
 weight: 5
 
@@ -9,7 +8,7 @@ menu:
         parent: featuredevents
 ---
 
-![mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)
+<center>![mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)</center>
 The Multnomah County Bike Fair aka "Bike Fair" has taken place almost annually since 2007 in beautiful Portland, Oregon usually as the finale of [Pedalpalooza](/pages/pedalpalooza).
 
 It's a family friendly bikey event open to the public, usually featuring events (slow races, bike jousting), entertainment (live music, competitions), and sometimes vendors and beer.  It's open to all, and is usually family friendly.
@@ -18,12 +17,11 @@ Wanna help make this event awesome again?  2018 participants sought - email [Bri
 
 ## Images from the past
 
-![dance troupe](/images/mcbf_brakes.jpg?classes=shadow)
-![bull bike dancers](/images/mcbf_bull_dancers.jpg?classes=shadow)
-![call for participants 2006](/images/mcbf_call.jpg?classes=shadow)
-![jousting](/images/mcbf_joust.jpg?classes=shadow)
-![mcbf logo](/images/mcbf_logo.jpg?classes=shadow)
-![nekkid jumping](/images/mcbf_nekkid_jump.jpg?classes=shadow)
+![dance troupe](/images/mcbf_brakes.jpg?classes=shadow) ![bull bike dancers](/images/mcbf_bull_dancers.jpg?classes=shadow)
+
+![call for participants 2006](/images/mcbf_call.jpg?classes=shadow) ![jousting](/images/mcbf_joust.jpg?classes=shadow)
+
+![mcbf logo](/images/mcbf_logo.jpg?classes=shadow) ![nekkid jumping](/images/mcbf_nekkid_jump.jpg?classes=shadow)
 
 
 ## Past Organizers

@@ -1,6 +1,5 @@
 ---
 title: Posse
-date: 2019-03-13T08:14:32.000Z
 weight: '5'
 menu:	
     main:	

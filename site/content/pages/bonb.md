@@ -1,6 +1,5 @@
 ---
 title: Breakfast on the Bridges
-date: 2019-03-12T22:52:28.000Z
 weight: 2
 menu:	
     main:	

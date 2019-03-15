@@ -1,6 +1,5 @@
 ---
 title: Participation
-date: 2019-03-13T08:17:13.000Z
 weight: 4
 
 menu:	
