@@ -2,10 +2,6 @@
 title: Leading a Social Ride
 date: 2019-03-14T21:58:11.032Z
 weight: 7
-
-menu:
-    main:
-        parent: communitynav
 ---
 
 You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out [this detailed guide](/ride-leading-guide.pdf)!
@@ -27,7 +23,7 @@ Shift rides offer the out-of-the-ordinary because they are about a celebration v
 - **Food and beverage**:
 People tend to connect well when sharing sustenance or celebratory libations in close proximity to one another. Not recommended to eat or drink while riding, but one successful pattern is to create a potluck and/or feature a food store stop along the route.
 - **An appropriate time**:
-To assure your ride receives maximum ridership, avoid conflicts with other rides. Please check our [fabulous calendar](http://shiftbikes.org/cal) when scheduling your ride!
+To assure your ride receives maximum ridership, avoid conflicts with other rides. Please check our [fabulous calendar](http://shift2bikes.org/cal) when scheduling your ride!
 - **Get the word out**:
 The best means of getting riders for your event is telling people about it!  Things like creating a facebook event about your ride, passing out a flyer about your ride at similar rides happening before yours, and otherwise "advertising" your ride is a great idea to supplement your event listing on our calendar.
 - **Estimated departure**:
