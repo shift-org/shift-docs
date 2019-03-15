@@ -1,7 +1,7 @@
 ---
 title: Posse
 description: "related groups and organizations"
-date: 2017-11-13T08:14:32.000Z
+date: 2019-03-13T08:14:32.000Z
 weight: '5'
 
 menu:
@@ -13,7 +13,7 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 
 ## Shift spinoff projects
 
-- **[Move by Bike](/pages/mxb)** is a group of folks interested in helping folks move across town entirely by bicycle. In addition to [this webpage with more information](/pages/mxb), there is [a facebook group](https://www.facebook.com/groups/movebybike/).
+- **[Move by Bike](/pages/mbb)** is a group of folks interested in helping folks move across town entirely by bicycle. In addition to [this webpage with more information](/pages/mbb), there is [a facebook group](https://www.facebook.com/groups/movebybike/).
 - **[Breakfast on the Bridges](/pages/bonb)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. In addition to [this webpage with more information](/pages/bonb) There is also a [facebook group](https://www.facebook.com/bonbpdx/)
 - **PDX World Naked Bike Ride** is still loosely affiliated with shift but spun off since it is more complicated all by itself than the rest of shift put together.  [Their webpage has more information](http://pdxwnbr.org).
 
