@@ -5,15 +5,15 @@ The purpose of the Shift/Pedalpalooza Calendar is to empower citizens to create 
 # Software
 
 built using:
-- node
+- php
 - docker
-- [hugo v0.30.2](https://gohugo.io) 
-- && the theme ["learn"](https://learn.netlify.com)
-- && the content from [the legacy shift website](https://shift2bikes.org)
+- [hugo v0.37.1](https://gohugo.io) 
+- && the theme ["Universal"](https://themes.gohugo.io/hugo-universal-theme/)
+- && the content from [the legacy shift website](https://old.shift2bikes.org)
 - && [Netlify web hosting](https://www.netlify.com) to serve the content
 - && [the Netlify CMS](https://www.netlifycms.org)
 
-You can browse the current state here:  https://docs.shift2bikes.org
+You can see the live site here:  https://www.shift2bikes.org
 
 ## Contributing
 
@@ -34,8 +34,13 @@ Note that no changes to the filesystems INSIDE the container should ever be need
 
 
 ## Netlify deployment
+
+You can easily run your own copy of the site with these two steps.  This could help you do theme development in your own repo before submitting your finished write-up to us for incorporation.
+
 1. [fork repo](https://help.github.com/articles/fork-a-repo/)
-2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 configuration required to get the site running (though the CMS will not work without some [additional configuration](https://www.netlifycms.org/docs/quick-start/#authentication))
+2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 configuration required to get the site running.
+
+If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new)
 
 # License
 
