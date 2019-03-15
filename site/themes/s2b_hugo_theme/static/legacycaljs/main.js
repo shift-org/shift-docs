@@ -77,7 +77,7 @@ $(document).ready(function() {
                 var err = returnVal.responseJSON
                     ? returnVal.responseJSON.error
                     : { message: 'Server error deleting event!' };
-                $('#save-result').addClass('text-danger').text(err.message);
+                $('.save-result').addClass('text-danger').text(err.message);
             }
         };
         $.ajax(opts);
@@ -201,11 +201,11 @@ $(document).ready(function() {
         viewAddEventForm(id);
     });
 
-    $(document).on('click', '#preview-edit-button', function() {
+    $(document).on('click', '.preview-edit-button', function() {
         $('#event-entry').show();
         $('.date').remove();
-        $('#preview-button').show();
-        $('#preview-edit-button').hide();
+        $('.preview-button').show();
+        $('.preview-edit-button').hide();
     });
 
     $(document).on('click', 'button[data-toggle-target]', function() {
