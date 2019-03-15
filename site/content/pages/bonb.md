@@ -1,6 +1,6 @@
 ---
 title: "Breakfast on the Bridges"
-date: 2017-11-12T14:52:28-08:00
+date: 2019-03-12T14:52:28-08:00
 draft: false
 weight: 2
 
@@ -62,7 +62,7 @@ Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every mo
 
 ### Current
 
-We have three regular serving locations as of 2016:
+We have three regular serving locations as of 2019:
 
 1. **Hawthorne Bridge**: Team Hawthorne stations itself at the West end of the bridge (North side, westbound) where the bike/pedestrian lane splits. Great views of the river and Waterfront Park. We highly encourage moving with the flow of traffic to access the Hawthorne location (this may require going out of your way to safely turn around and access the correct lane). 
 
@@ -72,9 +72,9 @@ We have three regular serving locations as of 2016:
 
 ### Past
 
-1. **Morrison Bridge**: Breakfast was served on the Morrison for a year or two around 2013/2014
+1. **Morrison Bridge**: Breakfast was served on the Morrison for a year or two around 2013/2014.  Thanks to Lance and Paul!
 
-2. **Broadway Bridge**: Is where the tradition started over a decade ago.
+2. **Broadway Bridge**: Is where the tradition started over a decade ago.  Thanks Carl, Ayleen, and Timo!
 
 
 ## Other

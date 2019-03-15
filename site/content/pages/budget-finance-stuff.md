@@ -1,6 +1,6 @@
 ---
 title: budget/finance stuff
-date: '2018-03-08T07:42:50-08:00'
+date: '2019-03-08T07:42:50-08:00'
 weight: '999'
 ---
 Shift has always run on a shoestring, largely powered by volunteers, DIY ethos, and entirely funded by donations.  Your donations are our only source of income.  So, is shift broke?  No, but we also don't usually end the year cash positive and someday our bank account (managed by our 501(c)3 partner, [Umbrella](https://www.umbrellapdx.org/)) will run out of money.
