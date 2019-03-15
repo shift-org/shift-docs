@@ -48,8 +48,13 @@
   from = "/cal/*"
   to = "/calendar/"
   status = 301
+# yup, images are in the api server for now
 [[redirects]]
   from = "/eventimages/*"
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
-
+# old pedalpalooza page should link to new one
+[[redirects]]
+  from = "/pedalpalooza"
+  to = "/pages/pedalpalooza"
+  status = 301
