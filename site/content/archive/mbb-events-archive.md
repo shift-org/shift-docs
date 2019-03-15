@@ -1,6 +1,6 @@
 ---
 title: "Move by Bike events archive"
-date: 2019-03-14:20:00
+date: 2019-03-12T15:29:20-08:00
 draft: false
 weight:
 ---
