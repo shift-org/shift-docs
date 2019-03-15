@@ -20,9 +20,6 @@ menu:
     Present breakfast to bike commuters in an interesting way -
     on a bridge! [Contact the mailing list of volunteers](mailto:bonb@lists.riseup.net).
 
-*   **Help us plan an event!**
-    Come to a SHIFT meeting: _First and Third Wednesday of the month (no meetings in June, however). Meet around 7pm at the Acme, 1305 SE 8th, Portland, OR._
-
 *   **Let us help you to make your bike event idea a reality!**
     [Submit your bike event](/addevent/) to the Calendar crew.
 
