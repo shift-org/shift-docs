@@ -21,7 +21,7 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 [Oregon Walks](http://oregonwalks.org/) is dedicated to promoting walking and improving the safety and attractiveness of walking in the greater Portland area.
 
-[Street trust](https://www.thestreettrust.org/) works to promote bicycle use and improve conditions for cyclists throughout Oregon.
+[The Street Trust](https://www.thestreettrust.org/) works to promote bicycle use and improve conditions for cyclists throughout Oregon.
 
 [Oregon ACTS](http://www.actsoregon.org/) works to improve traffic safety by providing resources, technical training, and education.
 
