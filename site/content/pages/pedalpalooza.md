@@ -1,6 +1,6 @@
 ---
 title: Pedalpalooza
-date: 2017-11-13T01:15:16.319Z
+date: 2019-03-01T01:15:16.319Z
 weight: 1
 
 menu:
@@ -13,7 +13,7 @@ Pedalpalooza is an annual festival in Metro Portland, Oregon.  During the festiv
 
 ## History
 
-The tradition of a summer bike fun festival in Portland started in Summer of 2002, when the nomadic [BikeSummer festival](http://criticalmass.wikia.com/wiki/Bike_Summer!) came to Portland.  We had so much fun that we decided we should keep having bike fun festivals and went through a couple of iterations - including [Mini Bike Summer](https://www.portlandmercury.com/news/summer-bike-events/Content?oid=29035) in 2003 before Pedalpalooza was dreamed up in 2004.  It's happened every year since then, and grown quite a bit! [See archives of previous years](/archive/pedal-palooza-archives/). 
+The tradition of a summer bike fun festival in Portland started in Summer of 2002, when the nomadic [BikeSummer festival](http://criticalmass.wikia.com/wiki/Bike_Summer!) came to Portland.  We had so much fun that we decided we should keep having bike fun festivals and went through a couple of iterations - including [Mini Bike Summer](https://www.portlandmercury.com/news/summer-bike-events/Content?oid=29035) in 2003 before Pedalpalooza was dreamed up in 2004.  It's happened every year since then, and grown quite a bit! [See archives of previous years](/archive/pedal-palooza-archives/).
 
 ## Flagship rides
 

@@ -1,6 +1,6 @@
 ---
 title: "Pedalpalooza Archive"
-date: 2017-11-15T23:33:40-08:00
+date: 2019-03-01T23:33:40-08:00
 draft: false
 weight: 2
 ---

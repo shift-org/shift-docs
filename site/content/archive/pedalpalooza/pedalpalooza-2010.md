@@ -9,7 +9,7 @@ year: 2010
 startdate: June 10, 2010
 enddate: June 27, 2010
 daterange: June 10–27, 2010
-banner-image: "/images/pp/pp2010-banner.png"
+banner-image: "/images/pp/pp2010-banner.jpg"
 poster-image: "/images/pp/pp2010.jpg"
 
 ---

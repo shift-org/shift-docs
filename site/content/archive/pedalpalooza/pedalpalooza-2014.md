@@ -9,7 +9,7 @@ year: 2014
 startdate: June 5, 2014
 enddate: June 28, 2014
 daterange: June 5–28, 2014
-banner-image: "/images/pp/pp2014-banner.png"
+banner-image: "/images/pp/pp2014-banner.jpg"
 poster-image: "/images/pp/pp2014.jpg"
 
 ---
