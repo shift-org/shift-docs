@@ -24,7 +24,7 @@
             lengths = [ '0-3', '3-8', '8-15', '15+'],
             audiences = [{code: 'F', text: 'Family friendly. Adults bring children.'},
                          {code: 'G', text: 'General. For adults, but kids welcome.'},
-                         {code: 'A', text: '21+ only. Alcohol involved.'}],
+                         {code: 'A', text: '21+ only.'}],
             areas = [{code: 'P', text: 'Portland'},
                 {code: 'V', text: 'Vancouver'}];
 
