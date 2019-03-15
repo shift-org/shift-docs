@@ -9,7 +9,9 @@ menu:
         parent: aboutmenu
 ---
 
- Shift is a loose volunteer-organized crew.  Most discussion about things like the content on the website, organizational issues, and events takes place on the [mailing list](/pages/email-list/) which you're encouraged but not required to join.
+Shift attempts to be a transparent organization.  Most of the organizational work for the organization is done at the monthly board meetings which you are welcome to attend.  We post our [meeting minutes](/pages/meeting-minutes) on this website if you don't want to sit with us for a couple hours.
+
+If you want to get in touch with the board as a whole, [you can email the board of directors here](mailto:shift-bod@googlegroups.com).  If you want to get in touch with the Shift community, most general discussion about the community and events takes place on the [mailing list](/pages/email-list/) which you're encouraged but not required to join.
 
 Shift also maintains a small presence on social media:
 
@@ -22,4 +24,4 @@ If you want to get in touch with folks about these specific projects, you'll pro
 - **[PDX World Naked Bike Ride](https://pdxwnbr.org/contact/)** (website contact form)
 - **[Breakfast on the Bridges](/pages/bonb)** has a [mailing list](mailto:bonb@lists.riseup.net).
 - **(Portland area) [Move by Bike](/pages/mbb)** has a [facebook page](https://www.facebook.com/groups/movebybike).
-- **[web calendar developers](mailto:shift_hackathon@googlegroups.com)** (mailing list)
+- **[web calendar developers](mailto:bikecal@shift2bikes.org)** (mailing list)
