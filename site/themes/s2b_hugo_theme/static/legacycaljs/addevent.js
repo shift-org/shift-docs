@@ -98,22 +98,17 @@
 
         $('#date-select').setupDatePicker(shiftEvent['datestatuses'] || []);
 
-        $('#edit-header').affix({
-            offset: {
-                top: 100
-            }
-        });
         if (shiftEvent['datestatuses'].length === 0) {
-            $('#save-button').prop('disabled', true);
-            $('#preview-button').prop('disabled', true);
+            $('.save-button').prop('disabled', true);
+            $('.preview-button').prop('disabled', true);
         }
-        $('#save-button').click(function() {
+        $('.save-button').click(function() {
             var postVars,
                 isNew = !shiftEvent.id;
             $('.form-group').removeClass('has-error');
             $('[aria-invalid="true"]').attr('aria-invalid', false);
             $('.help-block').remove();
-            $('#save-result').removeClass('text-danger').text('');
+            $('.save-result').removeClass('text-danger').text('');
             postVars = eventFromForm();
             if (!isNew) {
                 postVars['id'] = shiftEvent.id;
@@ -154,7 +149,7 @@
                         okGroups,
                         errGroups;
 
-                    $('#save-result').addClass('text-danger').text(err.message);
+                    $('.save-result').addClass('text-danger').text(err.message);
 
                     $.each(err.fields, function(fieldName, message) {
                         var input = $('[name=' + fieldName + ']'),
@@ -174,7 +169,7 @@
                     okGroups = $('.panel-collapse').not(errGroups);
                     errGroups.collapse('show');
                     okGroups.collapse('hide');
-                    $('#preview-edit-button').click();
+                    $('.preview-edit-button').click();
                 }
             };
             if(data.fake) {
@@ -185,8 +180,8 @@
             $.ajax(opts);
         });
 
-        $(document).off('click', '#preview-button')
-            .on('click', '#preview-button', function(e) {
+        $(document).off('click', '.preview-button')
+            .on('click', '.preview-button', function(e) {
             previewEvent(shiftEvent, function(eventHTML) {
                 $('#mustache-html').append(eventHTML);
             });
@@ -211,8 +206,8 @@
             var date = $form.formatDate(value['date']);
             mustacheData.dates.push({ date: date, events: [previewEvent] });
         });
-        $('#preview-button').hide();
-        $('#preview-edit-button').show();
+        $('.preview-button').hide();
+        $('.preview-edit-button').show();
         var template = $('#view-events-template').html();
         var info = Mustache.render(template, mustacheData);
         callback(info);

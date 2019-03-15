@@ -239,7 +239,7 @@ a.expand-details {
     height: auto;
 }
 
-#edit-header {
+.edit-buttons {
     width:100%;
     background:white;
     padding: 8px 16px;
@@ -409,7 +409,7 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
     table-layout: fixed;
     color: gray;
 }
-#preview-edit-button {
+.preview-edit-button {
     display: none;
 }
 /* /Date Picker CSS */
