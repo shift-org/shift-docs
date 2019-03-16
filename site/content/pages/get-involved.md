@@ -1,6 +1,5 @@
 ---
 title: Get Involved
-date: 2019-03-13T08:19:34.000Z
 weight: '1'
 menu:	
     main:	

@@ -1,6 +1,5 @@
 ---
 title: Pedalpalooza
-date: 2019-03-13T01:15:16.319Z
 weight: 1
 menu:	
     main:	

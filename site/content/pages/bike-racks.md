@@ -1,6 +1,5 @@
 ---
 title: Bike Rack Rental
-date: 2019-03-15T07:24:00.000Z
 weight: 9
 menu:	
     main:	

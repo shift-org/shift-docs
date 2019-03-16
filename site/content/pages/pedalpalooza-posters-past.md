@@ -1,6 +1,5 @@
 ---
 title: Pedalpalooza Posters Past
-date: 2017-11-13T05:29:52.438Z
 draft: false
 weight: '12'
 ---
