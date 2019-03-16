@@ -1,11 +1,9 @@
 ---
-title: "Moving By Bike"
-draft: false
+title: Move By Bike
 weight: 4
-
 menu:
-    main:
-        parent: featuredevents
+  main:
+    parent: featuredevents
 ---
 
 <img src=/images/move_by_bike_logo.jpg alt="move by bike logo" align=right>
