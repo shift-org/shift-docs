@@ -1,16 +1,16 @@
 ---
 title: Leading a Social Ride
 weight: 7
-menu:	
-    main:	
+menu:
+    main:
         parent: communitynav
 ---
 
-You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out [this detailed guide](/ride-leading-guide.pdf)!
+You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out this [detailed guide (PDF)](/ride-leading-guide.pdf)!
 
 <!-- not sure this is the best way to get the graphic shown here, but seems to work -->
 
-<img style="float: right; margin: 0px 0px 15px 15px;" src="/images/rideleadingcomiccolor.jpg" width="400" />
+<a href="/images/rideleadingcomiccolor.jpg"><img alt="Ride-Leading Tips comic" style="float: right; margin: 0px 0px 15px 15px;" src="/images/rideleadingcomiccolor.jpg" width="400" /></a>
 
 - **Consider your ridership**:
 Will the ride be for family-types or for the independently-natured? Give your riders some idea about the ride's behaviorial tone.
@@ -25,12 +25,12 @@ Shift rides offer the out-of-the-ordinary because they are about a celebration v
 - **Food and beverage**:
 People tend to connect well when sharing sustenance or celebratory libations in close proximity to one another. Not recommended to eat or drink while riding, but one successful pattern is to create a potluck and/or feature a food store stop along the route.
 - **An appropriate time**:
-To assure your ride receives maximum ridership, avoid conflicts with other rides. Please check our [fabulous calendar](http://shift2bikes.org/cal) when scheduling your ride!
+To assure your ride receives maximum ridership, avoid conflicts with other rides. Please check our [fabulous calendar](/calendar/) when scheduling your ride!
 - **Get the word out**:
 The best means of getting riders for your event is telling people about it!  Things like creating a facebook event about your ride, passing out a flyer about your ride at similar rides happening before yours, and otherwise "advertising" your ride is a great idea to supplement your event listing on our calendar.
 - **Estimated departure**:
 Chill out! Whatever your specified ride time, you should leave fifteen minutes or more later (known as "bikey time").  This allows those running late some time to arrive. Since Shift rides are not a race,  punctuality of ride departure isn't first priority. Besides, you'll allow early or on-time arrivals to make friends and find out about the ride before you leave.
 - **A feeling of rejection**:
-Sometimes people just don't show up to a ride; it happens. When it happens, be glad of the effort you made, and know your bicycle will ever always bring you happiness. We creative bikers are a fickle bunch, yet we are compassionate. Consider pinging the [shift mailing list](/pages/email-list/) and asking for advice in rescheduling your ride to attract more participants.
+Sometimes people just don't show up to a ride; it happens. When it happens, be glad of the effort you made, and know your bicycle will ever always bring you happiness. We creative bikers are a fickle bunch, yet we are compassionate. Consider pinging the [Shift mailing list](/pages/email-list/) and asking for advice in rescheduling your ride to attract more participants.
 
 Happy Riding!

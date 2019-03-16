@@ -11,8 +11,8 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 
 * **[Move by Bike](/pages/mbb)** is a group of folks interested in helping folks move across town entirely by bicycle. In addition to [this webpage with more information](/pages/mbb), there is [a facebook group](https://www.facebook.com/groups/movebybike/).
 * **[Breakfast on the Bridges](/pages/bonb)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. In addition to [this webpage with more information](/pages/bonb) There is also a [facebook group](https://www.facebook.com/bonbpdx/)
-* **PDX World Naked Bike Ride** is still loosely affiliated with shift but spun off since it is more complicated all by itself than the rest of shift put together.  [Their webpage has more information](http://pdxwnbr.org).
-* **[The Bike Fair](/pages/mcbf)** (formerly known as the Multnomah County Bike Fair) is [a recurring fair](/pages/mcbf) that happens almost every year during [pedalpalooza](/pages/pedalpalooza)
+* **[PDX World Naked Bike Ride](https://pdxwnbr.org)** is still loosely affiliated with shift but spun off into its own organization.  Leading one of the largest rides in the state year after year! [Their webpage has more information](http://pdxwnbr.org).
+* **[The Bike Fair](/pages/mcbf)** aka the Multnomah County Bike Fair is [a recurring fair](/pages/mcbf) that happens almost every year during [pedalpalooza](/pages/pedalpalooza)
 
 ## Unaffiliated but related in bike fun
 
@@ -38,4 +38,4 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 * **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)
 * **[RiseUp](https://riseup.net/)** is our mailing list host and an all-around great group of folks providing communication tools to communities like ours.
 * **[The Portland Mercury](https://www.portlandmercury.com/)** is a weekly newspaper in Portland which has printed our events calendar for [pedalpalooza](/pages/pedalpalooza) at their own expense for many years.
-* **[The City of Portland]** has provided substantial financial and practical sponsorship to Shift over the years and will likely continue to do so.
+* **[The Portland Bureau of Transportation](https://www.portlandoregon.gov/transportation/59969)** has provided **substantial** financial and practical sponsorship to Shift over the years and we are very thankful for their help in facilitating bike fun.

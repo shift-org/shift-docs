@@ -21,10 +21,10 @@ header {
   text-align: center;
 }
 
-#navbar svg.logo {
-    fill: currentColor;
+#navbar .navbar-header {
+  text-align: left;
 }
 
-.navbar-affix-placeholder {
-  height: 67px;
+#navbar svg.logo {
+  fill: currentColor;
 }
