@@ -8,17 +8,16 @@
 
   $(document).ready(function() {
     var params = parseURL();
+
     if ('eventId' in params) {
       viewEvent(params['eventId']);
+
     } else if ('editId' in params) {
       var eventid = params["editId"];
       var secret = params["editSecret"];
-
-      console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
       viewAddEventForm(eventid, secret);
 
     } else if (window.legacycal_renderpage == "addevent") {
-      console.log("Loading viewAddEventForm for a new event")
       viewAddEventForm();
 
     } else {
@@ -28,18 +27,34 @@
         params["enddate"] = {{ .Param "enddate" }};
       }
 
-      console.log("Rendering normal event list");
       viewEvents(params);
 
     }
   });
 
-
+  // move parseURL() to helpers.js?
   function parseURL() {
     var urlParams = {};
-    var parts = window.location.pathname.split('/');
-    var lastPart = parts[parts.length-1];
+    var path = window.location.pathname.split('/');
+    var lastPart = path[path.length-1];
 
+    var query = new URLSearchParams(location.search);
+
+    // get dates from URL e.g. /calendar/?startdate=2019-01-01&enddate=2019-01-08
+    if (query.has('startdate')) {
+      urlParams['startdate'] = query.get('startdate');
+    }
+    if (query.has('enddate')) {
+      urlParams['enddate'] = query.get('enddate');
+    }
+    // if startdate is provided but enddate is not, current day + 10 is used.
+    // this could end up being a huge range.
+    // double-check logic in main.js and update if needed.
+
+    // also consider adding "Show all upcoming events" partial
+    // if requesting anything other than current timeframe
+
+    // "Re" means "RegEx"? use full name for clarity
     var singleEventRe = /event-([0-9]+)/g;
     var singleEvent = singleEventRe.exec(lastPart);
     if (singleEvent && singleEvent.length === 2) {
