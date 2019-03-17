@@ -93,11 +93,12 @@ $(document).ready(function() {
 
         var currentDateTime = new Date();
         var firstDayOfRange = new Date(currentDateTime.setHours(0,0,0,0)); // set time to midnight
-        var lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
 
         if ('startdate' in options) {
           firstDayOfRange = new Date(options['startdate']);
         }
+
+        var lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
 
         if ('enddate' in options) {
           lastDayOfRange = new Date(options['enddate']);
