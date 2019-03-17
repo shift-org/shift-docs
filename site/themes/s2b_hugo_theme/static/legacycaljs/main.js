@@ -84,6 +84,7 @@ $(document).ready(function() {
     }
 
     function viewEvents(options){
+
         function daysAfter(d, days) {
             return new Date ((new Date(d)).setDate(d.getDate() + days));
         }
@@ -289,7 +290,6 @@ $(document).ready(function() {
         }
     }
 
-    console.log("Vincent's main.js - 2");
     window.viewAddEventForm = viewAddEventForm;
     window.viewEvents = viewEvents;
     window.viewEvent = viewEvent;

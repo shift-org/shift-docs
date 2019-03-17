@@ -32,29 +32,11 @@
     }
   });
 
-  // move parseURL() to helpers.js?
   function parseURL() {
     var urlParams = {};
     var path = window.location.pathname.split('/');
     var lastPart = path[path.length-1];
 
-    var query = new URLSearchParams(location.search);
-
-    // get dates from URL e.g. /calendar/?startdate=2019-01-01&enddate=2019-01-08
-    if (query.has('startdate')) {
-      urlParams['startdate'] = query.get('startdate');
-    }
-    if (query.has('enddate')) {
-      urlParams['enddate'] = query.get('enddate');
-    }
-    // if startdate is provided but enddate is not, current day + 10 is used.
-    // this could end up being a huge range.
-    // double-check logic in main.js and update if needed.
-
-    // also consider adding "Show all upcoming events" partial
-    // if requesting anything other than current timeframe
-
-    // "Re" means "RegEx"? use full name for clarity
     var singleEventRe = /event-([0-9]+)/g;
     var singleEvent = singleEventRe.exec(lastPart);
     if (singleEvent && singleEvent.length === 2) {
@@ -66,6 +48,15 @@
     if (editEvent && editEvent.length === 3) {
       urlParams['editId'] = parseInt(editEvent[1]);
       urlParams['editSecret'] = editEvent[2];
+    }
+
+    var query = new URLSearchParams(location.search);
+
+    if (query.has('startdate')) {
+      urlParams['startdate'] = query.get('startdate');
+    }
+    if (query.has('enddate')) {
+      urlParams['enddate'] = query.get('enddate');
     }
 
     return urlParams;
