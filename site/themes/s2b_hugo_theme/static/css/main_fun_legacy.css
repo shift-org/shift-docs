@@ -25,6 +25,8 @@ svg.icon {
   fill: currentColor;
   stroke: currentColor;
   polyline: currentColor;
+  border: none;
+  border-radius: 0;
 }
 
 .preview .eventlink {
