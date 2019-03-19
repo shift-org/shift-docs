@@ -93,16 +93,20 @@ $(document).ready(function() {
         var dayRange = 10;
 
         var currentDateTime = new Date();
+        var timezoneOffset = (currentDateTime.getTimezoneOffset() / 60);
+
         var firstDayOfRange = new Date(currentDateTime.setHours(0,0,0,0)); // set time to midnight
 
         if ('startdate' in options) {
-          firstDayOfRange = new Date(options['startdate']);
+          startDate = new Date(options['startdate']).setUTCHours(timezoneOffset,0,0,0);
+          firstDayOfRange = new Date(startDate);
         }
 
         var lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
 
         if ('enddate' in options) {
-          lastDayOfRange = new Date(options['enddate']);
+          endDate = new Date(options['enddate']).setUTCHours(timezoneOffset,0,0,0);
+          lastDayOfRange = new Date(endDate);
         }
 
         container.empty()
