@@ -1,13 +1,12 @@
 ---
 title: Mission Statement
-date: 2017-11-12T23:56:33.000Z
 weight: 1
 menu:	
     main:	
         parent: aboutmenu
 ---
 
-### SHIFT revels in expressing Portland’s creative bike culture through performance events and bike fun intended to highlight the positive contributions of bicycling for the community at large.
+## Shift’s mission is to promote inclusive bike fun.
 
 As a loose-knit and informal bunch of bike-loving folks, we ask for no membership, nor dues, only a shared passion for the bicycle in all its glory: as toy, as transportation, as a tool for social and environmental change!
 
@@ -23,8 +22,4 @@ Bike Summer also provided an organizational model for Shift: a central committee
 
 ## Our Activities
 
-SHIFT also organizes events of our own. Examples of SHIFT-led activities include [breakfast give aways](/pages/bonb), social rides, educational bike tours, actions to raise awareness about cyclist injuries or deaths, information-sharing events, art-bike parades and more.
-
-## Our Mission
-
-To demonstrate that cycling is fun, liberating, empowering, sustainable, and environmentally friendly.
+SHIFT also facilitates lots of events. Examples of SHIFT-related activities include [breakfast give aways](/pages/bonb), social rides, educational bike tours, actions to raise awareness about cyclist injuries or deaths, information-sharing events, art-bike parades and more.

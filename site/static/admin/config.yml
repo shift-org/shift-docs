@@ -15,8 +15,8 @@ collections:
     slug: "{{slug}}" # Filename template: title.md
     fields: # The fields for each document, usually in front matter
       - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Page #", name: "weight", widget: number}
+      - {name: "menu", widget: "hidden"}
       - {label: "Body", name: "body", widget: "markdown"}
   - name: "playbooks" # Used in routes, e.g., /admin/collections/playbooks
     label: "Playbooks" # Used in the UI
@@ -25,6 +25,7 @@ collections:
     slug: "{{slug}}" # Filename template: title.md
     fields: # The fields for each document, usually in front matter
       - {label: "Title", name: "title", widget: "string"}
+      - {name: "menu", widget: "hidden"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Page #", name: "weight", widget: number}
       - {label: "Body", name: "body", widget: "markdown"}
