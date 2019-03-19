@@ -1,5 +1,5 @@
 ---
-title: "Pedalpalooza calendar"
+title: "Pedalpalooza 2013calendar"
 description: "Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
@@ -13,3 +13,4 @@ banner-image: "/images/pp/pp2013-banner.jpg"
 poster-image: "/images/pp/pp2013.jpg"
 
 ---
+<!-- don't edit this, the content is fetched from the events database -->
