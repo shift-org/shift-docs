@@ -64,7 +64,7 @@ class EventTime extends fActiveRecord {
         $this->store();
     }
 
-    private function getEvent() {
+    public function getEvent() {
         try {
             if ($this->getEventstatus() === 'E') {
                 return $this->createEvent('exceptionid');
