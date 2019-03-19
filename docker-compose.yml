@@ -9,12 +9,12 @@ services:
     restart: always
     volumes:
       - ./site/public/:/var/www/site/
-      - ./legacy/cal/:/var/www/cal/
+      - ./legacy/cal/:/var/www/site/cal/
       - ./backend/www/:/opt/backend/www/
       - "${EVENTIMAGES}:/opt/backend/eventimages"
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
-      - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
+      - ${LETSENCRYPT_WEBROOT}:/private/tmp/letsencrypt-auto
     links:
       - php
     ports:
@@ -65,5 +65,6 @@ services:
     volumes:
       - ./backend/:/opt/backend/
       - ./services/php/:/opt/php/
+      - ./legacy/:/opt/backend/legacy
     entrypoint: /opt/php/entrypoint.sh
     command: php-fpm

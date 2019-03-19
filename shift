@@ -9,7 +9,7 @@ export MYSQL_PASSWORD=ok124
 
 export NGINX_HTTPS_PORT=4443
 export NGINX_HTTP_PORT=4480
-export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
+export LETSENCRYPT_WEBROOT="/private/tmp/letsencrypt-auto"
 
 export SHIFT_DOMAIN="localhost"
 
