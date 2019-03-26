@@ -29,10 +29,10 @@ header {
   fill: currentColor;
 }
 
-a {
+main a {
   color: #337ab7;
 }
 
-a:hover, a:focus {
+main a:hover, a:focus {
   color: #23527c;
 }
