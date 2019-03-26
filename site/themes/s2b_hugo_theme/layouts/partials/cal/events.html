@@ -265,14 +265,14 @@
 
           [[#phone]]
           <p class="contactInfo">
-            <a href="tel:[[phone]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/phone.png" alt="Phone" /> [[phone]]</a>
+            <a href="tel:[[phone]]"><svg class="icon" role="img" aria-label="Phone"><use xlink:href="#icon-phone" /></svg> [[phone]]</a>
           </p>
           [[/phone]]
 
           [[ #weburl ]]
           <p class="contactInfo">
-            <a href="[[webLink]]" target="_blank">
-              <img src="{{ .Site.BaseURL }}legacycalimages/icons/webpage.png" alt="Website" />
+            <a href="[[webLink]]" target="_blank" rel="noopener">
+              <svg class="icon" role="img" aria-label="Website"><use xlink:href="#icon-website" /></svg>
               [[#webname]][[webname]][[/webname]]
               [[^webname]][[weburl]][[/webname]]
             </a>
