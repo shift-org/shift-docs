@@ -9,7 +9,7 @@ services:
     restart: always
     volumes:
       - ./site/public/:/var/www/site/
-      - ./legacy/cal/:/var/www/site/cal/
+      - ./legacy/cal/:/opt/legacy/cal/
       - ./backend/www/:/opt/backend/www/
       - "${EVENTIMAGES}:/opt/backend/eventimages"
       - ./services/nginx/:/opt/nginx/
@@ -65,6 +65,6 @@ services:
     volumes:
       - ./backend/:/opt/backend/
       - ./services/php/:/opt/php/
-      - ./legacy/:/opt/backend/legacy
+      - ./legacy/:/opt/legacy
     entrypoint: /opt/php/entrypoint.sh
     command: php-fpm

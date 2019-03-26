@@ -1,9 +1,9 @@
 <?php
 	# Database access constants
-	define("DBHOST", "localhost");
-	define("DBUSER", "shift2b_shift2b");
-	define("DBPASSWORD", "b1k3s.x");
-	define("DBDATABASE", "shift2b_bikeaction_beta");
+	define("DBHOST", "db");
+	define("DBUSER", getenv("MYSQL_USER"));
+	define("DBPASSWORD", getenv("MYSQL_PASSWORD"));
+	define("DBDATABASE", getenv("MYSQL_DATABASE"));
 
 	# Directory where SHIFT's standard header and footer are stored
 	define("INCLUDES", "../includes");
