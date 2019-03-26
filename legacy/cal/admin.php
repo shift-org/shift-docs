@@ -15,7 +15,7 @@
     }
 
     # include the standard Shift header
-    include(INCLUDES."/header.html");
+    # include(INCLUDES."/header.html");
 
     # depending on whether we're logged in, show either a login prompt or menu
     if (!$loggedin) {
@@ -35,5 +35,5 @@
     }
 
     # include the standard Shift footer
-    include(INCLUDES."/footer.html");
+    # include(INCLUDES."/footer.html");
 ?>

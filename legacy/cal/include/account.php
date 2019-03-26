@@ -9,7 +9,7 @@
 	define("INCLUDES", "../includes");
 
 	# URL of the Directory where the calendar resides
-	define("CALURL", "http://shift2bikes.org/betacal");
+	define("CALURL", "/legacy/cal/");
 
 	# cookie to replace static definitions, for security through obscurity
 	define("ADMINCOOKIE", "yeehaw!");
