@@ -54,6 +54,7 @@ services:
       - MYSQL_HOST
       - SHIFT_DOMAIN
       - NGINX_HTTPS_PORT
+      - CAL_ADMIN_PASSWORD
       - SHIFT_EMAIL_LOG
       - SMTP_HOST
       - SMTP_USER

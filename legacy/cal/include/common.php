@@ -13,7 +13,7 @@ define("AREACODE", "503");
 
 # Goofy login protection for ppadmin.php
 define("ADMINUSER", "amsterdam");
-define("ADMINPASS", "brasilia");
+define("ADMINPASS", getenv("CAL_ADMIN_PASSWORD"));
 
 # Info about Pedalpalooza or Velopalooza.  In addition to the values here,
 # you'll have to do some heavy editing to the year-specific version the
