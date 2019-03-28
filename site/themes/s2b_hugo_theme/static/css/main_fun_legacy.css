@@ -4,27 +4,38 @@ Typically they will not be visible.
 But if someone is using a high contrast display mode, the border will appear.
 */
 
+#mustache-html {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .scrollToTop {
-    width:100px;
-    height:70px;
-    text-align:center;
-    color:#630;
-    position:fixed;
-    bottom:75px;
-    right:40px;
-    display:none;
-    z-index:1;
-    background: url('../legacycalimages/icons/up-arrow.svg') no-repeat 0px 20px;
-    background-position: center;
+  width:100px;
+  height:70px;
+  text-align:center;
+  color: #663300;
+  position:fixed;
+  bottom:75px;
+  right:40px;
+  display:none;
+  z-index:1;
+  background: url('../legacycalimages/icons/up-arrow.svg') no-repeat 0px 20px;
+  background-position: center;
+}
+
+.scrollToTop:hover {
+  color: #452200;
 }
 
 svg.icon {
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   vertical-align: middle;
   fill: currentColor;
   stroke: currentColor;
   polyline: currentColor;
+  border: none;
+  border-radius: 0;
 }
 
 .preview .eventlink {

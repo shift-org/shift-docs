@@ -250,29 +250,29 @@
             [[/ image]]
           </div>
 
-          <p><img src="{{ .Site.BaseURL }}legacycalimages/icons/alarm.png" alt="Time" /> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
+          <p><svg class="icon" role="img" aria-label="Time"><use xlink:href="#icon-time" /></svg> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
           [[#endtime]]
-          <p><img src="{{ .Site.BaseURL }}legacycalimages/icons/stopwatch.png" alt="End Time" /> [[displayEndTime]]</p>
+          <p><svg class="icon" role="img" aria-label="End time"><use xlink:href="#icon-endtime" /></svg> [[displayEndTime]]</p>
           [[/endtime]]
 
           <p class="description">[[details]]</p>
 
           [[#email]]
           <p class="contactInfo">
-            <a href="mailto:[[email]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/email.png" alt="Email" /> [[email]]</a>
+            <a href="mailto:[[email]]"><svg class="icon" role="img" aria-label="Email"><use xlink:href="#icon-email" /></svg> [[email]]</a>
           </p>
           [[/email]]
 
           [[#phone]]
           <p class="contactInfo">
-            <a href="tel:[[phone]]"><img src="{{ .Site.BaseURL }}legacycalimages/icons/phone.png" alt="Phone" /> [[phone]]</a>
+            <a href="tel:[[phone]]"><svg class="icon" role="img" aria-label="Phone"><use xlink:href="#icon-phone" /></svg> [[phone]]</a>
           </p>
           [[/phone]]
 
           [[ #weburl ]]
           <p class="contactInfo">
-            <a href="[[webLink]]" target="_blank">
-              <img src="{{ .Site.BaseURL }}legacycalimages/icons/webpage.png" alt="Website" />
+            <a href="[[webLink]]" target="_blank" rel="noopener">
+              <svg class="icon" role="img" aria-label="Website"><use xlink:href="#icon-website" /></svg>
               [[#webname]][[webname]][[/webname]]
               [[^webname]][[weburl]][[/webname]]
             </a>

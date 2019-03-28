@@ -28,3 +28,11 @@ header {
 #navbar svg.logo {
   fill: currentColor;
 }
+
+main a {
+  color: #337ab7;
+}
+
+main a:hover, a:focus {
+  color: #23527c;
+}
