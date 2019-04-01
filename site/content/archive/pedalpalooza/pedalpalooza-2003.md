@@ -27,7 +27,7 @@ poster-image: "/images/pp/pp2003.jpg"
 <font size="4">C a l e n d a r . o f . E v e n t s
 </font>
 <p align="left">
-<img src="http://www.yeabikes.net/thegrablow.jpg" width="170" height="250" border="0" align="right">
+<img src="https://www.yeabikes.net/thegrablow.jpg" width="170" height="250" border="0" align="right">
 </p>
 <p>
 <br>
@@ -72,7 +72,7 @@ poster-image: "/images/pp/pp2003.jpg"
 <i>Tour different parts of the city to hand out flyers/tickets to driversof SUVs
 </i>philipgoff@hotmail.com
 <p align="left">
-<img src="http://www.yeabikes.net/mr_log.jpg" width="250" height="170" border="0" align="right">
+<img src="https://www.yeabikes.net/mr_log.jpg" width="250" height="170" border="0" align="right">
 <br>
 <b>3:00-5:00
 </b>Dykes on Bikes: Women's Pride Ride
@@ -127,7 +127,7 @@ poster-image: "/images/pp/pp2003.jpg"
 <i>Meet at the park closest to you for a lovely ride to a pedal-powered bike-in movie at a secret location.
 </i>
 <p align="left">
-<img src="http://www.yeabikes.net/bonb_2ladies.jpg" width="170" height="250" border="0" align="right">
+<img src="https://www.yeabikes.net/bonb_2ladies.jpg" width="170" height="250" border="0" align="right">
 <br>
 </p>
 <hr>
@@ -179,7 +179,7 @@ poster-image: "/images/pp/pp2003.jpg"
 <p>
 </p>
 <p align="left">
-<img src="http://www.yeabikes.net/clown.jpg" width="170" height="250" border="0" align="right">
+<img src="https://www.yeabikes.net/clown.jpg" width="170" height="250" border="0" align="right">
 <br>
 </p>
 <hr>
@@ -253,7 +253,7 @@ poster-image: "/images/pp/pp2003.jpg"
 </i>
 </b>
 <p align="left">
-<img src="http://www.yeabikes.net/2competitors.jpg" width="170" height="200" border="0" align="right">
+<img src="https://www.yeabikes.net/2competitors.jpg" width="170" height="200" border="0" align="right">
 <br>
 </p>
 <hr>
@@ -324,7 +324,7 @@ poster-image: "/images/pp/pp2003.jpg"
 <p>
 </p>
 <p align="left">
-<img src="http://www.yeabikes.net/spidey2b.jpg" width="170" height="250" border="0" align="right">
+<img src="https://www.yeabikes.net/spidey2b.jpg" width="170" height="250" border="0" align="right">
 <br>
 </p>
 <hr>
@@ -380,7 +380,7 @@ poster-image: "/images/pp/pp2003.jpg"
 <p>
 </p>
 <p align="left">
-<img src="http://www.yeabikes.net/pubcrawl_riding.jpg" width="250" height="170" border="0" align="right">
+<img src="https://www.yeabikes.net/pubcrawl_riding.jpg" width="250" height="170" border="0" align="right">
 </p>
 <p>
 </p>

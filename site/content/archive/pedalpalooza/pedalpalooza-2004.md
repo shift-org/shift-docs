@@ -18,9 +18,9 @@ poster-image: "/images/pp/pp2004.jpg"
 <font size="5"><b>Pedalpalooza</b></font>
 <font size="4"> | June 10-26, 2004 | Portland, OR<br></font>
 <font size="4"><i><b>Presented by</b></i><img src="/images/shiftlogo_small.jpg" alt="Shift" border="0" align="middle">
-<a href="http://www.portlandmercury.com" target="_blank"> <img src="http://www.portlandmercury.com/images/logo.gif" alt="Portland Mercury" border="0" align="middle"></a></font>
+<a href="http://www.portlandmercury.com" target="_blank"> <img src="https://www.portlandmercury.com/images/logo.gif" alt="Portland Mercury" border="0" align="middle"></a></font>
 
-<font size="3">With major sponsorship from <a href="http://www.pdxtrans.org" target="_blank"> <img src="http://www.pdxtrans.org/images/home_logo.gif" alt="City of Portland Office of Transportation" width="120" height="40" border="0" align="middle"></a> and <b>New Belgium</b></font>
+<font size="3">With major sponsorship from <a href="http://www.pdxtrans.org" target="_blank"> <img src="https://www.pdxtrans.org/images/home_logo.gif" alt="City of Portland Office of Transportation" width="120" height="40" border="0" align="middle"></a> and <b>New Belgium</b></font>
 
 <font size="4"><img src="/images/ff.gif" border="0" align="left">Family Friendly Events</font>
 <font size="1">The fun bike flags events that are appropriate for the entire family.  You may also want to contact the event organizers to find out if an event is right for your family.</font>
