@@ -56,6 +56,11 @@
   status = 301
   force = true
 [[redirects]]
+  from = "https://new.shift2bikes.org/*"
+  to = "https://www.shift2bikes.org/:splat"
+  status = 301
+  force = true
+[[redirects]]
   from = "https://pedalpalooza.org/*"
   to = "https://www.shift2bikes.org/pages/pedalpalooza"
   status = 302
