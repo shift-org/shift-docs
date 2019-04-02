@@ -4,16 +4,11 @@ date: '2019-03-14T17:25:11-07:00'
 weight: '2'
 ---
 
-This document is out of date as of March 2019.  Check out [more current information in the README on Github](https://github.com/shift-org/shift-docs#overview).
+This document is out of date as of March 2019.  Check out [more current information in the README on Github](https://github.com/shift-org/shift-docs#overview).  Some of this is still useful.
 
-Some of this is still useful.
+Shift uses [Amazon's AWS](https://aws.amazon.com) and [Netlify](https://www.netlify.com) to host our website.  Chris/fool is currently paying for AWS but will submit expenses to Shift for payment.
 
-This is a big ball o wax.
-
-Shift has webhosting through canvashost, a local service provider who gives us a reasonably good deal.  The charge is currently hooked to chris (fool)'s paypal so please don't add services without talking to him!
-
-
-domains are registered through [Dotster](https://www.dotster.com) and are hooked to fool's credit card:
+Shift's Domains are registered through [Dotster](https://www.dotster.com) and are hooked to fool's credit card:
 
 - shift2bikes.org
 - shift2bikes.com
@@ -22,25 +17,16 @@ domains are registered through [Dotster](https://www.dotster.com) and are hooked
 
 pedalpalooza.org needs to be transferred from its current registrar soon;  brian scrivner still controls that.
 
-Several people can login, including chris fool and brian scrivner.
+Several people can login, including chris (@fool), Vincent (@sdobz), and Josh (@carrythebanner)
 
-steve kirkendall, thom wilburn still retain access and were longtime caretakers.
+The calendar is written in php, talks to a mysql database that is backed up semi-regularly.
 
-Site is in php, talks to a mysql database that is backed up semi-regularly.
+Some of the old website/calendar codebase is in github here: https://github.com/Shift2Bikes/shiftcal/tree/Legacy
 
-while some of the old calendar website codebase is in github:
+the [website](https://www.shift2bikes.org) and [calendar](https://shift2bikes.org/calendar/) are their own codebase in github:
 
-https://github.com/Shift2Bikes/shiftcal/tree/Legacy
+https://github.com/shift-org/shift-docs
 
-the [new/current calendar](http://shift2bikes.org/fun2/) is its own codebase in github:
+...and has an online bit about contributing too:  https://www.shift2bikes.org/pages/playbooks/website-development/
 
-https://github.com/Shift2Bikes/shiftcal/tree/master
-
-The [new website](https://new.shift2bikes.org) is also in github:
-
-https://github.com/fool/shift-docs
-
-...and has an online bit about contributing too:  https://new.shift2bikes.org/pages/website-development/
-
-These are both "in progress"
-
+These are both "in progress".  We generally meet once a week to work on the website/calendar.  Ping the [website crew](mailto:bikecal@shift2bikes.org) to get details about our next meetup.  All are welcome;  coders, testers, content editors, visionaries, etc.
