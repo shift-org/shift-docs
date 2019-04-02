@@ -1,6 +1,6 @@
 ---
-title: "Pedalpalooza calendar"
-description: "Pedalpalooza calendar"
+title: "2003 Pedalpalooza calendar"
+description: "2003 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: calevents
