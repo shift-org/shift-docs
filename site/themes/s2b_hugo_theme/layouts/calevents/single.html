@@ -22,11 +22,11 @@
               <div class="col-md-12">
 
                 <div>
-                  {{ .Content }}
-
                   {{ if isset .Params "pp" }}
                     {{ partial "pp_header.html" . }}
                   {{ end }}
+
+                  {{ .Content }}
                 </div>
 
                 <div id="mustache-html" class="container"></div>
