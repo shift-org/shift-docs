@@ -37,6 +37,7 @@ collections:
     fields: # The fields for each document, usually in front matter
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {name: "menu", widget: "hidden"}
       - {label: "Page #", name: "weight", widget: number}
       - {label: "Body", name: "body", widget: "markdown"}
 
@@ -49,6 +50,15 @@ collections:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Page #", name: "weight", widget: number}
       - {name: "menu", widget: "hidden"}
+      - {name: "id", widget: "hidden"}
+      - {name: "type", widget: "hidden"}
+      - {name: "pp", widget: "hidden"}
+      - {name: "year", widget: "hidden"}
+      - {name: "startdate", widget: "hidden"}
+      - {name: "enddate", widget: "hidden"}
+      - {name: "daterange", widget: "hidden"}
+      - {name: "banner-image", widget: "hidden"}
+      - {name: "poster-image", widget: "hidden"}
       - {label: "Body", name: "body", widget: "markdown"}
 
   - label: "extra pages" # Used in the UI 
