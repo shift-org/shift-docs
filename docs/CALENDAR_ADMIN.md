@@ -19,7 +19,7 @@ Shift's calendar event data is stored in a mysql database running on api.shift2b
 , but make sure you're looking at the correct event in case there have been seve
 ral with the same title over the years.  Looking for the most recently modified one will USUALLY be correct.  For instance: `select * from calevent where title="Thursday Night Ride" order by modified desc limit 1;`.  
 4. If that is the right event, you need the ID field: `select ID from calevent where title="Thursday Night Ride" order by modified desc limit 1;`
-5. Update the event.  You can use any password, make it a little hard to guess: `update calevent set password="hard-to-guess" where id=7283;
+5. Update the event.  You can use any password, make it a little hard to guess: `update calevent set password="hard-to-guess" where id=7283;`
 6. Now you can do steps 5 and 6 from the previous question to create the URL.
 
 ## Who knows more?
