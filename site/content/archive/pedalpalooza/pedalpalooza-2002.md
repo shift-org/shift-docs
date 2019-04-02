@@ -1,35 +1,43 @@
 ---
-title: "2002 Pedalpalooza calendar"
-description: "2002 Pedalpalooza calendar"
-keywords: ["pedalpalooza"]
+title: 2002 Pedalpalooza calendar
+weight: 2
 id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2002
-startdate: August 1, 2002
-enddate: August 3, 2002
-daterange: August 1–3, 2002
-banner-image: "/images/pp/pp2002-banner.png"
-poster-image: "/images/pp/pp2002.jpg"
-
+startdate: 'August 1, 2002'
+enddate: 'August 3, 2002'
+daterange: 'August 1–3, 2002'
+banner-image: /images/pp/pp2002-banner.png
+poster-image: /images/pp/pp2002.jpg
 ---
 <p><big><strong>BikeSummer Events!</strong></big></p>
-<p align="left"><big><strong>Kickoff! August 1-3</strong></big></p>
+<p align="left"><big><strong>Kickoff! August 1-31</strong></big></p>
 
 <!--  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF -->
+
 <!--  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF -->
+
 <!--  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF  KICKOFF -->
 
 <table bordercolordark="#660000" bordercolorlight="#CC9966" width="100%" border="1">
 
 <!-- Generic Event Block -->
+
 <!--   <tr>  -->
+
 <!--     <td width="50%" align="center">EVENT</td> -->
+
 <!--     <td align="center">TYPE</td> -->
+
 <!--     <td width="15%" align="center">DATE</td> -->
+
 <!--     <td width="8%" align="center">TIME</td> -->
+
 <!--     <td width="16%" align="center">LOCATION</td> -->
+
 <!--     <td width="13%" align="center">CONTACT</td> -->
+
 <!--   </tr> -->
 
   <tbody><tr>
@@ -108,10 +116,12 @@ poster-image: "/images/pp/pp2002.jpg"
 <p align="left"><big><strong> Week #1 (August 4-10):</strong></big></p>
 
 <!--  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1 -->
-<!--  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1 -->
-<!--  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1 -->
+
 <!--  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1 -->
 
+<!--  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1 -->
+
+<!--  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1  WEEK 1 -->
 
 <table bordercolordark="#660000" bordercolorlight="#CC9966" width="100%" border="1">
   <tbody><tr>
@@ -211,11 +221,14 @@ td&gt;
 </tbody></table>
 
 <!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
-<!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
-<!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
-<!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
+
 <!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
 
+<!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
+
+<!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
+
+<!--  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2  WEEK 2 -->
 
 <p align="left"><big><strong>
 Week #2 (August 11-17):
@@ -294,7 +307,6 @@ Week #2 (August 11-17):
     <td width="13%" align="center"><a href="https://web.archive.org/web/20020428220445/mailto: ytamer@aol.com">Jeff Bernards</a>(503)-774-5659</td>
   </tr>
 
-
   <tr>
     <td width="50%" align="center"><a href="knitting.htm">Knitting for Cyclists!</a></td>
     <td align="center">Workshop</td>
@@ -331,9 +343,13 @@ Week #2 (August 11-17):
 </tbody></table>
 
 <!-- WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3 -->
+
 <!-- WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3 -->
+
 <!-- WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3 -->
+
 <!-- WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3 -->
+
 <!-- WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3  WEEK 3 -->
 
 <p align="left"><big><strong>
@@ -404,7 +420,6 @@ Week #3 (August 18-24):
     <td width="13%" align="center"><a href="https://web.archive.org/web/20020428220445/mailto: ayleen@riseup.net">Ayleen</a> <br>e-mail if you'd like to help pass out breakfast!</td>
   </tr>
 
-
 <tr>
     <td width="50%" align="center"><a href="trees.htm">Heritage Trees of Inner Southeast </a>
 </td>
@@ -416,10 +431,8 @@ Week #3 (August 18-24):
     <td width="13%" align="center"> <a href="https://web.archive.org/web/20020428220445/mailto:  southerland@samsix.com">Ken Southerland</a> <br>
 503-236-4288
 
-
 </td>
   </tr>
-
 
   <tr>
     <td width="50%" align="center">INTRANET Presentation<br>A presentation outdoors on a project called INTRANET with music and other fun to follow.</td>
@@ -452,9 +465,13 @@ Week #3 (August 18-24):
 </tbody></table>
 
 <!-- WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4 -->
+
 <!-- WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4 -->
+
 <!-- WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4 -->
+
 <!-- WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4 -->
+
 <!-- WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4  WEEK 4 -->
 
 <p align="left"><big><strong>Week #4 (August 25-31):</strong></big></p>
