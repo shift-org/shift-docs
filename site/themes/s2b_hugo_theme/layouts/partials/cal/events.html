@@ -2,6 +2,55 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/moment.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/helpers.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/main.js"></script>
+
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.js"></script>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('fullcalendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'dayGrid', 'timeGrid' ],
+      defaultView: 'dayGridMonth',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      events: '{{ .Site.BaseURL }}api/events.php',
+      startParam: 'startdate',
+      endParam: 'enddate',
+      eventSourceSuccess: function( content ) {
+        return content.events;
+      },
+      eventDataTransform: function( eventData ) {
+        var event = {
+            id: eventData.caldaily_id,
+            title: eventData.title,
+            start: eventData.date + 'T' + eventData.time,
+            end: eventData.date + 'T' + eventData.time,
+        };
+        if (eventData.eventduration != null) {
+          // eventduration is optional; if not null, its value is in minutes;
+          // time and eventduration are strings, must convert before adding;
+          // so below doesn't work, but demonstrates the concept
+          //
+          // var endtime = eventData.time + eventData.eventduration;
+          /// event.end = eventData.date + 'T' + endtime;
+        }
+        return event;
+      },
+      eventClick: function ( info ) {
+        window.open("/calendar/event-" + info.event.id, "_self");
+      }
+    });
+
+    calendar.render();
+  });
+</script>
+
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
@@ -141,6 +190,7 @@
 </script>
 
 <script id="view-events-template" type="text/template">
+
   [[#dates]]
   <div data-date="[[yyyymmdd]]" class="date[[#preview]] preview[[/preview]]">
     <h2>[[date]]</h2>
