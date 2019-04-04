@@ -1,6 +1,5 @@
 ---
 title: Shift Code Of Conduct
-weight: 1
 
 menu:
     main:
