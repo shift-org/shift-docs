@@ -1,7 +1,12 @@
 ---
 title: Shift Code Of Conduct
 weight: 1
+
+menu:
+    main:
+        parent: aboutmenu
 ---
+
 # 1. Purpose
 
 Shift's Mission is to promote inclusive bike fun. We volunteer our time towards that goal in Portland, Oregon, for those of all backgrounds. As such, we are committed to adhering to a friendly, safe and welcoming environment for all, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, and religion (or lack thereof).
