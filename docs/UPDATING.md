@@ -25,9 +25,13 @@ Select "Publish" and your results should be available live within a minute or so
 
 New pages can be created through the CMS as accessed at: https://docs.shift2bikes.org/admin/#/collections/pages .  You can't create new chapters there, but pulling up your category (Playbooks/Pages/Archive) will lead to a list of existing content and a button in the upper right for "New Playbooks", "New Pages", or "New Archive".  Playbooks are shown under shift2bikes.org/pages/playbooks, Pages at shift2bikes.org/pages, and Archives are not shown by default but can be linked to as /archive/name-of-markdown-file (without a `.md` extension)
 
-Once you create a page, it won't be linked from the navigation menus that are on the site until you add a navigation guideline in the frontmatter of the post.  You can't do this in the CMS, so your best bet if you are not into making manual git commits is to create your page and then ping [the dev crew](mailto:bikecal@shift2bikes.org] or ping fool directly to help out.  It would be useful if you mentioned WHICH menu group you want it in :)
+Once you create a page, the file is created in git and can be manually edited there. For advanced users who are manually editing pages in github, look for the newly created page here: https://github.com/shift-org/shift-docs/tree/master/site/content/pages
 
-For those adding such content, it should look something like this:
+NOTE: The page won't be linked from the navigation menus that are on the site until you add a navigation guideline in the frontmatter of the post.  You can't do this in the CMS, so your best bet if you are not into making manual git commits is to create your page and then ping [the dev crew](mailto:bikecal@shift2bikes.org] or ping fool directly to help out.  It would be useful if you mentioned WHICH menu group you want it in :)
+
+# Adding content to the site navigation
+
+At the top of each page markdown file there is a block surrounded by the markers: `---` which contain the page data. The navigation menu block is shown below. `menu` is the navigation part, `main` is navigation we use for the homepage and sites navigated to by the homepage, `parent` is the parent menu where the page should be.
 
 ```
 menu:
