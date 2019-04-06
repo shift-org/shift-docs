@@ -7,49 +7,65 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.js"></script>
 
-<script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('fullcalendar');
+if ({{ .Param "pp" }}) {
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('fullcalendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'dayGrid', 'timeGrid' ],
-      defaultView: 'dayGridMonth',
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-      },
-      events: '{{ .Site.BaseURL }}api/events.php',
-      startParam: 'startdate',
-      endParam: 'enddate',
-      eventSourceSuccess: function( content ) {
-        return content.events;
-      },
-      eventDataTransform: function( eventData ) {
-        var event = {
-            id: eventData.caldaily_id,
-            title: eventData.title,
-            start: eventData.date + 'T' + eventData.time,
-            end: eventData.date + 'T' + eventData.time,
-        };
-        if (eventData.eventduration != null) {
-          // eventduration is optional; if not null, its value is in minutes;
-          // time and eventduration are strings, must convert before adding;
-          // so below doesn't work, but demonstrates the concept
-          //
-          // var endtime = eventData.time + eventData.eventduration;
-          /// event.end = eventData.date + 'T' + endtime;
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'dayGrid', 'timeGrid' ],
+        defaultView: 'dayGridMonth',
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultDate: {{ .Param "startdate" }},
+        validRange: {
+          start: {{ .Param "startdate" }},
+          end: {{ .Param "enddate" }}
+        },
+        events: '{{ .Site.BaseURL }}api/events.php',
+        startParam: 'startdate',
+        endParam: 'enddate',
+        eventSourceSuccess: function( content ) {
+          // our API returns { "events": [ ] }
+          // and this will return just the inner array as fullcalendar expects
+          return content.events;
+        },
+        eventDataTransform: function( eventData ) {
+          // this transforms the data for individual rides
+          // into the format needed by fullcalendar
+          var event = {
+              id: eventData.caldaily_id,
+              title: eventData.title,
+              start: eventData.date + 'T' + eventData.time,
+              end: eventData.date + 'T' + eventData.time,
+          };
+          if (eventData.eventduration != null) {
+            event.duration = eventData.eventduration;
+            // eventduration is optional; if not null, its value is in minutes;
+            // time and eventduration are strings, must convert before adding;
+            // so below doesn't work, but demonstrates the concept
+            //
+            // var endtime = eventData.time + eventData.eventduration;
+            /// event.end = eventData.date + 'T' + endtime;
+          }
+          return event;
+        },
+        eventClick: function ( info ) {
+          // what happens when you click an event from the calendar grid
+          console.log(info.event.start)
+          console.log(info.event.end)
+          console.log(info.event.extendedProps.duration);
+          window.open("/calendar/event-" + info.event.id, "_self");
         }
-        return event;
-      },
-      eventClick: function ( info ) {
-        window.open("/calendar/event-" + info.event.id, "_self");
-      }
-    });
+      });
 
-    calendar.render();
-  });
-</script>
+        calendar.render();
+    });
+  </script>
+}
 
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
