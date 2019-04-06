@@ -26,6 +26,7 @@ if ({{ .Param "pp" }}) {
           end: {{ .Param "enddate" }}
         },
         nowIndicator: true,
+        eventLimit: true,
         events: '{{ .Site.BaseURL }}api/events.php',
         startParam: 'startdate',
         endParam: 'enddate',
