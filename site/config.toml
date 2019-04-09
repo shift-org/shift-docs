@@ -1,6 +1,6 @@
 baseURL = "/"
 languageCode = "en-us"
-title = "Shift 2 Bikes Reboot"
+title = "Shift"
 theme = "s2b_hugo_theme"
 # Site language. Available translations in the theme's `/i18n` directory.
 defaultContentLanguage = "en"
