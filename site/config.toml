@@ -159,7 +159,7 @@ paginate = 10
     # Format dates with Go's time formatting
     date_format = "January 2, 2006"
 
-#    logo = "images/shiftlogo.jpg"
+    logo = "images/shift-logo-large.jpg"
     address = """<p>Donations can be made
         <br>by mailing a check addressed to:
         <br>
