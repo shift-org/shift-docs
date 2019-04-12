@@ -39,7 +39,7 @@ svg.icon {
 }
 
 .preview .eventlink {
-   visibility: hidden;
+  visibility: hidden;
 }
 
 .eventlink ul {
@@ -122,6 +122,18 @@ svg.icon {
     border: 1px solid #FFDD66;
 }
 
+#fullcalendar .fc-event {
+    background-color: #337AB7;
+    color: white;
+    border-color: #337AB7;
+}
+
+#fullcalendar .fc-event.featured {
+    background-color: #630;
+    color: #FCFAF2;
+    border-color: #FCFAF2;
+}
+
 .event.featured .featured-text {
     text-align: center;
     font-weight: bold;
@@ -136,6 +148,14 @@ svg.icon {
 .event.cancelled ins
 {
     text-decoration: none;
+}
+
+#fullcalendar .fc-event.cancelled {
+    background-color: white;
+    color: #337AB7;
+}
+#fullcalendar .fc-event.cancelled .fc-title {
+    text-decoration: line-through;
 }
 
 .cancelled-text {

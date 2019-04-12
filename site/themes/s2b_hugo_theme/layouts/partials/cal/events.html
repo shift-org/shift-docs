@@ -41,25 +41,18 @@ if ({{ .Param "pp" }}) {
           var event = {
               id: eventData.caldaily_id,
               title: eventData.title,
-              start: eventData.date + 'T' + eventData.time,
-              end: eventData.date + 'T' + eventData.time,
+              start: eventData.date + 'T' + eventData.time
           };
-          if (eventData.eventduration != null) {
-            event.duration = eventData.eventduration;
-            // eventduration is optional; if not null, its value is in minutes;
-            // time and eventduration are strings, must convert before adding;
-            // so below doesn't work, but demonstrates the concept
-            //
-            // var endtime = eventData.time + eventData.eventduration;
-            /// event.end = eventData.date + 'T' + endtime;
+          if (eventData.cancelled == true) {
+            event.classNames = [ 'cancelled' ];
+          }
+          if (eventData.featured == true) {
+            event.classNames = [ 'featured' ];
           }
           return event;
         },
         eventClick: function ( info ) {
           // what happens when you click an event from the calendar grid
-          console.log(info.event.start)
-          console.log(info.event.end)
-          console.log(info.event.extendedProps.duration);
           window.open("/calendar/event-" + info.event.id, "_self");
         }
       });
