@@ -7,8 +7,10 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
 
-if ({{ .Param "pp" }}) {
-  <script type="text/javascript">
+<script type="text/javascript">
+  //only show grid view for PP pages, 2008 or later
+  if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
+
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('fullcalendar');
 
@@ -59,8 +61,9 @@ if ({{ .Param "pp" }}) {
 
         calendar.render();
     });
-  </script>
-}
+
+  }
+</script>
 
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
