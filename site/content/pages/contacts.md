@@ -2,7 +2,7 @@
 title: contacts
 weight: 1234
 ---
-# Want to connect with Shift?
+## Want to connect with Shift?
 
 - [Email our Board of Directors](mailto:shift-bod@googlegroups.com)
 - [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
@@ -12,7 +12,7 @@ weight: 1234
 
 
 
-# Interested in connecting with a group who posts to the [Shift Calendar](http://www.shift2bikes.org/calendar)?  Reach out to them directly!
+## Interested in connecting with a group who posts to the [Shift Calendar](http://www.shift2bikes.org/calendar)?  Reach out to them directly!
 
 - [Pedalpalooza](mailto:pedalpalooza.media@gmail.com)
 - [Breakfast on the Bridges](mailto:bonb@lists.riseup.net)
