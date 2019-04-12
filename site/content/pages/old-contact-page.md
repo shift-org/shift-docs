@@ -1,9 +1,6 @@
 ---
-title: Contact
+title: Old Contact Page
 weight: '2'
-menu:
-  main:
-    parent: aboutmenu
 ---
 Shift attempts to be a transparent organization.  Most of the organizational work for the organization is done at the monthly board meetings which you are welcome to attend.  We post our [meeting minutes](/pages/meeting-minutes) on this website if you don't want to sit with us for a couple hours.
 
