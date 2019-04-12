@@ -5,19 +5,19 @@ menu:
   main:
     parent: aboutmenu
 ---
-Shift attempts to be a transparent organization.  Most of the organizational work for the organization is done at the monthly board meetings which you are welcome to attend.  We post our [meeting minutes](/pages/meeting-minutes) on this website if you don't want to sit with us for a couple hours.
+## Want to connect with Shift?
 
-If you want to get in touch with the board as a whole, [you can email the board of directors here](mailto:shift-bod@googlegroups.com).  If you want to get in touch with the Shift community, most general discussion about the community and events takes place on the [mailing list](/pages/email-list/) which you're encouraged but not required to join.
+- [Email our Board of Directors](mailto:shift-bod@googlegroups.com)
+- [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
+- [Join our Community Mailing list](https://lists.riseup.net/www/info/shift)
+- [Follow us on Facebook](https://www.facebook.com/shift2bikes/)
+- [Join us for a ride or post one of your own for free!](http://www.shift2bikes.org)
 
-Shift also maintains a small presence on social media:
 
-* [Shift facebook](https://www.facebook.com/shift2bikes/) isn't super active.
-* [Pedalpalooza facebook](https://www.facebook.com/pedalpalooza/) has a lot more activity - mostly in June during [pedalpalooza](/pages/pedalpalooza).
-* [Pedalpalooza twitter](https://twitter.com/pedalpalooza) is also pretty active in June
 
-If you want to get in touch with folks about these specific projects, you'll probably get the fastest response using one of the following channels:
+## Interested in connecting with a group who posts to the [Shift Calendar](http://www.shift2bikes.org/calendar)?  Reach out to them directly!
 
-* **[PDX World Naked Bike Ride](https://pdxwnbr.org/contact/)** (website contact form)
-* **[Breakfast on the Bridges](/pages/bonb)** has a [mailing list](mailto:bonb@lists.riseup.net).
-* **(Portland area) [Move by Bike](/pages/mbb)** has a [facebook page](https://www.facebook.com/groups/movebybike).
-* **[web calendar developers](mailto:bikecal@shift2bikes.org)** (mailing list)
+- [Pedalpalooza](mailto:pedalpalooza.media@gmail.com)
+- [Breakfast on the Bridges](mailto:bonb@lists.riseup.net)
+- [Move by Bike](https://www.facebook.com/groups/movebybike)
+- [PDX WNBR](mailto:pdxwnbr@gmail.com) 
