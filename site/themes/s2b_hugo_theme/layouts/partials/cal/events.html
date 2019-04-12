@@ -8,17 +8,16 @@
 
   $(document).ready(function() {
     var params = parseURL();
+
     if ('eventId' in params) {
       viewEvent(params['eventId']);
+
     } else if ('editId' in params) {
       var eventid = params["editId"];
       var secret = params["editSecret"];
-
-      console.log("Loading viewAddEventForm with eventid: ", eventid, ", secret: ", secret);
       viewAddEventForm(eventid, secret);
 
     } else if (window.legacycal_renderpage == "addevent") {
-      console.log("Loading viewAddEventForm for a new event")
       viewAddEventForm();
 
     } else {
@@ -28,17 +27,15 @@
         params["enddate"] = {{ .Param "enddate" }};
       }
 
-      console.log("Rendering normal event list");
       viewEvents(params);
 
     }
   });
 
-
   function parseURL() {
     var urlParams = {};
-    var parts = window.location.pathname.split('/');
-    var lastPart = parts[parts.length-1];
+    var path = window.location.pathname.split('/');
+    var lastPart = path[path.length-1];
 
     var singleEventRe = /event-([0-9]+)/g;
     var singleEvent = singleEventRe.exec(lastPart);
@@ -51,6 +48,15 @@
     if (editEvent && editEvent.length === 3) {
       urlParams['editId'] = parseInt(editEvent[1]);
       urlParams['editSecret'] = editEvent[2];
+    }
+
+    var query = new URLSearchParams(location.search);
+
+    if (query.has('startdate')) {
+      urlParams['startdate'] = query.get('startdate');
+    }
+    if (query.has('enddate')) {
+      urlParams['enddate'] = query.get('enddate');
     }
 
     return urlParams;
