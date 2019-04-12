@@ -167,6 +167,8 @@ class Event extends fActiveRecord {
         $message = $message . "\r\n\r\nThis link is like a password. Anyone who has it can delete and change your event. Please keep this email so you can manage your event in the future.";
         $message = $message . "\r\n\r\nBike on!\r\n\r\n-Shift";
         mail($this->getEmail(), $subject, $message, $headers);
+	# send backup copy for debugging and/or moderating
+        mail("shift-event-email-archives@googlegroups.com", $subject, $message, $headers);
     }
 
     public function unhide() {
