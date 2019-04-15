@@ -1,10 +1,9 @@
 ---
 title: Shift Code Of Conduct
 weight: 1
-
 menu:
-    main:
-        parent: aboutmenu
+  main:
+    parent: aboutmenu
 ---
 
 # 1. Purpose
@@ -143,11 +142,11 @@ Additionally, Shift recognizes that experiencing unacceptable behavior can make 
 
 Respectfully, Shift does not engage with local law enforcement or otherwise aide law enforcement with their investigative matters. Your right to privacy with regard to reporting issues to Shift, be it anonymously or by name, will be protected as confidential by default. Any participants who involve law enforcement agencies do so by their own interest and without the explicit endorsement from Shift the organization.
 
-8. Appealing decisions
+# 8. Appealing Decisions
 
 Only permanent resolutions (such as bans) may be appealed. To appeal a decision of the working group, contact the Shift board at conduct@shift2bikes.org with your appeal and the board will review the case.
 
-# 9. Listing on the Shift calendar
+# 9. Listing on the Shift Calendar
 
 Public listings on the Shift calendar are not official Shift events, unless created by the board. These non-official Shift events are not covered by insurance and the ride leaders as well as ride participants of these public listings are expected to be ultimately responsible for their own health and safety. If you are in danger in any way, please get to safety and ask for help if you cannot. 
 
@@ -159,19 +158,19 @@ We expect all community participants (contributors, paid or otherwise; sponsors;
 
 This code of conduct and its related procedures also applies to unacceptable behavior occurring outside the scope of community activities when such behavior has the potential to adversely affect the safety and well-being of community members.
 
-# 11. Contact info
+# 11. Contact Info
 
-Shift board, email: bod@shift2bikes.org
+Shift board: bod@shift2bikes.org
 
 Conduct committee: conduct@shift2bikes.org
 
-# 12. License and attribution
+# 12. License and Attribution
 
 This Code of Conduct is distributed under a Creative Commons Attribution-ShareAlike license.
 
 Portions of text derived directly from the Stumptown Syndicate Code of Conduct which includes text derived from the Django Code of Conduct and the Geek Feminism Anti-Harassment Policy.
 
-# 13. Glossary of terms
+# 13. Glossary of Terms
 
 Ride Participant / Event participant / participant 
 
