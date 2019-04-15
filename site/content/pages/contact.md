@@ -15,10 +15,7 @@ Want to connect with Shift?
 
 Interested in connecting with a group who posts to the Shift Calendar?  Reach out to them directly!
 
- Pedalpalooza: <mailto:pedalpalooza.media@gmail.com>
-
- Breakfast on the Bridges <mailto:bonb@lists.riseup.net>
-
- [Move by Bike](https://www.facebook.com/groups/movebybike)
-
- [Portland World Naked Bike Ride](http://pdxwnbr.org/) // <mailto:pdxwnbr@gmail.com>
+*  Pedalpalooza: <mailto:pedalpalooza.media@gmail.com>
+*  Breakfast on the Bridges <mailto:bonb@lists.riseup.net>
+*  [Move by Bike](https://www.facebook.com/groups/movebybike)
+*  [Portland World Naked Bike Ride](http://pdxwnbr.org/) // <mailto:pdxwnbr@gmail.com>
