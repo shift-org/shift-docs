@@ -30,7 +30,6 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 * **[The Community Cycling Center](http://www.communitycyclingcenter.org/about/)** is a non-profit organization on a mission to broaden access to bicycling and its benefits.
 * **[The Portland Bureau of Transportation has an active-transportation focused group](https://www.portlandoregon.gov/transportation/59969)**.  This group organizes [Sunday Parkways](https://www.portlandoregon.gov/transportation/46103) and a bunch of other wonderful bike-focused groups - from a [bike share program](https://www.portlandoregon.gov/transportation/57983) to [safe routes to schools](https://www.portlandoregon.gov/transportation/68009).
 * **[WashCoBikes](https://washcobikes.org/)** champions cycling in Washington County
-* 
 
 ## Sponsors
 
