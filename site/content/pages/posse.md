@@ -12,19 +12,17 @@ Think another group should be listed here?  [Let us know on the mailing list](/p
 * **[Move by Bike](/pages/mbb)** is a group of folks interested in helping folks move across town entirely by bicycle. [Facebook](https://www.facebook.com/groups/movebybike/)
 * **[Breakfast on the Bridges](/pages/bonb)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. F[acebook](https://www.facebook.com/bonbpdx/)
 * **[PDX World Naked Bike Ride](https://pdxwnbr.org)** is still loosely affiliated with shift but spun off into its own organization. Leading one of the largest rides in the state year after year!
-* **[The Multnomah County Bike Fair](/pages/mcbf) is a recurring fair that happens almost every year during Pedalpalooza.
+* **[The Multnomah County Bike Fair](/pages/mcbf)** is a recurring fair that happens almost every year during Pedalpalooza.
 
 ## Unaffiliated but related in bike fun
 
-* **Velopalooza** is a summer bike fun festival in Vancouver, BC, Canada - similar to [pedalpalooza](/pages/pedalpalooza).  [Check out their website here](http://velopalooza.ca/about-velopalooza/)!
-* **Portland Urban Bike** runs an weekly ride (Thursday Night Ride) that has happened for more than 3 years straight!  [They have a facebook page](https://www.facebook.com/PortlandUrbanBike/).
-* **Puddlecycle** is a group that focuses on winter bike fun events in Portland.  [Their website](https://puddlecycle.com/) talks more about their mission and how to participate.
+* **[Velopalooza](http://velopalooza.ca/about-velopalooza/)** is a summer bike fun festival in Vancouver, BC, Canada similar to Pedalpalooza.
+* **[Portland Urban Bike](https://www.facebook.com/PortlandUrbanBike/)** runs an weekly ride (Thursday Night Ride) since 2015!
+* **[Puddlecycle](https://puddlecycle.com/)** is a group that focuses on winter bike fun events in Portland.  Their website talks more about their mission and how to participate.
 * **[Portland Autonomous Zone](https://pazpdx.wordpress.com/about/)** is a local DIY/tinkering community with a focus on bikes and is a frequent booster of and participant in shift events.
 * **[Dropout Bike Club](https://www.facebook.com/DropoutBikeClub/)** is a local freak bike club that leads monthly rides.
-* **[Corvidae Bicycle Club](https://www.facebook.com/corvidaeBC/)** is an inclusive fun crew that leads a monthly 2nd sunday social ride from Peninsula Park at 2pm
-* **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.  Their focus is wider than bike fun - but definitel includes it!
-
-[Here's a longer list of local bike groups posted a couple years ago on bikeportland.org](https://bikeportland.org/2016/02/03/find-your-tribe-listing-portlands-many-facebook-bike-groups-174007)
+* **[Corvidae Bicycle Club](https://www.facebook.com/corvidaeBC/)** is an inclusive fun crew that leads a monthly 2nd Sunday social ride from Peninsula Park at 2pm
+* **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.
 
 ## Nonprofits and Government groups
 
