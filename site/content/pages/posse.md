@@ -5,8 +5,6 @@ menu:
   main:
     parent: communitynav
 ---
-Think another group should be listed here?  [Let us know on the mailing list](/pages/email-list/)!
-
 ## Shift spinoff projects
 
 * **[Move by Bike](/pages/mbb)** is a group of folks interested in helping folks move across town entirely by bicycle. [Facebook](https://www.facebook.com/groups/movebybike/)
