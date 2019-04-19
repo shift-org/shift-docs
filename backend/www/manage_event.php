@@ -180,6 +180,10 @@ function build_json_response() {
         $messages['read_comic'] = "You must have read the Ride Leading Comic";
     }
 
+    if (!$data['code_of_conduct']) {
+        $messages['code_of_conduct'] = "You must agree to the Code of Conduct";
+    }
+
     if ($messages) {
         return field_error($messages);
     }

@@ -10,6 +10,7 @@
                 }
                 data.secret = secret;
                 data.readComic = true;
+                data.codeOfConduct = true;
                 populateEditForm( data, callback );
             });
         } else {

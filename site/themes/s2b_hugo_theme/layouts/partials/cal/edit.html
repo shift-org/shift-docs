@@ -363,15 +363,36 @@
         </div>
       </div>
 
-      <div class="ride-comic">
-        <img src="/images/comic/ride-leading-comic-thumbnail.png" class="comic-thumbnail" alt="">
-        <p>For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg" target="_blank">Ride Leading Comic</a> at least once before submitting an event.</p>
-        <div class="checkbox">
-          <input type="hidden" name="read_comic" value="0" />
-          <label class="control-label" for="read_comic">
-            <input type="checkbox" name="read_comic" id="read_comic" value="1" [[# readComic ]]checked[[/ readComic ]] />
-            I have read the Ride Leading Comic
-          </label>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#terms-fields" aria-expanded="true">
+              Terms
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use xlink:href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        <div id="terms-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <p class="input-help">Rides posted to the Shift calendar must abide by the <a href="/pages/shift-code-of-conduct/" target="_blank">Code of Conduct</a>.</p>
+            <div class="checkbox">
+              <input type="hidden" name="code_of_conduct" value="0" />
+              <label class="control-label" for="code_of_conduct">
+                <input type="checkbox" name="code_of_conduct" id="code_of_conduct" value="1" [[# codeOfConduct ]]checked[[/ codeOfConduct ]] />
+                I agree to the Code of Conduct
+              </label>
+            </div>
+            <p class="input-help">For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg" target="_blank">Ride Leading Comic</a> at least once before submitting an event.</p>
+            <div class="checkbox">
+              <input type="hidden" name="read_comic" value="0" />
+              <label class="control-label" for="read_comic">
+                <input type="checkbox" name="read_comic" id="read_comic" value="1" [[# readComic ]]checked[[/ readComic ]] />
+                I have read the Ride Leading Comic
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -412,7 +433,7 @@
       [[^ id ]]
       <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
       [[/ id ]]
-  
+
       <span class="save-result"></span>
     </div>
 </script>
