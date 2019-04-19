@@ -9,7 +9,7 @@ menu:
 
 - [Email our Board of Directors](mailto:shift-bod@googlegroups.com)
 - [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
-- [Join our Community Mailing list](https://www.shift2bikes.org/pages/email-list/)
+- [Join our Community Mailing list](/pages/email-list/)
 - [Follow us on Facebook](https://www.facebook.com/shift2bikes/)
 - [Join us for a ride or post one of your own for free!](/calendar/)
 
