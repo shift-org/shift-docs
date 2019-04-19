@@ -2,6 +2,69 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/moment.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/helpers.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/main.js"></script>
+
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
+
+<script type="text/javascript">
+  //only show grid view for PP pages, 2008 or later
+  if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('fullcalendar');
+
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'dayGrid', 'timeGrid' ],
+        defaultView: 'dayGridMonth',
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        defaultDate: {{ .Param "startdate" }},
+        validRange: {
+          start: {{ .Param "startdate" }},
+          end: {{ .Param "enddate" }}
+        },
+        nowIndicator: true,
+        eventLimit: true,
+        events: '{{ .Site.BaseURL }}api/events.php',
+        startParam: 'startdate',
+        endParam: 'enddate',
+        eventSourceSuccess: function( content ) {
+          // our API returns { "events": [ ] }
+          // and this will return just the inner array as fullcalendar expects
+          return content.events;
+        },
+        eventDataTransform: function( eventData ) {
+          // this transforms the data for individual rides
+          // into the format needed by fullcalendar
+          var event = {
+              id: eventData.caldaily_id,
+              title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
+              start: eventData.date + 'T' + eventData.time
+          };
+          if (eventData.cancelled == true) {
+            event.classNames = [ 'cancelled' ];
+          }
+          if (eventData.featured == true) {
+            event.classNames = [ 'featured' ];
+          }
+          return event;
+        },
+        eventClick: function ( info ) {
+          // what happens when you click an event from the calendar grid
+          window.open("/calendar/event-" + info.event.id, "_self");
+        }
+      });
+
+        calendar.render();
+    });
+
+  }
+</script>
+
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];

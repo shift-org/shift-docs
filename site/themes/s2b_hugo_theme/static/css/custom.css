@@ -30,9 +30,9 @@ header {
 }
 
 main a {
-  color: #337ab7;
+  color: #337AB7;
 }
 
 main a:hover, a:focus {
-  color: #23527c;
+  color: #23527C;
 }
