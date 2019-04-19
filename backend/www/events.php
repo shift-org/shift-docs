@@ -35,9 +35,20 @@ if (isset($_GET['enddate']) && ($parseddate = strtotime($_GET['enddate']))) {
 
 $json = array();
 
+function daysInRange($startdate, $enddate) {
+    $days = 86400; // seconds in a day
+    return round(($enddate / $days) - ($startdate / $days));
+}
+
 if ($enddate < $startdate) {
     http_response_code(400);
     $message = "enddate: " . date('Y-m-d', $enddate) . " is before startdate: " . date('Y-m-d', $startdate);
+    $json['error'] = array(
+        'message' => $message
+    );
+} elseif (daysInRange($startdate, $enddate) > 45) {
+    http_response_code(400);
+    $message = "event range too large: " . daysInRange($startdate, $enddate) . " days requested; max 45 days";
     $json['error'] = array(
         'message' => $message
     );

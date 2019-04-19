@@ -1,12 +1,10 @@
 ---
 title: Shift Code Of Conduct
 weight: 1
-
 menu:
-    main:
-        parent: aboutmenu
+  main:
+    parent: aboutmenu
 ---
-
 # 1. Purpose
 
 Shift's Mission is to promote inclusive bike fun. We volunteer our time towards that goal in Portland, Oregon, for those of all backgrounds. As such, we are committed to adhering to a friendly, safe and welcoming environment for all, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, and religion (or lack thereof).
@@ -23,35 +21,9 @@ Have fun, be kind to one another, keep yourself safe.
 
 # 2. Core Values
 
-These values come from members in our community that have all collectively agreed on in one setting or another. These are the things the community wants for itself and its legacy in Portland, and hopes to instill in others.
+These values come from members in our community that have all collectively agreed on in one setting or another. These are the things the community wants for itself and its legacy in Portland, and hopes to instill in others:
 
-active transportation
-
-community-building
-
-inclusivity
-
-promoting bike fun
-
-accountability
-
-responsibility
-
-collective nature
-
-collaboration
-
-accessibility
-
-justice
-
-environmentalism
-
-education
-
-fostering leadership
-
-equity
+active transportation, community-building, inclusivity, promoting bike fun, accountability, responsibility, collective nature, collaboration, accessibility, justice, environmentalism, education, fostering leadership, equity
 
 # 3. Expected Behavior
 
@@ -137,17 +109,17 @@ Automatic event removal (one that did not come before the board because of repor
 
 # 7. Reporting Guidelines
 
-If you are subject to or witness unacceptable behavior, or have any other concerns, please notify us as soon as possible by emailing conduct@shift2bikes.org or completing this form to your best ability: Reporting Unacceptable Behavior Form. Please read the Reporting Guidelines for further details.
+If you are subject to or witness unacceptable behavior, or have any other concerns, please notify us as soon as possible by emailing [conduct@shift2bikes.org](conduct@shift2bikes.org) or completing the [Reporting Unacceptable Behavior Form](https://forms.gle/AGGNKt7FAtGrywQaA) to your best ability.
 
 Additionally, Shift recognizes that experiencing unacceptable behavior can make anyone feel unsafe. In the context of official Shift events, organizers are expected to aid those persons experiencing distress.
 
 Respectfully, Shift does not engage with local law enforcement or otherwise aide law enforcement with their investigative matters. Your right to privacy with regard to reporting issues to Shift, be it anonymously or by name, will be protected as confidential by default. Any participants who involve law enforcement agencies do so by their own interest and without the explicit endorsement from Shift the organization.
 
-8. Appealing decisions
+# 8. Appealing Decisions
 
-Only permanent resolutions (such as bans) may be appealed. To appeal a decision of the working group, contact the Shift board at conduct@shift2bikes.org with your appeal and the board will review the case.
+Only permanent resolutions (such as bans) may be appealed. To appeal a decision of the working group, contact the Shift board at [conduct@shift2bikes.org](conduct@shift2bikes.org) with your appeal and the board will review the case.
 
-# 9. Listing on the Shift calendar
+# 9. Listing on the Shift Calendar
 
 Public listings on the Shift calendar are not official Shift events, unless created by the board. These non-official Shift events are not covered by insurance and the ride leaders as well as ride participants of these public listings are expected to be ultimately responsible for their own health and safety. If you are in danger in any way, please get to safety and ask for help if you cannot. 
 
@@ -159,19 +131,19 @@ We expect all community participants (contributors, paid or otherwise; sponsors;
 
 This code of conduct and its related procedures also applies to unacceptable behavior occurring outside the scope of community activities when such behavior has the potential to adversely affect the safety and well-being of community members.
 
-# 11. Contact info
+# 11. Contact Info
 
-Shift board, email: bod@shift2bikes.org
+Shift board: [bod@shift2bikes.or](bod@shift2bikes.or)g
 
-Conduct committee: conduct@shift2bikes.org
+Conduct committee: [conduct@shift2bikes.org](conduct@shift2bikes.org)
 
-# 12. License and attribution
+# 12. License and Attribution
 
 This Code of Conduct is distributed under a Creative Commons Attribution-ShareAlike license.
 
 Portions of text derived directly from the Stumptown Syndicate Code of Conduct which includes text derived from the Django Code of Conduct and the Geek Feminism Anti-Harassment Policy.
 
-# 13. Glossary of terms
+# 13. Glossary of Terms
 
 Ride Participant / Event participant / participant 
 
