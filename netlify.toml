@@ -101,7 +101,7 @@
 
 # testing out a special redirect for a URL that someone made up
 [[redirects]]
-  from = "/calendar/pedaloalooza"
+  from = "/calendar/pedalpalooza"
   to = "/pages/pedalpalooza"
   status = 200
 
