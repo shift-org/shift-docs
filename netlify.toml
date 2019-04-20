@@ -97,6 +97,14 @@
   from = "/cal/*"
   to = "/calendar/"
   status = 301
+
+
+# testing out a special redirect for a URL that someone made up
+[[redirects]]
+  from = "/calendar/pedaloalooza"
+  to = "/pages/pedalpalooza"
+  status = 200
+
   
 # remove-add trailing slashes kinda?  fool can't really believe this works :P
 [[redirects]]
