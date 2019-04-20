@@ -103,7 +103,7 @@
 [[redirects]]
   from = "/calendar/pedalpalooza"
   to = "/pages/pedalpalooza"
-  status = 200
+  status = 301
 
   
 # remove-add trailing slashes kinda?  fool can't really believe this works :P
