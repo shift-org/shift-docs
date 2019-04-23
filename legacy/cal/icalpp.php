@@ -17,10 +17,10 @@ VERSION:2.0
 <?php
     # For each event...
     $sequence = 0;
-    $result = mysql_query("SELECT * FROM calevent, caldaily WHERE eventdate >= '".PPSTART."' AND eventdate <= '".PPEND."' AND eventstatus <> 'C' AND eventstatus <> 'E' AND eventstatus <> 'S' AND review <> 'E' AND calevent.id = caldaily.id ORDER BY eventdate, eventtime", $conn) or die(mysql_error());
+    $result = mysql_query("SELECT * FROM calevent, caldaily WHERE eventdate >= '".PPSTART."' AND eventdate <= '".PPEND."' AND eventstatus <> 'C' AND eventstatus <> 'E' AND eventstatus <> 'S' AND review <> 'E' AND caldaily.id = calevent.id ORDER BY eventdate, eventtime", $conn) or die(mysql_error());
     while ($record = mysql_fetch_array($result)) {
 	$sequence++;
-	$id = $record["id"];
+	$id = $record["pkid"];
 	$tmp = strtotime($record["eventdate"]);
 	$date = date("Ymd", $tmp);
 	$mday = date("d", $tmp);
@@ -60,7 +60,7 @@ VERSION:2.0
 	print wordwrap("DESCRIPTION:".$record["printdescr"], 75, "\n  ", TRUE)."\n";
 	print wordwrap("ORGANIZER:".$contact, 75, "\n  ", TRUE)."\n";
 	print wordwrap("LOCATION:".$location, 75, "\n  ", TRUE)."\n";
-	print "ATTACH:".CALURL.PPURL."#$mday-$id\n";
+	print "ATTACH:".CALURL."event-$id\n";
 	print "END:VEVENT\n";
     }
     #ex:set sw=4 it=s:

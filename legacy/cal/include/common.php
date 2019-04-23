@@ -19,14 +19,14 @@ define("ADMINPASS", getenv("CAL_ADMIN_PASSWORD"));
 # you'll have to do some heavy editing to the year-specific version the
 # festival calendar (e.g., "viewpp2010.php").
 define("PPNAME", "Pedalpalooza");	    # Name of the festival
-define("PPSTART", "2015-06-04");	    # Start date, in MySQL format
-define("PPEND", "2015-06-27");		    # End date, in MySQL format
-define("PPSTART_MONTHDAY", "June 4");	    # Start date, in "Month Day" format
-define("PPDAYS", 24);			    # Duration in days
-define("PPDATES", "June 4-27");		    # Dates, in "Month Day-Day" format
-define("PPURL", "viewpp2015.php");	    # URL of the festival calendar
-define("PPSMALL", "images/pp2015.jpg");     # URL of the medium poster image
-define("PPLARGE", "images/pp2015full.jpg"); # URL of the full-size poster image
+define("PPSTART", "2019-06-01");	    # Start date, in MySQL format
+define("PPEND", "2019-06-30");		    # End date, in MySQL format
+define("PPSTART_MONTHDAY", "June 1");	    # Start date, in "Month Day" format
+define("PPDAYS", 30);			    # Duration in days
+define("PPDATES", "June 1-30");		    # Dates, in "Month Day-Day" format
+define("PPURL", "/pedalpalooza-calendar");	    # URL of the festival calendar
+define("PPSMALL", "/images/pp/pp-general-banner.png");     # URL of the medium poster image
+define("PPLARGE", "/images/pp/pp-general.png"); # URL of the full-size poster image
 
 # Create a database connection
 $conn = mysql_connect(DBHOST, DBUSER, DBPASSWORD) or die(mysql_error());
