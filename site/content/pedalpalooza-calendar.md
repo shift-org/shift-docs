@@ -8,8 +8,8 @@ pp: true
 year: 2019
 startdate: June 1, 2019
 enddate: June 30, 2019
-daterange: June 2019 
-banner-image: "/images/pp/pp-general-banner.png"
-poster-image: "/images/pp/pp-general.png"
+daterange: June 1–30, 2019
+banner-image: "/images/pp/pp2019-banner.png"
+poster-image: "/images/pp/pp2019.jpg"
 
 ---
