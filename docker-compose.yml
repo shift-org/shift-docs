@@ -14,7 +14,7 @@ services:
       - "${EVENTIMAGES}:/opt/backend/eventimages"
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
-      - ${LETSENCRYPT_WEBROOT}:/private/tmp/letsencrypt-auto
+      - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
     links:
       - php
     ports:
