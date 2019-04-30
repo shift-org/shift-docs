@@ -1,5 +1,6 @@
 FROM php:5.6-fpm
 
+RUN sed -i s/jessie-updates/jessie\\/updates/ /etc/apt/sources.list
 RUN docker-php-ext-install pdo pdo_mysql mysql
 
 RUN pecl install xdebug-2.5.5 \
