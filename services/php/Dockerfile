@@ -4,6 +4,7 @@ RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian/ je
 RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" >> /tmp/apt-sources
 RUN echo "deb http://security.debian.org/ jessie/updates main" >> /tmp/apt-sources
 RUN mv /tmp/apt-sources /etc/apt/sources.list
+RUN echo "Acquire::Check-Valid-Until "false";" > /etc/apt/apt.conf
 
 RUN docker-php-ext-install pdo pdo_mysql mysql
 
