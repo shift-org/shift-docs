@@ -113,13 +113,17 @@
       urlParams['editSecret'] = editEvent[2];
     }
 
-    var query = new URLSearchParams(location.search);
+    // IE doesn't support URLSearchParams, so IE will
+    // skip this block and ignore the startdate/enddate params
+    if (typeof URLSearchParams === "function") {
+      var query = new URLSearchParams(location.search);
 
-    if (query.has('startdate')) {
-      urlParams['startdate'] = query.get('startdate');
-    }
-    if (query.has('enddate')) {
-      urlParams['enddate'] = query.get('enddate');
+      if (query.has('startdate')) {
+        urlParams['startdate'] = query.get('startdate');
+      }
+      if (query.has('enddate')) {
+        urlParams['enddate'] = query.get('enddate');
+      }
     }
 
     return urlParams;
