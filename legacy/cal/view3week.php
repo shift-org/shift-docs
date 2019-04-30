@@ -12,7 +12,7 @@
 	include("include/view.php");
 	if (!isset($_REQUEST['p']) || $_REQUEST["p"] == "")
 	{
-		include(INCLUDES."/header.html");
+#		include(INCLUDES."/header.html");
 	}
 	else
 	{
@@ -188,7 +188,7 @@ Most of the events in this calendar are <strong>not</strong> produced by Shift.
 <?php
 	if (!isset($_REQUEST['p']))
 	{
-		include(INCLUDES."/footer.html");
+#		include(INCLUDES."/footer.html");
 	}
 	else
 	{

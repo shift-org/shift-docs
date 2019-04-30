@@ -9,7 +9,7 @@ services:
     restart: always
     volumes:
       - ./site/public/:/var/www/site/
-      - ./legacy/cal/:/var/www/cal/
+      - ./legacy/cal/:/opt/legacy/cal/
       - ./backend/www/:/opt/backend/www/
       - "${EVENTIMAGES}:/opt/backend/eventimages"
       - ./services/nginx/:/opt/nginx/
@@ -54,6 +54,7 @@ services:
       - MYSQL_HOST
       - SHIFT_DOMAIN
       - NGINX_HTTPS_PORT
+      - CAL_ADMIN_PASSWORD
       - SHIFT_EMAIL_LOG
       - SMTP_HOST
       - SMTP_USER
@@ -65,5 +66,6 @@ services:
     volumes:
       - ./backend/:/opt/backend/
       - ./services/php/:/opt/php/
+      - ./legacy/:/opt/legacy
     entrypoint: /opt/php/entrypoint.sh
     command: php-fpm

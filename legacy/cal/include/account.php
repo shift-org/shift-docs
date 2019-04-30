@@ -1,15 +1,15 @@
 <?php
 	# Database access constants
-	define("DBHOST", "localhost");
-	define("DBUSER", "shift2b_shift2b");
-	define("DBPASSWORD", "b1k3s.x");
-	define("DBDATABASE", "shift2b_bikeaction_beta");
+	define("DBHOST", "db");
+	define("DBUSER", getenv("MYSQL_USER"));
+	define("DBPASSWORD", getenv("MYSQL_PASSWORD"));
+	define("DBDATABASE", getenv("MYSQL_DATABASE"));
 
 	# Directory where SHIFT's standard header and footer are stored
 	define("INCLUDES", "../includes");
 
 	# URL of the Directory where the calendar resides
-	define("CALURL", "http://shift2bikes.org/betacal");
+	define("CALURL", "https://www.shift2bikes.org/calendar/");
 
 	# cookie to replace static definitions, for security through obscurity
 	define("ADMINCOOKIE", "yeehaw!");
