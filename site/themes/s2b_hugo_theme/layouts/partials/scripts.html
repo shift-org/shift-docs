@@ -25,7 +25,9 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $(".s2b-external-link").attr("target", "_blank");
-    $(".s2b-external-link").prepend($("<i class='glyphicon glyphicon-new-window'></i>"));
+    $(".s2b-external-link").attr("rel", "noopener");
+    $(".s2b-external-link").attr("title", "Opens in a new window");
+    $(".s2b-external-link").prepend($("<i class='glyphicon glyphicon-new-window' aria-hidden='true'></i>"));
     //console.log("decorated links")
   });
 </script>
