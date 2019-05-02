@@ -178,6 +178,10 @@ svg.icon {
     overflow-wrap: break-word;
 }
 
+.location {
+    overflow-wrap: break-word;
+}
+
 .col-xs-2 {
     width: 20%;
 }
