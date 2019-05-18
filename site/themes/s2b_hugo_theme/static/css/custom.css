@@ -36,3 +36,15 @@ main a {
 main a:hover, a:focus {
   color: #23527C;
 }
+
+main .donate {
+  text-align: center;
+}
+
+main .donate a {
+  background: #FD6;
+  color: #630;
+  border-radius: 12px;
+  padding: 0.25em 1em;
+  font-size: 16px;
+}
