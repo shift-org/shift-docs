@@ -170,7 +170,7 @@ paginate = 10
         <br>or via PayPal:
         <br>
         <strong></strong>
-        <a href="https://www.paypal.com/donate/?token=fu6x1CRnviEZauVBw53tw8qtQZKBswVUBy64CN0pqf3ikDg3t6Lq6-b2_BAwRkfrLev8kG&country.x=US&locale.x=US"><input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"></a>
+        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate</span></a>
       </p>
       """
     latitude = "-12.043333"
