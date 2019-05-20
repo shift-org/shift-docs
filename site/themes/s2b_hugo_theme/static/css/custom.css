@@ -48,3 +48,9 @@ main .donate a {
   padding: 0.25em 1em;
   font-size: 16px;
 }
+
+@media (max-width: 991px) {
+  .home-carousel h1 {
+    font-size: 32px;
+  }
+}
