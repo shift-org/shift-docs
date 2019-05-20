@@ -1,4 +1,5 @@
-#weight: 4
+#weight: 99
 #title: "Need bike racks?"
 #description: "<p>Shift can rent you some!</p>< a href="/content/pages/bike-racks.md">Check out the Shift Shop section for more information</a></p>"
 #image: "images/carousel/bikeracks.jpg"
+#link: "/pages/bike-racks/"
