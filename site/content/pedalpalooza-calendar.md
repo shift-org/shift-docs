@@ -15,7 +15,7 @@ poster-image: "/images/pp/pp2019.jpg"
 ---
 
 <!-- to be removed after May 27, 2019 -->
-<div class="donate">
+<div class="donate" style="margin-bottom: 2em;">
   <p><strong>Limited time</strong> &mdash; buy a 2019 Pedalpalooza shirt by May 27th!</p>
 
   <p><a href="https://www.customink.com/fundraising/pedalpalooza-2019" target="_blank" rel="noopener">Buy a shirt</a></p>
