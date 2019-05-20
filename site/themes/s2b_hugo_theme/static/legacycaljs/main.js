@@ -35,7 +35,7 @@ $(document).ready(function() {
                 value.audienceLabel = container.getAudienceLabel(value.audience);
                 value.mapLink = container.getMapLink(value.address);
 
-                if ('id' in options) {
+                if ( 'id' in options || options['show_details'] == true ) {
                     value.expanded = true;
                 }
                 value.webLink = container.getWebLink(value.weburl);
@@ -109,13 +109,19 @@ $(document).ready(function() {
           lastDayOfRange = new Date(endDate);
         }
 
+        var isExpanded = false;
+        if ('show_details' in options) {
+          isExpanded = true;
+        }
+
         container.empty()
              .append($('#scrollToTop').html())
 
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
         getEventHTML({
             startdate: firstDayOfRange,
-            enddate: lastDayOfRange
+            enddate: lastDayOfRange,
+            show_details: isExpanded
         }, function (eventHTML) {
              container.append(eventHTML);
              if ( !('pp' in options) ) {
