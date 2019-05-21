@@ -35,7 +35,7 @@ $(document).ready(function() {
                 value.audienceLabel = container.getAudienceLabel(value.audience);
                 value.mapLink = container.getMapLink(value.address);
 
-                if ( 'id' in options || options['show_details'] == true ) {
+                if ( 'show_details' in options && options['show_details'] == true ) {
                     value.expanded = true;
                 }
                 value.webLink = container.getWebLink(value.weburl);
@@ -151,7 +151,10 @@ $(document).ready(function() {
             .append($('#show-all-template').html())
             .append($('#scrollToTop').html());
 
-        getEventHTML({id:id}, function (eventHTML) {
+        getEventHTML({
+            id: id,
+            show_details: true // always expand details for a single event
+        }, function (eventHTML) {
             container.append(eventHTML);
             checkAnchors();
         });
