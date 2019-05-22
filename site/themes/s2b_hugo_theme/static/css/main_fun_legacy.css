@@ -378,9 +378,6 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 #load-later {
     background-color: red;
 }
-.loading-zone {
-    height: 600px;
-}
 
 .calendar-day {
     border-top: 1px solid gray;
