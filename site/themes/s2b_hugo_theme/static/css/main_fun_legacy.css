@@ -358,7 +358,7 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 }
 
 #date-select {
-    height: 130px;
+    height: 140px;
 }
 
 #date-select-pp {
@@ -372,6 +372,10 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 .date-picker-style {
     width: 100%;
 }
+#date-picker-actions {
+  display: flex;
+  justify-content: space-between;
+}
 #load-earlier {
     background-color: green;
 }
@@ -379,13 +383,13 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
     background-color: red;
 }
 .loading-zone {
-    height: 600px;
+    height: auto;
 }
 
 .calendar-day {
     border-top: 1px solid gray;
     padding: 3px;
-    color: gray;
+    color: #404040;
     line-height: 1.5em;
     text-align: center;
 }
@@ -397,16 +401,18 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 
 .calendar-day.today {
     background-color: green;
+    color: white;
 }
 
 .calendar-day.selected {
     background-color: red;
+    color: white;
 }
 
 .calendar-month-title {
     position: relative;
     width: 30px;
-    color: #fff;
+    color: #404040;
     background-color: #f90;
     font-weight: bold;
 }
@@ -442,7 +448,7 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
     font-size: 0.9em;
     text-align: center;
     table-layout: fixed;
-    color: gray;
+    color: #404040;
 }
 .preview-edit-button {
     display: none;
