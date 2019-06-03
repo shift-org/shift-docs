@@ -324,6 +324,7 @@ $(document).ready(function() {
         }
     }
 
+    // lightly adapted from
     // https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/
     function lazyLoadEventImages() {
       var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
@@ -334,7 +335,6 @@ $(document).ready(function() {
             if (entry.isIntersecting) {
               let lazyImage = entry.target;
               lazyImage.src = lazyImage.dataset.src;
-              // lazyImage.srcset = lazyImage.dataset.srcset;
               lazyImage.classList.remove("lazy");
               lazyImageObserver.unobserve(lazyImage);
             }
@@ -344,8 +344,6 @@ $(document).ready(function() {
         lazyImages.forEach(function(lazyImage) {
           lazyImageObserver.observe(lazyImage);
         });
-      } else {
-        // Possibly fall back to a more compatible method here
       }
     }
 

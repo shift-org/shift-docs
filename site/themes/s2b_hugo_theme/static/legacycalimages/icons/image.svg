@@ -1,4 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80">
+  <!--
+    credit: Yaroslav Samoylov, RU
+    https://thenounproject.com/search/?q=images&i=212472
+    CC BY-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/deed.en
+  -->
   <g fill="#000000" transform="translate(3 3)">
     <rect width="5.982" height="3.083" x=".848" y="1.949" transform="rotate(45 -39.326 83.507)"/>
     <polygon points="30.015 .506 44.536 15.027 42.357 17.207 30.015 4.866 2.632 32.25 .452 30.07" transform="translate(0 37)"/>
