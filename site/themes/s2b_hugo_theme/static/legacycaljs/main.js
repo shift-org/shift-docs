@@ -130,16 +130,19 @@ $(document).ready(function() {
                container.append($('#load-more-template').html());
              }
              checkAnchors();
+             lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
                       firstDayOfRange = daysAfter(lastDayOfRange, nextDay);
                       lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
                       getEventHTML({
                           startdate: firstDayOfRange,
-                          enddate: lastDayOfRange
+                          enddate: lastDayOfRange,
+                          show_details: isExpanded
                       }, function(eventHTML) {
                           $('#load-more').before(eventHTML);
                           checkAnchors();
+                          lazyLoadEventImages();
                       });
                       return false;
                  });
@@ -157,6 +160,7 @@ $(document).ready(function() {
         }, function (eventHTML) {
             container.append(eventHTML);
             checkAnchors();
+            lazyLoadEventImages();
         });
     }
 
@@ -318,6 +322,31 @@ $(document).ready(function() {
                 });
             }
         }
+    }
+
+    // https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/
+    function lazyLoadEventImages() {
+      var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+      if ("IntersectionObserver" in window) {
+        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              let lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+              // lazyImage.srcset = lazyImage.dataset.srcset;
+              lazyImage.classList.remove("lazy");
+              lazyImageObserver.unobserve(lazyImage);
+            }
+          });
+        });
+
+        lazyImages.forEach(function(lazyImage) {
+          lazyImageObserver.observe(lazyImage);
+        });
+      } else {
+        // Possibly fall back to a more compatible method here
+      }
     }
 
     window.viewAddEventForm = viewAddEventForm;
