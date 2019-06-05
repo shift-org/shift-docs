@@ -1,5 +1,6 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/mustache_2_3_0.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/moment.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/intersection-observer.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/helpers.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/main.js"></script>
 
@@ -322,7 +323,9 @@
         <div class="mainDetails">
           <div class="eventImg">
             [[# image]]
-            <img src="[[image]]" />
+            <a href="[[image]]">
+              <img class="lazy" src="{{ .Site.BaseURL }}legacycalimages/icons/image.svg" data-src="[[image]]" alt="User-uploaded image for [[title]]" />
+            </a>
             [[/ image]]
           </div>
 

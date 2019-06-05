@@ -268,10 +268,15 @@ a.expand-details {
     color:inherit;
 }
 
-.eventImg img{
+.eventImg img {
     float: right;
     width: 50%;
     height: auto;
+}
+
+.eventImg img.lazy {
+    width: 40px;
+    height: 40px;
 }
 
 .edit-buttons {
