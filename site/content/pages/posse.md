@@ -18,7 +18,6 @@ menu:
 * **[Portland Urban Bike](https://www.facebook.com/PortlandUrbanBike/)** runs an weekly ride (Thursday Night Ride) since 2015!
 * **[Puddlecycle](https://puddlecycle.com/)** is a group that focuses on winter bike fun events in Portland.  Their website talks more about their mission and how to participate.
 * **[Portland Autonomous Zone](https://pazpdx.wordpress.com/about/)** is a local DIY/tinkering community with a focus on bikes and is a frequent booster of and participant in shift events.
-* **[Dropout Bike Club](https://www.facebook.com/DropoutBikeClub/)** is a local freak bike club that leads monthly rides.
 * **[Corvidae Bicycle Club](https://www.facebook.com/corvidaeBC/)** is an inclusive fun crew that leads a monthly 2nd Sunday social ride from Peninsula Park at 2pm
 * **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.
 
