@@ -29,65 +29,43 @@ active transportation, community-building, inclusivity, promoting bike fun, acco
 
 The following behaviors are expected to be used as a resource for ride leaders to know what is expected of rides that are listed on the shift calendar, these are expected behaviors for all rides:
 
-Participate in an authentic and active way. In doing so, you contribute to the health and longevity of this community.
-
-Be inclusive, friendly, inviting, and helpful to those around you. There may be participants who are rarely on a bicycle and it’s important to foster those people who may not be as seasoned a rider as you.
-
-Exercise consideration and respect in your speech and actions, as well as in the descriptions of listings on the calendar.
-
-Attempt collaboration before conflict.
-
-Refrain from demeaning, discriminatory, or harassing behavior and speech.
-
-Be mindful of your surroundings and of your fellow participants. Alert those who are helping you lead the ride if you notice a dangerous situation, someone in distress, or violations of this Code of Conduct, even if they seem inconsequential. Report bad actors who violate the code of conduct to Shift via your ride listing if you are having issues with repeated behavior.
-
-Remember that rides are open to everyone and take place in public; please be respectful to all road users, sidewalk users, and those enjoying the public spaces where rides might find themselves.
-
-Refrain from insulting, harassing, demeaning, or otherwise with respect to other events and other ride leaders in the community. Report behavior if you see it and do not attack others.
+* Participate in an authentic and active way. In doing so, you contribute to the health and longevity of this community.
+* Be inclusive, friendly, inviting, and helpful to those around you. There may be participants who are rarely on a bicycle and it’s important to foster those people who may not be as seasoned a rider as you.
+* Exercise consideration and respect in your speech and actions, as well as in the descriptions of listings on the calendar.
+* Attempt collaboration before conflict.
+* Refrain from demeaning, discriminatory, or harassing behavior and speech.
+* Be mindful of your surroundings and of your fellow participants. Alert those who are helping you lead the ride if you notice a dangerous situation, someone in distress, or violations of this Code of Conduct, even if they seem inconsequential. Report bad actors who violate the code of conduct to Shift via your ride listing if you are having issues with repeated behavior.
+* Remember that rides are open to everyone and take place in public; please be respectful to all road users, sidewalk users, and those enjoying the public spaces where rides might find themselves.
+* Refrain from insulting, harassing, demeaning, or otherwise with respect to other events and other ride leaders in the community. Report behavior if you see it and do not attack others.
 
 Expected Behavior For Adult (21) Rides:
 
-If your ride features adult content or behavior (drinking at a bar, visiting a 21+ establishment) you must tag your ride as 21+ to let people know that there is a minimum age for attendance.
-
-Make a good faith effort to include applicable trigger warnings for your event, let people know in the description and at the event that there may be: Fireworks, Nudity, Adult Endeavors (like bikeporn or a strip club ride) planned for your ride.
+* If your ride features adult content or behavior (drinking at a bar, visiting a 21+ establishment) you must tag your ride as 21+ to let people know that there is a minimum age for attendance.
+* Make a good faith effort to include applicable trigger warnings for your event, let people know in the description and at the event that there may be: Fireworks, Nudity, Adult Endeavors (like bikeporn or a strip club ride) planned for your ride.
 
 Expected Behavior For Family-Friendly Rides:
 
-Stay together as a group and follow all traffic safety laws.
-
-Helmets are required, by law, for persons under the age of 16 and encouraged for adults.
-
-Kids riding their own bikes should be able to ride in a more or less straight line, stop and start as necessary, and follow verbal directions.
-
-Rides should be no more than 6 miles in distance.
+* Stay together as a group and follow all traffic safety laws.
+* Helmets are required, by law, for persons under the age of 16 and encouraged for adults.
+* Kids riding their own bikes should be able to ride in a more or less straight line, stop and start as necessary, and follow verbal directions.
+* Rides should be no more than 6 miles in distance.
 
 # 4. Unacceptable Behavior
 
 The following behaviors are considered harassment and are unacceptable within our community, as such, the ride leaders who observe these behaviors on their rides are expected to address and report such behaviors:
 
-Violence, threats of violence or violent language directed against another person.
-
-Sexist, racist, homophobic, transphobic, ableist or otherwise discriminatory jokes and language.
-
-Posting or displaying violent material or encouraging violence, either on Shift resources online or on rides directly in view of participants.
-
-Posting or threatening to post other people’s personally identifying information online or to participants on rides: ("doxing").
-
-Personal insults, particularly those related to gender, sexual orientation, race, religion, or disability.
-
-Inappropriate photography or recording.
-
-Inappropriate physical contact. You should have someone’s consent before touching them.
-
-Unwelcome sexual attention. This includes, sexualized comments or jokes; inappropriate touching, groping, and unwelcome sexual advances.
-
-Deliberate intimidation, stalking or following (online or in person).
-
-Advocating for, or encouraging, any of the above behavior.
-
-Listing fraudulent events or repeatedly failing to show up to events after creation.
-
-Sustained disruption of community events, including rides and official Shift events.
+* Violence, threats of violence or violent language directed against another person.
+* Sexist, racist, homophobic, transphobic, ableist or otherwise discriminatory jokes and language.
+* Posting or displaying violent material or encouraging violence, either on Shift resources online or on rides directly in view of participants.
+* Posting or threatening to post other people’s personally identifying information online or to participants on rides: ("doxing").
+* Personal insults, particularly those related to gender, sexual orientation, race, religion, or disability.
+* Inappropriate photography or recording.
+* Inappropriate physical contact. You should have someone’s consent before touching them.
+* Unwelcome sexual attention. This includes, sexualized comments or jokes; inappropriate touching, groping, and unwelcome sexual advances.
+* Deliberate intimidation, stalking or following (online or in person).
+* Advocating for, or encouraging, any of the above behavior.
+* Listing fraudulent events or repeatedly failing to show up to events after creation.
+* Sustained disruption of community events, including rides and official Shift events.
 
 # 5. Weapons Policy
 
