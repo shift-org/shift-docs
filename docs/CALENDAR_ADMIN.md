@@ -23,7 +23,7 @@ Shift's calendar event data is stored in a mysql database running on api.shift2b
 - How can I mark an event as "featured"?
 1. Locate the event in the database (see steps 1–3 in the above questions). 
 2. If that is the right event, you need the ID field: `select ID from calevent where title="Pedalpalooza 2019 Kickoff Ride" order by modified desc limit 1;`
-5. Update the `highlight` field with a value of `1` to mark it as featured (or zero to remove featured status): `update calevent set highlight = 1 where id = 7483`
+5. Update the `highlight` field with a value of `1` to mark it as featured (or zero to remove featured status): `update calevent set highlight = 1 where id = 7483;`
 
 
 ## Who knows more?
