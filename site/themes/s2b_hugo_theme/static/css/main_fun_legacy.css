@@ -258,8 +258,12 @@ h3 {
 
 .mainDetails p {
     margin-top: 1em;
-
 }
+
+.mainDetails .description {
+    white-space: pre-line;
+}
+
 .otherButtons a {
     text-decoration: none;
 }
