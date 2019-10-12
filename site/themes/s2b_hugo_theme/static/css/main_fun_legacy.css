@@ -502,7 +502,7 @@ button.more-events {
 
 .req-label::after {
     content: " *";
-    color: red;
+    color: #D00000;
 }
 
 .optional-label::after {
