@@ -9,10 +9,13 @@ weight: 2
 
 In 2002, Portland hosted [Bike Summer](http://criticalmass.wikia.com/wiki/Bike_Summer!), and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.
 
+*   [2019](/archive/pedalpalooza/pedalpalooza-2019/)
+
+    Started on a Saturday, lasted all month! 342 events!
+
 *   [2018](/archive/pedalpalooza/pedalpalooza-2018/)
 
     Another month of bike fun — all of June! 309 events!
-
 
 *   [2017](/archive/pedalpalooza/pedalpalooza-2017/)
 
@@ -32,7 +35,7 @@ In 2002, Portland hosted [Bike Summer](http://criticalmass.wikia.com/wiki/Bike_S
 
 *   [2013](/archive/pedalpalooza/pedalpalooza-2013/)
 
-    280 events, 3+ weeks of bike fun, from June 6th through 29th. The big naked ride Saturday, June 8th, was almost certainly the largest every, anywhere.
+    280 events, 3+ weeks of bike fun, from June 6th through 29th. The big naked ride Saturday, June 8th, was almost certainly the largest ever, anywhere.
 
 *   [2012](/archive/pedalpalooza/pedalpalooza-2012/)
 
