@@ -42,13 +42,13 @@ function validate_json_request($data) {
 }
 
 function validate_email($email) {
-    // TODO: pull from a config file
-    $disallowed_emails = array('invalid@example.com');
-
     // lowercase provided email before checking against ban list
     $email = strtolower($email);
 
-    if (in_array($email, $disallowed_emails)) {
+    // load ban list from config
+    global $BANLIST;
+
+    if (in_array($email, $BANLIST)) {
         return FALSE;
     } else {
         return TRUE;

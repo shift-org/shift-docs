@@ -21,3 +21,9 @@ $IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";
 
 $ORIGIN = "*";
+
+$BANLIST = array(
+    'invalid@example.com',
+    'anything@banned.biz',
+    // add more here
+);
