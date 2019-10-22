@@ -484,6 +484,14 @@ button.more-events {
     border: 1px solid transparent;
 }
 
+.disclaimer {
+  margin: 2em auto 1em auto;
+  max-width: 75%;
+  text-align: center;
+  font-size: small;
+  color: #707070;
+}
+
 #email-suggestion {
     display:none;
     color: red;
