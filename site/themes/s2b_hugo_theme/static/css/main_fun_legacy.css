@@ -504,6 +504,11 @@ button.more-events {
     border-radius: 3px;
 }
 
+.req-label::after {
+    content: " *";
+    color: #D00000;
+}
+
 .optional-label::after {
     content: " (optional)";
     color: #707070;
