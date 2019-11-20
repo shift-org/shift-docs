@@ -38,9 +38,9 @@ Note that no changes to the filesystems INSIDE the container should ever be need
 You can easily run your own copy of the site with these two steps.  This could help you do theme development in your own repo before submitting your finished write-up to us for incorporation.
 
 1. [fork repo](https://help.github.com/articles/fork-a-repo/)
-2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 configuration required to get the site running.
+2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 additional configuration required to get the site running.
 
-If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new)
+If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new) to let us know what you tried and what happened when you did.
 
 # License
 
