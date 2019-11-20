@@ -5,6 +5,7 @@
 
   base = "site/"
   publish = "site/public/"
+  command = "hugo && cp public/404/index.html public/404.html"
 
 [build.environment]
   HUGO_VERSION = "0.37.1"
