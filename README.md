@@ -42,10 +42,6 @@ You can easily run your own copy of the site with these two steps.  This could h
 
 If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new) to let us know what you tried and what happened when you did.
 
-# License
-
-This repository is under MIT License.
-
 # Development Overview
 
 * Vincent has a number of wrappers and files that set up the docker environment
