@@ -26,7 +26,7 @@ CREATE TABLE `caladdress` (
   `canon` varchar(255) NOT NULL,
   `address` varchar(255) DEFAULT NULL,
   `locname` varchar(255) DEFAULT NULL,
-  `area` char(1) DEFAULT NULL,t
+  `area` char(1) DEFAULT NULL,
   `locked` int(1) DEFAULT NULL,
   PRIMARY KEY (`canon`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -300,7 +300,7 @@ DROP TABLE IF EXISTS `sched`;
 CREATE TABLE `sched` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',m
+  `name` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
   `hideemail` int(1) NOT NULL DEFAULT '0',
   `emailforum` int(1) NOT NULL DEFAULT '0',
