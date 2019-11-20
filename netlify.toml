@@ -4,7 +4,7 @@
 [build]
 
   base = "site/"
-  publish = "site/public/"
+  publish = "public/"
   command = "hugo && cp public/404/index.html public/404.html"
 
 [build.environment]
