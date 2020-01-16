@@ -5,11 +5,11 @@ keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: calevents
 pp: true
-year: 2019
-startdate: June 1, 2019
-enddate: June 30, 2019
-daterange: June 1–30, 2019
-banner-image: "/images/pp/pp2019-banner.png"
-poster-image: "/images/pp/pp2019.jpg"
+year: 2020
+startdate: June 1, 2020
+enddate: June 30, 2020
+daterange: June 1–30, 2020
+banner-image: "/images/pp/pp2020-banner-tmp.jpg"
+poster-image: "/images/pp/pp2020-tmp.jpg"
 
 ---
