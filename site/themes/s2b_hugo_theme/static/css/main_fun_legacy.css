@@ -554,6 +554,22 @@ button.more-events {
     transform: rotate(-90deg);
 }
 
+#event-fields .image-form {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#event-fields .image-form .image-display {
+  margin-right: 1em;
+}
+
+#event-fields .image-form .image-display img {
+  max-width: 200px;
+  max-height: 200px;
+}
+
 .ride-comic {
     margin-top: 10px;
     margin-bottom: 10px;

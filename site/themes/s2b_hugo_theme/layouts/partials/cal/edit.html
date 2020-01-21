@@ -103,26 +103,31 @@
               </select>
             </div>
 
-            [[# image]]
-            <img src="[[image]]" />
-            [[/ image]]
-
             <div class="form-group">
-              [[^ image]]
               <label class="control-label optional-label" for="image">Image</label>
-              [[/ image]]
-              [[# image]]
-              <label class="control-label optional-label" for="image">Update Image</label>
-              [[/ image]]
 
-              [[^ id ]]
-              <input type="file" class="form-control" name="image" id="image" aria-describedby="image-help" disabled />
-              <p class="input-help" id="image-help">To add an image, save and confirm the event first.</p>
-              [[/ id ]]
-              [[# id ]]
-              <input type="file" class="form-control" name="image" id="image" aria-describedby="image-help" />
-              <p class="input-help" id="image-help">Image files must be less than 2 <abbr title="megabytes">MB</abbr>.</p>
-              [[/ id ]]
+              <div class="image-form">
+                <div class="image-display">
+                  [[^ image]]
+                  <img src="{{ .Site.BaseURL }}legacycalimages/icons/image.svg" alt="" class="event-image" style="opacity: 0.5;" />
+                  [[/ image]]
+                  [[# image]]
+                  <a href="[[image]]" target="_blank" title="View full size in a new window">
+                    <img src="[[image]]" alt="User-uploaded image" class="event-image" />
+                  </a>
+                  [[/ image]]
+                </div>
+                <div class="image-input">
+                  [[^ id ]]
+                  <input type="file" class="form-control" name="image" id="image" aria-describedby="image-help" disabled />
+                  <p class="input-help" id="image-help">To add an image, save and confirm the event first.</p>
+                  [[/ id ]]
+                  [[# id ]]
+                  <input type="file" class="form-control" name="image" id="image" aria-describedby="image-help" />
+                  <p class="input-help" id="image-help">Image files must be less than 2 <abbr title="megabytes">MB</abbr>.</p>
+                  [[/ id ]]
+                </div>
+              </div>
             </div>
 
           </div>
