@@ -570,6 +570,15 @@ button.more-events {
   max-height: 200px;
 }
 
+#event-fields .image-form .image-display img.placeholder {
+  width: 80px;
+  height: 80px;
+  border: 2px dashed #707070;
+  border-radius: 2px;
+  padding: 4px;
+  opacity: 0.5;
+}
+
 .ride-comic {
     margin-top: 10px;
     margin-bottom: 10px;
