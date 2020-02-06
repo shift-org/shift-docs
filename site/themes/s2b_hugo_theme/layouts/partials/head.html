@@ -84,6 +84,10 @@
   <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/timegrid/main.min.css">
 
   <script type="text/javascript">
+    window.prerenderReady = false;
+  </script>
+
+  <script type="text/javascript">
     function updateMeta() {
       $('title').remove();
       $('head').append( '<title>Bike fun with a particular title</title>' );
@@ -91,6 +95,7 @@
       $('head').append( '<meta property="og:title" content="Very specific bike fun">' );
     }
   window.onload = updateMeta;
+  window.prerenderReady = true;
   </script>
 
   {{ end }}
