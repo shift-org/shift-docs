@@ -14,8 +14,7 @@
 
 <script type="text/javascript">
   function updateMeta() {
-    $('title').remove();
-    $('head').append( '<title>Bike fun with a particular title</title>' );
+    document.title = "Bike fun with a particular title";
     $('meta[property="og:title"]').remove();
     $('head').append( '<meta property="og:title" content="Very specific bike fun">' );
   }
