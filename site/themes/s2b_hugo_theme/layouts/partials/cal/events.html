@@ -9,6 +9,21 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
 
 <script type="text/javascript">
+  window.prerenderReady = false;
+</script>
+
+<script type="text/javascript">
+  function updateMeta() {
+    $('title').remove();
+    $('head').append( '<title>Bike fun with a particular title</title>' );
+    $('meta[property="og:title"]').remove();
+    $('head').append( '<meta property="og:title" content="Very specific bike fun">' );
+  }
+window.onload = updateMeta;
+window.prerenderReady = true;
+</script>
+
+<script type="text/javascript">
   //only show grid view for PP pages, 2008 or later
   if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
 

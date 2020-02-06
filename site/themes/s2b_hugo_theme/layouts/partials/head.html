@@ -83,21 +83,6 @@
   <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/daygrid/main.min.css">
   <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/timegrid/main.min.css">
 
-  <script type="text/javascript">
-    window.prerenderReady = false;
-  </script>
-
-  <script type="text/javascript">
-    function updateMeta() {
-      $('title').remove();
-      $('head').append( '<title>Bike fun with a particular title</title>' );
-      $('meta[property="og:title"]').remove();
-      $('head').append( '<meta property="og:title" content="Very specific bike fun">' );
-    }
-  window.onload = updateMeta;
-  window.prerenderReady = true;
-  </script>
-
   {{ end }}
 
 </head>
