@@ -1,8 +1,9 @@
 /*!
-@fullcalendar/daygrid v4.0.1
+FullCalendar Day Grid Plugin v4.3.0
 Docs & License: https://fullcalendar.io/
 (c) 2019 Adam Shaw
 */
+
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@fullcalendar/core')) :
     typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core'], factory) :
@@ -213,14 +214,14 @@ Docs & License: https://fullcalendar.io/
         }
         // Builds the HTML to be used for the default element for an individual segment
         SimpleDayGridEventRenderer.prototype.renderSegHtml = function (seg, mirrorInfo) {
-            var options = this.context.options;
+            var _a = this.context, view = _a.view, options = _a.options;
             var eventRange = seg.eventRange;
             var eventDef = eventRange.def;
             var eventUi = eventRange.ui;
             var allDay = eventDef.allDay;
-            var isDraggable = eventUi.startEditable;
-            var isResizableFromStart = allDay && seg.isStart && eventUi.durationEditable && options.eventResizableFromStart;
-            var isResizableFromEnd = allDay && seg.isEnd && eventUi.durationEditable;
+            var isDraggable = view.computeEventDraggable(eventDef, eventUi);
+            var isResizableFromStart = allDay && seg.isStart && view.computeEventStartResizable(eventDef, eventUi);
+            var isResizableFromEnd = allDay && seg.isEnd && view.computeEventEndResizable(eventDef, eventUi);
             var classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd, mirrorInfo);
             var skinCss = core.cssToStr(this.getSkinCss(eventUi));
             var timeHtml = '';
@@ -508,6 +509,7 @@ Docs & License: https://fullcalendar.io/
         return DayGridMirrorRenderer;
     }(DayGridEventRenderer));
 
+    var EMPTY_CELL_HTML = '<td style="pointer-events:none"></td>';
     var DayGridFillRenderer = /** @class */ (function (_super) {
         __extends(DayGridFillRenderer, _super);
         function DayGridFillRenderer(dayGrid) {
@@ -562,14 +564,14 @@ Docs & License: https://fullcalendar.io/
             if (startCol > 0) {
                 core.appendToElement(trEl, 
                 // will create (startCol + 1) td's
-                new Array(startCol + 1).join('<td></td>'));
+                new Array(startCol + 1).join(EMPTY_CELL_HTML));
             }
             seg.el.colSpan = endCol - startCol;
             trEl.appendChild(seg.el);
             if (endCol < colCnt) {
                 core.appendToElement(trEl, 
                 // will create (colCnt - endCol) td's
-                new Array(colCnt - endCol + 1).join('<td></td>'));
+                new Array(colCnt - endCol + 1).join(EMPTY_CELL_HTML));
             }
             var introHtml = dayGrid.renderProps.renderIntroHtml();
             if (introHtml) {
@@ -908,9 +910,11 @@ Docs & License: https://fullcalendar.io/
         ------------------------------------------------------------------------------------------------------------------*/
         DayGrid.prototype.updateSize = function (isResize) {
             var _a = this, fillRenderer = _a.fillRenderer, eventRenderer = _a.eventRenderer, mirrorRenderer = _a.mirrorRenderer;
-            if (isResize || this.isCellSizesDirty) {
-                this.buildColPositions();
-                this.buildRowPositions();
+            if (isResize ||
+                this.isCellSizesDirty ||
+                this.view.calendar.isEventsUpdated // hack
+            ) {
+                this.buildPositionCaches();
                 this.isCellSizesDirty = false;
             }
             fillRenderer.computeSizes(isResize);
@@ -919,6 +923,10 @@ Docs & License: https://fullcalendar.io/
             fillRenderer.assignSizes(isResize);
             eventRenderer.assignSizes(isResize);
             mirrorRenderer.assignSizes(isResize);
+        };
+        DayGrid.prototype.buildPositionCaches = function () {
+            this.buildColPositions();
+            this.buildRowPositions();
         };
         DayGrid.prototype.buildColPositions = function () {
             this.colPositions.build();
@@ -1068,7 +1076,7 @@ Docs & License: https://fullcalendar.io/
                         moreLink = _this.renderMoreLink(row, col, segsBelow);
                         moreWrap = core.createElement('div', null, moreLink);
                         td.appendChild(moreWrap);
-                        moreNodes.push(moreWrap[0]);
+                        moreNodes.push(moreWrap);
                     }
                     col++;
                 }
@@ -1480,7 +1488,7 @@ Docs & License: https://fullcalendar.io/
         };
         /* Scroll
         ------------------------------------------------------------------------------------------------------------------*/
-        DayGridView.prototype.computeInitialDateScroll = function () {
+        DayGridView.prototype.computeDateScroll = function (duration) {
             return { top: 0 };
         };
         DayGridView.prototype.queryDateScroll = function () {
@@ -1512,6 +1520,9 @@ Docs & License: https://fullcalendar.io/
             var dayGrid = this.dayGrid;
             var dateProfile = props.dateProfile, dayTable = props.dayTable;
             dayGrid.receiveProps(__assign({}, this.slicer.sliceProps(props, dateProfile, props.nextDayThreshold, dayGrid, dayTable), { dateProfile: dateProfile, cells: dayTable.cells, isRigid: props.isRigid }));
+        };
+        SimpleDayGrid.prototype.buildPositionCaches = function () {
+            this.dayGrid.buildPositionCaches();
         };
         SimpleDayGrid.prototype.queryHit = function (positionLeft, positionTop) {
             var rawHit = this.dayGrid.positionToHit(positionLeft, positionTop);
@@ -1616,14 +1627,14 @@ Docs & License: https://fullcalendar.io/
         }
     });
 
-    exports.default = main;
-    exports.SimpleDayGrid = SimpleDayGrid;
-    exports.DayGridSlicer = DayGridSlicer;
-    exports.DayGrid = DayGrid;
     exports.AbstractDayGridView = DayGridView;
-    exports.DayGridView = DayGridView$1;
-    exports.buildBasicDayTable = buildDayTable;
     exports.DayBgRow = DayBgRow;
+    exports.DayGrid = DayGrid;
+    exports.DayGridSlicer = DayGridSlicer;
+    exports.DayGridView = DayGridView$1;
+    exports.SimpleDayGrid = SimpleDayGrid;
+    exports.buildBasicDayTable = buildDayTable;
+    exports.default = main;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
