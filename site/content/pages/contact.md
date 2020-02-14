@@ -10,7 +10,8 @@ menu:
 - [Email our Board of Directors](mailto:shift-bod@googlegroups.com)
 - [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
 - [Join our Community Mailing list](/pages/email-list/)
-- [Follow us on Facebook](https://www.facebook.com/shift2bikes/)
+- Connect with us on social media: [Facebook](https://www.facebook.com/shift2bikes/), [Instagram](https://www.instagram.com/shift2bikes/), and [Twitter](https://twitter.com/shift2bikes)
+- [Check out our code on GitHub](https://github.com/shift-org)
 - [Join us for a ride or post one of your own for free!](/calendar/)
 
 
