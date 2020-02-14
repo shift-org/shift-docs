@@ -27,6 +27,52 @@
 
         <!--{{ partial "recent_posts.html" . }}-->
 
+        <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.js"></script>
+        <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/list/main.js"></script>
+
+        <script type="text/javascript">
+          document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('fullcalendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              plugins: [ 'list' ],
+              defaultView: 'listWeek',
+              events: '{{ .Site.BaseURL }}api/events.php',
+              startParam: 'startdate',
+              endParam: 'enddate',
+              eventSourceSuccess: function( content ) {
+                // our API returns { "events": [ ] }
+                // and this will return just the inner array as fullcalendar expects
+                return content.events;
+              },
+              eventDataTransform: function( eventData ) {
+                // this transforms the data for individual rides
+                // into the format needed by fullcalendar
+                var event = {
+                    id: eventData.caldaily_id,
+                    title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
+                    start: eventData.date + 'T' + eventData.time
+                };
+                if (eventData.cancelled == true) {
+                  event.classNames = [ 'cancelled' ];
+                }
+                if (eventData.featured == true) {
+                  event.classNames = [ 'featured' ];
+                }
+                return event;
+              },
+              eventClick: function ( info ) {
+                // what happens when you click an event from the calendar grid
+                window.open("/calendar/event-" + info.event.id, "_self");
+              }
+            });
+
+            calendar.render();
+          });
+        </script>
+
+		<div id="fullcalendar"></div>
+
         {{ partial "sponsors.html" . }}
 
         </main>
