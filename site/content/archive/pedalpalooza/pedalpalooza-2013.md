@@ -6,8 +6,8 @@ id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2013
-startdate: June 6, 2013
-enddate: June 29, 2013
+startdate: 2013-06-06
+enddate: 2013-06-29
 daterange: June 6–29, 2013
 banner-image: "/images/pp/pp2013-banner.jpg"
 poster-image: "/images/pp/pp2013.jpg"
