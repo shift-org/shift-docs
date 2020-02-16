@@ -48,9 +48,9 @@
         }
         return event;
       },
-      eventClick: function ( info ) {
-        // what happens when you click an event from the calendar grid
-        window.open("/calendar/event-" + info.event.id, "_self");
+      eventRender: function(info) {
+        link = info.el.getElementsByTagName("a")[0];
+        link.setAttribute('href', '/calendar/event-' + info.event.id, '_self');
       },
     });
 
