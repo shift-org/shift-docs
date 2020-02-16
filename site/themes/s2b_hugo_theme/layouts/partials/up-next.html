@@ -1,27 +1,29 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/list/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
 
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'list', 'timeGrid' ],
-      defaultView: 'listDay',
+      plugins: [ 'list' ],
+      defaultView: 'listDayTodayAndTomorrow',
       height: 600,
       contentHeight: 'auto',
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'listDay,timeGridDay'
+      header: false,
+      listDayFormat: {
+        month: 'short',
+        year: 'numeric',
+        day: 'numeric',
+        weekday: 'short'
       },
       views: {
-        listDay: { buttonText: 'List' },
-        timeGridDay: { buttonText: 'Day' },
+        listDayTodayAndTomorrow: {
+          type: 'listDay',
+          duration: { days: 2 },
+          buttonText: '2 day'
+        }
       },
-      nowIndicator: true,
       events: '{{ .Site.BaseURL }}api/events.php',
       startParam: 'startdate',
       endParam: 'enddate',
@@ -57,7 +59,7 @@
 </script>
 
 <div id="up-next">
-  <h2>Bike fun happening now!</h2>
+  <h2>Bike fun happening soon!</h2>
   <div id="fullcalendar"></div>
-  <p><a href="/calendar/">Show all upcoming events</a></p>
+  <p><a href="/calendar/">Show all upcoming events</a> or <a href="/addevent/">add an event</a></p>
 </div>
