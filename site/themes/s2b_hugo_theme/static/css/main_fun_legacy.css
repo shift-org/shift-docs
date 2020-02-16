@@ -128,7 +128,18 @@ svg.icon {
     border-color: #337AB7;
 }
 
-#fullcalendar .fc-event.featured {
+#up-next #fullcalendar {
+  width: 80%;
+  margin: 1em auto;
+}
+
+#up-next > h2,
+#up-next > p {
+  text-align: center;
+}
+
+#fullcalendar .fc-event.featured,
+#fullcalendar .fc-list-item.featured {
     background-color: #630;
     color: #FCFAF2;
     border-color: #FCFAF2;
@@ -154,7 +165,8 @@ svg.icon {
     background-color: white;
     color: #337AB7;
 }
-#fullcalendar .fc-event.cancelled .fc-title {
+#fullcalendar .fc-event.cancelled .fc-title,
+#fullcalendar .fc-list-item.cancelled .fc-list-item-title {
     text-decoration: line-through;
 }
 
