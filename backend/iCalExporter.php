@@ -107,6 +107,10 @@ class iCalExporter {
 		if ( !empty( $details['timedetails'] ) ) {
 			$description .= "\\n" . $details['timedetails'];
 		}
+		// if location details are set, append to the description
+		if ( !empty( $details['locdetails'] ) ) {
+			$description .= "\\n" . $details['locdetails'];
+		}
 		// append the event's share link to the description;
 		// this should always be set, but test for prescence to be sure
 		if ( !empty( $details['shareable'] ) ) {
