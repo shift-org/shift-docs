@@ -30,6 +30,7 @@
         },
         nowIndicator: true,
         eventLimit: true,
+        navLinks: true,
         events: '{{ .Site.BaseURL }}api/events.php',
         startParam: 'startdate',
         endParam: 'enddate',
@@ -136,82 +137,6 @@
 </script>
 
 {{ partial "cal-icons.html" . }}
-
-<script id="jump-to-date" type="text/template">
-  <button type="button" aria-expanded="false" data-toggle-target="#date-select-container-pedalpalooza" class="jump-to-date">
-    <span>Jump to date</span>
-    <svg class="icon expand" role="img" aria-hidden="true">
-      <use xlink:href="#icon-arrow-down" />
-    </svg>
-  </button>
-  <div id="date-select-container-pedalpalooza" class="date-select-container-style jump-to-date form-group" hidden>
-    <table class="day-of-week">
-      <tbody><tr>
-        <td class="calendar-month-title"></td>
-        <td>Sun</td>
-        <td>Mon</td>
-        <td>Tue</td>
-        <td>Wed</td>
-        <td>Thu</td>
-        <td>Fri</td>
-        <td>Sat</td>
-      </tr></tbody>
-    </table>
-    <div id="date-select-pp">
-      <table id="date-picker-pedalpalooza" class="date-picker-style">
-        <tr class="calendar-row">
-          <td rowspan="3" class="calendar-month-title"><span>June 2018</span></td>
-          <td class="calendar-day   color-jun"></td>
-          <td class="calendar-day   color-jun-odd"></td>
-          <td class="calendar-day   color-jun"></td>
-          <td class="calendar-day   color-jun-odd"></td>
-          <td class="calendar-day   color-jun"></td>
-          <td class="calendar-day   color-jun-odd featured" data-date="2018-06-01" aria-describedby="pp-featured-day-label">1</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-02">2</td>
-        </tr>
-        <tr class="calendar-row">
-          <td class="calendar-day   color-jun" data-date="2018-06-03">3</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-04">4</td>
-          <td class="calendar-day   color-jun featured" data-date='2018-06-05' aria-describedby="pp-featured-day-label">5</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-06">6</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-07">7</td>
-          <td class="calendar-day   color-jun-odd featured" data-date="2018-06-08" aria-describedby="pp-featured-day-label">8</td>
-          <td class="calendar-day   color-jun featured" data-date="2018-06-09" aria-describedby="pp-featured-day-label">9</td>
-        </tr>
-        <tr class="calendar-row">
-          <td class="calendar-day   color-jun" data-date="2018-06-10">10</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-11">11</td>
-          <td class="calendar-day   color-jun" data-date='2018-06-12'>12</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-13">13</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-14">14</td>
-          <td class="calendar-day   color-jun-odd featured" data-date="2018-06-15" aria-describedby="pp-featured-day-label">15</td>
-          <td class="calendar-day   color-jun featured" data-date="2018-06-16" aria-describedby="pp-featured-day-label">16</td>
-        </tr>
-        <tr class="calendar-row">
-          <td rowspan="2" class="calendar-month-title">&nbsp;</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-17">17</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-18">18</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-19">19</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-20">20</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-21">21</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-22">22</td>
-          <td class="calendar-day   color-jun featured" data-date="2018-06-23" aria-describedby="pp-featured-day-label">23</td>
-        </tr>
-
-        <tr class="calendar-row">
-          <td class="calendar-day   color-jun featured" data-date="2018-06-24" aria-describedby="pp-featured-day-label">24</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-25">25</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-26">26</td>
-          <td class="calendar-day   color-jun-odd featured" data-date="2018-06-27" aria-describedby="pp-featured-day-label">27</td>
-          <td class="calendar-day   color-jun" data-date="2018-06-28">28</td>
-          <td class="calendar-day   color-jun-odd" data-date="2018-06-29">29</td>
-          <td class="calendar-day   color-jun featured" data-date="2018-06-30" aria-describedby="pp-featured-day-label">30</td>
-        </tr>
-      </table>
-    </div>
-    <p class="legend" aria-hidden="true"><span class="example">★</span> = <span id="pp-featured-day-label">day with featured event</span></p>
-  </div>
-</script>
 
 <script id="scrollToTop" type="text/template">
   <a href="#" class="scrollToTop">Back To Top</a>

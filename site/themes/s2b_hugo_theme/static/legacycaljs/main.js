@@ -164,21 +164,6 @@ $(document).ready(function() {
         });
     }
 
-    function dateJump(ev) {
-        var e = ev.target;
-        if (e.hasAttribute('data-date')) {
-            var $e = $(e);
-            var yyyymmdd = $e.attr('data-date');
-            var $jumpTo = $("div[data-date='" + yyyymmdd + "']");
-            if($jumpTo.children().length >= 0) {
-
-                $('html, body').animate({
-                    scrollTop: $jumpTo.offset().top
-                }, 500);
-            }
-        }
-    }
-
     function viewAddEventForm(id, secret) {
         container.getAddEventForm( id, secret, function(eventHTML) {
             container.empty().append(eventHTML);
@@ -194,14 +179,6 @@ $(document).ready(function() {
 
     $(document).on('click', '#confirm-cancel, #success-ok', function() {
         visitRoute('viewEvents');
-    });
-
-    $(document).on('click', '#date-picker-pedalpalooza', function(ev) {
-        dateJump(ev);
-    });
-
-    $(document).on('touchstart', '#date-picker-pedalpalooza', function(ev) {
-        dateJump(ev);
     });
 
     $(document).on('click', '#date-picker-prev-month', function(ev) {
