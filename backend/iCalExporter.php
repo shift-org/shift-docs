@@ -59,10 +59,15 @@ class iCalExporter {
 		$this->append( "DTSTART:$startString" );
 		if ( !empty( $details['eventduration'] ) ) {
 			$durString = "PT{$details['eventduration']}M";
-			$date->add( new DateInterval( $durString ) );
-			$endString = $this->formatTime( $date->getTimestamp() );
-			$this->append( "DTEND:$endString" );
 		}
+		else {
+			// set duration of 1 hour, if not specified
+			$durString = "PT60M";
+		}
+		$date->add( new DateInterval( $durString ) );
+		$endString = $this->formatTime( $date->getTimestamp() );
+		$this->append( "DTEND:$endString" );
+
 		$location = $this->formatLocation( $details );
 		if ( !empty( $location ) ) {
 			$this->append( "LOCATION:$location" );
