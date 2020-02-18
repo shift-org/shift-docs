@@ -72,8 +72,12 @@ class iCalExporter {
 		if ( !empty( $location ) ) {
 			$this->append( "LOCATION:$location" );
 		}
+
 		$this->append( "SUMMARY:{$details['title']}" );
-		$this->append( "DESCRIPTION:{$details['details']}" );
+
+		$description = $this->formatDescription( $details );
+		$this->append( "DESCRIPTION:$description" );
+
 		$this->append( 'END:VEVENT' );
 	}
 
@@ -95,6 +99,20 @@ class iCalExporter {
 			$address .= "  {$details['locdetails']}";
 		}
 		return $address;
+	}
+
+	protected function formatDescription( $details ) {
+		$description = $details['details'];
+		// if time details are set, append to the description
+		if ( !empty( $details['timedetails'] ) ) {
+			$description .= "\\n" . $details['timedetails'];
+		}
+		// append the event's share link to the description;
+		// this should always be set, but test for prescence to be sure
+		if ( !empty( $details['shareable'] ) ) {
+			$description .= "\\n" . $details['shareable'];
+		}
+		return $description;
 	}
 
 	protected function append( $string ) {
