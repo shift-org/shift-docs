@@ -1,0 +1,20 @@
+AWS config w/Andrew
+old instance details:
+- t2.micro 
+new instance details:
+- t3.micro reserved instance reserved for 12 mo on 15 Jan 2020 @ cheaper price (63$/year) - 54.187.123.121 public IP
+- additional 2Gb of storage
+- keypair shift-server-2020 (fool and Andrew have private key)
+instance agnostic details:
+- 44.231.45.51 external elastic IP can be mapped to either
+
+new instance ubuntu setup details:
+- stock ubuntu 18.04 LTS 64 bit
+- josh/andrew/fool ssh keys installed and tested
+- upgrade docker-compose: curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+- `chmod 777 /var/run/docker.sock` to fix docker-compose permission problems
+	(old settings:
+	ubuntu@ip-172-31-6-141:/var/run$ ls -ld docker.sock
+	srw-rw---- 1 root docker 0 Jan 16 03:57 docker.sock
+	)
+- `shift up` should just work.
