@@ -79,7 +79,10 @@ class Event extends fActiveRecord {
         $event->setHidecontact(get($input['hidecontact'], 0));
         $event->setDescr(get($input['details'], ''));
         $event->setEventtime(get($input['time'], ''));
-        $event->setHighlight(0);
+        // default highlight to off (zero); but if it's already set, leave it as-is
+        if ( $event->getHighlight() == null ) {
+          $event->setHighlight(0);
+        }
         $event->setTimedetails(get($input['timedetails'], ''));
         $event->setLocdetails(get($input['locdetails'], ''));
         $event->setEventduration(get($input['eventduration'], 0));
