@@ -37,7 +37,7 @@
         // into the format needed by fullcalendar
         var event = {
             id: eventData.caldaily_id,
-            title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
+            title: eventData.title, // full-length title is OK in list view
             start: eventData.date + 'T' + eventData.time
         };
         if (eventData.cancelled == true) {
