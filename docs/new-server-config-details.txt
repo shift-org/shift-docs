@@ -6,15 +6,27 @@ new instance details:
 - additional 2Gb of storage
 - keypair shift-server-2020 (fool and Andrew have private key)
 instance agnostic details:
-- 44.231.45.51 external elastic IP can be mapped to either
+- 44.231.45.51 external elastic IP can be mapped to either host
 
 new instance ubuntu setup details:
 - stock ubuntu 18.04 LTS 64 bit
+- apt-get update ; apt-get upgrade ; apt-get install certbot ; reboot
 - josh/andrew/fool ssh keys installed and tested
+(not actually sure if docker-compose upgrade is needed anymore? since we are sudo'ing and probably using the /usr/bin version...?  not sure, should test without and see...)
 - upgrade docker-compose: curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 - `chmod 777 /var/run/docker.sock` to fix docker-compose permission problems
 	(old settings:
 	ubuntu@ip-172-31-6-141:/var/run$ ls -ld docker.sock
 	srw-rw---- 1 root docker 0 Jan 16 03:57 docker.sock
 	)
+		- will have to automate this since permissions get reset every reboot
+- will have to restore database and eventimages from live host (`cd /opt/shift-docs ; cat backup.mysql | ./shift mysqlpipe` and handle images)
+
+for temporary setup with different hostname:
+- set hostname via 3 changes here: https://linuxize.com/post/how-to-change-hostname-on-ubuntu-18-04/
+- change hostname to `newshiftapi.shift2bikes.org` in DOMAIN="newshiftapi.shift2bikes.org"
+- edit /opt/shift-docs/services/nginx/certbot.sh to include flags to certbot execution: 
+	`--agree-tos --email  bikecal@shift2bikes.org`
+
+---- in the end ----
 - `shift up` should just work.
