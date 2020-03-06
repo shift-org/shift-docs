@@ -67,6 +67,8 @@
   }
 </script>
 
+{{ partial "cal/scripts.html" . }}
+
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
@@ -93,47 +95,8 @@
       }
 
       viewEvents(params);
-
     }
   });
-
-  function parseURL() {
-    var urlParams = {};
-    var path = window.location.pathname.split('/');
-    var lastPart = path[path.length-1];
-
-    var singleEventRe = /event-([0-9]+)/g;
-    var singleEvent = singleEventRe.exec(lastPart);
-    if (singleEvent && singleEvent.length === 2) {
-      urlParams['eventId'] = parseInt(singleEvent[1]);
-    }
-
-    var editEventRe = /edit-([0-9]+)-([0-9a-zA-Z]*)/g;
-    var editEvent = editEventRe.exec(lastPart);
-    if (editEvent && editEvent.length === 3) {
-      urlParams['editId'] = parseInt(editEvent[1]);
-      urlParams['editSecret'] = editEvent[2];
-    }
-
-    // IE doesn't support URLSearchParams, so IE will
-    // skip this block and ignore all URL params
-    if (typeof URLSearchParams === "function") {
-      var query = new URLSearchParams(location.search);
-
-      if (query.has('startdate')) {
-        urlParams['startdate'] = query.get('startdate');
-      }
-      if (query.has('enddate')) {
-        urlParams['enddate'] = query.get('enddate');
-      }
-      if (query.has('show_details')) {
-        urlParams['show_details'] = true;
-      }
-    }
-
-    return urlParams;
-  }
-
 </script>
 
 {{ partial "cal-icons.html" . }}
@@ -347,4 +310,8 @@
 
 <script id="show-all-template" type="text/template">
   <a id="show-all" class="more-events" href="/calendar/">Show all upcoming events</a>
+</script>
+
+<script id="view-as-options" type="text/template">
+  {{ partial "cal/view-options.html" . }}
 </script>

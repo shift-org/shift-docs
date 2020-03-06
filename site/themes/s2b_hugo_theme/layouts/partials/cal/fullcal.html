@@ -1,0 +1,69 @@
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
+
+{{ partial "cal/scripts.html" . }}
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('fullcalendar');
+    var params = parseURL();
+
+    var default_view = 'timeGridWeek';
+    switch (params['view']) {
+      case 'day':
+        default_view = 'timeGridDay';
+        break;
+      case 'week':
+        default_view = 'timeGridWeek';
+        break;
+      case 'month':
+        default_view = 'dayGridMonth';
+        break;
+    }
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'dayGrid', 'timeGrid' ],
+      defaultView: default_view,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      defaultDate: params['startdate'],
+      nowIndicator: true,
+      eventLimit: true,
+      navLinks: true,
+      events: '{{ .Site.BaseURL }}api/events.php',
+      startParam: 'startdate',
+      endParam: 'enddate',
+      eventSourceSuccess: function( content ) {
+        // our API returns { "events": [ ] }
+        // and this will return just the inner array as fullcalendar expects
+        return content.events;
+      },
+      eventDataTransform: function( eventData ) {
+        // this transforms the data for individual rides
+        // into the format needed by fullcalendar
+        var event = {
+            id: eventData.caldaily_id,
+            title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
+            start: eventData.date + 'T' + eventData.time
+        };
+        if (eventData.cancelled == true) {
+          event.classNames = [ 'cancelled' ];
+        }
+        if (eventData.featured == true) {
+          event.classNames = [ 'featured' ];
+        }
+        return event;
+      },
+      eventRender: function(info) {
+        link = info.el;
+        link.setAttribute('href', '/calendar/event-' + info.event.id, '_self');
+      },
+    });
+
+    calendar.render();
+  });
+</script>

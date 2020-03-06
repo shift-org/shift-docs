@@ -123,6 +123,10 @@ $(document).ready(function() {
             enddate: lastDayOfRange,
             show_details: isExpanded
         }, function (eventHTML) {
+             // don't load list/grid toggle on PP page (always displays grid)
+             if ( !('pp' in options) ) {
+               container.append($('#view-as-options').html());
+             }
              container.append(eventHTML);
              if ( !('pp' in options) ) {
                // PP has set start and end dates,
