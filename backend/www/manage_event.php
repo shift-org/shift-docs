@@ -26,7 +26,7 @@ function validate_json_request($data) {
     $_POST = $data; // fValidation inspects $_POST for field data
     $validator = new fValidation();
 
-    $validator->addRequiredFields('title', 'details', 'venue', 'address', 'organizer', 'email', 'read_comic');
+    $validator->addRequiredFields('title', 'details', 'venue', 'address', 'organizer', 'email', 'code_of_conduct', 'read_comic');
     // required only from March to June, during Pedalpalooza
     $validator->addRequiredFields('tinytitle', 'printdescr');
     $validator->addEmailFields('email');
