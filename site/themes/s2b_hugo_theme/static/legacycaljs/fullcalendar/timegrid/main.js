@@ -1,8 +1,9 @@
 /*!
-@fullcalendar/timegrid v4.0.1
+FullCalendar Time Grid Plugin v4.4.0
 Docs & License: https://fullcalendar.io/
 (c) 2019 Adam Shaw
 */
+
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@fullcalendar/core'), require('@fullcalendar/daygrid')) :
     typeof define === 'function' && define.amd ? define(['exports', '@fullcalendar/core', '@fullcalendar/daygrid'], factory) :
@@ -56,15 +57,19 @@ Docs & License: https://fullcalendar.io/
     var TimeGridEventRenderer = /** @class */ (function (_super) {
         __extends(TimeGridEventRenderer, _super);
         function TimeGridEventRenderer(timeGrid) {
-            var _this = _super.call(this, timeGrid.context) || this;
+            var _this = _super.call(this) || this;
             _this.timeGrid = timeGrid;
-            _this.fullTimeFormat = core.createFormatter({
-                hour: 'numeric',
-                minute: '2-digit',
-                separator: _this.context.options.defaultRangeSeparator
-            });
             return _this;
         }
+        TimeGridEventRenderer.prototype.renderSegs = function (context, segs, mirrorInfo) {
+            _super.prototype.renderSegs.call(this, context, segs, mirrorInfo);
+            // TODO: dont do every time. memoize
+            this.fullTimeFormat = core.createFormatter({
+                hour: 'numeric',
+                minute: '2-digit',
+                separator: this.context.options.defaultRangeSeparator
+            });
+        };
         // Given an array of foreground segments, render a DOM element for each, computes position,
         // and attaches to the column inner-container elements.
         TimeGridEventRenderer.prototype.attachSegs = function (segs, mirrorInfo) {
@@ -121,9 +126,9 @@ Docs & License: https://fullcalendar.io/
             var eventDef = eventRange.def;
             var eventUi = eventRange.ui;
             var allDay = eventDef.allDay;
-            var isDraggable = eventUi.startEditable;
-            var isResizableFromStart = seg.isStart && eventUi.durationEditable && this.context.options.eventResizableFromStart;
-            var isResizableFromEnd = seg.isEnd && eventUi.durationEditable;
+            var isDraggable = core.computeEventDraggable(this.context, eventDef, eventUi);
+            var isResizableFromStart = seg.isStart && core.computeEventStartResizable(this.context, eventDef, eventUi);
+            var isResizableFromEnd = seg.isEnd && core.computeEventEndResizable(this.context, eventDef, eventUi);
             var classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd, mirrorInfo);
             var skinCss = core.cssToStr(this.getSkinCss(eventUi));
             var timeText;
@@ -243,7 +248,7 @@ Docs & License: https://fullcalendar.io/
                 { field: 'forwardPressure', order: -1 },
                 // put segments that are closer to initial edge first (and favor ones with no coords yet)
                 { field: 'backwardCoord', order: 1 }
-            ].concat(this.context.view.eventOrderSpecs);
+            ].concat(this.context.eventOrderSpecs);
             objs.sort(function (obj0, obj1) {
                 return core.compareByFieldSpecs(obj0, obj1, specs);
             });
@@ -274,7 +279,7 @@ Docs & License: https://fullcalendar.io/
             var backwardCoord = seg.backwardCoord; // the left side if LTR. the right side if RTL. floating-point
             var forwardCoord = seg.forwardCoord; // the right side if LTR. the left side if RTL. floating-point
             var props = this.timeGrid.generateSegVerticalCss(seg); // get top/bottom first
-            var isRtl = this.timeGrid.isRtl;
+            var isRtl = this.context.isRtl;
             var left; // amount of space from left edge, a fraction of the total width
             var right; // amount of space from right edge, a fraction of the total width
             if (shouldOverlap) {
@@ -408,7 +413,7 @@ Docs & License: https://fullcalendar.io/
     var TimeGridFillRenderer = /** @class */ (function (_super) {
         __extends(TimeGridFillRenderer, _super);
         function TimeGridFillRenderer(timeGrid) {
-            var _this = _super.call(this, timeGrid.context) || this;
+            var _this = _super.call(this) || this;
             _this.timeGrid = timeGrid;
             return _this;
         }
@@ -452,15 +457,19 @@ Docs & License: https://fullcalendar.io/
     ];
     var TimeGrid = /** @class */ (function (_super) {
         __extends(TimeGrid, _super);
-        function TimeGrid(context, el, renderProps) {
-            var _this = _super.call(this, context, el) || this;
+        function TimeGrid(el, renderProps) {
+            var _this = _super.call(this, el) || this;
             _this.isSlatSizesDirty = false;
             _this.isColSizesDirty = false;
-            _this.renderSlats = core.memoizeRendering(_this._renderSlats);
+            _this.processOptions = core.memoize(_this._processOptions);
+            _this.renderSkeleton = core.memoizeRendering(_this._renderSkeleton);
+            _this.renderSlats = core.memoizeRendering(_this._renderSlats, null, [_this.renderSkeleton]);
+            _this.renderColumns = core.memoizeRendering(_this._renderColumns, _this._unrenderColumns, [_this.renderSkeleton]);
+            _this.renderProps = renderProps;
+            var renderColumns = _this.renderColumns;
             var eventRenderer = _this.eventRenderer = new TimeGridEventRenderer(_this);
             var fillRenderer = _this.fillRenderer = new TimeGridFillRenderer(_this);
             _this.mirrorRenderer = new TimeGridMirrorRenderer(_this);
-            var renderColumns = _this.renderColumns = core.memoizeRendering(_this._renderColumns, _this._unrenderColumns);
             _this.renderBusinessHours = core.memoizeRendering(fillRenderer.renderSegs.bind(fillRenderer, 'businessHours'), fillRenderer.unrender.bind(fillRenderer, 'businessHours'), [renderColumns]);
             _this.renderDateSelection = core.memoizeRendering(_this._renderDateSelection, _this._unrenderDateSelection, [renderColumns]);
             _this.renderFgEvents = core.memoizeRendering(eventRenderer.renderSegs.bind(eventRenderer), eventRenderer.unrender.bind(eventRenderer), [renderColumns]);
@@ -468,23 +477,14 @@ Docs & License: https://fullcalendar.io/
             _this.renderEventSelection = core.memoizeRendering(eventRenderer.selectByInstanceId.bind(eventRenderer), eventRenderer.unselectByInstanceId.bind(eventRenderer), [_this.renderFgEvents]);
             _this.renderEventDrag = core.memoizeRendering(_this._renderEventDrag, _this._unrenderEventDrag, [renderColumns]);
             _this.renderEventResize = core.memoizeRendering(_this._renderEventResize, _this._unrenderEventResize, [renderColumns]);
-            _this.processOptions();
-            el.innerHTML =
-                '<div class="fc-bg"></div>' +
-                    '<div class="fc-slats"></div>' +
-                    '<hr class="fc-divider ' + _this.theme.getClass('widgetHeader') + '" style="display:none" />';
-            _this.rootBgContainerEl = el.querySelector('.fc-bg');
-            _this.slatContainerEl = el.querySelector('.fc-slats');
-            _this.bottomRuleEl = el.querySelector('.fc-divider');
-            _this.renderProps = renderProps;
             return _this;
         }
         /* Options
         ------------------------------------------------------------------------------------------------------------------*/
         // Parses various options into properties of this object
-        TimeGrid.prototype.processOptions = function () {
-            var slotDuration = this.opt('slotDuration');
-            var snapDuration = this.opt('snapDuration');
+        // MUST have context already set
+        TimeGrid.prototype._processOptions = function (options) {
+            var slotDuration = options.slotDuration, snapDuration = options.snapDuration;
             var snapsPerSlot;
             var input;
             slotDuration = core.createDuration(slotDuration);
@@ -500,7 +500,7 @@ Docs & License: https://fullcalendar.io/
             this.snapsPerSlot = snapsPerSlot;
             // might be an array value (for TimelineView).
             // if so, getting the most granular entry (the last one probably).
-            input = this.opt('slotLabelFormat');
+            input = options.slotLabelFormat;
             if (Array.isArray(input)) {
                 input = input[input.length - 1];
             }
@@ -510,7 +510,7 @@ Docs & License: https://fullcalendar.io/
                 omitZeroMinute: true,
                 meridiem: 'short'
             });
-            input = this.opt('slotLabelInterval');
+            input = options.slotLabelInterval;
             this.labelInterval = input ?
                 core.createDuration(input) :
                 this.computeLabelInterval(slotDuration);
@@ -532,15 +532,17 @@ Docs & License: https://fullcalendar.io/
         };
         /* Rendering
         ------------------------------------------------------------------------------------------------------------------*/
-        TimeGrid.prototype.render = function (props) {
+        TimeGrid.prototype.render = function (props, context) {
+            this.processOptions(context.options);
             var cells = props.cells;
             this.colCnt = cells.length;
+            this.renderSkeleton(context.theme);
             this.renderSlats(props.dateProfile);
             this.renderColumns(props.cells, props.dateProfile);
-            this.renderBusinessHours(props.businessHourSegs);
+            this.renderBusinessHours(context, props.businessHourSegs);
             this.renderDateSelection(props.dateSelectionSegs);
-            this.renderFgEvents(props.fgEventSegs);
-            this.renderBgEvents(props.bgEventSegs);
+            this.renderFgEvents(context, props.fgEventSegs);
+            this.renderBgEvents(context, props.bgEventSegs);
             this.renderEventSelection(props.eventSelection);
             this.renderEventDrag(props.eventDrag);
             this.renderEventResize(props.eventResize);
@@ -550,6 +552,7 @@ Docs & License: https://fullcalendar.io/
             // should unrender everything else too
             this.renderSlats.unrender();
             this.renderColumns.unrender();
+            this.renderSkeleton.unrender();
         };
         TimeGrid.prototype.updateSize = function (isResize) {
             var _a = this, fillRenderer = _a.fillRenderer, eventRenderer = _a.eventRenderer, mirrorRenderer = _a.mirrorRenderer;
@@ -568,8 +571,18 @@ Docs & License: https://fullcalendar.io/
             eventRenderer.assignSizes(isResize);
             mirrorRenderer.assignSizes(isResize);
         };
+        TimeGrid.prototype._renderSkeleton = function (theme) {
+            var el = this.el;
+            el.innerHTML =
+                '<div class="fc-bg"></div>' +
+                    '<div class="fc-slats"></div>' +
+                    '<hr class="fc-divider ' + theme.getClass('widgetHeader') + '" style="display:none" />';
+            this.rootBgContainerEl = el.querySelector('.fc-bg');
+            this.slatContainerEl = el.querySelector('.fc-slats');
+            this.bottomRuleEl = el.querySelector('.fc-divider');
+        };
         TimeGrid.prototype._renderSlats = function (dateProfile) {
-            var theme = this.theme;
+            var theme = this.context.theme;
             this.slatContainerEl.innerHTML =
                 '<table class="' + theme.getClass('tableGrid') + '">' +
                     this.renderSlatRowHtml(dateProfile) +
@@ -581,7 +594,7 @@ Docs & License: https://fullcalendar.io/
         };
         // Generates the HTML for the horizontal "slats" that run width-wise. Has a time axis on a side. Depends on RTL.
         TimeGrid.prototype.renderSlatRowHtml = function (dateProfile) {
-            var _a = this, dateEnv = _a.dateEnv, theme = _a.theme, isRtl = _a.isRtl;
+            var _a = this.context, dateEnv = _a.dateEnv, theme = _a.theme, isRtl = _a.isRtl;
             var html = '';
             var dayStart = core.startOfDay(dateProfile.renderRange.start);
             var slotTime = dateProfile.minTime;
@@ -615,7 +628,7 @@ Docs & License: https://fullcalendar.io/
             return html;
         };
         TimeGrid.prototype._renderColumns = function (cells, dateProfile) {
-            var theme = this.theme;
+            var _a = this.context, calendar = _a.calendar, view = _a.view, isRtl = _a.isRtl, theme = _a.theme, dateEnv = _a.dateEnv;
             var bgRow = new daygrid.DayBgRow(this.context);
             this.rootBgContainerEl.innerHTML =
                 '<table class="' + theme.getClass('tableGrid') + '">' +
@@ -626,7 +639,16 @@ Docs & License: https://fullcalendar.io/
                     }) +
                     '</table>';
             this.colEls = core.findElements(this.el, '.fc-day, .fc-disabled-day');
-            if (this.isRtl) {
+            for (var col = 0; col < this.colCnt; col++) {
+                calendar.publiclyTrigger('dayRender', [
+                    {
+                        date: dateEnv.toDate(cells[col].date),
+                        el: this.colEls[col],
+                        view: view
+                    }
+                ]);
+            }
+            if (isRtl) {
                 this.colEls.reverse();
             }
             this.colPositions = new core.PositionCache(this.el, this.colEls, true, // horizontal
@@ -641,6 +663,7 @@ Docs & License: https://fullcalendar.io/
         ------------------------------------------------------------------------------------------------------------------*/
         // Renders the DOM that the view's content will live in
         TimeGrid.prototype.renderContentSkeleton = function () {
+            var isRtl = this.context.isRtl;
             var parts = [];
             var skeletonEl;
             parts.push(this.renderProps.renderIntroHtml());
@@ -655,7 +678,7 @@ Docs & License: https://fullcalendar.io/
                     '</div>' +
                     '</td>');
             }
-            if (this.isRtl) {
+            if (isRtl) {
                 parts.reverse();
             }
             skeletonEl = this.contentSkeletonEl = core.htmlToElement('<div class="fc-content-skeleton">' +
@@ -669,7 +692,7 @@ Docs & License: https://fullcalendar.io/
             this.bgContainerEls = core.findElements(skeletonEl, '.fc-bgevent-container');
             this.highlightContainerEls = core.findElements(skeletonEl, '.fc-highlight-container');
             this.businessContainerEls = core.findElements(skeletonEl, '.fc-business-container');
-            if (this.isRtl) {
+            if (isRtl) {
                 this.colContainerEls.reverse();
                 this.mirrorContainerEls.reverse();
                 this.fgContainerEls.reverse();
@@ -745,7 +768,7 @@ Docs & License: https://fullcalendar.io/
         /* Coordinates
         ------------------------------------------------------------------------------------------------------------------*/
         TimeGrid.prototype.getTotalSlatHeight = function () {
-            return this.slatContainerEl.offsetHeight;
+            return this.slatContainerEl.getBoundingClientRect().height;
         };
         // Computes the top coordinate, relative to the bounds of the grid, of the given date.
         // A `startOfDayDate` must be given for avoiding ambiguity over how to treat midnight.
@@ -753,13 +776,13 @@ Docs & License: https://fullcalendar.io/
             if (!startOfDayDate) {
                 startOfDayDate = core.startOfDay(when);
             }
-            return this.computeTimeTop(when.valueOf() - startOfDayDate.valueOf());
+            return this.computeTimeTop(core.createDuration(when.valueOf() - startOfDayDate.valueOf()));
         };
         // Computes the top coordinate, relative to the bounds of the grid, of the given time (a Duration).
-        TimeGrid.prototype.computeTimeTop = function (timeMs) {
+        TimeGrid.prototype.computeTimeTop = function (duration) {
             var len = this.slatEls.length;
             var dateProfile = this.props.dateProfile;
-            var slatCoverage = (timeMs - core.asRoughMs(dateProfile.minTime)) / core.asRoughMs(this.slotDuration); // floating-point value of # of slots covered
+            var slatCoverage = (duration.milliseconds - core.asRoughMs(dateProfile.minTime)) / core.asRoughMs(this.slotDuration); // floating-point value of # of slots covered
             var slatIndex;
             var slatRemainder;
             // compute a floating-point number for how many slats should be progressed through.
@@ -779,7 +802,8 @@ Docs & License: https://fullcalendar.io/
         };
         // For each segment in an array, computes and assigns its top and bottom properties
         TimeGrid.prototype.computeSegVerticals = function (segs) {
-            var eventMinHeight = this.opt('timeGridEventMinHeight');
+            var options = this.context.options;
+            var eventMinHeight = options.timeGridEventMinHeight;
             var i;
             var seg;
             var dayDate;
@@ -809,6 +833,10 @@ Docs & License: https://fullcalendar.io/
         };
         /* Sizing
         ------------------------------------------------------------------------------------------------------------------*/
+        TimeGrid.prototype.buildPositionCaches = function () {
+            this.buildColPositions();
+            this.buildSlatPositions();
+        };
         TimeGrid.prototype.buildColPositions = function () {
             this.colPositions.build();
         };
@@ -818,7 +846,8 @@ Docs & License: https://fullcalendar.io/
         /* Hit System
         ------------------------------------------------------------------------------------------------------------------*/
         TimeGrid.prototype.positionToHit = function (positionLeft, positionTop) {
-            var _a = this, dateEnv = _a.dateEnv, snapsPerSlot = _a.snapsPerSlot, slatPositions = _a.slatPositions, colPositions = _a.colPositions;
+            var dateEnv = this.context.dateEnv;
+            var _a = this, snapsPerSlot = _a.snapsPerSlot, slatPositions = _a.slatPositions, colPositions = _a.colPositions;
             var colIndex = colPositions.leftToIndex(positionLeft);
             var slatIndex = slatPositions.topToIndex(positionTop);
             if (colIndex != null && slatIndex != null) {
@@ -853,18 +882,22 @@ Docs & License: https://fullcalendar.io/
             if (state) {
                 this.eventRenderer.hideByHash(state.affectedInstances);
                 if (state.isEvent) {
-                    this.mirrorRenderer.renderSegs(state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
+                    this.mirrorRenderer.renderSegs(this.context, state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
                 }
                 else {
-                    this.fillRenderer.renderSegs('highlight', state.segs);
+                    this.fillRenderer.renderSegs('highlight', this.context, state.segs);
                 }
             }
         };
         TimeGrid.prototype._unrenderEventDrag = function (state) {
             if (state) {
                 this.eventRenderer.showByHash(state.affectedInstances);
-                this.mirrorRenderer.unrender(state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
-                this.fillRenderer.unrender('highlight');
+                if (state.isEvent) {
+                    this.mirrorRenderer.unrender(this.context, state.segs, { isDragging: true, sourceSeg: state.sourceSeg });
+                }
+                else {
+                    this.fillRenderer.unrender('highlight', this.context);
+                }
             }
         };
         /* Event Resize Visualization
@@ -872,13 +905,13 @@ Docs & License: https://fullcalendar.io/
         TimeGrid.prototype._renderEventResize = function (state) {
             if (state) {
                 this.eventRenderer.hideByHash(state.affectedInstances);
-                this.mirrorRenderer.renderSegs(state.segs, { isResizing: true, sourceSeg: state.sourceSeg });
+                this.mirrorRenderer.renderSegs(this.context, state.segs, { isResizing: true, sourceSeg: state.sourceSeg });
             }
         };
         TimeGrid.prototype._unrenderEventResize = function (state) {
             if (state) {
                 this.eventRenderer.showByHash(state.affectedInstances);
-                this.mirrorRenderer.unrender(state.segs, { isResizing: true, sourceSeg: state.sourceSeg });
+                this.mirrorRenderer.unrender(this.context, state.segs, { isResizing: true, sourceSeg: state.sourceSeg });
             }
         };
         /* Selection
@@ -886,17 +919,23 @@ Docs & License: https://fullcalendar.io/
         // Renders a visual indication of a selection. Overrides the default, which was to simply render a highlight.
         TimeGrid.prototype._renderDateSelection = function (segs) {
             if (segs) {
-                if (this.opt('selectMirror')) {
-                    this.mirrorRenderer.renderSegs(segs, { isSelecting: true });
+                if (this.context.options.selectMirror) {
+                    this.mirrorRenderer.renderSegs(this.context, segs, { isSelecting: true });
                 }
                 else {
-                    this.fillRenderer.renderSegs('highlight', segs);
+                    this.fillRenderer.renderSegs('highlight', this.context, segs);
                 }
             }
         };
         TimeGrid.prototype._unrenderDateSelection = function (segs) {
-            this.mirrorRenderer.unrender(segs, { isSelecting: true });
-            this.fillRenderer.unrender('highlight');
+            if (segs) {
+                if (this.context.options.selectMirror) {
+                    this.mirrorRenderer.unrender(this.context, segs, { isSelecting: true });
+                }
+                else {
+                    this.fillRenderer.unrender('highlight', this.context);
+                }
+            }
         };
         return TimeGrid;
     }(core.DateComponent));
@@ -940,25 +979,26 @@ Docs & License: https://fullcalendar.io/
     ----------------------------------------------------------------------------------------------------------------------*/
     // Is a manager for the TimeGrid subcomponent and possibly the DayGrid subcomponent (if allDaySlot is on).
     // Responsible for managing width/height.
-    var TimeGridView = /** @class */ (function (_super) {
-        __extends(TimeGridView, _super);
-        function TimeGridView(context, viewSpec, dateProfileGenerator, parentEl) {
-            var _this = _super.call(this, context, viewSpec, dateProfileGenerator, parentEl) || this;
+    var AbstractTimeGridView = /** @class */ (function (_super) {
+        __extends(AbstractTimeGridView, _super);
+        function AbstractTimeGridView() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.splitter = new AllDaySplitter();
+            _this.renderSkeleton = core.memoizeRendering(_this._renderSkeleton, _this._unrenderSkeleton);
             /* Header Render Methods
             ------------------------------------------------------------------------------------------------------------------*/
             // Generates the HTML that will go before the day-of week header cells
             _this.renderHeadIntroHtml = function () {
-                var _a = _this, theme = _a.theme, dateEnv = _a.dateEnv;
+                var _a = _this.context, theme = _a.theme, dateEnv = _a.dateEnv, options = _a.options;
                 var range = _this.props.dateProfile.renderRange;
                 var dayCnt = core.diffDays(range.start, range.end);
                 var weekText;
-                if (_this.opt('weekNumbers')) {
+                if (options.weekNumbers) {
                     weekText = dateEnv.format(range.start, WEEK_HEADER_FORMAT);
                     return '' +
                         '<th class="fc-axis fc-week-number ' + theme.getClass('widgetHeader') + '" ' + _this.axisStyleAttr() + '>' +
                         core.buildGotoAnchorHtml(// aside from link, important for matchCellWidths
-                        _this, { date: range.start, type: 'week', forceOff: dayCnt > 1 }, core.htmlEscape(weekText) // inner HTML
+                        options, dateEnv, { date: range.start, type: 'week', forceOff: dayCnt > 1 }, core.htmlEscape(weekText) // inner HTML
                         ) +
                         '</th>';
                 }
@@ -970,7 +1010,7 @@ Docs & License: https://fullcalendar.io/
             ------------------------------------------------------------------------------------------------------------------*/
             // Generates the HTML that goes before the bg of the TimeGrid slot area. Long vertical column.
             _this.renderTimeGridBgIntroHtml = function () {
-                var theme = _this.theme;
+                var theme = _this.context.theme;
                 return '<td class="fc-axis ' + theme.getClass('widgetContent') + '" ' + _this.axisStyleAttr() + '></td>';
             };
             // Generates the HTML that goes before all other types of cells.
@@ -982,11 +1022,11 @@ Docs & License: https://fullcalendar.io/
             ------------------------------------------------------------------------------------------------------------------*/
             // Generates the HTML that goes before the all-day cells
             _this.renderDayGridBgIntroHtml = function () {
-                var theme = _this.theme;
+                var _a = _this.context, theme = _a.theme, options = _a.options;
                 return '' +
                     '<td class="fc-axis ' + theme.getClass('widgetContent') + '" ' + _this.axisStyleAttr() + '>' +
                     '<span>' + // needed for matchCellWidths
-                    core.getAllDayHtml(_this) +
+                    core.getAllDayHtml(options) +
                     '</span>' +
                     '</td>';
             };
@@ -995,36 +1035,47 @@ Docs & License: https://fullcalendar.io/
             _this.renderDayGridIntroHtml = function () {
                 return '<td class="fc-axis" ' + _this.axisStyleAttr() + '></td>';
             };
-            _this.el.classList.add('fc-timeGrid-view');
-            _this.el.innerHTML = _this.renderSkeletonHtml();
-            _this.scroller = new core.ScrollComponent('hidden', // overflow x
+            return _this;
+        }
+        AbstractTimeGridView.prototype.render = function (props, context) {
+            _super.prototype.render.call(this, props, context);
+            this.renderSkeleton(context);
+        };
+        AbstractTimeGridView.prototype.destroy = function () {
+            _super.prototype.destroy.call(this);
+            this.renderSkeleton.unrender();
+        };
+        AbstractTimeGridView.prototype._renderSkeleton = function (context) {
+            this.el.classList.add('fc-timeGrid-view');
+            this.el.innerHTML = this.renderSkeletonHtml();
+            this.scroller = new core.ScrollComponent('hidden', // overflow x
             'auto' // overflow y
             );
-            var timeGridWrapEl = _this.scroller.el;
-            _this.el.querySelector('.fc-body > tr > td').appendChild(timeGridWrapEl);
+            var timeGridWrapEl = this.scroller.el;
+            this.el.querySelector('.fc-body > tr > td').appendChild(timeGridWrapEl);
             timeGridWrapEl.classList.add('fc-time-grid-container');
             var timeGridEl = core.createElement('div', { className: 'fc-time-grid' });
             timeGridWrapEl.appendChild(timeGridEl);
-            _this.timeGrid = new TimeGrid(_this.context, timeGridEl, {
-                renderBgIntroHtml: _this.renderTimeGridBgIntroHtml,
-                renderIntroHtml: _this.renderTimeGridIntroHtml
+            this.timeGrid = new TimeGrid(timeGridEl, {
+                renderBgIntroHtml: this.renderTimeGridBgIntroHtml,
+                renderIntroHtml: this.renderTimeGridIntroHtml
             });
-            if (_this.opt('allDaySlot')) { // should we display the "all-day" area?
-                _this.dayGrid = new daygrid.DayGrid(// the all-day subcomponent of this view
-                _this.context, _this.el.querySelector('.fc-day-grid'), {
-                    renderNumberIntroHtml: _this.renderDayGridIntroHtml,
-                    renderBgIntroHtml: _this.renderDayGridBgIntroHtml,
-                    renderIntroHtml: _this.renderDayGridIntroHtml,
+            if (context.options.allDaySlot) { // should we display the "all-day" area?
+                this.dayGrid = new daygrid.DayGrid(// the all-day subcomponent of this view
+                this.el.querySelector('.fc-day-grid'), {
+                    renderNumberIntroHtml: this.renderDayGridIntroHtml,
+                    renderBgIntroHtml: this.renderDayGridBgIntroHtml,
+                    renderIntroHtml: this.renderDayGridIntroHtml,
                     colWeekNumbersVisible: false,
                     cellWeekNumbersVisible: false
                 });
                 // have the day-grid extend it's coordinate area over the <hr> dividing the two grids
-                _this.dayGrid.bottomCoordPadding = _this.el.querySelector('.fc-divider').offsetHeight;
+                var dividerEl = this.el.querySelector('.fc-divider');
+                this.dayGrid.bottomCoordPadding = dividerEl.getBoundingClientRect().height;
             }
-            return _this;
-        }
-        TimeGridView.prototype.destroy = function () {
-            _super.prototype.destroy.call(this);
+        };
+        AbstractTimeGridView.prototype._unrenderSkeleton = function () {
+            this.el.classList.remove('fc-timeGrid-view');
             this.timeGrid.destroy();
             if (this.dayGrid) {
                 this.dayGrid.destroy();
@@ -1035,11 +1086,11 @@ Docs & License: https://fullcalendar.io/
         ------------------------------------------------------------------------------------------------------------------*/
         // Builds the HTML skeleton for the view.
         // The day-grid and time-grid components will render inside containers defined by this HTML.
-        TimeGridView.prototype.renderSkeletonHtml = function () {
-            var theme = this.theme;
+        AbstractTimeGridView.prototype.renderSkeletonHtml = function () {
+            var _a = this.context, theme = _a.theme, options = _a.options;
             return '' +
                 '<table class="' + theme.getClass('tableGrid') + '">' +
-                (this.opt('columnHeader') ?
+                (options.columnHeader ?
                     '<thead class="fc-head">' +
                         '<tr>' +
                         '<td class="fc-head-container ' + theme.getClass('widgetHeader') + '">&nbsp;</td>' +
@@ -1049,7 +1100,7 @@ Docs & License: https://fullcalendar.io/
                 '<tbody class="fc-body">' +
                 '<tr>' +
                 '<td class="' + theme.getClass('widgetContent') + '">' +
-                (this.opt('allDaySlot') ?
+                (options.allDaySlot ?
                     '<div class="fc-day-grid"></div>' +
                         '<hr class="fc-divider ' + theme.getClass('widgetHeader') + '" />' :
                     '') +
@@ -1060,18 +1111,18 @@ Docs & License: https://fullcalendar.io/
         };
         /* Now Indicator
         ------------------------------------------------------------------------------------------------------------------*/
-        TimeGridView.prototype.getNowIndicatorUnit = function () {
+        AbstractTimeGridView.prototype.getNowIndicatorUnit = function () {
             return this.timeGrid.getNowIndicatorUnit();
         };
         // subclasses should implement
         // renderNowIndicator(date: DateMarker) {
         // }
-        TimeGridView.prototype.unrenderNowIndicator = function () {
+        AbstractTimeGridView.prototype.unrenderNowIndicator = function () {
             this.timeGrid.unrenderNowIndicator();
         };
         /* Dimensions
         ------------------------------------------------------------------------------------------------------------------*/
-        TimeGridView.prototype.updateSize = function (isResize, viewHeight, isAuto) {
+        AbstractTimeGridView.prototype.updateSize = function (isResize, viewHeight, isAuto) {
             _super.prototype.updateSize.call(this, isResize, viewHeight, isAuto); // will call updateBaseSize. important that executes first
             this.timeGrid.updateSize(isResize);
             if (this.dayGrid) {
@@ -1079,7 +1130,7 @@ Docs & License: https://fullcalendar.io/
             }
         };
         // Adjusts the vertical dimensions of the view to the specified values
-        TimeGridView.prototype.updateBaseSize = function (isResize, viewHeight, isAuto) {
+        AbstractTimeGridView.prototype.updateBaseSize = function (isResize, viewHeight, isAuto) {
             var _this = this;
             var eventLimit;
             var scrollerHeight;
@@ -1106,7 +1157,7 @@ Docs & License: https://fullcalendar.io/
             // limit number of events in the all-day area
             if (this.dayGrid) {
                 this.dayGrid.removeSegPopover(); // kill the "more" popover if displayed
-                eventLimit = this.opt('eventLimit');
+                eventLimit = this.context.options.eventLimit;
                 if (eventLimit && typeof eventLimit !== 'number') {
                     eventLimit = TIMEGRID_ALL_DAY_EVENT_LIMIT; // make sure "auto" goes to a real number
                 }
@@ -1138,16 +1189,15 @@ Docs & License: https://fullcalendar.io/
             }
         };
         // given a desired total height of the view, returns what the height of the scroller should be
-        TimeGridView.prototype.computeScrollerHeight = function (viewHeight) {
+        AbstractTimeGridView.prototype.computeScrollerHeight = function (viewHeight) {
             return viewHeight -
                 core.subtractInnerElHeight(this.el, this.scroller.el); // everything that's NOT the scroller
         };
         /* Scroll
         ------------------------------------------------------------------------------------------------------------------*/
         // Computes the initial pre-configured scroll state prior to allowing the user to change it
-        TimeGridView.prototype.computeInitialDateScroll = function () {
-            var scrollTime = core.createDuration(this.opt('scrollTime'));
-            var top = this.timeGrid.computeTimeTop(scrollTime.milliseconds);
+        AbstractTimeGridView.prototype.computeDateScroll = function (duration) {
+            var top = this.timeGrid.computeTimeTop(duration);
             // zoom can give weird floating-point values. rather scroll a little bit further
             top = Math.ceil(top);
             if (top) {
@@ -1155,48 +1205,54 @@ Docs & License: https://fullcalendar.io/
             }
             return { top: top };
         };
-        TimeGridView.prototype.queryDateScroll = function () {
+        AbstractTimeGridView.prototype.queryDateScroll = function () {
             return { top: this.scroller.getScrollTop() };
         };
-        TimeGridView.prototype.applyDateScroll = function (scroll) {
+        AbstractTimeGridView.prototype.applyDateScroll = function (scroll) {
             if (scroll.top !== undefined) {
                 this.scroller.setScrollTop(scroll.top);
             }
         };
         // Generates an HTML attribute string for setting the width of the axis, if it is known
-        TimeGridView.prototype.axisStyleAttr = function () {
+        AbstractTimeGridView.prototype.axisStyleAttr = function () {
             if (this.axisWidth != null) {
                 return 'style="width:' + this.axisWidth + 'px"';
             }
             return '';
         };
-        return TimeGridView;
+        return AbstractTimeGridView;
     }(core.View));
-    TimeGridView.prototype.usesMinMaxTime = true; // indicates that minTime/maxTime affects rendering
+    AbstractTimeGridView.prototype.usesMinMaxTime = true; // indicates that minTime/maxTime affects rendering
 
     var SimpleTimeGrid = /** @class */ (function (_super) {
         __extends(SimpleTimeGrid, _super);
-        function SimpleTimeGrid(context, timeGrid) {
-            var _this = _super.call(this, context, timeGrid.el) || this;
+        function SimpleTimeGrid(timeGrid) {
+            var _this = _super.call(this, timeGrid.el) || this;
             _this.buildDayRanges = core.memoize(buildDayRanges);
             _this.slicer = new TimeGridSlicer();
             _this.timeGrid = timeGrid;
-            context.calendar.registerInteractiveComponent(_this, {
-                el: _this.timeGrid.el
-            });
             return _this;
         }
+        SimpleTimeGrid.prototype.firstContext = function (context) {
+            context.calendar.registerInteractiveComponent(this, {
+                el: this.timeGrid.el
+            });
+        };
         SimpleTimeGrid.prototype.destroy = function () {
             _super.prototype.destroy.call(this);
-            this.calendar.unregisterInteractiveComponent(this);
+            this.context.calendar.unregisterInteractiveComponent(this);
         };
-        SimpleTimeGrid.prototype.render = function (props) {
+        SimpleTimeGrid.prototype.render = function (props, context) {
+            var dateEnv = this.context.dateEnv;
             var dateProfile = props.dateProfile, dayTable = props.dayTable;
-            var dayRanges = this.dayRanges = this.buildDayRanges(dayTable, dateProfile, this.dateEnv);
-            this.timeGrid.receiveProps(__assign({}, this.slicer.sliceProps(props, dateProfile, null, this.timeGrid, dayRanges), { dateProfile: dateProfile, cells: dayTable.cells[0] }));
+            var dayRanges = this.dayRanges = this.buildDayRanges(dayTable, dateProfile, dateEnv);
+            this.timeGrid.receiveProps(__assign({}, this.slicer.sliceProps(props, dateProfile, null, context.calendar, this.timeGrid, dayRanges), { dateProfile: dateProfile, cells: dayTable.cells[0] }), context);
         };
         SimpleTimeGrid.prototype.renderNowIndicator = function (date) {
             this.timeGrid.renderNowIndicator(this.slicer.sliceNowDate(date, this.timeGrid, this.dayRanges), date);
+        };
+        SimpleTimeGrid.prototype.buildPositionCaches = function () {
+            this.timeGrid.buildPositionCaches();
         };
         SimpleTimeGrid.prototype.queryHit = function (positionLeft, positionTop) {
             var rawHit = this.timeGrid.positionToHit(positionLeft, positionTop);
@@ -1252,22 +1308,48 @@ Docs & License: https://fullcalendar.io/
         return TimeGridSlicer;
     }(core.Slicer));
 
-    var TimeGridView$1 = /** @class */ (function (_super) {
+    var TimeGridView = /** @class */ (function (_super) {
         __extends(TimeGridView, _super);
-        function TimeGridView(_context, viewSpec, dateProfileGenerator, parentEl) {
-            var _this = _super.call(this, _context, viewSpec, dateProfileGenerator, parentEl) || this;
+        function TimeGridView() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
             _this.buildDayTable = core.memoize(buildDayTable);
-            if (_this.opt('columnHeader')) {
-                _this.header = new core.DayHeader(_this.context, _this.el.querySelector('.fc-head-container'));
-            }
-            _this.simpleTimeGrid = new SimpleTimeGrid(_this.context, _this.timeGrid);
-            if (_this.dayGrid) {
-                _this.simpleDayGrid = new daygrid.SimpleDayGrid(_this.context, _this.dayGrid);
-            }
             return _this;
         }
-        TimeGridView.prototype.destroy = function () {
-            _super.prototype.destroy.call(this);
+        TimeGridView.prototype.render = function (props, context) {
+            _super.prototype.render.call(this, props, context); // for flags for updateSize. also _renderSkeleton/_unrenderSkeleton
+            var _a = this.props, dateProfile = _a.dateProfile, dateProfileGenerator = _a.dateProfileGenerator;
+            var nextDayThreshold = context.nextDayThreshold;
+            var dayTable = this.buildDayTable(dateProfile, dateProfileGenerator);
+            var splitProps = this.splitter.splitProps(props);
+            if (this.header) {
+                this.header.receiveProps({
+                    dateProfile: dateProfile,
+                    dates: dayTable.headerDates,
+                    datesRepDistinctDays: true,
+                    renderIntroHtml: this.renderHeadIntroHtml
+                }, context);
+            }
+            this.simpleTimeGrid.receiveProps(__assign({}, splitProps['timed'], { dateProfile: dateProfile,
+                dayTable: dayTable }), context);
+            if (this.simpleDayGrid) {
+                this.simpleDayGrid.receiveProps(__assign({}, splitProps['allDay'], { dateProfile: dateProfile,
+                    dayTable: dayTable,
+                    nextDayThreshold: nextDayThreshold, isRigid: false }), context);
+            }
+            this.startNowIndicator(dateProfile, dateProfileGenerator);
+        };
+        TimeGridView.prototype._renderSkeleton = function (context) {
+            _super.prototype._renderSkeleton.call(this, context);
+            if (context.options.columnHeader) {
+                this.header = new core.DayHeader(this.el.querySelector('.fc-head-container'));
+            }
+            this.simpleTimeGrid = new SimpleTimeGrid(this.timeGrid);
+            if (this.dayGrid) {
+                this.simpleDayGrid = new daygrid.SimpleDayGrid(this.dayGrid);
+            }
+        };
+        TimeGridView.prototype._unrenderSkeleton = function () {
+            _super.prototype._unrenderSkeleton.call(this);
             if (this.header) {
                 this.header.destroy();
             }
@@ -1276,31 +1358,11 @@ Docs & License: https://fullcalendar.io/
                 this.simpleDayGrid.destroy();
             }
         };
-        TimeGridView.prototype.render = function (props) {
-            _super.prototype.render.call(this, props); // for flags for updateSize
-            var dateProfile = this.props.dateProfile;
-            var dayTable = this.buildDayTable(dateProfile, this.dateProfileGenerator);
-            var splitProps = this.splitter.splitProps(props);
-            if (this.header) {
-                this.header.receiveProps({
-                    dateProfile: dateProfile,
-                    dates: dayTable.headerDates,
-                    datesRepDistinctDays: true,
-                    renderIntroHtml: this.renderHeadIntroHtml
-                });
-            }
-            this.simpleTimeGrid.receiveProps(__assign({}, splitProps['timed'], { dateProfile: dateProfile,
-                dayTable: dayTable }));
-            if (this.simpleDayGrid) {
-                this.simpleDayGrid.receiveProps(__assign({}, splitProps['allDay'], { dateProfile: dateProfile,
-                    dayTable: dayTable, nextDayThreshold: this.nextDayThreshold, isRigid: false }));
-            }
-        };
         TimeGridView.prototype.renderNowIndicator = function (date) {
             this.simpleTimeGrid.renderNowIndicator(date);
         };
         return TimeGridView;
-    }(TimeGridView));
+    }(AbstractTimeGridView));
     function buildDayTable(dateProfile, dateProfileGenerator) {
         var daySeries = new core.DaySeries(dateProfile.renderRange, dateProfileGenerator);
         return new core.DayTable(daySeries, false);
@@ -1310,7 +1372,7 @@ Docs & License: https://fullcalendar.io/
         defaultView: 'timeGridWeek',
         views: {
             timeGrid: {
-                class: TimeGridView$1,
+                class: TimeGridView,
                 allDaySlot: true,
                 slotDuration: '00:30:00',
                 slotEventOverlap: true // a bad name. confused with overlap/constraint system
@@ -1326,13 +1388,13 @@ Docs & License: https://fullcalendar.io/
         }
     });
 
-    exports.TimeGridView = TimeGridView$1;
-    exports.AbstractTimeGridView = TimeGridView;
-    exports.buildDayTable = buildDayTable;
-    exports.buildDayRanges = buildDayRanges;
-    exports.TimeGridSlicer = TimeGridSlicer;
-    exports.default = main;
+    exports.AbstractTimeGridView = AbstractTimeGridView;
     exports.TimeGrid = TimeGrid;
+    exports.TimeGridSlicer = TimeGridSlicer;
+    exports.TimeGridView = TimeGridView;
+    exports.buildDayRanges = buildDayRanges;
+    exports.buildDayTable = buildDayTable;
+    exports.default = main;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

@@ -6,8 +6,8 @@ id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2007
-startdate: June 7, 2007
-enddate: June 23, 2007
+startdate: 2007-06-07
+enddate: 2007-06-23
 daterange: June 7–23, 2007
 banner-image: "/images/pp/pp2007-banner.jpg"
 poster-image: "/images/pp/pp2007.jpg"

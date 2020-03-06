@@ -72,8 +72,8 @@
   <meta property="og:image:height" content="1200" />
   <meta property="og:image:width" content="1200" />
 
-  <!-- load calendar styles on calendar list or edit pages -->
-  {{ if or (eq .Type "calevents") (eq .Type "caledit") }}
+  <!-- load calendar styles on calendar list or edit pages, or on homepage for "up next" widget -->
+  {{ if or (eq .Type "calevents") (eq .Type "caledit") (eq .Type "homepage") }}
   <link rel="stylesheet" type="text/css" href="/css/main_fun_legacy.css">
   {{ end }}
 
@@ -82,6 +82,12 @@
   <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/core/main.min.css">
   <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/daygrid/main.min.css">
   <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/timegrid/main.min.css">
+  {{ end }}
+
+  <!-- only load list view styles on homepage for "up next" widget -->
+  {{ if eq .Type "homepage" }}
+  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/core/main.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/list/main.min.css"/>
   {{ end }}
 
 </head>

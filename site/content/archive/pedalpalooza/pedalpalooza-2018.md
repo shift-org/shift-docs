@@ -6,8 +6,8 @@ id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2018
-startdate: June 1, 2018
-enddate: June 30, 2018
+startdate: 2018-06-01
+enddate: 2018-06-30
 daterange: June 1–30, 2018
 banner-image: "/images/pp/pp2018-banner.png"
 poster-image: "/images/pp/pp2018.jpg"

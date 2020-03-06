@@ -5,9 +5,9 @@ id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2002
-startdate: 'August 1, 2002'
-enddate: 'August 3, 2002'
-daterange: 'August 1–3, 2002'
+startdate: 2002-08-01
+enddate: 2002-08-31
+daterange: August 1–31, 2002
 banner-image: /images/pp/pp2002-banner.png
 poster-image: /images/pp/pp2002.jpg
 ---

@@ -1,0 +1,66 @@
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/list/main.min.js"></script>
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('fullcalendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'list' ],
+      defaultView: 'listDayTodayAndTomorrow',
+      height: 600,
+      contentHeight: 'auto',
+      header: false,
+      listDayFormat: {
+        month: 'short',
+        year: 'numeric',
+        day: 'numeric',
+        weekday: 'short'
+      },
+      views: {
+        listDayTodayAndTomorrow: {
+          type: 'listDay',
+          duration: { days: 2 },
+          buttonText: '2 day'
+        }
+      },
+      events: '{{ .Site.BaseURL }}api/events.php',
+      startParam: 'startdate',
+      endParam: 'enddate',
+      eventSourceSuccess: function( content ) {
+        // our API returns { "events": [ ] }
+        // and this will return just the inner array as fullcalendar expects
+        return content.events;
+      },
+      eventDataTransform: function( eventData ) {
+        // this transforms the data for individual rides
+        // into the format needed by fullcalendar
+        var event = {
+            id: eventData.caldaily_id,
+            title: eventData.title, // full-length title is OK in list view
+            start: eventData.date + 'T' + eventData.time
+        };
+        if (eventData.cancelled == true) {
+          event.classNames = [ 'cancelled' ];
+        }
+        if (eventData.featured == true) {
+          event.classNames = [ 'featured' ];
+        }
+        return event;
+      },
+      eventRender: function(info) {
+        link = info.el.getElementsByTagName("a")[0];
+        link.setAttribute('href', '/calendar/event-' + info.event.id, '_self');
+      },
+      noEventsMessage: "No events happening today or tomorrow",
+    });
+
+    calendar.render();
+  });
+</script>
+
+<div id="up-next">
+  <h2>Bike fun happening soon!</h2>
+  <div id="fullcalendar"></div>
+  <p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add an event</a></p>
+</div>
