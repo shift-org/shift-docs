@@ -2,18 +2,35 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
 
+{{ partial "cal/scripts.html" . }}
+
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
+    var params = parseURL();
+
+    var default_view = 'timeGridWeek';
+    switch (params['view']) {
+      case 'day':
+        default_view = 'timeGridDay';
+        break;
+      case 'week':
+        default_view = 'timeGridWeek';
+        break;
+      case 'month':
+        default_view = 'dayGridMonth';
+        break;
+    }
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid', 'timeGrid' ],
-      defaultView: 'timeGridWeek',
+      defaultView: default_view,
       header: {
         left: 'prev,next today',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
+      defaultDate: params['startdate'],
       nowIndicator: true,
       eventLimit: true,
       navLinks: true,
