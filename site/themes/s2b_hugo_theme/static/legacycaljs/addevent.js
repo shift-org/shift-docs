@@ -70,6 +70,11 @@
             }
         }
         shiftEvent.timeOptions.push({ time: "11:59 PM" });
+        if (!shiftEvent.time) {
+            // default to 5:00pm if not set;
+            // 0 = 12:00am, 1 = 12:15am, 2 = 12:30am, ... 68 = 5:00pm
+            shiftEvent.timeOptions[68].isSelected = true;
+        }
 
         if (!shiftEvent.audience) {
             shiftEvent.audience = 'G';

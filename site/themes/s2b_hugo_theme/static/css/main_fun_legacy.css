@@ -128,7 +128,22 @@ svg.icon {
     border-color: #337AB7;
 }
 
-#fullcalendar .fc-event.featured {
+#up-next #fullcalendar {
+  width: 80%;
+  margin: 1em auto;
+}
+
+#up-next > h2,
+#up-next > p {
+  text-align: center;
+}
+
+#up-next > p {
+  margin-top: 1.5em;
+}
+
+#fullcalendar .fc-event.featured,
+#fullcalendar .fc-list-item.featured {
     background-color: #630;
     color: #FCFAF2;
     border-color: #FCFAF2;
@@ -154,7 +169,8 @@ svg.icon {
     background-color: white;
     color: #337AB7;
 }
-#fullcalendar .fc-event.cancelled .fc-title {
+#fullcalendar .fc-event.cancelled .fc-title,
+#fullcalendar .fc-list-item.cancelled .fc-list-item-title {
     text-decoration: line-through;
 }
 
@@ -339,9 +355,6 @@ a.expand-details {
 #date-select-container {
     margin: 0 auto;
 }
-#date-select-container-pedalpalooza {
-    margin: 10px 0px;
-}
 .date-select-container-style {
     width: 310px;
     background-color: #fff56f;
@@ -368,10 +381,6 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 
 #date-select {
     height: 140px;
-}
-
-#date-select-pp {
-    background-color: #ffbd2c;
 }
 
 .date-select-style {

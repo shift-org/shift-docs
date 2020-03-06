@@ -6,8 +6,8 @@ id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2006
-startdate: June 8, 2006
-enddate: June 24, 2006
+startdate: 2006-06-08
+enddate: 2006-06-24
 daterange: June 8–24, 2006
 banner-image: "/images/pp/pp2006-banner.png"
 poster-image: "/images/pp/pp2006.jpg"

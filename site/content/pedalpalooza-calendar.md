@@ -6,8 +6,8 @@ id: pedalpalooza-calendar
 type: calevents
 pp: true
 year: 2020
-startdate: June 1, 2020
-enddate: June 30, 2020
+startdate: 2020-06-01
+enddate: 2020-06-30
 daterange: June 1–30, 2020
 banner-image: "/images/pp/pp2020-banner-tmp.jpg"
 poster-image: "/images/pp/pp2020-tmp.jpg"
