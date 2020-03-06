@@ -52,6 +52,7 @@
         link = info.el.getElementsByTagName("a")[0];
         link.setAttribute('href', '/calendar/event-' + info.event.id, '_self');
       },
+      noEventsMessage: "No events happening today or tomorrow",
     });
 
     calendar.render();
@@ -61,5 +62,5 @@
 <div id="up-next">
   <h2>Bike fun happening soon!</h2>
   <div id="fullcalendar"></div>
-  <p><a href="/calendar/">Show all upcoming events</a> or <a href="/addevent/">add an event</a></p>
+  <p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add an event</a></p>
 </div>

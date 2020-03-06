@@ -138,6 +138,10 @@ svg.icon {
   text-align: center;
 }
 
+#up-next > p {
+  margin-top: 1.5em;
+}
+
 #fullcalendar .fc-event.featured,
 #fullcalendar .fc-list-item.featured {
     background-color: #630;
