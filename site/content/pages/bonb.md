@@ -5,7 +5,7 @@ menu:
   main:
     parent: featuredevents
 ---
-<img src=/images/BonB_header.jpg align=center alt="Breakfast on the Bridges logo">
+<img src=/images/BonB_header.jpg align=center alt="Breakfast on the Bridges">
 
 The last Friday of every month Shift volunteers serve breakfast to bicyclists on the Steel, Hawthorne, and Tillikum bridges. Many bike commuters have come to look forward to hot coffee and delicious pastries on their way to work once a month - and you can't beat the views! Note, we generally arrive on the bridges around 7:00 a.m. and stay till 9:00. 
 
@@ -63,7 +63,7 @@ Many thanks to these generous friends who make Breakfast on the Bridges possible
 
 ## Past Locations
 
-1. **Morrison Bridge**: Breakfast was served on the Morrison for a year or two around 2013/2014.  Thanks to Lance and Paul!
+1. **Morrison Bridge**: Breakfast was served on the Morrison for a year or two around 2013–2014.  Thanks to Lance and Paul!
 2. **Broadway Bridge**: Is where the tradition started over a decade ago.  Thanks Carl, Ayleen, and Timo!
 
 ## Other
