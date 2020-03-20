@@ -21,6 +21,8 @@
 
               <div class="col-md-12">
 
+                {{ partial "alert_banner.html" . }}
+
                 <div>
                   {{ if isset .Params "pp" }}
                     {{ partial "pp_header.html" . }}

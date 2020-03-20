@@ -194,6 +194,13 @@ svg.icon {
     overflow-wrap: break-word;
 }
 
+#alert-banner {
+    text-align: center;
+    padding: 1em;
+    margin: 1em auto;
+    max-width: 980px;
+}
+
 .location {
     overflow-wrap: break-word;
 }
