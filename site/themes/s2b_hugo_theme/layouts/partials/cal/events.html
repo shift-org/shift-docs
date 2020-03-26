@@ -47,6 +47,12 @@
               title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
               start: eventData.date + 'T' + eventData.time
           };
+
+          // Events after Oregon State "stay home" order are all marked as cancelled
+          if ( eventData.date >= {{ .Site.Params.stayHomeStartDate }} ) {
+            eventData.cancelled = true;
+          }
+
           if (eventData.cancelled == true) {
             event.classNames = [ 'cancelled' ];
           }
