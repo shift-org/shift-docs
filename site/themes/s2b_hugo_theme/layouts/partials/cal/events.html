@@ -31,43 +31,46 @@
         nowIndicator: true,
         eventLimit: true,
         navLinks: true,
-        events: '{{ .Site.BaseURL }}api/events.php',
-        startParam: 'startdate',
-        endParam: 'enddate',
-        eventSourceSuccess: function( content ) {
-          // our API returns { "events": [ ] }
-          // and this will return just the inner array as fullcalendar expects
-          return content.events;
-        },
-        eventDataTransform: function( eventData ) {
-          // this transforms the data for individual rides
-          // into the format needed by fullcalendar
-          var event = {
-              id: eventData.caldaily_id,
-              title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
-              start: eventData.date + 'T' + eventData.time
-          };
+        eventSources: [
+          {
+            url: '{{ .Site.BaseURL }}api/events.php',
+            startParam: 'startdate',
+            endParam: 'enddate',
+            success: function( content ) {
+              // our API returns { "events": [ ] }
+              // and this will return just the inner array as fullcalendar expects
+              return content.events;
+            },
+            eventDataTransform: function( eventData ) {
+              // this transforms the data for individual rides
+              // into the format needed by fullcalendar
+              var event = {
+                  id: eventData.caldaily_id,
+                  title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
+                  start: eventData.date + 'T' + eventData.time,
+                  url: '/calendar/event-' + eventData.caldaily_id,
+              };
 
-          // Events after Oregon State "stay home" order are all marked as cancelled
-          if ( eventData.date >= {{ .Site.Params.stayHomeStartDate }} ) {
-            eventData.cancelled = true;
-          }
+              // Events after Oregon State "stay home" order are all marked as cancelled
+              if ( eventData.date >= {{ .Site.Params.stayHomeStartDate }} ) {
+                eventData.cancelled = true;
+              }
 
-          if (eventData.cancelled == true) {
-            event.classNames = [ 'cancelled' ];
-          }
-          if (eventData.featured == true) {
-            event.classNames = [ 'featured' ];
-          }
-          return event;
-        },
-        eventClick: function ( info ) {
-          // what happens when you click an event from the calendar grid
-          window.open("/calendar/event-" + info.event.id, "_self");
-        }
+              event.classNames = [];
+              if (eventData.cancelled == true) {
+                event.classNames.push('cancelled');
+              }
+              if (eventData.featured == true) {
+                event.classNames.push('featured');
+              }
+
+              return event;
+            },
+          },
+        ]
       });
 
-        calendar.render();
+      calendar.render();
     });
 
   }
@@ -115,6 +118,7 @@
   [[#dates]]
   <div data-date="[[yyyymmdd]]" class="date[[#preview]] preview[[/preview]]">
     <h2>[[date]]</h2>
+
     <ul class="events-list">
       [[#events]]
 
