@@ -24,41 +24,43 @@
           buttonText: '2 day'
         }
       },
-      events: '{{ .Site.BaseURL }}api/events.php',
-      startParam: 'startdate',
-      endParam: 'enddate',
-      eventSourceSuccess: function( content ) {
-        // our API returns { "events": [ ] }
-        // and this will return just the inner array as fullcalendar expects
-        return content.events;
-      },
-      eventDataTransform: function( eventData ) {
-        // this transforms the data for individual rides
-        // into the format needed by fullcalendar
-        var event = {
-            id: eventData.caldaily_id,
-            title: eventData.title, // full-length title is OK in list view
-            start: eventData.date + 'T' + eventData.time
-        };
-
-        // Events after Oregon State "stay home" order are all marked as cancelled
-        if ( eventData.date >= {{ .Site.Params.stayHomeStartDate }} ) {
-          eventData.cancelled = true;
-        }
-
-        if (eventData.cancelled == true) {
-          event.classNames = [ 'cancelled' ];
-        }
-        if (eventData.featured == true) {
-          event.classNames = [ 'featured' ];
-        }
-        return event;
-      },
-      eventRender: function(info) {
-        link = info.el.getElementsByTagName("a")[0];
-        link.setAttribute('href', '/calendar/event-' + info.event.id, '_self');
-      },
       noEventsMessage: "No events happening today or tomorrow",
+      eventSources: [
+        {
+          url: '{{ .Site.BaseURL }}api/events.php',
+          startParam: 'startdate',
+          endParam: 'enddate',
+          success: function( content ) {
+            // our API returns { "events": [ ] }
+            // and this will return just the inner array as fullcalendar expects
+            return content.events;
+          },
+          eventDataTransform: function( eventData ) {
+            // this transforms the data for individual rides
+            // into the format needed by fullcalendar
+            var event = {
+                id: eventData.caldaily_id,
+                title: eventData.title, // full-length title is OK in list view
+                start: eventData.date + 'T' + eventData.time,
+                url: '/calendar/event-' + eventData.caldaily_id,
+            };
+
+            // Events after Oregon State "stay home" order are all marked as cancelled
+            if ( eventData.date >= {{ .Site.Params.stayHomeStartDate }} ) {
+              eventData.cancelled = true;
+            }
+
+            event.classNames = [];
+            if (eventData.cancelled == true) {
+              event.classNames.push('cancelled');
+            }
+            if (eventData.featured == true) {
+              event.classNames.push('featured');
+            }
+            return event;
+          },
+        }
+      ]
     });
 
     calendar.render();
