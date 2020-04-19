@@ -176,8 +176,6 @@ paginate = 10
     latitude = "-12.043333"
     longitude = "-77.028333"
 
-    stayHomeStartDate = "2020-03-23"
-
 [Permalinks]
     blog = "/blog/:year/:month/:day/:filename/"
 

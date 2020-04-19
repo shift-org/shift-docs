@@ -106,12 +106,23 @@ class EventTime extends fActiveRecord {
         return "$base/calendar/event-" . $caldaily_id;
     }
 
+    protected function getCancelled() {
+        if ($this->getEventstatus() == 'C') {
+            return true;
+        } elseif ($this->getFormattedDate() >= '2020-03-23') {
+            // stay home start date
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function toEventSummaryArray() {
         $eventArray = $this->getEvent()->toArray();
         $eventArray['date'] = $this->getFormattedDate();
         $eventArray['caldaily_id'] = $this->getPkid();
         $eventArray['shareable'] = $this->getShareable();
-        $eventArray['cancelled'] = $this->getEventstatus() == 'C';
+        $eventArray['cancelled'] = $this->getCancelled();
         $eventArray['newsflash'] = $this->getNewsflash();
         $eventArray['endtime'] = $this->getEndTime($eventArray['time'], $eventArray['eventduration']);
 
