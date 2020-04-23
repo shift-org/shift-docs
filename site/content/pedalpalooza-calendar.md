@@ -24,4 +24,4 @@ Join the movement! Find out ways you can promote #bikefun separately, but togeth
 
 <p class="pp-headline">Check out <a href="http://pedalpalooza.org">Pedalpalooza.org</a> for themed solo ride ideas!</p>
 
-More details coming soon!
+More details coming here soon!
