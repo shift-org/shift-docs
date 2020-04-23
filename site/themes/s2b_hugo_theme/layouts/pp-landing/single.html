@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+
+{{ partial "head.html" . }}
+
+<body>
+  <!-- legacycalpage/single.html -->
+
+  <div id="all">
+    <header>
+      {{ partial "nav.html" . }}
+    </header>
+
+    <main>
+        {{ partial "breadcrumbs.html" . }}
+
+        <div id="content">
+          <div class="container">
+
+            <div class="row">
+
+              <div class="col-md-12">
+
+                <div>
+                  <!-- modified pp_heading partial -->
+                  <div id="pp-banner">
+                    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
+                    <div>
+                      <span class="pp-headline">Pedalpalooza!</span>
+                      <span class="pp-daterange">{{ .Param "daterange" }}</span>
+                    </div>
+
+                  {{ .Content }}
+                  
+                  </div> <!-- end pp_heading -->
+                  
+                </div>
+
+<!-- 
+                {{ partial "alert_banner.html" . }}
+
+                {{ partial "cal/view-options.html" . }}
+                {{ partial "cal/fullcal.html" . }} 
+
+                <div id="fullcalendar"></div>
+
+                {{ partial "disclaimer.html" . }}
+ -->
+
+              </div>
+
+            </div>
+            <!-- /.row -->
+
+          </div>
+          <!-- /.container -->
+        </div>
+        <!-- /#content -->
+    </main>
+
+    <footer>
+
+        {{ partial "footer.html" . }}
+
+    </footer>
+
+  </div>
+  <!-- /#all -->
+
+  {{ partial "scripts.html" . }}
+
+</body>
+</html>
