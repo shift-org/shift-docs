@@ -32,13 +32,6 @@ $(document).ready(function() {
                   value.displayEndTime = container.formatTime(value.endtime);
                 }
 
-                // Events after Oregon State "stay home" order are all marked as cancelled;
-                // can't reference Hugo variables directly in JS, so pull the date from page meta tags
-                var STAY_HOME_START_DATE = document.getElementsByName('stay_home_start_date')[0].content;
-                if (value.date >= STAY_HOME_START_DATE) {
-                  value.cancelled = true;
-                }
-
                 value.audienceLabel = container.getAudienceLabel(value.audience);
                 value.mapLink = container.getMapLink(value.address);
 

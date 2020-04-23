@@ -45,11 +45,6 @@
                 url: '/calendar/event-' + eventData.caldaily_id,
             };
 
-            // Events after Oregon State "stay home" order are all marked as cancelled
-            if ( eventData.date >= {{ .Site.Params.stayHomeStartDate }} ) {
-              eventData.cancelled = true;
-            }
-
             event.classNames = [];
             if (eventData.cancelled == true) {
               event.classNames.push('cancelled');
