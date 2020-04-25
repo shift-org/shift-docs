@@ -1,0 +1,67 @@
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/list/main.min.js"></script>
+
+{{ partial "cal/pp-2020-themes.html" . }}
+
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('fullcalendar');
+  
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'dayGrid', 'timeGrid', 'list' ],
+      defaultView: 'dayGridSixWeeks',
+      contentHeight: 'auto',
+      views: {
+        dayGridSixWeeks: {
+          type: 'dayGridMonth',
+          duration: { weeks: 6 },
+          buttonText: 'month'
+        },
+        listDaySixWeeks: {
+          type: 'listDay',
+          duration: { weeks: 6 },
+          buttonText: 'list'
+        }
+      },
+      listDayFormat: {
+        month: 'short',
+        year: 'numeric',
+        day: 'numeric',
+        weekday: 'short'
+      },
+      buttonText: {
+        // dayGridSixWeeks defined in view, above
+        // listDaySixWeeks defined in view, above
+        listDay: 'day'
+      },
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridSixWeeks,listDaySixWeeks,listDay'
+      },
+      noEventsMessage: "Open day — submit a theme at Pedalpalooza.org!",
+      defaultDate: {{ .Param "startdate" }},
+      validRange: {
+        start: {{ .Param "startdate" }},
+        end: {{ .Param "enddate" }}
+      },
+      nowIndicator: true,
+      eventLimit: true,
+      navLinks: true,
+      eventSources: [
+        {
+          events: ppThemesData, // from pp-2020-themes.html
+          allDayDefault: true,
+        }
+      ]
+    });
+  
+    calendar.render();
+  });
+</script>
+
+<div id="fullcalendar"></div>
+
+<p style="text-align: center; margin-top: 1.5em;">Got an idea? <a href="https://forms.gle/GRVGLAVzu4AZYdnV8">Submit a theme</a> or <a href="https://forms.gle/YdwYqnS2KAhCiC1Y8">share a route</a>!</p>
