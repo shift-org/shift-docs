@@ -1,6 +1,8 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/list/main.min.js"></script>
 
+{{ partial "cal/pp-2020-themes.html" . }}
+
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
@@ -24,37 +26,42 @@
           buttonText: '2 day'
         }
       },
-      noEventsMessage: "No events happening today or tomorrow",
+//       noEventsMessage: "No events happening today or tomorrow",
+      noEventsMessage: "Open day — submit a theme at Pedalpalooza.org!",
       eventSources: [
         {
-          url: '{{ .Site.BaseURL }}api/events.php',
-          startParam: 'startdate',
-          endParam: 'enddate',
-          success: function( content ) {
-            // our API returns { "events": [ ] }
-            // and this will return just the inner array as fullcalendar expects
-            return content.events;
-          },
-          eventDataTransform: function( eventData ) {
-            // this transforms the data for individual rides
-            // into the format needed by fullcalendar
-            var event = {
-                id: eventData.caldaily_id,
-                title: eventData.title, // full-length title is OK in list view
-                start: eventData.date + 'T' + eventData.time,
-                url: '/calendar/event-' + eventData.caldaily_id,
-            };
-
-            event.classNames = [];
-            if (eventData.cancelled == true) {
-              event.classNames.push('cancelled');
-            }
-            if (eventData.featured == true) {
-              event.classNames.push('featured');
-            }
-            return event;
-          },
-        }
+          events: ppThemesData, // from pp-2020-themes.html
+          allDayDefault: true,
+        },
+//         {
+//           url: '{{ .Site.BaseURL }}api/events.php',
+//           startParam: 'startdate',
+//           endParam: 'enddate',
+//           success: function( content ) {
+//             // our API returns { "events": [ ] }
+//             // and this will return just the inner array as fullcalendar expects
+//             return content.events;
+//           },
+//           eventDataTransform: function( eventData ) {
+//             // this transforms the data for individual rides
+//             // into the format needed by fullcalendar
+//             var event = {
+//                 id: eventData.caldaily_id,
+//                 title: eventData.title, // full-length title is OK in list view
+//                 start: eventData.date + 'T' + eventData.time,
+//                 url: '/calendar/event-' + eventData.caldaily_id,
+//             };
+//
+//             event.classNames = [];
+//             if (eventData.cancelled == true) {
+//               event.classNames.push('cancelled');
+//             }
+//             if (eventData.featured == true) {
+//               event.classNames.push('featured');
+//             }
+//             return event;
+//           },
+//         }
       ]
     });
 
