@@ -6,6 +6,10 @@ menu:
         parent: communitynav
 ---
 
+**At this time, we are not recommending group rides.** See [Public Health](/pages/public-health/) for more info.
+
+----
+
 You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out this [detailed guide (PDF)](/ride-leading-guide.pdf)!
 
 <!-- not sure this is the best way to get the graphic shown here, but seems to work -->

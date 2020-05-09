@@ -8,7 +8,11 @@ menu:
         parent: communitynav
 ---
 
-## EDUCATION
+## Public Health
+
+For info on riding during the current coronavirus public health crisis, see our [Public Health](/pages/public-health/) page. 
+
+## Education
 
 Portland's **Vision Zero Policy** is an everybody involved effort to make Portland streets safe by recognizing we can have zero fatalities and zero injuries based on these principles:
 
