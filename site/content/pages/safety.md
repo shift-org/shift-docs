@@ -10,7 +10,7 @@ menu:
 
 ## Public Health
 
-For info on riding during the current coronavirus public health crisis, see our [Public Health](/pages/public-health/) page. 
+For info on riding during the current coronavirus public health crisis, see our [public health](/pages/public-health/) page. 
 
 ## Education
 
