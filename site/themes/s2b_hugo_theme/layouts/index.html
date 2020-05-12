@@ -27,12 +27,10 @@
 
         <!--{{ partial "recent_posts.html" . }}-->
 
-        {{ partial "alert_banner.html" . }}
+<!--         {{ partial "alert_banner.html" . }} -->
 
-        <!-- up next now shows PP themes; hide widget until within 1 week of PP -->
-        {{ if ge (now.Format "2020-01-01") "2020-05-25" }}
-          {{ partial "up-next.html" . }}
-        {{ end }}
+        <!-- up next now will show PP themes, but hide widget until within 1 week of PP -->
+        <!-- {{ partial "up-next.html" . }} -->
 
         {{ partial "sponsors.html" . }}
 
