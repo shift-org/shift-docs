@@ -32,12 +32,14 @@ if (isset($_GET['id'])) {
 
         $response = $event->toDetailArray($secret_valid);
     } catch (fExpectedException $e) {
+        http_response_code(400);
         $response['error'] = array(
             'message' => $e->getMessage()
         );
     }
 }
 else {
+    http_response_code(400);
     $response['error'] = array(
         'message' => "Request incomplete, please pass an id in the url"
     );
