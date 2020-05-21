@@ -3,15 +3,18 @@
     $.fn.getAddEventForm = function(id, secret, callback) {
         if (id && secret) {
             // TODO: loading spinner
-            $.get( '/api/retrieve_event.php?id=' + id + "&secret=" + secret, function( data ) {
-                if (data.error) {
-                    callback( 'This event has been deleted.' );
-                    return;
+            $.ajax({
+                url: '/api/retrieve_event.php?id=' + id + "&secret=" + secret,
+                type: 'GET',
+                success: function(data) {
+                    data.secret = secret;
+                    data.readComic = true;
+                    data.codeOfConduct = true;
+                    populateEditForm( data, callback );
+                },
+                error: function(data) {
+                    callback( data.responseJSON.error.message );
                 }
-                data.secret = secret;
-                data.readComic = true;
-                data.codeOfConduct = true;
-                populateEditForm( data, callback );
             });
         } else {
             populateEditForm({ datestatuses: [] }, callback);
