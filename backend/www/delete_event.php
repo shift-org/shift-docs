@@ -27,8 +27,17 @@ function build_json_response() {
             )
         );
     }
+
     // Converts data to an event, loading the existing one if id is included in data
     $event = Event::fromArray($data);
+
+    if (!$event->exists()) {
+        return array(
+            'error' => array(
+                'message' => 'Event not found'
+            )
+        );
+    }
 
     // Else
     if ($event->exists() && !$event->secretValid($data['secret'])) {
