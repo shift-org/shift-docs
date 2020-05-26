@@ -16,21 +16,36 @@
     };
 
     $.fn.getMapLink = function(address) {
-        return 'http://maps.google.com/' +
-            '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
-            encodeURIComponent(address);
+        if (address == 'TBA' || address == 'TBD') {
+            // if address isn't available yet, don't try to map it
+            return;
+        }
+
+        var urlPattern = /^https*:\/\//;
+        if (address.match(urlPattern)) {
+            // if address starts with http/s, return it as-is
+            return address;
+        } else {
+            // otherwise, map it with Google Maps
+            return 'https://maps.google.com/' +
+                '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
+                encodeURIComponent(address);
+        }
     };
 
     $.fn.getWebLink = function(url) {
         if (!url) {
+            // if url is not set, return nothing
             return;
         }
-        // if url doesn't start with http/s, prepend http
-        if (url.split('http://').length == 1 && url.split('https://').length == 1) {
-            return 'http://' + url;
-        } else {
-        // if it already starts with http/s, return it as-is
+
+        var urlPattern = /^https*:\/\//;
+        if (url.match(urlPattern)) {
+            // if url already starts with http/s, return it as-is
             return url;
+        } else {
+            // if it doesn't start with http/s, prepend http
+            return 'http://' + url;
         }
     };
 
