@@ -23,7 +23,7 @@
 
         var urlPattern = /^https*:\/\//;
         if (address.match(urlPattern)) {
-            // if address starts with http/s, return it as-is
+            // if address is a URL rather than a street address, return it as-is
             return address;
         } else {
             // otherwise, map it with Google Maps
