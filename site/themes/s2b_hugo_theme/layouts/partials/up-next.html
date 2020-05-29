@@ -7,6 +7,15 @@
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
 
+    var today = new Date();
+    var ppStartDate = new Date("2020-06-01");
+    var ppNoEventsMessage;
+    if (today < ppStartDate) {
+      ppNoEventsMessage = "Pedalpalooza is coming soon!";
+    } else {
+      ppNoEventsMessage = "No scheduled events";
+    }
+
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'list' ],
       defaultView: 'listDayTodayAndTomorrow',
@@ -27,7 +36,7 @@
         }
       },
 //       noEventsMessage: "No events happening today or tomorrow",
-      noEventsMessage: "Open day — submit a theme at Pedalpalooza.org!",
+      noEventsMessage: ppNoEventsMessage,
       eventSources: [
         {
           events: ppThemesData, // from pp-2020-themes.html
@@ -72,5 +81,6 @@
 <div id="up-next">
   <h2>Bike fun happening soon!</h2>
   <div id="fullcalendar"></div>
-  <p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add an event</a></p>
+  <p><a href="/pedalpalooza-calendar/">See all upcoming events</a></p>
+<!--   <p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add an event</a></p> -->
 </div>
