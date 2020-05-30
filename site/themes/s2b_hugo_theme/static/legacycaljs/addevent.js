@@ -111,7 +111,12 @@
             $('.save-button').prop('disabled', true);
             $('.preview-button').prop('disabled', true);
         }
-        $('.save-button').click(function() {
+
+        if (shiftEvent.published) {
+          $('.published-save-button').show();
+        }
+
+        $('.save-button, .publish-button').click(function() {
             var postVars,
                 isNew = !shiftEvent.id;
             $('.form-group').removeClass('has-error');
@@ -140,6 +145,10 @@
                             'event has been emailed to ' + postVars.email +
                             '. You must click this link for the event to become visible.  If you don\'t receive that email within 20 minutes, please contact bikecal@shift2bikes.org for help.' :
                         'Your event has been updated!';
+                    if (returnVal.published) {
+                      $('.unpublished-event').remove();
+                      $('.published-save-button').show();
+                     }
 
                     if (returnVal.secret) {
                         var newUrl = 'edit-' + returnVal.id + '-' + returnVal.secret;

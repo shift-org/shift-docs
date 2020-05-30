@@ -181,8 +181,8 @@ $(document).ready(function() {
         });
     }
 
-    $(document).on('click', '#confirm-cancel, #success-ok', function() {
-        visitRoute('viewEvents');
+    $(document).on('click', '#confirm-cancel', function() {
+      window.location.href = '/calendar/';
     });
 
     $(document).on('click', '#date-picker-prev-month', function(ev) {

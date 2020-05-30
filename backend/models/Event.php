@@ -41,6 +41,7 @@ class Event extends fActiveRecord {
             'printphone' => $this->getPrintphone() != 0,
             'printweburl' => $this->getPrintweburl() != 0,
             'printcontact' => $this->getPrintcontact() != 0,
+            'published' => $this->getHidden() == 0,
         );
 
         $details['email']   = $this->getHideemail() == 0   || $include_hidden ? $this->getEmail() : null;
