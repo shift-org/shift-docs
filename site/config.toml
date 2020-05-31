@@ -50,6 +50,14 @@ paginate = 10
 
 # Child of Featured Events
 [[menu.main]]
+    name = "Pedalpalooza"
+    pre = "s2b-external-link"
+    url  = "https://pedalpalooza.org/"
+    weight = 2
+    parent = "featuredevents"
+
+# Child of Featured Events
+[[menu.main]]
     name = "World Naked Bike Ride"
     pre = "s2b-external-link"
     url  = "https://pdxwnbr.org/"
