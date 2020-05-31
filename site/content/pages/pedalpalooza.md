@@ -1,9 +1,9 @@
 ---
-title: Pedalpalooza
+title: About Pedalpalooza
 weight: 1
 menu:
   main:
-    parent: featuredevents
+    parent: communitynav
 ---
 ## About
 
