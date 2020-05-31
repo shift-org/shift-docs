@@ -53,7 +53,7 @@ paginate = 10
     name = "Pedalpalooza"
     pre = "s2b-external-link"
     url  = "https://pedalpalooza.org/"
-    weight = 2
+    weight = 1
     parent = "featuredevents"
 
 # Child of Featured Events
