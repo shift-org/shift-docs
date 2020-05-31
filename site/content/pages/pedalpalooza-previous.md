@@ -5,7 +5,7 @@ title: About Pedalpalooza
 
 Pedalpalooza is an annual festival in Metro Portland, Oregon.  During the festival, there are hundreds of volunteer-organized free events open to the general public. Each year there are well over 10,000 participants in these events, which are almost entirely on bikes and free. There are some annual flagship rides which usually have over 1000 riders, and many first-time ever rides - some of which will have only 1 or 2 riders. They're all fun!
 
-**[Pedalpalooza 2020](/pedalpalooza-calendar/) starts on the first of June and ends on the 5th of July - over a full month of bike fun!**
+**[Pedalpalooza 2020](/pedalpalooza-calendar/) starts on the first of June and ends on the 5th of July — over a full month of bike fun!**
 
 <p style="padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold;"><strong>This year will be something different! Pedalpalooza 2020 is about individuals finding ways to celebrate the joy of cycling. Check the <a href="/pedalpalooza-calendar/">Pedalpalooza calendar</a> for details.</strong></p>
 
