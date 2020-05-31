@@ -1,6 +1,6 @@
 ---
-title: About Pedalpalooza
-weight: 1
+title: Pedalpalooza History
+weight: 3
 menu:
   main:
     parent: communitynav
