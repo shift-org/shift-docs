@@ -203,5 +203,44 @@ Endpoint:
 Endpoint:
 * POST `delete_event`
 
-**TODO**
+URL parameters:
+* none
 
+Request body:
+* `id`: `calevent` event ID
+* `secret`: event password
+
+Unknown properties are ignored.
+
+Example request:
+
+    {
+        "id": "6245",
+        "secret": "example"
+    }
+
+Success:
+* status code: `200`
+* `success` true message
+
+Example response:
+
+    {
+        "success": true
+    }
+
+Errors:
+* status code: `400`
+* possible errors
+  * no request body or not parseable JSON
+  * `id` not included
+  * invalid `id`
+  * invalid or missing `secret`
+
+Example error:
+
+    {
+      "error": {
+        "message": "Invalid secret, use link from email"
+      }
+    }
