@@ -10,7 +10,9 @@ Base URL:
 * production: `https://www.shift2bikes.org/api/`
 * local development: `https://localhost:4443/api/`
 
-All responses are in JSON format, except for event export which uses vCalendar format.
+Most responses are in JSON format, except for:
+* event export returns vCalendar format
+* event crawl returns HTML
 
 ## Viewing events
 
@@ -122,6 +124,57 @@ Errors:
 * possible errors
   * no `id` specified
   * `id` not found? (**TODO**: verify)
+
+
+### Crawling an event
+
+Endpoint:
+* GET `crawl`
+
+Example request:
+* `/crawl.php?id=1234`
+
+URL parameters:
+* `id`: `caldaily` event ID
+
+Unknown parameters are ignored.
+
+This endpoint is used by web crawlers such as search engines.
+
+Success:
+* status code: `200`
+* returns a simple HTML rendering of ride data
+* if `id` parameter is not present, a short, general message about Shift
+
+
+Example response:
+
+    <html>
+        <head>
+            <title>Shift to Pedalpalooza Ride</title>
+            <meta property="og:title" content="Shift to Pedalpalooza Ride">
+            <meta property="og:url" content="https://www.shift2bikes.org/calendar/event-9300">
+            <meta property="og:image" content="https://www.shift2bikes.org/eventimages/6245.jpg">
+            <meta property="og:type" content="article">
+            <meta property="og:description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
+            <meta property="og:site_name" content="SHIFT to Bikes">
+            <meta name="description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
+            <meta name="keywords" content="bikes,fun,friends,Portland,exercise,community,social,events,outdoors">
+        </head>
+        <body>
+            <h2>Mon, Jun 5th, 6:00 PM - Shift to Pedalpalooza Ride</h2>
+            <p>Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.</p>
+            <p>877 SW park</p>
+            <img src="https://www.shift2bikes.org/eventimages/6245.jpg">
+        </body>
+    </html>
+
+Errors:
+* status code: `404`
+* body of response is empty
+* possible errors
+  * `id` not found
+  * `id` of a hidden (unpublished) event
 
 
 ## Managing events
