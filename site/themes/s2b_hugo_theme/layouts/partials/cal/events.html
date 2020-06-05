@@ -178,23 +178,18 @@
                   [[#cancelled]]<del>[[/cancelled]]
 
                   <div class="location">
-                    [[#mapLink]]
-                    <a href="[[mapLink]]" target="_blank">
+                    <p>
+                      [[#mapLink]]
+                      <a href="[[mapLink]]" target="_blank" rel="noopener" title="Opens in a new window">
+                      [[/mapLink]]
                       <svg class="icon" role="img" aria-label="Location"><use xlink:href="#icon-location" /></svg>
 
-                      [[/mapLink]]
-                      [[^mapLink]]
-                      <p>
-                        [[/mapLink]]
+                      [[venue]][[#address]][[#venue]], [[/venue]][[address]][[/address]]
 
-                        [[venue]][[#address]][[#venue]], [[/venue]][[address]][[/address]]
-
-                        [[^mapLink]]
-                      </p>
-                      [[/mapLink]]
                       [[#mapLink]]
-                    </a>
-                    [[/mapLink]]
+                      </a>
+                      [[/mapLink]]
+                    </p>
 
                     [[#locdetails]]
                     <p>[[locdetails]]</p>
@@ -243,7 +238,7 @@
 
           [[ #weburl ]]
           <p class="contactInfo">
-            <a href="[[webLink]]" target="_blank" rel="noopener">
+            <a href="[[webLink]]" target="_blank" rel="noopener" title="Opens in a new window">
               <svg class="icon" role="img" aria-label="Website"><use xlink:href="#icon-website" /></svg>
               [[#webname]][[webname]][[/webname]]
               [[^webname]][[weburl]][[/webname]]
@@ -307,6 +302,9 @@
   </ul>
   </div>
   [[/dates]]
+  [[^dates]]
+  <p class="no-events">No matching events</p>
+  [[/dates]]
 </script>
 
 <script id="load-more-template" type="text/template">
@@ -314,7 +312,7 @@
 </script>
 
 <script id="show-all-template" type="text/template">
-  <a id="show-all" class="more-events" href="/calendar/">Show all upcoming events</a>
+  <a id="show-all" href="/calendar/">Show all upcoming events</a>
 </script>
 
 <script id="view-as-options" type="text/template">

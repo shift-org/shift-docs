@@ -19,7 +19,8 @@ class EventTime extends fActiveRecord {
         return fRecordSet::build(
             'EventTime', // class
             array(
-                'pkid=' => $id
+                'pkid=' => $id,
+                'calevent{id}.hidden!' => 1,
             )
         );
     }

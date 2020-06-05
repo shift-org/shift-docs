@@ -1,6 +1,6 @@
 <?php
 include('../init.php');
-$defaultImage = 'http://www.shift2bikes.org/images/logos/shiftLogo_plain.gif';
+$defaultImage = 'https://www.shift2bikes.org/images/shiftLogo_plain.gif';
 
 function addOgTag($property, $content) {
 	$content = htmlspecialchars($content);
@@ -10,7 +10,7 @@ function addOgTag($property, $content) {
 
 if (!array_key_exists('id', $_GET)) {
 	$title = 'Shift/Pedalpalooza Calendar';
-	$description = 'Find fun bike events and make new friends! SHIFT helps groups and individuals to promote their "bike fun" events.';
+	$description = 'Find fun bike events and make new friends! Shift helps groups and individuals to promote their "bike fun" events.';
 	echo <<< EOT
 <html>
 	<head>
@@ -36,7 +36,13 @@ EOT;
 }
 $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 $eventTimes = EventTime::getByID($id);
-$eventTime = $eventTimes[0];
+try {
+	$eventTime = $eventTimes[0];
+}
+catch (Exception $e) {
+	http_response_code(404);
+	exit();
+}
 $event = $eventTime->toEventSummaryArray();
 
 echo <<< EOT
@@ -47,7 +53,7 @@ echo <<< EOT
 EOT;
 
 addOgTag('title', $event['title']);
-addOgTag('url', "$PROTOCOL$HOST{$PATH}event-$id");
+addOgTag('url', "$PROTOCOL$HOST{$PATH}calendar/event-$id");
 $image = $event['image'];
 if (empty($image)) {
 	$image = $defaultImage;

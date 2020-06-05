@@ -506,14 +506,23 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
     outline-offset: 1px;
 }
 
-button.more-events {
-    display:block;
-    width:100%;
-    text-align:center;
+.more-events {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
     font-size: 1.5em;
     color: #630;
-    background:none;
-    border: 1px solid transparent;
+    background: none;
+    border: 2px solid #630;
+    border-radius: 4px;
+}
+
+.no-events {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5em;
+    color: #630;
 }
 
 .disclaimer {
