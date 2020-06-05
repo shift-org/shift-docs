@@ -218,6 +218,8 @@ function build_json_response() {
         $includeSecret = true;
     } else {
         $includeSecret = false;
+        // saving an existing event publishes it
+        $event->unhide();
     }
 
     // If there are validation errors this starts spewing html, so we validate before

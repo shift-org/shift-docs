@@ -26,10 +26,6 @@ if (isset($_GET['id'])) {
         $event = new Event($event_id);
         $secret_valid = isset($_GET['secret']) && $event->secretValid($_GET['secret']);
 
-        if ($secret_valid) {
-            $event->unhide();
-        }
-
         $response = $event->toDetailArray($secret_valid);
     } catch (fExpectedException $e) {
         http_response_code(400);

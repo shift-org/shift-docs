@@ -279,6 +279,16 @@ h3 {
     background: #f90;
 }
 
+.btn:focus {
+    outline: 2px solid #37b;
+    outline-offset: 1px;
+}
+
+.btn-add-event:focus {
+    outline: 2px solid #630;
+    outline-offset: 1px;
+}
+
 .mainDetails p {
     margin-top: 1em;
 }
@@ -331,7 +341,8 @@ a.expand-details {
     font-weight: normal;
 }
 
-#pp-banner {
+#pp-banner,
+.unpublished-event {
     text-align: center;
     color: #663300;
     background: #FCFAF2;
@@ -475,19 +486,24 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
     table-layout: fixed;
     color: #404040;
 }
-.preview-edit-button {
-    display: none;
-}
 /* /Date Picker CSS */
 .modal-body {
     text-align:center;
 }
 
-.modal-dialog .modal-footer .btn-warning {
-  color: #630;
+.modal-dialog .modal-footer .btn-warning,
+#delete-button {
+  color: #D00000;
   background-image: none;
-  background-color: #f90;
+  background-color: #F6E0E1;
+  border: 1px solid #D00000;
   text-shadow: none;
+}
+
+.modal-dialog .modal-footer .btn-warning:focus,
+#delete-button:focus {
+    outline: 2px solid #D00000;
+    outline-offset: 1px;
 }
 
 .more-events {

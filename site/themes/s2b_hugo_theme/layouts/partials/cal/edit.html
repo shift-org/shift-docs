@@ -54,16 +54,16 @@
   [[^ id ]]<h1>Add Event</h1>[[/ id ]]
   [[# id ]]<h1>Edit Event</h1>[[/ id ]]
 
-  <div class="edit-buttons" >
-    <button type="button" class="preview-edit-button btn btn-add-event">Edit</button>
-    <button type="button" class="preview-button btn btn-add-event">Preview</button>
-    <button type="button" class="save-button btn btn-add-event">Save</button>
-    [[^ id ]]
-    <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
-    [[/ id ]]
-
-    <span class="save-result"></span>
+  [[# id ]]
+  [[^ published ]]
+  <!-- event has been created, but is not yet published -->
+  <div class="unpublished-event">
+    <p>Almost there! Publish the event to go live on the calendar.</p>
+    <button type="button" class="publish-button btn btn-add-event">Publish</button>
   </div>
+  [[/ published ]]
+  [[/ id ]]
+
   <br>
   <form id="event-entry">
     <input type="hidden" name="id" value="[[id]]" />
@@ -443,11 +443,14 @@
     </div>
   </form>
   <div class="edit-buttons" >
-      <button type="button" class="preview-edit-button btn btn-add-event">Edit</button>
+      <button type="button" class="preview-edit-button btn btn-add-event" style="display: none;">Edit</button>
       <button type="button" class="preview-button btn btn-add-event">Preview</button>
-      <button type="button" class="save-button btn btn-add-event">Save</button>
+      [[# id ]]
+      <button type="button" class="save-button published-save-button btn btn-add-event" style="display: none;">Save</button>
+      [[/ id ]]
       [[^ id ]]
-      <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Cancel</button>
+      <button type="button" class="save-button btn btn-add-event">Save</button>
+      <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Discard</button>
       [[/ id ]]
 
       <span class="save-result"></span>
