@@ -52,7 +52,7 @@
               };
 
               event.classNames = [];
-              if (eventData.cancelled == true) {
+              if (eventData.cancelled && eventData.cancelled == true) {
                 event.classNames.push('cancelled');
               }
               if (eventData.featured == true) {

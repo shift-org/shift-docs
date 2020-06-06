@@ -54,6 +54,20 @@
         {
           events: ppThemesData, // from pp-2020-themes.html
           allDayDefault: true,
+          eventDataTransform: function( eventData ) {
+            var event = {
+                title: eventData.title,
+                start: eventData.start,
+                url: eventData.url
+            };
+
+            event.classNames = [];
+            if (eventData.cancelled == true) {
+              event.classNames.push('cancelled');
+            }
+
+            return event;
+          },
         }
       ]
     });
