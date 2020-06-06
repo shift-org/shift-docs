@@ -138,6 +138,11 @@ svg.icon {
   text-align: center;
 }
 
+#up-next .newsflash {
+  width: 80%;
+  margin: 1em auto;
+}
+
 #up-next > p {
   margin-top: 1.5em;
 }
