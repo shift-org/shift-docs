@@ -7,15 +7,6 @@
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
 
-    var today = new Date();
-    var ppStartDate = new Date("2020-06-01");
-    var ppNoEventsMessage;
-    if (today < ppStartDate) {
-      ppNoEventsMessage = "Pedalpalooza is coming soon!";
-    } else {
-      ppNoEventsMessage = "No scheduled events";
-    }
-
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'list' ],
       defaultView: 'listDayTodayAndTomorrow',
@@ -35,42 +26,42 @@
           buttonText: '2 day'
         }
       },
-//       noEventsMessage: "No events happening today or tomorrow",
-      noEventsMessage: ppNoEventsMessage,
+      noEventsMessage: "No events happening today or tomorrow",
       eventSources: [
         {
           events: ppThemesData, // from pp-2020-themes.html
           allDayDefault: true,
+          color: "#D34212",
         },
-//         {
-//           url: '{{ .Site.BaseURL }}api/events.php',
-//           startParam: 'startdate',
-//           endParam: 'enddate',
-//           success: function( content ) {
-//             // our API returns { "events": [ ] }
-//             // and this will return just the inner array as fullcalendar expects
-//             return content.events;
-//           },
-//           eventDataTransform: function( eventData ) {
-//             // this transforms the data for individual rides
-//             // into the format needed by fullcalendar
-//             var event = {
-//                 id: eventData.caldaily_id,
-//                 title: eventData.title, // full-length title is OK in list view
-//                 start: eventData.date + 'T' + eventData.time,
-//                 url: '/calendar/event-' + eventData.caldaily_id,
-//             };
-//
-//             event.classNames = [];
-//             if (eventData.cancelled == true) {
-//               event.classNames.push('cancelled');
-//             }
-//             if (eventData.featured == true) {
-//               event.classNames.push('featured');
-//             }
-//             return event;
-//           },
-//         }
+        {
+          url: '{{ .Site.BaseURL }}api/events.php',
+          startParam: 'startdate',
+          endParam: 'enddate',
+          success: function( content ) {
+            // our API returns { "events": [ ] }
+            // and this will return just the inner array as fullcalendar expects
+            return content.events;
+          },
+          eventDataTransform: function( eventData ) {
+            // this transforms the data for individual rides
+            // into the format needed by fullcalendar
+            var event = {
+                id: eventData.caldaily_id,
+                title: eventData.title, // full-length title is OK in list view
+                start: eventData.date + 'T' + eventData.time,
+                url: '/calendar/event-' + eventData.caldaily_id,
+            };
+
+            event.classNames = [];
+            if (eventData.cancelled == true) {
+              event.classNames.push('cancelled');
+            }
+            if (eventData.featured == true) {
+              event.classNames.push('featured');
+            }
+            return event;
+          },
+        }
       ]
     });
 
@@ -79,9 +70,9 @@
 </script>
 
 <div id="up-next">
-  <h2>Bike fun happening soon!</h2>
-  <p class="newsflash">Bicycles can be a tool for positive change. If you would like to contribute ways to mobilize cyclists for the community, please <a href="mailto:pedalpalooza@gmail.com?subject=Here's how I can help Pedalpalooza mobilize cyclists">contact Pedalpalooza</a>. Learn more and stay up-to-date at <a href="https://www.pedalpalooza.org/blog">Pedalpalooza.org/blog</a> and on social media.</p>
+  <h2>Events happening soon</h2>
+<!--   <p class="newsflash">Bicycles can be a tool for positive change. If you would like to contribute ways to mobilize cyclists for the community, please <a href="mailto:pedalpalooza@gmail.com?subject=Here's how I can help Pedalpalooza mobilize cyclists">contact Pedalpalooza</a>. Learn more and stay up-to-date at <a href="https://www.pedalpalooza.org/blog">Pedalpalooza.org/blog</a> and on social media.</p> -->
   <div id="fullcalendar"></div>
-  <p><a href="/pedalpalooza-calendar/">See all upcoming events</a></p>
-<!--   <p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add an event</a></p> -->
+<!--   <p><a href="/pedalpalooza-calendar/">See all upcoming events</a></p> -->
+  <p><a href="/calendar/">See all upcoming events</a> <!-- or <a href="/addevent/">add an event</a></p> -->
 </div>

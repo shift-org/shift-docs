@@ -54,6 +54,7 @@
         {
           events: ppThemesData, // from pp-2020-themes.html
           allDayDefault: true,
+          color: "#D34212",
           eventDataTransform: function( eventData ) {
             var event = {
                 title: eventData.title,
@@ -61,7 +62,7 @@
                 url: eventData.url
             };
 
-            event.classNames = [];
+            event.classNames = ["pedalpalooza"];
             if (eventData.cancelled == true) {
               event.classNames.push('cancelled');
             }
