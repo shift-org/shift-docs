@@ -12,13 +12,22 @@ menu:
 
 The Oregon Health Authority is responding to an outbreak of respiratory illness, called [COVID-19](https://govstatus.egov.com/OR-OHA-COVID-19), caused by a novel (new) coronavirus. Health officials urge [social distancing](https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2268.pdf), good hand hygiene, covering coughs, and staying home if you are sick. For additional information and resources, see the [Multnomah County COVID-19 FAQ](https://multco.us/novel-coronavirus-covid-19/novel-coronavirus-covid-19-faq).
 
-To stem the spread of COVID-19 in Oregon, all non-essential social and recreational gatherings of individuals are currently prohibited by state order, regardless of size. **Until further notice, all social group rides are cancelled.** But read on — bikes will find a way!
+To stem the spread of COVID-19 in Oregon,  Oregon is taking a phased approach to reopen the state on a county by county basis. Multnomah County is currently in Phase 1, which provides <a href="https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2351G.pdf">these limitations</a> upon gatherings. The maximum capacity for outdoor gatherings is currently 50 people and requires that participants maintain social distance of six feet.
 
 ## Riding safely
 
 Shift encourages you to ride your bike as a source of fun and exercise while also maintaining a safe distance from others during the current health crisis. According to the Portland Bureau of Transportation, this means you should only ride if you can stay at least six feet away from other people. 
 
-Please be mindful and patient with other riders out on the roads and paths, and give yourself and others plenty of space. Due to the unpredictability of road conditions, and scenarios, group rides are not recommended at this time.
+Please be mindful and patient with other riders out on the roads and paths, and give yourself and others plenty of space. **We strongly encourage everyone on a ride to wear a mask.** Group bike rides are dynamic events and it can be difficult to maintain six feet of distance at all times. At minimum, we recommend you keep a mask/face covering around your neck that you can easily pull up when near other people.
+
+Ways to improve safety on rides:
+
+* **Wear a mask:** Wear a mask at all times. This is especially important at ride stops, such as when gathering at a starting location or a mid-ride stop.
+* **Sanitize frequently:** Sanitize your hands frequently, and avoid touching your face. Wash with soap and water for 20 seconds, or use hand sanitizer.
+* **Manage ride size:** Keep the group size small so that it's easy to maintain six feet of distance with others. This is important both while riding and during any stops. Rides that have historically been large (over 50 people) should be skipped or cancelled for now.
+* **Avoid indoor stops:** Stay outdoors where there is more airflow and space for people to spread out. If a ride would normally make indoor stops (at at store, bar, or elsewhere), we recommend adjusting to avoid having a crowd gather indoors. For example, you might encourage people to buy supplies ahead of time in lieu of a supply stop, or have a meeting spot outside at a park instead of in a business.
+* **Don't share food or drinks:** Don't share utensils or dishes, or drink from the same container.
+* **Respect others:** Be mindful that other people may have different risk factors than you and need to approach situations differently. Respect accommodations and requests that others have — bike fun is for everyone!
 
 The following is a list of articles about biking during the current health crisis from a variety of perspectives. Shift does not endorse any of these articles, but encourages you to do your own research to make choices that respect local, state, and federal regulations during this crisis.
 
@@ -34,18 +43,16 @@ The following is a list of articles about biking during the current health crisi
 
 <p style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: larger;"><strong>For special events that support the demand for justice, please see our <a href="/pages/bike-for-justice/">Bike for Justice</a> page.</strong></p>
 
-During this time of "stay home" guidelines, we've temporarily cancelled or hidden all current social group rides on the [calendar](/calendar/). If you're a ride host, this means that even if you haven't cancelled yours individually, it will still show as cancelled or may no longer be visible on the calendar. 
+During Phase 1, some group rides are possible when health precautions are taken. If you're a ride leader, please read the above safety recommendations and consider how to best adjust your ride. For example, you might limit the number of riders, require masks, skip store stops, and keep all activities outdoors.
 
-At this time, please do **not** post general social group rides. Instead, consider posting events that don't involve gathering in a group, such as: 
+There are also alternatives to the typical group ride format that don't involve gathering in a group, such as:
 
 * **Online events:** Bike-y online events like meetings, socials, livestreams, and more
 * **Distributed events:** Rides that happen at a specific time, but everyone participates from their own, separate location. The [May 2020 Midnight Mystery Ride](https://midnightmysteryride.wordpress.com/2020/05/05/may-ride-switching-things-up/) is a great example! 
-* **Ride anytime routes:** A specific route that people can ride at any time they'd like. You can post it on a specific day, but set a wide time range to encourage people not to gather at one time. For example, the listing could start at 9am and end at 10pm. Check out [Pedalpalooza.org/ride](https://www.pedalpalooza.org/ride) for lots of great examples. 
+* **Ride anytime routes:** A specific route that people can ride at any time they'd like. Check out this year's special [Pedalpalooza calendar](/pedalpalooza-calendar/) for lots of great examples.
 
-Moderators may modify or remove event listings if they don't fit into one of the categories above. If you have any questions, [contact us](/pages/contact/). 
+If necessary, moderators may modify or remove event listings if they aren't following safety guidelines. If you have any questions, [contact us](/pages/contact/). As conditions change and guidelines are updated, we'll be working to figure out additional ways for the calendar to facilitate new approaches to inclusive bike fun. Stay tuned!
 
-Also, check out this year's special [Pedalpalooza calendar](/pedalpalooza-calendar/)! It's full of great ideas for solo bike fun. And the [Shift list](/pages/email-list/) is always open for bikey discussion. So even as we ride our own paths these days, stay in touch with your fellow bike funnists and keep the conversation going 'til we meet again. 
-
-As conditions change and guidelines are updated, we'll be working to figure out additional ways for the calendar to facilitate new approaches to inclusive bike fun. Stay tuned! 
+The [Shift list](/pages/email-list/) is also always open for bikey discussion. So even as we may ride our own paths these days, stay in touch with your fellow bike funnists and keep the conversation going 'til we ride together again.
 
 Stay safe, stay healthy! 
