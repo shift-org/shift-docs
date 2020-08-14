@@ -110,9 +110,6 @@ class EventTime extends fActiveRecord {
     protected function getCancelled() {
         if ($this->getEventstatus() == 'C') {
             return true;
-        } elseif ($this->getFormattedDate() >= '2020-07-06') {
-            // stay home start date
-            return true;
         } else {
             return false;
         }
