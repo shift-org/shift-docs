@@ -16,8 +16,8 @@
     };
 
     $.fn.getMapLink = function(address) {
-        if (address == 'TBA' || address == 'TBD') {
-            // if address isn't available yet, don't try to map it
+        if (!address || address == 'TBA' || address == 'TBD') {
+            // if address is null or not available yet, don't try to map it
             return;
         }
 
