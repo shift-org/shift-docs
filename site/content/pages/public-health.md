@@ -10,11 +10,9 @@ menu:
 
 ## About
 
-The Oregon Health Authority is responding to an outbreak of respiratory illness, called [COVID-19](https://govstatus.egov.com/OR-OHA-COVID-19), caused by a novel (new) coronavirus. Health officials urge [social distancing](https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2268.pdf), good hand hygiene, covering coughs, and staying home if you are sick. For additional information and resources, see the [Multnomah County COVID-19 FAQ](https://multco.us/novel-coronavirus-covid-19/novel-coronavirus-covid-19-faq).
+The Oregon Health Authority and Washington Department of Health are responding to an outbreak of respiratory illness, called [COVID-19](https://govstatus.egov.com/OR-OHA-COVID-19), caused by a novel (new) coronavirus. Health officials urge [social distancing](https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2268.pdf), good hand hygiene, covering coughs, and staying home if you are sick. For additional information and resources, see the [Multnomah County COVID-19 resources](https://multco.us/novel-coronavirus-covid-19).
 
-To stem the spread of COVID-19 in Oregon, Oregon is taking a phased approach to reopen the state on a county by county basis. <del>Multnomah County is currently in Phase 1, which provides <a href="https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2351G.pdf">these limitations</a> upon gatherings.</del>
-
-<p style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: larger;"><ins style="text-decoration: none;"><strong>Multnomah County is currently in a <a href="https://multco.us/novel-coronavirus-covid-19/notifications/november-13-oregon-placed-2-week-freeze-multnomah-county">four-week "freeze" from November 18 to December 16</a>. County Health officials have set a maximum of 6 people for all social gatherings, from no more than 2 households – indoor and outdoor. Participants should maintain social distance of six feet. Masks are required in outdoor public spaces when physical distancing of at least six feet is not possible.</strong></ins></p>
+To stem the spread of COVID-19 in Oregon and Washington, both states are taking a phased approach to reopen. **All Portland-area counties are currently at the highest risk levels and have restrictions on gatherings.** State health departments have county by county details on [Oregon restrictions](https://coronavirus.oregon.gov/Pages/living-with-covid-19.aspx) and [Washington restrictions](https://www.coronavirus.wa.gov/what-you-need-know/county-status-and-safe-start-application-process).
 
 
 ## Riding safely
@@ -46,7 +44,7 @@ The following is a list of articles about biking during the current health crisi
 
 <p style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: larger;"><strong>For special events that support the demand for justice, please see our <a href="/pages/bike-for-justice/">Bike for Justice</a> page.</strong></p>
 
-During Phase 1, some group rides are possible when health precautions are taken. If you're a ride leader, please read the above safety recommendations and consider how to best adjust your ride. For example, you might limit the number of riders, require masks, skip store stops, and keep all activities outdoors.
+Under these restrictions, some group rides are possible when health precautions are taken. If you're a ride leader, please read the above safety recommendations and consider how to best adjust your ride. For example, you might limit the number of riders, require masks, skip store stops, and keep all activities outdoors.
 
 There are also alternatives to the typical group ride format that don't involve gathering in a group, such as:
 
