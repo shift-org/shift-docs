@@ -49,6 +49,22 @@
         }
     };
 
+    $.fn.getContactLink = function(contactInfo) {
+        if (!contactInfo) {
+            // if no add'l contact info is set, return nothing
+            return;
+        }
+
+        var urlPattern = /^https*:\/\//;
+        if (contactInfo.match(urlPattern)) {
+            // if add'l contact info is an http/s link, return it as-is
+            return contactInfo;
+        } else {
+            // if it's not a link, return nothing
+            return;
+        }
+    };
+
     $.fn.formatDate = function(dateString, abbreviated) {
         var parts = dateString.split('-'),
             date = new Date(parts[0], parseInt(parts[1]) - 1, parts[2]);
