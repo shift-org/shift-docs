@@ -326,19 +326,21 @@
           <div class="panel-body">
             <p class="input-help">The printed calendar has limited space for each event, so we must limit the amount of info for some fields. Be as brief as reasonably possible!</p>
             <div class="checkbox">
+<!--
               <input type="hidden" name="printevent" value="0" />
               <label class="control-label" for="printevent">
                 <input type="checkbox" name="printevent" id="printevent" aria-describedby="printevent-help" value="1" [[# printevent ]]checked[[/ printevent ]] />
                 Include in the print calendar
               </label>
-              <p class="input-help" id="printevent-help">You must submit at least 3 weeks in advance. Inclusion not guaranteed.</p>
+ -->
+              <p class="input-help" id="printevent-help">You must submit at least 3 weeks in advance of the print deadline. We can't guarantee that all submitted rides will be printed, sorry!</p>
             </div>
             <div class="form-group">
-              <label class="control-label" for="tinytitle">Print title (24 characters)</label>
+              <label class="control-label optional-label" for="tinytitle">Print title (24 characters)</label>
               <input type="text" class="form-control" name="tinytitle" id="tinytitle" value="[[tinytitle]]" maxlength="24" />
             </div>
             <div class="form-group">
-              <label class="control-label" for="printdescr">Print description (120 characters)</label>
+              <label class="control-label optional-label" for="printdescr">Print description (120 characters)</label>
               <textarea class="form-control" name="printdescr" id="printdescr" maxlength="120" >[[printdescr]]</textarea>
             </div>
 
