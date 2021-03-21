@@ -25,7 +25,7 @@ You can see the live site here:  https://www.shift2bikes.org
 Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the php server:
 
 1. install docker
-2. clone repo: `git clone https://github.com/Shift2Bikes/shift-docs.git`
+2. clone repo: `git clone https://github.com/shift-org/shift-docs.git`
 3. clone submodules `git submodule update --init --recursive`
 4. start shift site `./shift up`
 5. visit `https://localhost:4443/`
