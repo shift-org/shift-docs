@@ -49,20 +49,20 @@ paginate = 10
     identifier = "featuredevents"
 
 # Child of Featured Events
-[[menu.main]]
-    name = "World Naked Bike Ride"
-    pre = "s2b-external-link"
-    url  = "https://pdxwnbr.org/"
-    weight = 3
-    parent = "featuredevents"
+# [[menu.main]]
+#     name = "World Naked Bike Ride"
+#     pre = "s2b-external-link"
+#     url  = "https://pdxwnbr.org/"
+#     weight = 3
+#     parent = "featuredevents"
 
 # Child of Featured Events
-[[menu.main]]
-    name = "Midnight Mystery Ride"
-    pre = "s2b-external-link"
-    url  = "https://midnightmysteryride.wordpress.com/"
-    weight = 6
-    parent = "featuredevents"
+# [[menu.main]]
+#     name = "Midnight Mystery Ride"
+#     pre = "s2b-external-link"
+#     url  = "https://midnightmysteryride.wordpress.com/"
+#     weight = 6
+#     parent = "featuredevents"
 
 [[menu.main]]
     name = "Community"
