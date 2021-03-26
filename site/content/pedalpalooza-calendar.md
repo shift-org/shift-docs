@@ -3,23 +3,19 @@ title: "Pedalpalooza calendar"
 description: "Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: pp-cal
+type: pp-landing
 pp: true
-year: 2020
-startdate: 2020-06-01
-enddate: 2020-07-06 # end date is exclusive
-daterange: June 1–July 5, 2020
-banner-image: "/images/pp/pp2020-banner.png"
-poster-image: "/images/pp/pp2020.png"
+year: 2021
+# startdate: TBD
+# enddate: TBD # end date is exclusive
+# daterange: TBD
+banner-image: "/images/pp/pp2021.gif"
+poster-image: "/images/pp/pp2021.gif"
 
 ---
 
-<strong class="pp-headline">Pedalpalooza is going to be different this year!</strong>
+<strong class="pp-headline">Pedalpalooza 2021 is ON!</strong>
 
-[Pedalpalooza](/pages/pedalpalooza/) 2020 is about individuals finding ways to celebrate the joy of cycling. We will not be encouraging people to gather, as we have in previous years. Read more on our [public health](/pages/public-health/) page. 
+Stay tuned for more information on [Pedalpalooza](/pages/pedalpalooza/) 2021. Be sure to follow [Pedalpalooza on Instagram](https://www.instagram.com/pedalpaloozapdx/) and tag posts about ride @pedalpaloozapdx.
 
-**But wait!** You can still have #bikefun — separately, but together! Check out the solo ride themes below, and see [Pedalpalooza.org](https://www.pedalpalooza.org/ride) for more info.
-
-<strong class="pp-headline">Update</strong>
-
-Bicycles can be a tool for positive change. If you would like to contribute ways to mobilize cyclists for the community, please <a href="mailto:pedalpalooza@gmail.com?subject=Here's how I can help Pedalpalooza mobilize cyclists">contact Pedalpalooza</a>. Learn more and stay up-to-date at <a href="https://www.pedalpalooza.org/blog">Pedalpalooza.org/blog</a> and on social media.
+Want to help shape what Pedalpalooza will look like this year? Take the [Pedalpalooza planning survey](http://bit.ly/PedalpaloozaPlanning2021)!
