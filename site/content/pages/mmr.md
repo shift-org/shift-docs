@@ -8,9 +8,7 @@ menu:
         parent: featuredevents
 ---
 
-
-
-
+# About
 
 The [Midnight Mystery Ride](https://midnightmysteryride.wordpress.com/) has been riding monthly since 2002 on the 2nd Friday of the month. 
 
@@ -23,3 +21,8 @@ Interested in leading a ride?
 > Anyone can lead a ride. Haven't led one, yet? No worries! Read what's expected of leaders on [our website](https://midnightmysteryride.wordpress.com/about), join us for a ride one of these next few months to get the vibe, then email us directly to let us know which months you're most interested in leading a ride.
 
 At midnight, we ride!
+
+# Contact
+
+* Website: [midnightmysteryride.wordpress.com](https://midnightmysteryride.wordpress.com/)
+* Email: [midnightmysteryridePDX@gmail.com](mailto:midnightmysteryridePDX@gmail.com)

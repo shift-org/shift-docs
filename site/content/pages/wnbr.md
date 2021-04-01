@@ -27,9 +27,11 @@ The [Portland World Naked Bike Ride](https://pdxwnbr.org) (PDX WNBR) is our loca
 
 In any given year, PDX WNBR is usually the largest organized point-to-point bike ride in the state! It has a well-planned route, infrastructure like portapotties and security staff, and around 10,000 participants. 
 
-For more info: 
+
+# Contact
 
 * Website: [pdxwnbr.org](https://pdxwnbr.org)
+* Instagram: [@pdxwnbr](https://www.instagram.com/pdxwnbr/)
 * Facebook: [PDX.WNBR](https://www.facebook.com/PDX.WNBR)
 * Twitter: [@pdxwnbr](https://twitter.com/pdxwnbr)
 * Email: [pdxwnbr@gmail.com](mailto:pdxwnbr@gmail.com)
