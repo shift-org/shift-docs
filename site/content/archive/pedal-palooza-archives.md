@@ -7,7 +7,7 @@ weight: 2
 
 [comment]: <> (aka, That Fun Thing We Do Every June)
 
-In 2002, Portland hosted [Bike Summer](http://criticalmass.wikia.com/wiki/Bike_Summer!), and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.
+In 2002, Portland hosted [Bike Summer](https://criticalmass.wikia.com/wiki/Bike_Summer!), and it was great! So, every summer since then, we've had another festival which is now called <dfn>Pedalpalooza</dfn>. Choose one of the following years to see its calendar of events.
 
 *   [2020](/archive/pedalpalooza/pedalpalooza-2020/)
 

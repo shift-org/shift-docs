@@ -28,7 +28,7 @@ function validate_json_request($data) {
 
     $validator->addRequiredFields('title', 'details', 'venue', 'address', 'organizer', 'email', 'code_of_conduct', 'read_comic');
     // required only from March to June, during Pedalpalooza
-    $validator->addRequiredFields('tinytitle', 'printdescr');
+    // $validator->addRequiredFields('tinytitle', 'printdescr');
     $validator->addEmailFields('email');
     $validator->addRegexReplacement('#^(.*?): (.*)$#', '\2 for <span class="field-name">\1</span>');
     // If id is specified require secret
@@ -178,6 +178,12 @@ function build_json_response() {
 
     if (!$data['read_comic']) {
         $messages['read_comic'] = "You must have read the Ride Leading Comic";
+    }
+
+    if (!$data['tinytitle']) {
+        // if print title (aka tinytitle) isn't set,
+        // use the first 24 chars of the regular title
+        $data['tinytitle'] = substr($data['title'], 0, 24);
     }
 
     if (!$data['code_of_conduct']) {
