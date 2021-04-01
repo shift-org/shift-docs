@@ -6,7 +6,8 @@ menu:
         parent: communitynav
 ---
 
-**At this time, we are not recommending group rides.** See [Public Health](/pages/public-health/) for more info.
+**Please read our [Public health](/pages/public-health/) page** for info on riding safely during this public health crisis.
+
 
 ----
 
