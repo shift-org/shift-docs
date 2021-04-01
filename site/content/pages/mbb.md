@@ -39,7 +39,7 @@ Wanting to give moving by bicycle a try? Here are some tips to get you started:
 
 ## Additional info
 
-Move by bike veteran and community builder Steph Routh wrote a book about moving bike bike.  [Check it out!](https://microcosmpublishing.com/catalog/books/5150/)
+Move by bike veteran and community builder Steph Routh wrote a book about moving by bike.  [Check it out!](https://microcosmpublishing.com/catalog/books/5150/)
 
 ## Historical events archive
 

@@ -5,6 +5,7 @@ menu:
   main:
     parent: aboutmenu
 ---
+
 ## Want to connect with Shift?
 
 - [Email our Board of Directors](mailto:shift-bod@googlegroups.com)
@@ -15,10 +16,9 @@ menu:
 - [Join us for a ride or post one of your own for free!](/calendar/)
 
 
-
 ## Interested in connecting with a group who posts to the [Shift Calendar](https://www.shift2bikes.org/calendar/)?  Reach out to them directly!
 
-- [Pedalpalooza](mailto:pedalpalooza.media@gmail.com)
+- [Pedalpalooza](mailto:pedalpalooza@gmail.com)
 - [Breakfast on the Bridges](mailto:bonb@lists.riseup.net)
 - [Move by Bike](https://www.facebook.com/groups/movebybike)
-- [PDX WNBR](mailto:pdxwnbr@gmail.com) 
+- [PDX WNBR](mailto:pdxwnbr@gmail.com)

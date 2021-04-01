@@ -86,4 +86,4 @@ by Marc Lallanilla
 
 ![Safety rules image 1](/images/safety_brochure_a.jpg) ![Safety rules image 2](/images/safety_brochure_b.jpg)
 
-**Comments, Suggestions, Questions?** [Get in touch with suggestions!](/pages/contact).
+**Comments, Suggestions, Questions?** [Get in touch with suggestions!](/pages/contact/)
