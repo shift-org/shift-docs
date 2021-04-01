@@ -12,7 +12,7 @@ menu:
 
 The Oregon Health Authority and Washington Department of Health are responding to an outbreak of respiratory illness, called [COVID-19](https://govstatus.egov.com/OR-OHA-COVID-19), caused by a novel (new) coronavirus. Health officials urge [social distancing](https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2268.pdf), good hand hygiene, covering coughs, and staying home if you are sick. For additional information and resources, see the [Multnomah County COVID-19 resources](https://multco.us/novel-coronavirus-covid-19).
 
-To stem the spread of COVID-19 in Oregon and Washington, both states are taking a phased approach to reopen. **All Portland-area counties currently have restrictions on gatherings.** State health departments have county by county details on [Oregon restrictions](https://coronavirus.oregon.gov/Pages/living-with-covid-19.aspx) and [Washington restrictions](https://www.coronavirus.wa.gov/what-you-need-know/county-status-and-safe-start-application-process).
+To stem the spread of COVID-19 in Oregon and Washington, both states are taking a phased approach to reopen. **All Portland-area counties currently have restrictions on gatherings.** Health officials have set limits of the number of people for all social gatherings – indoor and outdoor. State health departments have county by county details on [Oregon restrictions](https://coronavirus.oregon.gov/Pages/living-with-covid-19.aspx) and [Washington restrictions](https://www.coronavirus.wa.gov/what-you-need-know/county-status-and-safe-start-application-process).
 
 
 ## Riding safely
