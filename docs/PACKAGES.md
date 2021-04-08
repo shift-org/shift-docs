@@ -5,13 +5,13 @@
 ## Front-end
 
 * Moment
-* Bootstrap
-* Font Awesome
+* Bootstrap v3
+* Font Awesome v4
 * Mustache
 * jQuery
-* FullCalendar
+* FullCalendar v4
 * w3c IntersectionObserver polyfill (for lazy loading images)
 
-As of March 2020, all have been updated to their latest releases within their major version. 
+As of April 2021, all have been updated to their latest releases within their major version.
 
-Two packages (Bootstrap and Font Awesome) are behind one major version, both of which are still supported. 
+FullCalendar, Bootstrap, and Font Awesome are behind at least one major version.
