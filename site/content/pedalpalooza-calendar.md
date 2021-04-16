@@ -6,10 +6,10 @@ id: pedalpalooza-calendar
 type: pp-landing
 pp: true
 year: 2021
-# startdate: TBD
-# enddate: TBD # end date is exclusive
-# daterange: TBD
-banner-image: "/images/pp/pp2021.gif"
+startdate: 2021-06-01
+enddate: 2021-09-01 # end date is exclusive
+daterange: June 1–August 31, 2021
+banner-image: "/images/pp/pp2021-banner-tmp.png"
 poster-image: "/images/pp/pp2021.gif"
 
 ---
