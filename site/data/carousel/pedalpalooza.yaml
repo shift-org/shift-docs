@@ -1,5 +1,6 @@
 weight: 1
 title: "Pedalpalooza"
-description: "<p>Pedalpalooza 2021 is on! <br>Stay tuned for more info!</p>"
+#description: "<p>Pedalpalooza 2021 is on! <br>Stay tuned for more info!</p>"
+description: "<p>All summer 2021 &mdash; <br>3 full months of bike fun!</p>"
 image: "images/carousel/pedalpalooza-2021.png"
 link: "/pedalpalooza-calendar/"
