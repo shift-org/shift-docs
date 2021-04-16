@@ -1,4 +1,4 @@
-<div id="pp-banner">
+<div class="pp-banner">
   <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
   <div>
     <span class="pp-headline">Pedalpalooza!</span>
@@ -13,7 +13,7 @@
   <div id="pp-description">
       <p><a href="/pages/pedalpalooza/">Pedalpalooza</a> is a month of bikey fun. Hundreds of different events are organized by people like you. Most rides are free and all are open to the public to join. </p>
 
-      {{ if eq (.Param "year") 2020 }}
+      {{ if eq (.Param "year") 2021 }}
       <p><a href="/addevent/"><strong>Add your events for {{ .Param "year" }} now!</strong></a> Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
       {{ end }}
 
