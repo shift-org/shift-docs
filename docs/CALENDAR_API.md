@@ -97,7 +97,7 @@ Errors:
 * `message`: text string explaining the error
 * possible errors
   * `enddate` before `startdate`
-  * date range too large (45 days maximum)
+  * date range too large (100 days maximum)
 
 Example error:
 
