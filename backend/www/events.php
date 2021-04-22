@@ -46,9 +46,9 @@ if ($enddate < $startdate) {
     $json['error'] = array(
         'message' => $message
     );
-} elseif (daysInRange($startdate, $enddate) > 45) {
+} elseif (daysInRange($startdate, $enddate) > 100) {
     http_response_code(400);
-    $message = "event range too large: " . daysInRange($startdate, $enddate) . " days requested; max 45 days";
+    $message = "event range too large: " . daysInRange($startdate, $enddate) . " days requested; max 100 days";
     $json['error'] = array(
         'message' => $message
     );
