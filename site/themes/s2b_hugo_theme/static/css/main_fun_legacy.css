@@ -30,6 +30,7 @@ But if someone is using a high contrast display mode, the border will appear.
 svg.icon {
   width: 22px;
   height: 22px;
+  margin-right: 4px;
   vertical-align: middle;
   fill: currentColor;
   stroke: currentColor;
