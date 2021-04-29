@@ -217,10 +217,17 @@
             [[/ image]]
           </div>
 
-          <p><svg class="icon" role="img" aria-label="Time"><use xlink:href="#icon-time" /></svg> [[displayDate]], [[displayStartTime]][[#timedetails]], [[timedetails]][[/timedetails]]</p>
-          [[#endtime]]
-          <p><svg class="icon" role="img" aria-label="End time"><use xlink:href="#icon-endtime" /></svg> [[displayEndTime]]</p>
-          [[/endtime]]
+          <div>
+            <p><svg class="icon" role="img" aria-label="Time"><use xlink:href="#icon-time" /></svg> [[displayDate]], [[displayStartTime]]</p>
+
+            [[#timedetails]]
+            <p><svg class="icon" role="img" aria-label="Time details"><use xlink:href="#icon-newsflash" /></svg> [[timedetails]]</p>
+            [[/timedetails]]
+
+            [[#endtime]]
+            <p><svg class="icon" role="img" aria-label="End time"><use xlink:href="#icon-endtime" /></svg> [[displayEndTime]]</p>
+            [[/endtime]]
+          </div>
 
           <p class="description">[[details]]</p>
 
