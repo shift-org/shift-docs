@@ -80,7 +80,7 @@ paginate = 10
     name = "World Carfree Network"
     pre = "s2b-external-link"
     url  = "http://www.worldcarfree.net/wcfd/"
-    weight = 3
+    weight = 5
     parent = "aboutmenu"
 
 # Top bar social links menu

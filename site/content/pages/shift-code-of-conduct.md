@@ -1,6 +1,6 @@
 ---
 title: Shift Code Of Conduct
-weight: 1
+weight: 2
 menu:
   main:
     parent: aboutmenu
