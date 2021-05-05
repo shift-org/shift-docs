@@ -56,9 +56,14 @@
         }
 
         var urlPattern = /^https*:\/\//;
+        var emailPattern = /.+@.+[.].+/;
+
         if (contactInfo.match(urlPattern)) {
             // if add'l contact info is an http/s link, return it as-is
             return contactInfo;
+        } else if (contactInfo.match(emailPattern)) {
+            // if add'l contact info is an email address, return a mailto link
+            return 'mailto:' + contactInfo;
         } else {
             // if it's not a link, return nothing
             return;
