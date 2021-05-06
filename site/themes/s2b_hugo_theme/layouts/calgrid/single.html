@@ -25,10 +25,10 @@
                   {{ .Content }}
                 </div>
 
-                {{ partial "alert_banner.html" . }}
-
                 <!-- only display when PP is coming soon or happening now -->
                 {{ partial "cal/pp-promo-banner.html" . }}
+
+                {{ partial "alert_banner.html" . }}
 
                 {{ partial "cal/view-options.html" . }}
                 {{ partial "cal/fullcal.html" . }} 
