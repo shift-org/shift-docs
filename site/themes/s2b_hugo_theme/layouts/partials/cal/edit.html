@@ -302,7 +302,8 @@
 
             <div class="form-group">
               <label class="control-label optional-label" for="contact">Additional Contact Info</label>
-              <input type="text" class="form-control" name="contact" id="contact" value="[[contact]]" />
+              <input type="text" class="form-control" name="contact" id="contact" value="[[contact]]" aria-describedby="contact-help" />
+              <p class="input-help" id="contact-help">This can be a name, an email address, another web URL, social media link, PO Box, or anything else!</p>
 
               <label class="control-label" for="hidecontact">
                 <input type="checkbox" name="hidecontact" id="hidecontact" value="1" [[# hidecontact ]]checked[[/ hidecontact ]] />
