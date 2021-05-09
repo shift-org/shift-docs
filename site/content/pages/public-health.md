@@ -50,7 +50,7 @@ There are also alternatives to the typical group ride format that don't involve 
 
 * **Online events:** Bike-y online events like meetings, socials, livestreams, and more
 * **Distributed events:** Rides that happen at a specific time, but everyone participates from their own, separate location. The [May 2020 Midnight Mystery Ride](https://midnightmysteryride.wordpress.com/2020/05/05/may-ride-switching-things-up/) is a great example! 
-* **Ride anytime routes:** A specific route that people can ride at any time they'd like. Check out this year's special [Pedalpalooza calendar](/pedalpalooza-calendar/) for lots of great examples.
+* **Ride anytime routes:** A specific route that people can ride at any time they'd like. Check out the special [Pedalpalooza 2020 calendar](/archive/pedalpalooza/pedalpalooza-2020/) for lots of great examples.
 
 If necessary, moderators may modify or remove event listings if they aren't following safety guidelines. If you have any questions, [contact us](/pages/contact/). As conditions change and guidelines are updated, we'll be working to figure out additional ways for the calendar to facilitate new approaches to inclusive bike fun. Stay tuned!
 
