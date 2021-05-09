@@ -35,6 +35,9 @@ $(document).ready(function() {
                 value.audienceLabel = container.getAudienceLabel(value.audience);
                 value.mapLink = container.getMapLink(value.address);
 
+                // value.loopride = true;
+                // value.locend = "Vera Katz Statue";
+
                 if ( 'show_details' in options && options['show_details'] == true ) {
                     value.expanded = true;
                 }
