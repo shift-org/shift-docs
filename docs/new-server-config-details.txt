@@ -30,3 +30,6 @@ for temporary setup with different hostname:
 
 ---- in the end ----
 - `shift up` should just work.
+
+---- new work on 12 May 2021 ----
+- added /usr/local/bin/certbot.sh from prod, and its associated crontab entry: `28 1 * * * sh /usr/local/bin/certbot.sh 2>&1 > /tmp/certbot-cron-out`.  This worked well!
