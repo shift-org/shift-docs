@@ -5,9 +5,9 @@ app/node_modules/
 services/nginx/ssl/
 shift.overrides
 .idea/
-!/services/db/*
+!services/db/*
 *.sql
-!/services/db/*.sql
+!services/db/*.sql
 *.today
 *.DS_Store
 backend/eventimages/
