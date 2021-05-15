@@ -8,8 +8,9 @@ shift.overrides
 !services/db/*
 *.sql
 !services/db/*.sql
+!services/db/*/*.sql
 *.today
 *.DS_Store
 backend/eventimages/
 secrets
-/services/php/shift-mail.log
+services/php/shift-mail.log
