@@ -6,6 +6,7 @@ services/nginx/ssl/
 shift.overrides
 .idea/
 *.sql
+!/services/db/*.sql
 *.today
 *.DS_Store
 backend/eventimages/
