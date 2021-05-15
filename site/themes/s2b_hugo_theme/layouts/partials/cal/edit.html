@@ -222,7 +222,7 @@
             <div class="form-group">
               <div>
                 <label class="control-label optional-label" for="loopride">
-                  <input type="checkbox" name="loopride" id="loopride" value="1" [[# loopride ]]checked[[/ loopride ]] />
+                  <input type="checkbox" name="loopride" id="loopride" value="1" [[# loopride ]]checked[[/ loopride ]] aria-describedby="loopride-help" />
                   Ride is a loop
                 </label>
               <p class="input-help" id="loopride-help">Does your ride end at the same location where it began?</p>
@@ -230,9 +230,9 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label optional-label" for="endlocation">End location details</label>
-              <input type="text" class="form-control" name="endlocation" id="endlocation" value="[[endlocation]]" aria-describedby="endlocation-help" />
-              <p class="input-help" id="endlocation-help">Your event's end location, if known.</p>
+              <label class="control-label optional-label" for="locend">End location details</label>
+              <input type="text" class="form-control" name="locend" id="locend" value="[[locend]]" aria-describedby="locend-help" />
+              <p class="input-help" id="locend-help">Your event's end location, if known.</p>
             </div>
 
             <div class="form-group">
