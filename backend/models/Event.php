@@ -26,6 +26,8 @@ class Event extends fActiveRecord {
             //'length' => $this->getLength(),
             'timedetails' => $this->getTimedetails(),
             'locdetails' => $this->getLocdetails(),
+            'loopride' => $this->getLoopride() != 0,
+            'locend' => $this->getLocend(),
             'eventduration' => $this->getEventduration() != null && $this->getEventduration() > 0 ? $this->getEventduration() : null,
             'weburl' => $this->getWeburl(),
             'webname' => $this->getWebname(),
@@ -86,6 +88,8 @@ class Event extends fActiveRecord {
         }
         $event->setTimedetails(get($input['timedetails'], ''));
         $event->setLocdetails(get($input['locdetails'], ''));
+        $event->setLoopride(get($input['loopride'], 0));
+        $event->setLocend(get($input['locend'], ''));
         $event->setEventduration(get($input['eventduration'], 0));
         $event->setWeburl(get($input['weburl'], ''));
         $event->setWebname(get($input['webname'], ''));

@@ -216,7 +216,23 @@
             <div class="form-group">
               <label class="control-label optional-label" for="locdetails">Location details</label>
               <input type="text" class="form-control" name="locdetails" id="locdetails" value="[[locdetails]]" aria-describedby="locdetails-help" />
-              <p class="input-help" id="locdetails-help">More detail about your event's location, if needed. Example: "Meet near the clock tower."</p>
+              <p class="input-help" id="locdetails-help">More detail about your event's start location, if needed. Example: "Meet near the clock tower."</p>
+            </div>
+
+            <div class="form-group">
+              <div>
+                <label class="control-label optional-label" for="loopride">
+                  <input type="checkbox" name="loopride" id="loopride" value="1" [[# loopride ]]checked[[/ loopride ]] aria-describedby="loopride-help" />
+                  Ride is a loop
+                </label>
+              <p class="input-help" id="loopride-help">Does your ride end at the same location where it began?</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label optional-label" for="locend">End location details</label>
+              <input type="text" class="form-control" name="locend" id="locend" value="[[locend]]" aria-describedby="locend-help" />
+              <p class="input-help" id="locend-help">Your event's end location, if known.</p>
             </div>
 
             <div class="form-group">
