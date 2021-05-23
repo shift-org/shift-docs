@@ -8,4 +8,4 @@ type: caledit
 ---
 
 
-If you need help creating or editing an event, [contact the calendar crew](mailto:bikecal@shift2bikes.org).
+If you need help creating or editing an event, check out the [calendar FAQ](/pages/calendar-faq/) or [contact the calendar crew](mailto:bikecal@shift2bikes.org).
