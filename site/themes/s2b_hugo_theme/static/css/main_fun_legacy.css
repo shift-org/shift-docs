@@ -266,7 +266,7 @@ h3 {
     width: auto;
 }
 
-.time .safety-pledge {
+.time .safety-plan {
     background: #FCFAF2;
     color: #663300;
     padding: 2px 4px;
@@ -276,7 +276,7 @@ h3 {
     width: auto;
     margin: 0.25em 0;
 }
-.time .safety-pledge a {
+.time .safety-plan a {
     color: #663300;
     text-decoration: underline;
 }

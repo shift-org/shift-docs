@@ -44,7 +44,7 @@ class Event extends fActiveRecord {
             'printweburl' => $this->getPrintweburl() != 0,
             'printcontact' => $this->getPrintcontact() != 0,
             'published' => $this->getHidden() == 0,
-            'safetypledge' => true, //$this->getSafetypledge() == 0,
+            'safetyplan' => $this->getSafetyplan() != 0,
         );
 
         $details['email']   = $this->getHideemail() == 0   || $include_hidden ? $this->getEmail() : null;
@@ -104,7 +104,7 @@ class Event extends fActiveRecord {
         $event->setPrintphone(get($input['printphone'], 0));
         $event->setPrintweburl(get($input['printweburl'], 0));
         $event->setPrintcontact(get($input['printcontact'], 0));
-        // $event->setSafetypledge(get($input['safetypledge'], 0));
+        $event->setSafetyplan(get($input['safetyplan'], 0));
         // Length
         return $event;
     }

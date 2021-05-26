@@ -56,9 +56,11 @@ If necessary, moderators may modify or remove event listings if they aren't foll
 
 The [Shift list](/pages/email-list/) is also always open for bikey discussion. So even if we ride our own paths these days, stay in touch with your fellow bike funnists and keep the conversation going 'til we ride together again.
 
-### Pedalpalooza Safety Pledge
+Stay safe, stay healthy!
 
-<p style="text-align: left; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;">We need everyone's help to keep bike fun safe for all! Ride leaders who have taken this Pedalpalooza safety pledge will have a special marker next to their rides on the calendar. Ride participants are expected to follow these rules at rides which have taken the pledge.</p>
+### Pedalpalooza Safety Plan
+
+<p style="text-align: left; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;">We need everyone's help to keep bike fun safe for all! Ride leaders who follow this Pedalpalooza safety plan will have a special marker next to their rides on the calendar. Ride participants are expected to follow these rules at rides which agree to this plan.</p>
 
 * Everyone, vaccinated or not, wears a tight fitting face mask.
 * Ride leaders promise to wear a mask.
@@ -66,6 +68,3 @@ The [Shift list](/pages/email-list/) is also always open for bikey discussion. S
 * Everyone maintains six feet of distance behind or to the side of people around them.
 * Ride leader promises that the ride plan includes room for people from different households to keep six feet away while eating.
 * Ride leader or their designated safety coordinator is responsible for asking people who do not wear a mask to leave the ride.
-
-
-Stay safe, stay healthy! 
