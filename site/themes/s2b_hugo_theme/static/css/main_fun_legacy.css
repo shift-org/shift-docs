@@ -266,6 +266,21 @@ h3 {
     width: auto;
 }
 
+.time .safety-plan {
+    background: #FCFAF2;
+    color: #663300;
+    padding: 2px 4px;
+    border: 1px solid #FFDD66;
+    border-radius: 2px;
+    display: inline-block;
+    width: auto;
+    margin: 0.25em 0;
+}
+.time .safety-plan a {
+    color: #663300;
+    text-decoration: underline;
+}
+
 .summary {
     padding-left: 10px;
     border-left: 1px solid grey;
