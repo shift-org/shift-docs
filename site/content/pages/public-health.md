@@ -44,7 +44,7 @@ The following is a list of articles about biking during the current health crisi
 
 <p style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: larger;"><strong>For special events that support the demand for justice, please see our <a href="/pages/bike-for-justice/">Bike for Justice</a> page.</strong></p>
 
-With this in mind, some group rides are possible when health precautions are taken. If you're a ride leader, please read the above safety recommendations and consider how to best adjust your ride. For example, you might limit the number of riders, require masks, skip store stops, and keep all activities outdoors.
+With this in mind, group rides are possible when health precautions are taken. If you're a ride leader, please read the above safety recommendations and consider how to best adjust your ride. For example, you might limit the number of riders, require masks, skip store stops, and keep all activities outdoors.
 
 There are also alternatives to the typical group ride format that don't involve gathering in a group, such as:
 
@@ -52,7 +52,7 @@ There are also alternatives to the typical group ride format that don't involve 
 * **Distributed events:** Rides that happen at a specific time, but everyone participates from their own, separate location. The [May 2020 Midnight Mystery Ride](https://midnightmysteryride.wordpress.com/2020/05/05/may-ride-switching-things-up/) is a great example! 
 * **Ride anytime routes:** A specific route that people can ride at any time they'd like. Check out the special [Pedalpalooza 2020 calendar](/archive/pedalpalooza/pedalpalooza-2020/) for lots of great examples.
 
-If necessary, moderators may modify or remove event listings if they aren't following safety guidelines. If you have any questions, [contact us](/pages/contact/). As conditions change and guidelines are updated, we are continuing to figure out additional ways for the calendar to facilitate new approaches to inclusive bike fun. Stay tuned!
+If you have any questions, [contact us](/pages/contact/). As conditions change and guidelines are updated, we are continuing to figure out additional ways for the calendar to facilitate new approaches to inclusive bike fun. Stay tuned!
 
 The [Shift list](/pages/email-list/) is also always open for bikey discussion. So even if we ride our own paths these days, stay in touch with your fellow bike funnists and keep the conversation going 'til we ride together again.
 
