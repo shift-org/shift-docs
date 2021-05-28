@@ -185,6 +185,7 @@
             day['day'] = date.getDate();
             day['date'] = normalizeDate(date);
             day['classes'] = (isToday(date) ? "today" : "") + " " + (isSelected(date) ? "selected" : "") + " " + cellClases[date.getMonth()] + (date.getDay() % 2 === 0 ? "-odd" : "");
+            day['title'] = isToday(date) ? "today" : "";
             week.push(day);
 
             date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);

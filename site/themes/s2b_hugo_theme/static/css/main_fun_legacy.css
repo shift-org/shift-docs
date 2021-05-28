@@ -446,13 +446,36 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 }
 
 .calendar-day.today {
-    background-color: green;
-    color: white;
+/*     border: 2px dotted green; */
+/*     background-color: #FCFAF2; */
+    text-decoration: 2px dotted #404040 underline;
+    position: relative;
 }
 
+/* 
+.calendar-day.today::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+	background-color: #FCFAF2;
+	border-radius: 50%;
+	padding: 0.1em;
+	display: block;
+	height: 1em;
+	width: 1em;
+	border: 1px solid transparent;
+}
+ */
+
 .calendar-day.selected {
-    background-color: red;
-    color: white;
+    background-color: #663300;
+    color: #FCFAF2;
+}
+
+.calendar-day.today.selected {
+/*     border: 2px dotted green; */
+    text-decoration-color: white;
 }
 
 .calendar-month-title {
