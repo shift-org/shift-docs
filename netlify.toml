@@ -80,6 +80,12 @@
   from = "/eventimages/*"
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
+# legacy ical feed for pedalpalooza
+[[redirects]]
+  from = "/cal/icalpp.php"
+  to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
+  status = 200
+  force = true
 
 # these two are needed for legacy "shareable links" from 2017-early 2019 era
 [[redirects]]
