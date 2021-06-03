@@ -122,7 +122,6 @@ sub_attach() { # <service>        - Run bash on a running service
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
     docker-compose $@
-    return $?
 }
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
