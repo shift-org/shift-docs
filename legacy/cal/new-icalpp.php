@@ -3,6 +3,7 @@
     include("include/common.php");
     include("include/view.php");
     header("Content-type: text/calendar");
+    header("Content-Disposition: attachment; filename=\"pedalpalooza.ics\"");
     header("Cache-control: private");
     
     
