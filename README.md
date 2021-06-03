@@ -59,7 +59,7 @@ The site is run in several docker containers.
 
 ## Important Project Files
 
-* docker-compose.yml
+* `docker-compose.yml`
   * docker container settings
   * The defined containers (db, nginx, etc) become pingable host names from the other running containers.  For example, attached to the nginx container, you can "ping db"
   * Contains the container specific mappings between host and docker container persistent volumes for example for the node container:
