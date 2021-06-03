@@ -28,7 +28,7 @@ Following the below steps you'll have a copy of the site running, including 3 do
 2. download source code: `git clone https://github.com/shift-org/shift-docs.git`
 3. download additional external modules: `cd shift-docs ; git submodule update --init --recursive`
 4. start shift site: `./shift up`
-5. visit `https://localhost:4443/`
+5. visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
 Note that no changes to the filesystems INSIDE the container should ever be needed;  they read from your LOCAL filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands OUTIDE of the container (`git checkout otherbranch` or `git pull`).
 
