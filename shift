@@ -63,8 +63,12 @@ sub_help() { #                    - Show this text
 }
 
 sub_up() { #                      - Bring all services up
+    if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
+	mkdir $LETSENCRYPT_WEBROOT
+    fi 
     sub_compose up --force-recreate -d ${CONTAINERS}
-    echo "Run './${SCRIPT_NAME} watch' to monitor for changes and rebuild"
+    echo "Assuming no fatal errors are shown above, you can now use the environment!"
+    echo "You can run './${SCRIPT_NAME} watch' to monitor for changes and rebuild."
 }
 
 sub_watch() { #                   - Watch the site directory for changes and rebuild the site
