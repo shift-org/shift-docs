@@ -15,6 +15,12 @@
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('fullcalendar');
 
+      var today = new Date;
+      default_start_date = {{ .Param "startdate" }};
+      if ( new Date({{ .Param "startdate" }}) <= today && new Date({{ .Param "enddate" }}) >= today) {
+        default_start_date = today;
+      }
+
       var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: [ 'dayGrid', 'timeGrid' ],
         defaultView: 'dayGridMonth',
@@ -23,7 +29,7 @@
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        defaultDate: {{ .Param "startdate" }},
+        defaultDate: default_start_date,
         validRange: {
           start: {{ .Param "startdate" }},
           end: {{ .Param "enddate" }}
