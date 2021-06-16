@@ -8,8 +8,11 @@ menu:
         parent: communitynav
 ---
 
-Since Jul 2018, there's a new Board of Directors (huzzah!) whose meeting notes are hosted here:
+Shift's operations have been facilitated by a board of directors since July 2018.
 
-https://drive.google.com/drive/folders/1IfF2J8iQoDix2_53hKmgz6yMs3MePR6b?usp=sharing
+The meeting notes for all meetings during that time period can all be found here:
 
-There are <a href=http://old.shift2bikes.org/images/biz/Shift-biz_Meeting_Notes.pdf>years of legacy shift meeting notes from 200x until 2014 or so</a> in a PDF here.
+[google docs link]([https://docs.google.com/document/d/19xxubdPjYXvxxrgx5TUw3gCNsDa6fz-CU_dQglxrZVs/edit?usp=sharing)
+
+There are <a href=http://www.shift2bikes.org/Shift-biz_Meeting_Notes.pdf>many years of legacy shift meeting notes from 200x until 2014 or so</a>, poorly formatted, in a PDF for posterity.
+
