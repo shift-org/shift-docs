@@ -13,7 +13,8 @@ Shift's operations have been facilitated by a board of directors since July 2018
 - [google docs link](https://docs.google.com/document/d/19xxubdPjYXvxxrgx5TUw3gCNsDa6fz-CU_dQglxrZVs/edit?usp=sharing)
 
 The meeting notes for the board from 2018-2020 can be found here:
-- [google docs link](https://drive.google.com/drive/folders/1IfF2J8iQoDix2_53hKmgz6yMs3MePR6b?usp=sharing)
+
+- [google docs link](https://drive.google.com/drive/folders/1Ap4BIWV2usuA_XqiGGM-HStbVjyisomD)
 
 
 There are <a href=/Shift-biz_Meeting_Notes.pdf>many years of legacy shift meeting notes from 200x until 2014 or so</a>, when there was less organization.  Sorry these are poorly formatted, but saved in a PDF for posterity.
