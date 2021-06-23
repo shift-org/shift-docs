@@ -1,11 +1,10 @@
 ---
 title: Calendar FAQ
-weight: '4'
+weight: "4"
 menu:
   main:
     parent: Calendar
 ---
-
 ## Going to events
 
 ### Who organizes these events?
@@ -76,6 +75,14 @@ Check out the details in our [Code of Conduct](/pages/shift-code-of-conduct/#3-e
 ### How do I edit my event?
 
 Use the link that's emailed to you. It acts like a password — anyone who has it can manage the event, so keep it private. If you can't find the email we sent you that contains the edit link, contact us and we'll help you out.
+
+### How do I reschedule or cancel my event?
+
+Edit your event using the link that's emailed to you. Scroll down to the date picker, and find your ride date. Change the menu next to your date from "Scheduled" to "Cancelled." You can also add an optional note in the "newsflash" area to let your riders know the new plan.
+
+If you're rescheduling to a new date, click on the new date in the date picker to add it. You can also add an optional newsflash message to the new date.
+
+![Screenshot of date picker with cancelled date and rescheduled date. June 27th is cancelled with newsflash "Moved to July 11"; July 11th has newsflash "New date."](/images/uploads/rescheduling-a-ride.png)
 
 ### I'm having trouble posting a ride or making changes. Who do I contact?
 
