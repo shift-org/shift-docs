@@ -45,6 +45,13 @@ function validate_email($email) {
     // lowercase provided email before checking against ban list
     $email = strtolower($email);
 
+    // remove +tags, e.g. invalid+tag@example.com
+    $emailWithTagsPattern = '/(.+)([+].*)@(.+)/';
+    $emailReplacement = '$1@$3';
+    while (preg_match($emailWithTagsPattern, $email)) {
+        $email = preg_replace($emailWithTagsPattern, $emailReplacement, $email);
+    }
+
     // load ban list from config
     global $BANLIST;
 
