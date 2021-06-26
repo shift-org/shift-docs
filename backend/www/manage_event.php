@@ -41,6 +41,20 @@ function validate_json_request($data) {
     return $validator->validate(TRUE, TRUE);
 }
 
+function validate_email($email) {
+    // lowercase provided email before checking against ban list
+    $email = strtolower($email);
+
+    // load ban list from config
+    global $BANLIST;
+
+    if (in_array($email, $BANLIST)) {
+        return FALSE;
+    } else {
+        return TRUE;
+    }
+}
+
 function upload_attached_file($event, $messages) {
     if (isset($_FILES['file'])) {
         $uploader = new fUpload();
@@ -175,6 +189,10 @@ function build_json_response() {
     }
 
     $messages = validate_json_request($data);
+
+    if (!validate_email($data['email'])) {
+        $messages['email'] = "Email is invalid";
+    }
 
     if (!$data['read_comic']) {
         $messages['read_comic'] = "You must have read the Ride Leading Comic";

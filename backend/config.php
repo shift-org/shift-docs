@@ -21,3 +21,10 @@ $IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";
 
 $ORIGIN = "*";
+
+$banfile = ('../banlist.txt');
+if (file_exists($banfile)) {
+    $BANLIST = file('../banlist.txt', FILE_IGNORE_NEW_LINES);
+} else {
+    $BANLIST = [];
+}
