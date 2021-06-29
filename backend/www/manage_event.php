@@ -46,11 +46,9 @@ function validate_email($email) {
     $email = strtolower($email);
 
     // remove +tags, e.g. invalid+tag@example.com
-    $emailWithTagsPattern = '/(.+)([+].*)@(.+)/';
+    $emailWithTagsPattern = '/([^+]+)([+].*)@(.+)/';
     $emailReplacement = '$1@$3';
-    while (preg_match($emailWithTagsPattern, $email)) {
-        $email = preg_replace($emailWithTagsPattern, $emailReplacement, $email);
-    }
+    $email = preg_replace($emailWithTagsPattern, $emailReplacement, $email);
 
     // load ban list from config
     global $BANLIST;
