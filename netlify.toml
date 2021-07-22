@@ -127,3 +127,10 @@
   from = "/pedalpalooza"
   to = "/pages/pedalpalooza"
   status = 301
+
+
+# old bike rack webpage linked from PBoT and other pages we can't fix
+[[redirects]]
+  from = "/wiki/shift-shop:rack-rental"
+  to = "/pages/bike-racks/"
+  status = 301
