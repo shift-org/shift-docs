@@ -460,17 +460,26 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
 
 .calendar-day:hover {
     cursor: pointer;
-    background-color: #fff;
+    outline: 2px dotted #663300;
 }
 
 .calendar-day.today {
-    background-color: green;
-    color: white;
+    text-decoration: 2px solid #404040 underline;
+    background-color: #fff;
 }
 
 .calendar-day.selected {
-    background-color: red;
-    color: white;
+    background-color: #663300;
+    outline: 2px solid #663300;
+    color: #FCFAF2;
+}
+
+.calendar-day.today.selected {
+    text-decoration-color: white;
+}
+
+.calendar-day.today:hover {
+     outline: 2px dotted #663300;
 }
 
 .calendar-month-title {
