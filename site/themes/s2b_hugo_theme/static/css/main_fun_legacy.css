@@ -409,6 +409,9 @@ form#event-entry .date-select-container-style {
     float: right;
     clear: right;
 }
+button.expand-details {
+    user-select: text;
+}
 button.jump-to-date {
     float: right;
     border: none;
