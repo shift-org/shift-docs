@@ -19,7 +19,6 @@ menu:
 * **[Puddlecycle](https://puddlecycle.com/)** is a group that focuses on winter bike fun events in Portland.  Their website talks more about their mission and how to participate.
 * **[Portland Autonomous Zone](https://pazpdx.wordpress.com/about/)** is a local DIY/tinkering community with a focus on bikes and is a frequent booster of and participant in shift events.
 * **[Corvidae Bicycle Club](https://www.facebook.com/corvidaeBC/)** is an inclusive fun crew that leads a monthly 2nd Sunday social ride from Peninsula Park at 2pm
-* **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.
 
 ## Nonprofits and Government groups
 
@@ -28,6 +27,12 @@ menu:
 * **[Bike Loud PDX](https://bikeloudpdx.org/)** is a non-profit organization dedicated to creating positive movement towards safer streets and healthier neighborhoods via grassroots advocacy campaigns.
 * **[The Portland Bureau of Transportation has an active-transportation focused group](https://www.portlandoregon.gov/transportation/59969)**.  This group organizes [Sunday Parkways](https://www.portlandoregon.gov/transportation/46103) and a bunch of other wonderful bike-focused groups - from a [bike share program](https://www.portland.gov/transportation/bike-share) to [safe routes to schools](https://www.portland.gov/transportation/safe-routes-school).
 * **[WashCoBikes](https://washcobikes.org/)** champions cycling in Washington County
+
+## Media
+
+* **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.
+* **[KBOO Bike Show](https://kboo.fm/program/bike-show)** 
+is a monthly show presenting news and views of cycling in Portland and beyond. It broadcasts live on KBOO 90.7 FM once a month, and it's available as a podcast at [BikeShow.PortlandTransport.com](http://bikeshow.portlandtransport.com/).
 
 ## Sponsors
 
