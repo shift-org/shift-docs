@@ -58,9 +58,9 @@ The [Shift list](/pages/email-list/) is also always open for bikey discussion. S
 
 Stay safe, stay healthy!
 
-### Pedalpalooza Safety Plan
+### Safety Plan
 
-<p style="text-align: left; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;">We need everyone's help to keep bike fun safe for all! Ride leaders who follow this Pedalpalooza safety plan will have a special marker next to their rides on the calendar. Ride participants are expected to follow these rules at rides which agree to this plan.</p>
+<p style="text-align: left; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;">We need everyone's help to keep bike fun safe for all! Ride leaders who follow this safety plan will have a special marker next to their rides on the calendar. Ride participants are expected to follow these rules at rides which agree to this plan.</p>
 
 * Everyone, vaccinated or not, wears a tight fitting face mask.
 * Ride leaders promise to wear a mask.
