@@ -212,9 +212,13 @@
             mustacheData;
         var $form = $('#event-entry');
         $.extend(previewEvent, shiftEvent, eventFromForm());
-        previewEvent.displayTime = previewEvent.time;
+
+        previewEvent['displayStartTime'] = previewEvent['time'];
+        previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
         previewEvent['length'] += ' miles';
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
+        previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
+        previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
         $form.hide();
         mustacheData = {
             dates:[],
