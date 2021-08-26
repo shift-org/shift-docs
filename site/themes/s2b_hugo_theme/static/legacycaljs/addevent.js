@@ -227,7 +227,12 @@
         };
         $.each(previewEvent.datestatuses, function(index, value) {
             var date = $form.formatDate(value['date']);
-            mustacheData.dates.push({ date: date, events: [previewEvent] });
+            var displayDate = $form.formatDate(value['date'], abbreviated=true);
+            mustacheData.dates.push({
+                date: date,
+                displayDate: displayDate,
+                events: [previewEvent],
+            });
         });
         $('.preview-button').hide();
         $('.preview-edit-button').show();
