@@ -228,9 +228,13 @@
         $.each(previewEvent.datestatuses, function(index, value) {
             var date = $form.formatDate(value['date']);
             var displayDate = $form.formatDate(value['date'], abbreviated=true);
+            var newsflash = value['newsflash'];
+            var cancelled = value['status'] === 'C';
             mustacheData.dates.push({
                 date: date,
                 displayDate: displayDate,
+                newsflash: newsflash,
+                cancelled: cancelled,
                 events: [previewEvent],
             });
         });
