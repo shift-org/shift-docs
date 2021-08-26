@@ -1,6 +1,9 @@
 # build settings for netlify
 
 # [build] and [build.environment] are defaults, will apply to all builds unless overridden in a context stanza below
+# previously, we needed publish = "site/public", but as of 25 Aug,
+# this is configured for the new world of "publish directory is relative to base directory"
+
 [build]
 
   base = "site/"
