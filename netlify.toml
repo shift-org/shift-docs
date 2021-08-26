@@ -1,6 +1,7 @@
 # build settings for netlify
 
 # [build] and [build.environment] are defaults, will apply to all builds unless overridden in a context stanza below
+
 [build]
 
   base = "site/"
@@ -14,11 +15,11 @@
   command = 'hugo -D && cp public/404/index.html public/404.html'
 
 [context.branch-deploy]
-  # this command builds draft content for deploy previews
+  # this command builds draft content for branches
   command = 'hugo -D  && cp public/404/index.html public/404.html'
 
 [context.production]
-  # drafts are excluded (no `-D` option to hugo) for prod build
+  # drafts are excluded (no `-D` option to hugo) for prod build.  We also pull new code to the server in this case!
   command = 'hugo && cp public/404/index.html public/404.html && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull"'
 
 
