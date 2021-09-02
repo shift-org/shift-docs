@@ -74,15 +74,6 @@ paginate = 10
     weight = 6
     identifier = "aboutmenu"
 
-# Child of About
-[[menu.main]]
-    img = "static/images/external-link-alt_Font Awesome.html"
-    name = "World Carfree Network"
-    pre = "s2b-external-link"
-    url  = "http://www.worldcarfree.net/wcfd/"
-    weight = 5
-    parent = "aboutmenu"
-
 # Top bar social links menu
 
 [[menu.topbar]]
