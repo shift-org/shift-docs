@@ -212,9 +212,20 @@
             mustacheData;
         var $form = $('#event-entry');
         $.extend(previewEvent, shiftEvent, eventFromForm());
-        previewEvent.displayTime = previewEvent.time;
+
+        previewEvent['displayStartTime'] = previewEvent['time'];
+        previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
         previewEvent['length'] += ' miles';
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
+        previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
+        previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
+        if ( previewEvent['eventduration'] ){
+            var endTime = moment(previewEvent['time'], 'hh:mm A')
+                .add(previewEvent['eventduration'], 'minutes')
+                .format('HH:mm');
+            previewEvent['endtime'] = endTime; // e.g. 18:00
+            previewEvent['displayEndTime'] = moment(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
+        }
         $form.hide();
         mustacheData = {
             dates:[],
@@ -223,7 +234,17 @@
         };
         $.each(previewEvent.datestatuses, function(index, value) {
             var date = $form.formatDate(value['date']);
-            mustacheData.dates.push({ date: date, events: [previewEvent] });
+            var displayDate = $form.formatDate(value['date'], abbreviated=true);
+            var newsflash = value['newsflash'];
+            var cancelled = value['status'] === 'C';
+            mustacheData.dates.push({
+                date: date,
+                displayDate: displayDate,
+                newsflash: newsflash,
+                cancelled: cancelled,
+                caldaily_id: index,
+                events: [previewEvent],
+            });
         });
         $('.preview-button').hide();
         $('.preview-edit-button').show();
