@@ -242,6 +242,7 @@
                 displayDate: displayDate,
                 newsflash: newsflash,
                 cancelled: cancelled,
+                caldaily_id: index,
                 events: [previewEvent],
             });
         });
