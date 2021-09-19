@@ -8,7 +8,7 @@ menu:
 
 ## Want to connect with Shift?
 
-- [Email our Board of Directors](mailto:shift-bod@googlegroups.com)
+- [Email our Board of Directors](mailto:board@shift2bikes.org)
 - [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
 - [Join our Community Mailing list](/pages/email-list/)
 - Connect with us on social media: [Facebook](https://www.facebook.com/shift2bikes/), [Instagram](https://www.instagram.com/shift2bikes/), and [Twitter](https://twitter.com/shift2bikes)
