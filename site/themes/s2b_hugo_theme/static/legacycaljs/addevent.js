@@ -219,6 +219,15 @@
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
         previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
         previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
+        if ( previewEvent['hideemail'] ){
+            previewEvent['email'] = null;
+        }
+        if ( previewEvent['hidephone'] ){
+            previewEvent['phone'] = null;
+        }
+        if ( previewEvent['hidecontact'] ){
+            previewEvent['contact'] = null;
+        }
         if ( previewEvent['eventduration'] ){
             var endTime = moment(previewEvent['time'], 'hh:mm A')
                 .add(previewEvent['eventduration'], 'minutes')
@@ -236,7 +245,7 @@
             var date = $form.formatDate(value['date']);
             var displayDate = $form.formatDate(value['date'], abbreviated=true);
             var newsflash = value['newsflash'];
-            var cancelled = value['status'] === 'C';
+            var cancelled = (value['status'] === 'C');
             mustacheData.dates.push({
                 date: date,
                 displayDate: displayDate,
