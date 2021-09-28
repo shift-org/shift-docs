@@ -213,16 +213,6 @@
         var $form = $('#event-entry');
         $.extend(previewEvent, shiftEvent, eventFromForm());
 
-        if ( previewEvent['hideemail'] ){
-            previewEvent['email'] = null;
-        }
-        if ( previewEvent['hidephone'] ){
-            previewEvent['phone'] = null;
-        }
-        if ( previewEvent['hidecontact'] ){
-            previewEvent['contact'] = null;
-        }
-
         previewEvent['displayStartTime'] = previewEvent['time'];
         if ( previewEvent['eventduration'] ){
             var endTime = moment(previewEvent['time'], 'hh:mm A')
