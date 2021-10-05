@@ -24,11 +24,12 @@ You can see the live site here:  https://www.shift2bikes.org
 
 Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the php server:
 
-1. install docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
-2. download source code: `git clone https://github.com/shift-org/shift-docs.git`
-3. download additional external modules: `cd shift-docs ; git submodule update --init --recursive`
-4. start shift site: `./shift up`
-5. visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
+1. Install Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
+2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
+3. Download additional external modules: `cd shift-docs ; git submodule update --init --recursive`
+4. Start shift site: `./shift up`
+5. If you're standing up the site for the first time, setup the database by importing a database file: `./shift mysql-pipe < db-import-file.sql`. Contact maintainers for a suitable import file.
+6. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
 Note that no changes to the filesystems INSIDE the container should ever be needed;  they read from your LOCAL filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands OUTIDE of the container (`git checkout otherbranch` or `git pull`).
 
@@ -98,9 +99,3 @@ bash npm install --save sequelize
 ```
 (from: http://docs.sequelizejs.com/manual/installation/getting-started.html)
 
-
-
-
-
-
-c-c-c-cache buster
