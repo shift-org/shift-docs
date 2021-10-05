@@ -55,8 +55,8 @@ The site is run in several docker containers.
   * Contains the container specific mappings between host and docker container persistent volumes for example for the node container:
 
     volumes:
-      - ./borzoi/node/:/opt/borzoi/node/
-      - ./app:/home/node/app
+      - `./borzoi/node/:/opt/borzoi/node/`
+      - `./app:/home/node/app`
 
 * `shift`
   * This is the convenience wrapper that sets up the environment and has various convenience sub-commands to connect to the environment and manipulate it as well.  This is how you'll start the project, connect to the database, etc!
@@ -70,24 +70,24 @@ The site is run in several docker containers.
 
 ## Shift subcommands of interest
 
-* ./shift attach node 
+* `./shift attach node`
   * `node` is a reference to the named docker container.  Note that you want just `nginx`, `db` or `php` not the full image name (`shift_nginx_1`)
   * Attaches to the running docker container in the shift stack
-* ./shift up
+* `./shift up`
   * If necessary, first builds, and then starts up the docker containers (will also restart if run while the environment is already running.)
-* ./shift logs nginx
+* `./shift logs nginx`
   * Will start tailing the logs for the specified container (nginx in this case)
   * multiple container names can be mentioned
-* ./shift down
+* `./shift down`
   * stops the docker containers
 
 ## Docker Daemon commands of interest
 
-* docker ps
+* `docker ps`
   * lists all of the running process and port information from docker (ex: you can see the postgres service port)
-* docker volume ls  
-  * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with shift_
-  * The "shift_" docker namespace comes from the shift file: export COMPOSE_PROJECT_NAME="shift"
+* `docker volume ls`
+  * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with `shift_`
+  * The "shift_" docker namespace comes from the shift file: `export COMPOSE_PROJECT_NAME="shift"`
 
 ## Sequalize Setup
 
