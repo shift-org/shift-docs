@@ -79,15 +79,15 @@
 
   <!-- only load grid view styles on calendar list pages; not needed on edit pages -->
   {{ if or (eq .Type "calevents") (eq .Type "calgrid") (eq .Type "pp-cal") }}
-  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/core/main.min.css">
-  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/daygrid/main.min.css">
-  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/timegrid/main.min.css">
+  <link rel="stylesheet" type="text/css" href="/js/cal/fullcalendar/core/main.min.css">
+  <link rel="stylesheet" type="text/css" href="/js/cal/fullcalendar/daygrid/main.min.css">
+  <link rel="stylesheet" type="text/css" href="/js/cal/fullcalendar/timegrid/main.min.css">
   {{ end }}
 
   <!-- only load list view styles on homepage for "up next" widget and PP cal page -->
   {{ if or (eq .Type "homepage") (eq .Type "pp-cal") }}
-  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/core/main.min.css"/>
-  <link rel="stylesheet" type="text/css" href="/legacycaljs/fullcalendar/list/main.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/js/cal/fullcalendar/core/main.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/js/cal/fullcalendar/list/main.min.css"/>
   {{ end }}
 
 </head>

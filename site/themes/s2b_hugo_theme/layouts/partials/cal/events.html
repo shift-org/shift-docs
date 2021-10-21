@@ -1,12 +1,12 @@
-<script src="{{ .Site.BaseURL }}legacycaljs/mustache.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/moment.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/intersection-observer.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/helpers.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/main.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/mustache.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/moment.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/intersection-observer.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/helpers.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/main.js"></script>
 
-<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/daygrid/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/timegrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/fullcalendar/timegrid/main.min.js"></script>
 
 <script type="text/javascript">
   //only show grid view for PP pages, 2008 or later
@@ -221,7 +221,7 @@
           <div class="eventImg">
             [[# image]]
             <a href="[[image]]">
-              <img class="lazy" src="{{ .Site.BaseURL }}legacycalimages/icons/image.svg" data-src="[[image]]" alt="User-uploaded image for [[title]]" />
+              <img class="lazy" src="{{ .Site.BaseURL }}img/cal/icons/image.svg" data-src="[[image]]" alt="User-uploaded image for [[title]]" />
             </a>
             [[/ image]]
           </div>
@@ -292,7 +292,7 @@
           <div class="eventlink">
             <p class="facebook-share">
               <a href="https://www.facebook.com/sharer/sharer.php?u=[[shareable]]" target="_blank">
-                <img src="{{ .Site.BaseURL }}legacycalimages/icons/facebook.svg" alt="Facebook"/>Share</a>
+                <img src="{{ .Site.BaseURL }}img/cal/icons/facebook.svg" alt="Facebook"/>Share</a>
             </p>
             <ul>
               <li>

@@ -19,7 +19,7 @@ But if someone is using a high contrast display mode, the border will appear.
   right:40px;
   display:none;
   z-index:1;
-  background: url('../legacycalimages/icons/up-arrow.svg') no-repeat 0px 20px;
+  background: url('../img/cal/icons/up-arrow.svg') no-repeat 0px 20px;
   background-position: center;
 }
 

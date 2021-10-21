@@ -1,9 +1,9 @@
 {{ partial "cal/events.html" . }}
 
-<script src="{{ .Site.BaseURL }}legacycaljs/formdata.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/mailcheck.min.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/addevent.js"></script>
-<script src="{{ .Site.BaseURL }}legacycaljs/datepicker.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/formdata.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/mailcheck.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/addevent.js"></script>
+<script src="{{ .Site.BaseURL }}js/cal/datepicker.js"></script>
 
 <div class="modal fade" tabindex="-1" id="cancel-modal" role="dialog">
   <div class="modal-dialog modal-sm">
@@ -109,7 +109,7 @@
               <div class="image-form">
                 <div class="image-display">
                   [[^ image]]
-                  <img src="{{ .Site.BaseURL }}legacycalimages/icons/image.svg" alt="" class="event-image placeholder" />
+                  <img src="{{ .Site.BaseURL }}img/cal/icons/image.svg" alt="" class="event-image placeholder" />
                   [[/ image]]
                   [[# image]]
                   <a href="[[image]]" target="_blank" title="View full size in a new window">
