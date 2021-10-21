@@ -74,7 +74,7 @@
 
   <!-- load calendar styles on calendar list, edit, or grid pages, or on homepage for "up next" widget -->
   {{ if or (eq .Type "calevents") (eq .Type "caledit") (eq .Type "calgrid") (eq .Type "pp-landing") (eq .Type "pp-cal") (eq .Type "homepage") }}
-  <link rel="stylesheet" type="text/css" href="/css/main_fun_legacy.css">
+  <link rel="stylesheet" type="text/css" href="/css/cal/main.css">
   {{ end }}
 
   <!-- only load grid view styles on calendar list pages; not needed on edit pages -->
