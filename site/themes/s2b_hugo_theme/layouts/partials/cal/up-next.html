@@ -1,8 +1,6 @@
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}legacycaljs/fullcalendar/list/main.min.js"></script>
 
-{{ partial "cal/pp-2020-themes.html" . }}
-
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
@@ -28,11 +26,6 @@
       },
       noEventsMessage: "No events happening today or tomorrow",
       eventSources: [
-        {
-          events: ppThemesData, // from pp-2020-themes.html
-          allDayDefault: true,
-          color: "#D34212",
-        },
         {
           url: '{{ .Site.BaseURL }}api/events.php',
           startParam: 'startdate',
