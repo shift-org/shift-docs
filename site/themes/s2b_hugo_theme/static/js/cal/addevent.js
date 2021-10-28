@@ -214,11 +214,6 @@
         $.extend(previewEvent, shiftEvent, eventFromForm());
 
         previewEvent['displayStartTime'] = previewEvent['time'];
-        previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
-        previewEvent['length'] += ' miles';
-        previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
-        previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
-        previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
         if ( previewEvent['eventduration'] ){
             var endTime = moment(previewEvent['time'], 'hh:mm A')
                 .add(previewEvent['eventduration'], 'minutes')
@@ -226,6 +221,13 @@
             previewEvent['endtime'] = endTime; // e.g. 18:00
             previewEvent['displayEndTime'] = moment(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
         }
+
+        previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
+        previewEvent['length'] += ' miles';
+        previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
+        previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
+        previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
+
         $form.hide();
         mustacheData = {
             dates:[],
@@ -236,7 +238,7 @@
             var date = $form.formatDate(value['date']);
             var displayDate = $form.formatDate(value['date'], abbreviated=true);
             var newsflash = value['newsflash'];
-            var cancelled = value['status'] === 'C';
+            var cancelled = (value['status'] === 'C');
             mustacheData.dates.push({
                 date: date,
                 displayDate: displayDate,
