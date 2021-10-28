@@ -28,7 +28,7 @@ Following the below steps you'll have a copy of the site running, including 3 do
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
 3. Download additional external modules: `cd shift-docs ; git submodule update --init --recursive`
 4. Start shift site: `./shift up`
-5. If you're standing up the site for the first time, setup the database by importing a database file: `./shift mysql-pipe < db-import-file.sql`. [Contact maintainers](https://www.shift2bikes.org/pages/contact/) for a suitable import file.
+5. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
 6. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
 Note that no changes to the filesystems INSIDE the container should ever be needed;  they read from your LOCAL filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands OUTIDE of the container (`git checkout otherbranch` or `git pull`).
