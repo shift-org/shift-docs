@@ -1,9 +1,10 @@
 {{ partial "cal/events.html" . }}
 
 <script src="{{ .Site.BaseURL }}js/cal/formdata.js"></script>
-<script src="{{ .Site.BaseURL }}js/cal/mailcheck.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/cal/addevent.js"></script>
 <script src="{{ .Site.BaseURL }}js/cal/datepicker.js"></script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mailcheck/1.1.2/mailcheck.min.js"></script>
 
 <div class="modal fade" tabindex="-1" id="cancel-modal" role="dialog">
   <div class="modal-dialog modal-sm">
