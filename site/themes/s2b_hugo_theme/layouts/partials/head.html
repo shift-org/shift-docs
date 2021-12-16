@@ -32,7 +32,7 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
-  <!-- Css animations  -->
+  <!-- Animation styles  -->
   <link href="{{ .Site.BaseURL }}css/animate.css" rel="stylesheet">
 
   <!-- Theme stylesheet, if possible do not edit this stylesheet -->
@@ -41,7 +41,6 @@
   {{ else }}
     <link href="{{ .Site.BaseURL }}css/style.default.css" rel="stylesheet" id="theme-stylesheet">
   {{ end }}
-
 
   <!-- Custom stylesheet - for your changes -->
   <link href="{{ .Site.BaseURL }}css/custom.css" rel="stylesheet">
@@ -58,10 +57,12 @@
   <link rel="icon" href="{{ .Site.BaseURL }}img/favicon.ico">
   <link rel="icon" href="{{ .Site.BaseURL }}img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="{{ .Site.BaseURL }}img/apple-touch-icon.png">
-  <!-- owl carousel css -->
 
+  <!-- owl carousel; only load styles on homepage -->
+  {{ if (eq .Type "homepage") }}
   <link href="{{ .Site.BaseURL }}css/owl.carousel.css" rel="stylesheet">
   <link href="{{ .Site.BaseURL }}css/owl.theme.css" rel="stylesheet">
+  {{ end }}
 
   <link rel="alternate" href="{{ "/index.xml" | absURL }}" type="application/rss+xml" title="{{ .Site.Title }}">
 

@@ -18,8 +18,10 @@
 
 <script src="{{ .Site.BaseURL }}js/front.js"></script>
 
-<!-- owl carousel -->
+<!-- owl carousel; only load scripts on homepage -->
+{{ if (eq .Type "homepage") }}
 <script src="{{ .Site.BaseURL }}js/owl.carousel.min.js"></script>
+{{ end }}
 
 <!-- To get the external links in nav bar to open in new tabs (but keep the other nav bar link to open in the same tab) -->
 <script type="text/javascript">
