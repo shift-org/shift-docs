@@ -132,6 +132,7 @@ $(document).ready(function() {
              // don't load list/grid toggle on PP page (always displays grid)
              if ( !('pp' in options) ) {
                container.append($('#view-as-options').html());
+               container.append($('#go-to-date-template').html());
              }
              container.append(eventHTML);
              if ( !('pp' in options) ) {
@@ -191,6 +192,15 @@ $(document).ready(function() {
 
     $(document).on('click', '#confirm-cancel', function() {
       window.location.href = '/calendar/';
+    });
+
+    $(document).on('click', '#go-to-date', function() {
+      var date = $("#go-to-date-field").val();
+      if (date) {
+        window.location.href = '/calendar/?startdate=' + date;
+      } else {
+        window.location.href = '/calendar/';
+      }
     });
 
     $(document).on('click', '#date-picker-prev-month', function(ev) {
