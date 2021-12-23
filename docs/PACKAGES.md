@@ -11,7 +11,7 @@
 * [jQuery](https://github.com/jquery/jquery/releases)
 * [FullCalendar v4](https://github.com/fullcalendar/fullcalendar/releases)
 * [Mailcheck](https://github.com/mailcheck/mailcheck/releases)
-* [w3c IntersectionObserver polyfill (for lazy loading images)](https://github.com/w3c/IntersectionObserver/tree/main/polyfill)
+* [w3c IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/tree/main/polyfill) (for lazy loading images)
 
 As of April 2021, all have been updated to their latest releases within their major version.
 
