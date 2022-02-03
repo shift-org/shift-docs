@@ -3,7 +3,7 @@ title: "2020 Pedalpalooza calendar"
 description: "2020 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: pp-cal
+type: pp-theme-cal
 pp: true
 year: 2020
 startdate: 2020-06-01
