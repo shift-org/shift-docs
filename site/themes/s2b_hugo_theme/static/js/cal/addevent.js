@@ -216,8 +216,8 @@
             shiftEvent.codeOfConduct = false;
             shiftEvent.readComic = false;
             populateEditForm(shiftEvent, function(eventHTML) {
-				var newUrl = '/addevent/';
-				history.pushState({}, newUrl, newUrl);
+                var newUrl = '/addevent/';
+                history.pushState({}, newUrl, newUrl);
                 $('#mustache-html').empty().append(eventHTML);
                 $('html, body').animate({
                   scrollTop: 0
