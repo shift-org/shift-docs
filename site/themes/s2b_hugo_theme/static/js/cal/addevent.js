@@ -216,7 +216,6 @@
             shiftEvent.codeOfConduct = false;
             shiftEvent.readComic = false;
             populateEditForm(shiftEvent, function(eventHTML) {
-                // old value still present when duped event form is submitted
 				var newUrl = '/addevent/';
 				history.pushState({}, newUrl, newUrl);
                 $('#mustache-html').empty().append(eventHTML);
