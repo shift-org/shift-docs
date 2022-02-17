@@ -235,7 +235,11 @@
     }
 
     function loadEarlierBottom() {
-        return ($loadEarlier.offset().top + $loadEarlier.prop('scrollHeight')) - $dateSelect.offset().top;
+        if ($loadEarlier) {
+            return ($loadEarlier.offset().top + $loadEarlier.prop('scrollHeight')) - $dateSelect.offset().top;
+        } else {
+            return 0;
+        }
     }
 
     var checking = false;
