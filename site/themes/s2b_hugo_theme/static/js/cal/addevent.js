@@ -2,6 +2,10 @@
 
     var _isFormDirty = false;
 
+    $.fn.cleanFormDirt = function() {
+      _isFormDirty = false;
+    }
+
     $.fn.getAddEventForm = function(id, secret, callback) {
         if (id && secret) {
             // TODO: loading spinner
