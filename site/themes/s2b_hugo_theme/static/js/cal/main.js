@@ -74,6 +74,9 @@ $(document).ready(function() {
                 var msg = 'Your event has been deleted';
                 $('#success-message').text(msg);
                 $('#success-modal').modal('show');
+                $('#success-ok').on('click',function() {
+                    window.location.href = '/calendar/';
+                });
             },
             error: function(returnVal) {
                 var err = returnVal.responseJSON
@@ -184,6 +187,7 @@ $(document).ready(function() {
             if (id) {
                 $(document).off('click', '#confirm-delete')
                     .on('click', '#confirm-delete', function() {
+                        container.cleanFormDirt();
                         deleteEvent(id, secret);
                     });
             }
@@ -191,6 +195,7 @@ $(document).ready(function() {
     }
 
     $(document).on('click', '#confirm-cancel', function() {
+      container.cleanFormDirt();
       window.location.href = '/calendar/';
     });
 

@@ -1,5 +1,11 @@
 (function($) {
 
+    var _isFormDirty = false;
+
+    $.fn.cleanFormDirt = function() {
+      _isFormDirty = false;
+    }
+
     $.fn.getAddEventForm = function(id, secret, callback) {
         if (id && secret) {
             // TODO: loading spinner
@@ -151,13 +157,15 @@
                         $('.unpublished-event').remove();
                         $('.published-save-button').show();
                         $('.duplicate-button').show();
+                        _isFormDirty = false;
                     }
 
                     if (isNew) {
-					    var newUrl = 'event-submitted';
-					    history.pushState({}, newUrl, newUrl);
-					    $('.edit-buttons').prop('hidden', true);
-					    $('#mustache-html').html('<p>Event submitted! Check your email to finish publishing your event.</p><p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add another event</a>.</p>');
+                        var newUrl = 'event-submitted';
+                        history.pushState({}, newUrl, newUrl);
+                        $('.edit-buttons').prop('hidden', true);
+                        $('#mustache-html').html('<p>Event submitted! Check your email to finish publishing your event.</p><p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add another event</a>.</p>');
+                        _isFormDirty = false;
                     }
                     $('#success-message').text(msg);
                     $('#success-modal').modal('show');
@@ -224,6 +232,8 @@
                 }, 1000)
             });
         });
+
+        checkForChanges();
     }
 
     function previewEvent(shiftEvent, callback) {
@@ -314,5 +324,21 @@
         // TODO: Remember unwanted corrections in local storage, don't offer again
         $( document ).off( 'blur', '#email' );
     } );
+
+    function checkForChanges() {
+        $(':input').on('input', function () {
+          _isFormDirty = true;
+        });
+        // this doesn't detect changes in the date picker yet;
+        // TODO more checks to listen for changes there
+
+        window.addEventListener('beforeunload', function (e) {
+          if (_isFormDirty) {
+            e.preventDefault();
+            e.returnValue = '';
+          }
+        });
+        return 0;
+    };
 
 }(jQuery));
