@@ -114,6 +114,7 @@
 
         if (shiftEvent.published) {
           $('.published-save-button').show();
+          $('.duplicate-button').show();
         }
 
         $('.save-button, .publish-button').click(function() {
@@ -149,6 +150,7 @@
                     if (returnVal.published) {
                         $('.unpublished-event').remove();
                         $('.published-save-button').show();
+                        $('.duplicate-button').show();
                     }
 
                     if (isNew) {
@@ -203,6 +205,23 @@
             .on('click', '.preview-button', function(e) {
             previewEvent(shiftEvent, function(eventHTML) {
                 $('#mustache-html').append(eventHTML);
+            });
+        });
+
+        $(document).off('click', '.duplicate-button')
+            .on('click', '.duplicate-button', function(e) {
+            shiftEvent.id = '';
+            shiftEvent.secret = '';
+            shiftEvent.datestatuses = [];
+            shiftEvent.codeOfConduct = false;
+            shiftEvent.readComic = false;
+            populateEditForm(shiftEvent, function(eventHTML) {
+                var newUrl = '/addevent/';
+                history.pushState({}, newUrl, newUrl);
+                $('#mustache-html').empty().append(eventHTML);
+                $('html, body').animate({
+                  scrollTop: 0
+                }, 1000)
             });
         });
     }
