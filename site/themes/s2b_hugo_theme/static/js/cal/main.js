@@ -132,6 +132,7 @@ $(document).ready(function() {
              // don't load list/grid toggle on PP page (always displays grid)
              if ( !('pp' in options) ) {
                container.append($('#view-as-options').html());
+               container.append($('#show-details-template').html());
                container.append($('#go-to-date-template').html());
              }
              container.append(eventHTML);
@@ -192,6 +193,22 @@ $(document).ready(function() {
 
     $(document).on('click', '#confirm-cancel', function() {
       window.location.href = '/calendar/';
+    });
+
+    $(document).on('click', '#show-details', function() {
+      var url = new URL(window.location.href);
+      var expanded = url.search.includes("show_details");
+      var toggle_button = document.getElementById('show-details');
+
+      if (!expanded) {
+        url.searchParams.append('show_details', 'true');
+        window.location.href = url.href;
+        toggle_button.textContent = 'Collapse ride details';
+      } else {
+        url.searchParams.delete('show_details');
+        window.location.href = url.href;
+        toggle_button.textContent = 'Expand ride details';
+      }
     });
 
     $(document).on('click', '#go-to-date', function() {
