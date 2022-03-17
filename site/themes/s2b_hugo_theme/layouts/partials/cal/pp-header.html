@@ -14,12 +14,23 @@
       <p><a href="/pages/pedalpalooza/">Pedalpalooza</a> is a festival of bikey fun. Hundreds of different events are organized by people like you. Most rides are free and all are open to the public to join.</p>
 
       {{ if or (eq (.Param "year") 2021) (eq (.Param "year") 2022) }}
-      <p>This year will be <strong>three whole months</strong> of fun on two wheels in a reprise of bike summer. <a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }}<!--  now -->!</strong></a> Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, check out the <a href="/pages/calendar-faq/">calendar FAQ</a> or <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
+      <p>Bike Summer will be <strong>three whole months</strong> of fun on two wheels. 
+      {{ if eq (.Param "year") 2022 }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a>{{ end }} 
+      Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, check out the <a href="/pages/calendar-faq/">calendar FAQ</a> or <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
 
 <p>Check <a href="https://www.pedalpalooza.org/">Pedalpalooza.org</a> for updates, follow <a href="https://www.instagram.com/pedalpaloozapdx/">Pedalpalooza on Instagram</a>, and tag posts about rides <strong>@pedalpaloozapdx</strong>!</p>
+      {{ end }}
 
+      {{ if eq (.Param "year") 2022 }}
       <div class="donate">
-        <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate</span></a>
+        <p>
+          <span>Help make Pedalpalooza happen</span>
+          <a href="mailto:pedalpalooza@gmail.com?subject=I'd like to help make Bike Summer happen">Support Bike Summer</a>
+        </p>
+        <p>
+          <span>Support year-round bike fun</span>
+          <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate to Shift</span></a>
+        </p>
       </div>
 
       {{ end }}
