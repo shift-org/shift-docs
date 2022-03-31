@@ -132,8 +132,7 @@ $(document).ready(function() {
              // don't load list/grid toggle on PP page (always displays grid)
              if ( !('pp' in options) ) {
                container.append($('#view-as-options').html());
-               container.append($('#show-details-template').html());
-               container.append($('#go-to-date-template').html());
+               container.append($('#event-list-options-template').html());
              }
              container.append(eventHTML);
              if ( !('pp' in options) ) {
@@ -203,11 +202,9 @@ $(document).ready(function() {
       if (!expanded) {
         url.searchParams.append('show_details', 'true');
         window.location.href = url.href;
-        toggle_button.textContent = 'Collapse ride details';
       } else {
         url.searchParams.delete('show_details');
         window.location.href = url.href;
-        toggle_button.textContent = 'Expand ride details';
       }
     });
 
