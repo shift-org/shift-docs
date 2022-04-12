@@ -394,6 +394,16 @@ a.expand-details {
     margin: 0 auto;
 }
 
+#pp-description .donate p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pp-description .donate p > * {
+    margin: 0 0.25rem;
+}
+
 /* Date Picker CSS */
 #date-select-container {
     margin: 0 auto;

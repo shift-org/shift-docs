@@ -9,9 +9,8 @@ menu:
 
 [Pedalpalooza](https://www.pedalpalooza.org/) is an annual festival in metro Portland, Oregon.  During the festival, there are hundreds of volunteer-organized free bike events.
 
-<!--
-<p style="padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;"><strong>Pedalpalooza 2021 is on!</strong> This year will be three months of bike fun — June, July, and August! Start <a href="/addevent/">listing your rides now</a>!</p>
--->
+<p style="padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;"><strong>Bike Summer 2022 is on!</strong> This year will be three months of bike fun — June, July, and August! Start <a href="/addevent/">listing your rides now</a>!</p>
+
 
 See all of the rides on the [Pedalpalooza calendar](/pedalpalooza-calendar/), and check [Pedalpalooza.org](https://www.pedalpalooza.org/) for more updates!
 
@@ -30,3 +29,8 @@ Check out the [archives of previous years](/archive/pedal-palooza-archives/) for
 * Facebook: [pedalpalooza](https://www.facebook.com/pedalpalooza)
 * Twitter: [@pedalpalooza](https://twitter.com/pedalpalooza/)
 * Email: [pedalpalooza@gmail.com](mailto:pedalpalooza@gmail.com)
+
+## Support
+
+Help make Pedalpalooza happen! [Donate to support Bike Summer.](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ)
+
