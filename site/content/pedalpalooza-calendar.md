@@ -14,6 +14,10 @@ poster-image: "/images/pp/pp-general.png"
 
 ---
 
+<!--
+[Use only when in "landing page" mode before full launch for the year]
+
 Stay tuned for more information on [Pedalpalooza](/pages/pedalpalooza/) 2022! Be sure to follow [Pedalpalooza on Instagram](https://www.instagram.com/pedalpaloozapdx/) and [Pedalpalooza.org](https://www.pedalpalooza.org/) for updates!
 
 Seeking inspiration? View the [Pedalpalooza archives](/archive/pedal-palooza-archives/) for past bicycle fun events. Looking for current events? Check out the current [ride calendar](/calendar/).
+-->
