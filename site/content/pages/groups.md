@@ -36,7 +36,14 @@ is a monthly show presenting news and views of cycling in Portland and beyond. I
 
 ## Sponsors
 
+Current:
+
 * **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501\(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)
 * **[RiseUp](https://riseup.net/)** is our mailing list host and an all-around great group of folks providing communication tools to communities like ours.
+* **[Bike Loud PDX](https://bikeloudpdx.org/)** helps support Shift's technology costs, in addition to their amazing advocacy work
+* **[People like you](/pages/donate/)** — your support helps us make bike fun happen!
+
+Past:
+
 * **[The Portland Mercury](https://www.portlandmercury.com/)** is a weekly newspaper in Portland which has printed our events calendar for [Pedalpalooza](/pages/pedalpalooza) at their own expense for many years.
 * **[The Portland Bureau of Transportation](https://www.portlandoregon.gov/transportation/59969)** has provided **substantial** financial and practical sponsorship to Shift over the years and we are very thankful for their help in facilitating bike fun.
