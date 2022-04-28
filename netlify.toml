@@ -81,9 +81,15 @@
   from = "/eventimages/*"
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
-# legacy ical feed for pedalpalooza
+# legacy ical feed for pedalpalooza.  Can't get to /legacy/cal content via www.shift2bikes.org due to other redirects, so proxying secretly here.
 [[redirects]]
   from = "/cal/icalpp.php"
+  to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
+  status = 200
+  force = true
+# second URL for pedalpalooza feed that may work better in some clients (cf https://github.com/shift-org/shift-docs/issues/116#issuecomment-1101534820)
+[[redirects]]
+  from = "/cal/pedalpalooza-calendar.php"
   to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
   status = 200
   force = true
