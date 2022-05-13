@@ -38,6 +38,10 @@
 
                 <div id="fullcalendar"></div>
 
+                {{ if isset .Params "pp" }}
+                  {{ partial "cal/pp-feed.html" . }}
+                {{ end }}
+
                 <div id="mustache-html" class="container">
 
                 </div>
