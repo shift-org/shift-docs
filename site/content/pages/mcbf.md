@@ -6,7 +6,7 @@ menu:
   main:
     parent: featuredevents
 ---
-<center>!\\[mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)</center>
+<center>\\[mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)</center>
 
 The Multnomah County Bike Fair (aka *Bike Fair*) is an **almost** annual event held as part of [Pedalpalooza](/pages/pedalpalooza) since 2007 in beautiful Portland, Oregon. 
 
