@@ -1,20 +1,18 @@
 ---
-title: "Multnomah County Bike Fair"
+title: Multnomah County Bike Fair
 draft: false
 weight: 5
-
 menu:
-    main:
-        parent: featuredevents
+  main:
+    parent: featuredevents
 ---
+<center>!\\[mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)</center>
 
-<center>![mcbf header banner](/images/mcbf_entry_banner.jpg?classes=shadow&align=center)</center>
+The Multnomah County Bike Fair (aka *Bike Fair*) is an **almost** annual event held as part of [Pedalpalooza](/pages/pedalpalooza) since 2007 in beautiful Portland, Oregon. 
 
-The Multnomah County Bike Fair aka "Bike Fair" has taken place almost annually since 2007 in beautiful Portland, Oregon usually as the finale of [Pedalpalooza](/pages/pedalpalooza).
+It's a family-friendly bike event open to the public, featuring games (slow races, bike jousting), entertainment (live music, casual competitions), arts + crafts, and general silly fun. 
 
-It's a family friendly bikey event open to the public, usually featuring events (slow races, bike jousting), entertainment (live music, competitions), and sometimes vendors and beer.  It's open to all, and is usually family friendly.
-
-Wanna help make this event awesome again?  2019 participants sought - email [Brian Sysfail](mailto:sysfail.dobc@gmail.com).  The main stage is all about participation, competition, and antics. Show off your bike dance troupe or run a competition. Tell us your dreams!
+Wanna help make this event awesome? 2022 participants + volunteers sought - reach out to [Shelly](https://www.instagram.com/oh_shell/) if you're interested in joining us. The main stage is all about participation, fun, and antics. Show off your bike dance troupe or run a competition. Tell us your dreams! We also need help setting up, breaking down, hosting booths, and helping keep the park clean. 
 
 ## Images from the past
 
@@ -25,7 +23,8 @@ Wanna help make this event awesome again?  2019 participants sought - email [Bri
 ![mcbf logo](/images/mcbf_logo.jpg?classes=shadow) ![nekkid jumping](/images/mcbf_nekkid_jump.jpg?classes=shadow)
 
 ## Past Organizers
-Noting just some of the known organizers who put their energies and talents into making MCBF what it was, and mayhaps be again... 
+
+Noting just some of the organizers who put their energies and talents into making MCBF: 
 
 * **Recruitment**:  Lillian Karabaic
 * **Volunteer Coordinator**:  Steph Routh, VJ Beauchamp
