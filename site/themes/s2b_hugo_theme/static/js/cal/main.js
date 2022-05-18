@@ -57,7 +57,12 @@ $(document).ready(function() {
                 // only set on individual ride pages
                 var event = mustacheData.dates[0].events[0];
                 $('meta[property="og:title"]')[0].setAttribute("content", event.title);
-                $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
+                if (event.printdescr) {
+                    $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
+                } else {
+                    var desc = event.details.substring(0,250);
+                    $('meta[property="og:description"]')[0].setAttribute("content", desc);
+                }
                 document.title = event.title + " - Calendar - Shift";
             }
             callback(info);
