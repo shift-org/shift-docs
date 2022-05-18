@@ -53,6 +53,13 @@ $(document).ready(function() {
             }
             var template = $('#view-events-template').html();
             var info = Mustache.render(template, mustacheData);
+            if ('id' in options) {
+                // only set on individual ride pages
+                var event = mustacheData.dates[0].events[0];
+                $('meta[property="og:title"]')[0].setAttribute("content", event.title);
+                $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
+                document.title = event.title + " - Calendar - Shift";
+            }
             callback(info);
         });
     }
