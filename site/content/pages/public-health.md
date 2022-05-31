@@ -1,25 +1,30 @@
 ---
 title: Public Health
 description: Staying safe and healthy during a public health crisis
-keywords: ["safety", "tips", "safe", "public health", "covid", "coronavirus"]
-weight: '7'
-menu:	
-    main:	
-        parent: communitynav
+keywords:
+  - safety
+  - tips
+  - safe
+  - public health
+  - covid
+  - coronavirus
+weight: "7"
+menu:
+  main:
+    parent: communitynav
 ---
 
 ## About
 
 The Oregon Health Authority and Washington Department of Health are responding to an outbreak of respiratory illness, called [COVID-19](https://govstatus.egov.com/OR-OHA-COVID-19), caused by a novel (new) coronavirus. Health officials urge [social distancing](https://sharedsystems.dhsoha.state.or.us/DHSForms/Served/le2268.pdf), good hand hygiene, covering coughs, and staying home if you are sick. For additional information and resources, see the [Multnomah County COVID-19 resources](https://multco.us/novel-coronavirus-covid-19).
 
-To stem the spread of COVID-19 in Oregon and Washington, both states are taking a phased approach to reopen. **All Portland-area counties currently have restrictions on gatherings.** Health officials have set limits of the number of people for all social gatherings – indoor and outdoor. State health departments have county by county details on [Oregon restrictions](https://coronavirus.oregon.gov/Pages/living-with-covid-19.aspx) and [Washington restrictions](https://www.coronavirus.wa.gov/what-you-need-know/county-status-and-safe-start-application-process).
-
+To manage the spread of COVID-19, both Oregon and Washington are continuing to publish recommendations and requirements for events. The [Oregon health department](https://coronavirus.oregon.gov/) and [Washington health department](https://www.coronavirus.wa.gov/) both have information on the latest guidelines.
 
 ## Riding safely
 
 Shift encourages you to ride your bike as a source of fun and exercise while also maintaining a safe distance from others during the current health crisis. According to the Portland Bureau of Transportation, this means you should only ride if you can stay at least six feet away from other people. 
 
-Please be mindful and patient with other riders out on the roads and paths, and give yourself and others plenty of space. **We strongly encourage everyone on a ride to wear a mask.** Group bike rides are dynamic events and it can be difficult to maintain six feet of distance at all times. At minimum, we recommend you keep a mask/face covering around your neck that you can easily pull up when near other people.
+Please be mindful and patient with other riders out on the roads and paths, and give yourself and others plenty of space. Group bike rides are dynamic events and it can be difficult to maintain six feet of distance at all times. At minimum, we recommend you keep a mask/face covering readily available that you can easily wear when near other people. We support everyone who opts to wear a mask while riding or at stops. We also strongly recommend wearing a mask when indoors.
 
 Ways to improve safety on rides:
 
@@ -62,9 +67,11 @@ Stay safe, stay healthy!
 
 <p style="text-align: left; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;">We need everyone's help to keep bike fun safe for all! Ride leaders who follow this safety plan will have a special marker next to their rides on the calendar. Ride participants are expected to follow these rules at rides which agree to this plan.</p>
 
-* Everyone, vaccinated or not, wears a tight fitting face mask.
-* Ride leaders promise to wear a mask.
-* Ride leaders promise to announce to the attendees before the ride begins that masks are required.
-* Everyone maintains six feet of distance behind or to the side of people around them.
-* Ride leader promises that the ride plan includes room for people from different households to keep six feet away while eating.
-* Ride leader or their designated safety coordinator is responsible for asking people who do not wear a mask to leave the ride.
+Ride leaders announce the following at the beginning of their ride:
+
+* While masks are currently not required by law, we support all who continue to use face coverings according to their comfort and risk level.
+* Do not continue on the ride if you have any symptoms of COVID-19.
+* Please try to maintain distance while riding and at stops, and respect others’ desire for distance.
+* Although masks are not required by law, we recommend masking when going indoors.
+
+Should a ride leader set more stringent requirements in the details of the ride posting than are in the COVID Safety Plan policy, all riders are expected to follow the ride leader's policy. Shift reserves the right to moderate calendar listings, and this may include removing the COVID Safety Plan designation from a ride if we know it does not follow the policy.
