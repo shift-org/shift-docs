@@ -71,3 +71,14 @@ Many thanks to these generous friends who make Breakfast on the Bridges possible
 Tardy slips are often available for those who are running late. They may not get you out of trouble, but they'll probably lighten the mood. At least you wont be trying to explain yourself on an empty stomach. 
 
 BonB Superhero trading cards (on hand at special times) are a popular collectible commodity. You can expect them to triple in value over the next ten years. A whole set may someday go for eight times its original value at auction.
+
+## Donate!
+
+If you'd like to give money to support Breakfast on the Bridges, the below paypal link is for Breakfast on the Bridges:
+
+<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="NZ9BJRJ43NMTC" />
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+</form>
+
