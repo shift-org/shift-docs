@@ -121,16 +121,13 @@ sub_attach() { # <service>        - Run bash on a running service
 }
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
-    DOCKERVERSION=`docker --version | cut -d' ' -f 3 |cut -d, -f1`
-    DOCKERMAJOR=`echo $DOCKERVERSION | cut -d\. -f1-2`
-    DOCKERMINOR=`echo $DOCKERVERSION | cut -d\. -f3`
-
-    if [ "$DOCKERMAJOR" == "20.10" ] && [ "$DOCKERMINOR" -gt 7 ] ; then
+    OS=`uname`
+    if [ "$OS" == "Darwin" ] ; then
 	    docker compose $@
-    elif [ "$DOCKERMAJOR" == "20.10" ] && [ "$DOCKERMINOR" -lt 8 ] ; then 
+    elif [ "$OS" == "Linux" ] ; then 
 	    docker-compose $@
     else
-	    echo "not sure how to handle your version of docker: $DOCKERVERSION !  If it is above 20.10.x you probably want the syntax for 20.10.8+"
+	    echo "not sure how to handle your OS' version of docker.  One of the above should work!"
 	    exit 255
     fi
 }
