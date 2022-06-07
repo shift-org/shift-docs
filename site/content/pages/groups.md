@@ -39,9 +39,10 @@ menu:
 
 Current:
 
-* **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)
-* **[RiseUp](https://riseup.net/)** is our mailing list host and an all-around great group of folks providing communication tools to communities like ours.
+* **[Umbrella](https://www.umbrellapdx.org)** is Shift's 501\(c)3 nonprofit sponsor and provides similar services for [a lot of other humans-in-the-streets organizations](https://www.umbrellapdx.org/projects)
+* **[RiseUp](https://riseup.net/)** is our mailing list host and an all-around great group of folks providing communication tools to communities like ours
 * **[Bike Loud PDX](https://bikeloudpdx.org/)** helps support Shift's technology costs, in addition to their amazing advocacy work
+* **[Double Darn](https://www.doubledarn.com/)** has donated some of their excellent cycling caps to support Shift events
 * **[People like you](/pages/donate/)** — your support helps us make bike fun happen!
 
 Past:
