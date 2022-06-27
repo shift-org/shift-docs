@@ -141,3 +141,12 @@
   from = "/wiki/shift-shop:rack-rental"
   to = "/pages/bike-racks/"
   status = 301
+  
+
+# redirect for BonB 20 year fundraiser 2022
+[[redirects]]
+  from = "/fillourcups"
+  to = "https://shop.ohmydollar.com/collections/breakfast-on-the-bridges-20th-year-collection"
+  status = 200
+  force = true
+
