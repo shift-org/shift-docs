@@ -7,11 +7,11 @@ menu:
 ---
 ## Shift spinoff projects
 
-* **[Move by Bike](/pages/mbb/)** is a group of folks interested in helping folks move across town entirely by bicycle. [Facebook](https://www.facebook.com/groups/movebybike/)
+* **[Pedalpalooza](/pages/pedalpalooza/)** is an annual summer festival with hundreds of volunteer-organized free bike events.
 * **[Breakfast on the Bridges](/pages/bonb/)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. [Facebook](https://www.facebook.com/bonbpdx/)
 * **[PDX World Naked Bike Ride](/pages/wnbr/)** is still loosely affiliated with shift but spun off into its own organization. Leading one of the largest rides in the state year after year!
 * **[The Multnomah County Bike Fair](/pages/mcbf/)** is a recurring fair that happens almost every year during Pedalpalooza.
-* **[Pedalpalooza](/pages/pedalpalooza/)** is an annual summer festival with hundreds of volunteer-organized free bike events.
+* **[Move by Bike](/pages/mbb/)** is a group of folks interested in helping folks move across town entirely by bicycle. [Facebook](https://www.facebook.com/groups/movebybike/)
 
 ## Unaffiliated but related in bike fun
 
@@ -29,11 +29,14 @@ menu:
 * **[Bike Loud PDX](https://bikeloudpdx.org/)** is a non-profit organization dedicated to creating positive movement towards safer streets and healthier neighborhoods via grassroots advocacy campaigns.
 * **[The Portland Bureau of Transportation has an active-transportation focused group](https://www.portlandoregon.gov/transportation/59969)**.  This group organizes [Sunday Parkways](https://www.portlandoregon.gov/transportation/46103) and a bunch of other wonderful bike-focused groups - from a [bike share program](https://www.portland.gov/transportation/bike-share) to [safe routes to schools](https://www.portland.gov/transportation/safe-routes-school).
 * **[WashCoBikes](https://washcobikes.org/)** champions cycling in Washington County
+* **[Adaptive Sports Northwest](https://adaptivesportsnw.org)** provide fitness, recreation, and competitive sport to anyone with physical and visual disabilities. This includes [adaptive cycling programs](https://adaptivesportsnw.org/sports/cycling/) like an Adaptive Bike Clinic and the PDX Handcycling Series at Portland International Raceway.
 
 ## Media
 
 * **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.
 * **[KBOO Bike Show](https://kboo.fm/program/bike-show)** is a monthly show presenting news and views of cycling in Portland and beyond. It broadcasts live on KBOO 90.7 FM once a month, and it's available as a podcast at [BikeShow.PortlandTransport.com](http://bikeshow.portlandtransport.com/).
+* **[Sprocket Podcast](http://thesprocketpodcast.com/)** is a Portland-based podcast about all sorts of bike-y things. [Subscribe](https://sprocketpodcast.blubrry.com/subscribe-to-podcast/)
+* **[Bike Stuff PDX](https://www.youtube.com/c/BikeStuffPDX)** creates videos about human powered transportation, available on YouTube.
 
 ## Sponsors
 
