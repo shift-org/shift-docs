@@ -6,7 +6,9 @@ Any day of the week is a good day for bike fun! Many groups have regularly-sched
 
 This is just a sample — there are also plenty of one-off or less-frequent rides beyond these. Check the [calendar](https://www.shift2bikes.org/calendar/) for the latest. If you host a regularly-scheduled ride and would like to see it listed here, please [contact us](https://www.shift2bikes.org/pages/contact/).
 
-## Foster Night Ride
+## Tuesday
+
+### Foster Night Ride
 * Every other Tuesday (opposite Twosday Road Rascals)
 * Starting location: FoPo Food Carts
 
@@ -14,7 +16,7 @@ Eat, drink, and bike on a bike adventure in the Foster-Powell neighborhood & bey
 
 Contact: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosternightridepdx/), [Foster Night Ride on Facebook](https://www.facebook.com/foponr/)
 
-## Twosday Road Rascals (TRR)
+### Twosday Road Rascals (TRR)
 * Every other Tuesday (opposite Foster Night Ride)
 * Starting location: Irving Park
 
@@ -22,7 +24,9 @@ Laid back social ride, with new riders and leaders encouraged — contact the ri
 
 Contact: [Twosday Road Rascals on Facebook](https://www.facebook.com/groups/1885750641672755/about/)
 
-## Westside Wednesdays
+## Wednesday
+
+### Westside Wednesdays
 * Every other Wednesday, with occasional pop-ups on in-between Wednesdays
 * Starting location: usually [Beaverton Transit Center](https://trimet.org/transitcenters/index.htm#beaverton), but occasionally varies (especially for pop-ups); check the calendar
 
@@ -30,7 +34,9 @@ Explore Beaverton and other westside locations by bike. If you're coming from Po
 
 Contact: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsidewednesdayride/)
 
-## Thursday Night Ride (TNR)
+## Thursday
+
+### Thursday Night Ride (TNR)
 * Every Thursday
 * Starting location: Salmon Street Fountain
 
@@ -38,13 +44,15 @@ Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies 
 
 Contact: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
 
-## Friday Night Ride
+## Friday
+
+### Friday Night Ride
 * Every Friday
 * Starting location: Ladd Circle
 
 Friday night ride that cruises around town to different spots. May link up with other rides, especially during the summer; 2nd Fridays meet up with Midnight Mystery Ride. Every first Friday is bottle share night.
 
-## Midnight Mystery Ride (MMR)
+### Midnight Mystery Ride (MMR)
 * 2nd Friday every month
 * Starting location: varies, check the [calendar](https://www.shift2bikes.org/calendar/)
 
@@ -52,7 +60,9 @@ The ride start location is kept secret until the day of the event. Meet up aroun
 
 Contact: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.com/), [Midnight Mystery Ride on Shift](https://www.shift2bikes.org/pages/mmr/)
 
-## PDX Market Rides
+## Saturday
+
+### PDX Market Rides
 * Every Saturday
 * Starting location: multiple in Southeast (SE Clinton St & 41st Ave; SE Clinton St & 26 Ave; east end of Tilikum Bridge, at PDX Opera)
 
@@ -60,7 +70,9 @@ An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Mark
 
 Contact: [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRides on Twitter](https://twitter.com/hashtag/PDXMarketRides?f=live)
 
-## Corvidae BC
+## Sunday
+
+### Corvidae BC
 * 2nd Sunday every month
 * Starting location: Peninsula Park
 
