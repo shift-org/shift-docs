@@ -14,7 +14,7 @@ This is just a sample — there are also plenty of one-off or less-frequent ride
 
 Eat, drink, and bike on a bike adventure in the Foster-Powell neighborhood & beyond.
 
-Contact: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosternightridepdx/), [Foster Night Ride on Facebook](https://www.facebook.com/foponr/)
+More info: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosternightridepdx/), [Foster Night Ride on Facebook](https://www.facebook.com/foponr/)
 
 ### Twosday Road Rascals (TRR)
 * Every other Tuesday (opposite Foster Night Ride)
@@ -22,7 +22,7 @@ Contact: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosternigh
 
 Laid back social ride, with new riders and leaders encouraged — contact the ride leaders if you're interested in leading.
 
-Contact: [Twosday Road Rascals on Facebook](https://www.facebook.com/groups/1885750641672755/about/)
+More info: [Twosday Road Rascals on Facebook](https://www.facebook.com/groups/1885750641672755/about/)
 
 ## Wednesday
 
@@ -32,7 +32,7 @@ Contact: [Twosday Road Rascals on Facebook](https://www.facebook.com/groups/1885
 
 Explore Beaverton and other westside locations by bike. If you're coming from Portland, rides start and end near [MAX light rail stations](https://trimet.org/max/index.htm). For a maximum $5 daily fare, you can take the train to/from the westside and bring your bike onboard.
 
-Contact: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsidewednesdayride/)
+More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsidewednesdayride/)
 
 ## Thursday
 
@@ -42,7 +42,7 @@ Contact: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsid
 
 Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace. All levels welcome — entry level riders encouraged to join.
 
-Contact: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
+More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
 
 ## Friday
 
@@ -58,7 +58,7 @@ Friday night ride that cruises around town to different spots. May link up with 
 
 The ride start location is kept secret until the day of the event. Meet up around 11pm at the start location, then ride off at the stroke of midnight to a destination known only to your friendly ride leader.
 
-Contact: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.com/), [Midnight Mystery Ride on Shift](https://www.shift2bikes.org/pages/mmr/)
+More info: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.com/), [Midnight Mystery Ride on Shift](https://www.shift2bikes.org/pages/mmr/)
 
 ## Saturday
 
@@ -68,7 +68,7 @@ Contact: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.com/
 
 An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/) to help support local farmers, bakers, and makers of all kinds. Build community in a relaxed, informal setting. A post-ride adventure that is only loosely planned beforehand often follows. Check the #PDXMarketRides hashtag for the occasional ride in the same spirit to different markets on different days.
 
-Contact: [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRides on Twitter](https://twitter.com/hashtag/PDXMarketRides?f=live)
+More info: [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRides on Twitter](https://twitter.com/hashtag/PDXMarketRides?f=live)
 
 ## Sunday
 
@@ -78,4 +78,4 @@ Contact: [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRi
 
 Second Sunday Funday ride every month — each month is led by a different Corvidae member and therefore will be unique. Rides try to focus on greenways, group etiquette, and silliness. In addition to bike safety and accessibility, bicycles are promoted as an alternative to fossil-fueled travel within Portland.
 
-Contact: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
+More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
