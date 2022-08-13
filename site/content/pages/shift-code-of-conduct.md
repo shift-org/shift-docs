@@ -87,7 +87,7 @@ Automatic event removal (one that did not come before the board because of repor
 
 # 7. Reporting Guidelines
 
-If you are subject to or witness unacceptable behavior, or have any other concerns, please notify us as soon as possible by emailing [conduct@shift2bikes.org](mailto:conduct@shift2bikes.org) or completing the [Reporting Unacceptable Behavior Form](https://forms.gle/AGGNKt7FAtGrywQaA) to your best ability.
+If you are subject to or witness unacceptable behavior, or have any other concerns, please notify us as soon as possible by emailing [conduct@shift2bikes.org](mailto:conduct@shift2bikes.org) or completing the [Reporting Unacceptable Behavior Form](https://forms.gle/sYN8zZqMkPt2QCih7) to your best ability.
 
 Additionally, Shift recognizes that experiencing unacceptable behavior can make anyone feel unsafe. In the context of official Shift events, organizers are expected to aid those persons experiencing distress.
 
