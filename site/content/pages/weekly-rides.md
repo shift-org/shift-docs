@@ -1,5 +1,6 @@
 ---
 title: Weekly Rides
+description: Any day of the week is a good day for bike fun! Learn more about regularly-scheduled rides that happen on a specific day of the week.
 weight: 2
 menu:
   main:
