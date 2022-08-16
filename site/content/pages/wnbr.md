@@ -1,8 +1,7 @@
 ---
 title: "World Naked Bike Ride"
 draft: false
-weight: 3
-
+weight: 5
 menu:
     main:
         parent: featuredevents

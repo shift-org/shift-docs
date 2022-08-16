@@ -1,7 +1,7 @@
 ---
 title: Multnomah County Bike Fair
 draft: false
-weight: 5
+weight: 6
 menu:
   main:
     parent: featuredevents

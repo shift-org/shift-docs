@@ -1,6 +1,10 @@
 ---
 title: Weekly Rides
-weight: 777
+description: Any day of the week is a good day for bike fun! Learn more about regularly-scheduled rides that happen on a specific day of the week.
+weight: 2
+menu:
+  main:
+    parent: featuredevents
 ---
 Any day of the week is a good day for bike fun! Many groups have regularly-scheduled rides that happen on a specific day of the week. Some of these happen every week, or every other; all of the ones listed here happen at least once a month.
 
@@ -68,7 +72,7 @@ More info: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.co
 
 An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/) to help support local farmers, bakers, and makers of all kinds. Build community in a relaxed, informal setting. A post-ride adventure that is only loosely planned beforehand often follows. Check the #PDXMarketRides hashtag for the occasional ride in the same spirit to different markets on different days.
 
-More info: [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRides on Twitter](https://twitter.com/hashtag/PDXMarketRides?f=live)
+More info: [@HamiRamani on Instagram](https://instagram.com/hamiramani), [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRides on Twitter](https://twitter.com/hashtag/PDXMarketRides?f=live)
 
 ## Sunday
 

@@ -1,6 +1,6 @@
 ---
 title: Breakfast on the Bridges
-weight: 2
+weight: 4
 menu:
   main:
     parent: featuredevents
