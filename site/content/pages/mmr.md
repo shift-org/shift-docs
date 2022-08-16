@@ -1,8 +1,7 @@
 ---
 title: "Midnight Mystery Ride"
 draft: false
-weight: 6
-
+weight: 3
 menu:
     main:
         parent: featuredevents
