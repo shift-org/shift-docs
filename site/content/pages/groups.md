@@ -30,6 +30,7 @@ menu:
 * **[The Portland Bureau of Transportation has an active-transportation focused group](https://www.portlandoregon.gov/transportation/59969)**.  This group organizes [Sunday Parkways](https://www.portlandoregon.gov/transportation/46103) and a bunch of other wonderful bike-focused groups - from a [bike share program](https://www.portland.gov/transportation/bike-share) to [safe routes to schools](https://www.portland.gov/transportation/safe-routes-school).
 * **[WashCoBikes](https://washcobikes.org/)** champions cycling in Washington County
 * **[Adaptive Sports Northwest](https://adaptivesportsnw.org)** provide fitness, recreation, and competitive sport to anyone with physical and visual disabilities. This includes [adaptive cycling programs](https://adaptivesportsnw.org/sports/cycling/) like an Adaptive Bike Clinic and the PDX Handcycling Series at Portland International Raceway.
+* **[Oregon Walks](https://oregonwalks.org/)** promotes walking and advocates for safer, more convenient, and all-around better walking options throughout Oregon. They encourage and host walking events year-round, including [Steptember](https://oregonwalks.org/steptember/) which is a "Pedalpalooza for walking" each September.
 
 ## Media
 
