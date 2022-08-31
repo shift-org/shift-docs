@@ -33,6 +33,14 @@ Following the below steps you'll have a copy of the site running, including 3 do
 
 Note that no changes to the filesystems INSIDE the container should ever be needed;  they read from your LOCAL filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands OUTIDE of the container (`git checkout otherbranch` or `git pull`).
 
+So - now you can hopefully access the site.  But a real end-to-end test of yoursetup, would be creating an event:
+
+1. visit https://localhost:4443/addevent/
+2. fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
+3. save the event (fix any validation errors around missing fields to ensure it saves)
+4. In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the file `services/php/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log, visit it, and hit publish event
+5. hopefully see your event on the https://localhost:4443/calendar page!
+
 
 ## Netlify deployment
 
