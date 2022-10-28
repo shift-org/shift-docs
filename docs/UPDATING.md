@@ -1,6 +1,6 @@
 # Overview
 
-Our static content is hosted on [Netlify](https://www.netlify.com) and our dynamic content (calendar entries and backend) are hosted elsewhere as described in [the main README file](README.md).
+Our static content is hosted on [Netlify](https://www.netlify.com) and our dynamic content (calendar entries and backend) are hosted in AWS, as described in [the main README file](README.md).
 
 The static portions of the site are built by [Hugo](https://gohugo.io) and stored in the [site/content](https://github.com/Shift2Bikes/shift-docs/tree/master/site/content) directory as markdown files.
 
@@ -17,21 +17,26 @@ Before you can edit or create pages for the first time, you must do a few things
 1. select the "sign up" portion of the login widget found here: https://docs.shift2bikes.org/admin/# 
 2. and create an account.  
 3. Once you've created a login, you'll need to click a link in the email to the address you've signed up with, to verify your account, 
-4. and then you can login and edit content.  If you know markdown, you can enable the markdown editor, otherwise use rich text.  There is a slider near the top (alongside the "bold", "italics", etc controls) of the big editor on the left side that changes between these modes.
+4. and then you can login and edit content.  If you know markdown, you can enable the markdown editor; if you don't know markdown, please use the rich text version.  There is a slider near the top (alongside the "bold", "italics", etc controls) of the big editor on the left side that changes between these modes.
+5. Select "Publish" and your results should be available live within a minute or so.  If that doesn't work, [tech support is available](#having-trouble-changing-content).
 
-Select "Publish" and your results should be available live within a minute or so.  If that doesn't work, [tech support is available](#having-trouble-changing-content).
+Some additional details of interst:
+
+- after you make a CMS edit, the change is saved to github and then netlify starts building the site.  All changes to *content* should be visible in deploy previews (unlike changes to PHP which require a commit to master).
+- the CMS login widget "netlify-identity-widget" doesn't work with most password managers.  Sorry about that, but feel free to use a simple password...
+
 
 # Creating Content
 
-New pages can be created through the CMS as accessed at: https://docs.shift2bikes.org/admin/#/collections/pages .  You can't create new chapters there, but pulling up your category (Playbooks/Pages/Archive) will lead to a list of existing content and a button in the upper right for "New Playbooks", "New Pages", or "New Archive".  Playbooks are shown under shift2bikes.org/pages/playbooks, Pages at shift2bikes.org/pages, and Archives are not shown by default but can be linked to as /archive/name-of-markdown-file (without a `.md` extension)
+New pages can be created through the CMS as accessed at: https://www.shift2bikes.org/admin/#/collections/pages .  You can't create new "chapters" (aka "sections of our site") there, but pulling up an existing category (such as Playbooks/Pages/Archive) will lead you to a list of existing content and a button in the upper right for "New X" - such as "New Pages".  Playbooks are shown under shift2bikes.org/pages/playbooks, Pages at shift2bikes.org/pages, and Archives are not shown by default but can be linked to as /archive/name-of-markdown-file (without a `.md` extension)
 
-Once you create a page, the file is created in git and can be manually edited there. For advanced users who are manually editing pages in github, look for the newly created page here: https://github.com/shift-org/shift-docs/tree/master/site/content/pages
+Once you create a page, the file is created in git and can be manually edited there. For advanced users who are manually editing pages in github, look for the newly created page here: https://github.com/shift-org/shift-docs/tree/main/site/content/pages
 
 NOTE: The page won't be linked from the navigation menus that are on the site until you add a navigation guideline in the frontmatter of the post.  You can't do this in the CMS, so your best bet if you are not into making manual git commits is to create your page and then ping [the dev crew](mailto:bikecal@shift2bikes.org] or ping fool directly to help out.  It would be useful if you mentioned WHICH menu group you want it in :)
 
 # Adding content to the site navigation
 
-At the top of each page markdown file there is a block surrounded by the markers: `---` which contain the page data. The navigation menu block is shown below. `menu` is the navigation part, `main` is navigation we use for the homepage and sites navigated to by the homepage, `parent` is the parent menu where the page should be.
+At the top of each page markdown file there is a block surrounded by the markers: `---` which contain the page "Frontmatter" data. The navigation menu block is shown below. `menu` is the navigation part, `main` is navigation we use for the homepage and sites navigated to by the homepage, `parent` is the parent menu where the page should be.
 
 ```
 menu:
@@ -70,7 +75,7 @@ This won't get it into the navigation, but to create a new category of editable 
 ```
 
 3. save config.yml and test in a deploy preview that the CMS loads at all.
-4. merge to master to "make it really work"
+4. merge to master to "make it really work" (FYI: this is something that may not work well in deploy previews from your branch / PR deploys)
 
 
 # Working on non-static content
