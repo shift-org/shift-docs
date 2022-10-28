@@ -221,6 +221,7 @@
             shiftEvent.id = '';
             shiftEvent.secret = '';
             shiftEvent.datestatuses = [];
+            shiftEvent.image = '';
             shiftEvent.codeOfConduct = false;
             shiftEvent.readComic = false;
             populateEditForm(shiftEvent, function(eventHTML) {
