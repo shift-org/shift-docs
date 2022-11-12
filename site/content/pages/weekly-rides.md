@@ -1,6 +1,7 @@
 ---
 title: Weekly Rides
-description: Any day of the week is a good day for bike fun! Learn more about regularly-scheduled rides that happen on a specific day of the week.
+description: Any day of the week is a good day for bike fun! Learn more about
+  regularly-scheduled rides that happen on a specific day of the week.
 weight: 2
 menu:
   main:
@@ -54,7 +55,7 @@ More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrb
 * Every Friday
 * Starting location: Ladd Circle
 
-Friday night ride that cruises around town to different spots. May link up with other rides, especially during the summer; 2nd Fridays meet up with Midnight Mystery Ride. Every first Friday is bottle share night.
+Friday night ride that cruises around town to different spots. May link up with other rides, especially during the summer; 2nd Fridays meet up with Midnight Mystery Ride. Every first Friday is bottle share night (any type of drink), and the occasional fifth Friday is Bike Club Vest's ride.
 
 ### Midnight Mystery Ride (MMR)
 * 2nd Friday every month
@@ -83,3 +84,11 @@ More info: [@HamiRamani on Instagram](https://instagram.com/hamiramani), [@HamiR
 Second Sunday Funday ride every month — each month is led by a different Corvidae member and therefore will be unique. Rides try to focus on greenways, group etiquette, and silliness. In addition to bike safety and accessibility, bicycles are promoted as an alternative to fossil-fueled travel within Portland.
 
 More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
+
+### Zoo Bomb
+* Every Sunday
+* Starting location: Zoo Bomb Bike Pyle (W Burnside & SW 13th)
+
+Hop on the MAX train at Providence Park Station (either Red or Blue line, $2.50 fare), exit Washington Park Station, take the elevator up to the zoo, then ride downhill fast for fun! Minibikes, helmet, & lights encouraged; full face helmets recommended & any safety gear you want to wear. Ride at your own risk, and leave no trace!
+
+More info: [@ZooBomb on Facebook](https://www.facebook.com/groups/2232941380)
