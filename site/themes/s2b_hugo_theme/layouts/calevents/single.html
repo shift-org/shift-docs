@@ -50,6 +50,10 @@
 
                 </div>
 
+                {{ if isset .Params "pp" }}
+                  {{ partial "cal/promo-banner-main-cal.html" . }}
+                {{ end }}
+
                 {{ partial "disclaimer.html" . }}
 
               </div>
