@@ -377,9 +377,11 @@ a.expand-details {
     margin-bottom: 2em;
 }
 
-.pp-banner .pp-headline {
+.pp-banner .pp-headline,
+.promo-banner .pp-headline {
     font-weight: bold;
     font-size: 24px;
+    color: #663300;
 }
 
 .pp-banner button[data-toggle-target] {
