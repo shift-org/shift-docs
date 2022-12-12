@@ -11,7 +11,7 @@ The last Friday of every month Shift volunteers serve breakfast to bicyclists on
 
 Join us for this fun, community-building event. Stop by on your way to work, school, shopping, or where-ever you and your bike are going.
 
-### BonB has [a Twitter account](https://twitter.com/bonbpdx), [some pictures on Flickr](http://flickr.com/photos/tags/bonb/), and [a Facebook page](https://www.facebook.com/bonbpdx/)
+### BonB has a [Facebook page](https://www.facebook.com/bonbpdx/), [Mastodon account](https://social.ridetrans.it/@bonbpdx), [Twitter account](https://twitter.com/bonbpdx), and [some pictures on Flickr](http://flickr.com/photos/tags/bonb/).
 
 ## Volunteers
 
@@ -27,9 +27,10 @@ Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every mo
 
 We have three regular serving locations as of 2019:
 
-1. **Hawthorne Bridge**: Team Hawthorne stations itself at the West end of the bridge (North side, westbound) where the bike/pedestrian lane splits. Great views of the river and Waterfront Park. We highly encourage moving with the flow of traffic to access the Hawthorne location (this may require going out of your way to safely turn around and access the correct lane). 
-2. **Steel Bridge**: Team Steel sets up just east of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
-3. **Tillikum Bridge**:  Team Tillikum sets up on the either end of the bridge on the Northbound side, either next to Elephant's Delicatessen on the west side or at the junction with the feeder from the Springwater trail onto the Westbound bridge MUP.
+1. **Steel Bridge**: Team Steel sets up just east of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
+2. **Tillikum Bridge**:  Team Tillikum sets up on the either end of the bridge on the Northbound side, either next to Elephant's Delicatessen on the west side or at the junction with the feeder from the Springwater trail onto the Westbound bridge MUP.
+3. **Blumenauer Bridge**: Team Blumenauer stations on the north end of the bridge. Now that the Hawthorne Bridge crew has relocated to the Blumenauer Bridge, all 4 BonB locations are car-free!
+4. **Flanders Crossing**: Expanding to four bridges for the first time! Say hi-diddly-ho to your bikey neighbors on one of the city's newest car-free bridges. 
 
 ## Donors
 
@@ -51,13 +52,13 @@ Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have t
 
 #### Past Donors
 
-* [ Elephant's Delicatessen](http://www.elephantsdeli.com/)
-* [ Sunshine Dairy](http://www.sunshinedairyfoods.com/)
-* [ Legare's Community Resource Center](http://legares.blogspot.com/)
-* [ Black Sheep Bakery](http://www.blacksheepbakery.com/)
-* [ Courier Coffee](http://www.couriercoffeeroasters.com/)
-* [ Sweetpea Baking](http://www.sweetpeabaking.com/)
-* [ People's Coop](http://www.peoples.coop/)
+* [Elephant's Delicatessen](http://www.elephantsdeli.com/)
+* [Sunshine Dairy](http://www.sunshinedairyfoods.com/)
+* [Legare's Community Resource Center](http://legares.blogspot.com/)
+* [Black Sheep Bakery](http://www.blacksheepbakery.com/)
+* [Courier Coffee](http://www.couriercoffeeroasters.com/)
+* [Sweetpea Baking](http://www.sweetpeabaking.com/)
+* [People's Coop](http://www.peoples.coop/)
 
 Many thanks to these generous friends who make Breakfast on the Bridges possible.
 
@@ -65,6 +66,7 @@ Many thanks to these generous friends who make Breakfast on the Bridges possible
 
 1. **Morrison Bridge**: Breakfast was served on the Morrison for a year or two around 2013–2014.  Thanks to Lance and Paul!
 2. **Broadway Bridge**: Is where the tradition started over a decade ago.  Thanks Carl, Ayleen, and Timo!
+3. **Hawthorne Bridge**: The Hawthorne crew stationed the west end of the bridge for many years, but moved to the Blumenauer Bridge late 2022. Stop by and say hi at their new location!
 
 ## Other
 
@@ -74,7 +76,7 @@ BonB Superhero trading cards (on hand at special times) are a popular collectibl
 
 ## Donate!
 
-If you'd like to give money to support Breakfast on the Bridges, the below paypal link is for Breakfast on the Bridges:
+If you'd like to give money to support Breakfast on the Bridges, the below PayPal link is for Breakfast on the Bridges:
 
 <form action="https://www.paypal.com/donate" method="post" target="_top">
 <input type="hidden" name="hosted_button_id" value="NZ9BJRJ43NMTC" />
