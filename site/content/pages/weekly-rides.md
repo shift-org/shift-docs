@@ -11,6 +11,16 @@ Any day of the week is a good day for bike fun! Many groups have regularly-sched
 
 This is just a sample — there are also plenty of one-off or less-frequent rides beyond these. Check the [calendar](https://www.shift2bikes.org/calendar/) for the latest. If you host a regularly-scheduled ride and would like to see it listed here, please [contact us](https://www.shift2bikes.org/pages/contact/).
 
+## Monday
+
+### Mellow Mondays
+* Every Monday
+* Starting location: Irving Park
+
+Casual ride series on Mondays to chill with friends and welcome new people to the community. Gift sharing is optional; small gifts such as snacks or stickers are a way to come together and get to know each other. Organized by Moorland Moss, with guest ride leaders on the regular.
+
+More info: [@NakedHearts:PDX on Instagram](https://instagram.com/nakedhearts.pdx/)
+
 ## Tuesday
 
 ### Foster Night Ride
@@ -84,6 +94,14 @@ More info: [@HamiRamani on Instagram](https://instagram.com/hamiramani), [@HamiR
 Second Sunday Funday ride every month — each month is led by a different Corvidae member and therefore will be unique. Rides try to focus on greenways, group etiquette, and silliness. In addition to bike safety and accessibility, bicycles are promoted as an alternative to fossil-fueled travel within Portland.
 
 More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
+
+### Say Hi Sundays
+* 1st, 3rd, and 5th Sunday of every month
+* Starting location: Buckman Elementary School, by the covered basketball court
+
+For those who want an excuse to talk to strangers — introduce yourself to at least one new person! Ride itself will be a social pace, and under 10 miles. End locations will have a covered area so the group can hang out and get to know each other, even during the inevitable rain.
+
+More info: [@sabspalooza (Sabrina) on Instagram](http://instagram.com/sabspalooza/)
 
 ### Zoo Bomb
 * Every Sunday
