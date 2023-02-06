@@ -15,6 +15,6 @@
   * [Mailcheck](https://github.com/mailcheck/mailcheck/releases)
   * [w3c IntersectionObserver polyfill](https://github.com/w3c/IntersectionObserver/tree/main/polyfill) (for lazy loading images)
 
-As of January 2022, all have been updated to their latest releases within their major version.
+As of February 2023, all have been updated to their latest releases within their major version.
 
 FullCalendar, Bootstrap, and Font Awesome are behind at least one major version.
