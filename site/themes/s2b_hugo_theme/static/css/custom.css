@@ -13,8 +13,17 @@ footer {
   text-align: center;
 }
 
-#footer ul a {
+footer #footer-ul a {
   color: #ccc;
+}
+
+footer a {
+  text-decoration: underline;
+}
+
+footer a:hover,
+footer a:focus {
+  text-decoration: none;
 }
 
 header {
@@ -29,12 +38,19 @@ header {
   fill: currentColor;
 }
 
-main a {
-  color: #337AB7;
+#navbar ul.nav > li > a {
+  text-decoration: none;
 }
 
-main a:hover, a:focus {
+main a {
+  color: #337AB7;
+  text-decoration: underline;
+}
+
+main a:hover,
+main a:focus {
   color: #23527C;
+  text-decoration: none;
 }
 
 main .donate {
