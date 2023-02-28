@@ -37,6 +37,7 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- for changes to events, including deletion success. -->
 <div class="modal fade" tabindex="-1" id="success-modal" role="dialog">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
@@ -45,6 +46,24 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal" id="success-ok">OK</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- for initial submit -->
+<div class="modal fade" tabindex="-1" id="submit-modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4>Event Submitted</h4>
+        <p>A confirmation email has been sent to you at <span id="submit-email">example@example.com</span>.
+        <p>You <em>must</em> use the link in the email to publish your event.
+        <p>If you don't receive your confirmation within 20 minutes please contact <a href="mailto:bikecal@shift2bikes.org">bikecal@shift2bikes.org</a> for help.
+        <p>Thanks!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal" id="submit-ok">OK</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
