@@ -18,9 +18,16 @@
   # this command builds draft content for branches
   command = 'hugo -D  && cp public/404/index.html public/404.html'
 
+
 [context.production]
+  # Note that there are two versions of the below command 
   # drafts are excluded (no `-D` option to hugo) for prod build.  We also pull new code to the server in this case!
-  command = 'hugo && cp public/404/index.html public/404.html && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull"'
+
+  # comment out the next line if you are working on your own Netlify site!
+  command = 'hugo && cp public/404/index.html public/404.html && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
+
+  # uncomment the next line if you are working on your own Netlify site!
+  # command = 'hugo && cp public/404/index.html public/404.html'
 
 
 ## domain redirects to serve from the CDN and canonicalize

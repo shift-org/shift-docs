@@ -47,7 +47,8 @@ So - now you can hopefully access the site.  But a real end-to-end test of yours
 You can easily run your own copy of the site with these two steps.  This could help you do things like theme development, in your own repository, before submitting your finished write-up to us for incorporation.
 
 1. [fork repo](https://help.github.com/articles/fork-a-repo/)
-2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 additional configuration required to get the site running.
+2. read the comments in the netlify.toml file around changing the build command in the `[context.production]` section and make changes if needed.
+2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 additional configuration required to get the site running.  If you get a build failure around access denied for ssh, you probably need the advice in step 2 just above this!
 
 If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new) to let us know what you tried and what happened when you did.
 
