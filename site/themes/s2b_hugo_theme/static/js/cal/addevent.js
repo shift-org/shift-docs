@@ -147,28 +147,26 @@
                 cache: false,
                 data: data,
                 success: function(returnVal) {
-                    var msg = isNew ?
-                        'Thank you! A link with a URL to edit and manage the ' +
-                            'event has been emailed to ' + postVars.email + '. ' +
-                            'You must follow this link and publish the event for it to become visible. ' +
-                            'If you don\'t receive that email within 20 minutes, please contact bikecal@shift2bikes.org for help.' :
-                        'Your event has been updated!';
                     if (returnVal.published) {
                         $('.unpublished-event').remove();
                         $('.published-save-button').show();
                         $('.duplicate-button').show();
                         _isFormDirty = false;
                     }
-
-                    if (isNew) {
-                        var newUrl = 'event-submitted';
+                    if (!isNew) {
+                      $('#success-message').text('Your event has been updated!');
+                      $('#success-modal').modal('show');
+                    } else {
+                        let newUrl = 'event-submitted';
                         history.pushState({}, newUrl, newUrl);
+                        // hide the edit button on the page
                         $('.edit-buttons').prop('hidden', true);
+                        // set the text of the page
                         $('#mustache-html').html('<p>Event submitted! Check your email to finish publishing your event.</p><p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add another event</a>.</p>');
                         _isFormDirty = false;
+                        $('#submit-email').text(postVars.email);
+                        $('#submit-modal').modal('show');
                     }
-                    $('#success-message').text(msg);
-                    $('#success-modal').modal('show');
                     shiftEvent.id = returnVal.id;
                 },
                 error: function(returnVal) {
