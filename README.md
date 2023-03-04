@@ -98,7 +98,7 @@ The site is run in several docker containers.
   * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with `shift_`
   * The "shift_" docker namespace comes from the shift file: `export COMPOSE_PROJECT_NAME="shift"`
 
-## Sequalize Setup
+## Sequelize Setup
 
 (fool doesn't think we're using this in 2021!  It does not seem to be required these days.)
 
