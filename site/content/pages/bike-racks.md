@@ -6,7 +6,7 @@ menu:
     parent: communitynav
 ---
 
-Shift has built some easily-transportable bike racks which we'd love to loan to your community or nonprofit group for your event.  They'll accomodate around 70 bikes.  We'll also rent to businesses.
+Shift has built some easily-transportable bike racks which we'd love to loan to your community or nonprofit group for your event.  They'll accommodate around 70 bikes.  We'll also consider renting to businesses.
 
 The racks consist of lightweight tubing which is intuitive and simple to assemble and disassemble; the collapsed racks are one 11' long group of tubes that is about 1.5' in diameter and weighs around 70 pounds, and one bundle of 3.5' tubing that is about 1.5' in diameter and weighs around 20 pounds.
 
