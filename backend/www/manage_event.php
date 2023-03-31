@@ -111,23 +111,24 @@ function validate_date_statuses($data, $messages) {
     return $validatedDateStatuses;
 }
 
-function get_dates_type($validDateStatuses) {
-    if (count($validDateStatuses) === 1) {
-        return 'O';
-    } else {
-        // not dealing with 'consecutive'
-        return 'S';
-    }
-}
+// function get_dates_type($validDateStatuses) {
+//     if (count($validDateStatuses) === 1) {
+//         return 'O';
+//     } else {
+//         // not dealing with 'consecutive'
+//         return 'S';
+//     }
+// }
 
-function get_date_string($validDateStatuses) {
-    if (count($validDateStatuses) === 1) {
-        return date_format(end($validDateStatuses)['date'], 'l, F j');
-    } else {
-        // not dealing with 'consecutive'
-        return 'Scattered days';
-    }
-}
+// function get_date_string($validDateStatuses) {
+//     if (count($validDateStatuses) === 1) {
+//         // a "kitchen date": "Mon, Jan 2"
+//         return date_format(end($validDateStatuses)['date'], 'l, F j');
+//     } else {
+//         // not dealing with 'consecutive'
+//         return 'Scattered days';
+//     }
+// }
 
 function get_new_date_statuses($dateStatuses) {
     $newDateStatuses = array();
@@ -209,8 +210,11 @@ function build_json_response() {
     $validDateStatuses = $validatedDateStatuses['validDateStatuses'];
     $messages = $validatedDateStatuses['messages'];
 
-    $data['datestype'] = get_dates_type($validDateStatuses);
-    $data['datestring'] = get_date_string($validDateStatuses);
+    // fix? data is not read from after this, so these calls don't have an effect.
+    // they would have to be above the fromArray call.
+    // this has been broken since 2019-07-12 #40045bed5f66d1ca4df897b2f0c9c5c111ed217a.
+    // $data['datestype'] = get_dates_type($validDateStatuses);
+    // $data['datestring'] = get_date_string($validDateStatuses);
 
     $newDateStatuses = get_new_date_statuses($validDateStatuses);
     $existingDateStatuses = get_existing_date_statuses($validDateStatuses);
