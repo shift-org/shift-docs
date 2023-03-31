@@ -1,4 +1,15 @@
 <?php
+/**
+ * Crawl: Returns a simple HTML rendering of ride data.
+ * Used by web crawlers such as search engines.
+ * 
+ * Expects an (optional) TIME id using url query parameter; ex: 
+ *    https://api.shift2bikes.org/api/crawl.php?id=15229
+ *    https://localhost:4443/api/crawl.php?id=1893
+ * 
+ * See also:
+ *   https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#crawling-an-event
+ */
 include('../init.php');
 $defaultImage = 'https://www.shift2bikes.org/images/shiftLogo_plain.gif';
 
@@ -7,10 +18,10 @@ function addOgTag($property, $content) {
 	echo "\t\t<meta property=\"og:$property\" content=\"$content\" />\n";
 }
 
-
 if (!array_key_exists('id', $_GET)) {
 	$title = 'Shift/Pedalpalooza Calendar';
 	$description = 'Find fun bike events and make new friends! Shift helps groups and individuals to promote their "bike fun" events.';
+
 	echo <<< EOT
 <html>
 	<head>
