@@ -1,10 +1,17 @@
 <?php
 
+// Represents a single repeatable event occuring at one set time on one or more days.
+// Maps to the mysql 'calevent' table. 
 class Event extends fActiveRecord {
-    public function toArray($include_hidden=false) {
+
+    // returns a summary of this event, suitable for use in a json response.
+    // by default, excludes any details the organizer has marked as "private.
+    // ( ex. email, phone, and contact info )
+    public function toArray($include_private=false) {
         /*
         id:
         title:
+        
         (different table!) date:
         venue:
         address:
@@ -13,6 +20,7 @@ class Event extends fActiveRecord {
         details:
         length:
         */
+        $duration = $this->getEventduration();
         $details = array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
@@ -30,7 +38,7 @@ class Event extends fActiveRecord {
             'locdetails' => $this->getLocdetails(),
             'loopride' => $this->getLoopride() != 0,
             'locend' => $this->getLocend(),
-            'eventduration' => $this->getEventduration() != null && $this->getEventduration() > 0 ? $this->getEventduration() : null,
+            'eventduration' => ($duration != null && $duration > 0) ? $duration: null,
             'weburl' => $this->getWeburl(),
             'webname' => $this->getWebname(),
             'image' => $this->getImageUrl(),
@@ -45,24 +53,31 @@ class Event extends fActiveRecord {
             'printphone' => $this->getPrintphone() != 0,
             'printweburl' => $this->getPrintweburl() != 0,
             'printcontact' => $this->getPrintcontact() != 0,
-            'published' => $this->getHidden() == 0,
+            'published' => $this->isPublished(),
             'safetyplan' => $this->getSafetyplan() != 0,
         );
 
-        $details['email']   = $this->getHideemail() == 0   || $include_hidden ? $this->getEmail() : null;
-        $details['phone']   = $this->getHidephone() == 0   || $include_hidden ? $this->getPhone() : null;
-        $details['contact'] = $this->getHidecontact() == 0 || $include_hidden ? $this->getContact() : null;
+        $details['email']   = $this->getHideemail() == 0   || $include_private ? $this->getEmail() : null;
+        $details['phone']   = $this->getHidephone() == 0   || $include_private ? $this->getPhone() : null;
+        $details['contact'] = $this->getHidecontact() == 0 || $include_private ? $this->getContact() : null;
 
         return $details;
     }
 
+    // return the specified Event, or null if no such event was found.
+    public static function getByID($id) {
+        try {
+            return new Event($id);
+        } catch (fNotFoundException $e) {
+            return null;
+        }
+    }
+
+    // load an Event and set its fields from the passed input.
     public static function fromArray($input) {
         $event = null;
         if (array_key_exists('id', $input)) {
-            try {
-                // get event by id
-                $event = new Event($input['id']);
-            } catch (fExpectedException $e) {}
+            $event = Event::getByID($input['id']);
         }
         if ($event == null) {
             $event = new Event();
@@ -111,33 +126,20 @@ class Event extends fActiveRecord {
         return $event;
     }
 
-    public function updateExistingEventTimes($dateStatuses) {
-        foreach ($this->buildEventTimes('id') as $eventTime) {
-            // For all existing EventTimes in the db
-            // Delete or update
-            $eventTime->matchToDateStatus($dateStatuses);
-        }
-
-        // Flourish is suck. I can't figure out the "right" way to do one-to-many cause docs are crap
-        // This clears a cache that causes subsequent operations (buildEventTimes) to return stale data
-        $this->related_records = array();
-    }
-
-    public function addEventTime($dateStatus) {
-        EventTime::createNewEventTime($this->getId(), $dateStatus);
-    }
-
-    private function getDates() {
+    // cancel all occurrences of this event, and make it inaccessible to the organizer.
+    public function cancelEvent() {
         $eventTimes = $this->buildEventTimes('id');
-        $eventDates = [];
         foreach ($eventTimes as $eventTime) {
-            $eventDates []= $eventTime->getFormattedDate();
+            $eventTime->cancelOccurrence();
         }
-        return $eventDates;
+        $this->setPassword(""); 
+        $this->store();
     }
 
-    private function getEventDateStatuses() {
-        $eventTimes = $this->buildEventTimes('id');
+    private function getEventDateStatuses($eventTimes=null) {
+        if (!$eventTimes) {
+            $eventTimes = $this->buildEventTimes('id');
+        }
         $eventDateStatuses = array();
         foreach ($eventTimes as $eventTime) {
             $eventDateStatuses []= $eventTime->getFormattedDateStatus();
@@ -145,17 +147,21 @@ class Event extends fActiveRecord {
         return $eventDateStatuses;
     }
 
-    public function toDetailArray($include_hidden=false) {
+    // return a summary of the Event and all its EventTime(s)
+    // optionally, pass a precached list of times.
+    public function toDetailArray($include_private=false, $eventTimes=null) {
         // first get the data into an array
-        $detailArray = $this->toArray($include_hidden);
+        $detailArray = $this->toArray($include_private);
         // add all times that exist, maybe none.
-        $detailArray["datestatuses"] = $this->getEventDateStatuses();
+        $detailArray["datestatuses"] = $this->getEventDateStatuses($eventTimes);
         // return potentially augmented array
         return $detailArray;
     }
 
+    // if the secret is valid and matches the password of this Event.
+    // ( the password of the event is set at creation time, and cleared when 'deleted' )
     public function secretValid($secret) {
-        return $this->getPassword() == $secret;
+        return $secret && ($this->getPassword() == $secret);
     }
 
     private function generateSecret() {
@@ -183,7 +189,11 @@ class Event extends fActiveRecord {
         mail("shift-event-email-archives@googlegroups.com", $subject, $message, $headers);
     }
 
-    public function unhide() {
+    public function isPublished() {
+        return $this->getHidden() == 0;
+    }
+
+    public function publishEvent() {
         if ($this->getHidden() != 0) {
             $this->setHidden(0);
             $this->store();

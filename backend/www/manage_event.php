@@ -1,14 +1,15 @@
 <?php
-/*
- * A way to test this endpoint is to use curl
- * Create a file test_data.json with the json you want to submit
- * curl -H 'Content-Type: application/json' -X POST --data-binary "@test.json" http://localhost:8080/shift-flourish/www/manage_event.php
- */
-
 /**
- * This endpoint updates events, expecting a form/multipart upload with two parts, json and file[]:
- *
- *  If there is a problem the error code will be 400 with a json response of the form:
+ *  Manage Event: Updates a new or existing event and its associated times.
+ *  Used by the organizer when they save or edit a ride.
+ *  Expects a form/multipart upload with two parts: json and file[].
+ * 
+ *  You can use curl to post some json for testing. For example:
+ *    curl -k -H 'Content-Type: application/json' -X POST --data-binary \
+ *    "@manageEvent.json" https://localhost:4443/api/manage_event.php
+ *  
+ *  On success, it will return a summary of the events and its times.
+ *  If there is a problem, it returns http 400 "Bad Request" with a json response of the form:
  *  {
  *      "error": {
  *          "message": "Error message"
@@ -18,14 +19,26 @@
  *          }
  *      }
  *  }
- */
-
+ * 
+ *  See also:
+ *    https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#managing-events
+ *    https://localhost:4443/addevent/edit-$event_id-$secret
+ *    /site/themes/s2b_hugo_theme/static/js/cal/addevent.js
+ */ 
 include('../init.php');
 
+/**
+ * ensure the email, title, etc. submitted by the organizer seems valid.
+ * if validation fails, returns a array containing the name of each failed field and some helper html: 
+ * ex. {
+ *    "email": "Please enter a value for <span class=\"field-name\">Email</span>"
+ * }
+ */
 function validate_json_request($data) {
     $_POST = $data; // fValidation inspects $_POST for field data
     $validator = new fValidation();
-
+    // note: this checks existence of the fields; 
+    // whether the code_of_conduct, etc. have been set true is determined elsewhere...
     $validator->addRequiredFields('title', 'details', 'venue', 'address', 'organizer', 'email', 'code_of_conduct', 'read_comic');
     // required only from March to June, during Pedalpalooza
     // $validator->addRequiredFields('tinytitle', 'printdescr');
@@ -41,6 +54,17 @@ function validate_json_request($data) {
     return $validator->validate(TRUE, TRUE);
 }
 
+/**
+ * receive an image from the user, and save it to the global $IMAGEDIR.
+ * records that path in the passed event.
+ *
+ * note: initially this stores the image with the name specified by the user.
+ * the first time event->getImageUrl() is called, the file is moved to match its id:
+ * ex. https://shift2bikes.org/eventimages/9248.png
+ * tbd: can that be done here instead?
+ *
+ * see also: https://flourishlib.com/docs/fUpload.html
+ */
 function upload_attached_file($event, $messages) {
     if (isset($_FILES['file'])) {
         $uploader = new fUpload();
@@ -66,110 +90,63 @@ function upload_attached_file($event, $messages) {
     return $messages;
 }
 
-function field_error($messages) {
-    return array(
-        'error' => array(
-            'message' => 'There were errors in your fields',
-            'fields' => $messages
-        )
-    );
-}
-
-function text_error($message) {
-    return array(
-        'error' => array(
-            'message' => $message
-        )
-    );
-}
-
+/**
+ * Ensures that the 'datestatuses' in 'data' (if any) are valid.
+ * 
+ * @param array $data Contains ['datestatuses'], 
+ *        A list of data status objects sent by the organizer.
+ *        [{ 'id', 'date', 'status', 'newsflash' },...]
+ * 
+ * @param array $messages Used for error messages.
+ *        An object containing arbitrary {name: string} pairs.
+ * 
+ * @return an array containing two values:
+ *  'statuses': an array of { YYYY-MM-DD : status } pairs.
+ *  'messages': the original messages with a new key 'dates', 
+ *              containing a comma separated string of invalid dates.
+ * 
+ * @see DateStatus.php
+ */
 function validate_date_statuses($data, $messages) {
     $validDateStatuses = array();
     $invalidDateStrings = array();
 
+    // get the dates, or an empty array.
     $inputDateStatuses = get($data['datestatuses'], array());
     foreach ($inputDateStatuses as $dateStatus) {
         $dateString = $dateStatus['date'];
-        $date =  DateTime::createFromFormat('Y-m-d', $dateString);
+        // try to parse the passed date ( expects, ex. 2006-01-02 )
+        $date = DateTime::createFromFormat('Y-m-d', $dateString);
         if ($date) {
-            $dateStatus['date'] = $date;
-            $validDateStatuses[] = $dateStatus;
+            // overwrite string by reformatting it.... just in case.
+            // TBD: is that really necessary?
+            $dateString = $date->format('Y-m-d');
+            $dateStatus['date'] = $dateString;  
+            $validDateStatuses[$dateString] = $dateStatus;  // map
         } else {
-            $invalidDateStrings []= $dateString;
+            $invalidDateStrings []= $dateString; // append
         }
     }
 
     if ($invalidDateStrings) {
         $messages['dates'] = "Invalid dates: " . implode(', ', $invalidDateStrings);
-    }
-
-    $validatedDateStatuses = array(
-        'validDateStatuses' => $validDateStatuses,
-        'messages' => $messages
+    }   
+    return array(
+        'messages' => $messages,
+        'statuses' => $validDateStatuses
     );
-
-    return $validatedDateStatuses;
-}
-
-function get_dates_type($validDateStatuses) {
-    if (count($validDateStatuses) === 1) {
-        return 'O';
-    } else {
-        // not dealing with 'consecutive'
-        return 'S';
-    }
-}
-
-function get_date_string($validDateStatuses) {
-    if (count($validDateStatuses) === 1) {
-        return date_format(end($validDateStatuses)['date'], 'l, F j');
-    } else {
-        // not dealing with 'consecutive'
-        return 'Scattered days';
-    }
-}
-
-function get_new_date_statuses($dateStatuses) {
-    $newDateStatuses = array();
-
-    foreach ($dateStatuses as $dateStatus) {
-        if (empty($dateStatus['id'])) {
-            $newDateStatuses []= $dateStatus;
-        }
-    }
-
-    return $newDateStatuses;
-}
-
-function get_existing_date_statuses($dateStatuses) {
-    $existingDateStatuses = array();
-
-    foreach ($dateStatuses as $dateStatus) {
-        if (!empty($dateStatus['id'])) {
-            $existingDateStatuses[$dateStatus['id']] = $dateStatus;
-        }
-    }
-
-    return $existingDateStatuses;
-}
-
-function create_new_event_times($event, $newDateStatuses){
-    foreach ($newDateStatuses as $dateStatus) {
-        $event->addEventTime($dateStatus);
-    }
-}
-
-function update_existing_event_times($event, $existingDateStatuses) {
-    $event->updateExistingEventTimes($existingDateStatuses);
 }
 
 function build_json_response() {
     if (!isset($_POST['json'])) {
+        // read the raw request body ( ex. to handle posting a .json file for testing )
+        // ( see curl statement at top of file )
         $data = json_decode(file_get_contents('php://input'), true);
     } else {
         $data = json_decode($_POST['json'], true);
     }
 
+    // validate the incoming data:
     if (!$data) {
         return text_error("JSON could not be decoded");
     }
@@ -190,60 +167,63 @@ function build_json_response() {
         $messages['code_of_conduct'] = "You must agree to the Code of Conduct";
     }
 
+    // validate the format of the incoming dates
+    $statusMap = validate_date_statuses($data, $messages);
+    $messages  = $statusMap['messages'];
+    $statusMap = $statusMap['statuses'];
+    
+    // exit if any fields failed basic validation:
     if ($messages) {
         return field_error($messages);
     }
 
-    // Converts data to an event, loading the existing one if id is included in data
+    // Find or create the requested event. ( finds when there's an id in the data. )
+    // New events are given a new secret, and are set hidden=1 ( not yet published )
+    // NOTE: overwrites any and all existing fields in the event with the user's input.
     $event = Event::fromArray($data);
 
-    // Else
+    // if the event existed; the secret must be valid.
     if ($event->exists() && !$event->secretValid($data['secret'])) {
         return text_error("Invalid secret, use link from email");
     }
 
+    // validates that all fields have compatible data types, 
+    // that required values are set, that uniqueness and other constraints are valid.
+    // https://flourishlib.com/docs/fActiveRecord.html#WhatisValidated
     $messages = $event->validate($return_messages=TRUE, $remove_column_names=TRUE);
+
+    // save the uploaded file (if any)
+    // FIX? consider moving the file here rather than in getImageUrl()
     $messages = upload_attached_file($event, $messages);
 
-    $validatedDateStatuses = validate_date_statuses($data, $messages);
-    $validDateStatuses = $validatedDateStatuses['validDateStatuses'];
-    $messages = $validatedDateStatuses['messages'];
-
-    $data['datestype'] = get_dates_type($validDateStatuses);
-    $data['datestring'] = get_date_string($validDateStatuses);
-
-    $newDateStatuses = get_new_date_statuses($validDateStatuses);
-    $existingDateStatuses = get_existing_date_statuses($validDateStatuses);
-
+    // any errors so far? exit.
     if ($messages) {
         return field_error($messages);
     }
-
-    // if needs secret generate and email
+    
+    // if this is a new event, then we'll need to send an email ( below )
+    // otherwise, updating an existing event publishes it.
     if (!$event->exists()) {
-        $includeSecret = true;
+        $event->store();
+        $emailSecret = true;
     } else {
-        $includeSecret = false;
-        // saving an existing event publishes it
-        $event->unhide();
+        $event->publishEvent();  // this stores.
+        $emailSecret = false;
     }
 
-    // If there are validation errors this starts spewing html, so we validate before
-    $event->store();
-
-    // The following operations must occur in the order: UPDATE -> CREATE NEW
-    // Otherwise the update function will delete the newly created EventTimes
-    update_existing_event_times($event, $existingDateStatuses);
-    create_new_event_times($event, $newDateStatuses);
-
-    // Returns the created object
-    $details = $event->toDetailArray(true);
-    if ($includeSecret) {
-        $details['secret'] = $event->getPassword();
-        // Wait until after it is stored to ensure it has an id
+    // now that the event exists: reconcile the times.
+    $eventTimes = EventTime::reconcile($event, $statusMap);
+    
+    // after everything else has finished 
+    // ( and the event exists in the db )
+    // email the organizer about new events.
+    if ($emailSecret) {
         $event->emailSecret();
     }
-    return $details;
+    
+    // return a summary of the Event and all its EventTime(s)
+    // passes "true" to include private contact info ( like email, etc. )
+    return $event->toDetailArray(true, $eventTimes);
 }
 
 ob_start();
@@ -256,6 +236,4 @@ if ($contents) {
 header('Content-Type: application/json');
 header('Accept: application/json');
 header("Access-Control-Allow-Origin: $ORIGIN");
-if (array_key_exists('error', $response))
-    http_response_code(400);
 echo json_encode($response);

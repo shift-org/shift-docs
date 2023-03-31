@@ -8,8 +8,7 @@ header( 'Content-Disposition: inline; filename=calendar.ics' );
 
 
 if (isset($_GET['id'])) {
-	$event_id = $_GET['id'];
-	$event = new Event($event_id);
+	$event = Event::getByID($_GET['id']);
 	if ($event) {
 		echo (new iCalExporter( $event->buildEventTimes('id') ))->export();
 	}

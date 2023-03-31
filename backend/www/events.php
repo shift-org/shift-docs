@@ -1,13 +1,20 @@
 <?php
-include('../init.php');
-
 /**
- * This endpoint returns a list of events between the GET parameters startdate and enddate of the form:
- *  JSON:
+ * Events: Displays one or more event times.
+ * Used for browsing the calendar so people can find information about interesting rides.
+ * 
+ * This endpoint supports two different queries:
+ *   id=caldaily_id ( the time id )
+ *   startdate=YYYY-MM-DD & enddate=YYYY-MM-DD
+ * 
+ * For example:
+ *   https://localhost:4443/api/events.php?id=13662
+ *   https://localhost:4443/api/events.php?startdate=2023-03-19&enddate=2023-03-29
+ * 
+ * In both cases it returns a list of events as a JSON object:
  *  {
  *      events: [
  *          {
- *
  *          },
  *          ...
  *      ]
@@ -19,7 +26,12 @@ include('../init.php');
  *          "message": "Error message"
  *      }
  *  }
+ * 
+ * See also:
+ *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
+ * 
  */
+include('../init.php');
 
 if (isset($_GET['startdate']) && ($parseddate = strtotime($_GET['startdate']))) {
     $startdate = $parseddate;
@@ -41,17 +53,13 @@ function daysInRange($startdate, $enddate) {
 }
 
 if ($enddate < $startdate) {
-    http_response_code(400);
     $message = "enddate: " . date('Y-m-d', $enddate) . " is before startdate: " . date('Y-m-d', $startdate);
-    $json['error'] = array(
-        'message' => $message
-    );
+    $json = text_error( $message );
+    
 } elseif (daysInRange($startdate, $enddate) > 100) {
-    http_response_code(400);
     $message = "event range too large: " . daysInRange($startdate, $enddate) . " days requested; max 100 days";
-    $json['error'] = array(
-        'message' => $message
-    );
+    $json = text_error( $message );
+
 } else {
     $json['events'] = array();
 
@@ -73,4 +81,4 @@ if ($enddate < $startdate) {
 }
 header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: $ORIGIN");
-fJSON::output($json);
+fJSON::output($json);  // https://flourishlib.com/api/fJSON.html
