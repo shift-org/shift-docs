@@ -1,6 +1,6 @@
 ---
 title: Move By Bike
-weight: 7
+weight: 8
 menu:
   main:
     parent: featuredevents
