@@ -58,7 +58,11 @@ function validate_json_request($data) {
  * receive an image from the user, and save it to the global $IMAGEDIR.
  * records that path in the passed event.
  *
- * see also: https://flourishlib.com/docs/fUpload.html
+ * note: initially this stores the image with the name specified by the user.
+ * the first time event->getImageUrl() is called, the file is moved to match its id:
+ * ex. https://shift2bikes.org/eventimages/9248.png
+ * tbd: can that be done here instead?
+ *
  */
 function upload_attached_file($event, $messages) {
     if (isset($_FILES['file'])) {
@@ -172,6 +176,7 @@ function build_json_response() {
         return field_error($messages);
     }
 
+    //
     // Find or create the requested event. ( finds when there's an id in the data. )
     // New events are given a new secret, and are set hidden=1 ( not yet published )
     // NOTE: overwrites any and all existing fields in the event with the user's input.
