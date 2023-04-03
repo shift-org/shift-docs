@@ -19,7 +19,7 @@ class EventTime extends fActiveRecord {
     /**
      * Add, cancel, and update occurrences of a particular event.
      * 
-     * @param  Event  the relevant event.           
+     * @param  Event  the relevant event.
      * @param  array  $statusMap containing {YYYY-MM-DD: dateStatus }
      * @return array  json friendly date status records
      * 
@@ -68,7 +68,7 @@ class EventTime extends fActiveRecord {
     }
 
     // Find all occurrences of any EventTime within the specified date range.
-	// Dates are in the "YYYY-MM-DD" format. ( ex. 2006-01-02 )
+    // Dates are in the "YYYY-MM-DD" format. ( ex. 2006-01-02 )
     public static function getRangeVisible($firstDay, $lastDay) {
         return fRecordSet::build(
             'EventTime', // class
@@ -83,7 +83,7 @@ class EventTime extends fActiveRecord {
         );
     }
 
-	// Mark this particular occurrence as cancelled, updating the db.
+    // Mark this particular occurrence as cancelled, updating the db.
     public function cancelOccurrence() {
         if ($this->getEventstatus() !== 'C') {
             $this->setEventstatus('C');
