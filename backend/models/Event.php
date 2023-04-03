@@ -158,6 +158,7 @@ class Event extends fActiveRecord {
             $eventTimes = $this->getEventDateStatuses();
         }
         $detailArray["datestatuses"] = $eventTimes;
+        // return potentially augmented array
         return $detailArray;
     }
 
