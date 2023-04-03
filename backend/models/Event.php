@@ -41,7 +41,10 @@ class Event extends fActiveRecord {
             'eventduration' => ($duration != null && $duration > 0) ? $duration: null,
             'weburl' => $this->getWeburl(),
             'webname' => $this->getWebname(),
-            'image' => $this->getImageUrl(),
+            // fix? it feels wrong to "store()" on "get()"
+            // are there any entries in the existing data that arent in the right place?  
+            // if they are all ok, then maybe toArray() could avoid calling this.
+            'image' => $this->updateImageUrl(true),
             'audience' => $this->getAudience(),
             //'printevent' => $this->getPrintevent(),
             'tinytitle' => $this->getTinytitle(),
@@ -133,14 +136,12 @@ class Event extends fActiveRecord {
             $eventTime->cancelOccurrence();
         }
         $this->setPassword(""); 
-        $this->store();
+        $this->storeChange();
     }
 
-    private function getEventDateStatuses($eventTimes=null) {
-        if (!$eventTimes) {
-            $eventTimes = $this->buildEventTimes('id');
-        }
+    private function getEventDateStatuses() {
         $eventDateStatuses = array();
+        $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
             $eventDateStatuses []= $eventTime->getFormattedDateStatus();
         }
@@ -148,13 +149,15 @@ class Event extends fActiveRecord {
     }
 
     // return a summary of the Event and all its EventTime(s)
-    // optionally, pass a precached list of times.
+    // optionally, pass a prebuilt list of formatted times.
     public function toDetailArray($include_private=false, $eventTimes=null) {
         // first get the data into an array
         $detailArray = $this->toArray($include_private);
         // add all times that exist, maybe none.
-        $detailArray["datestatuses"] = $this->getEventDateStatuses($eventTimes);
-        // return potentially augmented array
+        if ($eventTimes === null) {
+            $eventTimes = $this->getEventDateStatuses();
+        }
+        $detailArray["datestatuses"] = $eventTimes;
         return $detailArray;
     }
 
@@ -193,14 +196,34 @@ class Event extends fActiveRecord {
         return $this->getHidden() == 0;
     }
 
-    public function publishEvent() {
+    public function setPublished() {
         if ($this->getHidden() != 0) {
             $this->setHidden(0);
-            $this->store();
         }
     }
 
-    private function getImageUrl() {
+    // prefer this instead of "store" in most cases.
+    // it updates the sequence counter so ical clients will notice a change in the event.
+    public function storeChange() {
+        $existed = $this->exists();
+        // if the id exists, we can update the image here ( and reduce the calls to store. )
+        if ($existed) {
+            $this->updateImageUrl(false);
+        }
+        $this->setChanges($this->getChanges() + 1);
+        $this->store();
+        // fix? b/c the image path is based on the id:
+        // for new events, this requires a double store(). 
+        if (!$existed) {
+            // oto -- the html says: "To add an image, save and confirm the event first."
+            // so in practice, this will never store an image here.
+            $this->updateImageUrl(true);
+        }
+    }
+
+    // ensure that the image is stored in the right location, and 
+    // return the path to the image.
+    private function updateImageUrl($storeIfChanged) {
         global $IMAGEDIR;
         global $IMAGEURL;
 
@@ -222,15 +245,17 @@ class Event extends fActiveRecord {
             $new_path = "$IMAGEDIR/$new_name";
 
             if (file_exists($old_path)) {
+                // note: rename() overwrites existing.
                 rename($old_path, $new_path);
                 $this->setImage($new_name);
-                $this->store();
+                if ($storeIfChanged) {
+                    $this->store();
+                }
             }
         }
-
+        // ex. https://shift2bikes.org/eventimages/9248.png
         return "$IMAGEURL/$new_name";
     }
-
 }
 
 fORM::mapClassToTable('Event', 'calevent');

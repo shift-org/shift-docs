@@ -19,15 +19,42 @@ $calconfig = (object) [
 	'name' => 'Shift Bike Calendar',
 	'desc' => 'Find fun bike events and make new friends!',
 	'guid' => 'shift@shift2bikes.org',
-	'prod' => '-//shift2bikes.org//NONSGML shiftcal v2.1//EN'
+	'prod' => '-//shift2bikes.org//NONSGML shiftcal v2.1//EN',
+	'filename' => 'shift-calendar',
+	'ext' => '.ics',
+	'maxage' => 60*60*3, // 3 hours
 ];
 
-if (isset($_GET['id'])) {
-	echo exportOne($calconfig, $_GET['id']);
-} elseif (isset($_GET['startdate']) || isset($_GET['enddate'])) {
-	echo exportStringRange($calconfig, $_GET['startdate'], $_GET['enddate']);
-} else {
-	echo exportCurrent($calconfig);
+try {
+	handleResponse($calconfig, $_GET);
+} catch (Exception $ex) {
+	error_log("couldn't generate calendar:" . $ex->getMessage());
+	http_response_code(400);
+}
+
+// ---------------------------------
+function handleResponse($cfg, $get) {
+	$id = $get['id'];
+	if ($id) {
+		$body = exportOne($cfg, $id);
+		// ex. shift-calendar-12414.ics
+		$filename = "$cfg->filename-$id$cfg->ext";
+	} else{
+		$end = $get['enddate'];
+		$start = $get['startdate'];
+		if ($start || $end) {
+			$body = exportStringRange($cfg, $start, $end);
+			$filename = "$cfg->filename-$start-to-$end$cfg->ext";
+		} else {
+			$body = exportCurrent($cfg);
+			// ex. shift-calendar.ics
+			$filename = "$cfg->filename$cfg->ext";
+		}
+	}
+	header("Content-Type: text/calendar; charset=utf-8");
+	header("Content-Disposition: attachment; filename=\"$filename\"");
+	header("Cache-Control: public, max-age=$cfg->maxage");
+	echo $body;
 }
 
 // ---------------------------------
@@ -38,8 +65,8 @@ if (isset($_GET['id'])) {
 // id is a calevent id.
 function exportOne($cfg, $id) {
 	$event = Event::getByID($id);
-	if (!event) {
-		return http_response_code(400);
+	if (!$event) {
+		throw new Exception("no such event $id");
 	}
 	$eventTimes = $event->buildEventTimes('id');
 	return buildCalendar($cfg, $eventTimes);
@@ -47,27 +74,30 @@ function exportOne($cfg, $id) {
 
 // Return some good range of past and future events in ical format as a string.
 function exportCurrent($cfg) {
-	$start = new DateTime(); // now.
-	$end = clone $start; // also now.
-	$start->sub(new DateInterval('P3M'));
-	$end->add(new DateInterval('P3M'));
-	$eventTimes = EventTime::getRangeVisible($start->getTimestamp(), $end->getTimestamp());
+	$now = new DateTimeImmutable(); // now.
+	$start = $now->sub(new DateInterval('P3M'))->format('Y-m-d');
+	$end = $now->add(new DateInterval('P3M'))->format('Y-m-d');
+	$eventTimes = EventTime::getRangeVisible($start, $end);
 	return buildCalendar($cfg, $eventTimes);
 }
 
 // Return a range of events in ical format as string,
-// where start and end are strings specified as YYYY-MM-DD ( ex. 2006-01-02 )
+// where start and end are timestamps.
 function exportStringRange($cfg, $start, $end) {
-	$start = strtotime($start); // returns false or -1 when it cant parse
-	$end = strtotime($end); 
-	if ($end < $start) {
-		return http_response_code(400);
-	} elseif (daysInRange($start, $end) > 100) {
-		return http_response_code(400);
+	// note: unlike strtotime, this deliberately limits the kinds of input.
+	// ( feel like that makes more sense than allowing accidental misformed queries )
+	$started = DateTimeImmutable::createFromFormat('Y-m-d', $start);
+	$ended = DateTimeImmutable::createFromFormat('Y-m-d', $end);
+	if (!$started || !$ended) {
+		throw new Exception("invalid dates");
+	} else {
+		$range = daysInRange($started->getTimestamp(), $ended->getTimestamp());
+		if ($range < 0 || $range > 100) {
+			throw new Exception("bad date range $range days");
+		}
+		$eventTimes = EventTime::getRangeVisible($start, $end);
+		return buildCalendar($cfg, $eventTimes);
 	}
-	
-	$eventTimes = EventTime::getRangeVisible($start, $end);
-	return buildCalendar($cfg, $eventTimes);
 }
 
 // ---------------------------------
@@ -144,14 +174,14 @@ function buildCalEvent($at) {
 	$url = $at->getShareable();
 	$summary = escapeBreak("SUMMARY:", $evt->getTitle());
 	$contact = escapeBreak("CONTACT:", $evt->getName());
-	$description = escapeBreak("DESCRIPTION:", $evt->getTimedetails(), $url);
+	$description = escapeBreak("DESCRIPTION:", $evt->getDescr(), $evt->getTimedetails(), $url);
 	$location = escapeBreak("LOCATION:", $evt->getLocname(), $evt->getAddress(), $evt->getLocdetails());
 	$status =  $at->getCancelled() ? "CANCELLED" : "CONFIRMED";
 	$start = dateFormat( $startAt, $utc );
 	$end = dateFormat( $endAt, $utc );
 	$created = dateFormat( $created, $utc );
 	$modified = dateFormat( $modified, $utc );
-	$sequence = $at->getChanges() + 1;
+	$sequence = $evt->getChanges() + 1;
 
 	return <<<EOD
 BEGIN:VEVENT
@@ -175,6 +205,7 @@ EOD;
 // misc helpers:
 // ---------------------------------
 
+// format a date in an ical friendly way.
 function dateFormat( $dt, $utc ) {
 	return date_format( $dt->setTimeZone($utc), 'Ymd\THis\Z' );
 }
@@ -204,32 +235,33 @@ function escapeBreak($row, ...$strings) {
 	foreach ($strings as $s) {
 		$s = trim($s);
 		if (!empty($s)) {
+			$s = replace($s);
 			if ($str) {
-				$str .= "\n";
+				$str .= "\\n"; // semantic newline.
 			}
 			$str .= $s;
 		}
 	}
-	// An intentional formatted text line break MUST only be included
-	// [as a] BACKSLASH, followed by a LATIN SMALL LETTER N...
-	// A BACKSLASH ... MUST be escaped with another BACKSLASH character.
-	// A COMMA ... MUST be escaped...
-	// A SEMICOLON ... MUST be escaped...
-	$replaceWhat = array( '\\', "\n", ',',  ';' );
-	$replaceWith = array( '\\\\', '\n', '\,', '\;' );
-	$str = str_replace( $replaceWhat, $replaceWith, $str );
 
 	// Lines of text SHOULD NOT be longer than 75 octets [bytes], excluding the line
 	// break... a long line can be split between any two characters by inserting a CRLF
 	// immediately followed by a single linear [space].
 	//
-	// 74 is best therefore to fit the required leading space.
-	// ( there's probably some client where a 75 letter word wont get
-	// rejoined if its split at the 74th char... but oh well. don't have words 74 characters long i guess. )
+	// so 74 is best to fit the required leading space; 
+	// for php, use 73 because it erases the space after a word when it break lines.
 	//
-	// for php, we have to use 73 because wordwrap chomps the spaces between words when they break lines
-	// but ical needs us to preserve the original spacing.
-	//
-	// note: we are only injecting "\n " here, and will replace those with the "\r\n" later.
-	return wordwrap($row . $str, 73, " \n ");
+	// note: only injecting "\n " here, buildCalendar() replaces those with "\r\n" later.
+	// fix? wordwrap doesnt split on / so urls take more room than they should.
+	return wordwrap($row . $str, 73, " \n ", true);
+}
+
+function replace($str) {
+	// An intentional formatted text line break MUST only be included
+	// [as a] BACKSLASH, followed by a LATIN SMALL LETTER N...
+	// A BACKSLASH ... MUST be escaped with another BACKSLASH character.
+	// A COMMA ... MUST be escaped...
+	// A SEMICOLON ... MUST be escaped...
+	$replaceWhat = array( '\\', "\r\n", "\n", ',',  ';' );
+	$replaceWith = array( '\\\\', "\n", '\n', '\,', '\;' );
+	return str_replace( $replaceWhat, $replaceWith, $str );
 }

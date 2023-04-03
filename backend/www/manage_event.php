@@ -58,11 +58,6 @@ function validate_json_request($data) {
  * receive an image from the user, and save it to the global $IMAGEDIR.
  * records that path in the passed event.
  *
- * note: initially this stores the image with the name specified by the user.
- * the first time event->getImageUrl() is called, the file is moved to match its id:
- * ex. https://shift2bikes.org/eventimages/9248.png
- * tbd: can that be done here instead?
- *
  * see also: https://flourishlib.com/docs/fUpload.html
  */
 function upload_attached_file($event, $messages) {
@@ -181,9 +176,10 @@ function build_json_response() {
     // New events are given a new secret, and are set hidden=1 ( not yet published )
     // NOTE: overwrites any and all existing fields in the event with the user's input.
     $event = Event::fromArray($data);
+    $existed = $event->exists();
 
     // if the event existed; the secret must be valid.
-    if ($event->exists() && !$event->secretValid($data['secret'])) {
+    if ($existed && !$event->secretValid($data['secret'])) {
         return text_error("Invalid secret, use link from email");
     }
 
@@ -193,36 +189,35 @@ function build_json_response() {
     $messages = $event->validate($return_messages=TRUE, $remove_column_names=TRUE);
 
     // save the uploaded file (if any)
-    // FIX? consider moving the file here rather than in getImageUrl()
     $messages = upload_attached_file($event, $messages);
 
     // any errors so far? exit.
     if ($messages) {
         return field_error($messages);
     }
-    
-    // if this is a new event, then we'll need to send an email ( below )
-    // otherwise, updating an existing event publishes it.
-    if (!$event->exists()) {
-        $event->store();
-        $emailSecret = true;
-    } else {
-        $event->publishEvent();  // this stores.
-        $emailSecret = false;
+
+    // if they saved ( uploaded to manage ) an existing event;
+    // then they must be publishing it. ( we've already validate the key above )
+    if ($existed) {
+        $event->setPublished();
     }
 
-    // now that the event exists: reconcile the times.
+    // we dont know whether something significant changed or not:
+    // so we always have to store.
+    $event->storeChange();
+
+    // now that the event has been stored, and it has an id: add/remove times.
     $eventTimes = EventTime::reconcile($event, $statusMap);
     
-    // after everything else has finished 
-    // ( and the event exists in the db )
+    // after everything else has finished:
     // email the organizer about new events.
-    if ($emailSecret) {
+    if (!$existed) {
         $event->emailSecret();
     }
     
-    // return a summary of the Event and all its EventTime(s)
+    // finally, return a summary of the Event and its EventTime(s).
     // passes "true" to include private contact info ( like email, etc. )
+    // ( because this is the organizer saving their event )
     return $event->toDetailArray(true, $eventTimes);
 }
 

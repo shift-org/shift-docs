@@ -16,8 +16,6 @@
  */
 include('../init.php');
 
-$response = array();
-
 if (!isset($_GET['id'])) {
     $response = text_error("Request incomplete, please pass an id in the url");
 } else {

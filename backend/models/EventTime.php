@@ -13,6 +13,7 @@ class EventTime extends fActiveRecord {
         $eventTime->setEventstatus($dateStatus['status']);
         $eventTime->setNewsflash($dateStatus['newsflash']);
         $eventTime->store();
+        return $eventTime;
     }
     
     /**
@@ -20,11 +21,12 @@ class EventTime extends fActiveRecord {
      * 
      * @param  Event  the relevant event.           
      * @param  array  $statusMap containing {YYYY-MM-DD: dateStatus }
-     * @return array  all possible EventTimes for the event.
+     * @return array  json friendly date status records
      * 
      * @see: DateStatus.php, manage_event.php
      */
     public static function reconcile($event, $statusMap) {
+        $out = array();
         $eventTimes = $event->buildEventTimes('id');
         $published = !$event->isPublished();
         foreach ($eventTimes as $at) {
@@ -33,25 +35,25 @@ class EventTime extends fActiveRecord {
             $status = $statusMap[$date];
             // if our event time is still desired by the organizer:
             // update the status with whatever the organizer provided.
+            // otherwise: the organizer wants to remove the occurrence.
+            // so cancel or delete the time depending on whether the event is published.
             if ($status) {
-                $at->updateStatus($status);  // stores the time.
+                $at->updateStatus($status);  // calls store() if changed.
                 unset($statusMap[$date]);    // remove from the map so we dont create it (below)
-            } else { 
-                // otherwise: the organizer wants to remove the occurrence.
-                // so cancel or delete the time depending on whether the event is published.
-                if ($published) {
-                   $at->cancelOccurrence(); // stores the time.
-                } else {
-                    $at->delete();
-                }
+                $out []= $at->getFormattedDateStatus(); // append
+            } elseif (!$published) {
+                $at->cancelOccurrence(); // calls store() if changed.
+                $out []= $at->getFormattedDateStatus(); //  append
+            } else {
+                $at->delete();
             }
         }
         // create any (new) days the organizer requested:
         foreach ($statusMap as $dateStatus) {
             $at = EventTime::createNewEventTime($event->getId(), $dateStatus);
-            $eventTimes []= $at; // append
+            $out []= $at->getFormattedDateStatus(); // append
         }
-        return $eventTimes;
+        return $out;
     }
 
     // return the specified EventTime, but only for published Events.
@@ -85,7 +87,7 @@ class EventTime extends fActiveRecord {
     public function cancelOccurrence() {
         if ($this->getEventstatus() !== 'C') {
             $this->setEventstatus('C');
-            $this->storeChange();
+            $this->store();
         }
     }
 
@@ -103,15 +105,8 @@ class EventTime extends fActiveRecord {
             $changed = true;
         }
         if ($changed) {
-            $this->storeChange();
+            $this->store();
         }
-    }
-
-    // prefer this instead of "store" in most cases.
-    // it updates the sequence counter so ical clients will notice a change in the event.
-    private function storeChange() {
-        $this->setChanges($this->getChanges()+1);
-        $this->store();
     }
 
     public function getEvent() {
@@ -138,8 +133,9 @@ class EventTime extends fActiveRecord {
     }
 
     // returns a date in YYYY-MM-DD format ( ex. 2006-01-02 )
-    // TBD: is this needed? isnt it already in the proper format???
     public function getFormattedDate() {
+        // note: dates are represented as fDate
+        // https://flourishlib.com/docs/fDate.html
         return $this->getEventdate()->format('Y-m-d');
     }
 

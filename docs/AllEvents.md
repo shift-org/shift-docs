@@ -5,38 +5,56 @@ Events Feed
 
 Currently, there's two different ical endpoints. One for the 2022 Pedalpalooza [legacy feed](https://www.shift2bikes.org/cal/icalpp.php) using `legacy/cal/new-icalpp.php`, and one for individual [event export](https://www.shift2bikes.org/api/ics.php?id=8727) using `www/ics.php`.
     
-I've created a new handler: `backend/www/ical.php` which i hope can replace both bits of code. It returns an "all events" feed when used with no query parameters, a single event when using `?id=`, and a range of events for `?startdate=&enddate=`. The "all events" has a range of three months in the future and three months in the past. `**is that enough? too much?**` The explicit range is smaller, limited to 100 days.
+ 
+## Status:
 
+I've created a new handler: `backend/www/ical.php` to replace both the legacy and single event export. 
 
-## TODO:
+It returns an "all events" feed when used with no query parameters, a single event when using `?id=`, and a range of events for `?startdate=&enddate=`. The "all events" has a range of three months in the future and three months in the past. `**is that enough? too much?**` The explicit range is smaller, limited to 100 days.
+
+I've been able to import single events ( and update them ) into MacOS Calendar.app, google, and thunderbird. Need to test as a feed, but need to host off of local for that.
+
+## Questions and Todos:
 
 1. **New endpoints**
 
+    It's intended to be able to support `/cal/icalpp.php`, `/cal/pedalpalooza-calendar.php`,  and `/api/ics.php` -- might want to reroute old paths to the new ones? but that's maybe some ngnix configuration work i'm not entirely sure about.
     
-    It's intended to be able to support `/cal/icalpp.php`, `/cal/pedalpalooza-calendar.php`,  and `/api/ics.php` -- but it needs testing still, and i would need help setting up nginx paths correctly.
+    Alt: could have the php files in those locations include and call the new php code?
 
 1. **"Branding"**
 
     Should the calendar title read "shift" or "pedalpalooza"? ( Maybe there could be two endpoints which provide the same data just with different calendar titles?  ) 
 
+1. **Calendar Caching**
 
-1. **Client Caching**
+    see [CalendarCaching]; also,  **TBD**: good Cache-Control headers? ( currently set to 3 hours. )
 
-    Specifically, [etag](https://en.wikipedia.org/wiki/HTTP_ETag) generation and other html cache tags. 
+1. **TBD: What information to include**
 
-    **TODO:** need to work out the specifics. Single event export doesnt need caching, but the "all events" probably does. For the all events range, thinking it could use the `time id` of the furthest future event in the range, plus the most recently `modified` event time. The id would handle the range shifting forward, modified would handle changes anywhere within the range.
+    i've left it out for the moment, but the existing existing calendar exports do include some organizer info like contact email, phone number, etc. and the feeds have different levels of description ( ex. print vs. full )
     
-    When client browsers send etag html queries, the server would determine the best tag with using a single sql query and respond appropriately. For example, when the "best tag" is different than the client's tag, it would respond with a full new ics file ( plus or minus server caching. )
-        
-1. **Server Caching**
+    google doesn't handle the "url" field, so i left it as part of hte "description" even though its redundant for apple calendar, thunderbird, etc.
 
-    **TBD:** maybe nginx might be able to automatically cache based on etag?  
-    if not could potentially cache the latest etag in a file, or in mysql. ( ex. either a single file which always contains the latest etag entry, or a file named after the etag with some sort of cleanup mechanism. ) Simpler might be caching the latest ics data in memory... though not entirely sure how to do that with php.  
+1. **webcal://**
+
+    apparently, using addresses starting with `webcal://` will invoke the user's system calendar ( at least on mac; need to try on widows). 
     
-    **TBD**: good Cache-Control and the Expire headers. 
-    
+    Might be worth trying for "Export to calendar" and even the all events feed.
+    Currently it errors out during the process for me; maybe because its from a local host?
+    ( Not sure if nginx has to be setup specially as well or not )    
+
+1. **Manage cancel events?**
+
+    Because event times are only cancelled, and not truly deleted: when an organizer edits their events days that they removed are now shown as "canceled" ( rather than, as before, not appearing at all. ) Should cancelled days be hidden from the organizer?
+
 Changes
 ---
+
+1. **Export to Calendar**
+
+    Changed main.js "Export to Calendar" link to point to `ical.php` ( was `ics.php` ).
+    `https://localhost:4443/api/ical.php?id=9718` The file it generates has the name `shift-calendar-9718.ics`.
 
 1. **Canceling events**
 
@@ -54,6 +72,8 @@ Changes
 
     When an event changes ( ex. caldaily cancelled or newsflash ) ical requires to calendars to increment a "SEQUENCE" number so clients can detect the change. 
     
+    Originally, i intended this for 'caldaily' -- but since changes to the time or description alter 'calevent', and since there's no code path which can update 'caldaily' right now without updating 'calevent' -- putting it in the event makes the most sense.
+    
     I've updated `setup.sql`, and added a migration to `shift-docs/services/db/migrations/0003_ical_fields.sql` with a `changes` field.
     
     There's a new function in EventTime: "storeChange()" which updates the counter. Its called when event (times) are cancelled or updated.
@@ -61,6 +81,7 @@ Changes
 1. **Created**
 
     Along with `changes` i've also added a calevent `created` time to support the "CREATED" ical field. It uses "CURRENT_TIMESTAMP" so it should populate automatically.
+    
 
 
 Existing Support
@@ -70,7 +91,7 @@ Existing Support
 
 For lack of a better name, calling this "single event export" but actually this also supports ranges. ( And note that even a single event can export multiple days: one per event recurrence. )
 
-The event export validates with warnings, but no errors.  It has some issues ( below ) but provides a good baseline of code for generating a feed.
+The event export validates with warnings, but no errors.  It has some issues but provides a good baseline of code for generating a feed.
 
 **calendar fields:**
 
@@ -84,10 +105,13 @@ The event export validates with warnings, but no errors.  It has some issues ( b
 * DT Stamp: this is correctly set to the modified time
 * DT Start: from `caldaily.eventdate` + `calevent.time`
 * DT end: dtstart + (`calevent.eventduration`, or 1 hour long if not specified.)
+* STATUS: `**missing status, seems to show cancelled events as active events.**`
 * Summary: `calevent.title`
 * Location: `venue`, `address`, `locdetails`
 * Description: `timedetails`, `locdetails`, shareable link.   
      `**locdetails in two places?**`
+ 
+ note: the lines produced are maybe a little longer than they should be, and commas ( possibly other characters ) aren't escaped.
  
 **html envelope:**
     
