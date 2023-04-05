@@ -1,7 +1,12 @@
 <?php
 
+// Represents a single repeatable event occuring at one set time on one or more days.
+// Maps to the mysql 'calevent' table. 
 class Event extends fActiveRecord {
-    public function toArray($include_hidden=false) {
+    // returns a summary of this event, suitable for use in a json response.
+    // by default, excludes any details the organizer has marked as "private.
+    // ( ex. email, phone, and contact info )
+    public function toArray($include_private=false) {
         /*
         id:
         title:
@@ -49,13 +54,14 @@ class Event extends fActiveRecord {
             'safetyplan' => $this->getSafetyplan() != 0,
         );
 
-        $details['email']   = $this->getHideemail() == 0   || $include_hidden ? $this->getEmail() : null;
-        $details['phone']   = $this->getHidephone() == 0   || $include_hidden ? $this->getPhone() : null;
-        $details['contact'] = $this->getHidecontact() == 0 || $include_hidden ? $this->getContact() : null;
+        $details['email']   = $this->getHideemail() == 0   || $include_private ? $this->getEmail() : null;
+        $details['phone']   = $this->getHidephone() == 0   || $include_private ? $this->getPhone() : null;
+        $details['contact'] = $this->getHidecontact() == 0 || $include_private ? $this->getContact() : null;
 
         return $details;
     }
 
+    // load an Event and set its fields from the passed input.
     public static function fromArray($input) {
         $event = null;
         if (array_key_exists('id', $input)) {
@@ -145,15 +151,19 @@ class Event extends fActiveRecord {
         return $eventDateStatuses;
     }
 
-    public function toDetailArray($include_hidden=false) {
+    // return a summary of the Event and all its EventTime(s)
+    // optionally, pass a precached list of times.
+    public function toDetailArray($include_private=false) {
         // first get the data into an array
-        $detailArray = $this->toArray($include_hidden);
+        $detailArray = $this->toArray($include_private);
         // add all times that exist, maybe none.
         $detailArray["datestatuses"] = $this->getEventDateStatuses();
         // return potentially augmented array
         return $detailArray;
     }
 
+    // if the secret is valid and matches the password of this Event.
+    // ( the password of the event is set at creation time, and cleared when 'deleted' )
     public function secretValid($secret) {
         return $this->getPassword() == $secret;
     }
