@@ -84,6 +84,10 @@ If you're rescheduling to a new date, click on the new date in the date picker t
 
 ![Screenshot of date picker with cancelled date and rescheduled date. June 27th is cancelled with newsflash "Moved to July 11"; July 11th has newsflash "New date."](/images/uploads/rescheduling-a-ride.png)
 
+### Can I post bike-related events that aren't bike rides?
+
+Yes, but we ask that you clearly indicate that the event isn't a ride, or you may get folks showing up who expect a ride! Things like bike swaps, meetings for bike-focused advocacy groups, and other non-ride bike events are OK to post to the calendar. We recommend using the "newsflash" area to indicate that the event isn't a ride, and also mention it in the description.
+
 ### I'm having trouble posting a ride or making changes. Who do I contact?
 
 Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help.
