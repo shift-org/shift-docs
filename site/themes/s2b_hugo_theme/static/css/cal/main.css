@@ -116,6 +116,8 @@ svg.icon {
     width: 100%;
     text-align: left;
     padding: 0;
+    font-size: 1.75rem;
+    font-weight: 500;
 }
 
 .event.featured {
@@ -169,6 +171,10 @@ svg.icon {
 .event.cancelled ins
 {
     text-decoration: none;
+}
+.event.cancelled h3 ins
+{
+    font-size: 1.4rem;
 }
 
 #fullcalendar .fc-event.cancelled {
