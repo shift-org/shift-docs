@@ -1,0 +1,24 @@
+FROM node:19.8.1
+
+# ----------------
+# copied from php's dockerfile.
+# RUN echo "postfix postfix/mailname string example.com" | debconf-set-selections
+# RUN echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
+# RUN apt-get update && apt-get install -q -y postfix libsasl2-modules rsyslog
+# RUN mkdir -p /var/spool/postfix/etc/ && cp -f /etc/services /var/spool/postfix/etc/services && cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
+# ----------------
+# RUN echo "sendmail_path=/opt/node/sendmail.sh" >> /usr/local/etc/node/conf.d/php-sendmail.ini
+# ----------------
+
+# NODE_ENV=production
+
+WORKDIR /app
+
+COPY ["./app/package.json", "./app/package-lock.json", "./"]
+
+# 'production' excludes anything listed as a dev dependency in the package.json
+RUN npm install --production
+
+COPY ["./app/", "./"]
+
+CMD ["node", "app.js"]
