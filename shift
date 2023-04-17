@@ -15,7 +15,7 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx php hugo"
+export CONTAINERS="db nginx node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -41,7 +41,7 @@ export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
 
-export SHIFT_EMAIL_LOG="/opt/php/shift-mail.log"
+export SHIFT_EMAIL_LOG="/opt/node/shift-mail.log"
 
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then

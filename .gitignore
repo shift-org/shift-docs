@@ -14,3 +14,4 @@ shift.overrides
 backend/eventimages/
 secrets
 services/php/shift-mail.log
+services/node/shift-mail.log
