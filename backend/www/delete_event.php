@@ -1,7 +1,20 @@
 <?php
 
 /**
- * This endpoint deletes events, expecting an ID and a secret code
+ * Delete Event: Removes an event from the calendar. 
+ * Expects a JSON post with an id and password.
+ * 
+ *  You can use curl to post json for testing. For example:
+ *    curl -k -H 'Content-Type: application/json' -X POST --data-binary \
+ *    "@delete_event.json" https://localhost:4443/api/delete_event.php
+ *  {
+ *      "id": "6245",
+ *      "secret": "example"
+ *   }
+ * 
+ * If there was an error ( for example, if the id was missing or the event wasn't found )
+ * returns http 400 "Bad Request" and a json error response (see errors.php)
+ *
  */
 
 include('../init.php');

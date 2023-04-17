@@ -1,10 +1,10 @@
 ---
-title: "Ladds 500"
+title: Ladds 500
 draft: false
 weight: 6
 menu:
-    main:
-        parent: featuredevents
+  main:
+    parent: featuredevents
 ---
 
 ## About
@@ -19,7 +19,7 @@ The Ladds 500 is a free, one day, bicycle-themed public picnic and non-competiti
 
 > It's spring, let's do something stupid.
 
-The Ladds 500 is annual event, and takes place each spring. Check the [calendar](/calendar/) to find details on the latest event!
+The Ladds 500 is annual event. It takes place each April, the day after that month's [Midnight Mystery Ride](/pages/mmr/). Check the [calendar](/calendar/) to find details on the latest event!
 
 ## Contact
 

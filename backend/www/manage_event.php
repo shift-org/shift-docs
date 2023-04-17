@@ -219,7 +219,7 @@ function build_json_response() {
         $data = json_decode($_POST['json'], true);
     }
     //
-    // validate the including data:
+    // validate the incoming data:
     //
     if (!$data) {
         return text_error("JSON could not be decoded");

@@ -71,6 +71,22 @@ main .donate a {
   }
 }
 
+.customers .item {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.customers .item:focus-within {
+  outline: 2px solid #337AB7;
+  outline-offset: 2px;
+}
+
+.customers .item a:focus img {
+  max-width: auto;
+  filter: none;
+  -webkit-filter: none;
+}
+
 /* see https://github.com/shift-org/shift-docs/issues/326 */
 @media (-ms-high-contrast: active), (forced-colors: active) {
   svg.icon, svg.logo {
