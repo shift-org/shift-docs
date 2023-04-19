@@ -23,7 +23,7 @@ const dt = require("../util/dateTime");
 const config = require("../config");
 
 // read multipart (and curl) posts.
-exports.post = [ uploader.single('file'), handleRequest ];
+exports.post = [ uploader.handle.single('file'), handleRequest ];
 
 /**
  * read data the posted to this endpoint.
@@ -34,25 +34,38 @@ exports.post = [ uploader.single('file'), handleRequest ];
  * it should only reject due to things like database or programmer errors.
  */
 function handleRequest(req, res, next) {
-  let errors = [];
   let data = req.body;
   // fix? client uploads form data containing json
   // ( rather than posting application/json data )
   if (data && data.json) {
     data = safeParse(data.json);
   }
-  errors = validateRequest(data, errors);
+  // check for errors
+  let errors = validateRequest(data, {});
   errors = validateStatus(data.datestatuses, errors);
-  if (errors.length) {
+  // the client code doesnt allow organizers to upload the image for new events
+  // ensuring that's the case here, simplifies the file handling (below)
+  if (req.file && !data.id) {
+    addError(errors, "image", "Images can only be added to existing events.");
+  }
+  if (Object.keys(errors).length) {
     return res.fieldError(errors);
   }
-
+  // find or make the event, then update it with the sent data.
+  // ( depending on whether an id was submitted )
   return getOrCreateEvent(data).then((evt)=> {
     if (!evt) {
       res.textError("Invalid secret, use link from email");
     } else {
-      return updateEvent(evt, data)
+      // save the uploaded file (if any)
+      let q = !req.file ? Promise.resolve() :
+        uploader.write( req.file, evt.id, config.image.dir ).then(name => {
+          evt.image = name;
+        });
+      return q.then(_ => {
+        return updateEvent(evt, data)
         .then(details => res.json(details));
+      });
     }
   }).catch(next);
 }
@@ -71,25 +84,17 @@ function getOrCreateEvent(data) {
 
 // promises the summary of the event after doing a successful update.
 function updateEvent(evt, data) {
-  // save the uploaded file (if any)
-  // if (req.file) {
-  // global $IMAGEDIR;
-  //   $file = $uploader->move($IMAGEDIR, 'file');
-  //   $event->setImage($file->getName());
-  // }
+  // if the user is saving an existing event,
+  // we assume they are publishing it.
+  // ( the secret has been validated in handleRequest. )
+  const existed = evt.exists();
+  const previouslyPublished = evt.isPublished();
 
   // NOTE: overwrites (most) fields in the event with the user's input.
   evt.updateFromJSON(data);
-
-  // if the user is saving an existing event,
-  // we assume they are publishing it.
-  // ( the secret has been validated above. )
-  const existed = evt.exists();
-  const previouslyPublished = evt.isPublished();
   if (existed) {
     evt.setPublished();
   }
-
   // we dont know whether something significant changed or not:
   // so we always have to store.
   // ( this creates the event if it didnt exist. )
@@ -113,7 +118,6 @@ function updateEvent(evt, data) {
 }
 
 function emailSecret(evt) {
-
   const id = evt.id;
   const secret = evt.password;
   const url = config.site.url('addevent', `edit-${id}-${secret}`);
@@ -130,10 +134,10 @@ function emailSecret(evt) {
  * @param statusList:A list of data status objects sent by the organizer.
  *        [{ id, date, status, newsflash }, ...]
  *
- * @param errors: an array used for error messages.
- *        containing arbitrary {name: string} pairs.
+ * @param errors: an object containing arbitrary {name: string} pairs.
  *
- * @see DateStatus.php
+ * @see fieldError()
+ * @see DateStatus.js
  */
 function validateStatus(statusList, errors) {
   const invalidDateStrings = [];
@@ -150,7 +154,8 @@ function validateStatus(statusList, errors) {
     }
   }
   if (invalidDateStrings.length) {
-    errors.dates = "Invalid dates: " + invalidDateStrings.join(', ');
+    const msg = "Invalid dates: " + invalidDateStrings.join(', ');
+    addError(errors, 'dates', msg);
   }
   return errors;
 }
@@ -158,14 +163,10 @@ function validateStatus(statusList, errors) {
 /**
  * ensure the email, title, etc. submitted by the organizer seem valid.
  * this can alter the passed data. ( ex. trimming string values )
- * note: unlike the php version, doesnt validate secret ( that's done later. )
+ * note: unlike the php version, the secret gets determined separately.
  *
- * @param errors: an array used for error messages.
- *        containing arbitrary {name: string} pairs.
- *
- * ex. {
- *    "email": "Please enter a value for <span class=\"field-name\">Email</span>"
- * }
+ * @param errors: an object containing arbitrary {name: string} pairs.
+ * @see fieldError()
  */
 function validateRequest(data, errors) {
   const hasValue = [
@@ -178,10 +179,11 @@ function validateRequest(data, errors) {
    'read_comic': "You must agree to the Code of Conduct"
   };
 
+  // check the existence of required fields.
   hasValue.forEach((field) => {
     const val = (data[field] || '').trim();
     if (validator.isEmpty(val)) {
-      errors.push( missingField(field) );
+      addError(errors, field);
     } else {
       data[field] = val; // rewrite the trimmed value.
     }
@@ -190,21 +192,27 @@ function validateRequest(data, errors) {
   // check that boolean things exist and are true.
   for (const field in isTrue) {
     const val = data[field] || '';
+    // is the boolean value missing?
     if (!validator.isBoolean(val)) {
-      errors.push( missingField(field) );
-    } else if (!validator.toBoolean(val)) {
-      const msg = isTrue[field];
-      errors.push( {[field]: msg} );
+      addError(errors, field);
     } else {
-      data[field] = true; // rewrite the value.
+      // is the boolean value false?
+      if (!validator.toBoolean(val)) {
+        const msg = isTrue[field];
+        addError(errors, field, msg);
+      } else {
+        // the boolean was true;
+        // rewrite the value.
+        data[field] = true;
+      }
     }
-  };
+  }
 
   // validate the email
   {
     const val = (data.email || '').trim();
     if (!validator.isEmail(val)) {
-      errors.push( missingField("email") );
+      addError(errors, 'email');
     } else {
       data.email = val; // rewrite the trimmed value.
     }
@@ -224,7 +232,7 @@ function validateRequest(data, errors) {
   {
     let val = (data.time || '').trim();
     if (validator.isEmpty(val)) {
-      errors.push( missingField('time') );
+      addError(errors, 'time');
     } else {
       let t = dt.from12HourString(val);
       if (!t.isValid()) {
@@ -233,18 +241,18 @@ function validateRequest(data, errors) {
       if (t.isValid()) {
         data.time = dt.to24HourString(t);
       } else {
-        errors.push( missingField('time') );
+        addError(errors, 'time');
       }
     }
   }
 
-  // handle print title:
+  // munge print title:
   // if print title (aka tinytitle) isn't set,
   // use the first 24 chars of the regular title
   {
     let val = (data.tinytitle || '').trim();
     if (validator.isEmpty(val)) {
-      // fix? cut at words?
+      // fix? cut at words? ( could use the wordwrapjs
       val = validator.trim(data.title || '').substring(0,24);
     }
     data.tinytitle = val; // write back trimmed or substr'd title.
@@ -253,8 +261,8 @@ function validateRequest(data, errors) {
   return errors;
 }
 
-function missingField(field) {
-  return { [field]: `Please enter a value for <span class=\"field-name\">${field}</span>` };
+function addError(errors, field, msg) {
+  errors[field] = msg ?? `Please enter a value for <span class=\"field-name\">${field}</span>`;
 }
 
 // read json into a javascript object.

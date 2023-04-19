@@ -17,7 +17,8 @@ app.use(function (req, res, next) {
   // add these two error shortcuts:
   res.textError = (msg) => errors.textError(res, msg);
   res.fieldError = (fields, msg) => errors.fieldError(res, fields, msg);
-  // not sure why, but the php sets this for every end point.
+  // tbd: the php sets this for every end point.
+  // maybe unneeded with the trust_proxy call above?
   res.set('Access-Control-Allow-Origin', "*");
   next()
 });

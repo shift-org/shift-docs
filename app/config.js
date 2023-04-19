@@ -1,3 +1,5 @@
+const path = require('node:path');
+
 function env_default(field, def) {
   return process.env[field] ?? def;
 }
@@ -33,16 +35,21 @@ const config = {
     // used for crawl url, shareable links, and the manage url sent in email
     url(...parts) {
      const base = `${host}${config.site.path}`;
-     return !parts ? base : base + parts.join("/");
+     return base + parts.join("/");
     },
   },
   image: {
-    dir:  "/opt/backend/eventimages",
+    // disk directory
+    // entrypoint.sh makes it exist, the docker compose exposes it.
+    // if running locally ( ex. npm test ) assumes the project eventimages directory
+    dir:  https ? "/opt/backend/eventimages" : path.join(__dirname , "eventimages"),
+    // image link directory
     path: "/eventimages/",
     // used for event image links
-    url(...parts) {
+    // ex. https://shift2bikes.org/eventimages/9248.png
+    url(name) {
       const base = `${host}${config.image.path}`;
-      return !parts ? base : base + parts.join("/");
+      return !name ? null : base + name;
     }
   },
   crawl: {

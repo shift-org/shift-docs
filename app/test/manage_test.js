@@ -10,11 +10,15 @@
 // x raw json ( curl ) vs body json ( forms )
 // - multi-part form ( attach image )
 
-const chai = require('chai');
+const fsp = require('fs').promises;
+const fs = require('fs');
+const path = require('node:path');
 const sinon = require('sinon');
 const app = require("../app");
+const config = require("../config");
 const testData = require("./testData");
 
+const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 const endpoint = '/api/manage_event.php';
@@ -90,8 +94,7 @@ describe("managing events", () => {
         .send(post)
         .then(function (res) {
           expect(res, `expected failure for '${key}'`).to.have.status(400);
-          expect(res.body.error.fields).to.have.lengthOf(1);
-          expect(res.body.error.fields[0]).to.have.key(key);
+          expect(res.body.error.fields).to.have.key(key);
         });
       })
     }
@@ -195,6 +198,53 @@ describe("managing events", () => {
         ]);
         done();
       });
+  });
+  it("attaches an image", function(){
+    const evt = data.events.get('2');
+    const imageSource = path.join( config.image.dir, "bike.jpg" );
+    const imageTarget = path.join( config.image.dir, "2.jpg" );
+
+    return fsp.rm(imageTarget, {force:true}).then(_ =>{
+      return evt.getDetails({includePrivate:true}).then(data=> {
+        const post = Object.assign( {
+          secret: evt.password,
+          code_of_conduct: "1",
+          read_comic: "1",
+          }, data);
+        return chai.request( app )
+          .post(endpoint)
+          .type('form')
+          .field({
+            json: JSON.stringify(post)
+          })
+          .attach('file', imageSource, path.basename(imageSource))
+          .then(function (res) {
+            // console.log(res.body);
+            expect(res).to.have.status(200);
+            return fsp.stat(imageTarget).then(_ => {
+              // done! ( if it doesnt exist .stat will throw )
+            });
+          });
+      });
+    });
+  });
+  it("prevents image upload on new events", function(done){
+    const imageSource = path.join( config.image.dir, "bike.jpg" );
+    // follows from "creates a new event" which would normally succeed
+    // only we attach an image and it should fail because that's diallowed.
+    chai.request( app )
+    .post(endpoint)
+    .type('form')
+    .field({
+      json: JSON.stringify(eventData)
+    })
+    .attach('file', imageSource, path.basename(imageSource))
+    .end(function (err, res) {
+      expect(err).to.be.null;
+      expect(res).to.have.status(400);
+      expect(res.body.error.fields).to.have.key('image');
+      done();
+    });
   });
 });
 

@@ -38,10 +38,12 @@ const methods =  {
       eventduration :  duration,
       weburl :  this.weburl,
       webname :  this.webname,
-      // fix? it feels wrong to "store" on "get"
-      // are there any entries in the existing data that arent in the right place?
-      // if they are all ok, then maybe getJSON() could avoid calling this.
-      image :  this.updateImageUrl(true),
+      // the php version *moves* the file here.
+      // it feels wrong to do this on get --
+      // and not doing it here can only affect legacy events
+      // which havent been viewed in recent years...
+      // and that seems okay.
+      image :  config.image.url(this.image),
       audience :  this.audience,
       tinytitle :  this.tinytitle,
       printdescr :  this.printdescr,
@@ -219,61 +221,10 @@ const methods =  {
   // the counter helps subscribers to the ical feed detect changes.
   // promises to return this record with a valid id.
   storeChange() {
-    const existed = this.exists();
-    // if the id exists, we can update the image here
-    // ( and reduce the calls to store. )
-    if (existed) {
-      this.updateImageUrl(false);
-    }
     // update the change counter, watching out for if it never existed.
     this.changes = 1 + (this.changes || 0);
-    return this._store().then(() => {
-      // fix? b/c the image path is based on the id:
-      // for new events, this requires a double store().
-      if (!existed) {
-        // oto -- the html says: "To add an image, save and confirm the event first."
-        // so in practice, this will never store an image here.
-        // fix? remove this?
-        this.updateImageUrl(true);
-      }
-      return this;
-    });
-  },
-
-  // ensure that the image is stored in the right location, and
-  // return the path to the image.
-  updateImageUrl(storeIfChanged) {
-    const imageDir = config.image.dir;
-    const oldName = this.image;
-    if (oldName==null) {
-      return null;
-    }
-    const newName = oldName;
-    // old_path = "IMAGEDIR/old_name";
-    // id = this.getId();
-    // var ext = fileName.substr(oldName.lastIndexOf('.') + 1);
-
-    // // What the name should be
-    // t = pathinfo(old_name);
-    // ext = t['extension'];
-    // new_name = "id.ext";
-
-    // if (old_name !== new_name) {
-    //     // Named incorrectly, move, update db, return
-    //     new_path = "IMAGEDIR/new_name";
-
-    //     if (file_exists(old_path)) {
-    //         // note: rename() overwrites existing.
-    //         rename(old_path, new_path);
-    //         this.setImage(new_name);
-    //         if (storeIfChanged) {
-    //             this.store();
-    //         }
-    //     }
-    // ex. https://shift2bikes.org/eventimages/9248.png
-    return config.image.url(newName);
-  },
-
+    return this._store();
+  }
 };
 
 function addMethods(res) {
