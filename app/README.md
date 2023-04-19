@@ -10,8 +10,7 @@ Node js port of the 2023 Shift Calendar php backend. Only includes code actively
 * **nodemailer**: communicates with sendmail ( can also interact with aws directly and could be used for html emails, and calendar ical attachments. )
 * **nunjucks**: template engine for generating html, mail, and ical output.
 * **validator**: helper to validate and sanitize user input.
-
-
+* **wordwrapjs**: wrap text at a given width.
 
 ```
 shift@1.0.0
@@ -96,7 +95,7 @@ shift@1.0.0
 │ │ ├── escape-html@1.0.3 deduped
 │ │ ├── etag@1.8.1 deduped
 │ │ ├── fresh@0.5.2 deduped
-│  ├── http-errors@2.0.0 deduped
+│ │ ├── http-errors@2.0.0 deduped
 │ │ ├── mime@1.6.0
 │ │ ├── ms@2.1.3
 │ │ ├── on-finished@2.4.1 deduped
@@ -173,7 +172,25 @@ shift@1.0.0
 ├─┬ nunjucks@3.2.3
 │ ├── a-sync-waterfall@1.0.1
 │ ├── asap@2.0.6
-│ ├── UNMET OPTIONAL DEPENDENCY chokidar@^3.3.0
+│ ├─┬ chokidar@3.5.3
+│ │ ├─┬ anymatch@3.1.3
+│ │ │ ├── normalize-path@3.0.0 deduped
+│ │ │ └── picomatch@2.3.1
+│ │ ├─┬ braces@3.0.2
+│ │ │ └─┬ fill-range@7.0.1
+│ │ │   └─┬ to-regex-range@5.0.1
+│ │ │     └── is-number@7.0.0
+│ │ ├── fsevents@2.3.2
+│ │ ├─┬ glob-parent@5.1.2
+│ │ │ └── is-glob@4.0.3 deduped
+│ │ ├─┬ is-binary-path@2.1.0
+│ │ │ └── binary-extensions@2.2.0
+│ │ ├─┬ is-glob@4.0.3
+│ │ │ └── is-extglob@2.1.1
+│ │ ├── normalize-path@3.0.0
+│ │ └─┬ readdirp@3.6.0
+│ │   └── picomatch@2.3.1 deduped
 │ └── commander@5.1.0
-└── validator@13.9.0
+├── validator@13.9.0
+└── wordwrapjs@5.1.0
 ```
