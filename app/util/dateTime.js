@@ -11,7 +11,7 @@ const timezone = require('dayjs/plugin/timezone');
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
-//dayjs.tz.setDefault('America/Los_Angeles');
+dayjs.tz.setDefault('America/Los_Angeles');
 
 module.exports = {
   friendlyDate,     // out: "Mon, Aug 8th"
