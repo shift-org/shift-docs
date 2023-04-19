@@ -7,6 +7,8 @@ services:
   nginx:
     image: nginx
     restart: always
+    depends_on:
+      - node
     volumes:
       - ./site/public/:/var/www/site/
       - ./legacy/cal/:/opt/legacy/cal/
@@ -47,6 +49,8 @@ services:
       context: . 
       dockerfile: node.docker
     restart: always
+    depends_on:
+      - db
     environment:
         - MYSQL_DATABASE
         - MYSQL_USER
@@ -62,4 +66,5 @@ services:
         - SMTP_DOMAIN
     volumes:
       - ./services/node/:/opt/node/
-    
+      - ./backend/:/opt/backend/
+    entrypoint:  /opt/node/entrypoint.sh

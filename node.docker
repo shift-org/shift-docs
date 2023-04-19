@@ -10,6 +10,7 @@ FROM node:19.8.1
 # RUN echo "sendmail_path=/opt/node/sendmail.sh" >> /usr/local/etc/node/conf.d/php-sendmail.ini
 # ----------------
 
+# http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production
 # NODE_ENV=production
 
 WORKDIR /app
