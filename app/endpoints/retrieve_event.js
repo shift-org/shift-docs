@@ -24,7 +24,7 @@ exports.get = function get(req, res, next) {
   } else {
     return CalEvent.getByID(id).then((evt) => {
       if (!evt || !evt.isSecretValid(secret)) {
-        res.textError("CalEvent not found, please use the link from your event email.");
+        res.textError("Event not found, please use the link from your event email.");
       } else {
         evt.getDetails({includePrivate:true}).then((data)=> {
           res.json(data);
