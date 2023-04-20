@@ -1,21 +1,20 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const app = require("../app");
+const testdb = require("./testdb");
 const testData = require("./testData");
 
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
 describe("getting events", () => {
-  // create a pool of fake calendar data:
-  let data;
   // runs before the evt test in this block.
   before(function() {
-    data = testData.stubData(sinon);
+    return testdb.setup();
   });
   // runs once after the last test in this block
   after(function () {
-    sinon.restore();
+    return testdb.destroy();
   });
   const expectsError = function(q) {
     return function(done) {

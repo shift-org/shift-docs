@@ -2,7 +2,7 @@ const express = require('express');
 const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
-
+const knex = require("./knex");
 const app = express();
 
 // shift.conf for nginx sets the x-forward header
@@ -55,7 +55,7 @@ endpoints.forEach((ep) => {
   }
 });
 
-app.use(function(err, req, res, next){
+app.use(function(err, req, res, next) {
   res.sendStatus(500);
   // log when not running tests
   if (process.env.npm_lifecycle_event !== 'test') {
@@ -64,11 +64,12 @@ app.use(function(err, req, res, next){
 });
 
 const port = config.site.listen;
-const server = app.listen(port, () => {
-  console.log(`${config.site.name} listening on port ${port}`)
-  app.emit("ready"); // raise a signal for testing.
+knex.initialize().then(_ => {
+  app.listen(port, _ => {
+    console.log(`${config.site.name} listening on port ${port}`)
+    app.emit("ready"); // raise a signal for testing.
+  });
 });
 
 // for testing
 module.exports = app;
-module.exports.stop = () => { server.close(); };

@@ -17,7 +17,11 @@ const path = require('node:path');
 const sinon = require('sinon');
 const app = require("../app");
 const config = require("../config");
+const testdb = require("./testdb");
 const testData = require("./testData");
+
+const { CalEvent } = require("../models/calEvent");
+const { CalDaily } = require("../models/calDaily");
 
 const chai = require('chai');
 chai.use(require('chai-http'));
@@ -29,12 +33,14 @@ describe("managing events", () => {
   // reset after each one.
   beforeEach(function() {
     data = testData.stubData(sinon);
+    return testdb.setup();
   });
   afterEach(function () {
     sinon.restore();
+    return testdb.destroy();
   });
-  it("errors on an invalid id",function(done) {
-    chai.request( app )
+  it("errors on an invalid id", function() {
+    return chai.request( app )
       .post(endpoint)
       .type('form')
       .send({
@@ -42,28 +48,26 @@ describe("managing events", () => {
           id: 999,
         })
       })
-      .end(function (err, res) {
-        expect(err).to.be.null;
+      .then(function(res) {
         testData.expectError(expect, res);
-        done();
       });
   });
-  it("creates a new event, using raw json", function(done){
-    chai.request( app )
+  it("creates a new event, using raw json", function(){
+    return chai.request( app )
       .post(endpoint)
       .send(eventData)
-      .end(function (err, res) {
-        expect(err).to.be.null;
+      .then(async function (res) {
         expect(res).to.have.status(200);
         expect(data.eventStore.callCount, "event stores")
           .to.equal(1);
         expect(data.dailyStore.callCount, "daily store")
           .to.equal(2);
-        const evt = data.events.get('501');
+
+        const id = res.body.id;
+        const evt = await CalEvent.getByID(id);
         expect(evt.hidden, "the initial event should be hidden by default")
           .to.equal(1);
         console.log(res.body);
-        done();
       });
   });
 
@@ -101,151 +105,146 @@ describe("managing events", () => {
     }
     return seq;
   });
-  it("publishes an event", function(done){
+  it("publishes an event", function() {
     // id three is unpublished
-    const evt = data.events.get('3');
-    expect(evt.isPublished()).to.be.false;
-    chai.request( app )
-      .post(endpoint)
-      // by adding the id and posting to it, we should be able to publish it.
-      .send(Object.assign({
-        id: 3,
-        secret: testData.secret,
-      }, eventData))
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(data.eventStore.callCount, "event stores")
-          .to.equal(1);
-        expect(evt.isPublished()).to.be.true;
-        done();
-      });
+    return CalEvent.getByID(3).then(evt => {
+      expect(evt.isPublished()).to.be.false;
+      return chai.request( app )
+        .post(endpoint)
+        // by adding the id and posting to it, we should be able to publish it.
+        .send(Object.assign({
+          id: 3,
+          secret: testData.secret,
+        }, eventData))
+        .then(async function (res) {
+          expect(res).to.have.status(200);
+          expect(data.eventStore.callCount, "event stores")
+            .to.equal(1);
+          const evt = await CalEvent.getByID(3);
+          expect(evt.isPublished()).to.be.true;
+        });
+    });
   });
-  it("fails to use an empty secret", function(done){
-    chai.request( app )
+  it("fails to use an empty secret", function(){
+    return chai.request( app )
       .post(endpoint)
       .send(Object.assign({
         id: 3,
         // not sending any secret
       }, eventData))
-      .end(function (err, res) {
-        expect(err).to.be.null;
+      .then(function(res) {
         testData.expectError(expect, res);
-        done();
       });
   });
-  it("fails to use an invalid secret", function(done){
-    chai.request( app )
+  it("fails to use an invalid secret", function(){
+    return chai.request( app )
       .post(endpoint)
       .send(Object.assign({
         id: 3, // reverses the secret:
         secret: testData.secret.split("").reverse().join(""),
       }, eventData))
-      .end(function (err, res) {
-        expect(err).to.be.null;
+      .then(function(res) {
         testData.expectError(expect, res);
-        done();
       });
   });
-  it("adds one date and removes another", function(done){
-    const evt = data.events.get('2');
-    const post = Object.assign( {
-      secret: evt.password,
-      code_of_conduct: "1",
-      read_comic: "1",
-      datestatuses : [
-      // keep the first date;
-      { "date": "2002-08-01", status: 'A' },
-      // implicitly cancel the second;
-      // add a third.
-      { "date": "2002-08-03", status: 'A' }
-    ]}, evt.getJSON({includePrivate:true}));
-    chai.request( app )
-      .post(endpoint)
-      .type('form')
-      .send({
-        json: JSON.stringify(post)
-      })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(data.eventStore.callCount, "event stores")
-          .to.equal(1);
-        expect(data.dailyStore.callCount, "daily store")
-          .to.equal(3);
-        // all the dailies for our event:
-        const dailies = Array.from(data.dailies.values()).filter(at => at.id === evt.id);
-        expect(dailies).to.have.lengthOf(3);
-        expect(dailies[0].getCancelled()).to.be.false;
-        expect(dailies[1].getCancelled()).to.be.true;
-        expect(dailies[2].getCancelled()).to.be.false;
-        // we should get back all of the days.
-        expect(res.body.datestatuses).to.deep.equal([{
-            "id": "201",
-            "date": "2002-08-01",
-            "status": "A",
-            "newsflash": null,
-          }, {
-            "id": "202",
-            "date": "2002-08-02",
-            "status": "C",
-            "newsflash": "news flash",
-          }, {
-            "id": "501",
-            "date": "2002-08-03",
-            "status": "A",
-            "newsflash": null,
-          }
-        ]);
-        done();
-      });
+  it("adds one date and removes another", function(){
+    return CalEvent.getByID(2).then(evt => {
+      const post = Object.assign( {
+        secret: testData.secret,
+        code_of_conduct: "1",
+        read_comic: "1",
+        datestatuses : [
+        // keep the first date;
+        { "date": "2002-08-01", status: 'A' },
+        // implicitly cancel the second;
+        // add a third.
+        { "date": "2002-08-03", status: 'A' }
+      ]}, evt.getJSON({includePrivate:true}));
+
+      return chai.request( app )
+        .post(endpoint)
+        .type('form')
+        .send({
+          json: JSON.stringify(post)
+        })
+        .then(async function (res) {
+          expect(res).to.have.status(200);
+          expect(data.eventStore.callCount, "event stores")
+            .to.equal(1);
+          expect(data.dailyStore.callCount, "daily store")
+            .to.equal(3);
+          // all the dailies for our event:
+          const dailies = await CalDaily.getByEventID(2);
+          expect(dailies).to.have.lengthOf(3);
+          expect(dailies[0].getCancelled()).to.be.false;
+          expect(dailies[1].getCancelled()).to.be.true;
+          expect(dailies[2].getCancelled()).to.be.false;
+          // we should get back all of the days.
+          expect(res.body.datestatuses).to.deep.equal([{
+              "id": "201",
+              "date": "2002-08-01",
+              "status": "A",
+              "newsflash": null,
+            }, {
+              "id": "202",
+              "date": "2002-08-02",
+              "status": "C",
+              "newsflash": "news flash",
+            }, {
+              "id": "203", // the new id is one after the last one
+              "date": "2002-08-03",
+              "status": "A",
+              "newsflash": null,
+            }
+          ]);
+        });
+    });
   });
   it("attaches an image", function(){
-    const evt = data.events.get('2');
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     const imageTarget = path.join( config.image.dir, "2.jpg" );
-
-    return fsp.rm(imageTarget, {force:true}).then(_ =>{
-      return evt.getDetails({includePrivate:true}).then(data=> {
-        const post = Object.assign( {
-          secret: evt.password,
-          code_of_conduct: "1",
-          read_comic: "1",
-          }, data);
-        return chai.request( app )
-          .post(endpoint)
-          .type('form')
-          .field({
-            json: JSON.stringify(post)
-          })
-          .attach('file', imageSource, path.basename(imageSource))
-          .then(function (res) {
-            // console.log(res.body);
-            expect(res).to.have.status(200);
-            return fsp.stat(imageTarget).then(_ => {
-              // done! ( if it doesnt exist .stat will throw )
+    // remove any image from earlier tests:
+    return fsp.rm(imageTarget, {force:true}).then(_ => {
+      // get event #2 so we act as if we are a client who just retrieved the data
+      // and is posting it back up again, along with the new image.
+      return CalEvent.getByID(2).then(evt => {
+        return evt.getDetails({includePrivate:true}).then(eventData => {
+          const post = Object.assign( {
+            secret: testData.secret,
+            code_of_conduct: "1",
+            read_comic: "1",
+            }, eventData);
+          return chai.request( app )
+            .post(endpoint)
+            .type('form')
+            .field({
+              json: JSON.stringify(post)
+            })
+            .attach('file', imageSource, path.basename(imageSource))
+            .then(function (res) {
+              // console.log(res.body);
+              expect(res).to.have.status(200);
+              return fsp.stat(imageTarget); // rejects if it doesn't exist.
             });
-          });
+        });
       });
     });
   });
-  it("prevents image upload on new events", function(done){
+  it("prevents image upload on new events", function(){
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
-    chai.request( app )
-    .post(endpoint)
-    .type('form')
-    .field({
-      json: JSON.stringify(eventData)
-    })
-    .attach('file', imageSource, path.basename(imageSource))
-    .end(function (err, res) {
-      expect(err).to.be.null;
-      expect(res).to.have.status(400);
-      expect(res.body.error.fields).to.have.key('image');
-      done();
-    });
+    return chai.request( app )
+      .post(endpoint)
+      .type('form')
+      .field({
+        json: JSON.stringify(eventData)
+      })
+      .attach('file', imageSource, path.basename(imageSource))
+      .then(function (res) {
+        expect(res).to.have.status(400);
+        expect(res.body.error.fields).to.have.key('image');
+      });
   });
 });
 

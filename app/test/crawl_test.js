@@ -1,21 +1,19 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const app = require("../app");
-const testData = require("./testData");
+const testdb = require("./testdb");
 
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
 describe("crawl testing", () => {
-  // create a pool of fake calendar data:
-  let data;
   // runs before the first test in this block.
   before(function() {
-    data = testData.stubData(sinon);
+    return testdb.setup();
   });
   // runs once after the last test in this block
   after(function () {
-    sinon.restore();
+    return testdb.destroy();
   });
   // test:
   it("handles a simple get", function(done) {
