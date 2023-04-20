@@ -1,14 +1,15 @@
 // some possible tests:
+// - delete an unpublished event.
+// - resurrect dates from a canceled event.
+// - test email output.
 // x manage invalid id
 // x empty; invalid secret
 // x missing required fields (ex. code of conduct, etc.)
 // x create a new event
 // x update a hidden event to publish it
 // x add / cancel dates from a published event
-// - delete an unpublished event
-// - resurrect dates from a canceled event.
 // x raw json ( curl ) vs body json ( forms )
-// - multi-part form ( attach image )
+// x multi-part form ( attach image )
 
 const fsp = require('fs').promises;
 const fs = require('fs');

@@ -21,6 +21,9 @@ const { uploader } = require("../uploader");
 const validator = require('validator');
 const dt = require("../util/dateTime");
 const config = require("../config");
+const emailer = require("../emailer");
+const nunjucks = require("../nunjucks");
+
 
 // read multipart (and curl) posts.
 exports.post = [ uploader.handle.single('file'), handleRequest ];
@@ -103,9 +106,9 @@ function updateEvent(evt, data) {
     const stauses = data.datestatuses || [];
     const statusMap = new Map(stauses.map(status => [status.date, status]));
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
-      // after we've updated all the dailies...
       // email the organizer about new events.
       if (!existed) {
+        // this returns a promise; doesnt feel necessary to wait on its completion.
         emailSecret(evt);
       }
       const statuses = dailies.map(at => at.getStatus());
@@ -117,14 +120,42 @@ function updateEvent(evt, data) {
   });
 }
 
+// promises a sent email
+// evt is a CalEvent.
 function emailSecret(evt) {
-  const id = evt.id;
-  const secret = evt.password;
-  const url = config.site.url('addevent', `edit-${id}-${secret}`);
-  console.log( "email!", id, secret, url);
-
-  // headers = 'From: bikefun@shift2bikes.org' .
-  // "\r\n" .  'Reply-To: bikefun@shift2bikes.org' .
+  const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
+  const subject = `Shift2Bikes Secret URL for ${evt.title}`;
+  const body = nunjucks.render('email.njk', {
+    organizer: evt.name,
+    title: evt.title,
+    url,
+  });
+  const email = {
+    subject,
+    text: body,
+    // html
+    // attachments
+    to: {
+      name: evt.name,
+      address: evt.email,
+    },
+    from: {
+      name: 'SHIFT to Bikes',
+      address: 'bikefun@shift2bikes.org'
+    },
+    // send backup copy for debugging and/or moderating
+    bcc: "shift-event-email-archives@googlegroups.com",
+  }
+  return emailer.sendMail(email).then(info=> {
+    console.log("sent email");
+    console.log(info.envelope);
+    console.log(info.messageId);
+    if (!info.message) {
+      console.dir(email);
+    } else {
+      console.log(info.message);
+    }
+  });
 }
 
 /**
