@@ -20,8 +20,8 @@ const { CalEvent } = require("../models/calEvent");
 
 exports.post = function(req, res, next) {
   let data = req.body;
-  // fix? client uploads form data containing json
-  // ( rather than posting application/json data )
+  // fix? client uploads form data containing json...
+  // probably to match manage_event where its currently required.
   if (data && data.json) {
     data = safeParse(data.json);
   }

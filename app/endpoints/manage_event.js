@@ -38,8 +38,9 @@ exports.post = [ uploader.handle.single('file'), handleRequest ];
  */
 function handleRequest(req, res, next) {
   let data = req.body;
-  // fix? client uploads form data containing json
-  // ( rather than posting application/json data )
+  // fix? the client uploads form data containing json
+  // ( rather than raw json ) because multi-part forms require that.
+  // a more rest-like api might use a separate put at some event/image url.
   if (data && data.json) {
     data = safeParse(data.json);
   }
