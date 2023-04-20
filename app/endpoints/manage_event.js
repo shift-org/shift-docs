@@ -107,15 +107,15 @@ function updateEvent(evt, data) {
     const statusMap = new Map(stauses.map(status => [status.date, status]));
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
       // email the organizer about new events.
-      if (!existed) {
-        // this returns a promise; doesnt feel necessary to wait on its completion.
-        emailSecret(evt);
-      }
+      // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
+      let q = !existed ? emailSecret(evt) : Promise.resolve();
       const statuses = dailies.map(at => at.getStatus());
-      // finally, return a summary of the CalEvent and its CalDaily(s).
-      // passes "true" to include private contact info ( like email, etc. )
-      // ( because this is the organizer saving their event )
-      return evt.getDetails({statuses, includePrivate:true});
+      return q.then(_ => {
+        // finally, return a summary of the CalEvent and its CalDaily(s).
+        // passes "true" to include private contact info ( like email, etc. )
+        // ( because this is the organizer saving their event )
+        return evt.getDetails({statuses, includePrivate:true});
+      });
     });
   });
 }
@@ -148,8 +148,8 @@ function emailSecret(evt) {
   }
   return emailer.sendMail(email).then(info=> {
     console.log("sent email");
-    console.log(info.envelope);
     console.log(info.messageId);
+    console.log(info.envelope);
     if (!info.message) {
       console.dir(email);
     } else {

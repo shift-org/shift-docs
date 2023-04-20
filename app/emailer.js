@@ -6,7 +6,7 @@ const testMail =  {
   newline: 'windows'
 };
 const sendMail = {
-  sendail: true,
+  sendmail: true,
   // uses "windows" newlines because the php version had carriage return style newlines.
   newline: 'windows',
   // docker-compose mounts "opt/node" to the "services/node "directory.
