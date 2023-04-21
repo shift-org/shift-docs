@@ -7,8 +7,6 @@ services:
   nginx:
     image: nginx
     restart: always
-    depends_on:
-      - node
     volumes:
       - ./site/public/:/var/www/site/
       - ./legacy/cal/:/opt/legacy/cal/
@@ -49,8 +47,6 @@ services:
       context: . 
       dockerfile: node.docker
     restart: always
-    depends_on:
-      - db
     environment:
         - MYSQL_DATABASE
         - MYSQL_USER
