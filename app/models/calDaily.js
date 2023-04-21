@@ -1,6 +1,6 @@
 const knex = require("../knex");
 const config = require("../config");
-const { toYMDString } = require("../util/dateTime");
+const dt = require("../util/dateTime");
 const { EventStatus, Review } = require("./calConst");
 
 // helper to add methods to a returned database object.
@@ -56,7 +56,7 @@ const methods =  {
   // returns a date in YYYY-MM-DD format ( ex. 2006-01-02 )
   getFormattedDate() {
     // note: dates are returned by the mysql2 driver as a json Date.
-    return toYMDString( this.eventdate );
+    return dt.toYMDString( this.eventdate );
   },
 
   // return an object containing: {
@@ -115,12 +115,15 @@ class CalDaily {
     if (!evt || !evt.id) {
       throw new Error("daily requires a valid event id");
     }
-    if (!dateStatus || !dateStatus.date) {
-      throw new Error("daily requires a valid date");
+    const eventdate = dt.fromYMDString(dateStatus && dateStatus.date);
+    if (!eventdate.isValid()) {
+      throw new Error("daily requires a valid YMD string");
     }
     const at = addMethods({
       id: evt.id,
-      eventdate: dateStatus.date,
+      // for the sake of the sqlite driver, convert to a javascript date manually
+      // the mysql driver does this automatically.
+      eventdate: eventdate.toDate(),
       // defaults here are mainly to simplify testing
       // in theory, the client always specifies them
       eventstatus: dateStatus.status || EventStatus.Active,
