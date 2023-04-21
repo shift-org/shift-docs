@@ -24,8 +24,11 @@ const test = {
   useNullAsDefault: true,
 };
 
+// use sqlite when running `npm test`
 let useSqlite = process.env.npm_lifecycle_event === 'test';
-if (!useSqlite && (process.argv.length >= 2) && (process.argv[2] === "sqlite")) {
+
+// hack: override mysql with sqlite if the environment variable MYSQL_DATABASE was set to "sqlite"
+if (!useSqlite && config.db.name === 'sqlite') {
   console.log("using sqlite");
   useSqlite = true;
 }

@@ -15,7 +15,8 @@
     "nodemailer": "^6.9.1",
     "nunjucks": "^3.2.3",
     "validator": "^13.9.0",
-    "wordwrapjs": "^5.1.0"
+    "wordwrapjs": "^5.1.0",
+    "sqlite3": "^5.1.6"
   },
   "scripts": {
     "test": "mocha --exit"
@@ -25,7 +26,6 @@
     "chai-http": "^4.3.0",
     "lorem-ipsum": "^2.0.8",
     "mocha": "^10.2.0",
-    "sinon": "^15.0.3",
-    "sqlite3": "^5.1.6"
+    "sinon": "^15.0.3"
   }
 }

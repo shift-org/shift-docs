@@ -7,6 +7,8 @@ export MYSQL_DATABASE=shift
 export MYSQL_USER=shift
 export MYSQL_PASSWORD=ok124
 export CAL_ADMIN_PASSWORD=notthis
+# can force the node version to use a sqlite in memory database instead of mysql:
+# export MYSQL_DATABASE=sqlite
 
 export NGINX_HTTPS_PORT=4443
 export NGINX_HTTP_PORT=4480
