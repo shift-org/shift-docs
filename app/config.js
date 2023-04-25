@@ -19,6 +19,8 @@ const hostname = env_default('SHIFT_DOMAIN', 'localhost');
 const portstr  = (https === '443') ? '' : ':' + (https ?? listen);
 const host = protocol + hostname + portstr;
 
+const email_log = env_default( 'SHIFT_EMAIL_LOG', "/opt/node/shift-mail.log" );
+
 const config = {
   db: {
     host: env_default('MYSQL_HOST', 'db'),
@@ -37,6 +39,7 @@ const config = {
      const base = `${host}${config.site.path}`;
      return base + parts.join("/");
     },
+    email_log,
   },
   image: {
     // disk directory

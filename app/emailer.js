@@ -1,5 +1,8 @@
 const nodemailer = require('nodemailer');
 const config = require("./config");
+const path = require('node:path');
+
+const sendmail = path.join(path.dirname(config.site.email_log), "sendmail.sh");
 
 const testMail =  {
   jsonTransport: true,
@@ -11,7 +14,7 @@ const sendMail = {
   newline: 'windows',
   // docker-compose mounts "opt/node" to the "services/node "directory.
   // the sendmail script logs to $SHIFT_EMAIL_LOG and, on production, invokes actual "sendmail"
-  path: "/opt/node/sendmail.sh",
+  path: sendmail,
 };
 
 module.exports = nodemailer.createTransport(

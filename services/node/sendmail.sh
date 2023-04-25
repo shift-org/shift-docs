@@ -11,6 +11,6 @@ echo "Sending email $(date):" >> $SHIFT_EMAIL_LOG
 if [ -z $SMTP_HOST ]; then
     cat /dev/stdin >> $SHIFT_EMAIL_LOG
 else
-    cat /dev/stdin | tee -a $SHIFT_EMAIL_LOG | sendmail -i -t
+    cat /dev/stdin | tee -a $SHIFT_EMAIL_LOG | sendmail $@
 fi
 echo >> $SHIFT_EMAIL_LOG
