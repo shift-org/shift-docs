@@ -82,10 +82,11 @@ function upload_attached_file($event, $messages) {
         $file_message = $uploader->validate('file', TRUE);
         if ($file_message != null) {
             $messages = array('file' => $file_message);
+        } else {
+            global $IMAGEDIR;
+            $file = $uploader->move($IMAGEDIR, 'file');
+            $event->setImage($file->getName());
         }
-        global $IMAGEDIR;
-        $file = $uploader->move($IMAGEDIR, 'file');
-        $event->setImage($file->getName());
     }
     return $messages;
 }
