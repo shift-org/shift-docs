@@ -5,7 +5,7 @@ The purpose of the Shift/Pedalpalooza Calendar is to empower citizens to create 
 # Software
 
 built using:
-- php
+- node
 - docker
 - [hugo v0.37.1](https://gohugo.io) 
 - && the theme ["Universal"](https://themes.gohugo.io/hugo-universal-theme/)
@@ -22,7 +22,7 @@ You can see the live site here:  https://www.shift2bikes.org
 
 ## Local development
 
-Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the php server:
+Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the node server:
 
 1. Install Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
@@ -38,9 +38,8 @@ So - now you can hopefully access the site.  But a real end-to-end test of yours
 1. visit https://localhost:4443/addevent/
 2. fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
 3. save the event (fix any validation errors around missing fields to ensure it saves)
-4. In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the file `services/php/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log, visit it, and hit publish event
+4. In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the file `services/node/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log, visit it, and hit publish event
 5. hopefully see your event on the https://localhost:4443/calendar page!
-
 
 ## Netlify deployment
 
@@ -61,11 +60,7 @@ The site is run in several docker containers.
 * `docker-compose.yml`
   * docker container settings
   * The defined containers (db, nginx, etc) become pingable host names from the other running containers.  For example, attached to the nginx container, you can "ping db"
-  * Contains the container specific mappings between host and docker container persistent volumes for example for the node container:
-
-    volumes:
-      - `./borzoi/node/:/opt/borzoi/node/`
-      - `./app:/home/node/app`
+  * Contains the container specific mappings between host and docker container persistent volumes.
 
 * `shift`
   * This is the convenience wrapper that sets up the environment and has various convenience sub-commands to connect to the environment and manipulate it as well.  This is how you'll start the project, connect to the database, etc!
@@ -80,7 +75,7 @@ The site is run in several docker containers.
 ## Shift subcommands of interest
 
 * `./shift attach node`
-  * `node` is a reference to the named docker container.  Note that you want just `nginx`, `db` or `php` not the full image name (`shift_nginx_1`)
+  * `node` is a reference to the named docker container.  Note that you want just `nginx`, `db` or `node` not the full image name (`shift_nginx_1`)
   * Attaches to the running docker container in the shift stack
 * `./shift up`
   * If necessary, first builds, and then starts up the docker containers (will also restart if run while the environment is already running.)
@@ -98,13 +93,11 @@ The site is run in several docker containers.
   * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with `shift_`
   * The "shift_" docker namespace comes from the shift file: `export COMPOSE_PROJECT_NAME="shift"`
 
-## Sequelize Setup
+## Node tests
 
-(fool doesn't think we're using this in 2021!  It does not seem to be required these days.)
+If you are writing javascript code in the node backend, you will have to install the required node packages:
+In your local `shift-docs/app` sub-directory, run `npm install`.
 
-```bash 
-npm install --save pg pg-hstore
-bash npm install --save sequelize
-```
-(from: http://docs.sequelizejs.com/manual/installation/getting-started.html)
+You can test everything is working as expected using `npm test`.
 
+Currently, the docker image has to be rebuilt after changing any javascript. ( ex. `./shift rebuild node` )
