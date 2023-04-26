@@ -15,7 +15,8 @@ $defaultImage = 'https://www.shift2bikes.org/images/shiftLogo_plain.gif';
 
 function addOgTag($property, $content) {
 	$content = htmlspecialchars($content);
-	echo "\t\t<meta property=\"og:$property\" content=\"$content\" />\n";
+	echo "\t\t<meta property=\"og:$property\" content=\"$content\">\n";
+	return $content;
 }
 
 if (!array_key_exists('id', $_GET)) {
@@ -23,6 +24,7 @@ if (!array_key_exists('id', $_GET)) {
 	$description = 'Find fun bike events and make new friends! Shift helps groups and individuals to promote their "bike fun" events.';
 
 	echo <<< EOT
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>$title</title>
@@ -32,10 +34,10 @@ EOT;
 	addOgTag('url', "$PROTOCOL$HOST{$PATH}");
 	addOgTag('image', $defaultImage);
 	addOgTag('type', 'website');
-	addOgTag('description', $description);
+	$description = addOgTag('description', $description);
 	addOgTag('site_name', $SITENAME);
 	echo <<< EOT
-		<meta name="description" content='$description'>
+		<meta name="description" content="$description">
 		<meta name="keywords" content="bikes,fun,friends,Portland,exercise,community,social,events,outdoors">
 	</head>
 	<body>
@@ -73,15 +75,14 @@ if (empty($image)) {
 }
 addOgTag('image', $image);
 addOgTag('type', 'article'); //FIXME: Does FB support 'event' yet?
-addOgTag('description', $event['details']);
+$description = addOgTag('description', $event['details']);
 addOgTag('site_name', $SITENAME);
 $eventDate = DateTime::createFromFormat('Y-m-d', $event['date']);
 $datestring = $eventDate->format('D, M jS');
 $eventTime = DateTime::createFromFormat('G:i:s', $event['time']);
 $timestring = $eventTime->format('g:i A');
-$description = htmlspecialchars($event['details']);
 echo <<< EOT
-		<meta name="description" content='$description'>
+		<meta name="description" content="$description">
 		<meta name="keywords" content="bikes,fun,friends,Portland,exercise,community,social,events,outdoors">
 	</head>
 	<body>

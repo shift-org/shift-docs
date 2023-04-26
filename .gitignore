@@ -1,7 +1,5 @@
 # never commit the built site
 site/public/
-app/build/
-app/node_modules/
 services/nginx/ssl/
 shift.overrides
 .idea/
@@ -14,3 +12,10 @@ shift.overrides
 backend/eventimages/
 secrets
 services/php/shift-mail.log
+services/node/shift-mail.log
+app/node_modules/
+# exclude all event images except the readme and test bike image.
+app/eventimages/*
+!app/eventimages/
+!app/eventimages/README.md
+!app/eventimages/bike.jpg

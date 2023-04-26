@@ -63,7 +63,7 @@ function validate_json_request($data) {
  * ex. https://shift2bikes.org/eventimages/9248.png
  * tbd: can that be done here instead?
  *
- * see also: https://flourishlib.com/docs/fUpload.html
+ * see also: https:*flourishlib.com/docs/fUpload.html
  */
 function upload_attached_file($event, $messages) {
     if (isset($_FILES['file'])) {
@@ -156,25 +156,26 @@ function validate_date_statuses($data, $messages) {
 
 // // in: the list of containing DateTime(s) from validate_date_statuses
 // // out: 'O' (one day) or 'S'  (scattered)
-function get_dates_type($validDateStatuses) {
-    if (count($validDateStatuses) === 1) {
-        return 'O';
-    } else {
-        // not dealing with 'consecutive'
-        return 'S';
-    }
-}
+// function get_dates_type($validDateStatuses) {
+//     if (count($validDateStatuses) === 1) {
+//         return 'O';
+//     } else {
+//         // not dealing with 'consecutive'
+//         return 'S';
+//     }
+// }
 
 // // in: the list of containing DateTime(s) from validate_date_statuses
 // // out: ex. "Mon, Jan 2" or "Scattered days"
-function get_date_string($validDateStatuses) {
-    if (count($validDateStatuses) === 1) {
-        return date_format(end($validDateStatuses)['date'], 'l, F j');
-    } else {
-        // not dealing with 'consecutive'
-        return 'Scattered days';
-    }
-}
+// function get_date_string($validDateStatuses) {
+//     if (count($validDateStatuses) === 1) {
+//         // a "kitchen date": "Mon, Jan 2"
+//         return date_format(end($validDateStatuses)['date'], 'l, F j');
+//     } else {
+//         // not dealing with 'consecutive'
+//         return 'Scattered days';
+//     }
+// }
 
 // return a copy of the dateStatuses filtered to those WITHOUT ids
 function get_new_date_statuses($dateStatuses) {
@@ -273,8 +274,8 @@ function build_json_response() {
     // fix? data is not read from after this, so these calls don't have an effect.
     // they would have to be above the fromArray call.
     // this has been broken since 2019-07-12 #40045bed5f66d1ca4df897b2f0c9c5c111ed217a.
-    $data['datestype'] = get_dates_type($validDateStatuses);
-    $data['datestring'] = get_date_string($validDateStatuses);
+    // $data['datestype'] = get_dates_type($validDateStatuses);
+    // $data['datestring'] = get_date_string($validDateStatuses);
 
     $newDateStatuses = get_new_date_statuses($validDateStatuses);
     $existingDateStatuses = get_existing_date_statuses($validDateStatuses);
