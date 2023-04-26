@@ -31,42 +31,59 @@ function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = req.query.startdate || "";
   const end = req.query.enddate || "";
+
+  return getEventData(id, start, end).then(data => {
+    const { filename, events } = data;
+    return respondWith(res, filename, events);
+  }).catch(err => {
+    // the code below uses strings for expected errors.
+    // ex. a bad range; allow other things to be 500 server errors with stacks.
+    if (typeof(err) !== 'string') {
+      next(err);
+    } else {
+      res.status(400).send(err);
+    }
+  });
+}
+
+// promise a structure containing: filename and events.
+function getEventData(id, start, end) {
+  let filename;
+  let buildEvents;
   const cal= config.cal;
-  //
   if (id && start && end) {
-    res.textError("expected only an id or date range");
+    buildEvents = Promise.reject("expected either an id or date range");
   } else if (id) {
-    const fn = `${cal.filename}-${id}` + cal.ext;
+    filename = `${cal.filename}-${id}` + cal.ext;
     // ex. shift-calendar-12414.ics
-    return respondWith(res, fn, buildOne(id)).catch(next);
+    buildEvents = buildOne(id);
   } else if (start || end) {
     // ex. shift-calendar-2001-06-02-to-2022-01-01.ics
-    const fn = `${cal.filename}-${start}-to-${end}` + cal.ext;
-    return respondWith(res, fn, buildRange(start, end)).catch(next);
+    filename = `${cal.filename}-${start}-to-${end}` + cal.ext;
+    buildEvents = buildRange(start, end);
   } else {
     // ex. shift-calendar.ics
-    const fn = cal.filename + cal.ext;
-    return respondWith(res, fn, buildCurrent()).catch(next);
+    filename = cal.filename + cal.ext;
+    buildEvents = buildCurrent();
   }
+  return buildEvents.then(events => { return {filename, events} });
 }
 
 /**
- * Turn a promise of calendar entries into a http response.
+ * Turn event entries into a http response.
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
-function respondWith(res, filename, build) {
+function respondWith(res, filename, events) {
   const cal = config.cal;
-  return build.then((events) => {
-    // note: the php sets includes utf8 in the content type but...
-    // according to  https://en.wikipedia.org/wiki/ICalendar
-    // its default utf8, and mime type should be used for anything different.
-    res.setHeader('content-type', `text/calendar`);
-    res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
-    res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
-    // tbd: maybe there's filter or something for nunjucks to add the carriage returns.
-    const body = nunjucks.render('ical.njk', {cal, events});
-    res.send(body.replaceAll("\n", "\r\n"));
-  });
+  // note: the php sets includes utf8 in the content type but...
+  // according to  https://en.wikipedia.org/wiki/ICalendar
+  // its default utf8, and mime type should be used for anything different.
+  res.setHeader('content-type', `text/calendar`);
+  res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
+  res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
+  // tbd: maybe there's filter or something for nunjucks to add the carriage returns.
+  const body = nunjucks.render('ical.njk', {cal, events});
+  res.send(body.replaceAll("\n", "\r\n"));
 }
 
 // ---------------------------------
@@ -79,7 +96,7 @@ function respondWith(res, filename, build) {
 function buildOne(id) {
   return CalDaily.getByEventID(id).then((dailies) => {
     if (!dailies.length) {
-      return Promise.reject(new Error("no such events"));
+      return Promise.reject("no such events");
     }
     return buildEntries(dailies);
   });
@@ -101,11 +118,11 @@ function buildRange(start, end) {
   const started  = dt.fromYMDString(start);
   const ended  = dt.fromYMDString(end);
   if (!started.isValid() || !ended.isValid()) {
-    return Promise.reject(new Error("invalid dates"));
+    return Promise.reject("invalid dates");
   } else {
     const range = ended.diff(started, 'day');
     if ((range < 0) || (range > 100)) {
-      return Promise.reject(new Error("bad date range"));
+      return Promise.reject("bad date range");
     }
     return CalDaily.getRangeVisible(started, ended).then((dailies)=>{
       return buildEntries(dailies);
@@ -120,7 +137,7 @@ function buildRange(start, end) {
 // promise an array of cal entries, one per daily.
 // see also: getSummaries()
 function buildEntries(dailies) {
-   // a cache because multiple dailies may have the same event.
+  // a cache because multiple dailies may have the same event.
   const events = new Map();
   // generate the array of promises:
   return Promise.all( dailies.map((at) => {

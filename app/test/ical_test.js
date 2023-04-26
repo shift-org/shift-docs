@@ -25,7 +25,7 @@ describe("ical feed", () => {
         .query(q)
         .end(function (err, res) {
           expect(err).to.be.null;
-          expect(res).to.have.status(500);
+          expect(res).to.have.status(400);
           done();
         });
     };
@@ -44,6 +44,11 @@ describe("ical feed", () => {
   it("errors on a negative range", expectsServerError({
       startdate: "2003-01-01",
       enddate  : "2002-01-01",
+    }));
+  it("errors too many parameters", expectsServerError({
+      id: 2,
+      startdate: "2002-08-01",
+      enddate  : "2002-08-02",
     }));
   it("supports an 'all events' feed", function(done) {
     chai.request( app )

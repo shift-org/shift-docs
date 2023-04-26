@@ -57,10 +57,7 @@ endpoints.forEach((ep) => {
 
 app.use(function(err, req, res, next) {
   res.sendStatus(500);
-  // log when not running tests
-  if (process.env.npm_lifecycle_event !== 'test') {
-    console.error(err.stack);
-  }
+  console.error(err.stack);
 });
 
 const port = config.site.listen;
