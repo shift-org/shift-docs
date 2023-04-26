@@ -11,11 +11,6 @@ RUN echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set
 # install:
 RUN apt-get update && apt-get install -q -y postfix libsasl2-modules rsyslog
 RUN mkdir -p /var/spool/postfix/etc/ && cp -f /etc/services /var/spool/postfix/etc/services && cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
-
-# ----------------
-# php specific configuration:
-# the node version configures nodemailer in app/emailer.js
-# RUN echo "sendmail_path=/opt/php/sendmail.sh" >> /usr/local/etc/php/conf.d/php-sendmail.ini
 # ----------------
 
 # fix? maybe this could be done through shift.overrides.production?
@@ -26,7 +21,7 @@ WORKDIR /app
 
 COPY ["./app/package.json", "./app/package-lock.json", "./"]
 
-# 'production' excludes anything listed as a dev dependency in the package.json
+# 'production' here excludes anything listed as a dev dependency in the package.json
 RUN npm install --production
 
 COPY ["./app/", "./"]
