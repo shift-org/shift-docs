@@ -1,38 +1,46 @@
 const nodemailer = require('nodemailer');
-const config = require("./config");
+const fsp = require('fs').promises;
 const path = require('node:path');
-const AWS = require("aws-sdk");
+const config = require("./config");
+const dt = require("./util/dateTime");
 
-// minimal configuration if its not finding its credentials
-// AWS.config.update({ region: process.env.AWS_REGION_ID });
-
-//
-// configure AWS SDK
-// AWS.config.update({
-//   accessKeyId: << SES_ACCESS_KEY >>,
-//   secretAccessKey: << SES_SECRET_KEY >>,
-//   region: << SES_REGION >>,
-// });
-
-const testMail =  {
-  jsonTransport: true,
-  newline: 'windows'
+// https://nodemailer.com/transports/stream/
+const testCfg =  {
+  jsonTransport: true
 };
 
-// on docker, this fails with epipe.
-// const sendMail = {
-//   sendmail: true,
-//   // uses "windows" newlines because the php version had carriage return style newlines.
-//   newline: 'windows',
-//   // docker-compose mounts "opt/node" to the "services/node "directory.
-//   // the sendmail script logs to $SHIFT_EMAIL_LOG and, on production, invokes actual "sendmail"
-//   path: path.join(path.dirname(config.site.email_log), "sendmail.sh"),
-// };
+// https://nodemailer.com/smtp/
+const smtpCfg = {
+  host: config.smtp.host,
+  port: 465,
+  secure: true, // use TLS
+  auth: {
+    user: config.smtp.user,
+    pass: config.smtp.pass,
+  },
+};
 
-const sendMail = nodemailer.createTransport({
-  SES: new AWS.SES(),
-});
+const transporter = nodemailer.createTransport(
+  config.smtp.host ? smtpCfg : testCfg);
 
-module.exports = nodemailer.createTransport(
-  (process.env.npm_lifecycle_event !== 'test') ?
-  sendMail : testMail);
+module.exports = {
+  // returns a promise after sending the email and logging it.
+  // see https://nodemailer.com/message/
+  sendMail(email) {
+    return transporter.sendMail(email).then(info => {
+      const date = dt.getNow().toString();
+      let content = `Sending email ${date}:\n`;
+      // for debugging anything that might come up, log the whole returned data
+      // the test cfg includes the sent email, the smtp does not.
+      if (info.message) {
+        const prettify = JSON.parse( info.message.toString() );
+        content += JSON.stringify(prettify, null, " ");
+      } else {
+        content += JSON.stringify({
+          info, email
+        }, null, " ");
+      }
+      return fsp.writeFile(config.smtp.logfile, content+"\n", {flag: 'a'});
+    });
+  }
+};

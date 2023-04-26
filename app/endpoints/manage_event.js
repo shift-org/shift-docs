@@ -131,7 +131,7 @@ function emailSecret(evt) {
     title: evt.title,
     url,
   });
-  const email = {
+  return emailer.sendMail({
     subject,
     text: body,
     // html
@@ -146,16 +146,6 @@ function emailSecret(evt) {
     },
     // send backup copy for debugging and/or moderating
     bcc: "shift-event-email-archives@googlegroups.com",
-  }
-  return emailer.sendMail(email).then(info=> {
-    console.log("sent email");
-    console.log(info.messageId);
-    console.log(info.envelope);
-    if (!info.message) {
-      console.dir(email);
-    } else {
-      console.log(info.message);
-    }
   });
 }
 
