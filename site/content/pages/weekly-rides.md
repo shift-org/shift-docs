@@ -95,6 +95,7 @@ Second Sunday Funday ride every month — each month is led by a different Corvi
 
 More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
 
+<!--
 ### Say Hi Sundays
 * 1st, 3rd, and 5th Sunday of every month
 * Starting location: Buckman Elementary School, by the covered basketball court
@@ -102,6 +103,7 @@ More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@
 For those who want an excuse to talk to strangers — introduce yourself to at least one new person! Ride itself will be a social pace, and under 10 miles. End locations will have a covered area so the group can hang out and get to know each other, even during the inevitable rain.
 
 More info: [@sabspalooza (Sabrina) on Instagram](http://instagram.com/sabspalooza/)
+-->
 
 ### Zoo Bomb
 * Every Sunday
