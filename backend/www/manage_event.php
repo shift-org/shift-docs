@@ -63,6 +63,7 @@ function validate_json_request($data) {
  * ex. https://shift2bikes.org/eventimages/9248.png
  * tbd: can that be done here instead?
  *
+ * see also: https://flourishlib.com/docs/fUpload.html
  */
 function upload_attached_file($event, $messages) {
     if (isset($_FILES['file'])) {
@@ -81,10 +82,11 @@ function upload_attached_file($event, $messages) {
         $file_message = $uploader->validate('file', TRUE);
         if ($file_message != null) {
             $messages = array('file' => $file_message);
+        } else {
+            global $IMAGEDIR;
+            $file = $uploader->move($IMAGEDIR, 'file');
+            $event->setImage($file->getName());
         }
-        global $IMAGEDIR;
-        $file = $uploader->move($IMAGEDIR, 'file');
-        $event->setImage($file->getName());
     }
     return $messages;
 }
@@ -144,8 +146,9 @@ function build_json_response() {
     } else {
         $data = json_decode($_POST['json'], true);
     }
-
+    //
     // validate the incoming data:
+    //
     if (!$data) {
         return text_error("JSON could not be decoded");
     }

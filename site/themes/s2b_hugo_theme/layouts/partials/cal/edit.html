@@ -95,7 +95,7 @@
             <a role="button" data-toggle="collapse" href="#general-fields" aria-expanded="true">
               Event Description
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use xlink:href="#icon-arrow-down" />
+                <use href="#icon-arrow-down" />
               </svg>
             </a>
           </h2>
@@ -157,15 +157,15 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>
-            <a role="button" data-toggle="collapse" href="#timeandlocation-fields" aria-expanded="true">
-              Time and Location
+            <a role="button" data-toggle="collapse" href="#dateandtime-fields" aria-expanded="true">
+              Date and Time
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use xlink:href="#icon-arrow-down" />
+                <use href="#icon-arrow-down" />
               </svg>
             </a>
           </h2>
         </div>
-        <div id="timeandlocation-fields" class="panel-collapse collapse in">
+        <div id="dateandtime-fields" class="panel-collapse collapse in">
           <div class="panel-body">
 
             <div class="pp-banner">
@@ -225,6 +225,30 @@
             </div>
 
             <div class="form-group">
+              <label class="control-label optional-label" for="eventduration">Event duration, in minutes</label>
+              <input type="text" class="form-control" name="eventduration" id="eventduration" value="[[eventduration]]" aria-describedby="eventduration-help" />
+              <p class="input-help" id="eventduration-help">Leave this blank unless you're confident about when your event will end.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2>
+            <a role="button" data-toggle="collapse" href="#location-fields" aria-expanded="true">
+              Location
+              <svg class="icon expand" role="img" aria-hidden="true">
+                <use href="#icon-arrow-down" />
+              </svg>
+            </a>
+          </h2>
+        </div>
+        <div id="location-fields" class="panel-collapse collapse in">
+          <div class="panel-body">
+
+            <div class="form-group">
               <label class="control-label req-label" for="venue">Location name</label>
               <input type="text" class="form-control" name="venue" id="venue" value="[[venue]]" required="true" aria-invalid="false" />
             </div>
@@ -265,11 +289,6 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label optional-label" for="eventduration">Event duration, in minutes</label>
-              <input type="text" class="form-control" name="eventduration" id="eventduration" value="[[eventduration]]" aria-describedby="eventduration-help" />
-              <p class="input-help" id="eventduration-help">Leave this blank unless you're confident about when your event will end.</p>
-            </div>
-            <div class="form-group">
               <label class="control-label optional-label" for="length">Length of route</label>
               <select name="length" class="form-control" id="length">
                 <option value="--" [[# isSelected ]]selected[[/ isSelected ]]>--</option>
@@ -278,6 +297,7 @@
                 [[/ lengthOptions ]]
               </select>
             </div>
+
           </div>
         </div>
       </div>
@@ -288,7 +308,7 @@
             <a role="button" data-toggle="collapse" href="#contact-fields" aria-expanded="true">
               Contact Info
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use xlink:href="#icon-arrow-down" />
+                <use href="#icon-arrow-down" />
               </svg>
             </a>
           </h2>
@@ -358,7 +378,7 @@
             <a role="button" data-toggle="collapse" href="#print-fields" aria-expanded="true">
               Print Calendar Info
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use xlink:href="#icon-arrow-down" />
+                <use href="#icon-arrow-down" />
               </svg>
             </a>
           </h2>
@@ -419,7 +439,7 @@
             <a role="button" data-toggle="collapse" href="#terms-fields" aria-expanded="true">
               Terms
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use xlink:href="#icon-arrow-down" />
+                <use href="#icon-arrow-down" />
               </svg>
             </a>
           </h2>
@@ -464,7 +484,7 @@
             <a role="button" data-toggle="collapse" href="#delete-event-fields" aria-expanded="true">
               Delete Event
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use xlink:href="#icon-arrow-down" />
+                <use href="#icon-arrow-down" />
               </svg>
             </a>
           </h2>
@@ -473,7 +493,7 @@
         <div id="delete-event-fields" class="panel-collapse collapse in">
           <div class="panel-body">
             <div class="form-group">
-              <p class="input-help">If an event is no longer happening, we recommend <a href="#timeandlocation-fields">cancelling</a> instead of deleting. Cancelling it gives you an opportunity to post a message to inform riders, like if it's been rescheduled to another date.</p>
+              <p class="input-help">If an event is no longer happening, we recommend <a href="#dateandtime-fields">cancelling</a> instead of deleting. Cancelling it gives you an opportunity to post a message to inform riders, like if it's been rescheduled to another date.</p>
               <p class="input-help">If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
               <p class="input-help"><strong>Once an event is deleted, it can't be restored!</strong> If you're sure: </p>
 

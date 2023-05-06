@@ -7,11 +7,15 @@ class EventTime extends fActiveRecord {
     // record a new occurrence of an existing event in the database.
     // dateStatus['date'] is YYYY-MM-DD
     private static function createNewEventTime($eventId, $dateStatus) {
+        $date = $dateStatus['date'];
+        $newsflash = $dateStatus['newsflash'];
+        $status = $dateStatus['status'];
         $eventTime = new EventTime();
+        $eventTime->setModified(time());
         $eventTime->setId($eventId);
-        $eventTime->setEventdate($dateStatus['date']);
-        $eventTime->setEventstatus($dateStatus['status']);
-        $eventTime->setNewsflash($dateStatus['newsflash']);
+        $eventTime->setEventdate($date);
+        $eventTime->setEventstatus($status);
+        $eventTime->setNewsflash($newsflash);
         $eventTime->store();
         return $eventTime;
     }
@@ -145,10 +149,11 @@ class EventTime extends fActiveRecord {
     //   status: a single letter: 'A' for active, or 'C' for cancelled.
     //   newsflash: a special bit of text from the user, typically for canceled or rescheduled events.
     // }
+    // @see DateStatus.php
     public function getFormattedDateStatus() {
         return [ 
-            'id' => $this->getPkid(),
-            'date' => $this->getFormattedDate(),
+            'id' => $this->getPkid(), // Get ID for this EventTime
+            'date' => $this->getFormattedDate(), // Get pretty date
             'status' => $this->getEventstatus(),
             'newsflash' => $this->getNewsflash()
         ];

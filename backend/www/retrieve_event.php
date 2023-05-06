@@ -15,7 +15,6 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
  */
 include('../init.php');
-
 if (!isset($_GET['id'])) {
     $response = text_error("Request incomplete, please pass an id in the url");
 } else {
