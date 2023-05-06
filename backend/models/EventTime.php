@@ -32,7 +32,7 @@ class EventTime extends fActiveRecord {
     public static function reconcile($event, $statusMap) {
         $out = array();
         $eventTimes = $event->buildEventTimes('id');
-        $published = !$event->isPublished();
+        $published = $event->isPublished();
         foreach ($eventTimes as $at) {
             // the map is keyed by date string:
             $date = $at->getFormattedDate();
@@ -45,7 +45,7 @@ class EventTime extends fActiveRecord {
                 $at->updateStatus($status);  // calls store() if changed.
                 unset($statusMap[$date]);    // remove from the map so we dont create it (below)
                 $out []= $at->getFormattedDateStatus(); // append
-            } elseif (!$published) {
+            } elseif ($published) {
                 $at->cancelOccurrence(); // calls store() if changed.
                 $out []= $at->getFormattedDateStatus(); //  append
             } else {
