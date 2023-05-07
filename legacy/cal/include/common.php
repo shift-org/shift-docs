@@ -19,8 +19,8 @@ define("ADMINPASS", getenv("CAL_ADMIN_PASSWORD"));
 # you'll have to do some heavy editing to the year-specific version the
 # festival calendar (e.g., "viewpp2010.php").
 define("PPNAME", "Pedalpalooza");	    # Name of the festival
-define("PPSTART", "2019-06-01");	    # Start date, in MySQL format
-define("PPEND", "2019-06-30");		    # End date, in MySQL format
+define("PPSTART", "2023-06-01");	    # Start date, in MySQL format
+define("PPEND", "2023-08-31");		    # End date, in MySQL format
 define("PPSTART_MONTHDAY", "June 1");	    # Start date, in "Month Day" format
 define("PPDAYS", 30);			    # Duration in days
 define("PPDATES", "June 1-30");		    # Dates, in "Month Day-Day" format
