@@ -75,7 +75,7 @@ function exportOne($cfg, $id) {
 // Return some good range of past and future events in ical format as a string.
 function exportCurrent($cfg) {
     $now = new DateTimeImmutable(); // now.
-    $start = $now->sub(new DateInterval('P3M'))->format('Y-m-d');
+    $start = $now->sub(new DateInterval('P1M'))->format('Y-m-d');
     $end = $now->add(new DateInterval('P3M'))->format('Y-m-d');
     $eventTimes = EventTime::getRangeVisible($start, $end);
     return buildCalendar($cfg, $eventTimes);
