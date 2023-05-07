@@ -51,6 +51,7 @@ function handleResponse($cfg, $get) {
             $filename = "$cfg->filename$cfg->ext";
         }
     }
+    $filename = $get['filename'] ?: $filename; // allow the query string to override the filename
     header("Content-Type: text/calendar; charset=utf-8");
     header("Content-Disposition: attachment; filename=\"$filename\"");
     header("Cache-Control: public, max-age=$cfg->maxage");

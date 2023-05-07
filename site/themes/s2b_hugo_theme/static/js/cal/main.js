@@ -42,7 +42,7 @@ $(document).ready(function() {
                 value.contactLink = container.getContactLink(value.contact);
 
                 value.shareLink = '/calendar/event-' + value.caldaily_id;
-                value.exportlink = '/api/ical.php?id=' + value.id;
+                value.exportlink = '/api/ics.php?id=' + value.id;
 
                 // value.showEditButton = true; // TODO: permissions
                 groupedByDate[date].events.push(value);
