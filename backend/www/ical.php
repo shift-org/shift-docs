@@ -145,12 +145,12 @@ EOD;
 function buildCalEvent($at) {
     $evt = $at->getEvent();
 
-    // the start time is the event time plus the occurrence date; and both are in portland time.
+    // the start time is the event time plus the occurrence date; both are in portland time.
     // ( the event time is ex. 15:04:05, in local time. hours, minutes, seconds )
     $local = new DateTimeZone( "America/Los_Angeles" );
     list( $hour, $minute, $second ) = explode(':', strval($evt->getEventtime()));
-    $startOffset = new DateInterval('PT'.$hour.'H'.$minute.'M'.$second.'S');
-    $startAt = (new DateTimeImmutable($at->getEventdate(), $local))->add($startOffset);
+    $startDate = new DateTimeImmutable($at->getEventdate(), $local);
+    $startAt = $startDate->setTime( $hour ?: 0, $minute ?: 0, $second ?: 0);
     
     // the end time uses the event duration, ensuring a default time of one hour.
     $duration = $evt->getEventduration();
