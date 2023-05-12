@@ -53,17 +53,13 @@ function daysInRange($startdate, $enddate) {
 }
 
 if ($enddate < $startdate) {
-    http_response_code(400);
     $message = "enddate: " . date('Y-m-d', $enddate) . " is before startdate: " . date('Y-m-d', $startdate);
-    $json['error'] = array(
-        'message' => $message
-    );
+    $json = text_error( $message );
+    
 } elseif (daysInRange($startdate, $enddate) > 100) {
-    http_response_code(400);
     $message = "event range too large: " . daysInRange($startdate, $enddate) . " days requested; max 100 days";
-    $json['error'] = array(
-        'message' => $message
-    );
+    $json = text_error( $message );
+
 } else {
     $json['events'] = array();
 

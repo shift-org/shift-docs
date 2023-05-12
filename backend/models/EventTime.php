@@ -3,20 +3,61 @@
 // EventTime - represents one occurrence of an event on a particular day.
 // Maps to the mysql 'caldaily' table.
 class EventTime extends fActiveRecord {
-	// record a new occurrence of an existing event in the database.
-    // dateStatus['date'] is a php DateTime.
-    public static function createNewEventTime($eventId, $dateStatus) {
+
+    // record a new occurrence of an existing event in the database.
+    // dateStatus['date'] is YYYY-MM-DD
+    private static function createNewEventTime($eventId, $dateStatus) {
         $date = $dateStatus['date'];
         $newsflash = $dateStatus['newsflash'];
         $status = $dateStatus['status'];
-
         $eventTime = new EventTime();
         $eventTime->setModified(time());
         $eventTime->setId($eventId);
-        $eventTime->setEventdate($date->format('Y-m-d'));
+        $eventTime->setEventdate($date);
         $eventTime->setEventstatus($status);
         $eventTime->setNewsflash($newsflash);
         $eventTime->store();
+        return $eventTime;
+    }
+    
+    /**
+     * Add, cancel, and update occurrences of a particular event.
+     * 
+     * @param  Event  the relevant event.
+     * @param  array  $statusMap containing {YYYY-MM-DD: dateStatus }
+     * @return array  json friendly date status records
+     * 
+     * @see: DateStatus.php, manage_event.php
+     */
+    public static function reconcile($event, $statusMap) {
+        $out = array();
+        $eventTimes = $event->buildEventTimes('id');
+        $published = $event->isPublished();
+        foreach ($eventTimes as $at) {
+            // the map is keyed by date string:
+            $date = $at->getFormattedDate();
+            $status = $statusMap[$date];
+            // if our event time is still desired by the organizer:
+            // update the status with whatever the organizer provided.
+            // otherwise: the organizer wants to remove the occurrence.
+            // so cancel or delete the time depending on whether the event is published.
+            if ($status) {
+                $at->updateStatus($status);  // calls store() if changed.
+                unset($statusMap[$date]);    // remove from the map so we dont create it (below)
+                $out []= $at->getFormattedDateStatus(); // append
+            } elseif ($published) {
+                $at->cancelOccurrence(); // calls store() if changed.
+                $out []= $at->getFormattedDateStatus(); //  append
+            } else {
+                $at->delete();
+            }
+        }
+        // create any (new) days the organizer requested:
+        foreach ($statusMap as $dateStatus) {
+            $at = EventTime::createNewEventTime($event->getId(), $dateStatus);
+            $out []= $at->getFormattedDateStatus(); // append
+        }
+        return $out;
     }
 
     // return the specified EventTime, but only for published Events.
@@ -31,7 +72,7 @@ class EventTime extends fActiveRecord {
     }
 
     // Find all occurrences of any EventTime within the specified date range.
-	// Dates are in the "YYYY-MM-DD" format. ( ex. 2006-01-02 )
+    // Dates are in the "YYYY-MM-DD" format. ( ex. 2006-01-02 )
     public static function getRangeVisible($firstDay, $lastDay) {
         return fRecordSet::build(
             'EventTime', // class
@@ -46,31 +87,30 @@ class EventTime extends fActiveRecord {
         );
     }
 
-    public function matchToDateStatus($dateStatuses) {
-        $dateStatusId = $this->getPkid();
-        if (!isset($dateStatuses[$dateStatusId])) {
-            // EventTime exists in db but not in request
-            // They didn't resubmit this existing date - delete it
-            // TODO: Think about making the deletion functionality its own API endpoint
-            $this->delete();
-        } else {
-            // EventTime exists in request and in db
-            // Update the existing EventTime and remove it from the array of new EventTimes
-            $this->updateStatus($dateStatuses[$dateStatusId]);
+    // Mark this particular occurrence as cancelled, updating the db.
+    public function cancelOccurrence() {
+        if ($this->getEventstatus() !== 'C') {
+            $this->setEventstatus('C');
+            $this->store();
         }
     }
 
     // store the status and newflash if they changed.
     private function updateStatus($dateStatus) {
+        $changed = false;
         if ($this->getEventstatus() !== $dateStatus['status']) {
             // EventTime status is different than the request, update EventTime db entry
             $this->setEventstatus($dateStatus['status']);
+            $changed = true;
         }
         if ($this->getNewsflash() !== $dateStatus['newsflash']) {
             // EventTime newsflash is different than the request, update EventTime db entry
             $this->setNewsflash($dateStatus['newsflash']);
+            $changed = true;
         }
-        $this->store();
+        if ($changed) {
+            $this->store();
+        }
     }
 
     public function getEvent() {
@@ -97,8 +137,9 @@ class EventTime extends fActiveRecord {
     }
 
     // returns a date in YYYY-MM-DD format ( ex. 2006-01-02 )
-    // TBD: is this needed? isnt it already in the proper format?
     public function getFormattedDate() {
+        // note: dates are represented as fDate
+        // https://flourishlib.com/docs/fDate.html
         return $this->getEventdate()->format('Y-m-d');
     }
 
@@ -110,17 +151,17 @@ class EventTime extends fActiveRecord {
     // }
     // @see DateStatus.php
     public function getFormattedDateStatus() {
-        $dateObject = array();
-        $dateObject['id'] = $this->getPkid(); // Get ID for this EventTime
-        $dateObject['date'] = $this->getFormattedDate(); // Get pretty date
-        $dateObject['status'] = $this->getEventstatus();
-        $dateObject['newsflash'] = $this->getNewsflash();
-        return $dateObject;
+        return [ 
+            'id' => $this->getPkid(), // Get ID for this EventTime
+            'date' => $this->getFormattedDate(), // Get pretty date
+            'status' => $this->getEventstatus(),
+            'newsflash' => $this->getNewsflash()
+        ];
     }
 
     // return a url which provides a view of this particular occurrence.
     // ex. https://localhost:4443/calendar/event-13662
-    protected function getShareable() {
+    public function getShareable() {
         global $PROTOCOL, $HOST, $PATH;
         $base = trim($PROTOCOL . $HOST . $PATH, '/');
 
@@ -129,12 +170,8 @@ class EventTime extends fActiveRecord {
     }
 
     // return true if the event has been cancelled; false otherwise.
-    protected function getCancelled() {
-        if ($this->getEventstatus() == 'C') {
-            return true;
-        } else {
-            return false;
-        }
+    public function getCancelled() {
+        return $this->getEventstatus() == 'C';
     }
 
     // combine the parent event and this one occurrence of that event

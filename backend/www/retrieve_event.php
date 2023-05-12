@@ -15,29 +15,16 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
  */
 include('../init.php');
-$response = array();
-
-if (isset($_GET['id'])) {
-    $event_id=$_GET['id'];
-
-    try {
-        // get event by id
-        $event = new Event($event_id);
-        $secret_valid = isset($_GET['secret']) && $event->secretValid($_GET['secret']);
-
+if (!isset($_GET['id'])) {
+    $response = text_error("Request incomplete, please pass an id in the url");
+} else {
+    $event = Event::getByID($_GET['id']);
+    if (!$event) {
+        $response = text_error('Event not found');
+    } else {
+        $secret_valid = $event->secretValid($_GET['secret']);
         $response = $event->toDetailArray($secret_valid);
-    } catch (fExpectedException $e) {
-        http_response_code(400);
-        $response['error'] = array(
-            'message' => $e->getMessage()
-        );
     }
-}
-else {
-    http_response_code(400);
-    $response['error'] = array(
-        'message' => "Request incomplete, please pass an id in the url"
-    );
 }
 
 header('Content-Type: application/json');
