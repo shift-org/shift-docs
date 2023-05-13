@@ -14,8 +14,6 @@ menu:
     parent: communitynav
 ---
 
-<!-- ## About -->
-
 ## Ride safely
 
 <p class="mission-statement" style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: 24px;"><strong>Bike fun is for everyone!</strong></p>
