@@ -71,6 +71,19 @@ class EventTime extends fActiveRecord {
         );
     }
 
+    // get all published events, even the excluded ones
+    public static function getFullRange($firstDay, $lastDay) {
+        return fRecordSet::build(
+            'EventTime', // class
+            array(
+                'eventdate>=' => $firstDay,
+                'eventdate<=' => $lastDay,
+                'calevent{id}.hidden!' => 1  // hidden is 0 once published
+            ), // where
+            array('eventdate' => 'asc')  // order by
+        );
+    }
+
     // Find all occurrences of any EventTime within the specified date range.
     // Dates are in the "YYYY-MM-DD" format. ( ex. 2006-01-02 )
     public static function getRangeVisible($firstDay, $lastDay) {
@@ -81,7 +94,7 @@ class EventTime extends fActiveRecord {
                 'eventdate<=' => $lastDay,
                 'calevent{id}.hidden!' => 1,  // hidden is 0 once published
                 'eventstatus!' => 'S',        // 'S', skipped, a legacy status code.
-                'calevent{id}.review!' => 'E' // 'E', excluded, a legacy status code.
+                'calevent{id}.review!' => 'E' // 'E', excluded, a legacy status code; reused for soft-deletion.
             ), // where
             array('eventdate' => 'asc')  // order by
         );

@@ -135,6 +135,8 @@ class Event extends fActiveRecord {
         foreach ($eventTimes as $eventTime) {
             $eventTime->cancelOccurrence();
         }
+        // setting 'E' excludes the event from getRangeVisible()
+        $this->setReview('E');
         $this->setPassword(""); 
         $this->storeChange();
     }
@@ -201,6 +203,12 @@ class Event extends fActiveRecord {
         if ($this->getHidden() != 0) {
             $this->setHidden(0);
         }
+    }
+
+    // deleted events are marked as 'E' which makes them inaccessible to the front-end
+    // while still showing them on the ical feed ( as canceled. )
+    public function isDeleted() {
+        return $this->getReview() == 'E';
     }
 
     // prefer this instead of "store" in most cases.
