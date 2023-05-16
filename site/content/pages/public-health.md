@@ -45,7 +45,7 @@ Our community has continually adapted to find ways to keep bike fun safe for all
 Ride leaders are encouraged to explore these options and come up with new ideas of their own! If you have any questions or ideas about how we can facilitate new approaches to inclusive bike fun, [contact us](/pages/contact/).
 
 
-### Safety Plan
+## Safety Plan
 
 To help riders set expectations, we have a specific set of guidelines that ride leaders may choose to adopt: 
 
