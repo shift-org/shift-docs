@@ -217,6 +217,10 @@ svg.icon {
     max-width: 980px;
 }
 
+#alert-banner p:last-child {
+    margin-bottom: 0;
+}
+
 .location {
     overflow-wrap: break-word;
 }

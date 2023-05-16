@@ -140,10 +140,6 @@ $(document).ready(function() {
             enddate: lastDayOfRange,
             show_details: isExpanded
         }, function (eventHTML) {
-             // don't load alert banner on PP page (it's already inserted elsewhere)
-             if ( !('pp' in options) ) {
-               container.append($('#alert-banner-template').html());
-             }
              // don't load list/grid toggle on PP page (always displays grid)
              if ( !('pp' in options) ) {
                container.append($('#view-as-options').html());
@@ -187,8 +183,6 @@ $(document).ready(function() {
             container.append(eventHTML);
             checkAnchors();
             lazyLoadEventImages();
-            // add alert banner at the bottom of single event listing
-            container.append($('#alert-banner-template').html());
         });
     }
 
