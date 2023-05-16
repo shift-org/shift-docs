@@ -77,7 +77,11 @@ function upload_attached_file($event, $messages) {
             ),
             'The file uploaded is not an image'
         );
-        $uploader->setMaxSize('2MB');
+        // re: image size - see also the nginx shift.conf and edit.html.
+        // this is larger than the nginx limit so that nginx makes the real decision 
+        // while still having some cap here "just in case".
+        // ( meaning, the client only has one error to handle in practical use: http 413 )
+        $uploader->setMaxSize('3MB');
         $uploader->setOptional();
         $file_message = $uploader->validate('file', TRUE);
         if ($file_message != null) {
