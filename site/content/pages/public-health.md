@@ -22,13 +22,14 @@ Biking is a great source of fun, exercise, and community, and we need everyoneâ€
 
 Some ways to improve safety when riding include:
 
-* **Staying home when sick**: Don't go to events if you have any symptoms of COVID-19 or feel sick.
-* **Making space**: Give yourself and others plenty of space out on the roads and at events.
+* **Staying home when sick:** Don't go to events if you have any symptoms of COVID-19 or feel sick.
+* **Making space:** Give yourself and others plenty of space out on the roads and at events.
 * **Wearing a mask:** Wear a mask when close to other people, particularly at larger gatherings. This is especially important at ride stops, such as when gathering at a starting location or a mid-ride stop. We support everyone who opts to wear a mask, regardless of the reason.
 * **Avoiding indoor stops:** Stay outdoors where there is more airflow and space for people to spread out. If a ride would normally make indoor stops (at at store, bar, or elsewhere), consider adjusting to avoid having a crowd gather indoors. For example, you might encourage people to buy supplies ahead of time in lieu of a supply stop, or have a meeting spot outside at a park instead of in a business.
 * **Managing ride size:** Keeping the group size small makes it easier to maintain distance and limit your exposure to others. This is important both while riding and during any stops. Events might ask for RSVPs or advance registration to cap the group size.
 * **Sanitizing frequently:** Sanitize your hands frequently, and avoid touching your face. Wash with soap and water for 20 seconds, or use hand sanitizer.
 * **Sharing carefully:** If sharing food or drinks, don't share the same utensils or dishes, or drink directly from the same container.
+* **Providing more info up front:** Ride leaders, consider adding more details to your calendar listings. Information about planned activities, locations, group size, and expected norms will help others decide if an event is a good fit for them. Provide at least one method of contact info so potential riders can reach out if they have questions.
 
 Be mindful that other people may have different risk factors and preferences than you and need to approach situations differently. Respect accommodations and requests that others have â€” bike fun is for everyone!
 
