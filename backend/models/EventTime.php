@@ -70,6 +70,7 @@ class EventTime extends fActiveRecord {
             array(
                 'pkid=' => $id,
                 'calevent{id}.hidden!' => 1,  // hidden is 0 once published
+                'eventstatus!' => 'D',        // 'D', deleted, for soft deletion
             )
         );
     }
