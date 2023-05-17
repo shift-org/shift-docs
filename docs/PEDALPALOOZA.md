@@ -30,7 +30,7 @@ approx. April–early May
 
 approx. early to mid May
 
-* Add the merch sale snippet (`pp-merch.html`) to the PP header (`pp-header.html`). This typically won't be available until early May, and then needs to be removed once sales close (mid to late May).
+* Add the merch sale snippet (`pp-merch.html`) to the PP header (`pp-header.html`). This typically won't be available until early May, and then needs to be removed once sales close (mid May to early June). Sometimes there is more than round of sales, so an additional update may be needed.
 
 
 ## During
