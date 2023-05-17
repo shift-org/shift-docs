@@ -78,7 +78,7 @@ function exportCurrent($cfg) {
     $now = new DateTimeImmutable(); // now.
     $start = $now->sub(new DateInterval('P1M'))->format('Y-m-d');
     $end = $now->add(new DateInterval('P3M'))->format('Y-m-d');
-    $eventTimes = EventTime::getRangeVisible($start, $end);
+    $eventTimes = EventTime::getFullRange($start, $end);
     return buildCalendar($cfg, $eventTimes);
 }
 
@@ -96,7 +96,7 @@ function exportStringRange($cfg, $start, $end) {
         if ($range < 0 || $range > 100) {
             throw new Exception("bad date range $range days");
         }
-        $eventTimes = EventTime::getRangeVisible($start, $end);
+        $eventTimes = EventTime::getFullRange($start, $end);
         return buildCalendar($cfg, $eventTimes);
     }
 }

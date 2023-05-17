@@ -21,6 +21,8 @@ if (!isset($_GET['id'])) {
     $event = Event::getByID($_GET['id']);
     if (!$event) {
         $response = text_error('Event not found');
+    } else if ($event->isDeleted()) {
+        $response = text_error('Event was deleted');
     } else {
         $secret_valid = $event->secretValid($_GET['secret']);
         $response = $event->toDetailArray($secret_valid);

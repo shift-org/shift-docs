@@ -130,11 +130,13 @@ class Event extends fActiveRecord {
     }
 
     // cancel all occurrences of this event, and make it inaccessible to the organizer.
-    public function cancelEvent() {
+    public function deleteEvent() {
         $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
-            $eventTime->cancelOccurrence();
+            $eventTime->deleteOccurrence();
         }
+        // setting 'E' excludes the event from getRangeVisible()
+        $this->setReview('E');
         $this->setPassword(""); 
         $this->storeChange();
     }
@@ -143,7 +145,11 @@ class Event extends fActiveRecord {
         $eventDateStatuses = array();
         $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
-            $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+            // dont send soft deleted events to the client.
+            // tdb: is there someway to filter this via buildEventTimes()?
+            if (!$eventTime->getDeleted()) {
+                $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+            }
         }
         return $eventDateStatuses;
     }
@@ -201,6 +207,12 @@ class Event extends fActiveRecord {
         if ($this->getHidden() != 0) {
             $this->setHidden(0);
         }
+    }
+
+    // deleted events are marked as 'E' which makes them inaccessible to the front-end
+    // while still showing them on the ical feed ( as canceled. )
+    public function isDeleted() {
+        return $this->getReview() == 'E';
     }
 
     // prefer this instead of "store" in most cases.
