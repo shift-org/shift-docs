@@ -56,7 +56,7 @@ function build_json_response() {
         }
     } else {
         try{
-            $event->cancelEvent();
+            $event->deleteEvent();
         } catch(Exception $ex) {
             error_log("couldn't cancel event " . $ex->getMessage());
             return text_error('Server error');

@@ -23,8 +23,8 @@ class EventTime extends fActiveRecord {
     /**
      * Add, cancel, and update occurrences of a particular event.
      * 
-     * @param  Event  the relevant event.
-     * @param  array  $statusMap containing {YYYY-MM-DD: dateStatus }
+     * @param  Event  $event - the relevant Event object.
+     * @param  array  $statusMap - an array from the client containing { YYYY-MM-DD: jsonDateStatus }
      * @return array  json friendly date status records
      * 
      * @see: DateStatus.php, manage_event.php
@@ -33,26 +33,29 @@ class EventTime extends fActiveRecord {
         $out = array();
         $eventTimes = $event->buildEventTimes('id');
         $published = $event->isPublished();
+        // loop over all dates in the database:
         foreach ($eventTimes as $at) {
-            // the map is keyed by date string:
+            // look up that date in the data sent by the organizer:
             $date = $at->getFormattedDate();
             $status = $statusMap[$date];
-            // if our event time is still desired by the organizer:
+            // if the date exists in the data given by the organizer:
             // update the status with whatever the organizer provided.
-            // otherwise: the organizer wants to remove the occurrence.
-            // so cancel or delete the time depending on whether the event is published.
+            // otherwise, the organizer removed it from the calendar, 
+            // so consider it a deletion ( soft or actual delete )
             if ($status) {
                 $at->updateStatus($status);  // calls store() if changed.
                 unset($statusMap[$date]);    // remove from the map so we dont create it (below)
                 $out []= $at->getFormattedDateStatus(); // append
             } elseif ($published) {
-                $at->cancelOccurrence(); // calls store() if changed.
-                $out []= $at->getFormattedDateStatus(); //  append
+                $at->deleteOccurrence(); // calls store() if changed.
+                // dont append this in the response to the user 
+                // if its not in the list they sent us, we dont want to return it.
             } else {
                 $at->delete();
             }
         }
-        // create any (new) days the organizer requested:
+        // now, loop over any dates that the organizer requested:
+        // ( at this point $statusMap only includes dates that *arent* in the database )
         foreach ($statusMap as $dateStatus) {
             $at = EventTime::createNewEventTime($event->getId(), $dateStatus);
             $out []= $at->getFormattedDateStatus(); // append
@@ -94,6 +97,7 @@ class EventTime extends fActiveRecord {
                 'eventdate<=' => $lastDay,
                 'calevent{id}.hidden!' => 1,  // hidden is 0 once published
                 'eventstatus!' => 'S',        // 'S', skipped, a legacy status code.
+                'eventstatus!' => 'D',        // 'D', deleted, for soft deletion
                 'calevent{id}.review!' => 'E' // 'E', excluded, a legacy status code; reused for soft-deletion.
             ), // where
             array('eventdate' => 'asc')  // order by
@@ -101,9 +105,9 @@ class EventTime extends fActiveRecord {
     }
 
     // Mark this particular occurrence as cancelled, updating the db.
-    public function cancelOccurrence() {
-        if ($this->getEventstatus() !== 'C') {
-            $this->setEventstatus('C');
+    public function deleteOccurrence() {
+        if ($this->getEventstatus() !== 'D') {
+            $this->setEventstatus('D');
             $this->store();
         }
     }
@@ -182,9 +186,17 @@ class EventTime extends fActiveRecord {
         return "$base/calendar/event-" . $caldaily_id;
     }
 
-    // return true if the event has been cancelled; false otherwise.
+    // return true if the event has been soft deleted; false if otherwise.
+    public function getDeleted() {
+        $status = $this->getEventstatus();
+        return ($status == 'D');
+    }
+
+    // return true if the event has been in any way cancelled; 
+    // false otherwise.
     public function getCancelled() {
-        return $this->getEventstatus() == 'C';
+        $status = $this->getEventstatus();
+        return ($status == 'C') || ($status == 'D');
     }
 
     // combine the parent event and this one occurrence of that event

@@ -130,10 +130,10 @@ class Event extends fActiveRecord {
     }
 
     // cancel all occurrences of this event, and make it inaccessible to the organizer.
-    public function cancelEvent() {
+    public function deleteEvent() {
         $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
-            $eventTime->cancelOccurrence();
+            $eventTime->deleteOccurrence();
         }
         // setting 'E' excludes the event from getRangeVisible()
         $this->setReview('E');
@@ -145,7 +145,11 @@ class Event extends fActiveRecord {
         $eventDateStatuses = array();
         $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
-            $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+            // dont send soft deleted events to the client.
+            // tdb: is there someway to filter this via buildEventTimes()?
+            if (!$eventTime->getDeleted()) {
+                $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+            }
         }
         return $eventDateStatuses;
     }
