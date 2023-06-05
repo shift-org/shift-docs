@@ -228,12 +228,6 @@ $(document).ready(function() {
       }
     });
 
-    $(document).on('click', '#feed-sub', function() {
-      var textBox = document.getElementById("feed-url");
-      textBox.select();
-      document.execCommand("copy");
-    });
-
     $(document).on('click', '#date-picker-prev-month', function(ev) {
       var currentPosition = $("#date-select").scrollTop();
       $("#date-select").scrollTop(currentPosition - 112);

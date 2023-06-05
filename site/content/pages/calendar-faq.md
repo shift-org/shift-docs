@@ -91,3 +91,17 @@ Yes, but we ask that you clearly indicate that the event isn't a ride, or you ma
 ### I'm having trouble posting a ride or making changes. Who do I contact?
 
 Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help.
+
+## Subscribing to the calendar
+
+The Pedalpalooza events can be added to your computer or smart phone's calendar. As new rides are created, they will show up on your calendar automatically ( usually within 24 hours of the ride being posted by the organizer. ) This is a convenient way to stay up to date, but remember these are community driven events: any and all events will be visible when you view your calendar.
+
+In most cases, clicking this link -- <a href="webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php">webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php</a> -- will open your calendar application automatically, and it will guide you through the steps to subscribe. If that doesn't work you will have to subscribe manually; the exact steps will depend on what type of phone or calendar application you are using.  
+
+Here are some links for common cases:
+
+1. [iPhone Calendar App](https://support.apple.com/guide/iphone/use-multiple-calendars-iph3d1110d4/ios) - use the instructions under "Set up a calendar: _Subscribe to an external, read-only calendar._"
+2. [Google Calendar](https://support.google.com/calendar/answer/37100) - scroll down on that page and follow the instructions for "Use a link to add a public calendar". Note: regardless of whether you're using google calendar on your ios, android device, or computer; you will have subscribe using your web browser.
+3. [Mac Mail](https://support.apple.com/guide/calendar/subscribe-to-calendars-icl1022/mac) - follow the instructions for "Subscribe to a calendar."
+4. [Outlook](https://support.microsoft.com/en-us/office/import-or-subscribe-to-a-calendar-in-outlook-on-the-web-503ffaf6-7b86-44fe-8dd6-8099d95f38df) - follow the instructions for "Subscribing to a calendar."
+5. [Thunderbird](https://support.mozilla.org/en-US/kb/adding-a-holiday-calendar) - follow the instructions for subscribing to an "internet holiday calendar", but use the pedalpalooza calendar link from above.  ( Pedalpalooza is basically a holiday anyway, right? 😊 )
