@@ -7,7 +7,7 @@ menu:
 ---
 <img src=/images/BonB_header.jpg align=center alt="Breakfast on the Bridges">
 
-The last Friday of every month Shift volunteers serve breakfast to bicyclists on the Steel, Hawthorne, and Tillikum bridges. Many bike commuters have come to look forward to hot coffee and delicious pastries on their way to work once a month - and you can't beat the views! Note, we generally arrive on the bridges around 7:00 a.m. and stay till 9:00. 
+The last Friday of every month Shift volunteers serve breakfast to bicyclists on the Steel, Flanders, Blumenauer and Tillikum bridges. Many bike commuters have come to look forward to hot coffee and delicious pastries on their way to work once a month - and you can't beat the views! Note, we generally arrive on the bridges around 7:00 a.m. and stay till 9:00. 
 
 Join us for this fun, community-building event. Stop by on your way to work, school, shopping, or where-ever you and your bike are going.
 
@@ -21,15 +21,15 @@ BonB is planned and organized through the occasional meeting and plenty of elect
 
 ## Schedule
 
-Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every month**. Well... pretty much. In the month of June we celebrate PedalPalooza by bringing you BonB **every Friday**. We also try to avoid major holidays (when people get to sleep in rather than commute downtown) by shifting the date up or back a week (especially around Thanksgiving in November and Christmas/New Years in December). We also throw special themes into the mix like Superhero BonB in October and Santa Lucia on the Bridge in December.
+Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every month**. Well... pretty much. At the end of the year, both BonB's land near major holidays, so we place the Thanksgiving and Christmas BonB events near St Lucia's day, Dec 13th.
 
 ## Current Locations
 
-We have three regular serving locations as of 2019:
+We have four regular serving locations as of 2023:
 
-1. **Steel Bridge**: Team Steel sets up just east of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
-2. **Tillikum Bridge**:  Team Tillikum sets up on the either end of the bridge on the Northbound side, either next to Elephant's Delicatessen on the west side or at the junction with the feeder from the Springwater trail onto the Westbound bridge MUP.
-3. **Blumenauer Bridge**: Team Blumenauer stations on the north end of the bridge. Now that the Hawthorne Bridge crew has relocated to the Blumenauer Bridge, all 4 BonB locations are car-free!
+1. **Steel Bridge**: Team Steel sets up just East of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
+2. **Tillikum Bridge**:  Team Tillikum sets up on the West side of the bridge, under the Red Balloons statue at the junction of S Bond Ave Multi-Use Path and the Bridge.
+3. **Blumenauer Bridge**: Team Blumenauer stations on the North end of the bridge. Now that the Hawthorne Bridge crew has relocated to the Blumenauer Bridge, all 4 BonB locations are car-free!
 4. **Flanders Crossing**: Expanding to four bridges for the first time! Say hi-diddly-ho to your bikey neighbors on one of the city's newest car-free bridges. 
 
 ## Donors
@@ -49,6 +49,9 @@ Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have t
 * [Sugar Mamas Coffee Cafe](http://www.facebook.com/pages/Sugar-Mamas-Coffee-Cafe/195305340364/)
 * [Portland Pedal Power](http://www.portlandpedalpower.com/about)
 * Acme Donuts
+* [Go Lloyd](https://www.golloyd.org/)
+* [Coco Donuts](https://www.cocodonuts.com/)
+* [Saint Cupcake](https://www.saintcupcake.com/)
 
 #### Past Donors
 
