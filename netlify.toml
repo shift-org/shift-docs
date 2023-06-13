@@ -54,12 +54,12 @@
   status =  301
   force = true
 [[redirects]]
-  from = "https://shifttobikes.com/*"
+  from = "https://shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
 [[redirects]]
-  from = "https://www.shifttobikes.com/*"
+  from = "https://www.shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
