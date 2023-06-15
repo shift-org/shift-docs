@@ -96,7 +96,7 @@ Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help
 
 The Pedalpalooza events can be added to your computer or smart phone's calendar. As new rides are created, they will show up on your calendar automatically ( usually within 24 hours of the ride being posted by the organizer. ) This is a convenient way to stay up to date, but remember these are community driven events: any and all events will be visible when you view your calendar.
 
-On many devices, clicking this link -- <a href="webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php">webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php</a> -- will open your calendar app automatically, and the app will guide you through the steps to subscribe. 
+On many devices, clicking this link — [webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php](webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php) — will open your calendar app automatically, and the app will guide you through the steps to subscribe.
 
 For Android devices ( or for google calendar on iOS devices ) you will have to subscribe manually.
 
