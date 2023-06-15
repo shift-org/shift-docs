@@ -234,8 +234,13 @@ class Event extends fActiveRecord {
         }
     }
 
-    // ensure that the image is stored in the right location, and 
-    // return the path to the image.
+    // ensure that the image is stored in the right location,
+    // and return url of the image.  
+    // ex. https://shift2bikes.org/eventimages/9248-5.png
+    //
+    // the url includes a "sequence" number to handle "cache-busting" for image changes.
+    // ngnix ( see `shift.conf` ) strips the sequence number to find the real file.
+    // the sequence changes whenever the event is updated ( rather than just when the image has changed ) -- not ideal, but good enough. 
     private function updateImageUrl($storeIfChanged) {
         global $IMAGEDIR;
         global $IMAGEURL;
@@ -266,8 +271,9 @@ class Event extends fActiveRecord {
                 }
             }
         }
-        // ex. https://shift2bikes.org/eventimages/9248.png
-        return "$IMAGEURL/$new_name";
+        // return the image url including the cache-busting sequence.
+        $sequence = $this->getChanges();
+        return "$IMAGEURL/$id-$sequence.$ext";
     }
 }
 
