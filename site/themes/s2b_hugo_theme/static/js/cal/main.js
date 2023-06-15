@@ -229,7 +229,7 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#feed-sub', function() {
-      var feedUrl = new URL(this.dataset.url, "webcal://");
+      var feedUrl = new URL(this.dataset.url);
       window.open(feedUrl);
     });
 
