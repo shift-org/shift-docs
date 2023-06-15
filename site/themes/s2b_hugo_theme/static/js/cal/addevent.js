@@ -170,12 +170,33 @@
                     shiftEvent.id = returnVal.id;
                 },
                 error: function(returnVal) {
-                    var err = returnVal.responseJSON
-                                ? returnVal.responseJSON.error
-                                : { message: 'Server error saving event!' },
-                        okGroups,
-                        errGroups;
+                    var err, okGroups, errGroups;
 
+                    // get the error message:
+                    if (returnVal.responseJSON) {
+                      err = returnVal.responseJSON.error;
+                    } else if (returnVal.status === 413) {
+                      // 413 - "Request Entity Too Large" gets sent by nginx above its client_max_body_size;
+                      // so the error message sent by flourish.
+                      err = {
+                        message: 'There were errors in your fields',
+                        fields: {
+                          file: 'The file uploaded is over the limit of 2.0 M',
+                        }
+                      };
+                    } else {
+                      err = {
+                       message: 'Server error saving event!'
+                      };
+                    }
+                    // munge the "file" errors to be "image" errors
+                    // so that the error message shows on proper line.
+                    // tbd: we also change this in manage_event.php
+                    if (err.fields && err.fields.file && !err.fields.image) {
+                      err.fields.image = err.fields.file;
+                    }
+
+                    // process the errors:
                     $('.save-result').addClass('text-danger').text(err.message);
 
                     $.each(err.fields, function(fieldName, message) {
