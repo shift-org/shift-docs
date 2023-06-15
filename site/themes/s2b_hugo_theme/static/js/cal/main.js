@@ -228,6 +228,11 @@ $(document).ready(function() {
       }
     });
 
+    $(document).on('click', '#feed-sub', function() {
+      var feedUrl = new URL(this.dataset.url, "webcal://");
+      window.open(feedUrl);
+    });
+
     $(document).on('click', '#date-picker-prev-month', function(ev) {
       var currentPosition = $("#date-select").scrollTop();
       $("#date-select").scrollTop(currentPosition - 112);
