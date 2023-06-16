@@ -234,6 +234,10 @@ class Event extends fActiveRecord {
         }
     }
 
+    // used by manage event to communicate an image was just uploaded
+    // ( so that updateImageUrl can generate a new name )
+    public $imageChanged = false;
+
     // ensure that the image is stored in the right location, and 
     // return the path to the image.
     private function updateImageUrl($storeIfChanged) {
@@ -245,18 +249,32 @@ class Event extends fActiveRecord {
             return null;
         }
 
-        $old_path = "$IMAGEDIR/$old_name";
-        $id = $this->getId();
-
-        // What the name should be
+        // What the extension should be
         $t = pathinfo($old_name);
         $ext = $t['extension'];
-        $new_name = "$id.$ext";
 
+        // What the name should be
+        $id = $this->getId();
+        if (!preg_match('/^(\d+)(-\d+)?\.(\w+)$/', $old_name, $matches) ||
+            ($matches[1] != $id)) {
+            // some old legacy event; update the image even on GET.
+            $new_name = "$id.$ext";
+            // error_log("updated legacy name: $new_name; match: $matches[1]; id: $id");
+        } elseif ($this->imageChanged) {
+            // see manage_event.php; a new image was uploaded:
+            $sequence = $this->getChanges();
+            $new_name = "$id-$sequence.$ext";
+            // error_log("image changed: $new_name");
+        } else {
+            // nothing should change.
+            $new_name = $old_name;
+        }
+
+        // Named incorrectly: move and update db.
         if ($old_name !== $new_name) {
-            // Named incorrectly, move, update db, return
+            $old_path = "$IMAGEDIR/$old_name";
             $new_path = "$IMAGEDIR/$new_name";
-
+            
             if (file_exists($old_path)) {
                 // note: rename() overwrites existing.
                 rename($old_path, $new_path);
