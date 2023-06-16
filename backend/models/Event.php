@@ -253,37 +253,44 @@ class Event extends fActiveRecord {
         $t = pathinfo($old_name);
         $ext = $t['extension'];
 
-        // What the name should be
+        // the desired filename on disk:
         $id = $this->getId();
+        $filename = "$id.$ext";
+
+        // is the old name in id[-sequence] format? 
+        // and do the ids match?
         if (!preg_match('/^(\d+)(-\d+)?\.(\w+)$/', $old_name, $matches) ||
             ($matches[1] != $id)) {
-            // some old legacy event; update the image even on GET.
-            $new_name = "$id.$ext";
-            // error_log("updated legacy name: $new_name; match: $matches[1]; id: $id");
+            // if not: its some old legacy event; 
+            // update the image to the desired filename.
+            $new_name = $filename;
         } elseif ($this->imageChanged) {
             // see manage_event.php; a new image was uploaded:
+            // the name in the db will change, and the file will be renamed.
             $sequence = $this->getChanges();
             $new_name = "$id-$sequence.$ext";
-            // error_log("image changed: $new_name");
         } else {
-            // nothing should change.
-            $new_name = $old_name;
+            // no file was uploaded and the name's okay;
+            // stick with the old name.
+            $new_file = $old_name;
         }
 
-        // Named incorrectly: move and update db.
-        if ($old_name !== $new_name) {
+        // Named incorrectly: move.
+        if ($old_name !== $filename) {
             $old_path = "$IMAGEDIR/$old_name";
-            $new_path = "$IMAGEDIR/$new_name";
-            
             if (file_exists($old_path)) {
                 // note: rename() overwrites existing.
-                rename($old_path, $new_path);
-                $this->setImage($new_name);
-                if ($storeIfChanged) {
-                    $this->store();
-                }
+                rename($old_path, "$IMAGEDIR/$filename");
             }
         }
+        // Name needs updating: store.
+        if ($new_name != $old_name) {
+            $this->setImage($new_name);
+            if ($storeIfChanged) {
+                $this->store();
+            }
+        } 
+
         // ex. https://shift2bikes.org/eventimages/9248.png
         return "$IMAGEURL/$new_name";
     }
