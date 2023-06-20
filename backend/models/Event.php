@@ -244,55 +244,49 @@ class Event extends fActiveRecord {
         global $IMAGEDIR;
         global $IMAGEURL;
 
-        $old_name = $this->getImage();
-        if ($old_name == null) {
+        $image_name = $this->getImage();
+        if ($image_name == null) {
             return null;
         }
 
-        // What the extension should be
-        $t = pathinfo($old_name);
-        $ext = $t['extension'];
-
-        // the desired filename on disk:
+        // the desired image name includes the event id:
         $id = $this->getId();
-        $filename = "$id.$ext";
-
-        // is the old name in id[-sequence] format? 
-        // and do the ids match?
-        if (!preg_match('/^(\d+)(-\d+)?\.(\w+)$/', $old_name, $matches) ||
-            ($matches[1] != $id)) {
-            // if not: its some old legacy event; 
-            // update the image to the desired filename.
-            $new_name = $filename;
-        } elseif ($this->imageChanged) {
-            // see manage_event.php; a new image was uploaded:
-            // the name in the db will change, and the file will be renamed.
-            $sequence = $this->getChanges();
-            $new_name = "$id-$sequence.$ext";
-        } else {
-            // no file was uploaded and the name's okay;
-            // stick with the old name.
-            $new_file = $old_name;
-        }
-
-        // Named incorrectly: move.
-        if ($old_name !== $filename) {
-            $old_path = "$IMAGEDIR/$old_name";
-            if (file_exists($old_path)) {
-                // note: rename() overwrites existing.
-                rename($old_path, "$IMAGEDIR/$filename");
+        
+        // if: a new image was uploaded ( see manage_event.php );
+        // or, the "old name" doesn't match the expected format;
+        // or, it looks like the expected format but the id is wrong...
+        // ( in all these cases, we can assume "image name" *is* the filename. )
+        if ($this->imageChanged || 
+            !preg_match('/^(\d+)(-\d+)?\.(\w+)$/', $image_name, $matches) ||
+            ($matches[1] != $id))
+        {
+            // the existing image name always includes the extension:
+            $t = pathinfo($image_name);
+            $ext = $t['extension'];
+        
+            // is the actual file named incorrectly? rename it.
+            // ( ex. after a new upload, the image name is based on the user's filename )
+            $old_path = "$IMAGEDIR/$image_name";
+            $new_path = "$IMAGEDIR/$id.$ext";
+            if ($old_path != $new_path) {
+                // note: rename() stomps over any existing file.
+                if (file_exists($old_path)) {
+                    rename($old_path, $new_path);
+                }
             }
-        }
-        // Name needs updating: store.
-        if ($new_name != $old_name) {
-            $this->setImage($new_name);
+
+            // Name needs updating? store.
+            $sequence = $this->getChanges();
+            $image_name = "$id-$sequence.$ext";
+            $this->setImage($image_name);
             if ($storeIfChanged) {
                 $this->store();
             }
-        } 
+        }
 
         // ex. https://shift2bikes.org/eventimages/9248.png
-        return "$IMAGEURL/$new_name";
+        // or, https://shift2bikes.org/eventimages/9248-42.png
+        return "$IMAGEURL/$image_name";
     }
 }
 
