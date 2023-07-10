@@ -7,25 +7,25 @@ menu:
 ---
 <img src=/images/BonB_header.jpg align=center alt="Breakfast on the Bridges">
 
-The last Friday of every month Shift volunteers serve breakfast to bicyclists on the Steel, Flanders, Blumenauer and Tillikum bridges. Many bike commuters have come to look forward to hot coffee and delicious pastries on their way to work once a month - and you can't beat the views! Note, we generally arrive on the bridges around 7:00 a.m. and stay till 9:00. 
+On the last Friday of every month, volunteers serve breakfast to bicyclists on the Steel, Flanders, Blumenauer, and Tillikum bridges. Many bike commuters have come to look forward to hot coffee and delicious pastries on their way to work once a month - and you can't beat the views! Note: they generally arrive on the bridges around 7:00 a.m. and stay till 9:00. 
 
-Join us for this fun, community-building event. Stop by on your way to work, school, shopping, or where-ever you and your bike are going.
+Join them for this fun, community-building event. Stop by on your way to work, school, shopping, or wherever you and your bike are going.
 
 ### BonB has a [Facebook page](https://www.facebook.com/bonbpdx/), [Mastodon account](https://social.ridetrans.it/@bonbpdx), [Twitter account](https://twitter.com/bonbpdx), and [some pictures on Flickr](http://flickr.com/photos/tags/bonb/).
 
 ## Volunteers
 
-BonB is brought to you by a team of bike-fun-loving morning people (and those of us who drink enough coffee to resemble morning people). It takes many hands and much energy to deliver breakfast to so many cyclists in the morning and we love to share the work load opportunity to spread joy. There's much brewing, baking, and donation retrieval to be done, but if you're not the type who plans ahead just show up and put your friendly smile to use- we always enjoy company on the bridges! If you're interested in helping out, get in touch with [our volunteers](mailto:bonb@lists.riseup.net).
+BonB is brought to you by a team of bike-fun-loving morning people (and those of us who drink enough coffee to resemble morning people). It takes many hands and much energy to deliver breakfast to so many cyclists in the morning and they love to share the work load opportunity to spread joy. There's much brewing, baking, and donation retrieval to be done, but if you're not the type who plans ahead just show up and put your friendly smile to use - they always enjoy company on the bridges! If you're interested in helping out, [get in touch with BonB volunteers](mailto:bonb@lists.riseup.net).
 
-BonB is planned and organized through the occasional meeting and plenty of electronic correspondence through [the BonB mailing list](https://lists.riseup.net/www/info/bonb). Maybe handing out breakfast before the sun comes up isn't your thing? We're always looking for friendly and creative folks to help find donors, pick up and drop off donations, and promote BonB via creative signs and feeding logistics.
+BonB is planned and organized through the occasional meeting and plenty of electronic correspondence through the [BonB mailing list](https://lists.riseup.net/www/info/bonb). Maybe handing out breakfast before the sun comes up isn't your thing? They're always looking for friendly and creative folks to help find donors, pick up and drop off donations, and promote BonB via creative signs and feeding logistics.
 
 ## Schedule
 
-Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every month**. Well... pretty much. At the end of the year, both BonB's land near major holidays, so we place the Thanksgiving and Christmas BonB events near St Lucia's day, Dec 13th.
+Breakfast on the Bridges happens **7:00 - 9:00 am on the last Friday of every month**. Well... pretty much. At the end of the year, both BonB's land near major holidays, so they place the Thanksgiving and Christmas BonB events near St Lucia's day, Dec 13th.
 
 ## Current Locations
 
-We have four regular serving locations as of 2023:
+There are four regular serving locations as of 2023:
 
 1. **Steel Bridge**: Team Steel sets up just East of the entrance to the lower bike/ped path (north end of the Eastbank Esplanade). Great views of the river and downtown skyline. 
 2. **Tillikum Bridge**:  Team Tillikum sets up on the West side of the bridge, under the Red Balloons statue at the junction of S Bond Ave Multi-Use Path and the Bridge.
@@ -34,7 +34,7 @@ We have four regular serving locations as of 2023:
 
 ## Donors
 
-Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have the support of several local coffee and pastry shops as well as other food donors. And we're always looking for more! If you'd like to contribute to Breakfast on the Bridges, please [contact us!](mailto:bonb@lists.riseup.net)
+Free breakfast doesn't grow on trees! Unless it's fruit... BonB is happy to have the support of several local coffee and pastry shops as well as other food donors. And they're always looking for more! If you'd like to contribute to Breakfast on the Bridges, please [contact them](mailto:bonb@lists.riseup.net)!
 
 #### Recent Donors
 
@@ -77,7 +77,7 @@ Tardy slips are often available for those who are running late. They may not get
 
 BonB Superhero trading cards (on hand at special times) are a popular collectible commodity. You can expect them to triple in value over the next ten years. A whole set may someday go for eight times its original value at auction.
 
-## Donate!
+## Support
 
 If you'd like to give money to support Breakfast on the Bridges, the below PayPal link is for Breakfast on the Bridges:
 
