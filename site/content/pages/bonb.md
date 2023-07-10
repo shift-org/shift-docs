@@ -38,6 +38,7 @@ Free breakfast doesn't grow on trees! Unless it's fruit... We're happy to have t
 
 #### Recent Donors
 
+* [Spielman Bagels and Cafe](https://www.spielmanbagels.com/)
 * [Gluten Free Gem](http://www.glutenfreegem.com/)
 * [Great Harvest PDX](http://greatharvestportland.com/)
 * [Portland Catering Company](http://portlandcateringcompany.com/)
