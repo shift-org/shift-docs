@@ -7,11 +7,11 @@ menu:
 ---
 ## 1. Purpose
 
-Shift's Mission is to promote inclusive bike fun. We volunteer our time towards that goal in Portland, Oregon, for those of all backgrounds. As such, we are committed to adhering to a friendly, safe and welcoming environment for all, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, and religion (or lack thereof).
+Shift's mission is to promote inclusive bike fun. We volunteer our time towards that goal in Portland, Oregon, for those of all backgrounds. As such, we are committed to adhering to a friendly, safe and welcoming environment for all, regardless of gender, sexual orientation, ability, ethnicity, socioeconomic status, and religion (or lack thereof).
 
-This code of conduct outlines our expectations for the rides that list on the Shift calendar pertaining to both ride leaders and participants, as well as representatives and volunteers at official shift events including board meetings.
+This Code of Conduct outlines our expectations for the rides that list on the Shift calendar pertaining to both ride leaders and participants, as well as representatives and volunteers at official Shift events including board meetings.
 
-We invite all those who participate in official shift activities, within Shift’s community, and on rides that list on the Shift calendar; to help us create safe and positive experiences for everyone.
+We invite all those who participate in official Shift activities, within Shift’s community, and on rides that list on the Shift calendar; to help us create safe and positive experiences for everyone.
 
 Shift listed ride participants are required to agree to the following Code of Conduct. This code will be shared with participants and the public alike, and ride leaders will enforce this code throughout the ride and during related gatherings before and after the ride.
 
@@ -27,23 +27,23 @@ active transportation, community-building, inclusivity, promoting bike fun, acco
 
 ## 3. Expected Behavior
 
-The following behaviors are expected to be used as a resource for ride leaders to know what is expected of rides that are listed on the shift calendar, these are expected behaviors for all rides:
+The following behaviors are expected to be used as a resource for ride leaders to know what is expected of rides that are listed on the Shift calendar, these are expected behaviors for all rides:
 
 * Participate in an authentic and active way. In doing so, you contribute to the health and longevity of this community.
 * Be inclusive, friendly, inviting, and helpful to those around you. There may be participants who are rarely on a bicycle and it’s important to foster those people who may not be as seasoned a rider as you.
 * Exercise consideration and respect in your speech and actions, as well as in the descriptions of listings on the calendar.
 * Attempt collaboration before conflict.
 * Refrain from demeaning, discriminatory, or harassing behavior and speech.
-* Be mindful of your surroundings and of your fellow participants. Alert those who are helping you lead the ride if you notice a dangerous situation, someone in distress, or violations of this Code of Conduct, even if they seem inconsequential. Report bad actors who violate the code of conduct to Shift via your ride listing if you are having issues with repeated behavior.
+* Be mindful of your surroundings and of your fellow participants. Alert those who are helping you lead the ride if you notice a dangerous situation, someone in distress, or violations of this Code of Conduct, even if they seem inconsequential. Report bad actors who violate the Code of Conduct to Shift via your ride listing if you are having issues with repeated behavior.
 * Remember that rides are open to everyone and take place in public; please be respectful to all road users, sidewalk users, and those enjoying the public spaces where rides might find themselves.
 * Refrain from insulting, harassing, demeaning, or otherwise with respect to other events and other ride leaders in the community. Report behavior if you see it and do not attack others.
 
-Expected Behavior For Adult (21) Rides:
+Expected behavior for "Adult (21+)" rides:
 
 * If your ride features adult content or behavior (drinking at a bar, visiting a 21+ establishment) you must tag your ride as 21+ to let people know that there is a minimum age for attendance.
 * Make a good faith effort to include applicable trigger warnings for your event, let people know in the description and at the event that there may be: Fireworks, Nudity, Adult Endeavors (like bikeporn or a strip club ride) planned for your ride.
 
-Expected Behavior For Family-Friendly Rides:
+Expected behavior for "Family-Friendly" rides:
 
 * Stay together as a group and follow all traffic safety laws.
 * Helmets are required, by law, for persons under the age of 16 and encouraged for adults.
@@ -63,9 +63,10 @@ The following behaviors are considered harassment and are unacceptable within ou
 * Inappropriate physical contact. You should have someone’s consent before touching them.
 * Unwelcome sexual attention. This includes, sexualized comments or jokes; inappropriate touching, groping, and unwelcome sexual advances.
 * Deliberate intimidation, stalking or following (online or in person).
-* Advocating for, or encouraging, any of the above behavior.
 * Listing fraudulent events or repeatedly failing to show up to events after creation.
-* Sustained disruption of community events, including rides and official Shift events.
+* Sustained disruption of community events or forums, in-person or online.
+* Ignoring or evading a suspension, ban, or other requirement or action established by Shift.
+* Advocating for, or encouraging, any of the above behavior.
 
 ## 5. Weapons Policy
 
@@ -105,13 +106,13 @@ Those who list a ride on the Shift calendar as well as the ride leaders, if not 
 
 ## 10. Scope
 
-We expect all community participants (contributors, paid or otherwise; sponsors; and other guests) to abide by this Code of Conduct in all official Shift venues–online and in-person–as well as in all one-on-one communications pertaining to the Shift community.
+We expect all community participants (contributors, paid or otherwise; sponsors; and other guests) to abide by this Code of Conduct in all official Shift venues–online and in-person–as well as in all one-on-one communications pertaining to the Shift community. This includes but is not limited to rides, official Shift events, Shift mailing lists and forums, and Shift social media.
 
-This code of conduct and its related procedures also applies to unacceptable behavior occurring outside the scope of community activities when such behavior has the potential to adversely affect the safety and well-being of community members.
+This Code of Conduct and its related procedures also applies to unacceptable behavior occurring outside the scope of community activities when such behavior has the potential to adversely affect the safety and well-being of community members.
 
 ## 11. Contact Info
 
-Shift board: [bod@shift2bikes.org](mailto:bod@shift2bikes.org)
+Shift board: [board@shift2bikes.org](mailto:board@shift2bikes.org)
 
 Conduct committee: [conduct@shift2bikes.org](mailto:conduct@shift2bikes.org)
 
