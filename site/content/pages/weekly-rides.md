@@ -49,6 +49,15 @@ Explore Beaverton and other westside locations by bike. If you're coming from Po
 
 More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsidewednesdayride/)
 
+### Bike Happy Hour
+* Every Wednesday
+* Starting location: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road)
+
+Not a ride itself, but a great place to hang out with other bike-y folks. Come by 3pm to 6pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Name tags are encouraged as well; see Jonathan Maus or another Happy Hour Ambassador if you need one. Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun!
+
+More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikehappyhour)
+
+
 ## Thursday
 
 ### Thursday Night Ride (TNR)
