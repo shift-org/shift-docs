@@ -23,7 +23,7 @@ approx. April–early May
 * Set the real image in the pp-header banner
 * Add promo banner on add/edit form
 * Un-comment the promo banner on `site/content/pages/pedalpalooza.md`; update the year.
-* In `site/themes/s2b_hugo_theme/layouts/partials/pp_header.html`, update the `if eq (.Param "year")` statement to include the current year.
+* In `site/themes/s2b_hugo_theme/layouts/partials/pp_header.html`, update the `if eq (.Param "year")` statement to include the current year. Also un-hide the "add your rides now" CTA and adjust it for the current year.
 
 
 ### Closer to the start
@@ -48,3 +48,4 @@ September or later
 * Add the just-finished festival to the Pedalpalooza Archives page; get the total count of published, uncanceled rides
 * Hide Pedalpalooza carousel item
 * Remove promo banner from regular events page and from add/edit form
+* Hide the "add your rides now" CTA from `pp_header.html`
