@@ -37,6 +37,7 @@ menu:
 * **[BikePortland.org](https://bikeportland.org/)** is an independent news source that covers the Portland bike scene.
 * **[KBOO Bike Show](https://kboo.fm/program/bike-show)** is a monthly show presenting news and views of cycling in Portland and beyond. It broadcasts live on KBOO 90.7 FM once a month, and it's available as a podcast at [BikeShow.PortlandTransport.com](http://bikeshow.portlandtransport.com/).
 * **[Sprocket Podcast](http://thesprocketpodcast.com/)** is a Portland-based podcast about all sorts of bike-y things. [Subscribe](https://sprocketpodcast.blubrry.com/subscribe-to-podcast/)
+* **[Filmed By Bike](https://filmedbybike.org/)** is a touring film festival that features the world’s best bike movies, founded in Portland in 2003 by Ayleen Crotty.
 * **[Bike Stuff PDX](https://www.youtube.com/c/BikeStuffPDX)** creates videos about human powered transportation, available on YouTube.
 * **[Warpaint Magazine](https://www.warpaintmag.co/)** highlights Black, Indigenous, and People Of Color that are athletes in outdoor sports as well as community organizers that are doing their part to introduce BIPOC people to outdoor sports.
 
