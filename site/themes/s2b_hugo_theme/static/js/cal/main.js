@@ -33,6 +33,7 @@ $(document).ready(function() {
                 }
 
                 value.audienceLabel = container.getAudienceLabel(value.audience);
+                value.areaLabel = container.getAreaLabel(value.area);
                 value.mapLink = container.getMapLink(value.address);
 
                 if ( 'show_details' in options && options['show_details'] == true ) {

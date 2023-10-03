@@ -1,18 +1,44 @@
 (function($) {
 
     $.fn.getAudienceLabel = function(audience) {
-         if (audience == null) {
-             return null;
-         }
-
-         if (audience == "A") {
-             return "21+ Only";
-         } else if (audience == "F") {
-             return "Family Friendly";
-         } else {
-           //no label needed for general (G) or any other value
-           return null;
+        if (audience == null) {
+            return null;
         }
+
+        if (audience == "A") {
+            return "21+ Only";
+        } else if (audience == "F") {
+            return "Family Friendly";
+        } else {
+            //no label needed for general (G) or any other value
+            return null;
+        }
+    };
+
+    $.fn.getAreaLabel = function(area) {
+        if (area == null) {
+            return null;
+        }
+
+        switch (area) {
+          case 'V':
+              return "Vancouver";
+              break;
+          case 'W':
+              return "Westside";
+              break;
+          case 'E':
+              return "Outer East";
+              break;
+          case 'C':
+              return "Clackamas";
+              break;
+          case 'P':
+              // no label needed for Portland (P)
+          default:
+              return null;
+        }
+
     };
 
     $.fn.getMapLink = function(address) {
