@@ -92,6 +92,7 @@ function upload_attached_file($event, $messages) {
             global $IMAGEDIR;
             $file = $uploader->move($IMAGEDIR, 'file');
             $event->setImage($file->getName());
+            $event->imageChanged = true;
         }
     }
     return $messages;
