@@ -60,11 +60,19 @@ More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikeha
 
 ## Thursday
 
+### Ride Safe PDX
+* Every Thursday
+* Starting location: Colonel Summers Park
+
+A weekly ride led by Ride Safe PDX, a group aiming to make Portland rides safer from harassment. Theme, route, and playlist will change weekly, but every ride will have a store stop, safe people to help with any issues, and clear expectations of consent and respect. Every Thursday ride will be a loop (ends where it started). Free Biketown codes available; contact the leaders for details.
+
+More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
+
 ### Thursday Night Ride (TNR)
 * Every Thursday
 * Starting location: Salmon Street Fountain
 
-Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace. All levels welcome — entry level riders encouraged to join.
+Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace.
 
 More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
 
