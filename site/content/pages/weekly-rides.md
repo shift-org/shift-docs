@@ -68,6 +68,7 @@ A weekly ride led by Ride Safe PDX, a group aiming to make Portland rides safer 
 
 More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
 
+<!--
 ### Thursday Night Ride (TNR)
 * Every Thursday
 * Starting location: Salmon Street Fountain
@@ -75,6 +76,7 @@ More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
 Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace.
 
 More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
+-->
 
 ## Friday
 
