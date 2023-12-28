@@ -12,6 +12,8 @@ weight: "7"
 menu:
   main:
     parent: communitynav
+type: policy
+lastmod: 2023-05-13
 ---
 
 ## Ride safely
@@ -70,5 +72,3 @@ If a ride leader agrees to follow these specific guidelines, a special marker wi
 If you have questions or concerns about the safety policies for a ride, past or upcoming, reach out to the ride leaders or [contact us](/pages/contact/). Shift reserves the right to moderate calendar listings, and this may include removing the COVID Safety Plan designation from a ride if we are aware that it does not follow this policy.
 
 Please note: These guidelines have changed over time as conditions and public health guidelines have evolved. For past rides, refer to the [page history](https://github.com/shift-org/shift-docs/commits/main/site/content/pages/public-health.md) on GitHub to determine the version of policies in place at that time.
-
-*Last updated: May 2023*
