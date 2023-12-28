@@ -227,7 +227,7 @@ function build_json_response() {
     // after everything else has finished:
     // email the organizer about new events.
     if (!$existed) {
-        $event->emailSecret();
+        $event->sendConfirmationEmail();
     }
     
     // finally, return a summary of the Event and its EventTime(s).
