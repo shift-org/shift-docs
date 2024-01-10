@@ -38,7 +38,7 @@
             areas = [{code: 'P', text: 'Portland'},
                      {code: 'V', text: 'Vancouver'},
                      {code: 'W', text: 'Westside'},
-                     {code: 'E', text: 'Outer East'},
+                     {code: 'E', text: 'East Portland'},
                      {code: 'C', text: 'Clackamas'}];
 
         shiftEvent.lengthOptions = [];

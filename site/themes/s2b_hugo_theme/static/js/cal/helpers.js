@@ -28,7 +28,7 @@
               return "Westside";
               break;
           case 'E':
-              return "Outer East";
+              return "East Portland";
               break;
           case 'C':
               return "Clackamas";

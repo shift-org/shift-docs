@@ -291,10 +291,10 @@ h3 {
     text-decoration: underline;
 }
 
-.location .area {
+.area {
     background: #FCFAF2;
     color: #663300;
-    padding: 2px 4px;
+    padding: 2px 4px 2px 0;
     border: 1px solid #FFDD66;
     border-radius: 2px;
     display: inline-block;
