@@ -121,6 +121,26 @@
         if (shiftEvent.published) {
           $('.published-save-button').show();
           $('.duplicate-button').show();
+
+          // show the user's selected image after they select it:
+          // first, attach to the input button.
+          $('#image').on("change", function(evt) {
+            const img = $("img.event-image"); // the actual img element
+            const input = evt.target;
+            const file = input.files && input.files[0];
+            // was a file selected and is it an okay size?
+            if (!file || (file.size > 1024*1024*2)) {
+              // worst comes to worst, it will show an broken image
+              // which the user would also see as an error.
+              img.attr("src", "/img/cal/icons/image.svg");
+            } else {
+              const reader = new FileReader();
+              reader.onload = function(next) {
+                img.attr("src", next.target.result);
+              };
+              reader.readAsDataURL(file);
+            }
+          });
         }
 
         $('.save-button, .publish-button').click(function() {
@@ -235,7 +255,15 @@
         $(document).off('click', '.preview-button')
             .on('click', '.preview-button', function(e) {
             previewEvent(shiftEvent, function(eventHTML) {
-                $('#mustache-html').append(eventHTML);
+                // first, find the edit image
+                const img = $(".event-image");
+                // render the new html preview:
+                const out = $('#mustache-html');
+                out.append(eventHTML);
+                // copy the image source from the edit image to the preview:
+                const imgPreview = out.find('img.lazy');
+                imgPreview.attr("src", img.attr("src"));
+                imgPreview.removeClass("lazy");
             });
         });
 
