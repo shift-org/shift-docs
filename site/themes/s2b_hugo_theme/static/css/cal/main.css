@@ -292,11 +292,7 @@ h3 {
 }
 
 .area {
-    background: #FCFAF2;
-    color: #663300;
     padding: 2px 4px 2px 0;
-    border: 1px solid #FFDD66;
-    border-radius: 2px;
     display: inline-block;
     width: auto;
     margin: 0.25em 0;
