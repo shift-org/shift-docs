@@ -303,6 +303,18 @@
             previewEvent['displayEndTime'] = moment(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
         }
 
+        // set values for print contact fields if enabled
+        var printContactFields = [ 'email', 'phone', 'contact', 'weburl' ];
+        printContactFields.forEach((field) => {
+            previewEvent[`printpreview${field}`] = $(`#print${field}`).is(":checked") ? $(`#${field}`).val() : null;
+        });
+
+        // clear private fields if hidden
+        var privateContactFields = [ 'email', 'phone', 'contact' ];
+        privateContactFields.forEach((field) => {
+            previewEvent[`${field}`] = $(`#hide${field}`).is(":checked") ? null : $(`#${field}`).val();
+        });
+
         previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
         previewEvent['length'] += ' miles';
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
