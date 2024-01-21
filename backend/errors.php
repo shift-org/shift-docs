@@ -10,8 +10,8 @@
  * See also:
  *  addevent.js
  */
-function text_error($message) {
-    http_response_code(400);
+function text_error($message, $status_code=400) {
+    http_response_code($status_code);
     return array(
         'error' => array(
             'message' => $message
@@ -30,8 +30,8 @@ function text_error($message) {
  *    }
  *  }
  */
-function field_error($messages) {
-    http_response_code(400);
+function field_error($messages, $status_code=400) {
+    http_response_code($status_code);
     return array(
         'error' => array(
             'message' => 'There were errors in your fields',
