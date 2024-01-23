@@ -21,3 +21,9 @@ $IMAGEURL = "/eventimages";
 $SITENAME = "SHIFT to Bikes";
 
 $ORIGIN = "*";
+
+$EMAIL_FROM = "bikefun@shift2bikes.org";
+$EMAIL_SUPPORT = "bikecal@shift2bikes.org";
+$EMAIL_MODERATOR = "shift-event-email-archives@googlegroups.com";
+
+$HELP_PAGE = $PROTOCOL . $HOST . "/pages/calendar-faq/";

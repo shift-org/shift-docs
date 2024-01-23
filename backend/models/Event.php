@@ -178,21 +178,25 @@ class Event extends fActiveRecord {
         $this->setPassword(md5(drupal_random_bytes(32)));
     }
 
-    public function sendConfirmationEmail() {
+    private function getSecretUrl() {
         global $PROTOCOL, $HOST, $PATH;
+
         $base = $PROTOCOL . $HOST . $PATH;
         $base = trim($base, '/'); // remove trailing slashes
-
-        $from_email = "bikefun@shift2bikes.org";
-        $support_email = "bikecal@shift2bikes.org";
-        $moderator_email = "shift-event-email-archives@googlegroups.com";
 
         $event_id = $this->getId();
         $secret = $this->getPassword();
         $secret_url = $base . "/addevent/edit-" . $event_id . "-" . $secret;
 
-        $headers = "From: " . $from_email . "\r\n";
-        $headers .= "Reply-To: " . $support_email . "\r\n";
+        return $secret_url;
+    }
+
+    public function sendConfirmationEmail() {
+        global $EMAIL_FROM, $EMAIL_SUPPORT, $EMAIL_MODERATOR;
+        global $HELP_PAGE;
+
+        $headers = "From: " . $EMAIL_FROM . "\r\n";
+        $headers .= "Reply-To: " . $EMAIL_SUPPORT . "\r\n";
 
         $subject = "Shift2Bikes Secret URL for " . $this->getTitle();
 
@@ -202,17 +206,21 @@ class Event extends fActiveRecord {
         $message .= "Thank you for adding your event, " . $this->getTitle();
         $message .= ", to the Shift Calendar. To activate the event listing, you must visit the confirmation link below and publish it:";
         $message .= $blank_line;
-        $message .= $secret_url;
+        $message .= $this->getSecretUrl();
         $message .= $blank_line;
         $message .= "This link is like a password. Anyone who has it can delete and change your event. Please keep this email so you can manage your event in the future.";
+        $message .= $blank_line;
+        $message .= "If you need help with your listing, please refer to " . $HELP_PAGE . " or email " . $EMAIL_SUPPORT . ".";
         $message .= $blank_line;
         $message .= "Bike on!";
         $message .= $blank_line;
         $message .= "-Shift";
 
+        # send mail to the event organizer
         mail($this->getEmail(), $subject, $message, $headers);
+
         # send backup copy for debugging and/or moderating
-        mail($moderator_email, $subject, $message, $headers);
+        mail($EMAIL_MODERATOR, $subject, $message, $headers);
     }
 
     public function isPublished() {
