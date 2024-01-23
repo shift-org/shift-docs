@@ -254,21 +254,17 @@
 
           <p class="description">[[details]]</p>
 
-          [[^hideemail]]
           [[#email]]
           <p class="contactInfo">
             <a href="mailto:[[email]]"><svg class="icon" role="img" aria-label="Email"><use href="#icon-email" /><title>Email</title></svg> [[email]]</a>
           </p>
           [[/email]]
-          [[/hideemail]]
 
-          [[^hidephone]]
           [[#phone]]
           <p class="contactInfo">
             <a href="tel:[[phone]]"><svg class="icon" role="img" aria-label="Phone"><use href="#icon-phone" /><title>Phone</title></svg> [[phone]]</a>
           </p>
           [[/phone]]
-          [[/hidephone]]
 
           [[ #weburl ]]
           <p class="contactInfo">
@@ -280,7 +276,6 @@
           </p>
           [[ /weburl ]]
 
-          [[^hidecontact]]
           [[#contact]]
 
           [[#contactLink]]
@@ -299,7 +294,6 @@
           [[/contactLink]]
 
           [[/contact]]
-          [[/hidecontact]]
 
           <div class="eventlink">
             <p class="facebook-share">
@@ -333,14 +327,14 @@
           <ul>
             <li>title: [[tinytitle]]</li>
             <li>description: [[printdescr]]</li>
-            <li>contact info:</li>
-            <ul>
-              <li>[[organizer]]</li>
-              [[# printemail]]<li>[[email]]</li>[[/ printemail]]
-              [[# printphone]]<li>[[phone]]</li>[[/ printphone]]
-              [[# printweburl]]<li>[[weburl]]</li>[[/ printweburl]]
-              [[# printcontact]]<li>[[contact]]</li>[[/ printcontact]]
-            </ul>
+            <li>contact info:
+              <ul>
+                <li>[[organizer]]</li>
+                [[# printpreviewemail]]<li>[[printpreviewemail]]</li>[[/ printpreviewemail]]
+                [[# printpreviewphone]]<li>[[printpreviewphone]]</li>[[/ printpreviewphone]]
+                [[# printpreviewweburl]]<li>[[printpreviewweburl]]</li>[[/ printpreviewweburl]]
+                [[# printpreviewcontact]]<li>[[printpreviewcontact]]</li>[[/ printpreviewcontact]]
+              </ul>
             </li>
           </ul>
           [[/preview]]
