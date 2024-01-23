@@ -36,7 +36,10 @@
                          {code: 'G', text: 'General. For adults, but kids welcome.'},
                          {code: 'A', text: '21+ only.'}],
             areas = [{code: 'P', text: 'Portland'},
-                {code: 'V', text: 'Vancouver'}];
+                     {code: 'V', text: 'Vancouver'},
+                     {code: 'W', text: 'Westside'},
+                     {code: 'E', text: 'East Portland'},
+                     {code: 'C', text: 'Clackamas'}];
 
         shiftEvent.lengthOptions = [];
         for ( i = 0; i < lengths.length; i++ ) {

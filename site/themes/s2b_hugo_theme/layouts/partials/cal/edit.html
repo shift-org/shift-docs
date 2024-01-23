@@ -251,6 +251,15 @@
           <div class="panel-body">
 
             <div class="form-group">
+              <label class="control-label" for="area">Area</label>
+              <select name="area" class="form-control" id="area">
+                [[# areaOptions ]]
+                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
+                [[/ areaOptions ]]
+              </select>
+            </div>
+
+            <div class="form-group">
               <label class="control-label req-label" for="venue">Location name</label>
               <input type="text" class="form-control" name="venue" id="venue" value="[[venue]]" required="true" aria-invalid="false" />
             </div>
@@ -279,15 +288,6 @@
               <label class="control-label optional-label" for="locend">End location details</label>
               <input type="text" class="form-control" name="locend" id="locend" value="[[locend]]" aria-describedby="locend-help" />
               <p class="input-help" id="locend-help">Your event's end location, if known.</p>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label" for="area">Area</label>
-              <select name="area" class="form-control" id="area">
-                [[# areaOptions ]]
-                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
-                [[/ areaOptions ]]
-              </select>
             </div>
 
             <div class="form-group">

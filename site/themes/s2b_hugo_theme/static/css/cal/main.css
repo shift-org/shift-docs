@@ -291,6 +291,13 @@ h3 {
     text-decoration: underline;
 }
 
+.area {
+    padding: 2px 4px 2px 0;
+    display: inline-block;
+    width: auto;
+    margin: 0.25em 0;
+}
+
 .summary {
     padding-left: 10px;
     border-left: 1px solid grey;
