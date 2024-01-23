@@ -48,7 +48,7 @@ Success:
 * each event object: key-value pairs of all available public fields; does not contain any private fields (use `manage_event` endpoint for those)
 * when using `id` parameter, array is expected to return 1 object; if the ID does not match a known event, you will receive a `200` response with an empty `events` array
 
-Example response:
+Example response for a single event:
 
     {
       "events": [
@@ -89,6 +89,32 @@ Example response:
           "endtime": "20:00:00"
         }
       ]
+    }
+
+Example response for a range of events: 
+
+    {
+      "events": [
+        {
+          "id": "1234",
+          ...
+        },
+        {
+          "id": "1236",
+          ...
+        },
+        {
+          "id": "2200",
+          ...
+        }
+      ], 
+      "pagination": {
+        "start": "2024-07-01",
+        "end": "2024-07-11",
+        "range": 10,
+        "events": 3,
+        "next": "https://www.shift2bikes.org/api/events.php?startdate=2024-07-12&enddate=2024-07-22"
+      }
     }
 
 Errors:
