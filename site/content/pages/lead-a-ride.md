@@ -6,8 +6,7 @@ menu:
         parent: communitynav
 ---
 
-**Please read our [Public health](/pages/public-health/) page** for info on riding safely during this public health crisis.
-
+**Please read our [Public health](/pages/public-health/) page** for info on riding safely during the pandemic and beyond.
 
 ----
 
