@@ -7,7 +7,7 @@ Universal is a clean and stylish website template built with Bootstrap. It stand
 
 This Hugo theme was ported from [Bootstrapious](http://bootstrapious.com/p/universal-business-e-commerce-template) for training and fun. It has a very nice and customizable landing page, a comments system by Disqus, site search by Google, contact forms by Formspree, Google Analytics, and optional widgets for the sidebar.
 
-![screenshot](https://raw.githubusercontent.com/devcows/hugo-universal-theme/master/images/screenshot.png)
+[![screenshot](./images/readme/screenshot-tn.png)](./images/readme/screenshot.png)
 
 
 ## Table of Contents

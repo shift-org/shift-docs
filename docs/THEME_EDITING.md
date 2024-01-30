@@ -3,8 +3,8 @@
       Important: changes can't be done in the Public directory.
       See section below for more details. 
 
-##How the theme works
-The theme is a [Hugo](https://gohugo.io/) theme ([Universal](https://themes.gohugo.io/hugo-universal-theme/) is the name of the particular one we chose). All of the edits related to the theme and it's content are done in **shift-docs/site**.
+## How the theme works
+The theme is a [Hugo](https://gohugo.io/) theme ([Universal](https://themes.gohugo.io/hugo-universal-theme/) is the name of the particular one we chose). All of the edits related to the theme and its content are done in **shift-docs/site**.
 
 Here's an overview of the sub-directories: 
 - **Archetypes:** TO BE VERIFIED. 
@@ -46,12 +46,13 @@ Here's an overview of the sub-directories:
     - Static: various color themes that were available. style.default.css is the one that was used by this project and minor changes were added to another CSS filed named custom.css (themes/s2b_hugo_theme/static/css)
 
 
-####Definition of terms used in this document
+#### Definition of terms used in this document
 1. navbar items
 2. children of navbar items
 3. External link icon (icon name: external-link-alt_Font)
 4. home logo
-![](../site/static/images/THEME_editing_terms.png)
+
+![annotated screenshot of homepage showing 4 items above](../site/static/images/THEME_editing_terms.png)
 
 ## Navbar items & children
 The navbar items (dropdown) are defined in shift-docs/site/config.toml. On 01/03/19 they are: Calendar, Featured Events, Community and About.
@@ -60,7 +61,7 @@ The navbar items (dropdown) are defined in shift-docs/site/config.toml. On 01/03
 - The double square brackets are TO BE VERIFIED. 
 - A name is given to the item below the **[[menu.main]]** and a weight (order in which it will show up). 
 	 
-###Children of navbar items (dropdowns)
+### Children of navbar items (dropdowns)
 They start with a comment **#Child of calendar** for clarity. After the comment, we use the **[[menu.main]]**, as with the parent. 
 
 We have defined 2-3 properties for the children: **URL**, **parent** and **identifier**. 
