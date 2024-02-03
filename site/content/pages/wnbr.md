@@ -1,10 +1,10 @@
 ---
-title: "World Naked Bike Ride"
+title: World Naked Bike Ride
 draft: false
 weight: 5
 menu:
-    main:
-        parent: featuredevents
+  main:
+    parent: featuredevents
 ---
 
 ## Around the world
@@ -28,3 +28,8 @@ In any given year, PDX WNBR is usually the largest organized point-to-point bike
 * Facebook: [PDX.WNBR](https://www.facebook.com/PDX.WNBR)
 * Twitter: [@pdxwnbr](https://twitter.com/pdxwnbr)
 * Email: [pdxwnbr@gmail.com](mailto:pdxwnbr@gmail.com)
+
+## Support
+
+Help make it happen! [Donate to support PDXWNBR](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HYGT4BR38SRDW) or [volunteer](https://pdxwnbr.org/volunteer/).
+

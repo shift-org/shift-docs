@@ -49,15 +49,34 @@ Explore Beaverton and other westside locations by bike. If you're coming from Po
 
 More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsidewednesdayride/)
 
+### Bike Happy Hour
+* Every Wednesday
+* Starting location: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road)
+
+Not a ride itself, but a great place to hang out with other bike-y folks. Come by 3pm to 6pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Name tags are encouraged as well; see Jonathan Maus or another Happy Hour Ambassador if you need one. Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun!
+
+More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikehappyhour)
+
+
 ## Thursday
 
+### Ride Safe PDX
+* Every Thursday
+* Starting location: Colonel Summers Park
+
+A weekly ride led by Ride Safe PDX, a group aiming to make Portland rides safer from harassment. Theme, route, and playlist will change weekly, but every ride will have a store stop, safe people to help with any issues, and clear expectations of consent and respect. Every Thursday ride will be a loop (ends where it started). Free Biketown codes available; contact the leaders for details.
+
+More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
+
+<!--
 ### Thursday Night Ride (TNR)
 * Every Thursday
 * Starting location: Salmon Street Fountain
 
-Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace. All levels welcome — entry level riders encouraged to join.
+Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace.
 
 More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
+-->
 
 ## Friday
 
@@ -95,6 +114,7 @@ Second Sunday Funday ride every month — each month is led by a different Corvi
 
 More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
 
+<!--
 ### Say Hi Sundays
 * 1st, 3rd, and 5th Sunday of every month
 * Starting location: Buckman Elementary School, by the covered basketball court
@@ -102,6 +122,7 @@ More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@
 For those who want an excuse to talk to strangers — introduce yourself to at least one new person! Ride itself will be a social pace, and under 10 miles. End locations will have a covered area so the group can hang out and get to know each other, even during the inevitable rain.
 
 More info: [@sabspalooza (Sabrina) on Instagram](http://instagram.com/sabspalooza/)
+-->
 
 ### Zoo Bomb
 * Every Sunday

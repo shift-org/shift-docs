@@ -3,6 +3,7 @@
 // Represents a single repeatable event occuring at one set time on one or more days.
 // Maps to the mysql 'calevent' table. 
 class Event extends fActiveRecord {
+
     // returns a summary of this event, suitable for use in a json response.
     // by default, excludes any details the organizer has marked as "private.
     // ( ex. email, phone, and contact info )
@@ -10,6 +11,7 @@ class Event extends fActiveRecord {
         /*
         id:
         title:
+        
         (different table!) date:
         venue:
         address:
@@ -18,6 +20,7 @@ class Event extends fActiveRecord {
         details:
         length:
         */
+        $duration = $this->getEventduration();
         $details = array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
@@ -35,10 +38,13 @@ class Event extends fActiveRecord {
             'locdetails' => $this->getLocdetails(),
             'loopride' => $this->getLoopride() != 0,
             'locend' => $this->getLocend(),
-            'eventduration' => $this->getEventduration() != null && $this->getEventduration() > 0 ? $this->getEventduration() : null,
+            'eventduration' => ($duration != null && $duration > 0) ? $duration: null,
             'weburl' => $this->getWeburl(),
             'webname' => $this->getWebname(),
-            'image' => $this->getImageUrl(),
+            // fix? it feels wrong to "store()" on "get()"
+            // are there any entries in the existing data that arent in the right place?  
+            // if they are all ok, then maybe toArray() could avoid calling this.
+            'image' => $this->updateImageUrl(true),
             'audience' => $this->getAudience(),
             //'printevent' => $this->getPrintevent(),
             'tinytitle' => $this->getTinytitle(),
@@ -50,7 +56,7 @@ class Event extends fActiveRecord {
             'printphone' => $this->getPrintphone() != 0,
             'printweburl' => $this->getPrintweburl() != 0,
             'printcontact' => $this->getPrintcontact() != 0,
-            'published' => $this->getHidden() == 0,
+            'published' => $this->isPublished(),
             'safetyplan' => $this->getSafetyplan() != 0,
         );
 
@@ -61,14 +67,20 @@ class Event extends fActiveRecord {
         return $details;
     }
 
+    // return the specified Event, or null if no such event was found.
+    public static function getByID($id) {
+        try {
+            return new Event($id);
+        } catch (fNotFoundException $e) {
+            return null;
+        }
+    }
+
     // load an Event and set its fields from the passed input.
     public static function fromArray($input) {
         $event = null;
         if (array_key_exists('id', $input)) {
-            try {
-                // get event by id
-                $event = new Event($input['id']);
-            } catch (fExpectedException $e) {}
+            $event = Event::getByID($input['id']);
         }
         if ($event == null) {
             $event = new Event();
@@ -117,47 +129,41 @@ class Event extends fActiveRecord {
         return $event;
     }
 
-    public function updateExistingEventTimes($dateStatuses) {
-        foreach ($this->buildEventTimes('id') as $eventTime) {
-            // For all existing EventTimes in the db
-            // Delete or update
-            $eventTime->matchToDateStatus($dateStatuses);
-        }
-
-        // Flourish is suck. I can't figure out the "right" way to do one-to-many cause docs are crap
-        // This clears a cache that causes subsequent operations (buildEventTimes) to return stale data
-        $this->related_records = array();
-    }
-
-    public function addEventTime($dateStatus) {
-        EventTime::createNewEventTime($this->getId(), $dateStatus);
-    }
-
-    private function getDates() {
+    // cancel all occurrences of this event, and make it inaccessible to the organizer.
+    public function deleteEvent() {
         $eventTimes = $this->buildEventTimes('id');
-        $eventDates = [];
         foreach ($eventTimes as $eventTime) {
-            $eventDates []= $eventTime->getFormattedDate();
+            $eventTime->deleteOccurrence();
         }
-        return $eventDates;
+        // setting 'E' excludes the event from getRangeVisible()
+        $this->setReview('E');
+        $this->setPassword(""); 
+        $this->storeChange();
     }
 
     private function getEventDateStatuses() {
-        $eventTimes = $this->buildEventTimes('id');
         $eventDateStatuses = array();
+        $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
-            $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+            // dont send soft deleted events to the client.
+            // tdb: is there someway to filter this via buildEventTimes()?
+            if (!$eventTime->getDeleted()) {
+                $eventDateStatuses []= $eventTime->getFormattedDateStatus();
+            }
         }
         return $eventDateStatuses;
     }
 
     // return a summary of the Event and all its EventTime(s)
-    // optionally, pass a precached list of times.
-    public function toDetailArray($include_private=false) {
+    // optionally, pass a prebuilt list of formatted times.
+    public function toDetailArray($include_private=false, $eventTimes=null) {
         // first get the data into an array
         $detailArray = $this->toArray($include_private);
         // add all times that exist, maybe none.
-        $detailArray["datestatuses"] = $this->getEventDateStatuses();
+        if ($eventTimes === null) {
+            $eventTimes = $this->getEventDateStatuses();
+        }
+        $detailArray["datestatuses"] = $eventTimes;
         // return potentially augmented array
         return $detailArray;
     }
@@ -165,72 +171,147 @@ class Event extends fActiveRecord {
     // if the secret is valid and matches the password of this Event.
     // ( the password of the event is set at creation time, and cleared when 'deleted' )
     public function secretValid($secret) {
-        return $this->getPassword() == $secret;
+        return $secret && ($this->getPassword() == $secret);
     }
 
     private function generateSecret() {
         $this->setPassword(md5(drupal_random_bytes(32)));
     }
 
-    public function emailSecret() {
+    private function getSecretUrl() {
         global $PROTOCOL, $HOST, $PATH;
+
         $base = $PROTOCOL . $HOST . $PATH;
         $base = trim($base, '/'); // remove trailing slashes
 
         $event_id = $this->getId();
         $secret = $this->getPassword();
-        $secret_url = "$base/addevent/edit-$event_id-$secret";
+        $secret_url = $base . "/addevent/edit-" . $event_id . "-" . $secret;
 
-        $headers = 'From: bikefun@shift2bikes.org' . "\r\n" .  'Reply-To: bikefun@shift2bikes.org' . "\r\n";
-        $subject = "Shift2Bikes Secret URL for " . $this->getTitle();
-        $message = "Dear " . $this->getName();
-        $message = $message . ", \r\n\r\nThank you for adding your event, " . $this->getTitle();
-        $message = $message . ", to the Shift Calendar. To activate the event listing, you must visit " . $secret_url . " and publish it.";
-        $message = $message . "\r\n\r\nThis link is like a password. Anyone who has it can delete and change your event. Please keep this email so you can manage your event in the future.";
-        $message = $message . "\r\n\r\nBike on!\r\n\r\n-Shift";
-        mail($this->getEmail(), $subject, $message, $headers);
-	# send backup copy for debugging and/or moderating
-        mail("shift-event-email-archives@googlegroups.com", $subject, $message, $headers);
+        return $secret_url;
     }
 
-    public function unhide() {
+    public function sendConfirmationEmail() {
+        global $EMAIL_FROM, $EMAIL_SUPPORT, $EMAIL_MODERATOR;
+        global $HELP_PAGE;
+
+        $headers = "From: " . $EMAIL_FROM . "\r\n";
+        $headers .= "Reply-To: " . $EMAIL_SUPPORT . "\r\n";
+
+        $subject = "Shift2Bikes Secret URL for " . $this->getTitle();
+
+        $blank_line .= "\r\n\r\n";
+        $message = "Dear " . $this->getName() . ", ";
+        $message .= $blank_line;
+        $message .= "Thank you for adding your event, " . $this->getTitle();
+        $message .= ", to the Shift Calendar. To activate the event listing, you must visit the confirmation link below and publish it:";
+        $message .= $blank_line;
+        $message .= $this->getSecretUrl();
+        $message .= $blank_line;
+        $message .= "This link is like a password. Anyone who has it can delete and change your event. Please keep this email so you can manage your event in the future.";
+        $message .= $blank_line;
+        $message .= "If you need help with your listing, please refer to " . $HELP_PAGE . " or email " . $EMAIL_SUPPORT . ".";
+        $message .= $blank_line;
+        $message .= "Bike on!";
+        $message .= $blank_line;
+        $message .= "-Shift";
+
+        # send mail to the event organizer
+        mail($this->getEmail(), $subject, $message, $headers);
+
+        # send backup copy for debugging and/or moderating
+        mail($EMAIL_MODERATOR, $subject, $message, $headers);
+    }
+
+    public function isPublished() {
+        return $this->getHidden() == 0;
+    }
+
+    public function setPublished() {
         if ($this->getHidden() != 0) {
             $this->setHidden(0);
-            $this->store();
         }
     }
 
-    private function getImageUrl() {
+    // deleted events are marked as 'E' which makes them inaccessible to the front-end
+    // while still showing them on the ical feed ( as canceled. )
+    public function isDeleted() {
+        return $this->getReview() == 'E';
+    }
+
+    // prefer this instead of "store" in most cases.
+    // it updates the sequence counter so ical clients will notice a change in the event.
+    public function storeChange() {
+        $existed = $this->exists();
+        // if the id exists, we can update the image here ( and reduce the calls to store. )
+        if ($existed) {
+            $this->updateImageUrl(false);
+        }
+        $this->setChanges($this->getChanges() + 1);
+        $this->store();
+        // fix? b/c the image path is based on the id:
+        // for new events, this requires a double store(). 
+        if (!$existed) {
+            // oto -- the html says: "To add an image, save and confirm the event first."
+            // so in practice, this will never store an image here.
+            $this->updateImageUrl(true);
+        }
+    }
+
+    // used by manage event to communicate an image was just uploaded
+    // ( so that updateImageUrl can generate a new name )
+    public $imageChanged = false;
+
+    // ensure that the image is stored in the right location, and 
+    // return the path to the image.
+    private function updateImageUrl($storeIfChanged) {
         global $IMAGEDIR;
         global $IMAGEURL;
 
-        $old_name = $this->getImage();
-        if ($old_name == null) {
+        $image_name = $this->getImage();
+        if ($image_name == null) {
             return null;
         }
 
-        $old_path = "$IMAGEDIR/$old_name";
+        // the desired image name includes the event id:
         $id = $this->getId();
+        
+        // if: a new image was uploaded ( see manage_event.php );
+        // or, the "old name" doesn't match the expected format;
+        // or, it looks like the expected format but the id is wrong...
+        // ( in all these cases, we can assume "image name" *is* the filename. )
+        if ($this->imageChanged || 
+            !preg_match('/^(\d+)(-\d+)?\.(\w+)$/', $image_name, $matches) ||
+            ($matches[1] != $id))
+        {
+            // the existing image name always includes the extension:
+            $t = pathinfo($image_name);
+            $ext = $t['extension'];
+        
+            // is the actual file named incorrectly? rename it.
+            // ( ex. after a new upload, the image name is based on the user's filename )
+            $old_path = "$IMAGEDIR/$image_name";
+            $new_path = "$IMAGEDIR/$id.$ext";
+            if ($old_path != $new_path) {
+                // note: rename() stomps over any existing file.
+                if (file_exists($old_path)) {
+                    rename($old_path, $new_path);
+                }
+            }
 
-        // What the name should be
-        $t = pathinfo($old_name);
-        $ext = $t['extension'];
-        $new_name = "$id.$ext";
-
-        if ($old_name !== $new_name) {
-            // Named incorrectly, move, update db, return
-            $new_path = "$IMAGEDIR/$new_name";
-
-            if (file_exists($old_path)) {
-                rename($old_path, $new_path);
-                $this->setImage($new_name);
+            // Name needs updating? store.
+            $sequence = $this->getChanges();
+            $image_name = "$id-$sequence.$ext";
+            $this->setImage($image_name);
+            if ($storeIfChanged) {
                 $this->store();
             }
         }
 
-        return "$IMAGEURL/$new_name";
+        // ex. https://shift2bikes.org/eventimages/9248.png
+        // or, https://shift2bikes.org/eventimages/9248-42.png
+        return "$IMAGEURL/$image_name";
     }
-
 }
 
 fORM::mapClassToTable('Event', 'calevent');

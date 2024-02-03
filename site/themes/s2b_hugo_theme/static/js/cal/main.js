@@ -33,6 +33,7 @@ $(document).ready(function() {
                 }
 
                 value.audienceLabel = container.getAudienceLabel(value.audience);
+                value.areaLabel = container.getAreaLabel(value.area);
                 value.mapLink = container.getMapLink(value.address);
 
                 if ( 'show_details' in options && options['show_details'] == true ) {
@@ -140,10 +141,6 @@ $(document).ready(function() {
             enddate: lastDayOfRange,
             show_details: isExpanded
         }, function (eventHTML) {
-             // don't load alert banner on PP page (it's already inserted elsewhere)
-             if ( !('pp' in options) ) {
-               container.append($('#alert-banner-template').html());
-             }
              // don't load list/grid toggle on PP page (always displays grid)
              if ( !('pp' in options) ) {
                container.append($('#view-as-options').html());
@@ -187,8 +184,6 @@ $(document).ready(function() {
             container.append(eventHTML);
             checkAnchors();
             lazyLoadEventImages();
-            // add alert banner at the bottom of single event listing
-            container.append($('#alert-banner-template').html());
         });
     }
 
@@ -235,9 +230,8 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#feed-sub', function() {
-      var textBox = document.getElementById("feed-url");
-      textBox.select();
-      document.execCommand("copy");
+      var feedUrl = new URL(this.dataset.url);
+      window.open(feedUrl);
     });
 
     $(document).on('click', '#date-picker-prev-month', function(ev) {
