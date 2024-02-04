@@ -13,8 +13,8 @@ module.exports = {
  * See also:
  *  addevent.js
  */
-function textError(res, message="unknown error") {
-  res.status(400).json({ error: {
+function textError(res, message="unknown error", status_code=400) {
+  res.status(status_code).json({ error: {
     message
   }});
 }
@@ -31,8 +31,8 @@ function textError(res, message="unknown error") {
  *    }
  *  }
  */
-function fieldError(res, fields, message = "There were errors in your fields") {
-  res.status(400).json({ error: {
+function fieldError(res, fields, message = "There were errors in your fields", status_code=400) {
+  res.status(status_code).json({ error: {
       message,
       fields,
    }});
