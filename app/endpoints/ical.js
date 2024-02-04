@@ -105,7 +105,7 @@ function buildOne(id) {
 // Promise some good range of past and future events in ical format as a string.
 function buildCurrent() {
   const now = dt.getNow();
-  const started = now.subtract(3, 'month');
+  const started = now.subtract(1, 'month');
   const ended = now.add(3, 'month');
   return CalDaily.getFullRange(started, ended).then((dailies)=>{
     return buildEntries(dailies);
