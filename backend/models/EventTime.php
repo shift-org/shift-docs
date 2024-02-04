@@ -47,7 +47,7 @@ class EventTime extends fActiveRecord {
                 unset($statusMap[$date]);    // remove from the map so we dont create it (below)
                 $out []= $at->getFormattedDateStatus(); // append
             } elseif ($published) {
-                $at->deleteOccurrence(); // calls store() if changed.
+                $at->delistOccurrence(); // calls store() if changed.
                 // dont append this in the response to the user 
                 // if its not in the list they sent us, we dont want to return it.
             } else {
@@ -70,7 +70,7 @@ class EventTime extends fActiveRecord {
             array(
                 'pkid=' => $id,
                 'calevent{id}.hidden!' => 1,  // hidden is 0 once published
-                'eventstatus!' => 'D',        // 'D', deleted, for soft deletion
+                'eventstatus!' => 'D',        // 'D', delisted: removed but not explicitly cancelled.
             )
         );
     }
@@ -98,15 +98,15 @@ class EventTime extends fActiveRecord {
                 'eventdate<=' => $lastDay,
                 'calevent{id}.hidden!' => 1,  // hidden is 0 once published
                 'eventstatus!' => 'S',        // 'S', skipped, a legacy status code.
-                'eventstatus!' => 'D',        // 'D', deleted, for soft deletion
+                'eventstatus!' => 'D',        // 'D', delisted: removed but not explicitly cancelled.
                 'calevent{id}.review!' => 'E' // 'E', excluded, a legacy status code; reused for soft-deletion.
             ), // where
             array('eventdate' => 'asc')  // order by
         );
     }
 
-    // Mark this particular occurrence as cancelled, updating the db.
-    public function deleteOccurrence() {
+    // Mark the day as having been removed from the calendar, and update the db.
+    public function delistOccurrence() {
         if ($this->getEventstatus() !== 'D') {
             $this->setEventstatus('D');
             $this->store();
@@ -187,15 +187,16 @@ class EventTime extends fActiveRecord {
         return "$base/calendar/event-" . $caldaily_id;
     }
 
-    // return true if the event has been soft deleted; false if otherwise.
-    public function getDeleted() {
+    // return true if the occurrence has been removed from the calendar; false otherwise.
+    // ( differentiates between explicitly canceled, and no longer scheduled. )
+  	public function isDelisted() {
         $status = $this->getEventstatus();
         return ($status == 'D');
     }
 
-    // return true if the event has been in any way cancelled; 
-    // false otherwise.
-    public function getCancelled() {
+    // return true if the occurrence has been cancelled or delisted;
+    // false if confirmed.
+    public function isUnscheduled() {
         $status = $this->getEventstatus();
         return ($status == 'C') || ($status == 'D');
     }
@@ -207,7 +208,7 @@ class EventTime extends fActiveRecord {
         $eventArray['date'] = $this->getFormattedDate();
         $eventArray['caldaily_id'] = $this->getPkid();
         $eventArray['shareable'] = $this->getShareable();
-        $eventArray['cancelled'] = $this->getCancelled();
+        $eventArray['cancelled'] = $this->isUnscheduled();
         $eventArray['newsflash'] = $this->getNewsflash();
         $eventArray['endtime'] = $this->getEndTime(
             $eventArray['time'], 

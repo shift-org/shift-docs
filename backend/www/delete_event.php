@@ -46,7 +46,8 @@ function build_json_response() {
         return text_error('Invalid secret, use link from email');
     }
 
-    // if the event was never published, we can delete it completely.
+    // if the event was never published, we can delete it completely;
+    // otherwise, soft delete it.
     if (!$event->isPublished()) {
         try{
             $event->delete();
@@ -56,7 +57,7 @@ function build_json_response() {
         }
     } else {
         try{
-            $event->deleteEvent();
+            $event->softDelete();
         } catch(Exception $ex) {
             error_log("couldn't cancel event " . $ex->getMessage());
             return text_error('Server error');
