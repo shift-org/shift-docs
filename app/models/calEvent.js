@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const knex = require("../knex");
 const { CalDaily } = require("./calDaily");
-const { Area, DatesType } = require("./calConst");
+const { Area, DatesType, Review } = require("./calConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
@@ -150,10 +150,10 @@ const methods =  {
     return endTime = (len > 0) ? start.add(len, 'minute') : start.add(1, 'hour');
   },
 
-  // delete this record and any associated caldaily(s) from the database.
-  // promises the total number of deleted items when done.
-  // NOTE: prefer cancelEvent() so ical subscribers can see that something has changed.
-  deleteEvent() {
+  // remove this record and any associated caldaily(s) from the database.
+  // promises the total number of erased items when done.
+  // NOTE: prefer softDelete() so ical subscribers can see that something has changed.
+  eraseEvent() {
     return knex.del('calevent', 'id', this).then((acnt) => {
         return knex.del('caldaily', 'id', this).then((bcnt) => {
           return acnt + bcnt;
@@ -161,26 +161,20 @@ const methods =  {
     });
   },
 
-  // fix: it'd be better to set event status 'E' and exclude 'E' on appropriate queries.
-  cancelEvent() {
+  // cancel all occurrences of this event, and make it inaccessible to the organizer.
+  softDelete() {
     return CalDaily.getByEventID(this.id).then((dailies) => {
-      return Promise.all( dailies.map(at => at.cancelOccurrence()) ).then(()=> {
-        this.password = "";
+      return Promise.all( dailies.map(at => at.delistOccurrence()) ).then(()=> {
+        this.review = Review.Excluded; // excludes from getRangeVisible
+        this.password = "";            // hides it from future editing
         return this.storeChange();
       });
     });
   },
 
   // promise a summary of the CalEvent and all its CalDaily(s)
-  // optionally, pass a prebuilt list of formatted times.
-  getDetails({includePrivate, statuses} = {}) {
-    // compute the summary of the days if needed:
-    if (statuses == null) {
-      statuses = CalDaily.getByEventID(this.id).then((dailies) => {
-          return dailies.map(at => at.getStatus());
-      });
-    }
-
+  // in the php version, the statuses are optional; it's cleaner here to require them.
+  getDetails(statuses, {includePrivate} = {}) {
     // we either have actual times or promises of them:
     return Promise.resolve(statuses).then((statuses) => {
       const details = this.getJSON({includePrivate});
@@ -215,6 +209,13 @@ const methods =  {
   // requires a call to storeChange()
   setPublished() {
     this.hidden = 0;
+  },
+
+  // soft deleted events are marked as 'E'
+  // that makes them inaccessible to the front-end
+  // while still showing them on the ical feed ( as canceled. )
+  isDeleted() {
+    return this.review == Review.Excluded;
   },
 
   // stores to the db, updating the change counter.

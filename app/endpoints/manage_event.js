@@ -113,9 +113,9 @@ function updateEvent(evt, data) {
       const statuses = dailies.map(at => at.getStatus());
       return q.then(_ => {
         // finally, return a summary of the CalEvent and its CalDaily(s).
-        // passes "true" to include private contact info ( like email, etc. )
+        // includes private contact info ( like email, etc. )
         // ( because this is the organizer saving their event )
-        return evt.getDetails({statuses, includePrivate:true});
+        return evt.getDetails(statuses, {includePrivate:true});
       });
     });
   });

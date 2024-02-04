@@ -28,16 +28,24 @@ describe("retrieving event data for editing", () => {
         done();
       });
   });
-  it("errors on an invalid secret", function(done) {
+  it("private data requires the correct secret", function(done) {
     chai.request( app )
       .get('/api/retrieve_event.php')
       .query({
          id: 2,
-         secret: "to life, etc.",
+         secret: "the incorrect answer to life, the universe, and this event.",
        })
       .end(function (err, res) {
         expect(err).to.be.null;
-        testData.expectError(expect, res);
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        expect(res.body.id).to.equal('2');
+        expect(res.body.email, "email should be private")
+          .to.be.null;
+        expect(res.body.phone, "phone should be private")
+          .to.be.null;
+        expect(res.body.contact, "contact should be private")
+          .to.be.null;
         done();
       });
   });
@@ -54,6 +62,12 @@ describe("retrieving event data for editing", () => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res.body.id).to.equal('2');
+        expect(res.body.email, "b/c of the secret, email should be present")
+          .to.exist;
+        expect(res.body.phone,  "b/c of the secret, phone should be present")
+          .to.exist;
+        expect(res.body.contact,  "b/c of the secret, contact should be present")
+          .to.exist;
         expect(res.body.hideemail, "the test data has the email hidden")
           .to.be.true;
         expect(res.body.email, "b/c of the secret, we should see the email")

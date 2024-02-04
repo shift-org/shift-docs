@@ -107,7 +107,7 @@ function buildCurrent() {
   const now = dt.getNow();
   const started = now.subtract(3, 'month');
   const ended = now.add(3, 'month');
-  return CalDaily.getRangeVisible(started, ended).then((dailies)=>{
+  return CalDaily.getFullRange(started, ended).then((dailies)=>{
     return buildEntries(dailies);
   });
 }
@@ -124,7 +124,7 @@ function buildRange(start, end) {
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
-    return CalDaily.getRangeVisible(started, ended).then((dailies)=>{
+    return CalDaily.getFullRange(started, ended).then((dailies)=>{
       return buildEntries(dailies);
     });
   }
@@ -172,7 +172,7 @@ function buildCalEntry(evt, at) {
       url),
     location: escapeBreak("LOCATION:",
       evt.locname, evt.address, evt.locdetails),
-    status:  at.getCancelled() ? "CANCELLED": "CONFIRMED",
+    status:  at.isUnscheduled() ? "CANCELLED": "CONFIRMED",
     start: dt.icalFormat( startAt ),
     end: dt.icalFormat( endAt ),
     created: dt.icalFormat( evt.created ),

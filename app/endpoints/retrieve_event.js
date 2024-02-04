@@ -1,6 +1,7 @@
 /**
  * Retrieve Event: returns the summary of an event and all of its event times.
- * Used for displaying a ride to its organizer so they can edit the ride.
+ * Currently used only for displaying a ride to its organizer so they can edit the ride.
+ * Could also be used for requesting all days a particular event takes place.
  * Expects an calevent id (and optionally, its matching secret) using url query parameters.
  *
  * For example:
@@ -14,19 +15,26 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
  */
 const { CalEvent } = require("../models/calEvent");
+const { CalDaily } = require("../models/calDaily");
 
 exports.get = function get(req, res, next) {
   let id = req.query.id;
-  let secret = req.query.secret
+  let secret = req.query.secret;
 
-  if (!id || !secret) {
-    res.textError("Request unknown, please use the link from your event email.");
+  if (!id) {
+    res.textError("Request incomplete, please pass an id in the url");
   } else {
     return CalEvent.getByID(id).then((evt) => {
-      if (!evt || !evt.isSecretValid(secret)) {
-        res.textError("Event not found, please use the link from your event email.");
+      if (!evt) {
+        res.textError("Event not found");
+      } else if (evt.isDeleted()) {
+        res.textError("Event was deleted");
       } else {
-        evt.getDetails({includePrivate:true}).then((data)=> {
+        // the php version didnt error on invalid secret;
+        // so this doesnt either ( private data is only returned with a valid secret )
+        const includePrivate = evt.isSecretValid(secret);
+        const statuses = CalDaily.getStatusesByEventId(evt.id);
+        evt.getDetails(statuses, {includePrivate}).then((data)=> {
           res.json(data);
         });
       }

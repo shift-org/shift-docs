@@ -1,5 +1,6 @@
 // some possible tests:
 // - delete an unpublished event.
+// - explicitly cancel an event.
 // - resurrect dates from a canceled event.
 // - test email output.
 // x manage invalid id
@@ -67,7 +68,7 @@ describe("managing events", () => {
         const evt = await CalEvent.getByID(id);
         expect(evt.hidden, "the initial event should be hidden by default")
           .to.equal(1);
-        console.log(res.body);
+        // console.log(res.body);
       });
   });
 
@@ -173,23 +174,20 @@ describe("managing events", () => {
             .to.equal(1);
           expect(data.dailyStore.callCount, "daily store")
             .to.equal(3);
-          // all the dailies for our event:
+          // three dailies for our event are in the db:
           const dailies = await CalDaily.getByEventID(2);
           expect(dailies).to.have.lengthOf(3);
-          expect(dailies[0].getCancelled()).to.be.false;
-          expect(dailies[1].getCancelled()).to.be.true;
-          expect(dailies[2].getCancelled()).to.be.false;
-          // we should get back all of the days.
+          expect(dailies[0].isUnscheduled()).to.be.false;
+          expect(dailies[1].isUnscheduled()).to.be.true;
+          expect(dailies[2].isUnscheduled()).to.be.false;
+          // only two should be in the returned data
+          // ( the second one is delisted; filtered by reconcile )
+          // fix: should add a test for an explicitly canceled day.
           expect(res.body.datestatuses).to.deep.equal([{
               "id": "201",
               "date": "2002-08-01",
               "status": "A",
               "newsflash": null,
-            }, {
-              "id": "202",
-              "date": "2002-08-02",
-              "status": "C",
-              "newsflash": "news flash",
             }, {
               "id": "203", // the new id is one after the last one
               "date": "2002-08-03",
@@ -208,7 +206,8 @@ describe("managing events", () => {
       // get event #2 so we act as if we are a client who just retrieved the data
       // and is posting it back up again, along with the new image.
       return CalEvent.getByID(2).then(evt => {
-        return evt.getDetails({includePrivate:true}).then(eventData => {
+        const statuses = CalDaily.getStatusesByEventId(evt.id);
+        return evt.getDetails(statuses, {includePrivate:true}).then(eventData => {
           const post = Object.assign( {
             secret: testData.secret,
             code_of_conduct: "1",
