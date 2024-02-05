@@ -76,7 +76,7 @@ function to24HourString(d) {
 function fromYMDString(str) {
   // note: if str was undefined, dayjs would return "now()"
   // so pass null on any empty value to generate a '!.isValid()' dayjs object instead.
-  return dayjs(str || null, 'YYYY-MM-DD', true); // strict parsing
+  return dayjs(str || null, 'YYYY-MM-DD', false); // strict parsing
 }
 
 // turn a string formatted as "19:00 PM" into a dayjs object.
