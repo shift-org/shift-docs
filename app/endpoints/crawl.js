@@ -44,9 +44,11 @@ exports.get = function(req, res, next) {
               address: evt.address,
               when : {
                 // ex. "Mon, Aug 8th"
+                // if the eventdate is invalid, the value here is 'null'
                 date: friendlyDate( at.eventdate ),
                 // note: the event time is stored as "19:00:00"
                 // and we want to report it as "7:00 PM"
+                // if the eventtime is invalid, the value here is 'null'
                 time: to12HourString( from24HourString(evt.eventtime) ),
               },
             }));

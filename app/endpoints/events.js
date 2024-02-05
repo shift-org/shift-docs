@@ -101,6 +101,7 @@ function getSummaries(dailies) {
 // this pools the events to avoid multiple queries:
 // so to keep the endtime after each daily, we have to tack it on manually.
 function specialSummary(evt) {
+  // an invalid duration generates a null here; just like the php.
   const endTime = to24HourString(evt.getEndTime());
   return [ evt.getJSON(), endTime ];
 }

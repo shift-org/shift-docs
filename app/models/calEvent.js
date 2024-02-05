@@ -131,6 +131,8 @@ const methods =  {
 
   // return the ending time as a dayjs object; or null.
   // pass an optional dayjs day to compute the time relative to a specific date.
+  // FIX? just like the php version, if the duration is null the end time is null.
+  // this seems wrong to me -- it should probably use the minimum 1 hour duration.
   getEndTime(fromDay = null) {
     let endTime = null;
     const len = this.eventduration;
