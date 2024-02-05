@@ -13,26 +13,33 @@ const validator = require('validator');
 const multer = require('multer');
 
 exports.uploader = {
-  // promises the name of the image file "id.file_extension" after saving it.
-  // from "src" fullpath to "dir" directory
-  write( file, id, dir ) {
-    if (!id) {
-      return Promise.reject(Error("cant store an image without a valid id"));
+  // after successfully saving the file data to the passed directory,
+  // promises a dictionary with the image file name: {name, .ext, path}
+  write( file, name, dir ) {
+    if (!name) {
+      return Promise.reject(Error("cant store an image without a valid name"));
     }
     if (!file) {
       return Promise.reject(Error("no file data specified"));
     }
     const ext = imageTypes[file.mimetype];
     if (!ext) {
-      return Promise.reject(Error("cant store an image without a valid id"));
+      return Promise.reject(Error("cant store an image without a valid extension"));
     }
-    const name = id + ext;             // ex. '7431.jpg'
-    const tgt = path.join(dir, name);  // ex. '/opt/backend/eventimages/7431.jpg'
+    // ex. '/opt/backend/eventimages/7431.jpg'
+    const outpath = path.join(dir, name + ext);
 
-    let q = file.path ? fsp.rename(file.path, tgt) :
-          file.buffer ? fsp.writeFile(tgt, file.buffer) :
+    // file.path indicates a temp file in a temp directory
+    // file.buffer is used if the image contents were uploaded into memory.
+    let q = file.path ? fsp.rename(file.path, outpath) :
+          file.buffer ? fsp.writeFile(outpath, file.buffer) :
           Promise.reject(Error("image has no data"));
-    return q.then(_ => name);
+    // after moving/writing the file, return the name data.
+    return q.then(_ => ({
+      name,
+      ext,
+      path: outpath
+    }));
   },
 
   // generates middleware for express endpoints

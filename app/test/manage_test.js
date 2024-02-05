@@ -27,7 +27,7 @@ const { CalDaily } = require("../models/calDaily");
 const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
-const endpoint = '/api/manage_event.php';
+const manage_api = '/api/manage_event.php';
 
 describe("managing events", () => {
   let data;
@@ -42,7 +42,7 @@ describe("managing events", () => {
   });
   it("errors on an invalid id", function() {
     return chai.request( app )
-      .post(endpoint)
+      .post(manage_api)
       .type('form')
       .send({
         json: JSON.stringify({
@@ -55,7 +55,7 @@ describe("managing events", () => {
   });
   it("creates a new event, using raw json", function(){
     return chai.request( app )
-      .post(endpoint)
+      .post(manage_api)
       .send(eventData)
       .then(async function (res) {
         expect(res).to.have.status(200);
@@ -96,7 +96,7 @@ describe("managing events", () => {
       post[key] = value;
       seq = seq.then(_ => {
         return chai.request( app )
-        .post(endpoint)
+        .post(manage_api)
         .send(post)
         .then(function (res) {
           expect(res, `expected failure for '${key}'`).to.have.status(400);
@@ -111,7 +111,7 @@ describe("managing events", () => {
     return CalEvent.getByID(3).then(evt => {
       expect(evt.isPublished()).to.be.false;
       return chai.request( app )
-        .post(endpoint)
+        .post(manage_api)
         // by adding the id and posting to it, we should be able to publish it.
         .send(Object.assign({
           id: 3,
@@ -128,7 +128,7 @@ describe("managing events", () => {
   });
   it("fails to use an empty secret", function(){
     return chai.request( app )
-      .post(endpoint)
+      .post(manage_api)
       .send(Object.assign({
         id: 3,
         // not sending any secret
@@ -139,7 +139,7 @@ describe("managing events", () => {
   });
   it("fails to use an invalid secret", function(){
     return chai.request( app )
-      .post(endpoint)
+      .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
         secret: testData.secret.split("").reverse().join(""),
@@ -163,7 +163,7 @@ describe("managing events", () => {
       ]}, evt.getJSON({includePrivate:true}));
 
       return chai.request( app )
-        .post(endpoint)
+        .post(manage_api)
         .type('form')
         .send({
           json: JSON.stringify(post)
@@ -200,12 +200,12 @@ describe("managing events", () => {
   });
   it("attaches an image", function(){
     const imageSource = path.join( config.image.dir, "bike.jpg" );
-    const imageTarget = path.join( config.image.dir, "2.jpg" );
+    const imageTarget = path.join( config.image.dir, "3.jpg" );
     // remove any image from earlier tests:
     return fsp.rm(imageTarget, {force:true}).then(_ => {
-      // get event #2 so we act as if we are a client who just retrieved the data
+      // act as if we are a client who just created an event
       // and is posting it back up again, along with the new image.
-      return CalEvent.getByID(2).then(evt => {
+      return CalEvent.getByID(3).then(evt => {
         const statuses = CalDaily.getStatusesByEventId(evt.id);
         return evt.getDetails(statuses, {includePrivate:true}).then(eventData => {
           const post = Object.assign( {
@@ -214,16 +214,24 @@ describe("managing events", () => {
             read_comic: "1",
             }, eventData);
           return chai.request( app )
-            .post(endpoint)
+            .post(manage_api)
             .type('form')
             .field({
               json: JSON.stringify(post)
             })
             .attach('file', imageSource, path.basename(imageSource))
-            .then(function (res) {
+            .then(async function (res) {
               // console.log(res.body);
               expect(res).to.have.status(200);
-              return fsp.stat(imageTarget); // rejects if it doesn't exist.
+              //
+              const evt = await CalEvent.getByID(3);
+              // event creation is change 1,
+              // the image post is change 2,
+              // the event id is 3.
+              expect(evt.image, "image names should have a sequence number")
+                .to.equal("3-2.jpg");
+              //
+              return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
             });
         });
       });
@@ -234,7 +242,7 @@ describe("managing events", () => {
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
     return chai.request( app )
-      .post(endpoint)
+      .post(manage_api)
       .type('form')
       .field({
         json: JSON.stringify(eventData)

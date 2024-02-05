@@ -218,13 +218,18 @@ const methods =  {
     return this.review == Review.Excluded;
   },
 
-  // stores to the db, updating the change counter.
+  // store to the db, updating the change counter.
   // the counter helps subscribers to the ical feed detect changes.
   // promises to return this record with a valid id.
   storeChange() {
-    // update the change counter, watching out for if it never existed.
-    this.changes = 1 + (this.changes || 0);
+    // update the change counter
+    this.changes = this.nextChange();
     return this._store();
+  },
+
+  // return the change counter of the next call to store()
+  nextChange() { // watch out for if it never existed.
+    return 1 + (this.changes || 0);
   }
 };
 

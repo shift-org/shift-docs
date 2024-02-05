@@ -63,8 +63,15 @@ function handleRequest(req, res, next) {
     } else {
       // save the uploaded file (if any)
       let q = !req.file ? Promise.resolve() :
-        uploader.write( req.file, evt.id, config.image.dir ).then(name => {
-          evt.image = name;
+        // the image gets written to disk as "id.ext"
+        uploader.write( req.file, evt.id, config.image.dir ).then(f => {
+          // the image gets stored in the db as "id-sequence.ext"
+          // the sequence number needs to be different each time we save an image.
+          // this uses the event change counter because its nice and easy.
+          // it could be a timestamp, guid, hash, etc.
+          // ( shift.conf strips off the sequence when the file is requested; see cache_busting.md )
+          const sequence = evt.nextChange();
+          evt.image = `${f.name}-${sequence}${f.ext}`;
         });
       return q.then(_ => {
         return updateEvent(evt, data)
