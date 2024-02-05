@@ -22,10 +22,11 @@ export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
 # by default it is setup to log to file, to see use:
-# ./shift attach php
-# $ tail -f /var/log/shift-mail.log
-# - or -
 # ./shift emails
+# - or -
+# ./shift attach node
+# $ tail -f /var/log/shift-mail.log
+#
 SMTP_HOST=
 SMTP_USER=
 SMTP_PASS=
@@ -139,7 +140,7 @@ sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
 }
 
 sub_emails() { #                  - Show recent emails and update with new ones
-    sub_compose exec php tail -f ${SHIFT_EMAIL_LOG}
+    sub_compose exec node tail -f ${SHIFT_EMAIL_LOG}
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected
