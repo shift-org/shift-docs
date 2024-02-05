@@ -1,12 +1,15 @@
 /**
- * ical: Return a ical event file containing the latest events, a single event, or a range of events.
+ * ical: Return a ical file containing one or more rides.
  *
- * Optionally can use query parameters to specify an event id, or a start and end time.
- * Times are in YYYY-MM-DD format. If no parameters are specified, it returns the "all events" feed.
+ * With no parameters, the file will contain a window of rides centered on the current day.
+ * The parameter 'id' returns all of the days for that ride;
+ * 'startdate' and 'enddate' (in YYYY-MM-DD format) returns a custom range of rides;
+ * 'filename' customizes the name of the generated file ( the default name is in config.js. )
  *
  *   https://localhost:4443/api/ical.php
  *   https://localhost:4443/api/ical.php?id=998
  *   https://localhost:4443/api/ical.php?startdate=2023-05-25&enddate=2023-06-25
+ *   https://localhost:4443/api/ical.php?id=13&filename=triskaidekaphobia.ics
  *
  * See also:
  *   AllEvents.md
@@ -31,10 +34,11 @@ function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = req.query.startdate || "";
   const end = req.query.enddate || "";
+  const customName = req.query.filename || "";
 
   return getEventData(id, start, end).then(data => {
     const { filename, events } = data;
-    return respondWith(res, filename, events);
+    return respondWith(res, customName || filename, events);
   }).catch(err => {
     // the code below uses strings for expected errors.
     // ex. a bad range; allow other things to be 500 server errors with stacks.
