@@ -33,8 +33,12 @@ describe("getting events", () => {
       id:999
     }));
   it("errors on an invalid date", expectsError({
-      startdate: "2002/05/06",
-      enddate  : "2002/05/06",
+      // date time formats have been loosened ( #ff5ae63 )
+      // clearly invalid dates are still rejected.
+      startdate: "apple",
+      enddate  : "sauce",
+      // startdate: "2002/05/06",
+      // enddate  : "2002/05/06",
     }));
   it("errors on too large a range", expectsError({
       startdate: "2002-01-01",

@@ -162,11 +162,17 @@ function buildEntries(dailies) {
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
 function buildCalEntry(evt, at) {
-  const startAt = evt.getStartTime(at.eventdate);
+  let startAt = evt.getStartTime(at.eventdate);
+  if (!startAt.isValid()) {
+    // provide a fallback if the start time was invalid
+    // i dont know if this is a real issue, or just test data
+    // php handles this just fine.
+    startAt = dt.combineDateAndTime(at.eventdate, dt.from12HourString("12:00 PM"));
+  }
   const endAt = evt.addDuration(startAt);
   const url = at.getShareable();
   return {
-    uid: "evt-" + at.pkid + "@shift2bikes.org",
+    uid: "event-" + at.pkid + "@shift2bikes.org",
     url,
     summary: escapeBreak("SUMMARY:", evt.title),
     contact: escapeBreak("CONTACT:", evt.name),

@@ -7,11 +7,11 @@ const dayjs = require("dayjs");
 const customParseFormat = require("dayjs/plugin/customParseFormat");
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
-
+const localZone = 'America/Los_Angeles';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
-dayjs.tz.setDefault('America/Los_Angeles');
+dayjs.tz.setDefault(localZone);
 
 module.exports = {
   friendlyDate,     // out: "Mon, Aug 8th"
@@ -43,10 +43,18 @@ function friendlyDate(d) {
 
 // format a Date or dayjs in an ical utc friendly format.
 // returns "null" if the passed date is invalid.
+// note: dayjs theoretically takes into account daylight savings based on the day and month.
 function icalFormat(d) {
-  const out = dayjs(d); // convert or clone as dayjs
-  // note: this takes into account daylight savings based on the day and month.
-  return out.isValid() ? dayjs(out).utc().format('YYYYMMDD[T]HHmmss[Z]') : null;
+  const t = dayjs(d); // convert or clone as dayjs
+ if (!t.isValid()) {
+    return null;
+  } else {
+    // tell dayjs that the time was specified using local time.
+    // ( this matters on docker, but not for npm test; not entirely sure why. )
+    const localTime = t.tz(localZone, true);
+    // shift to utc mode for formatting; otherwise it will use local time.
+    return localTime.utc().format('YYYYMMDD[T]HHmmss[Z]');
+  }
 }
 
 // format a Date or dayjs in YYYY-MM-DD format ( ex. 2006-01-02 )

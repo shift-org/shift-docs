@@ -146,7 +146,6 @@ class CalDaily {
   static getForTesting(pkid) {
     return knex
       .query('caldaily')
-      .join('calevent', 'caldaily.id', 'calevent.id')
       .where('pkid', pkid)
       .first()
       .then(function(at) {
@@ -160,9 +159,9 @@ class CalDaily {
   static getByDailyID(pkid) {
     return knex
       .query('caldaily')
-      .join('calevent', 'caldaily.id', 'calevent.id')
+      .join('calevent', 'caldaily.id', 'calevent.id') // join for hidden test.
       .where('pkid', pkid)
-      .whereNot('hidden', 1) // hidden is 0 once published
+      .whereNot('hidden', 1) // calevent.hidden is 0 once published
       .whereNot('eventstatus', EventStatus.Delisted)
       .first()
       .then(function(at) {
