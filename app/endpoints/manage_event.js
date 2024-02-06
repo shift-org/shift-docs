@@ -116,7 +116,7 @@ function updateEvent(evt, data) {
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
       // email the organizer about new events.
       // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
-      let q = !existed ? emailSecret(evt) : Promise.resolve();
+      let q = !existed ? sendConfirmationEmail(evt) : Promise.resolve();
       const statuses = dailies.map(at => at.getStatus());
       return q.then(_ => {
         // finally, return a summary of the CalEvent and its CalDaily(s).
@@ -130,29 +130,30 @@ function updateEvent(evt, data) {
 
 // promises a sent email
 // evt is a CalEvent.
-function emailSecret(evt) {
+function sendConfirmationEmail(evt) {
   const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
   const subject = `Shift2Bikes Secret URL for ${evt.title}`;
+
+  const support= config.email.support;
   const body = nunjucks.render('email.njk', {
     organizer: evt.name,
     title: evt.title,
     url,
+    help: config.site.helpPage(),
+    support: support.address || support, // a string or object
   });
   return emailer.sendMail({
     subject,
     text: body,
-    // html
-    // attachments
     to: {
       name: evt.name,
       address: evt.email,
     },
-    from: {
-      name: 'SHIFT to Bikes',
-      address: 'bikefun@shift2bikes.org'
-    },
-    // send backup copy for debugging and/or moderating
-    bcc: "shift-event-email-archives@googlegroups.com",
+    from: config.email.sender,
+    replyTo: config.email.support,
+    bcc: config.email.moderator, // backup copy for debugging and/or moderating
+    // html
+    // attachments
   });
 }
 
