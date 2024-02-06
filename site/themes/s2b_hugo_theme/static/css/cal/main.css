@@ -217,6 +217,10 @@ svg.icon {
     max-width: 980px;
 }
 
+#alert-banner p:last-child {
+    margin-bottom: 0;
+}
+
 .location {
     overflow-wrap: break-word;
 }
@@ -285,6 +289,13 @@ h3 {
 .time .safety-plan a {
     color: #663300;
     text-decoration: underline;
+}
+
+.area {
+    padding: 2px 4px 2px 0;
+    display: inline-block;
+    width: auto;
+    margin: 0.25em 0;
 }
 
 .summary {

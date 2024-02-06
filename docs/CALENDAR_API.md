@@ -48,7 +48,7 @@ Success:
 * each event object: key-value pairs of all available public fields; does not contain any private fields (use `manage_event` endpoint for those)
 * when using `id` parameter, array is expected to return 1 object; if the ID does not match a known event, you will receive a `200` response with an empty `events` array
 
-Example response:
+Example response for a single event:
 
     {
       "events": [
@@ -89,6 +89,32 @@ Example response:
           "endtime": "20:00:00"
         }
       ]
+    }
+
+Example response for a range of events: 
+
+    {
+      "events": [
+        {
+          "id": "1234",
+          ...
+        },
+        {
+          "id": "1236",
+          ...
+        },
+        {
+          "id": "2200",
+          ...
+        }
+      ], 
+      "pagination": {
+        "start": "2024-07-01",
+        "end": "2024-07-11",
+        "range": 10,
+        "events": 3,
+        "next": "https://www.shift2bikes.org/api/events.php?startdate=2024-07-12&enddate=2024-07-22"
+      }
     }
 
 Errors:
@@ -297,3 +323,44 @@ Example error:
         "message": "Invalid secret, use link from email"
       }
     }
+
+----
+
+## Changelog
+
+### v1
+
+* 1.0.0: From Shift formation (c. 2002) until v2 (mid-2017)
+
+There were undoubtedly revisions during this time, but changelog documentation is not available.
+
+
+### v2
+
+* 2.0.0: (2017-06-09) Launch of the `/fun` mobile-friendly calendar view, added to the existing PHP-based site
+
+As with v1, there were probably revisions to v2 during this time, but changelog documentation is not available.
+
+
+### v3
+
+* 3.0.0: (2019-03-14) Launch of Hugo-based site; the API is now fully separated from the front-end
+* 3.0.1: (2019-03-25) Fixed ICS export
+* 3.0.2: (2019-04-01) Events and ICS endpoint documentation
+* 3.1.0: (2019-04-11) Maximum day range (45 days) for Events endpoint
+* 3.2.0: (2020-02-02) Added more details to ICS export
+* 3.2.1: (2020-04-23) Added temporary blanket cancellation to Events endpoint
+* 3.2.2: (2020-05-21) Bug fixes and documentation for the Retrieve Event
+* 3.3.0: (2020-05-30) Hidden events are excluded from the Events and Crawl endpoints; added error checks on Crawl endpoint; error handling and documentation for Delete Event endpoint
+* 3.4.0: (2020-06-05) Publishing an event requires second post to Manage Event endpoint
+* 3.4.1: (2020-06-07) Updated blanket cancellation date on Events endpoint
+* 3.4.2: (2020-08-13) Removed blanket cancellation from Events endpoint
+* 3.5.0: (2021-03-28) Print details are no longer required to submit an event
+* 3.6.0: (2021-04-21) Increased max day range on Events endpoint to 100 days, to accommodate 3-month Pedalpalooza
+* 3.7.0: (2021-05-19) Added "loop ride" and "location end details" fields
+* 3.8.0: (2021-05-28) Added "COVID safety plan" field
+* 3.9.0: (2023-05-11) iCal feed improvements: better handling of cancelled or deleted events; adds more info to each event
+* 3.9.1: (2023-05-16) Bug fix for soft deleting event occurrences
+* 3.9.2: (2023-05-18) Better enforcement of max image size
+* 3.10.0: (2023-10-09) Cache busting for updated event images
+* 3.11.0: (2024-01-22) New values for Area field (Westside, East Portland, Clackamas); added pagination object to Events endpoint response when requesting a range of events

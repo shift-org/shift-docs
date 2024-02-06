@@ -1,12 +1,15 @@
 /**
- * ical: Return a ical event file containing the latest events, a single event, or a range of events.
+ * ical: Return a ical file containing one or more rides.
  *
- * Optionally can use query parameters to specify an event id, or a start and end time.
- * Times are in YYYY-MM-DD format. If no parameters are specified, it returns the "all events" feed.
+ * With no parameters, the file will contain a window of rides centered on the current day.
+ * The parameter 'id' returns all of the days for that ride;
+ * 'startdate' and 'enddate' (in YYYY-MM-DD format) returns a custom range of rides;
+ * 'filename' customizes the name of the generated file ( the default name is in config.js. )
  *
  *   https://localhost:4443/api/ical.php
  *   https://localhost:4443/api/ical.php?id=998
  *   https://localhost:4443/api/ical.php?startdate=2023-05-25&enddate=2023-06-25
+ *   https://localhost:4443/api/ical.php?id=13&filename=triskaidekaphobia.ics
  *
  * See also:
  *   AllEvents.md
@@ -31,10 +34,11 @@ function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = req.query.startdate || "";
   const end = req.query.enddate || "";
+  const customName = req.query.filename || "";
 
   return getEventData(id, start, end).then(data => {
     const { filename, events } = data;
-    return respondWith(res, filename, events);
+    return respondWith(res, customName || filename, events);
   }).catch(err => {
     // the code below uses strings for expected errors.
     // ex. a bad range; allow other things to be 500 server errors with stacks.
@@ -105,9 +109,9 @@ function buildOne(id) {
 // Promise some good range of past and future events in ical format as a string.
 function buildCurrent() {
   const now = dt.getNow();
-  const started = now.subtract(3, 'month');
+  const started = now.subtract(1, 'month');
   const ended = now.add(3, 'month');
-  return CalDaily.getRangeVisible(started, ended).then((dailies)=>{
+  return CalDaily.getFullRange(started, ended).then((dailies)=>{
     return buildEntries(dailies);
   });
 }
@@ -124,7 +128,7 @@ function buildRange(start, end) {
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
-    return CalDaily.getRangeVisible(started, ended).then((dailies)=>{
+    return CalDaily.getFullRange(started, ended).then((dailies)=>{
       return buildEntries(dailies);
     });
   }
@@ -158,11 +162,17 @@ function buildEntries(dailies) {
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
 function buildCalEntry(evt, at) {
-  const startAt = evt.getStartTime(at.eventdate);
+  let startAt = evt.getStartTime(at.eventdate);
+  if (!startAt.isValid()) {
+    // provide a fallback if the start time was invalid
+    // i dont know if this is a real issue, or just test data
+    // php handles this just fine.
+    startAt = dt.combineDateAndTime(at.eventdate, dt.from12HourString("12:00 PM"));
+  }
   const endAt = evt.addDuration(startAt);
   const url = at.getShareable();
   return {
-    uid: "evt-" + at.pkid + "@shift2bikes.org",
+    uid: "event-" + at.pkid + "@shift2bikes.org",
     url,
     summary: escapeBreak("SUMMARY:", evt.title),
     contact: escapeBreak("CONTACT:", evt.name),
@@ -172,7 +182,7 @@ function buildCalEntry(evt, at) {
       url),
     location: escapeBreak("LOCATION:",
       evt.locname, evt.address, evt.locdetails),
-    status:  at.getCancelled() ? "CANCELLED": "CONFIRMED",
+    status:  at.isUnscheduled() ? "CANCELLED": "CONFIRMED",
     start: dt.icalFormat( startAt ),
     end: dt.icalFormat( endAt ),
     created: dt.icalFormat( evt.created ),

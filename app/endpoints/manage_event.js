@@ -63,8 +63,15 @@ function handleRequest(req, res, next) {
     } else {
       // save the uploaded file (if any)
       let q = !req.file ? Promise.resolve() :
-        uploader.write( req.file, evt.id, config.image.dir ).then(name => {
-          evt.image = name;
+        // the image gets written to disk as "id.ext"
+        uploader.write( req.file, evt.id, config.image.dir ).then(f => {
+          // the image gets stored in the db as "id-sequence.ext"
+          // the sequence number needs to be different each time we save an image.
+          // this uses the event change counter because its nice and easy.
+          // it could be a timestamp, guid, hash, etc.
+          // ( shift.conf strips off the sequence when the file is requested; see cache_busting.md )
+          const sequence = evt.nextChange();
+          evt.image = `${f.name}-${sequence}${f.ext}`;
         });
       return q.then(_ => {
         return updateEvent(evt, data)
@@ -109,13 +116,13 @@ function updateEvent(evt, data) {
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
       // email the organizer about new events.
       // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
-      let q = !existed ? emailSecret(evt) : Promise.resolve();
+      let q = !existed ? sendConfirmationEmail(evt) : Promise.resolve();
       const statuses = dailies.map(at => at.getStatus());
       return q.then(_ => {
         // finally, return a summary of the CalEvent and its CalDaily(s).
-        // passes "true" to include private contact info ( like email, etc. )
+        // includes private contact info ( like email, etc. )
         // ( because this is the organizer saving their event )
-        return evt.getDetails({statuses, includePrivate:true});
+        return evt.getDetails(statuses, {includePrivate:true});
       });
     });
   });
@@ -123,29 +130,30 @@ function updateEvent(evt, data) {
 
 // promises a sent email
 // evt is a CalEvent.
-function emailSecret(evt) {
+function sendConfirmationEmail(evt) {
   const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
   const subject = `Shift2Bikes Secret URL for ${evt.title}`;
+
+  const support= config.email.support;
   const body = nunjucks.render('email.njk', {
     organizer: evt.name,
     title: evt.title,
     url,
+    help: config.site.helpPage(),
+    support: support.address || support, // a string or object
   });
   return emailer.sendMail({
     subject,
     text: body,
-    // html
-    // attachments
     to: {
       name: evt.name,
       address: evt.email,
     },
-    from: {
-      name: 'SHIFT to Bikes',
-      address: 'bikefun@shift2bikes.org'
-    },
-    // send backup copy for debugging and/or moderating
-    bcc: "shift-event-email-archives@googlegroups.com",
+    from: config.email.sender,
+    replyTo: config.email.support,
+    bcc: config.email.moderator, // backup copy for debugging and/or moderating
+    // html
+    // attachments
   });
 }
 

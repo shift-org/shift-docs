@@ -33,8 +33,12 @@ describe("getting events", () => {
       id:999
     }));
   it("errors on an invalid date", expectsError({
-      startdate: "2002/05/06",
-      enddate  : "2002/05/06",
+      // date time formats have been loosened ( #ff5ae63 )
+      // clearly invalid dates are still rejected.
+      startdate: "apple",
+      enddate  : "sauce",
+      // startdate: "2002/05/06",
+      // enddate  : "2002/05/06",
     }));
   it("errors on too large a range", expectsError({
       startdate: "2002-01-01",
@@ -62,6 +66,8 @@ describe("getting events", () => {
             .to.be.true;
           expect(evt.email, "with no secret the email should be nil")
             .to.be.null;
+          expect(res.body.pagination, "only ranges should have pagination")
+            .to.be.undefined;
         }
         done();
       });
@@ -77,6 +83,7 @@ describe("getting events", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        // console.log(res.body);
         if (expect(res.body.events).to.have.lengthOf(2)) {
           const evt = res.body.events[0];
           expect(evt.id).to.equal('2');
@@ -85,6 +92,13 @@ describe("getting events", () => {
             .to.be.true;
           expect(evt.email, "with no secret the email should be nil")
             .to.be.null;
+          expect(res.body.pagination, "range should have pagination")
+            .to.exist;
+          const page = res.body.pagination;
+          expect(page.events).to.equal(2);
+          expect(page.start).to.equal('2002-08-01');
+          expect(page.end).to.equal('2002-08-02');
+          expect(page.next).to.match(/\?startdate=2002-08-03&enddate=2002-08-04$/);
         }
         done();
       });

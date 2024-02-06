@@ -36,7 +36,10 @@
                          {code: 'G', text: 'General. For adults, but kids welcome.'},
                          {code: 'A', text: '21+ only.'}],
             areas = [{code: 'P', text: 'Portland'},
-                {code: 'V', text: 'Vancouver'}];
+                     {code: 'V', text: 'Vancouver'},
+                     {code: 'W', text: 'Westside'},
+                     {code: 'E', text: 'East Portland'},
+                     {code: 'C', text: 'Clackamas'}];
 
         shiftEvent.lengthOptions = [];
         for ( i = 0; i < lengths.length; i++ ) {
@@ -121,6 +124,26 @@
         if (shiftEvent.published) {
           $('.published-save-button').show();
           $('.duplicate-button').show();
+
+          // show the user's selected image after they select it:
+          // first, attach to the input button.
+          $('#image').on("change", function(evt) {
+            const img = $("img.event-image"); // the actual img element
+            const input = evt.target;
+            const file = input.files && input.files[0];
+            // was a file selected and is it an okay size?
+            if (!file || (file.size > 1024*1024*2)) {
+              // worst comes to worst, it will show an broken image
+              // which the user would also see as an error.
+              img.attr("src", "/img/cal/icons/image.svg");
+            } else {
+              const reader = new FileReader();
+              reader.onload = function(next) {
+                img.attr("src", next.target.result);
+              };
+              reader.readAsDataURL(file);
+            }
+          });
         }
 
         $('.save-button, .publish-button').click(function() {
@@ -156,6 +179,10 @@
                     if (!isNew) {
                       $('#success-message').text('Your event has been updated!');
                       $('#success-modal').modal('show');
+                      // update the image in case it was changed.
+                      let imgDisplay = $('div.image-display').find('a');
+                      imgDisplay.attr("href", returnVal.image);
+                      imgDisplay.find("img").attr("src", returnVal.image);
                     } else {
                         let newUrl = 'event-submitted';
                         history.pushState({}, newUrl, newUrl);
@@ -170,12 +197,33 @@
                     shiftEvent.id = returnVal.id;
                 },
                 error: function(returnVal) {
-                    var err = returnVal.responseJSON
-                                ? returnVal.responseJSON.error
-                                : { message: 'Server error saving event!' },
-                        okGroups,
-                        errGroups;
+                    var err, okGroups, errGroups;
 
+                    // get the error message:
+                    if (returnVal.responseJSON) {
+                      err = returnVal.responseJSON.error;
+                    } else if (returnVal.status === 413) {
+                      // 413 - "Request Entity Too Large" gets sent by nginx above its client_max_body_size;
+                      // so the error message sent by flourish.
+                      err = {
+                        message: 'There were errors in your fields',
+                        fields: {
+                          file: 'The file uploaded is over the limit of 2.0 M',
+                        }
+                      };
+                    } else {
+                      err = {
+                       message: 'Server error saving event!'
+                      };
+                    }
+                    // munge the "file" errors to be "image" errors
+                    // so that the error message shows on proper line.
+                    // tbd: we also change this in manage_event.php
+                    if (err.fields && err.fields.file && !err.fields.image) {
+                      err.fields.image = err.fields.file;
+                    }
+
+                    // process the errors:
                     $('.save-result').addClass('text-danger').text(err.message);
 
                     $.each(err.fields, function(fieldName, message) {
@@ -210,7 +258,15 @@
         $(document).off('click', '.preview-button')
             .on('click', '.preview-button', function(e) {
             previewEvent(shiftEvent, function(eventHTML) {
-                $('#mustache-html').append(eventHTML);
+                // first, find the edit image
+                const img = $(".event-image");
+                // render the new html preview:
+                const out = $('#mustache-html');
+                out.append(eventHTML);
+                // copy the image source from the edit image to the preview:
+                const imgPreview = out.find('img.lazy');
+                imgPreview.attr("src", img.attr("src"));
+                imgPreview.removeClass("lazy");
             });
         });
 
@@ -249,6 +305,18 @@
             previewEvent['endtime'] = endTime; // e.g. 18:00
             previewEvent['displayEndTime'] = moment(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
         }
+
+        // set values for print contact fields if enabled
+        var printContactFields = [ 'email', 'phone', 'contact', 'weburl' ];
+        printContactFields.forEach((field) => {
+            previewEvent[`printpreview${field}`] = $(`#print${field}`).is(":checked") ? $(`#${field}`).val() : null;
+        });
+
+        // clear private fields if hidden
+        var privateContactFields = [ 'email', 'phone', 'contact' ];
+        privateContactFields.forEach((field) => {
+            previewEvent[`${field}`] = $(`#hide${field}`).is(":checked") ? null : $(`#${field}`).val();
+        });
 
         previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
         previewEvent['length'] += ' miles';

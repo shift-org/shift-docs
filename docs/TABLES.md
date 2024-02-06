@@ -11,6 +11,10 @@ See also:
   - **modified**, timestamp:
 
     ex. 2022-10-01 19:41:25
+    
+  - **changes** int
+  
+    sequential counter indicated the number of time the organizer has changed the event. used primarily for the calendar feed so that ical clients will notice when changes to the event have occurred. also used for event image cache busting.
 
   - **name** string
 

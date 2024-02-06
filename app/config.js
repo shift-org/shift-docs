@@ -38,7 +38,23 @@ const config = {
     url(...parts) {
      const base = `${siteHost}${config.site.path}`;
      return base + parts.join("/");
-    }
+    },
+    helpPage() {
+      return config.site.url("pages/calendar-faq/");
+    },
+  },
+  // various useful email addresses
+  // ( for sendConfirmationEmail() )
+  // https://nodemailer.com/message/addresses/
+  email: {
+    sender: {
+      name: 'SHIFT to Bikes',
+      address: 'bikefun@shift2bikes.org'
+    },
+    // the confirmation emailer sets this as the reply-to
+    support: "bikecal@shift2bikes.org",
+    // the confirmation emailer blind copies this address
+    moderator: "shift-event-email-archives@googlegroups.com",
   },
   image: {
     // storage location for images:

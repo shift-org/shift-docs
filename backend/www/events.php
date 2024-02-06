@@ -52,18 +52,36 @@ function daysInRange($startdate, $enddate) {
     return round(($enddate / $days) - ($startdate / $days));
 }
 
+function getPagination($firstDay, $lastDay, $count) {
+    $range = daysInRange($firstDay, $lastDay);
+    $pagination = [ 
+        'start' => date("Y-m-d", $firstDay),
+        'end' => date("Y-m-d", $lastDay),
+        'range' => $range,
+        'events' => $count,
+    ];
+
+    $nextRangeStart = date('Y-m-d', strtotime("+" . $range+1 . " days", $firstDay));
+    $nextRangeEnd = date('Y-m-d', strtotime("+" . $range+1 . " days", $lastDay));
+
+    global $PROTOCOL, $HOST;
+    $data = [
+        'startdate' => $nextRangeStart,
+        'enddate' => $nextRangeEnd,
+    ];
+    $pagination['next'] = $PROTOCOL . $HOST . "/api/events.php?" . http_build_query($data); 
+
+    return $pagination;
+}
+
 if ($enddate < $startdate) {
-    http_response_code(400);
     $message = "enddate: " . date('Y-m-d', $enddate) . " is before startdate: " . date('Y-m-d', $startdate);
-    $json['error'] = array(
-        'message' => $message
-    );
+    $json = text_error( $message );
+    
 } elseif (daysInRange($startdate, $enddate) > 100) {
-    http_response_code(400);
     $message = "event range too large: " . daysInRange($startdate, $enddate) . " days requested; max 100 days";
-    $json['error'] = array(
-        'message' => $message
-    );
+    $json = text_error( $message );
+
 } else {
     $json['events'] = array();
 
@@ -72,6 +90,7 @@ if ($enddate < $startdate) {
     }
     else {
         $events = EventTime::getRangeVisible($startdate, $enddate);
+        $json['pagination'] = getPagination($startdate, $enddate, count($events));
     }
 
     foreach ($events as $eventTime) {

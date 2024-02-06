@@ -19,16 +19,18 @@ const DatesType = Object.freeze({
 });
 
 // CalDaily.eventstatus enum.
+// the status of a single instance of an event on a given day.
 const EventStatus = Object.freeze({
   Active    : 'A',
-  Cancelled : 'C',
-  Skipped   : 'S' // legacy value
+  Cancelled : 'C', // explicitly marked as canceled by the owner.
+  Delisted  : 'D', // the day has been removed without being explicitly canceled.
+  Skipped   : 'S', // legacy value.
 });
 
-// legacy CalEvent.review enum.
+// CalEvent.review enum.
 const Review = Object.freeze({
   Inspect   : 'I',
-  Excluded  : 'E',
+  Excluded  : 'E', // legacy; reused for "soft deleting" already published events.
   Approved  : 'A',
   SentEmail : 'S',
   Revised   : 'R',
@@ -36,4 +38,3 @@ const Review = Object.freeze({
 
 //
 module.exports = { Area, Audience, DatesType, EventStatus, Review };
-

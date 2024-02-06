@@ -28,12 +28,12 @@ module.exports = {
 
     const dailyStore = sinon.spy(CalDaily.methods, '_store')
     const eventStore = sinon.spy(CalEvent.methods, '_store')
-    const eventDeletions = sinon.spy(CalEvent.methods, 'deleteEvent');
+    const eventErasures = sinon.spy(CalEvent.methods, 'eraseEvent');
 
     return {
       dailyStore,
       eventStore,
-      eventDeletions
+      eventErasures
     }
   },
 };

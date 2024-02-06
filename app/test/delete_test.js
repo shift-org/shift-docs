@@ -9,7 +9,7 @@ const { CalDaily } = require("../models/calDaily");
 
 chai.use(require('chai-http'));
 const expect = chai.expect;
-const endpoint = '/api/delete_event.php';
+const delete_api = '/api/delete_event.php';
 
 describe("event cancellation using a form", () => {
   // spies on data storage:
@@ -27,7 +27,7 @@ describe("event cancellation using a form", () => {
   // test:
   it("fails on an invalid id", function(done) {
     chai.request( app )
-      .post(endpoint)
+      .post(delete_api)
       .type('form')
       .send({
         json: JSON.stringify({
@@ -42,7 +42,7 @@ describe("event cancellation using a form", () => {
   });
   it("fails on an incorrect password", function(done) {
     chai.request( app )
-      .post(endpoint)
+      .post(delete_api)
       .type('form')
       .send({
         json: JSON.stringify({
@@ -58,15 +58,15 @@ describe("event cancellation using a form", () => {
   });
   it("succeeds with a valid id and secret", async function() {
     const e0 = await CalEvent.getByID(2);
-    const d1 = await CalDaily.getByDailyID(201);
-    const d2 = await CalDaily.getByDailyID(202);
+    const d1 = await CalDaily.getForTesting(201);
+    const d2 = await CalDaily.getForTesting(202);
 
     expect(e0.password).to.not.be.empty;
     expect(d1.eventstatus).to.equal('A');
     expect(d2.eventstatus).to.equal('A');
 
     return chai.request( app )
-      .post(endpoint)
+      .post(delete_api)
       .type('form')
       .send({
         json: JSON.stringify({
@@ -81,12 +81,14 @@ describe("event cancellation using a form", () => {
         expect(data.dailyStore.callCount).to.equal(2);
 
         const e0 = await CalEvent.getByID(2);
-        const d1 = await CalDaily.getByDailyID(201);
-        const d2 = await CalDaily.getByDailyID(202);
+        const d1 = await CalDaily.getForTesting(201);
+        const d2 = await CalDaily.getForTesting(202);
 
+        // the days of deleted events are marked with D
+        // to distinguish them from individually canceled events.
         expect(e0.password).to.be.empty;
-        expect(d1.eventstatus).to.equal('C');
-        expect(d2.eventstatus).to.equal('C');
+        expect(d1.eventstatus).to.equal('D');
+        expect(d2.eventstatus).to.equal('D');
       });
   });
 });
@@ -104,15 +106,15 @@ describe("event cancellation using json", () => {
   });
   it("succeeds", async function() {
     const e0 = await CalEvent.getByID(2);
-    const d1 = await CalDaily.getByDailyID(201);
-    const d2 = await CalDaily.getByDailyID(202);
+    const d1 = await CalDaily.getForTesting(201);
+    const d2 = await CalDaily.getForTesting(202);
 
     expect(e0.password).to.not.be.empty;
     expect(d1.eventstatus).to.equal('A');
     expect(d2.eventstatus).to.equal('A');
 
     return chai.request( app )
-      .post(endpoint)
+      .post(delete_api)
       // .type('form') ... intentionally send not as a form
       .send({
         id: 2,
@@ -123,21 +125,23 @@ describe("event cancellation using json", () => {
         expect(res).to.be.json;
         expect(data.eventStore.callCount).to.equal(1);
         expect(data.dailyStore.callCount).to.equal(2);
-        expect(data.eventDeletions.callCount).to.equal(0);
+        expect(data.eventErasures.callCount).to.equal(0);
 
         const e0 = await CalEvent.getByID(2);
-        const d1 = await CalDaily.getByDailyID(201);
-        const d2 = await CalDaily.getByDailyID(202);
+        const d1 = await CalDaily.getForTesting(201);
+        const d2 = await CalDaily.getForTesting(202);
 
+        // the days of deleted events are marked with D
+        // to distinguish them from individually canceled events.
         expect(e0.password).to.be.empty;
-        expect(d1.eventstatus).to.equal('C');
-        expect(d2.eventstatus).to.equal('C');
+        expect(d1.eventstatus).to.equal('D');
+        expect(d2.eventstatus).to.equal('D');
       });
   });
 
   it("deletes unpublished events", function(done) {
     chai.request( app )
-      .post(endpoint)
+      .post(delete_api)
       .send({
         id: 3,
         secret: testData.secret,
@@ -146,7 +150,7 @@ describe("event cancellation using json", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(data.eventDeletions.callCount).to.equal(1);
+        expect(data.eventErasures.callCount).to.equal(1);
         done();
       });
   });

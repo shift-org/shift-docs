@@ -6,7 +6,7 @@
   </div>
   <button type="button" aria-expanded="true" class="expand-details" data-toggle-target="#pp-description">
     <svg class="icon expand" role="img" aria-hidden="true">
-      <use xlink:href="#icon-arrow-down" />
+      <use href="#icon-arrow-down" />
     </svg>
     <span>About Pedalpalooza</span>
   </button>
@@ -16,8 +16,9 @@
       {{ if or (eq (.Param "year") 2021) (eq (.Param "year") 2022) (eq (.Param "year") 2023) }}
       <p>Bike Summer will be <strong>three whole months</strong> of fun on two wheels. 
 
+      <!-- 
       {{ if eq (.Param "year") 2023 }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a>{{ end }}
-
+      -->
 
       Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, check out the <a href="/pages/calendar-faq/">calendar FAQ</a> or <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
 
@@ -35,6 +36,8 @@
           <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate to Shift</span></a>
         </p>
       </div>
+
+<!--       {{ partial "cal/pp-merch.html" . }} -->
 
       {{ end }}
 

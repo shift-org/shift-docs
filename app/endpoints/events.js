@@ -23,10 +23,12 @@
  * See also:
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
  */
-const { fromYMDString, to24HourString } = require("../util/dateTime");
+const config = require("../config");
+const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 
+// the events endpoint:
 exports.get = function(req, res, next) {
   let id = req.query.id;
   let start = req.query.startdate;
@@ -34,14 +36,20 @@ exports.get = function(req, res, next) {
   if (id && start && end) {
     res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
   } else if (id) {
-    return CalDaily.getByDailyID(id).then((at) => {
-      if (!at) {
+    // return the summary of a particular daily event:
+    return CalDaily.getByDailyID(id).then((daily) => {
+      if (!daily) {
         res.textError("no such time");
       } else  {
-        return renderDailies(res,[at]);
+        return getSummaries([daily]).then((events) => {
+          res.json({
+            events
+          });
+        });
       }
     }).catch(next);
   } else {
+    // return a range of dailies between two times:
     start = fromYMDString(start);
     end = fromYMDString(end);
     if (!start.isValid() || !end.isValid()) {
@@ -53,20 +61,18 @@ exports.get = function(req, res, next) {
       } else if (range > 100) {
         res.textError(`event range too large: ${range} days requested; max 100 days`);
       } else {
-        return CalDaily.getRangeVisible(start, end)
-          .then((ds) => renderDailies(res,ds))
-          .catch(next);
+        return CalDaily.getRangeVisible(start, end).then((dailies) => {
+          return getSummaries(dailies).then((events) => {
+            const pagination = getPagination(start, end, events.length);
+            res.json({
+              events,
+              pagination,
+            });
+          });
+        }).catch(next);
       }
     }
   }
-}
-
-function renderDailies(res, dailies) {
-  return getSummaries(dailies).then((summaries) => {
-    res.json({
-      events: summaries
-    });
-  });
 }
 
 // promise an array containing json-friendly summaries of all the passed CalDaily(s)
@@ -95,6 +101,35 @@ function getSummaries(dailies) {
 // this pools the events to avoid multiple queries:
 // so to keep the endtime after each daily, we have to tack it on manually.
 function specialSummary(evt) {
+  // an invalid duration generates a null here; just like the php.
   const endTime = to24HourString(evt.getEndTime());
   return [ evt.getJSON(), endTime ];
+}
+
+// expects days are dayjs objects
+// and count is the number of events between the two
+function getPagination(firstDay, lastDay, count) {
+  const range = lastDay.diff(firstDay, 'day');
+  const nextRangeStart = firstDay.add(range + 1, 'day');
+  const nextRangeEnd = lastDay.add(range + 1, 'day');
+  const next = getEventRangeUrl(nextRangeStart, nextRangeEnd);
+
+  return {
+    start: toYMDString(firstDay),
+    end: toYMDString(lastDay),
+    range, // tbd: do we need to send this? can client determine from start, end?
+    events: count,
+    next,
+  };
+}
+
+// return a url endpoint which requests the events
+// between the passed start and end dayjs values
+function getEventRangeUrl(start, end) {
+  const startdate = toYMDString( start );
+  const enddate = toYMDString( end );
+  // the start and end, filtered through date formatting
+  // should be safe to use as is, otherwise see: encodeURIComponent()
+  return config.site.url("api",
+    `events.php?startdate=${startdate}&enddate=${enddate}`);
 }

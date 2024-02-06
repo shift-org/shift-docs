@@ -4,6 +4,7 @@ const expect = chai.expect;
 
 describe('date time', () => {
   it('should format ical date times', () => {
+    // april 12th 9:10pm local, should be utc april 13th, 4:10am
     const day = dt.fromYMDString("2023-04-12");
     const time = dt.from12HourString("9:10 PM");
     const when = dt.combineDateAndTime(day, time);

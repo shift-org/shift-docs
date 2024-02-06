@@ -150,8 +150,7 @@ CREATE TABLE IF NOT EXISTS `calevent` (
   `password` varchar(50) DEFAULT NULL,
   `ridelength` varchar(255) DEFAULT NULL,
   `safetyplan` int(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `source` (`source`,`external`)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=8246 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

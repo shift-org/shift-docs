@@ -44,8 +44,9 @@ exports.post = function(req, res, next) {
       return res.textError('Invalid secret, use link from email');
     }
 
-    // delete or cancel, and when done return success.
-    let q = !evt.isPublished() ? evt.deleteEvent() : evt.cancelEvent();
+    // if the event was never published, we can delete it completely;
+    // otherwise, soft delete it.
+    let q = !evt.isPublished() ? evt.eraseEvent() : evt.softDelete();
     q.then((_) => {
       res.json({"success": true})
     }).catch((e) => {
