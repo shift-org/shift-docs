@@ -1,0 +1,13 @@
+- Andrew Kreps set up a new AWS instance running ubuntu 22.04 as 34.220.204.247.  He copied over all the auth from the old server and allowed 
+- fool set up a DNS record for beta.shift2bikes.org pointing to that IP on Netlify's DNS hosting
+- fool installed docker following instructions at https://docs.docker.com/engine/install/ubuntu/ :
+	sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	sudo chmod a+r /etc/apt/keyrings/docker.asc
+	echo \
+	  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+	  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	sudo apt-get update
+	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+- from here we'll iterate from the docker image that fool is working on in the `node-beta` branch of the main repo: https://github.com/shift-org/shift-docs/tree/node-beta
