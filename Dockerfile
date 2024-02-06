@@ -5,17 +5,17 @@ RUN yes | /usr/local/sbin/unminimize
 RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && apt-get install -y manpages mysql-server mysql-client man nodejs nginx git openssl ca-certificates
-# hmm this doesn't seem to show up
-	RUN mkdir -p /opt/shift-docs
-	RUN cd /opt && git clone https://github.com/shift-org/shift-docs
+RUN mkdir -p /opt/shift-docs
+RUN cd /opt && git clone https://github.com/shift-org/shift-docs
 
 ## TODO
+# connect port 443 to nginx in container
 # create less-privileged user to run the server
 	# RUN useradd -ms /bin/bash ubuntu
 	# USER ubuntu
 # set up nginx similarly to prod
-# import data into mysql
+# set up nginx to respond as beta.shift2bikes.org w/letsencrypt
 # clone beta branch instead of main
-# set up on Andrew's new image to respond as beta.shift2bikes.org
+# import data into mysql
 # publish image in docker hub
 # maybe:  RUN rm -rf /var/lib/apt/lists/* (found in the recipe I followed in creating the dockerfile, seems to have 167M of data after above)
