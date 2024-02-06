@@ -5,9 +5,9 @@ RUN yes | /usr/local/sbin/unminimize
 RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && apt-get install -y manpages mysql-server mysql-client man nodejs nginx git openssl ca-certificates
-RUN mkdir -p /opt/shift-docs
-RUN cd /opt && git clone https://github.com/shift-org/shift-docs
-RUN rm -rf /var/lib/apt/lists/*
+# hmm this doesn't seem to show up
+	RUN mkdir -p /opt/shift-docs
+	RUN cd /opt && git clone https://github.com/shift-org/shift-docs
 
 ## TODO
 # create less-privileged user to run the server
@@ -17,3 +17,5 @@ RUN rm -rf /var/lib/apt/lists/*
 # import data into mysql
 # clone beta branch instead of main
 # set up on Andrew's new image to respond as beta.shift2bikes.org
+# publish image in docker hub
+# maybe:  RUN rm -rf /var/lib/apt/lists/* (found in the recipe I followed in creating the dockerfile, seems to have 167M of data after above)
