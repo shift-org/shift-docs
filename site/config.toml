@@ -214,5 +214,5 @@ paginate = 10
 # For search functionality
 
 [outputs]
-# JSON enables lunr.js search functionnality
-home = [ "HTML", "RSS", "JSON"]
+# add "JSON" to enable lunr.js search functionality
+home = [ "HTML", "RSS"]
