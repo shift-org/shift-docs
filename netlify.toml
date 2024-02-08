@@ -8,7 +8,7 @@
   publish = "site/public/"
 
 [build.environment]
-  HUGO_VERSION = "0.37.1"
+  HUGO_VERSION = "0.84.4"
 
 [context.deploy-preview]
   # this command builds draft content for deploy previews
