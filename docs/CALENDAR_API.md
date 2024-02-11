@@ -404,16 +404,19 @@ Success:
 * response body is the same as when submitting a JSON-only request
 
 Errors:
-* status code: `400`
+* status code: `400` or `413`
 * possible errors
-  * unsupported file type
-  * file size too large
+  * unsupported file type (`400`)
+  * file size too large (`413`)
 
 Example error:
 
     {
       "error": {
-        "message": "The file uploaded is not an image"
+        "message": "There were errors in your fields",
+        "fields": {
+          "file": "The file uploaded is not an image"
+        }
       }
     }
 
