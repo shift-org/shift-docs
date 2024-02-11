@@ -373,9 +373,8 @@ Errors:
 * status code: `400`
 * possible errors
   * no request body or not parseable JSON
-  * required fields not included
+  * required field was not included, or has invalid value
   * invalid `secret` (when updating)
-  * **TODO** others?
 
 Example error:
 
@@ -402,14 +401,13 @@ Example multipart/form-data request:
 
 Success:
 * status code: `200`
-* requirements and response body is the same as when submitting a JSON-only request
+* response body is the same as when submitting a JSON-only request
 
 Errors:
 * status code: `400`
 * possible errors
   * unsupported file type
   * file size too large
-  * **TODO** others?
 
 Example error:
 
