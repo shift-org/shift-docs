@@ -281,8 +281,8 @@ URL parameters:
 
 Request body:
 * required fields
-  * `id`: `calevent` event ID (blank when creating an event, required when updating an event); set automatically by the server on create; ignored if provided by the user when creating a new event
-  * `secret`: event password (only when `id` is provided); set automatically by the server, ignored if provided by the user when creating a new event
+  * `id`: `calevent` event ID (blank when creating an event, required when updating); set by the server on create; ignored if provided by the user when creating a new event
+  * `secret`: event password (required only when `id` is provided); set by the server, ignored if provided by the user when creating a new event
   * `title`: event name
   * `details`: event description
   * `organizer`: organizer name
@@ -291,27 +291,27 @@ Request body:
   * `address`: location address; should be mappable with online map services (e.g. Google Maps) _or_ be a valid http/s URL
   * `time`: event start time
   * `datestatuses`: array of datestatus objects, one for each event occurrence
-    * `id`: `caldaily` occurrence ID; set automatically by the server, ignored if provided by the user when creating a new occurrence; must be provided to update an existing occurrence
+    * `id`: `caldaily` occurrence ID (blank when creating an occurrence, required when updating); set by the server, ignored if provided by the user when creating a new occurrence
     * `date`: event date, YYYY-MM-DD format
-    * `status`: `A` (active, aka scheduled; default), `C` (cancelled), `E` (exception, aka deleted)
+    * `status`: `A` (active, aka scheduled; default) or `C` (cancelled)
     * `newsflash`: brief message unique to the occurrence; optional
   * `code_of_conduct`: boolean; organizer must agree to Shift's [Code of Conduct](/pages/shift-code-of-conduct/)
   * `read_comic`: boolean; organizer must confirm they have read the [Ride Leading Comic](/images/rideleadingcomiccolor.jpg)
 * optional fields
-  * `audience`: (G)eneral, (F)amily-friendly, (A)dults-only; defaults to General
+  * `audience`: `G` (General; default), `F` (Family-friendly), `A` (Adults-only)
   * `safetyplan`: boolean; if the organizer pledges to follow Shift's [COVID Safety Plan](/pages/public-health/#safety-plan)
-  * `area`: (P)ortland, (V)ancouver WA, (W)estside, (E)ast Portland, (C)lackamas; defaults to Portland
-  * `timedetails`: any additional time details, e.g. if there is a meet time and a ride time
+  * `area`: `P` (Portland; default), `V` (Vancouver WA), `W` (Westside), `E` (East Portland), `C` (Clackamas)
+  * `timedetails`: any additional time details, e.g. if there is a separate meet time and ride time
   * `eventduration`: duration, in minutes
   * `locdetails`: any additional time details, e.g. meet by the tennis courts
-  * `locend`: end location; can be any description, does not have to be mappable (e.g. "Outer Southeast" or "near Beaverton Transit Center")
+  * `locend`: end location details; can be any description, does not have to be mappable (e.g. "Outer Southeast" or "near Beaverton Transit Center")
   * `loopride`: boolean; if ride end location is the same as the start
   * `length`: length of ride, in miles; `--` for unspecified, or `0-3`, `3-8`, `8-15`, or `15+`
   * `weburl`: http/s URL, e.g. `https://pdx.social/@shift2bikes`
   * `webname`: friendly URL name, e.g. `@shift2bikes@pdx.social`
   * `phone`: organizer phone number
   * `contact`: any additional contact info for the organizer; can be a name, an email address, another web URL, social media link, PO Box, or anything else
-  * `image`: URL to the event image, e.g. `/eventimages/12345.jpg`; set automatically by the server, ignored if provided by the user (see note below for adding an image)
+  * `image`: URL to the event image, e.g. `/eventimages/12345.jpg`; set by the server, ignored if provided by the user (see note below for how to add an image)
   * `tinytitle`: short event name (max 24 characters); used for the Pedalpalooza print calendar, and in some places online where space is tight (e.g. month view); if this is not provided, the first 24 characters of the `title` field will be automatically copied into this field
   * `printdescr`: short event description (max 120 characters); used for the Pedalpalooza print calendar, and in some places online where space is tight
   * `hideemail`: boolean; don't list organizer's email online; default true
@@ -322,7 +322,7 @@ Request body:
   * `printweburl`: boolean; include organizer's email in the print calendar
   * `printcontact`: boolean; include organizer's email in the print calendar
   * `featured`: boolean; featured ride status, set by admins and ignored if provided by the user
-  * `published`: boolean; set automatically by the server, ignored if provided by the user
+  * `published`: boolean; set by the server, ignored if provided by the user
 
 Unknown properties are ignored.
 
@@ -373,7 +373,7 @@ Errors:
 * status code: `400`
 * possible errors
   * no request body or not parseable JSON
-  * required field was not included, or has invalid value
+  * required field was not included, or has an invalid value
   * invalid `secret` (when updating)
 
 Example error:
