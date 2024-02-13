@@ -36,7 +36,7 @@ services:
       - 3306
 
   hugo:
-    image: jojomi/hugo:0.37
+    image: jojomi/hugo:0.84
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/

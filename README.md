@@ -4,16 +4,17 @@ The purpose of the Shift/Pedalpalooza Calendar is to empower citizens to create 
 
 # Software
 
-built using:
-- node
-- docker
-- [hugo v0.37.1](https://gohugo.io) 
-- && the theme ["Universal"](https://themes.gohugo.io/hugo-universal-theme/)
-- && the content from [the legacy shift website](https://old.shift2bikes.org)
-- && [Netlify web hosting](https://www.netlify.com) to serve the content
-- && [the Netlify CMS](https://www.netlifycms.org)
+Built using:
+- [MySQL](https://www.mysql.com/)
+- [PHP](https://www.php.net/)
+- [Docker](https://www.docker.com/)
+- [Hugo](https://gohugo.io), using:
+  - the theme "s2b_hugo_theme", ported from the ["Universal"](https://themes.gohugo.io/hugo-universal-theme/) theme
+  - the content from the [legacy Shift website](https://old.shift2bikes.org)
+  - [Netlify web hosting](https://www.netlify.com) to serve the content
+  - the [Netlify CMS](https://www.netlifycms.org) for editing static pages in Markdown
 
-You can see the live site here:  https://www.shift2bikes.org
+You can see the live site here: [https://www.shift2bikes.org](https://www.shift2bikes.org)
 
 ## Contributing
 
@@ -31,7 +32,7 @@ Following the below steps you'll have a copy of the site running, including 3 do
 5. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
 6. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
-Note that no changes to the filesystems INSIDE the container should ever be needed;  they read from your LOCAL filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands OUTSIDE of the container (`git checkout otherbranch` or `git pull`).
+Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
 
 So - now you can hopefully access the site.  But a real end-to-end test of yoursetup, would be creating an event:
 
