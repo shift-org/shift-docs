@@ -37,6 +37,7 @@ CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
 	# USER ubuntu
 # set up nginx similarly to prod (doesn't know about any of our config from prod except rootdir)
 # set up nginx to respond as beta.shift2bikes.org w/letsencrypt
+# import details from https://github.com/shift-org/shift-docs/blob/beta/node.docker as to how to run node inside the container
 # import data into mysql
 # publish final image in docker hub: 
 	#   docker tag shift-docs-2024.1 underscorefool/shift-docs-2024.1
