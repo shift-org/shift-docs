@@ -6,7 +6,7 @@ The purpose of the Shift/Pedalpalooza Calendar is to empower citizens to create 
 
 Built using:
 - [MySQL](https://www.mysql.com/)
-- [PHP](https://www.php.net/)
+- [Node](https://www.nodejs.org/)
 - [Docker](https://www.docker.com/)
 - [Hugo](https://gohugo.io), using:
   - the theme "s2b_hugo_theme", ported from the ["Universal"](https://themes.gohugo.io/hugo-universal-theme/) theme
