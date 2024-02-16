@@ -238,7 +238,7 @@ Example response:
       "eventduration": "120",
       "weburl": null,
       "webname": "shift",
-      "image": "\\/eventimages\\/6245.jpg",
+      "image": "/eventimages/6245.jpg",
       "audience": "G",
       "tinytitle": "shift2pedalpalooza",
       "printdescr": "learn how to get involved with shift and pedalpalooza",
@@ -274,7 +274,151 @@ Errors:
 Endpoint:
 * POST `manage_event`
 
-**TODO**
+Request can be sent as JSON, or as multipart/form-data containing binary image data plus JSON.
+
+URL parameters:
+* none
+
+Request body:
+* required fields
+  * `id`: `calevent` event ID (blank when creating an event, required when updating); set by the server on create; ignored if provided by the user when creating a new event
+  * `secret`: event password (required only when `id` is provided); set by the server, ignored if provided by the user when creating a new event
+  * `title`: event name
+  * `details`: event description
+  * `organizer`: organizer name
+  * `email`: organizer email
+  * `venue`: location name
+  * `address`: location address; should be mappable with online map services (e.g. Google Maps) _or_ be a valid http/s URL
+  * `time`: event start time
+  * `datestatuses`: array of datestatus objects, one for each event occurrence
+    * `id`: `caldaily` occurrence ID (blank when creating an occurrence, required when updating); set by the server, ignored if provided by the user when creating a new occurrence
+    * `date`: event date, YYYY-MM-DD format
+    * `status`: `A` (active, aka scheduled; default) or `C` (cancelled)
+    * `newsflash`: brief message unique to the occurrence; optional
+  * `code_of_conduct`: boolean; organizer must agree to Shift's [Code of Conduct](/pages/shift-code-of-conduct/)
+  * `read_comic`: boolean; organizer must confirm they have read the [Ride Leading Comic](/images/rideleadingcomiccolor.jpg)
+* optional fields
+  * `audience`: `G` (General; default), `F` (Family-friendly), `A` (Adults-only)
+  * `safetyplan`: boolean; if the organizer pledges to follow Shift's [COVID Safety Plan](/pages/public-health/#safety-plan)
+  * `area`: `P` (Portland; default), `V` (Vancouver WA), `W` (Westside), `E` (East Portland), `C` (Clackamas)
+  * `timedetails`: any additional time details, e.g. if there is a separate meet time and ride time
+  * `eventduration`: duration, in minutes
+  * `locdetails`: any additional time details, e.g. meet by the tennis courts
+  * `locend`: end location details; can be any description, does not have to be mappable (e.g. "Outer Southeast" or "near Beaverton Transit Center")
+  * `loopride`: boolean; if ride end location is the same as the start
+  * `length`: length of ride, in miles; `--` for unspecified, or `0-3`, `3-8`, `8-15`, or `15+`
+  * `weburl`: http/s URL, e.g. `https://pdx.social/@shift2bikes`
+  * `webname`: friendly URL name, e.g. `@shift2bikes@pdx.social`
+  * `phone`: organizer phone number
+  * `contact`: any additional contact info for the organizer; can be a name, an email address, another web URL, social media link, PO Box, or anything else
+  * `image`: URL to the event image, e.g. `/eventimages/12345.jpg`; set by the server, ignored if provided by the user (see note below for how to add an image)
+  * `tinytitle`: short event name (max 24 characters); used for the Pedalpalooza print calendar, and in some places online where space is tight (e.g. month view); if this is not provided, the first 24 characters of the `title` field will be automatically copied into this field
+  * `printdescr`: short event description (max 120 characters); used for the Pedalpalooza print calendar, and in some places online where space is tight
+  * `hideemail`: boolean; don't list organizer's email online; default true
+  * `hidephone`: boolean; don't list organizer's phone number online
+  * `hidecontact`: boolean; don't list organizer's additional contact info online
+  * `printemail`: boolean; include organizer's email in the print calendar
+  * `printphone`: boolean; include organizer's email in the print calendar
+  * `printweburl`: boolean; include organizer's email in the print calendar
+  * `printcontact`: boolean; include organizer's email in the print calendar
+  * `featured`: boolean; featured ride status, set by admins and ignored if provided by the user
+  * `published`: boolean; set by the server, ignored if provided by the user
+
+Unknown properties are ignored.
+
+Example JSON request:
+
+    {
+        "id": "99999",
+        "secret": "1234567890abcdef1234567890abcdef",
+        "title": "Fun Bike Ride",
+        "details": "Funtime biketime get your bike fun on",
+        "audience": "G",
+        "time": "5:00 PM",
+        "timedetails": "",
+        "eventduration": "",
+        "area": "P",
+        "venue": "TBA",
+        "address": "TBA",
+        "locdetails": "",
+        "locend": "",
+        "length": "--",
+        "organizer": "Josh",
+        "email": "test@test.test",
+        "hideemail": "1",
+        "webname": "",
+        "weburl": "",
+        "phone": "",
+        "contact": "",
+        "tinytitle": "Fun Bike Ride",
+        "printdescr": "So much fun!",
+        "code_of_conduct": "1",
+        "read_comic": "1",
+        "datestatuses": [
+          {
+            "id": "",
+            "date": "2024-07-07",
+            "status": "A",
+            "newsflash": ""
+          }
+        ]
+    }
+
+Success:
+* status code: `200`
+* if a valid `id` is provided (to update an event), a valid `secret` must also be included
+* response body is the same as the `retrieve_event` endpoint
+
+Errors:
+* status code: `400`
+* possible errors
+  * no request body or not parseable JSON
+  * required field was not included, or has an invalid value
+  * invalid `secret` (when updating)
+
+Example error:
+
+    {
+      "error": {
+        "message": "Invalid secret, use link from email"
+      }
+    }
+
+To add an image to the event, use a multipart/form-data request and send the image as binary. Accepts gif, jpeg, pjpeg, and png images, up to 2 MB.
+
+Example multipart/form-data request:
+
+    -----------------------------1234123412341234123412341234
+    Content-Disposition: form-data; name="file"; filename="image.jpg"
+    Content-Type: image/jpeg
+    
+    <binary image data>
+    -----------------------------1234123412341234123412341234
+    Content-Disposition: form-data; name="json"
+    
+    { "id":"99999", ..., "datestatuses": [ { ... } ]}
+    -----------------------------1234123412341234123412341234--
+
+Success:
+* status code: `200`
+* response body is the same as when submitting a JSON-only request
+
+Errors:
+* status code: `400` or `413`
+* possible errors
+  * unsupported file type (`400`)
+  * file size too large (`413`)
+
+Example error:
+
+    {
+      "error": {
+        "message": "There were errors in your fields",
+        "fields": {
+          "file": "The file uploaded is not an image"
+        }
+      }
+    }
 
 
 ### Deleting an event
@@ -286,8 +430,11 @@ URL parameters:
 * none
 
 Request body:
-* `id`: `calevent` event ID
-* `secret`: event password
+* required fields
+  * `id`: `calevent` event ID
+  * `secret`: event password
+* optional fields
+  * none
 
 Unknown properties are ignored.
 
