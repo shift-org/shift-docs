@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
-{{ partial "head.html" . }}
+<head>
+  {{ partial "head.html" . }}
+  {{ partial "cal/head.html" . }}
+</head>
 
 <body>
-  <!-- legacycalpage/single.html -->
 
   <div id="all">
+
     <header>
       {{ partial "nav.html" . }}
     </header>
@@ -45,9 +48,7 @@
     </main>
 
     <footer>
-
-        {{ partial "footer.html" . }}
-
+      {{ partial "footer.html" . }}
     </footer>
 
   </div>
@@ -61,4 +62,5 @@
   </script>
 
 </body>
+
 </html>

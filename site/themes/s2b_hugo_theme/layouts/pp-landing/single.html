@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
-{{ partial "head.html" . }}
+<head>
+  {{ partial "head.html" . }}
+  {{ partial "cal/head.html" . }}
+</head>
 
 <body>
-  <!-- legacycalpage/single.html -->
 
   <div id="all">
     <header>
@@ -27,7 +29,7 @@
                     <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
                     <div>
                       <span class="pp-headline">Pedalpalooza!</span>
-<!--                       <span class="pp-daterange">{{ .Param "daterange" }}</span> -->
+                      <!-- <span class="pp-daterange">{{ .Param "daterange" }}</span> -->
                     </div>
 
                   {{ .Content }}
@@ -36,7 +38,7 @@
                   
                 </div>
 
-<!-- 
+                <!-- 
                 {{ partial "alert_banner.html" . }}
 
                 {{ partial "cal/view-options.html" . }}
@@ -45,7 +47,7 @@
                 <div id="fullcalendar"></div>
 
                 {{ partial "disclaimer.html" . }}
- -->
+                -->
 
               </div>
 
@@ -59,9 +61,7 @@
     </main>
 
     <footer>
-
-        {{ partial "footer.html" . }}
-
+      {{ partial "footer.html" . }}
     </footer>
 
   </div>
@@ -70,4 +70,5 @@
   {{ partial "scripts.html" . }}
 
 </body>
+
 </html>

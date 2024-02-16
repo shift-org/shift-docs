@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
+<head>
   {{ partial "head.html" . }}
+  {{ partial "cal/head.html" . }}
+</head>
 
-  <body>
+<body>
 
-    <div id="all">
+  <div id="all">
 
-        <header>
+    <header>
+      <!--{{ partial "top.html" . }}-->
+      {{ partial "nav.html" . }}
+    </header>
 
-          <!--{{ partial "top.html" . }}-->
+    <main>
+      {{ partial "carousel.html" . }}
 
-          {{ partial "nav.html" . }}
+      <!--{{ partial "features.html" . }}-->
+      <!--{{ partial "testimonials.html" . }}-->
+      <!--{{ partial "see_more.html" . }}-->
+      <!--{{ partial "recent_posts.html" . }}-->
 
-        </header>
+      <!-- up next showing PP themes for now -->
+      {{ partial "cal/up-next.html" . }}
 
-        <main>
+      {{ partial "alert_banner.html" . }}
 
-        {{ partial "carousel.html" . }}
+      {{ partial "sponsors.html" . }}
+    </main>
 
-        <!--{{ partial "features.html" . }}-->
+    <footer>
+      {{ partial "footer.html" . }}
+    </footer>
 
-        <!--{{ partial "testimonials.html" . }}-->
+  </div>
+  <!-- /#all -->
 
-        <!--{{ partial "see_more.html" . }}-->
+  {{ partial "scripts.html" . }}
 
-        <!--{{ partial "recent_posts.html" . }}-->
+</body>
 
-        <!-- up next showing PP themes for now -->
-        {{ partial "cal/up-next.html" . }}
-
-        {{ partial "alert_banner.html" . }}
-
-        {{ partial "sponsors.html" . }}
-
-        </main>
-
-        {{ partial "footer.html" . }}
-
-    </div>
-    <!-- /#all -->
-
-    {{ partial "scripts.html" . }}
-
-  </body>
 </html>

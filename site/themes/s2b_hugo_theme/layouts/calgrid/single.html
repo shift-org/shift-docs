@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
-{{ partial "head.html" . }}
+<head>
+  {{ partial "head.html" . }}
+  {{ partial "cal/head.html" . }}
+</head>
 
 <body>
-  <!-- legacycalpage/single.html -->
 
   <div id="all">
+
     <header>
       {{ partial "nav.html" . }}
     </header>
 
     <main>
-        {{ partial "breadcrumbs.html" . }}
+      {{ partial "breadcrumbs.html" . }}
 
-        <div id="content">
-          <div class="container">
+      <div id="content">
+        <div class="container">
 
-            <div class="row">
+          <div class="row">
 
-              <div class="col-md-12">
+            <div class="col-md-12">
 
-                <div>
-                  {{ .Content }}
-                </div>
-
-                <!-- only display when PP is coming soon or happening now -->
-                <!-- {{ partial "cal/pp-promo-banner.html" . }} -->
-
-                <!-- only display during Steptember -->
-                <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
-
-                {{ partial "cal/view-options.html" . }}
-                {{ partial "cal/fullcal.html" . }} 
-
-                <div id="fullcalendar"></div>
-
-                {{ partial "alert_banner.html" . }}
-
-                {{ partial "disclaimer.html" . }}
-
+              <div>
+                {{ .Content }}
               </div>
 
+              <!-- only display when PP is coming soon or happening now -->
+              <!-- {{ partial "cal/pp-promo-banner.html" . }} -->
+
+              <!-- only display during Steptember -->
+              <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
+
+              {{ partial "cal/view-options.html" . }}
+              {{ partial "cal/fullcal.html" . }} 
+
+              <div id="fullcalendar"></div>
+
+              {{ partial "alert_banner.html" . }}
+
+              {{ partial "disclaimer.html" . }}
+
             </div>
-            <!-- /.row -->
 
           </div>
-          <!-- /.container -->
+          <!-- /.row -->
+
         </div>
-        <!-- /#content -->
+        <!-- /.container -->
+      </div>
+      <!-- /#content -->
     </main>
 
     <footer>
-
-        {{ partial "footer.html" . }}
-
+      {{ partial "footer.html" . }}
     </footer>
 
   </div>
@@ -63,4 +64,5 @@
   {{ partial "scripts.html" . }}
 
 </body>
+
 </html>
