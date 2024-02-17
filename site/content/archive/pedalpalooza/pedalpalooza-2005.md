@@ -219,7 +219,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June9">Thursday June 9</a></h2>
   <dl>
     <dt><a name="June9:Kickoff Parade">KICKOFF PARADE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Jamison Square, 810 NW 11th, by Johnson St.
     <br>5:30pm.  At 6:00pm we ride.
     <br>Decorate your bike (come early),
@@ -230,7 +230,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Joanna, rippleeffects<img src="images/at.gif" alt="[at]">gmail.com
 
     </dd><dt><a name="June9:VBC Thursday">VANCOUVER BICYCLE CLUB THURSDAY EVENING RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin
     <br>6:00pm every Thursday
     <br>Join Pete or Jim for this Thursday evening ride following
@@ -247,7 +247,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June9:VBC Time Trial">VANCOUVER BICYCLE CLUB TIME TRIAL SERIES</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Port of Vancouver office, 3103 NW Lower River Road
     <br>6:30pm (sign in at 6:15pm)
     <br>A flat 10-mile course.
@@ -263,7 +263,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Ayleen<img src="images/at.gif" alt="[at]">CommunityCyclingCenter.org, 503-546-8864
 
     </dd><dt><a name="June9:Bike-In Movie">BIKE-IN MOVIE AT LAURELHURST THEATER</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>Laurelhurst Theater, 2735 E. Burnside
     <br>9:00pm
     <br>Admission is free if you arrive by bike, or regular price otherwise.
@@ -277,7 +277,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June10">Friday June 10</a></h2>
   <dl>
     <dt><a name="June10:BonB">BREAKFAST ON THE BRIDGES</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Broadway &amp; Hawthorne Bridges (Westbound Sides)
     <br>7:00am - 9:00am
     <br>Ride the Bridge, eat a nosh, have a cawfee. No big whoop
@@ -297,7 +297,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Ben, ben<img src="images/at.gif" alt="[at]">ridemybike.org
 
     </dd><dt><a name="June10:MMR">MIDNIGHT MYSTERY RIDE</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>Matador, 1967 W Burnside St.
     <br>11:00pm, at Midnight we ride
     <br>Ride to a mystery destination.
@@ -310,7 +310,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June11">Saturday June 11</a></h2>
   <dl>
     <dt><a name="June11:Kids Pedal">CCC KIDS' PEDAL</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>SW 4th and Glisan
     <br>7:00am for the rodeo; parade starts at 8:00am
     </dd><dd>Safety skills rodeo, followed by a kids bike parade to lead off
@@ -347,7 +347,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Jeme, jeme<img src="images/at.gif" alt="[at]">bikearmy.org
 
     </dd><dt><a name="June11:Well Field">CYCLE THE WELL FIELD</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Parkrose/Sumner Transit Center (MAX Red Line), 9841 NE Sandy
     <br>9:00am - 1:00pm
     <br>Join the Columbia Slough Watershed Council and the
@@ -394,7 +394,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Val Stewart, pastew06<img src="images/at.gif" alt="[at]">aol.com
 
     </dd><dt><a name="June11:Bridge Curious">R U BRIDGE CURIOUS?! GUIDED TOUR</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver Farmers' Market, W. 8th St. &amp; Franklin at the bike rack
     <br>11:00am - 2:00pm
     <br>A guided bike + transit tour.
@@ -406,7 +406,7 @@ poster-image: "/images/pp/pp2005.jpg"
 	vantrans<img src="images/at.gif" alt="[at]">ci.vancouver.wa.us
 
     </dd><dt><a name="June11:Musical Mystery Ride">NOON-TIME MUSICAL MYSTERY RIDE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Laurelhurst Park by the pond, SE 39th and Stark
     <br>11:00am (ride at noon)
     <br>Slow paced social ride ending at a mystery location for a BBQ.
@@ -426,7 +426,7 @@ poster-image: "/images/pp/pp2005.jpg"
 	and Bethany, postbethany<img src="images/at.gif" alt="[at]">hotmail.com
 
     </dd><dt><a name="June11:Repairs / Sun">BIKE REPAIRS UNDER THE SUN</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>I-205 bike path &amp; Springwater Corridor
 	(near SE 92nd and Rural)
     <br>3:00pm - 5:00pm
@@ -472,7 +472,7 @@ poster-image: "/images/pp/pp2005.jpg"
 	crinkllbine<img src="images/at.gif" alt="[at]">yahoo.com
 
     </dd><dt><a name="June12:VBC North">VANCOUVER BICYCLE CLUB NORTH RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, SW corner of NE 63rd St. &amp; Andresen
 	(meet in NW corner of parking lot)
     <br>9:00am
@@ -554,7 +554,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.bikestation.org">www.bikestation.org</a>
 
     </dd><dt><a name="June13:Trans. Geek Ride">TRANSPORTATION GEEKS' RIDE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Ladd's Circle, SE 16th and Harrison
     <br>6:00pm
     <br>You know riding in Portland is great,
@@ -572,7 +572,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>eliciacardenas<img src="images/at.gif" alt="[at]">hotmail.com
 
     </dd><dt><a name="June13:VBC East Cty.">VANCOUVER BICYCLE CLUB EAST COUNTY EXPLORER</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Lacamas Swim &amp; Sport, 2950 NW 38th Avenue, Camas
     <br>6:00pm every Monday
     <br>We will offer varying routes around the Camas or Washougal area,
@@ -610,7 +610,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June14">Tuesday June 14 (Flag Day)</a></h2>
   <dl>
     <dt><a name="June14:VBC Friends">VANCOUVER BICYCLE CLUB TOUR DE FRIENDS</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Oxford Athletic Club, 7588 Delaware Lane
 	(One block south of Mill Plain across from Garrison Square)
     <br>9:00am every Tuesday
@@ -624,7 +624,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June14:20 mile">NOON 20 MILE LOOP LUNCH RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Clark County Court House (Franklin &amp; 13th St.)
     <br>12:00pm noon
     </dd><dd>One hour lunchtime ride out to the end of river road.
@@ -636,7 +636,7 @@ poster-image: "/images/pp/pp2005.jpg"
 	mhidden<img src="images/at.gif" alt="[at]">pacifier.com
 
     </dd><dt><a name="June14:CCC-V Volunteer">CCC-VANCOUVER VOLUNTEER NIGHT &amp; BIKE COLLECTION</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>CCC-Vancouver, 8040 E. Mill Plain
     <br>6:00pm - 8:30pm
     <br>Volunteer to repair and clean bikes.
@@ -654,7 +654,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.npdxbikeworks.org/">http://www.npdxbikeworks.org/</a>
 
     </dd><dt><a name="June14:VBC Frenchmans">VANCOUVER BICYCLE CLUB FRENCHMANS BAR RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin Blvd.
     <br>6:00pm every Tuesday
     <br>Join in for this very popular series.
@@ -717,7 +717,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Ahmad Qayoumi, City of Vancouver, 360-696-8290
 
     </dd><dt><a name="June15:VBC Earthquake">VANCOUVER BICYCLE CLUB EARTHQUAKE RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin
     <br>9:00am every Wednesday
     <br>Join Dennis for his Wednesday morning ride heading out of
@@ -759,7 +759,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.npdxbikeworks.org/">http://www.npdxbikeworks.org/</a>
 
     </dd><dt><a name="June15:VBC Wednesday">VANCOUVER BICYCLE CLUB WEDNESDAY EVENING RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Salmon Creek Fred Meyer Shopping Center just west of the I-5 and I-205 junction, 800 NE Tenney Road
     <br>6:00pm every Wednesday
     <br>Routes will vary, depending on the amount of daylight and who
@@ -775,7 +775,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June15:HOB-Nob Ride">HOB-NOB (HIGH OCCUPANCY BIKE)</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Jamison Square, NW 11th &amp; Kearney
     <br>7:00pm
     <br>Bring your tandems, triples, trailers, and cargo bikes
@@ -811,7 +811,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Chad Kays, Wallis Engineering, 360-695-7041
 
     </dd><dt><a name="June16:20 mile">NOON 20 MILE LOOP LUNCH RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Clark County Court House (Franklin &amp; 13th St.)
     <br>12:00pm noon
     </dd><dd>The ride will leave form the Gazebo at the County office
@@ -862,14 +862,14 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.YeaBikes.net/mw-represent/">www.YeaBikes.net/mw-represent/</a>
 
     </p></dd><dt><a name="June16:Happy Hour">HAPPY HOUR FOR CYCLISTS</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>East end of Hawthorne Bridge
     <br>4:30pm - 6:30pm
     <br>Free mocktails and snacks for cyclists and walkers.
     <br>Amy Stork, amy<img src="images/at.gif" alt="[at]">storkmarketing.com
 
     </dd><dt><a name="June16:VBC Thursday">VANCOUVER BICYCLE CLUB THURSDAY EVENING RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin
     <br>6:00pm every Thursday
     <br>Join Pete or Jim for this Thursday evening ride following
@@ -886,7 +886,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June16:VBC Time Trial">VANCOUVER BICYCLE CLUB TIME TRIAL SERIES</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Port of Vancouver office, 3103 NW Lower River Road, Vancouver WA
     <br>6:30pm (sign in at 6:15pm)
     <br>A flat 10-mile course.
@@ -938,14 +938,14 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June17">Friday June 17</a></h2>
   <dl>
     <dt><a name="June17:BonB">BREAKFAST ON THE BRIDGES</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Broadway &amp; Hawthorne Bridges (Westbound Sides)
     <br>7:00am - 9:00am
     <br>Ride the Bridge, eat a nosh, have a cawfee. No big whoop
     <br>timolandia<img src="images/at.gif" alt="[at]">shifttobikes.org
 
     </dd><dt><a name="June17:Friday Family">FRIDAY FAMILY RIDE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Bike Gallery Woodstock, 4235 SE Woodstock
     <br>10:00am - 12:00pm noon, first &amp; third Fridays.
     <br>Ride and play group for families (pre-school age kids).
@@ -954,7 +954,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.bikegallery.com/">www.bikegallery.com</a>
 
     </dd><dt><a name="June17:Small Museums I">SMALL MUSEUMS &amp; COLLECTIONS TOUR I</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Old Town Pizza, 226 NW Davis
     <br>12:00pm noon, ride leaves at 1:00pm (length 3 hours)
     <br>Tour I: Join Carye Bye, director of the Bathtub Art Museum,
@@ -978,7 +978,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>ecmarsh<img src="images/at.gif" alt="[at]">gmail.com
 
     </dd><dt><a name="June17:Pub Crawl">BICYCLE PUB CRAWL</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>Bitter End Pub, 1981 W. Burnside
     <br>7:00pm
     <br>Third Friday pub crawl by bike. Be responsible.
@@ -989,7 +989,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June18">Saturday June 18</a></h2>
   <dl>
     <dt><a name="June18:Scavenger Hunt">BIKE SCAVENGER HUNT</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>River City Bicycles, 706 SE MLK Blvd.
     <br>9:00am - 1:00pm
     <br>Explore the Rose City's streets by bicycle in a
@@ -1017,7 +1017,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>angelamechanic<img src="images/at.gif" alt="[at]">hotmail.com
 
     </dd><dt><a name="June18:Bike Art">CCC-VANCOUVER BIKE ART DAY</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Community Cycling Center - Vancouver, 8040 E. Mill Plain
     <br>10:00am - 2:00pm (Same as VOLUNTEER DAY)
     <br>Don't throw that junky bike away!
@@ -1029,7 +1029,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Vancouver<img src="images/at.gif" alt="[at]">CommunityCyclingCenter.org, 503-871-0120
 
     </dd><dt><a name="June18:Juke Off">THE SECOND MORE THAN ANNUAL JUKE OFF BOOZE CRUISE</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>The 'Vern (Hanigan's), 2622 SE Belmont
     <br>3:00pm, ending at thE CloWn HouSe event
     <br>A contest to see which bar has the best jukebox in town.
@@ -1048,7 +1048,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Sam, yeahyeahsam<img src="images/at.gif" alt="[at]">hotmail.com
 
     </dd><dt><a name="June18:Clown House">GENERAL BIKE CIRCUS MAYHEM AT THE CLOWN HOUSE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Clown House, 2425 NE Alberta
     <br>7:30pm - 10:30pm
     <br>the clowns who brought you "The Big Bang Cirkus,"
@@ -1068,7 +1068,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Dingo, dawgsnax<img src="images/at.gif" alt="[at]">fastmail.fm
 
     </dd><dt><a name="June18:Crazy Shorts">CRAZY BIKE SHORTS AT THE KNOW</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>The Know, 2022 NE Alberta
     <br>10:30pm
     <br>After taking in the Rodeo Circus at the CloWn HouSe,
@@ -1091,7 +1091,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Hosted by the Cougars
 
     </dd><dt><a name="June19:VBC 2 Bridge">VANCOUVER BICYCLE CLUB TWO BRIDGE LOOP</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Sunrise Bagels, 808 Harney Street
     <br>9:00am
     <br>This enjoyable VBC staple goes east on McLoughlin,
@@ -1111,7 +1111,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Ayleen<img src="images/at.gif" alt="[at]">CommunityCyclingCenter.org, 503-546-8864
 
     </dd><dt><a name="June19:Rose Ride">SLUG VELO THIRD ANNUAL ROSE RIDE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Peninsula Rose Garden, N. Ainsworth at Albina
     <br>10:30am
     <br>About 10 ~ 15 miles.
@@ -1124,7 +1124,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.slugvelo.com/">http://www.slugvelo.com/</a>
 
     </dd><dt><a name="June19:Fathers Day">FATHERS DAY TRAILER KIDS PARK TOUR</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Wilshire Park, NE 35th and Skidmore, at the sandbox
     <br>11:00am, leaving for next park at 12:00pm noon
     <br>Hitch up the trailer and grab the kids,
@@ -1157,7 +1157,7 @@ poster-image: "/images/pp/pp2005.jpg"
 
 
     </dd><dt><a name="June19:Heritage Tree Ride">HERITAGE TREE TOUR</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>DaVinci Arts Middle School, 2508 NE Everett St.
     <br>1:00pm, lasting about 1.5 - 2 hours
     <br>This will be a leisurely bike ride visiting
@@ -1215,7 +1215,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.racemondaynight.com">http://www.racemondaynight.com</a>
 
     </dd><dt><a name="June20:VBC East Cty.">VANCOUVER BICYCLE CLUB EAST COUNTY EXPLORER</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Lacamas Swim &amp; Sport, 2950 NW 38th Avenue, Camas
     <br>6:00pm every Monday
     <br>We will offer varying routes around the Camas or Washougal area,
@@ -1225,7 +1225,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June20:Coffee Ride">MONDAY NIGHT COFFEE RIDE</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Bike Gallery Hollywood, 5329 NE Sandy Blvd.
     <br>6:00pm (every Monday)
     <br>Social ride to a coffee shop.
@@ -1233,7 +1233,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.bikegallery.com/">www.bikegallery.com</a>
 
     </dd><dt><a name="June20:Clark Map">MAKIN' MAPS - UPDATING CLARK BIKE MAP</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, 1300 Franklin, 4th floor
     <br>6:00pm - 7:30pm
     <br>Hey you in that bike lane!
@@ -1282,7 +1282,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June21">Tuesday June 21</a></h2>
   <dl>
     <dt><a name="June21:VBC Friends">VANCOUVER BICYCLE CLUB TOUR DE FRIENDS</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Oxford Athletic Club, 7588 Delaware Lane
 	(One block south of Mill Plain across from Garrison Square)
     <br>9:00am every Tuesday
@@ -1296,7 +1296,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June21:CCC-V Volunteer">CCC-V VOLUNTEER NIGHT &amp; BIKE COLLECTION</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>CCC-Vancouver, 8040 E. Mill Plain
     <br>6:00pm - 8:30pm
     <br>Volunteer to repair and clean bikes.
@@ -1314,7 +1314,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.npdxbikeworks.org/">http://www.npdxbikeworks.org/</a>
 
     </dd><dt><a name="June21:VBC Frenchmans">VANCOUVER BICYCLE CLUB FRENCHMANS BAR RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin Blvd.
     <br>6:00pm every Tuesday
     <br>Join in for this very popular series.
@@ -1346,7 +1346,7 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June22">Wednesday June 22</a></h2>
   <dl>
     <dt><a name="June22:VBC Earthquake">VANCOUVER BICYCLE CLUB EARTHQUAKE RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin
     <br>9:00am every Wednesday
     <br>Join Dennis for his Wednesday morning ride heading out of
@@ -1387,7 +1387,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.pdxtourbaby.com/">www.pdxtourbaby.com</a>
 
     </dd><dt><a name="June22:Vancouver BTA">VANCOUVER BTA START-UP SOCIAL</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Salmon Creek Pub, 108 W Evergreen Blvd. (near Main)
 
     <br>5:30pm - 7:00pm
@@ -1397,7 +1397,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Todd Boulanger, 360-696-8290
 
     </dd><dt><a name="June22:Theater History Ride">EASTSIDE THEATER HISTORY BICYCLE TOUR</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Ladd's Circle, SE 16th and Harrison
     <br>6:00pm
     <br>Portland has so many great, old theaters!
@@ -1426,7 +1426,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.npdxbikeworks.org/">http://www.npdxbikeworks.org/</a>
 
     </dd><dt><a name="June22:VBC Wednesday">VANCOUVER BICYCLE CLUB WEDNESDAY EVENING RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Salmon Creek Fred Meyer Shopping Center just west of the I-5 and I-205 junction, 800 NE Tenney Road
     <br>6:00pm every Wednesday
     <br>Routes will vary, depending on the amount of daylight and who
@@ -1442,7 +1442,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June22:Full Moon Ride">RIDE INTO THE FULL MOON</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Esther Short Park, 6th and Columbia,
 	by the clock tower
     <br>7:30pm - 11:00pm
@@ -1490,14 +1490,14 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>Todd Boulanger, City of Vancouver, 360-696-8290
 
     </dd><dt><a name="June23:Happy Hour">HAPPY HOUR FOR CYCLISTS</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>East end of Steel Bridge on the Esplanade
     <br>4:30pm - 6:30pm
     <br>Free mocktails and snacks for cyclists and walkers
     <br>Amy Stork, amy<img src="images/at.gif" alt="[at]">storkmarketing.com
 
     </dd><dt><a name="June23:Tour Baby">THE TOUR BABY!</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>Bagdad Theater, 3702 SE Hawthorne Blvd.
     <br>6:00pm doors open; the movie starts at 7:30pm
     <br>Special charity showing of the Tour de France documentary,
@@ -1513,7 +1513,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.pdxtourbaby.com/">www.pdxtourbaby.com</a>
 
     </dd><dt><a name="June23:VBC Thursday">VANCOUVER BICYCLE CLUB THURSDAY EVENING RIDE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Marshall Center, 1009 E. McLoughlin
     <br>6:00pm every Thursday
     <br>Join Pete or Jim for this Thursday evening ride following
@@ -1530,7 +1530,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.vancouverbicycleclub.com/">http://www.vancouverbicycleclub.com/</a>
 
     </dd><dt><a name="June23:VBC Time Trial">VANCOUVER BICYCLE CLUB TIME TRIAL SERIES</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Port of Vancouver office, 3103 NW Lower River Road, Vancouver WA
     <br>6:30pm (sign in at 6:15pm)
     <br>A flat 10-mile course.
@@ -1560,7 +1560,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br>urbanadventureleague<img src="images/at.gif" alt="[at]">scribble.com
 
     </dd><dt><a name="June23:Lovelab Boggle">MERCURY LOVELAB PRESENTS BIKE 'N' BOGGLE</a>
-    <img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+    <img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
     </dt><dd>Portland Mercury HQ, 605 NE 21st; riding to Acme, 1305 SE 8th.
     <br>6:30pm
     <br>The Mercury Lovelab is hosting a night of biking to meet
@@ -1582,14 +1582,14 @@ poster-image: "/images/pp/pp2005.jpg"
   <h2><a name="June24">Friday June 24</a></h2>
   <dl>
     <dt><a name="June24:BonB">BREAKFAST ON THE BRIDGES</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Broadway &amp; Hawthorne Bridges (Westbound Sides)
     <br>7:00am - 9:00am
     <br>Ride the Bridge, eat a nosh, have a cawfee. No big whoop
     <br>timolandia<img src="images/at.gif" alt="[at]">shifttobikes.org
 
     </dd><dt><a name="June24:Small Museums II">SMALL MUSEUMS &amp; COLLECTIONS TOUR II</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Laughing Planet Café, 3320 SE Belmont
     <br>12:00pm noon, leave at 1 pm (length: 4 hours)
     <br>Tour II: Join Carye Bye, director of the Bathtub Art Museum,
@@ -1603,7 +1603,7 @@ poster-image: "/images/pp/pp2005.jpg"
 	info<img src="images/at.gif" alt="[at]">bathtubmuseum.org
 
     </dd><dt><a name="June24:Bikeway Design">PRESENTATION: BIKEWAY DESIGN TIPS FOR HERE FROM EUROPE</a>
-    <img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+    <img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
     </dt><dd>Vancouver, Clark County Service Center, 1300 Franklin St.
     <br>3:30pm - 5:00pm
     <br>A digital design discussion for Vancouver-Portland
@@ -1621,7 +1621,7 @@ poster-image: "/images/pp/pp2005.jpg"
     <br><a href="http://www.rosecitycriticalmass.org">http://www.rosecitycriticalmass.org</a>
 
     </dd><dt><a name="June24:Bike-In Movie">BIKE-IN MOVIE AT HAWTHORNE HOSTEL</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Hawthorne Hostel, 3031 SE Hawthorne Blvd.
     <br>8:00pm
     <br>Live entertainment, some film shorts then a feature decided
@@ -1647,7 +1647,7 @@ poster-image: "/images/pp/pp2005.jpg"
 	Vancouver<img src="images/at.gif" alt="[at]">CommunityCyclingCenter.org
 
     </dd><dt><a name="June25:MCBF">MULTNOMAH COUNTY BIKE FAIR</a>
-    <img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+    <img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
     </dt><dd>Col. Summers Park, SE 20th &amp; Belmont
     <br>2:00pm - 7:00pm
     <br>A *FREE* one-day festival of bicycle music, mayhem and madness.
