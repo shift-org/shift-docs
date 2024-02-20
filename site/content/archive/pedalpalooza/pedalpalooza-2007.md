@@ -151,7 +151,7 @@ Nearly all events are free.
 <dt>
 <img src="pp07images/48.jpg" alt="" width="150" height="113" align="right">
 <a name="48">MORNING BIRDING BIKE RIDE ALONG COLUMBIA SLOUGH</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=5001+North+Columbia+Boulevard" target="_BLANK">5001 North Columbia Boulevard</a> (Columbia Boulevard Wastewater Treatment Plant, Detailed directions mailed to registrants)
 <br>7:00am - 8:30am, Bring Binoculars!
 <br><em>Join Jim Labbe and Barb Grover Thursday June 7 for a morning
@@ -176,7 +176,7 @@ done!). </em>
 <br>Turbo, m<span>organic007<img src="pp07images/at.gif" alt=" at " border="0">yahoo<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>
 </dd>
 <dt><a name="119">BAKFIETS/ CAT CARGOBIKES PARADE GROUP</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=1036+NW+Hoyt+St" target="_BLANK">1036 NW Hoyt St</a> (Low Brow Lounge, then Jamison Square @ 10th and Johnson)
 <br>5:30pm, Meet at bar then go to Jamison Square to decorate bikes.
 <br><em>Gathering all bakfiets, CAT cargobikes, and workbikes, etc. for
@@ -185,7 +185,7 @@ kargo and kids.</em>
 <br>Todd Boulanger, o<span>ulanger<img src="pp07images/at.gif" alt=" at " border="0">excite<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.bakfiets.nl/">www.bakfiets.nl/</a>, 360-281-0944
 </dd>
 <dt><a name="19">KICKOFF PARADE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NW+Johnson+%26+10th" target="_BLANK">NW Johnson &amp; 10th</a> (Jamison Square)
 <br>6:15pm, Come early to meet / Decorate your bike / At 7:00 we ride!
 <br><em>Kick it off! Bring out the bike love on a costumed, decorated, escorted Bike Parade.</em>
@@ -210,7 +210,7 @@ Bridges with this ride.
   <h2><a name="June8">Friday June 8</a></h2>
   <dl>
 <dt><a name="71">BREAKFAST ON THE BRIDGES</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>Broadway Bridge / Hawthorne Bridge (North side)
 <br>7:00am - 9:00am
 <br><em>Not just for Last Fridays anymore! Come have breakfast with
@@ -220,7 +220,7 @@ Pedalpalooza!</em>
 <br>Timo, t<span>imolandia<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://shift2bikes.org/breakfast.shtml">shift2bikes.org/breakfast.shtml</a>, 503-805-1321
 </dd>
 <dt><a name="58">MOCKTAILS ON HAWTHORNE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>East end of Hawthorne Bridge
 <br>4:00pm - 6:30pm
 <br><em>Stop on a by for a relaxing on non-alcoholic cocktail and snacks.</em>
@@ -246,7 +246,7 @@ cannons, sharpen your cutlasses and eyes, and full pedals ahead, Arrrr!</em>
 <br>Nature Boy And Marc, n<span>atureboy444<img src="pp07images/at.gif" alt=" at " border="0">yahoo<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, 503-816-1747
 </dd>
 <dt><a name="104">POLICE ON BIKES--HOW DO THEY DO IT?????</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp07images/104.jpg" alt="" width="83" height="125" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=SE+34%2FSE+Taylor" target="_BLANK">SE 34/SE Taylor</a> (Sunnyside Park [Behind Sunnyside School])
 <br>5:30pm - 8:00pm
@@ -293,14 +293,14 @@ Germany, as well as previous years' footage.</em>
 <dt>
 <img src="pp07images/49.jpg" alt="" width="133" height="200" align="right">
 <a name="49">THE PORNOGRAPHY OF THE BICYCLE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=26th+and+SE+Clinton" target="_BLANK">26th and SE Clinton</a> (Clinton St Theater)
 <br>8:45pm - 10:45pm
 <br><em>the sexiest bicycle culture on earth.</em>
 <br>Revphil, r<span>evphil<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.clintonsttheater.com/puff/">Portland Underground Film Festival</a>
 </dd>
 <dt><a name="20">MIDNIGHT MYSTERY RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=21st+and+Clinton" target="_BLANK">21st and Clinton</a> (Night Light)
 <br>11:00pm, At midnight we ride!
 <br><em>We meet, greet, gather and drink. At midnight, we ride to a mystery location. Not for the faint at heart.</em>
@@ -328,7 +328,7 @@ the weather. Space is limited, so register early!</em>
 <dt>
 <img src="pp07images/134.GIF" alt="" width="300" height="111" align="right">
 <a name="134">I-5 BRIDGE: HELP DECIDE YOUR FUTURE RIDE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=W+8th+St.+and+Esther+St." target="_BLANK">W 8th St. and Esther St.</a> (Esther Short Park, NW corner, across from Vancouver Farmers Market)
 <br>9:00am - 3:00pm
 <br><em>What could a new or improved bridge across the Columbia River
@@ -354,7 +354,7 @@ Please bring a bike trailer. &nbsp; Call if you have a trailer to loan.</em>
 <br>Joe Rowe, 503-282-7693
 </dd>
 <dt><a name="40">SLOW-POKE PASTRY PATROL</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=+4235+SE+Woodstock" target="_BLANK"> 4235 SE Woodstock</a> (Woodstock Bike Gallery)
 <br>10:00am - 2:00pm
 <br><em>Slow-poke Pastry Patrol. &nbsp;Short ride to one of SE
@@ -379,7 +379,7 @@ Bridge. </em>
 <br>Bikegrrrl, o<span>rganicathlete-portland<img src="pp07images/at.gif" alt=" at " border="0">googlegroups<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://groups.google.com/group/organicathlete-portland">Organic Athlete</a>
 </dd>
 <dt><a name="82">RU BRIDGE CURIOUS?!: VAN TO PDX</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>800 Esther St., Vancouver, WA 98660 (Farmers Market, SE corner of 8th and Esther, Vancouver.)
 <br>10:45am - 12:45pm, Leaves at 11AM.
 <br><em>Beat the gridlock and learn how to cross the Columbia. A guided
@@ -432,7 +432,7 @@ and glory going to the best of each division. &nbsp;Think you're tough?
 <br>Solid Gold, s<span>ee7e<img src="pp07images/at.gif" alt=" at " border="0">yahoo<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.zoobomb.net/forum/viewtopic.php?t=3011">www.zoobomb.net/forum/viewtopic.php?t=3011</a>
 </dd>
 <dt><a name="118">VANTUCKY DIVE BAR TOUR</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=8303+N.+Denver+Avenue" target="_BLANK">8303 N. Denver Avenue</a> (Meet inside at Kenton StationPub.)
 <br>6:00pm, Meet in Kenton then at Vancouver's Salmon Creek Pub @ 6:40
 <br><em>Ride to Vancouver to see the soft underbelly of Washington
@@ -508,7 +508,7 @@ even plant a tree. Learn the ropes of building and using bike trailers.</em>
 <dt>
 <img src="pp07images/50.gif" alt="" width="88" height="105" align="right">
 <a name="50">RAMONA'S RIDE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=4040+N.E.+Tillamook+Street" target="_BLANK">4040 N.E. Tillamook Street</a> (Hollywood Library)
 <br>1:00pm
 <br><em>Ramona Quimby is one of Portland's most beloved literary
@@ -653,7 +653,7 @@ join us for a casual ride to Mio Gelato for a frozen treat.</em>
 <dt>
 <img src="pp07images/10.jpg" alt="" width="242" height="200" align="right">
 <a name="10">FOREIGN LANGUAGE RIDE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=SE+38th+Ave+and+SE+Oak+St" target="_BLANK">SE 38th Ave and SE Oak St</a> (building in Laurelhurst Park on the south side)
 <br>6:30pm - 8:00pm, depart at 6:45pm
 <br><em>The monthly language exploration ride.
@@ -677,7 +677,7 @@ armor. &nbsp;This is gonna suck.</em>
   <h2><a name="June12">Tuesday June 12</a></h2>
   <dl>
 <dt><a name="120">I-5 B'ITCH: BIKE BUDDY 4 SOUTHBOUND COMMUTERS</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>100 Columbia Street, Vancouver, WA (Field across from Red Lion Hotel at the Quay)
 <br>7:00am, Meet at 7.00 and 8.00 - for Portland Bound traffic
 <br><em>Guided rides across the Interstate Bridge for bike commuters
@@ -697,7 +697,7 @@ listing stops and times. Need volunteer guides to add more times.</em>
 <br>Todd Boulanger, t<span>odd.boulanger<img src="pp07images/at.gif" alt=" at " border="0">ci.vancouver.wa<img src="pp07images/dotus.gif" alt=" daht you ess" border="0"></span>, <a href="http://www.columbiarivercrossing.org/">The Next Interstate Bridge!</a>, M<span>obile #360.281.0944 - event day only</span>, 360-487-7700
 </dd>
 <dt><a name="121">I-5 B'ITCH PM RIDE: SOUTH BOUND</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>101 Columbia Street, Vancouver, WA 98660 (Field across from Red Lion Quay Hotel)
 <br>4:30pm, 4:30 PM/ 5:30PM for Portland Bound Riders
 <br><em>Guided rides across the Interstate Bridge for homeward bound
@@ -739,7 +739,7 @@ and from home?
 <br>Michelle Poyourow, <a href="http://www.bta4bikes.org/resources/commuter.php">Bicycle Transportation Alliance</a>, 503-226-0676
 </dd>
 <dt><a name="94">PLATINUM BIKE MASTER PLAN PUBLIC FORUM- SW/NW/DT</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=1120+SW+5th+Ave" target="_BLANK">1120 SW 5th Ave</a> (Portland Building, Room C)
 <br>6:00pm - 8:00pm
 <br><em>Platinum Bicycle Master Plan Public Forum-Downtown, Southwest, Northwest
@@ -775,7 +775,7 @@ find a volunteer project that will fit your skills and interests.</em>
   <h2><a name="June13">Wednesday June 13</a></h2>
   <dl>
 <dt><a name="102">BIKE TO SKATE POTLUCK</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>Rose Quarter Water Fountain
 <br>5:45pm, Skating begins at 7pm
 <br><em>Come Skate at the West coast premier skating rink Oaks Park.
@@ -835,7 +835,7 @@ graffiti.</em>
 <br>Hunter Shobe &amp; Michael Jones
 </dd>
 <dt><a name="108">DANCE PARTY ON WHEELS WITH THE SPROCKETTES</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=SE+20th+%26+Belmont" target="_BLANK">SE 20th &amp; Belmont</a> (Col. Summers Park, next to tennis courts!)
 <br>7:00pm, At 7:30 we ride!!!!
 <br><em>Come ride with the Sprockettes and our bumpin' mobile sound
@@ -854,7 +854,7 @@ dance chain! &nbsp;
   <h2><a name="June14">Thursday June 14</a></h2>
   <dl>
 <dt><a name="93">PLATINUM BIKE MASTER PLAN PUBLIC FORUM- NORTH/NE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=5210+N.+Kerby+Ave." target="_BLANK">5210 N. Kerby Ave.</a> (Jefferson High School Cafeteria)
 <br>6:00pm - 8:00pm
 <br><em>Platinum Bicycle Master Plan Public Forum- N/NE-
@@ -927,7 +927,7 @@ Pedalpalooza!</em>
 <dt>
 <img src="pp07images/75.jpg" alt="" width="144" height="200" align="right">
 <a name="75">SMALL MUSEUMS BY BIKE TOUR: THE CITY AT WORK</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=1038+SE+39th+Ave" target="_BLANK">1038 SE 39th Ave</a> (Belmont Library)
 <br>12:45pm - 3:45pm
 <br><em>Slide down a fire pole. Send a secret morse code message. Lock
@@ -956,7 +956,7 @@ come out and try this super fun phenomenon. &nbsp;
 <dt>
 <img src="pp07images/147.gif" alt="" width="280" height="200" align="right">
 <a name="147">METICON BIKE BLOCK PARTY</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=5925+SE+Foster+Rd" target="_BLANK">5925 SE Foster Rd</a> (Corner of SE Foster and SE 60th.)
 <br>4:00pm - 10:00pm
 <br><em>Grand Opening celebration and partnerhship for Meticon Bikes and Community Exchange Bike School!
@@ -966,7 +966,7 @@ come out and try this super fun phenomenon. &nbsp;
 <br>Tina Giggles, t<span>inagiggles<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.exchangecycletours.org/">Meticon Bikes &amp; Community Exchange Bike School</a>
 </dd>
 <dt><a name="127">BIKE TO MICROBLUES FESTIVAL</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>8th &amp; Esther Streets (Esther Short Park)
 <br>5:00pm, Friday, Saturday &amp; Sunday
 <br><em>Microblues Festival is a family blues music event held in
@@ -980,7 +980,7 @@ and music in this premium outdoor venue. 8 at the door, Children under
 <dt>
 <img src="pp07images/51.jpg" alt="" width="160" height="200" align="right">
 <a name="51">SEXY CYCLIST RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=19+SW+2nd+Ave%2C+Portland" target="_BLANK">19 SW 2nd Ave, Portland</a> (Berbati)
 <br>6:30pm
 <br><em>Meet at 6:30, ride at 7:00
@@ -994,7 +994,7 @@ KARAOKE PUB CRAWL. jacqueauthier[at]earthlink.net</em>
 <br>Jacque Authier, g<span>lam.ma.ma<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://www.velorution.biz/?p=1333">www.velorution.biz/?p=1333</a>
 </dd>
 <dt><a name="135">KARAOKE 2 KAROKE RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=800+e+burnside" target="_BLANK">800 e burnside</a> (by Jupiter Hotel)
 <br>7:30pm
 <br><em>What's better than going out to sing karaoke with a bunch of
@@ -1047,7 +1047,7 @@ fancy!
 </font><br>Tomas Quinones, t<span>omas.quinones<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://24hoursofportland.blogspot.com/">24 Hours of Portland Blog</a>, 503-522-0079
 </dd>
 <dt><a name="37">HIKE N' BIKE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=Walker+Road+%26+158th%2C+Beaverton" target="_BLANK">Walker Road &amp; 158th, Beaverton</a> (Terpenning Recreation Complex)
 <br>7:30am
 <br><em>Hike 'n' Bike is a fundraiser for the Tualatin Hills Park
@@ -1110,7 +1110,7 @@ inclusive pace.</em>
 <br>Wes Kempfer, w<span>kempferjr<img src="pp07images/at.gif" alt=" at " border="0">yahoo<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, 503-550-1741
 </dd>
 <dt><a name="83">PRETTY PANTY RIDE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd><img src="pp07images/83.jpg" alt="" width="93" height="125" align="left">
 600 Columbia St., Vancouver 98660 (Propstra Plaza (Big Fish Clock), Esther Short Park, Vancouver)
 <br>11:00am
@@ -1133,7 +1133,7 @@ Splash dance.</em>
 <br>Marc, Kelly, And Capt. Clash, 503-230-0471
 </dd>
 <dt><a name="64">THE RECYCLERY BIKE SWAP</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp07images/64.jpg" alt="" width="99" height="125" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=1417+SE+9th+Ave.%2C+Portland" target="_BLANK">1417 SE 9th Ave., Portland</a> (The Recyclery)
 <br>1:00pm
@@ -1162,7 +1162,7 @@ encouraged. &nbsp;Come early for the River Bomb.</em>
 <br>Marc, Kelly, And Capt. Clash, d<span>anreedmiller<img src="pp07images/at.gif" alt=" at " border="0">yahoo<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, 503 230 0471
 </dd>
 <dt><a name="28">VELORRITO 2: DEATH 2 WEAK SAUCE!</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><img src="pp07images/28.gif" alt="" width="104" height="125" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=SE+20th+and+SE+Belmont" target="_BLANK">SE 20th and SE Belmont</a> (Col. Summers Park)
 <br>2:00pm
@@ -1224,7 +1224,7 @@ the zoobomb hill carefully. The first racer to complete 100 miles wins!</em>
 <br>Gabriel Amadeus, g<span>abrielamadeus<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>
 </dd>
 <dt><a name="14">FATHER'S DAY TRAILER KIDS PARK TOUR</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+35th+Ave+and+Skidmore" target="_BLANK">NE 35th Ave and Skidmore</a> (at the sandbox)
 <br>10:30am, Ride leaves to next park at 11:00 SHARP!
 <br><em>Father's Day Trailer Kids Park Tour--hitch up the trailer and
@@ -1297,7 +1297,7 @@ have a beer.</em>
 <br>Roger Geller, r<span>oger.geller<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>
 </dd>
 <dt><a name="78">ALE DRINKERS RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+33rd+and+Killingsworth" target="_BLANK">NE 33rd and Killingsworth</a> (Concordia Ale House)
 <br>3:00pm
 <br><em>Moderate pace bike ride for those who appreciate a good ale
@@ -1383,7 +1383,7 @@ join us for a casual ride to Mio Gelato for a frozen treat.</em>
 <dt>
 <img src="pp07images/89.jpg" alt="" width="140" height="200" align="right">
 <a name="89">TWIN SPIN</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>NE 7th Ave between Shaver St &amp; Mason St (Two Plum Park)
 <br>7:00pm
 <br><em>Are you ever mistaken for someone else in the bike community?
@@ -1434,7 +1434,7 @@ vegetarian/vegan). We'll also stop at a grocery store.</em>
 <br>Shawn Granton, u<span>rbanadventureleague<img src="pp07images/at.gif" alt=" at " border="0">scribble<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>, <a href="http://urbanadventureleague.blogspot.com/">urbanadventureleague.blogspot.com</a>, P<span>.O. Box 14185, Portland OR 97293</span>
 </dd>
 <dt><a name="54">BEGINNING WOMEN CYCLISTS CLINIC</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=5329+NE+Sandy+Blvd" target="_BLANK">5329 NE Sandy Blvd</a> (Hollywood Bike Gallery)
 <br>7:00pm
 <br><em>Why learn the hard way? In this clinic we provide you the
@@ -1454,7 +1454,7 @@ find a volunteer project that will fit your skills and interests.</em>
 <br>Neal Armstrong, V<span>olunteer<img src="pp07images/at.gif" alt=" at " border="0">CommunityCyclingCenter<img src="pp07images/dotorg.gif" alt=" daht oh are gee" border="0"></span>, <a href="http://www.communitycyclingcenter.org/">www.CommunityCyclingCenter.org/</a>, 503-546-8864
 </dd>
 <dt><a name="92">3RD ANNUAL BAR-HOPPIN' BY BICYCLE BIRTHDAY BASH</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=2622+SE+Belmont" target="_BLANK">2622 SE Belmont</a> (The Vern)
 <br>7:00pm, Show up at 7pm and we'll leave soon thereafterward
 <br><em>A tour of the some of the seedier dive bars of the area and
@@ -1485,7 +1485,7 @@ Adults only. Awesome workout.</em>
   <h2><a name="June20">Wednesday June 20</a></h2>
   <dl>
 <dt><a name="115">BREAKFAST OFF THE I-5 BRIDGE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>Vancouver, NW end of the path just off the bridge
 <br>5:30am - 8:30am
 <br><em>Commuter social serving donuts/bagels, coffee, advice, and brochures/maps to bicyclists.</em>
@@ -1523,7 +1523,7 @@ experience required. Free!</em>
 <dt>
 <img src="pp07images/117.jpg" alt="" width="150" height="200" align="right">
 <a name="117">TOUR DE BIKESTATION SITES</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=SW+1st+Ave+%26+Madison" target="_BLANK">SW 1st Ave &amp; Madison</a> (Hawthorne Bridge Bike Lane, Approach East Bound)
 <br>5:30pm
 <br><em>Ride with Andrea White of Bikestation to investigate where
@@ -1561,7 +1561,7 @@ conveniently shop by bike. The session concludes with building your own
 <dt>
 <img src="pp07images/100.jpg" alt="" width="212" height="139" align="right">
 <a name="100">BIKING VIKING RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=111+NE++11th" target="_BLANK">111 NE  11th</a> (Norse Hall)
 <br>7:30pm
 <br><em>Calling all Vikings and Valkeries! &nbsp; Don your finest and
@@ -1614,7 +1614,7 @@ lunch!
 <br>Mr. Forsberg, Options Guy, t<span>imothy.forsberg<img src="pp07images/at.gif" alt=" at " border="0">pdxtrans<img src="pp07images/dotorg.gif" alt=" daht oh are gee" border="0"></span>, <a href="http://www.gettingaroundportland.org/">www.gettingaroundportland.org/</a>, 503-823-7699
 </dd>
 <dt><a name="116">MOCKTAILS OFF THE I-5 BRIDGE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>Vancouver, NW end of the path off the I-5 bridge
 <br>2:30pm - 5:30pm
 <br><em>Commuter social serving virgin cocktails, finger food, advice, brochures &amp; maps to bicyclists.</em>
@@ -1647,7 +1647,7 @@ be!</em>
 <br>Adriane, a<span>driane.ackerman<img src="pp07images/at.gif" alt=" at " border="0">gmail<img src="pp07images/dotcom.gif" alt=" daht comm" border="0"></span>
 </dd>
 <dt><a name="84">BTA N/NE BICYCLE BOULEVARD VISION TOUR</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=501+N+Failing+%28at+N+Commercial%29" target="_BLANK">501 N Failing (at N Commercial)</a> (Unthank Park)
 <br>6:00pm - 8:00pm
 <br><em>Join the BTA for a two-hour guided tour of potential
@@ -1695,7 +1695,7 @@ and obey all traffic laws.</em>
   <h2><a name="June22">Friday June 22</a></h2>
   <dl>
 <dt><a name="69">BREAKFAST ON THE BRIDGES</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>Broadway Bridge / Hawthorne Bridge (North side)
 <br>7:00am - 9:00am
 <br><em>Not just for Last Fridays anymore! Come have breakfast with
@@ -1766,7 +1766,7 @@ wall.</em>
 <br>Janis McDonald, j<span>anis.mcdonald<img src="pp07images/at.gif" alt=" at " border="0">pdxtrans<img src="pp07images/dotorg.gif" alt=" daht oh are gee" border="0"></span>, <a href="http://www.gettingaroundportland.org/">City of Portland, Office of Transportation</a>, 503-823-5358
 </dd>
 <dt><a name="42">SLOW-POKE PASTRY PATROL</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=4235+SE+Woodstock" target="_BLANK">4235 SE Woodstock</a> (Woodstock Bike Gallery)
 <br>10:00am - 12:00pm
 <br><em>Slow-poke Pastry Patrol. &nbsp;Short ride to one of SE
@@ -1779,7 +1779,7 @@ discouraged.</em>
 <dt>
 <img src="pp07images/142.jpg" alt="" width="154" height="200" align="right">
 <a name="142">D'S 24HR $666 ZOMBIE HUNT</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=SE+Taylor+and+20th+Avenue" target="_BLANK">SE Taylor and 20th Avenue</a> (Col. Summers Park, south side)
 <br>1:00pm, Leave's at 4 pm sharp! show up by 3:30 for registration
 <br><em>D's 24hr Zombie Hunt

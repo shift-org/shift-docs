@@ -22,7 +22,7 @@ poster-image: "/images/pp/pp2004.jpg"
 
 <font size="3">With major sponsorship from <a href="http://www.pdxtrans.org" target="_blank"> <img src="https://www.pdxtrans.org/images/home_logo.gif" alt="City of Portland Office of Transportation" width="120" height="40" border="0" align="middle"></a> and <b>New Belgium</b></font>
 
-<font size="4"><img src="/images/ff.gif" border="0" align="left">Family Friendly Events</font>
+<font size="4"><img src="/images/legacy/ff.gif" border="0" align="left">Family Friendly Events</font>
 <font size="1">The fun bike flags events that are appropriate for the entire family.  You may also want to contact the event organizers to find out if an event is right for your family.</font>
 
 <font color="#310055"><font size="2">
@@ -50,7 +50,7 @@ the e-mail addresses listed below..</font>
 
 
 
-<img src="/images/ff.gif" border="0" align="left"><b>6:00-8 pm Kick-off Parade</b> <br>
+<img src="/images/legacy/ff.gif" border="0" align="left"><b>6:00-8 pm Kick-off Parade</b> <br>
 
 Eco Trust Building Farmers' Market, 721 NW 9th <i><b> Parade leaves at 6:30.</b> Dress up your bike and yourself and join the parade to kick off Pedalpalooza</i>.
 
@@ -63,7 +63,7 @@ Steph [at] riseup.net
 <hr><b> Friday 11</b><hr><br>
 
 <img src="pp04images/bonb_crowd.jpg" width="250" height="150" border="0" align="right">
-<img src="/images/ff.gif" border="0" align="left"><b>7-9 am Breakfast on the Bridges</b><br>
+<img src="/images/legacy/ff.gif" border="0" align="left"><b>7-9 am Breakfast on the Bridges</b><br>
  Hawthorne Bridge, West end of North side -or- Broadway Bridge, in
 the middle<i> Ride the bridge, eat a nosh, have a cawfee. No big whoop</i>
 timolandia [at] ShiftToBikes.org
@@ -71,7 +71,7 @@ timolandia [at] ShiftToBikes.org
 
 <br>
 
-<img src="/images/ff.gif" border="0" align="left"><b> 10:30 am Lent Summer Bike Ride &amp; Ice Cream Party </b><br>
+<img src="/images/legacy/ff.gif" border="0" align="left"><b> 10:30 am Lent Summer Bike Ride &amp; Ice Cream Party </b><br>
 
 Lent Elementary, 5105 Southeast 97th Avenue <i> Starting from the Lent Elementary School, students,
 families and community members will take a
@@ -83,7 +83,7 @@ Yeng Cha 503-577-2273
 
 
 
-<img src="/images/ff.gif" border="0" align="left"><b>6-9 pm Peninsula Park Pedal Picnic <br> </b>
+<img src="/images/legacy/ff.gif" border="0" align="left"><b>6-9 pm Peninsula Park Pedal Picnic <br> </b>
 Penninsula Park (Ainsworth and Albina) <i>  festive potluck picnic for all
 ages! featuring FAMILY BIKING DEMO with KIDS HELMET GIVEAWAY, games, prizes, surprises and FUN for the WHOLE
 FAMILY.  Great ideas for
@@ -128,7 +128,7 @@ and girls.  The workshop is to be followed by polo games on the newly converted 
 
 <br>
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"><b> 12 noon Lazy Coffee </b> <br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"><b> 12 noon Lazy Coffee </b> <br>
 Salmon Street Fountain (Salmon and Front Ave/Naito Parkway) <i>Pass out coffee and pastries to unsuspecting bicyclists along the waterfront.
 
 </i>timolandia [at] ShiftToBikes.org
@@ -183,7 +183,7 @@ Clothing check (not secure) and body paint available at dance party.</i>
 
 
 <img src="pp04images/summerrideslow.jpg" border="0" align="left">
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"><b>10 am Trailer Kids Park Tour<br></b>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"><b>10 am Trailer Kids Park Tour<br></b>
 
 <i>hitch up the trailer and grab the kids,
 we're going to the park by bike! Ride leaves Wilshire Park (NE 35th and
@@ -197,7 +197,7 @@ only tag-along bikes, tandems, and trailers.
 
 <br>
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"><b>10 am Heritage Trees Ride<br></b>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"><b>10 am Heritage Trees Ride<br></b>
 N. Prescott Max Station <i>
 Enjoy a tour of majestic trees in NE Portland.
 This leisurely tour will take about 2 hours and
@@ -246,7 +246,7 @@ Laurelhurst Theater, 28th and East Burnside <i>Special screening of the classic 
 <b>Monday 14</b><br><hr>
 
 <img src="pp04images/flag.jpg" border="0" align="left">
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left">
 <b>3:30 pm Flag Day Ceremony and Celebrate Freedom Cook Out  </b> <br>
 
 The Bandstand on Vancouver Barracks Parade Ground,
@@ -272,7 +272,7 @@ East side of the Hawthorne Bridge
 <hr><b>Tuesday 15</b><br><hr>
 
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left">
 <b>5:30 pm Bike to Rollerskate </b> <br>
 <img src="pp04images/marc_industrial.jpg" border="0" align="right">
 Rose Quarter Fountain <i> Ride the esplanade to Oaks Park for rollerskating.  First people to arrive will be admitted for free.
@@ -321,7 +321,7 @@ New to the CCC? Attend Volunteer Orientation 7-8 pm</i> - Katherine [at] Communi
 
 
 <br>
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>7 pm HOB (High Occupancy Bike) Knob</b><br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>7 pm HOB (High Occupancy Bike) Knob</b><br>
 Jamison
 Square (NW 11th &amp; Kearney) <i>Bring your tandems, triples, trailers, and cargo bikes to the HOB Knob.
 A leisurely social ride and sight-seeing tour of interesting,
@@ -378,19 +378,19 @@ but adventurous ride in p-town</i>.
 </p><hr><b>Friday 18</b><br><hr>
 
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>6-10 am Breakfast Off the 205 Bridge </b> <br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>6-10 am Breakfast Off the 205 Bridge </b> <br>
 
 North end of the path just off of the bridge <i>serving donuts, bagels, fruit, coffee
 and advice - brochures/maps to bicyclists</i> -  Ahmad Qayoumi, City of Vancouver 360.696.8290 x8479 <br>
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>7-9 am Breakfast on the Bridges</b><br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>7-9 am Breakfast on the Bridges</b><br>
  Hawthorne Bridge, West end of North side -or- Broadway Bridge, in
 the middle<i> Ride the bridge, eat a nosh, have a cawfee. No big whoop</i>
 - timolandia [at] ShiftToBikes.org
 
 <br>
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>8 pm  Pedal-Powered Bike-In Movie </b>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>8 pm  Pedal-Powered Bike-In Movie </b>
  <br>Hawthorne Hostel, SE Hawthorne and 30th <i> Join us for a fun night of entertainers, prizes, food and
 movies. ENTER TO WIN a Breezer I3 folding bike donated by <b>Veloce Bicycles at
 SE 32nd &amp; Hawthorne! </b> Free food provided by<b>Hot Lips Pizza and Noodlin'</b> ! Movies
@@ -423,7 +423,7 @@ Bike Gallery, 5329 NE Sandy. <i> - This is a weekly 20-30 mile ride, no one left
 <br>
 
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>9 am  Willamette Week Scavenger Hunt </b> <br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>9 am  Willamette Week Scavenger Hunt </b> <br>
 
 River City Bicycles 706 SE MLK <i>Scavenger hunt by bike!  Shorter family ride too.  Prizes galore.  Proceeds benefit local organizations</i>.
 see: <a target="_blank" href="http://www.wweek.com">W|W Website</a> for details.
@@ -470,7 +470,7 @@ Todd Boulanger, City of Vancouver,todd.boulanger [at] ci.vancouver.wa.us,
 
 
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>12 noon-1 pm Trike and Wagon Race </b><br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>12 noon-1 pm Trike and Wagon Race </b><br>
 
 NE 14th between Beech and Fremont behind Wild Oats  A completely kid-friendly and family-oriented race held in conjunction with the Sabin Summer Celebration.  Open to ages 2-5.
 Ribbons for winners and safety prizes and more.
@@ -481,7 +481,7 @@ Angela Roth, 503-282-1783, PeanutButterEllies [at] Earthlink.net
 <br>
 
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b> 3-6 pm Massive Happening </b><br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b> 3-6 pm Massive Happening </b><br>
 <i>What would it look like if there were ten times as many people on bikes in Portland, running errands and getting around town by bike?  Let's find out today!  Massive Happening is a
  convergence of cyclists riding over the bridges and around town in a core area.  Stop by CityBikes
  (on SE Ankeny at 8th and 20th), pick up streamers to adorn your bike and identify yourself as a Happening participant.
@@ -504,7 +504,7 @@ Breakfast and libations to follow. </i>  Hosted by the Westside Cougars
 
 
 <br>
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>10 am Trailer Kids Park Tour<br></b>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>10 am Trailer Kids Park Tour<br></b>
 
 Wilshire Park (NE 35th and Skidmore, at the sandbox) <i>hitch up the trailer and grab the kids,
 we're going to the park by bike!   We will travel to a few parks,
@@ -627,7 +627,7 @@ salzberg [at] reed.edu
  <b>WEDNESDAY 23</b><br><hr>
 
 <img src="pp04images/juice.jpg" img="" -="" width="150" height="225" border="0" align="right">
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>5:30 pm Bike to Rollerskate </b> <br> Rose Quarter Fountain <i> Ride the esplanade to Oaks Park for rollerskating.  First people to arrive will be admitted for free.
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>5:30 pm Bike to Rollerskate </b> <br> Rose Quarter Fountain <i> Ride the esplanade to Oaks Park for rollerskating.  First people to arrive will be admitted for free.
 Free car parking in the Cucina Cucina parking lot.</i>
  ytamer [at] aol.com
 
@@ -684,7 +684,7 @@ Bill of Rights and Responsibilities guide.
 <br>
 
 <img src="pp04images/aralia.jpg" border="0" align="left">
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left">
 <b>5:30 pm  Kinetic Bike-Mobile Art Party Outing! </b> <br>
 
 
@@ -719,7 +719,7 @@ Portland Zine Symposium starts - <a href="http://www.pdxzines.com" target="_blan
 <br>
 
 
-<img src="/images/ff.gif" alt="Family-friendly" border="0" align="left"> <b>7-9 am Breakfast on the Bridges</b><br>
+<img src="/images/legacy/ff.gif" alt="Family-friendly" border="0" align="left"> <b>7-9 am Breakfast on the Bridges</b><br>
  Hawthorne Bridge, West end of North side -or- Broadway Bridge, in
 the middle<i> Ride the bridge, eat a nosh, have a cawfee. No big whoop</i>
 timolandia [at] ShiftToBikes.org
