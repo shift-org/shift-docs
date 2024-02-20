@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
-{{ partial "head.html" . }}
+<head>
+  {{ partial "head.html" . }}
+  {{ partial "cal/head.html" . }}
+</head>
 
 <body>
-  <!-- legacycalpage/single.html -->
 
   <div id="all">
     <header>
@@ -21,7 +23,7 @@
 
               <div class="col-md-12">
 
-<!--                 {{ partial "alert_banner.html" . }} -->
+                   <!-- {{ partial "alert_banner.html" . }} -->
 
                   <!-- modified pp_heading partial -->
                   <div class="pp-banner">
@@ -45,9 +47,7 @@
     </main>
 
     <footer>
-
-        {{ partial "footer.html" . }}
-
+      {{ partial "footer.html" . }}
     </footer>
 
   </div>
@@ -56,4 +56,5 @@
   {{ partial "scripts.html" . }}
 
 </body>
+
 </html>

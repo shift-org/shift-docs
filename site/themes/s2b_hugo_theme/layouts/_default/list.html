@@ -1,115 +1,119 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
+<head>
   {{ partial "head.html" . }}
+</head>
 
-  <body>
+<body>
 
-    <div id="all">
+  <div id="all">
 
-        <header>
+    <header>
+      {{ partial "nav.html" . }}
+    </header>
 
-          {{ partial "nav.html" . }}
+    <main>
+      {{ partial "breadcrumbs.html" . }}
 
-        </header>
+      <div id="content">
+        <div class="container">
+        <div class="row">
+            <!-- *** LEFT COLUMN *** -->
 
-        {{ partial "breadcrumbs.html" . }}
+            <div class="col-md-9" id="blog-listing-medium">
 
-        <div id="content">
-            <div class="container">
+              {{ $paginator := .Paginate (where .Data.Pages "Type" "blog") }}
+              {{ range $paginator.Pages }}
+              <section class="post">
                 <div class="row">
-                    <!-- *** LEFT COLUMN *** -->
+                  <div class="col-md-4">
+                  <div class="image">
+                    <a href="{{ .Permalink }}">
+                      {{ if .Params.banner }}
+                      <img src="{{ .Site.BaseURL}}{{ .Params.banner }}" class="img-responsive" alt="">
+                      {{ else }}
+                      <img src="{{ .Site.BaseURL}}img/placeholder.png" class="img-responsive" alt="">
+                      {{ end }}
+                    </a>
+                  </div>
+                  </div>
+                  <div class="col-md-8">
+                    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+                    <div class="clearfix">
+                      <p class="author-category">
+                      {{ if isset .Params "author" }}
+                      {{ i18n "authorBy" }} <a href="#">{{ .Params.author }}</a>
+                      {{ end }}
+                      {{ if isset .Params "categories" }}
+                      {{ if gt (len .Params.categories) 0 }}
+                      in <a href="{{ $.Site.BaseURL }}categories/{{ index .Params.categories 0 | urlize | lower }}">{{ index .Params.categories 0 }}</a>
+                      {{ end }}
+                      {{ end }}
 
-                    <div class="col-md-9" id="blog-listing-medium">
-
-                        {{ $paginator := .Paginate (where .Data.Pages "Type" "blog") }}
-                        {{ range $paginator.Pages }}
-                        <section class="post">
-                            <div class="row">
-                                <div class="col-md-4">
-                                  <div class="image">
-                                      <a href="{{ .Permalink }}">
-                                          {{ if .Params.banner }}
-                                          <img src="{{ .Site.BaseURL}}{{ .Params.banner }}" class="img-responsive" alt="">
-                                          {{ else }}
-                                          <img src="{{ .Site.BaseURL}}img/placeholder.png" class="img-responsive" alt="">
-                                          {{ end }}
-                                      </a>
-                                  </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-                                    <div class="clearfix">
-                                        <p class="author-category">
-                                          {{ if isset .Params "author" }}
-                                          {{ i18n "authorBy" }} <a href="#">{{ .Params.author }}</a>
-                                          {{ end }}
-                                          {{ if isset .Params "categories" }}
-                                          {{ if gt (len .Params.categories) 0 }}
-                                          in <a href="{{ $.Site.BaseURL }}categories/{{ index .Params.categories 0 | urlize | lower }}">{{ index .Params.categories 0 }}</a>
-                                          {{ end }}
-                                          {{ end }}
-
-                                        </p>
-                                        <p class="date-comments">
-                                            <a href="{{ .Permalink }}"><i class="fa fa-calendar-o"></i> {{ .Date.Format .Site.Params.date_format }}</a>
-                                        </p>
-                                    </div>
-                                    <p class="intro">{{ .Summary }}</p>
-                                    <p class="read-more"><a href="{{ .Permalink }}" class="btn btn-template-main">{{ i18n "continueReading" }}</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-                        {{ end }}
-
-                        <ul class="pager">
-                            {{ if .Paginator.HasPrev }}
-                            <li class="previous"><a href="{{ .Site.BaseURL }}{{ .Paginator.Prev.URL }}">&larr; {{ i18n "newer" }}</a></li>
-                            {{ else }}
-                            <li class="previous disabled"><a href="#">&larr; {{ i18n "newer" }}</a></li>
-                            {{ end }}
-
-                            {{ if .Paginator.HasNext }}
-                            <li class="next"><a href="{{ .Site.BaseURL }}{{ .Paginator.Next.URL }}">{{ i18n "older" }} &rarr;</a></li>
-                            {{ else }}
-                            <li class="next disabled"><a href="#">{{ i18n "older" }} &rarr;</a></li>
-                            {{ end }}
-                        </ul>
+                      </p>
+                      <p class="date-comments">
+                        <a href="{{ .Permalink }}"><i class="fa fa-calendar-o"></i> {{ .Date.Format .Site.Params.date_format }}</a>
+                      </p>
                     </div>
-                    <!-- /.col-md-9 -->
-
-                    <!-- *** LEFT COLUMN END *** -->
-
-                    <!-- *** RIGHT COLUMN ***
-       _________________________________________________________ -->
-
-                    <div class="col-md-3">
-
-                        <!-- *** MENUS AND WIDGETS *** -->
-
-                        {{ partial "sidebar.html" . }}
-
-                        <!-- *** MENUS AND FILTERS END *** -->
-
-                    </div>
-                    <!-- /.col-md-3 -->
-
-                    <!-- *** RIGHT COLUMN END *** -->
-
+                    <p class="intro">{{ .Summary }}</p>
+                    <p class="read-more"><a href="{{ .Permalink }}" class="btn btn-template-main">{{ i18n "continueReading" }}</a>
+                    </p>
+                  </div>
                 </div>
-                <!-- /.row -->
+              </section>
+              {{ end }}
+
+              <ul class="pager">
+                {{ if .Paginator.HasPrev }}
+                <li class="previous"><a href="{{ .Site.BaseURL }}{{ .Paginator.Prev.URL }}">&larr; {{ i18n "newer" }}</a></li>
+                {{ else }}
+                <li class="previous disabled"><a href="#">&larr; {{ i18n "newer" }}</a></li>
+                {{ end }}
+
+                {{ if .Paginator.HasNext }}
+                <li class="next"><a href="{{ .Site.BaseURL }}{{ .Paginator.Next.URL }}">{{ i18n "older" }} &rarr;</a></li>
+                {{ else }}
+                <li class="next disabled"><a href="#">{{ i18n "older" }} &rarr;</a></li>
+                {{ end }}
+              </ul>
             </div>
-            <!-- /.container -->
+            <!-- /.col-md-9 -->
+
+            <!-- *** LEFT COLUMN END *** -->
+
+            <!-- *** RIGHT COLUMN *** -->
+
+            <div class="col-md-3">
+
+              <!-- *** MENUS AND WIDGETS *** -->
+
+              {{ partial "sidebar.html" . }}
+
+              <!-- *** MENUS AND FILTERS END *** -->
+
+            </div>
+            <!-- /.col-md-3 -->
+
+            <!-- *** RIGHT COLUMN END *** -->
+
+          </div>
+          <!-- /.row -->
         </div>
-        <!-- /#content -->
+        <!-- /.container -->
+      </div>
+      <!-- /#content -->
+    </main>
 
-        {{ partial "footer.html" . }}
+    <footer>
+    {{ partial "footer.html" . }}
+    </footer>
 
-    </div>
-    <!-- /#all -->
+  </div>
+  <!-- /#all -->
 
-    {{ partial "scripts.html" . }}
+  {{ partial "scripts.html" . }}
 
-  </body>
+</body>
+
 </html>

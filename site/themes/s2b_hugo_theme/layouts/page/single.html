@@ -1,63 +1,61 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
+<head>
   {{ partial "head.html" . }}
+</head>
 
-  <body>
+<body>
 
-    <div id="all">
+  <div id="all">
 
-        <header>
+    <header>
+      {{ partial "nav.html" . }}
+    </header>
 
-          {{ partial "nav.html" . }}
+    <main>
+        {{ partial "breadcrumbs.html" . }}
 
-        </header>
+        <div id="content">
+            {{ if isset .Params "id" }}
 
-        <main>
+              {{ partial .Params.id . }}
 
-            {{ partial "breadcrumbs.html" . }}
+            {{ else }}
 
-            <div id="content">
-                {{ if isset .Params "id" }}
+            <div class="container">
 
-                  {{ partial .Params.id . }}
+                <div class="row">
 
-                {{ else }}
+                    <div class="col-md-12">
 
-                <div class="container">
-
-                    <div class="row">
-
-                        <div class="col-md-12">
-
-                            <div>
-                              {{ .Content }}
-                            </div>
-
+                        <div>
+                          {{ .Content }}
                         </div>
 
                     </div>
-                    <!-- /.row -->
 
                 </div>
-                <!-- /.container -->
+                <!-- /.row -->
 
-                {{ end }}
             </div>
-            <!-- /#content -->
+            <!-- /.container -->
 
-        </main>
+            {{ end }}
+        </div>
+        <!-- /#content -->
 
-        <footer>
+      </main>
 
-            {{ partial "footer.html" . }}
+      <footer>
+        {{ partial "footer.html" . }}
+      </footer>
 
-        </footer>
+  </div>
+  <!-- /#all -->
 
-    </div>
-    <!-- /#all -->
+  {{ partial "scripts.html" . }}
 
-    {{ partial "scripts.html" . }}
+</body>
 
-  </body>
 </html>
