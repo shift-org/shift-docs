@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.34, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.44, for Linux (x86_64)
 --
 -- Host: db    Database: shift
 -- ------------------------------------------------------
--- Server version	5.7.34
+-- Server version	5.7.44
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -33,15 +33,6 @@ CREATE TABLE IF NOT EXISTS `caladdress` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `caladdress`
---
-
-LOCK TABLES `caladdress` WRITE;
-/*!40000 ALTER TABLE `caladdress` DISABLE KEYS */;
-/*!40000 ALTER TABLE `caladdress` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `calcount`
 --
 
@@ -55,15 +46,6 @@ CREATE TABLE IF NOT EXISTS `calcount` (
   `count` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `calcount`
---
-
-LOCK TABLES `calcount` WRITE;
-/*!40000 ALTER TABLE `calcount` DISABLE KEYS */;
-/*!40000 ALTER TABLE `calcount` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `caldaily`
@@ -82,17 +64,8 @@ CREATE TABLE IF NOT EXISTS `caldaily` (
   `pkid` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pkid`),
   KEY `eventdate` (`eventdate`)
-) ENGINE=MyISAM AUTO_INCREMENT=13648 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=18507 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `caldaily`
---
-
-LOCK TABLES `caldaily` WRITE;
-/*!40000 ALTER TABLE `caldaily` DISABLE KEYS */;
-/*!40000 ALTER TABLE `caldaily` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `calevent`
@@ -104,7 +77,7 @@ UNLOCK TABLES;
 CREATE TABLE IF NOT EXISTS `calevent` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `changes` int(11),
+  `changes` int(11) DEFAULT '0',
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -151,17 +124,8 @@ CREATE TABLE IF NOT EXISTS `calevent` (
   `ridelength` varchar(255) DEFAULT NULL,
   `safetyplan` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8246 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11195 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `calevent`
---
-
-LOCK TABLES `calevent` WRITE;
-/*!40000 ALTER TABLE `calevent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `calevent` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `calforum`
@@ -183,15 +147,6 @@ CREATE TABLE IF NOT EXISTS `calforum` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `calforum`
---
-
-LOCK TABLES `calforum` WRITE;
-/*!40000 ALTER TABLE `calforum` DISABLE KEYS */;
-/*!40000 ALTER TABLE `calforum` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `calshare`
 --
 
@@ -203,15 +158,6 @@ CREATE TABLE IF NOT EXISTS `calshare` (
   `shareevents` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `calshare`
---
-
-LOCK TABLES `calshare` WRITE;
-/*!40000 ALTER TABLE `calshare` DISABLE KEYS */;
-/*!40000 ALTER TABLE `calshare` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `mugDialog`
@@ -226,38 +172,6 @@ CREATE TABLE IF NOT EXISTS `mugDialog` (
   PRIMARY KEY (`dialog_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mugDialog`
---
-
-LOCK TABLES `mugDialog` WRITE;
-/*!40000 ALTER TABLE `mugDialog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mugDialog` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `mugdialog`
---
-
--- DROP TABLE IF EXISTS `mugdialog`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `mugdialog` (
-  `dialog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `chatter` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`dialog_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mugdialog`
---
-
-LOCK TABLES `mugdialog` WRITE;
-/*!40000 ALTER TABLE `mugdialog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mugdialog` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `pp20apr2006`
@@ -299,15 +213,6 @@ CREATE TABLE IF NOT EXISTS `pp20apr2006` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pp20apr2006`
---
-
-LOCK TABLES `pp20apr2006` WRITE;
-/*!40000 ALTER TABLE `pp20apr2006` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pp20apr2006` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `ppdistro`
 --
 
@@ -321,15 +226,6 @@ CREATE TABLE IF NOT EXISTS `ppdistro` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=latin1 COMMENT='Tracks locations of PP calendars and posters';
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ppdistro`
---
-
-LOCK TABLES `ppdistro` WRITE;
-/*!40000 ALTER TABLE `ppdistro` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ppdistro` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `ppforum`
@@ -351,15 +247,6 @@ CREATE TABLE IF NOT EXISTS `ppforum` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ppforum`
---
-
-LOCK TABLES `ppforum` WRITE;
-/*!40000 ALTER TABLE `ppforum` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ppforum` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `rideIdea`
 --
 
@@ -375,41 +262,6 @@ CREATE TABLE IF NOT EXISTS `rideIdea` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=247 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rideIdea`
---
-
-LOCK TABLES `rideIdea` WRITE;
-/*!40000 ALTER TABLE `rideIdea` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rideIdea` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rideidea`
---
-
--- DROP TABLE IF EXISTS `rideidea`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE IF NOT EXISTS `rideidea` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ride` varchar(255) NOT NULL DEFAULT '',
-  `contact` varchar(26) NOT NULL DEFAULT '',
-  `IP` varchar(15) NOT NULL,
-  `datePosted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rideidea`
---
-
-LOCK TABLES `rideidea` WRITE;
-/*!40000 ALTER TABLE `rideidea` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rideidea` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `sched`
@@ -460,15 +312,6 @@ CREATE TABLE IF NOT EXISTS `sched` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=156 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sched`
---
-
-LOCK TABLES `sched` WRITE;
-/*!40000 ALTER TABLE `sched` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sched` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -479,4 +322,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-05  1:30:32
+-- Dump completed on 2024-02-25 23:48:21
