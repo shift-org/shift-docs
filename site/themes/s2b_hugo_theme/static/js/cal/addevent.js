@@ -88,7 +88,7 @@
         });
 
         if (!shiftEvent.area) {
-            shiftEvent.area = DEFAULT_AREA; // Portland
+            shiftEvent.area = DEFAULT_AREA;
         }
         shiftEvent.areaOptions = [];
         for (let [key, value] of Object.entries(AREA)) {
