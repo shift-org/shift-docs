@@ -15,7 +15,7 @@ const AUDIENCE = Object.freeze({
 const AUDIENCE_DESCRIPTION = Object.freeze({
     'G' : 'General — For adults, but kids welcome',
     'F' : 'Family Friendly — Adults bring children',
-    'A' : '21+ — Adults only',
+    'A' : '21+ Only — Adults only',
 });
 
 const LENGTH = Object.freeze({
