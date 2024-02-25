@@ -1,50 +1,57 @@
+const AREA = Object.freeze({
+    'P' : 'Portland',
+    'V' : 'Vancouver',
+    'W' : 'Westside',
+    'E' : 'East Portland',
+    'C' : 'Clackamas',
+});
+
+const AUDIENCE = Object.freeze({
+    'G' : 'General',
+    'F' : 'Family Friendly',
+    'A' : '21+ Only',
+});
+
+const AUDIENCE_DESCRIPTION = Object.freeze({
+    'G' : 'General — For adults, but kids welcome',
+    'F' : 'Family Friendly — Adults bring children',
+    'A' : '21+ — Adults only',
+});
+
+const LENGTH = Object.freeze({
+    '--'   : '--',
+    '0-3'  : '0-3 miles',
+    '3-8'  : '3-8 miles',
+    '8-15' : '8-15 miles',
+    '15+'  : '15+ miles',
+});
+
+const DEFAULT_AREA = 'P';
+const DEFAULT_AUDIENCE = 'G';
+const DEFAULT_LENGTH = '--';
+
 (function($) {
 
     $.fn.getAudienceLabel = function(audience) {
-        if (audience == null) {
-            return null;
-        }
-
-        if (audience == "A") {
-            return "21+ Only";
-        } else if (audience == "F") {
-            return "Family Friendly";
+        if (!audience || audience == DEFAULT_AUDIENCE) {
+            return null; // no label if unspecified, or for default value
         } else {
-            //no label needed for general (G) or any other value
-            return null;
+            return AUDIENCE[audience];
         }
     };
 
     $.fn.getAreaLabel = function(area) {
-        if (area == null) {
-            return null;
+        if (!area || area == DEFAULT_AREA) {
+            return null; // no label if unspecified, or for default value
+        } else {
+            return AREA[area];
         }
-
-        switch (area) {
-          case 'V':
-              return "Vancouver";
-              break;
-          case 'W':
-              return "Westside";
-              break;
-          case 'E':
-              return "East Portland";
-              break;
-          case 'C':
-              return "Clackamas";
-              break;
-          case 'P':
-              // no label needed for Portland (P)
-          default:
-              return null;
-        }
-
     };
 
     $.fn.getMapLink = function(address) {
         if (!address || address == 'TBA' || address == 'TBD') {
             // if address is null or not available yet, don't try to map it
-            return;
+            return null;
         }
 
         var urlPattern = /^https*:\/\//;
@@ -62,7 +69,7 @@
     $.fn.getWebLink = function(url) {
         if (!url) {
             // if url is not set, return nothing
-            return;
+            return null;
         }
 
         var urlPattern = /^https*:\/\//;
@@ -78,7 +85,7 @@
     $.fn.getContactLink = function(contactInfo) {
         if (!contactInfo) {
             // if no add'l contact info is set, return nothing
-            return;
+            return null;
         }
 
         var urlPattern = /^https*:\/\//;

@@ -1,5 +1,7 @@
 (function($) {
 
+    // uses CONSTANTS from helpers.js
+
     var _isFormDirty = false;
 
     $.fn.cleanFormDirt = function() {
@@ -30,25 +32,7 @@
     function populateEditForm(shiftEvent, callback) {
         var i, h, m, meridian,
             displayHour, displayMinute, timeChoice,
-            template, rendered, item,
-            lengths = [ '0-3', '3-8', '8-15', '15+'],
-            audiences = [{code: 'F', text: 'Family friendly. Adults bring children.'},
-                         {code: 'G', text: 'General. For adults, but kids welcome.'},
-                         {code: 'A', text: '21+ only.'}],
-            areas = [{code: 'P', text: 'Portland'},
-                     {code: 'V', text: 'Vancouver'},
-                     {code: 'W', text: 'Westside'},
-                     {code: 'E', text: 'East Portland'},
-                     {code: 'C', text: 'Clackamas'}];
-
-        shiftEvent.lengthOptions = [];
-        for ( i = 0; i < lengths.length; i++ ) {
-            item = {range: lengths[i]};
-            if (shiftEvent.length == lengths[i]) {
-                item.isSelected = true;
-            }
-            shiftEvent.lengthOptions.push(item);
-        }
+            template, rendered, item;
 
         shiftEvent.timeOptions = [];
         meridian = 'AM';
@@ -89,26 +73,46 @@
         }
 
         if (!shiftEvent.audience) {
-            shiftEvent.audience = 'G';
+            shiftEvent.audience = DEFAULT_AUDIENCE;
         }
-        shiftEvent.audienceOptions = [];
-        for ( i = 0; i < audiences.length; i++ ) {
-            if (shiftEvent.audience == audiences[i].code) {
-                audiences[i].isSelected = true;
+        shiftEvent.audienceOptions = Object.keys(AUDIENCE).map( (audience) => {
+            option = {
+                'code': audience,
+                'text': AUDIENCE_DESCRIPTION[audience],
+            };
+            if (option.code == shiftEvent.audience) {
+                option.isSelected = true;
             }
-            shiftEvent.audienceOptions.push(audiences[i]);
-        }
+            return option;
+        });
 
         if (!shiftEvent.area) {
-            shiftEvent.area = 'P';
+            shiftEvent.area = DEFAULT_AREA; // Portland
         }
-        shiftEvent.areaOptions = [];
-        for ( i = 0; i < areas.length; i++ ) {
-            if (shiftEvent.area == areas[i].code) {
-                areas[i].isSelected = true;
+        shiftEvent.areaOptions = Object.keys(AREA).map( (area) => {
+            option = {
+                'code': area,
+                'text': AREA[area],
+            };
+            if (option.code == shiftEvent.area) {
+                option.isSelected = true;
             }
-            shiftEvent.areaOptions.push(areas[i]);
+            return option;
+        });
+
+        if (!shiftEvent.length) {
+            shiftEvent.length = DEFAULT_LENGTH;
         }
+        shiftEvent.lengthOptions = Object.keys(LENGTH).map( (range) => {
+            option = {
+                'code': range,
+                'text': LENGTH[range],
+            };
+            if (option.code == shiftEvent.length) {
+                option.isSelected = true;
+            }
+            return option;
+        });
 
         template = $('#mustache-edit').html();
         rendered = Mustache.render(template, shiftEvent);
