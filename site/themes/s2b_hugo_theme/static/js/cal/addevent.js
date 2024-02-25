@@ -75,43 +75,46 @@
         if (!shiftEvent.audience) {
             shiftEvent.audience = DEFAULT_AUDIENCE;
         }
-        shiftEvent.audienceOptions = Object.keys(AUDIENCE).map( (audience) => {
+        shiftEvent.audienceOptions = [];
+        for (let [key, value] of Object.entries(AUDIENCE_DESCRIPTION)) {
             option = {
-                'code': audience,
-                'text': AUDIENCE_DESCRIPTION[audience],
+                'code': key,
+                'text': value,
             };
             if (option.code == shiftEvent.audience) {
                 option.isSelected = true;
             }
-            return option;
+            shiftEvent.audienceOptions.push(option);
         });
 
         if (!shiftEvent.area) {
             shiftEvent.area = DEFAULT_AREA; // Portland
         }
-        shiftEvent.areaOptions = Object.keys(AREA).map( (area) => {
+        shiftEvent.areaOptions = [];
+        for (let [key, value] of Object.entries(AREA)) {
             option = {
-                'code': area,
-                'text': AREA[area],
+                'code': key,
+                'text': value,
             };
             if (option.code == shiftEvent.area) {
                 option.isSelected = true;
             }
-            return option;
-        });
+            shiftEvent.areaOptions.push(option);
+        }
 
         if (!shiftEvent.length) {
             shiftEvent.length = DEFAULT_LENGTH;
         }
-        shiftEvent.lengthOptions = Object.keys(LENGTH).map( (range) => {
+        shiftEvent.lengthOptions = [];
+        for (let [key, value] of Object.entries(LENGTH)) {
             option = {
-                'code': range,
-                'text': LENGTH[range],
+                'code': key,
+                'text': value,
             };
             if (option.code == shiftEvent.length) {
                 option.isSelected = true;
             }
-            return option;
+            shiftEvent.lengthOptions.push(option);
         });
 
         template = $('#mustache-edit').html();
