@@ -23,8 +23,11 @@ RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-doc
 ADD cert.pem /etc/nginx/conf.d/cert.pem
 ADD key.pem /etc/nginx/conf.d/key.pem
 ADD sites-default /etc/nginx/sites-enabled/default
-EXPOSE 443 # for normal https traffic
-EXPOSE 80 # for certbot
+ADD backup.mysql /home/ubuntu/backup.mysql
+# for normal https traffic
+EXPOSE 443/tcp 
+# for certbot
+EXPOSE 80/tcp 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 RUN . /root/.bashrc && nvm install v20
 RUN cd /opt/shift-docs/site && hugo
