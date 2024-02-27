@@ -12,6 +12,9 @@ defaultContentLanguage = "en"
 # Define the number of posts per page
 paginate = 10
 
+# Required to read lastmod date from file
+# enableGitInfo = true
+
 [menu]
 
 [[menu.main]]
@@ -105,7 +108,6 @@ paginate = 10
     editURL = "/admin/#/collections/"
     description = "Shift website reboot documents"
     disableAssetsBusting = true # netlify doesn't need that
-    enableGitInfo = true
 
     # Google Maps API key (if not set will default to not passing a key.)
     googleMapsApiKey = "AIzaSyCFhtWLJcE30xOAjcbSFi-0fnoVmQZPb1Y"

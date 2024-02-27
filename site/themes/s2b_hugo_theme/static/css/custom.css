@@ -94,3 +94,7 @@ main .donate a {
     forced-color-adjust: auto;
   }
 }
+
+.lastmod {
+  font-style: italic;
+}
