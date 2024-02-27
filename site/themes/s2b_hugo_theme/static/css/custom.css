@@ -54,7 +54,7 @@ main a:focus {
 }
 
 main .donate {
-  text-align: center;
+  margin: 1rem 0 2rem 0;
 }
 
 main .donate a {

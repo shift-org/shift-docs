@@ -111,7 +111,7 @@ poster-image: "/images/pp/pp2006.jpg"
 trailer and come away with armloads of bike parts and bikes for only $5
 per load/frame!</em>
 <br>Susha Pratt, recycling<img src="images/at.gif" alt="[at]">communitycyclingcenter.org, <a href="http://www.communitycyclingcenter.org/">www.communitycyclingcenter.org/</a>, 503-546-8864</dd><dt class="eventdetail"><a name="69">BUCKS FOR BMX</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=3702+SE+Hawthorne%2C+Portland" target="_BLANK">3702 SE Hawthorne, Portland</a> (Bagdad Theater)
 <br>5:00pm, doors open at 5:00 , movie starts at 6:30
 <br><em>A benefit movie night at the Bagdad to raise $ for the new
@@ -131,7 +131,7 @@ skate/bmx park.</em>
 time to learn how to bring your bike on the bus. Take your time with
 the practice rack available before the start of the Kickoff Parade.</em>
 <br>Kiran Limaye, limayek<img src="images/at.gif" alt="[at]">trimet.org, <a href="http://www.trimet.org/howtoride/bikes/index.htm">www.trimet.org/howtoride/bikes/index.htm</a></dd><dt class="eventdetail"><a name="31">PEDALPALOOZA 2006 KICKASS PARADE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp06images/31.jpg" alt="" width="151" height="125" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NW+Johnson+%26+10th" target="_BLANK">NW Johnson &amp; 10th</a> (Jamison Square)
 <br>5:45pm, Come early to meet  / Decorate your bike / At 6:30 we ride!
@@ -162,7 +162,7 @@ bike movies for your heckling</em>
   <hr class="detail">
   <h2><a name="June9">Friday June 9</a></h2>
   <dl><dt class="eventdetail"><a name="37">BREAKFAST ON THE BRIDGES</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>Broadway Bridge / Hawthorne Bridge (North side)
 <br>7:00am, 7:00 - 9:00, every Friday during PPL
 <br><em>Not just for Last Fridays anymore! Come have breakfast with
@@ -170,7 +170,7 @@ other bikey folks and enjoy better views than any coffee shop in town.
 A year-round tradition since 2003, but more of it - Every Friday during
 Pedalpalooza!</em>
 <br>Cap'n Pastry, timolandia<img src="images/at.gif" alt="[at]">gmail.com, <a href="http://shift2bikes.org/breakfast.shtml">http://shift2bikes.org/breakfast.shtml</a></dd><dt class="eventdetail"><a name="110">BREAKFAST ON THE OVERPASS</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp06images/110.jpg" alt="" width="111" height="83" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+Halsey+and+42nd" target="_BLANK">NE Halsey and 42nd</a> (Hollywood Transit Center pedestrian overpass)
 <br>7:00am, til 9:00 am
@@ -203,7 +203,7 @@ your mama along, too! this ride is for building community and more
 about getting to know new people than racin' or drinkin'. everyone
 welcome! and bring your little black books for all your new friends!</em>
 <br>Mama Joey, bikeforlife<img src="images/at.gif" alt="[at]">causeit.org, <a href="http://www.causeit.org/">causeit.org</a></dd><dt class="eventdetail"><a name="76">MALTY BEVERAGE RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=832+North+Beech" target="_BLANK">832 North Beech</a> (Amnesia Brewery)
 <br>7:00pm, Meet at 7:00, quaff a quick one, ride at 7:30pm!
 <br><em>Portland is considered Beer Mecca by many around the country
@@ -211,7 +211,7 @@ and the world and in this ride we will go explore some of the breweries
 in town, focusing on SE and NE. Don't worry, we'll be finished in time
 so you can get to MMR.</em>
 <br>Deepak Saxena, dsaxena<img src="images/at.gif" alt="[at]">plexity.net, 602-790-0500</dd><dt class="eventdetail"><a name="155">FULL MOON BIKE RIDE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>6th Street &amp; Columbia
 <br>7:30pm, 7:30 to 10:00 PM
 <br><em>To ride from Downtown Vancouver at the clock tower <img src="images/at.gif" alt="[at]">
@@ -219,7 +219,7 @@ Columbia &amp; 6th Street to Frenchman Bar Park and back to Downtwon
 Vancouver at the clock tower starting at 7:30 PM to 10:00 PM. You will
 need to bring food &amp; drink for yourself.</em>
 <br>Ahmad Qayoumi, Todd Boulanger</dd><dt class="eventdetail"><a name="18">MIDNIGHT MYSTERY RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=N.+Killingsworth+St.+and+Albina" target="_BLANK">N. Killingsworth St. and Albina</a> (Paragon Club - hint: back door has no buzzer)
 <br>11:00pm, Ride at midnight
 <br><em>We meet, greet, gather and drink. At midnight, we ride. Not for the faint at heart.</em>
@@ -288,7 +288,7 @@ to 25 riders so register early! Time: 9:00 a.m. - 1:00 p.m.</em>
 <br>9:00am
 <br><em>General trail repair.</em>
 <br>Ray Bayley, powellbuttewp<img src="images/at.gif" alt="[at]">jimhill.net, <a href="http://pumpclub.org/">pumpclub.org</a></dd><dt class="eventdetail"><a name="163">SUNSET COMMUNITY BIKE SAFETY FAIR</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp06images/163.jpg" alt="" width="50" height="44" align="left">
 14986 NW Cornell Road, Portland OR 97229 (Sunset Hwy, Exit 65-Cornell/Bethany, just north of Hwy off Cornell - Sunset Church)
 <br>9:00am, 9am - 2pm
@@ -302,7 +302,7 @@ whole family. In Parntership with Beaverton Police, Community Cycling
 Center, Legacy Health Systems, Microsoft Corporation - hosted by Sunset
 Presbyterian Church.</em>
 <br>Bryan Miller, bike2006<img src="images/at.gif" alt="[at]">microsoft.com, <a href="http://www.sunsetpres.org/bike2006/">Bike2006</a>, Info Line 503-372-1589 - bike2006@microsoft.com, 503-488-5966</dd><dt class="eventdetail"><a name="60">RU ABRIDGED CURIOUS?!  GUIDED COMMUTER TOUR ACROSS I5</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>West 8th St @ Esther St, Vancouver WA (North end of Vancouver Farmers Market)
 <br>10:30am, Ride leaves park at 11AM. Returns by 12.30PM.
 <br><em>This is a causual guided ride for recreational and commuter
@@ -564,7 +564,7 @@ for Pedalpalooza! yeah! suggested donation (sliding scale)</em>
 action. Meet your citizen representatives who work with the City to
 make Portland a great place to live + bike.</em>
 <br>Roger Geller, roger.geller<img src="images/at.gif" alt="[at]">pdxtrans.org, <a href="http://gettingaroundportland.org/">gettingaroundportland.org</a></dd><dt class="eventdetail"><a name="139">VOLUNTEER NIGHT AT THE VANCOUVER COMMUNITY CYCLING CENTER</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>808 Main St, Vancouver WA 98660 (Vancouver Community Cycling Center)
 <br>7:00pm, Every Tuesday from 7 - 9:30pm
 <br><em>On Volunteer Nights, volunteers work on a variety of projects,
@@ -577,7 +577,7 @@ mechanical skills needed to participate.</em>
 including cleaning bikes and dismantling bikes for recycling. No
 mechanical skills necessary.</em>
 <br>Neal Armstrong, info<img src="images/at.gif" alt="[at]">communitycyclingcenter.org, <a href="http://www.communitycyclingcenter.org/">www.communitycyclingcenter.org/</a>, 503-546-8864</dd><dt class="eventdetail"><a name="88">WEEKDAY WARRIOR</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+Multnomah+and+13th+Ave" target="_BLANK">NE Multnomah and 13th Ave</a> (holladay park)
 <br>7:15pm
 <br><em>howdy allyall freakbike riders grab yer
@@ -596,14 +596,14 @@ recycling partnerships, conduct intensive bicycle and component
 teardowns, help with bike art, and do other fun and educational
 activities.</em>
 <br>Susha Pratt, recycling<img src="images/at.gif" alt="[at]">communitycyclingcenter.org, <a href="http://www.communitycyclingcenter.org/">www.communitycyclingcenter.org/</a>, bikeart@communitycyclingcenter.org, 503-546-8864</dd><dt class="eventdetail"><a name="29">BIKE TO SKATE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>one center court (Rose Quarter water fountain)
 <br>5:45pm, Meet at 5:45 ride to Oaks Park, potluck  skate 7-9:30
 <br><em>Learn to Skate at the West Coast's biggest indoor arena with
 Certified skating instrutor. Bring a Potluck to share in Oaks Park
 before skating. $5 for admission &amp; skates.</em>
 <br>Jeff Bernards, Ytamer<img src="images/at.gif" alt="[at]">aol.com, 503-774-5659</dd><dt class="eventdetail"><a name="79">TOUR DE NORTHEAST HUB</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+42nd+and+Halsey" target="_BLANK">NE 42nd and Halsey</a> (Hollywood Transit Center)
 <br>6:00pm, The ride will last about 2 hours
 <br><em>Come out for a tour of the Northeast Hub. Transportation
@@ -614,7 +614,7 @@ and pick up free maps, information, and more!</em>
 <br>Timothy Forsberg, timothy.forsberg<img src="images/at.gif" alt="[at]">pdxtrans.org, <a href="http://www.gettingaroundportland.org/">www.GettingAroundPortland.org/</a>, 503-823-7699</dd><dt class="eventdetail">
 <img src="pp06images/95.gif" alt="" width="199" height="200" align="right">
 <a name="95">PUMP FOREST PARK RIDE &amp; BBQ</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=8031+NW+Skyline+Blvd." target="_BLANK">8031 NW Skyline Blvd.</a> (Skyline Tavern, 1/4 mile south of Germantown Road)
 <br>6:00pm, Sharp!
 <br><em>Join PUMP for a ride on the wild side of north Forest Park.
@@ -720,7 +720,7 @@ And CNN's coverage of Free Geek. W00t!</em>
   <hr class="detail">
   <h2><a name="June16">Friday June 16</a></h2>
   <dl><dt class="eventdetail"><a name="111">B REAKFAST ON THE BRIDGES</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><img src="pp06images/111.jpg" alt="" width="75" height="75" align="left">
 Broadway &amp; Hawthorne Bridges (and??  check http://calendar.shifttobikes.org/ for details)
 <br>7:00am, to 9:00.  Or later.  O.k., twist my arm...
@@ -750,12 +750,12 @@ old-school arcade galore) and a visit to the mechanical bathtub lady!
 This ride will be lead by the Bathtub Art Museum director &amp; on-site
 experts will be provided. Bring $5; a few quarters preferred</em>
 <br>Carye Bye, info<img src="images/at.gif" alt="[at]">bathtubmuseum.org, <a href="http://www.bathtubmuseum.org/">Bathtub Art Museum</a>, 503-248-4454</dd><dt class="eventdetail"><a name="128">VANCOUVER CRITICAL MASS</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>Ester Short Park (Columbia &amp; 8th Street - Downtown Vancouver)
 <br>5:30pm, (Ride at 6 pm)
 <br><em>Bicycling's monthly celebration. Come help support bicycling in the Couv! Bike movie to follow.</em>
 <br>Chad Kays, chad.kays<img src="images/at.gif" alt="[at]">walliseng.net, 360-695-7041</dd><dt class="eventdetail"><a name="53">SEXY CYCLIST RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=1314+NW+Glisan" target="_BLANK">1314 NW Glisan</a> (Apotheke, Suite 2A)
 <br>5:45pm, Meet at 5:45, ride at 6:30
 <br><em>High Heels and a wide Circle Skirt... experience the feel of
@@ -780,7 +780,7 @@ of action at 30+ mph. Super fun to watch! Cancelled in event of rain.</em>
 <br>NN</dd><dt class="eventdetail">
 <img src="pp06images/157.jpg" alt="" width="155" height="200" align="right">
 <a name="157">URBAN ECCENTRIC FASHION SHOW</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>317 Columbia Street (Side parking lot)
 <br>7:30pm, Following Critical Mass Ride
 <br><em>Local used clothing store presents a funky mix of vintage and
@@ -788,7 +788,7 @@ contemporary styles for the urban cyclist. Get some non-lycra options
 for your biking adventures. This event will follow Vancouver's Critical
 Mass and precede the Bike-In Movie. So join us for all three events!</em>
 <br>Chris Jochum, cjochum<img src="images/at.gif" alt="[at]">mac.com, 360 649-2934</dd><dt class="eventdetail"><a name="78">KAROKE 2 KARAOKE PP PUB CRAWL</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd>4030 NE Halsey St. (Hollywood Bowl)
 <br>8:00pm, till late
 <br><em>Harmony among the great modes: bike, walk, bus &amp; train.
@@ -797,7 +797,7 @@ while.</em>
 <font color="magenta">1st Stop: Hollywood Bowl (near 42nd/Sandy)
 
 Will leave for next stop around 10.</font><br>Transportation Funnist</dd><dt class="eventdetail"><a name="129">BIKE-IN MOVIE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=317+Columbia+Street" target="_BLANK">317 Columbia Street</a> (10 minute ride from Expo stop)
 <br>9:30pm
 <br><em>Bike Movie/Shorts in downtown Vancouver. Outside parking lot showing.</em>
@@ -806,7 +806,7 @@ Will leave for next stop around 10.</font><br>Transportation Funnist</dd><dt cla
   <hr class="detail">
   <h2><a name="June17">Saturday June 17</a></h2>
   <dl><dt class="eventdetail"><a name="115">WINE AND WHEELS</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=12345+SW+Canyon+Rd" target="_BLANK">12345 SW Canyon Rd</a> (Bike Gallery -Beaverton)
 <br>7:45am, Meet at 7:45 at the BG to carpool or at Panther Creek Cellars in McMinnville at 9:00 am
 <br><em>Take a free 25 mile tour of Oregon wine country by bike then tour Panther Creek Cellars and do a little wine tasting.</em>
@@ -886,7 +886,7 @@ provided at the start. This week's ride will travel through the Rose
 Garden, and along the Hwy 26 bike path. If folks are up for it we can
 keep going to Tanasbourne.</em>
 <font color="magenta">Note new start time - 2:30pm</font><br>Aaron Tarfman, <a href="http://www.yourbodypower.org/">Body Power</a></dd><dt class="eventdetail"><a name="59">VELORRITO ALLEY CAT</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><img src="pp06images/59.jpg" alt="" width="110" height="125" align="left">
 <a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=20th+and+Belmont" target="_BLANK">20th and Belmont</a> (Col. Summers Park)
 <br>3:00pm
@@ -950,7 +950,7 @@ bikes only.</em>
 <br>9:00am
 <br><em>A fun, casual 20-30 mile group road ride</em>
 <br>Ryan Manner, <a href="http://www.bikegallery.com/">www.bikegallery.com/</a>, helmets required, 503-774-3531</dd><dt class="eventdetail"><a name="24">FATHER'S DAY TRAILER KIDS PARK TOUR</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=NE+35th+Ave+and+Skidmore" target="_BLANK">NE 35th Ave and Skidmore</a> (Wilshire Park, at the sandbox)
 <br>10:00am, We leave the park at 11:00 sharp.
 <br><em>Father's Day Trailer Kids Park Tour--hitch up the trailer and
@@ -1053,7 +1053,7 @@ experienced racers standing by to provide guidance and answer questions
 if you need help. All that’s required is a helmet, a road bike and a
 sense of adventure. So what are you waiting for?</em>
 <br>Jim Anderson, jim-anderson<img src="images/at.gif" alt="[at]">comcast.net, <a href="http://www.racemondaynight.com/">www.racemondaynight.com</a>, 503-975-8229</dd><dt class="eventdetail"><a name="161">SLUG VELO TOUR WITH ANDY CLARKE OF LAB</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>Columbia Street at 6th St., Vancouver WA (Plaza at Esther Short Park)
 <br>5:30pm, Ride ends at 6.45 PM. Meeting from 7 to 7.30PM. More stuff after 8PM - perhaps.
 <br><em>Take a social ride with Andy Clarke of the League of American
@@ -1099,14 +1099,14 @@ Friendly Community award during a regularly scheduled council meeting.</em>
   <hr class="detail">
   <h2><a name="June20">Tuesday June 20</a></h2>
   <dl><dt class="eventdetail"><a name="121">BREAKFAST OFF THE I-5 BRIDGE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>Vancouver, North &amp; West end of the path just off the bridge.
 <br>5:30am, 5:30-8:30 a.m.
 <br><em>Commuter social serving donuts/bagels, coffee, advice, and
 brochures/maps to bicyclists. Help us record bike traffic for better
 path sweeping.</em>
 <br>Chad Kays, Wallis Engineering, chad.kays<img src="images/at.gif" alt="[at]">walliseng.net, 360-695-7041</dd><dt class="eventdetail"><a name="112">3001 - A BIKE PARKING ODYSSEY</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>1300 Franklin St., Vancouver WA (Clark County plaza)
 <br>12:00pm, 12 to 12.30: try a new bikelink locker. 12.40 to 12.50 fix a flat contest.
 <br><em>A bike commuter event for novice and skilled bike commuters for
@@ -1116,7 +1116,7 @@ Northwest. Hands on skills for bike commuters: fill a pannier, load a
 bike on a bus rack, fix a flat contest, reserve a bike locker on-line,
 lock a bike, etc.</em>
 <font color="magenta">Date changed to 20 June - rain delay. Get your bikelink cards now - a few free cards left for Vancouver commuters.</font><br>Todd Boulanger, todd.boulanger<img src="images/at.gif" alt="[at]">ci.vancouver.wa.us, <a href="http://www.bikelink.org/">www.bikelink.org/</a>, 360.696.8290 x8657</dd><dt class="eventdetail"><a name="30">BIKE TO SKATE</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>one center court (Rose Quarter water fountain)
 <br>5:45pm, meet 5:45pm ,ride to Oaks Park  potluck, skate 7-10
 <br><em>Learn to Skate at West Coast's best indoor skate arean, with a
@@ -1148,7 +1148,7 @@ trailers, and cargo bikes to the HOB-nob. A leisurely social ride and
 sight-seeing tour of interesting, out-of-the-way locations in
 Portland's west-side.</em>
 <br>Cody Cougar Bikencamp</dd><dt class="eventdetail"><a name="140">VOLUNTEER NIGHT AT THE VANCOUVER COMMUNITY CYCLING CENTER</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>808 Main St, Vancouver WA 98660 (Vancouver Community Cycling Center)
 <br>7:00pm, Every Tuesday from 7 - 9:30pm
 <br><em>On Volunteer Nights, volunteers work on a variety of projects,
@@ -1188,7 +1188,7 @@ recycling partnerships, conduct intensive bicycle and component
 teardowns, help with bike art, and do other fun and educational
 activities.</em>
 <br>Susha Pratt, recycling<img src="images/at.gif" alt="[at]">communitycyclingcenter.org, <a href="http://www.communitycyclingcenter.org/">www.communitycyclingcenter.org/</a>, bikeart@communitycyclingcenter.org, 503-546-8864</dd><dt class="eventdetail"><a name="127">MOCKTAILS OFF THE I-5 BRIDGE</a>
-<img src="/images/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
+<img src="/images/legacy/washington.gif" alt="WA" title="Meet in/around Vancouver" align="left">
 </dt><dd>Vancouver, North &amp; West end of the path just off the I-5 bridge
 <br>2:30pm, 2:30-5:30 pm
 <br><em>Commuter social serving virgin cocktails and finger food,
@@ -1279,7 +1279,7 @@ making connections with other women interested in cycling.</em>
   <dl><dt class="eventdetail">
 <img src="pp06images/122.jpg" alt="" width="261" height="200" align="right">
 <a name="122">BREAKFAST.  ON THE BRIDGES</a>
-<img src="/images/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
+<img src="/images/legacy/ff.gif" alt="Family-Friendly" title="Family Friendly" align="left">
 </dt><dd>Bridges.  Broadway.  Hawthorne. 'Nuff said. (where all the
 sexy bikers are gathering in a clump, getting in your speed-demon way) <br>7:00am, to 9:00.  Maybe later.  We get to chatting sometimes, y'know?
 <br><em>Are you getting out of bed early yet? C'mon people, we're not
@@ -1299,7 +1299,7 @@ Friday afternoon off!</em>
 <br>Carye Bye, info<img src="images/at.gif" alt="[at]">bathtubmuseum.org, <a href="http://www.bathtubmuseum.org/">Bathtub Art Museum</a>, 503-248-4454</dd><dt class="eventdetail">
 <img src="pp06images/171.JPG" alt="" width="266" height="200" align="right">
 <a name="171">TOUR DE PDX BIKESTATION SITES</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=1708+SW+6th+Ave." target="_BLANK">1708 SW 6th Ave.</a> (PSU Pizzacato Pizza)
 <br>5:30pm, Done by 7PM then onto the movie.
 <br><em>A riding tour of the locations under consideration for a
@@ -1318,7 +1318,7 @@ food donated by local businesses!</em>
 <br>Shawn Granton, hip<img src="images/at.gif" alt="[at]">portlandhostel.org, <a href="http://portlandhostel.org/">http://portlandhostel.org</a>, 503-236-3380</dd><dt class="eventdetail">
 <img src="pp06images/58.jpg" alt="" width="200" height="154" align="right">
 <a name="58">PORTLAND PIRATE PEDAL</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd>The Pirates Cove (see map on webpage)
 <br>10:30pm, The hunt starts at the 11th stroke
 <br><em>Twas a cold harsh storm that forced us up the Columbia and down
@@ -1334,7 +1334,7 @@ pirate garb to pillage the streets, plunder the ATM machine, drink,
 wench and ride till the wee hours of the morn ... in search of the
 Captain's treasure.</em>
 <br>Dread Pirate Kidd, jasun<img src="images/at.gif" alt="[at]">pnxcorp.com, <a href="http://www.pnxcorp.com/jasun/ppp.html">http://www.pnxcorp.com/jasun/ppp.html</a></dd><dt class="eventdetail"><a name="132">SERVE ME OR ARREST ME - DRIVE THRU EQUITY</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd>N Portland Blvd MAX Stn (North Bound Platform)
 <br>11:59pm
 <br><em>A ride and food cruise to highlight the transportation inequity
@@ -1370,7 +1370,7 @@ from local Portland farmers and a gourmet post-ride meal. There are 35,
 <br>9:00am, 9-11am
 <br><em>Experience the ease of getting downtown.</em>
 <br>Janis McDonald, janis.mcdonald<img src="images/at.gif" alt="[at]">pdxtrans.org, <a href="http://www.gettingaroundportland.org/">Transportation Options</a>, 503-823-5358</dd><dt class="eventdetail"><a name="116">INTERMEDIATE-ADVANCE ROAD RIDE</a>
-<img src="/images/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
+<img src="/images/legacy/beer.gif" alt="21+" title="Adult Only (21+)" align="left">
 </dt><dd><a href="http://tripplanner.bycycle.org/?region=portlandor&amp;q=12345+SW+Canyon+Rd%2C+Beaverton" target="_BLANK">12345 SW Canyon Rd, Beaverton</a> (Bike Gallery -Beaverton)
 <br>9:00am
 <br><em>Join this intermediate/advanced 2-3 hour group ride on Washington Co. backroads.</em>

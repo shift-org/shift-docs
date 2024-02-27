@@ -1,5 +1,4 @@
 (function($) {
-
     var _isFormDirty = false;
 
     $.fn.cleanFormDirt = function() {
@@ -36,7 +35,10 @@
                          {code: 'G', text: 'General. For adults, but kids welcome.'},
                          {code: 'A', text: '21+ only.'}],
             areas = [{code: 'P', text: 'Portland'},
-                {code: 'V', text: 'Vancouver'}];
+                     {code: 'V', text: 'Vancouver'},
+                     {code: 'W', text: 'Westside'},
+                     {code: 'E', text: 'East Portland'},
+                     {code: 'C', text: 'Clackamas'}];
 
         shiftEvent.lengthOptions = [];
         for ( i = 0; i < lengths.length; i++ ) {
@@ -121,6 +123,26 @@
         if (shiftEvent.published) {
           $('.published-save-button').show();
           $('.duplicate-button').show();
+
+          // show the user's selected image after they select it:
+          // first, attach to the input button.
+          $('#image').on("change", function(evt) {
+            const img = $("img.event-image"); // the actual img element
+            const input = evt.target;
+            const file = input.files && input.files[0];
+            // was a file selected and is it an okay size?
+            if (!file || (file.size > 1024*1024*2)) {
+              // worst comes to worst, it will show an broken image
+              // which the user would also see as an error.
+              img.attr("src", "/img/cal/icons/image.svg");
+            } else {
+              const reader = new FileReader();
+              reader.onload = function(next) {
+                img.attr("src", next.target.result);
+              };
+              reader.readAsDataURL(file);
+            }
+          });
         }
 
         $('.save-button, .publish-button').click(function() {
@@ -235,7 +257,15 @@
         $(document).off('click', '.preview-button')
             .on('click', '.preview-button', function(e) {
             previewEvent(shiftEvent, function(eventHTML) {
-                $('#mustache-html').append(eventHTML);
+                // first, find the edit image
+                const img = $(".event-image");
+                // render the new html preview:
+                const out = $('#mustache-html');
+                out.append(eventHTML);
+                // copy the image source from the edit image to the preview:
+                const imgPreview = out.find('img.lazy');
+                imgPreview.attr("src", img.attr("src"));
+                imgPreview.removeClass("lazy");
             });
         });
 
@@ -268,12 +298,24 @@
 
         previewEvent['displayStartTime'] = previewEvent['time'];
         if ( previewEvent['eventduration'] ){
-            var endTime = moment(previewEvent['time'], 'hh:mm A')
+            var endTime = dayjs(previewEvent['time'], 'hh:mm A')
                 .add(previewEvent['eventduration'], 'minutes')
                 .format('HH:mm');
             previewEvent['endtime'] = endTime; // e.g. 18:00
-            previewEvent['displayEndTime'] = moment(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
+            previewEvent['displayEndTime'] = dayjs(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
         }
+
+        // set values for print contact fields if enabled
+        var printContactFields = [ 'email', 'phone', 'contact', 'weburl' ];
+        printContactFields.forEach((field) => {
+            previewEvent[`printpreview${field}`] = $(`#print${field}`).is(":checked") ? $(`#${field}`).val() : null;
+        });
+
+        // clear private fields if hidden
+        var privateContactFields = [ 'email', 'phone', 'contact' ];
+        privateContactFields.forEach((field) => {
+            previewEvent[`${field}`] = $(`#hide${field}`).is(":checked") ? null : $(`#${field}`).val();
+        });
 
         previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
         previewEvent['length'] += ' miles';

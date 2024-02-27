@@ -1,80 +1,78 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
+<head>
   {{ partial "head.html" . }}
+</head>
 
-  <body>
+<body>
 
-    <div id="all">
+  <div id="all">
 
-        <header>
+    <header>
+      {{ partial "nav.html" . }}
+    </header>
 
-          {{ partial "nav.html" . }}
+    <main>
+      {{ partial "breadcrumbs.html" . }}
 
-        </header>
+      <div id="content">
+        <div class="container">
 
-        <main>
+          <div class="row">
 
-            {{ partial "breadcrumbs.html" . }}
+            <!-- *** LEFT COLUMN *** -->
 
-            <div id="content">
-                <div class="container">
+            <div class="col-md-9" id="blog-post">
 
-                    <div class="row">
+              <div id="post-content">
+              {{ .Content }}
+              </div>
+              <!-- /#post-content -->
+              {{ if .Site.DisqusShortname }}
+              <div id="comments">
+                {{ template "_internal/disqus.html" . }}
+              </div>
+              {{ end }}
 
-                        <!-- *** LEFT COLUMN *** -->
-
-                        <div class="col-md-9" id="blog-post">
-                        
-                            <div id="post-content">
-                              {{ .Content }}
-                            </div>
-                            <!-- /#post-content -->
-                            {{ if .Site.DisqusShortname }}
-                            <div id="comments">
-                                {{ template "_internal/disqus.html" . }}
-                            </div>
-                            {{ end }}
-
-                        </div>
-                        <!-- /#blog-post -->
-
-                        <!-- *** LEFT COLUMN END *** -->
-
-                        <!-- *** RIGHT COLUMN *** -->
-
-                        <div class="col-md-3">
-
-                            <!-- *** MENUS AND WIDGETS *** -->
-
-                            {{ partial "sidebar.html" . }}
-
-                            <!-- *** MENUS AND FILTERS END *** -->
-
-                        </div>
-                        <!-- /.col-md-3 -->
-
-                        <!-- *** RIGHT COLUMN END *** -->
-
-                    </div>
-                    <!-- /.row -->
-
-                </div>
-                <!-- /.container -->
             </div>
-            <!-- /#content -->
-        </main>
+            <!-- /#blog-post -->
 
-        <footer>
+            <!-- *** LEFT COLUMN END *** -->
 
-            {{ partial "footer.html" . }}
+            <!-- *** RIGHT COLUMN *** -->
 
-        </footer>
+            <div class="col-md-3">
 
-    </div>
-    <!-- /#all -->
+              <!-- *** MENUS AND WIDGETS *** -->
 
-    {{ partial "scripts.html" . }}
+              {{ partial "sidebar.html" . }}
 
-  </body>
+              <!-- *** MENUS AND FILTERS END *** -->
+
+            </div>
+            <!-- /.col-md-3 -->
+
+            <!-- *** RIGHT COLUMN END *** -->
+
+          </div>
+          <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+      </div>
+      <!-- /#content -->
+    </main>
+
+    <footer>
+    {{ partial "footer.html" . }}
+    </footer>
+
+  </div>
+  <!-- /#all -->
+
+  {{ partial "scripts.html" . }}
+
+</body>
+
 </html>

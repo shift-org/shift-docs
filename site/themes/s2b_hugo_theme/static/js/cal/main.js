@@ -8,7 +8,7 @@ $(document).ready(function() {
             url += 'id=' + options['id'];
         }
         if ('startdate' in options && 'enddate' in options) {
-            url += 'startdate=' + moment(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + moment(options['enddate']).format("YYYY-MM-DD");
+            url += 'startdate=' + dayjs(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + dayjs(options['enddate']).format("YYYY-MM-DD");
         }
 
         $.get( url, function( data ) {
@@ -33,6 +33,7 @@ $(document).ready(function() {
                 }
 
                 value.audienceLabel = container.getAudienceLabel(value.audience);
+                value.areaLabel = container.getAreaLabel(value.area);
                 value.mapLink = container.getMapLink(value.address);
 
                 if ( 'show_details' in options && options['show_details'] == true ) {
@@ -151,7 +152,6 @@ $(document).ready(function() {
                // so don't display "load more" button if PP
                container.append($('#load-more-template').html());
              }
-             checkAnchors();
              lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
@@ -163,7 +163,6 @@ $(document).ready(function() {
                           show_details: isExpanded
                       }, function(eventHTML) {
                           $('#load-more').before(eventHTML);
-                          checkAnchors();
                           lazyLoadEventImages();
                       });
                       return false;
@@ -181,7 +180,6 @@ $(document).ready(function() {
             show_details: true // always expand details for a single event
         }, function (eventHTML) {
             container.append(eventHTML);
-            checkAnchors();
             lazyLoadEventImages();
         });
     }
@@ -189,7 +187,6 @@ $(document).ready(function() {
     function viewAddEventForm(id, secret) {
         container.getAddEventForm( id, secret, function(eventHTML) {
             container.empty().append(eventHTML);
-            checkAnchors();
             if (id) {
                 $(document).off('click', '#confirm-delete')
                     .on('click', '#confirm-delete', function() {
@@ -297,61 +294,6 @@ $(document).ready(function() {
         $('html, body').animate({scrollTop: 0}, 800);
         return false;
     });
-
-    var routes = [];
-    function addRoute(test, action) {
-        routes.push({ test: test, action: action });
-    }
-    function checkRoute(frag) {
-        for (var i=0; i<routes.length; i++) {
-            var route = routes[i];
-            if (route.test.test(frag) && route.action(frag) !== false) {
-                return true;
-            }
-        }
-    }
-    function testRoute(frag) {
-        for (var i=0; i<routes.length; i++) {
-            if (routes[i].test.test(frag)) {
-                return true;
-            }
-        }
-    }
-    function visitRoute(frag) {
-        if (checkRoute(frag)) {
-            history.pushState({}, frag, frag);
-        }
-    }
-
-    var checkTimeout = null;
-    function checkAnchors() {
-        if (checkTimeout !== null) {
-            clearTimeout(checkTimeout);
-        }
-        checkTimeout = setTimeout(checkAnchorsDebounced, 500);
-    }
-    function checkAnchorsDebounced() {
-        var aList = document.querySelectorAll('a');
-        for (var i=0; i<aList.length; i++) {
-            var a = aList[i];
-            if (a.hasAttribute('route')) {
-                continue;
-            }
-            var frag = a.getAttribute('href');
-            if (frag.indexOf('//') !== -1) {
-                // don't mess with external links.
-                return;
-            }
-            if (testRoute(frag)) {
-                a.setAttribute('route', 'true');
-                a.addEventListener('click', function(ev) {
-                    ev.preventDefault();
-                    visitRoute(ev.currentTarget.getAttribute('href'));
-                    return false;
-                });
-            }
-        }
-    }
 
     // lightly adapted from
     // https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/

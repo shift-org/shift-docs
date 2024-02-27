@@ -124,6 +124,16 @@
             </div>
 
             <div class="form-group">
+              <div>
+                <label class="control-label optional-label" for="safetyplan">
+                  <input type="checkbox" name="safetyplan" id="safetyplan" value="1" [[# safetyplan ]]checked[[/ safetyplan ]] />
+                  My ride follows the COVID safety plan
+                </label>
+                <p class="input-help">We need your help to keep bike fun safe for all! If you follow this <a href="/pages/public-health/#safety-plan" target="_blank" title="opens in a new window">COVID safety plan</a>, we'll put a special marker next to your ride on the calendar so people know what to expect.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="control-label optional-label" for="image">Image</label>
 
               <div class="image-form">
@@ -251,6 +261,15 @@
           <div class="panel-body">
 
             <div class="form-group">
+              <label class="control-label" for="area">Area</label>
+              <select name="area" class="form-control" id="area">
+                [[# areaOptions ]]
+                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
+                [[/ areaOptions ]]
+              </select>
+            </div>
+
+            <div class="form-group">
               <label class="control-label req-label" for="venue">Location name</label>
               <input type="text" class="form-control" name="venue" id="venue" value="[[venue]]" required="true" aria-invalid="false" />
             </div>
@@ -279,15 +298,6 @@
               <label class="control-label optional-label" for="locend">End location details</label>
               <input type="text" class="form-control" name="locend" id="locend" value="[[locend]]" aria-describedby="locend-help" />
               <p class="input-help" id="locend-help">Your event's end location, if known.</p>
-            </div>
-
-            <div class="form-group">
-              <label class="control-label" for="area">Area</label>
-              <select name="area" class="form-control" id="area">
-                [[# areaOptions ]]
-                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
-                [[/ areaOptions ]]
-              </select>
             </div>
 
             <div class="form-group">
@@ -463,16 +473,6 @@
                 <input type="checkbox" name="read_comic" id="read_comic" value="1" [[# readComic ]]checked[[/ readComic ]] />
                 I have read the Ride Leading Comic
               </label>
-            </div>
-
-			<div class="pp-banner" style="text-align: left;">
-			<p class="input-help">We need your help to keep bike fun safe for all! If you follow this <a href="/pages/public-health/#safety-plan" target="_blank" title="opens in a new window">COVID safety plan</a>, we'll put a special marker next to your ride on the calendar so people know what to expect.</p>
-            <div class="checkbox">
-              <label class="control-label" for="safetyplan">
-                <input type="checkbox" name="safetyplan" id="safetyplan" value="1" [[# safetyplan ]]checked[[/ safetyplan ]] />
-                My ride follows the COVID safety plan
-              </label>
-            </div>
             </div>
 
           </div>

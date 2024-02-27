@@ -2,8 +2,12 @@
 <script src="{{ .Site.BaseURL }}js/cal/main.js"></script>
 
 <script src="{{ .Site.BaseURL }}js/libs/mustache/mustache.min.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/moment/moment.min.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/intersection-observer/intersection-observer.js"></script>
+
+<script src="{{ .Site.BaseURL }}js/libs/dayjs/dayjs.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/libs/dayjs/plugin/customParseFormat.js"></script>
+<script>
+  dayjs.extend(window.dayjs_plugin_customParseFormat)
+</script>
 
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/daygrid/main.min.js"></script>
@@ -188,6 +192,12 @@
                   [[#cancelled]]<del>[[/cancelled]]
 
                   <div class="location">
+                    [[#areaLabel]]
+                    <p class="area">
+                      <svg class="icon" role="img" aria-label="Area"><use href="#icon-map" /><title>Area</title></svg>
+                      [[areaLabel]]
+                    </p>
+                    [[/areaLabel]]
                     <p>
                       [[#mapLink]]
                       <a href="[[mapLink]]" target="_blank" rel="noopener nofollow external"  title="Opens in a new window">
@@ -249,21 +259,17 @@
 
           <p class="description">[[details]]</p>
 
-          [[^hideemail]]
           [[#email]]
           <p class="contactInfo">
             <a href="mailto:[[email]]"><svg class="icon" role="img" aria-label="Email"><use href="#icon-email" /><title>Email</title></svg> [[email]]</a>
           </p>
           [[/email]]
-          [[/hideemail]]
 
-          [[^hidephone]]
           [[#phone]]
           <p class="contactInfo">
             <a href="tel:[[phone]]"><svg class="icon" role="img" aria-label="Phone"><use href="#icon-phone" /><title>Phone</title></svg> [[phone]]</a>
           </p>
           [[/phone]]
-          [[/hidephone]]
 
           [[ #weburl ]]
           <p class="contactInfo">
@@ -275,7 +281,6 @@
           </p>
           [[ /weburl ]]
 
-          [[^hidecontact]]
           [[#contact]]
 
           [[#contactLink]]
@@ -294,7 +299,6 @@
           [[/contactLink]]
 
           [[/contact]]
-          [[/hidecontact]]
 
           <div class="eventlink">
             <p class="facebook-share">
@@ -328,14 +332,14 @@
           <ul>
             <li>title: [[tinytitle]]</li>
             <li>description: [[printdescr]]</li>
-            <li>contact info:</li>
-            <ul>
-              <li>[[organizer]]</li>
-              [[# printemail]]<li>[[email]]</li>[[/ printemail]]
-              [[# printphone]]<li>[[phone]]</li>[[/ printphone]]
-              [[# printweburl]]<li>[[weburl]]</li>[[/ printweburl]]
-              [[# printcontact]]<li>[[contact]]</li>[[/ printcontact]]
-            </ul>
+            <li>contact info:
+              <ul>
+                <li>[[organizer]]</li>
+                [[# printpreviewemail]]<li>[[printpreviewemail]]</li>[[/ printpreviewemail]]
+                [[# printpreviewphone]]<li>[[printpreviewphone]]</li>[[/ printpreviewphone]]
+                [[# printpreviewweburl]]<li>[[printpreviewweburl]]</li>[[/ printpreviewweburl]]
+                [[# printpreviewcontact]]<li>[[printpreviewcontact]]</li>[[/ printpreviewcontact]]
+              </ul>
             </li>
           </ul>
           [[/preview]]

@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
 
+<head>
   {{ partial "head.html" . }}
+</head>
 
-  <body>
+<body>
 
-    <div id="all">
+  <div id="all">
 
-        <header>
+    <header>
+      {{ partial "nav.html" . }}
+    </header>
 
-          {{ partial "nav.html" . }}
+    <div id="content">
+        <div class="container">
 
-        </header>
+            <div class="col-sm-6 col-sm-offset-3" id="error-page">
 
-        <div id="content">
-            <div class="container">
+                <div class="box">
 
-                <div class="col-sm-6 col-sm-offset-3" id="error-page">
+                    <p class="text-center">
+                        <a href="{{ .Site.BaseURL }}">
+                            <img src="{{ .Site.Params.logo }}" alt="{{ .Title }} logo">
+                        </a>
+                    </p>
 
-                    <div class="box">
+                    <h3>We are sorry - this page is not here anymore</h3>
+                    <h4 class="text-muted">Error 404 - Page not found</h4>
 
-                        <p class="text-center">
-                            <a href="{{ .Site.BaseURL }}">
-                                <img src="{{ .Site.Params.logo }}" alt="{{ .Title }} logo">
-                            </a>
-                        </p>
-
-                        <h3>We are sorry - this page is not here anymore</h3>
-                        <h4 class="text-muted">Error 404 - Page not found</h4>
-
-                        <p class="buttons"><a href="{{ .Site.BaseURL }}" class="btn btn-template-main"><i class="fa fa-home"></i> Go to Homepage</a>
-                        </p>
-                    </div>
-
-
+                    <p class="buttons"><a href="{{ .Site.BaseURL }}" class="btn btn-template-main"><i class="fa fa-home"></i> Go to Homepage</a>
+                    </p>
                 </div>
-                <!-- /.col-sm-6 -->
+
+
             </div>
-            <!-- /.container -->
+            <!-- /.col-sm-6 -->
         </div>
-        <!-- /#content -->
-
-        {{ partial "footer.html" . }}
-
+        <!-- /.container -->
     </div>
-  </body>
+      <!-- /#content -->
+
+    <footer>
+      {{ partial "footer.html" . }}
+    </footer>
+
+  </div>
+</body>
+
 </html>
