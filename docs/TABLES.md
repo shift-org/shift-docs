@@ -249,6 +249,11 @@ calshare:
 mugDialog:
 - dialog_id primary key
 - chatter string 
+ 
+
+mugdialog:
+- dialog_id primary key
+- chatter string 
   
 
 pp20apr2006:
@@ -298,6 +303,14 @@ ppforum:
  
 
 rideIdea:
+- id primary key
+- ride string 
+- contact string(26) 
+- IP string(15) 
+- datePosted timestamp  
+
+
+rideidea:
 - id primary key
 - ride string 
 - contact string(26) 

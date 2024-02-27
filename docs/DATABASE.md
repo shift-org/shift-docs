@@ -47,7 +47,7 @@ Along with the migration, update the `setup.sql` script. This ensures that both 
 
 After you've applied your migration, run this command to dump the database structure but without the actual row data:
 
-```./shift mysqldump --no-data > services/db/tmp/setup.sql```
+```./shift mysqldump --no-data > setup.sql```
 
 Then:
 * Comment out each `DROP TABLE` line, e.g. `` -- DROP TABLE IF EXISTS `tablename` ``
