@@ -8,7 +8,7 @@ $(document).ready(function() {
             url += 'id=' + options['id'];
         }
         if ('startdate' in options && 'enddate' in options) {
-            url += 'startdate=' + moment(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + moment(options['enddate']).format("YYYY-MM-DD");
+            url += 'startdate=' + dayjs(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + dayjs(options['enddate']).format("YYYY-MM-DD");
         }
 
         $.get( url, function( data ) {
