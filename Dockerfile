@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
   && apt-get install -y manpages mysql-server mysql-client man nodejs nginx git openssl ca-certificates net-tools hugo curl vim-tiny nano
 RUN mkdir -p /opt/shift-docs
 
-# change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster!  May still need to `git checkout beta`
+# change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster! Thereafter, may still need to `git checkout beta`
 RUN cd /opt && git clone https://github.com/shift-org/shift-docs && git checkout beta
 
 # note that the below won't:
