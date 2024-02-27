@@ -1,4 +1,4 @@
-# 12 Feb 2024: pushed as underscorefool/shift-docs-2024.1 to docker hub!
+# 26 Feb 2024: pushed as underscorefool/shift-docs-2024.1 to docker hub!
 
 FROM ubuntu:22.04
 RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker
@@ -13,7 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 RUN mkdir -p /opt/shift-docs
 
 # change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster! Thereafter, may still need to `git checkout beta`
-RUN cd /opt && git clone https://github.com/shift-org/shift-docs && git checkout beta
+RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-docs && git checkout beta
 
 # note that the below won't:
 #  be configured to listen on SSL externally 
@@ -23,7 +23,8 @@ RUN cd /opt && git clone https://github.com/shift-org/shift-docs && git checkout
 ADD cert.pem /etc/nginx/conf.d/cert.pem
 ADD key.pem /etc/nginx/conf.d/key.pem
 ADD sites-default /etc/nginx/sites-enabled/default
-EXPOSE 443 443
+EXPOSE 443 # for normal https traffic
+EXPOSE 80 # for certbot
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 RUN . /root/.bashrc && nvm install v20
 RUN cd /opt/shift-docs/site && hugo
@@ -31,12 +32,14 @@ RUN cd /opt/shift-docs/site && hugo
 CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
 
 ## TODO
-# connect port 443 to nginx in container (today: use -p 443:443; is there a way to automate this?)
+# connect port 80 to nginx in container (today: use -p 80:80)
+# connect port 443 to nginx in container (today: use -p 443:443 - is there a way to automate this?)
 # create less-privileged user to run the server
 	# RUN useradd -ms /bin/bash ubuntu
 	# USER ubuntu
 # set up nginx similarly to prod (doesn't know about any of our config from prod except rootdir)
 # set up nginx to respond as beta.shift2bikes.org w/letsencrypt
+	# can probably work from https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal in case the OS-based version can't work.
 # import details from https://github.com/shift-org/shift-docs/blob/beta/node.docker as to how to run node inside the container
 # import data into mysql
 # publish final image in docker hub: 
