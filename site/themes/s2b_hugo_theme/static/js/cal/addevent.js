@@ -1,5 +1,4 @@
 (function($) {
-
     var _isFormDirty = false;
 
     $.fn.cleanFormDirt = function() {
@@ -299,11 +298,11 @@
 
         previewEvent['displayStartTime'] = previewEvent['time'];
         if ( previewEvent['eventduration'] ){
-            var endTime = moment(previewEvent['time'], 'hh:mm A')
+            var endTime = dayjs(previewEvent['time'], 'hh:mm A')
                 .add(previewEvent['eventduration'], 'minutes')
                 .format('HH:mm');
             previewEvent['endtime'] = endTime; // e.g. 18:00
-            previewEvent['displayEndTime'] = moment(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
+            previewEvent['displayEndTime'] = dayjs(endTime, 'HH:mm').format('h:mm A'); // e.g. 6:00 PM
         }
 
         // set values for print contact fields if enabled

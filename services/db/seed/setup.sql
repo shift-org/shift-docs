@@ -57,14 +57,14 @@ CREATE TABLE IF NOT EXISTS `calcount` (
 CREATE TABLE IF NOT EXISTS `caldaily` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id` int(11) DEFAULT NULL,
-  `newsflash` text,
+  `newsflash` mediumtext,
   `eventdate` date DEFAULT NULL,
   `eventstatus` varchar(1) DEFAULT NULL,
   `exceptionid` int(11) DEFAULT NULL,
   `pkid` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pkid`),
   KEY `eventdate` (`eventdate`)
-) ENGINE=MyISAM AUTO_INCREMENT=18507 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12941 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS `calevent` (
   `title` varchar(255) DEFAULT NULL,
   `tinytitle` varchar(255) NOT NULL,
   `audience` char(1) DEFAULT NULL,
-  `descr` text,
-  `printdescr` text,
+  `descr` mediumtext,
+  `printdescr` mediumtext,
   `image` varchar(255) DEFAULT NULL,
   `imageheight` int(11) DEFAULT NULL,
   `imagewidth` int(11) DEFAULT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `calevent` (
   `ridelength` varchar(255) DEFAULT NULL,
   `safetyplan` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11195 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8029 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
