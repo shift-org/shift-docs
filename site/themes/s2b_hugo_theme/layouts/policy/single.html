@@ -35,11 +35,7 @@
                             </div>
 
                             <div class="lastmod">
-                            <!-- Last updated: {{ .Lastmod | time.Format ":date_medium" }} -->
                             Last updated: {{ .Lastmod | time.Format .Site.Params.date_format }}
-                            <!-- Last updated: {{ .Lastmod }} -->
-                            <!-- see  https://github.com/shift-org/shift-docs/pull/213 -->
-                            <!-- also https://makewithhugo.com/add-a-last-edited-date/ -->
                             </div>
                         </div>
 

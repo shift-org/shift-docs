@@ -5,7 +5,6 @@ menu:
   main:
     parent: aboutmenu
 type: policy
-lastmod: 2023-08-26
 ---
 ## 1. Purpose
 

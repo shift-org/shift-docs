@@ -13,7 +13,6 @@ menu:
   main:
     parent: communitynav
 type: policy
-lastmod: 2023-05-13
 ---
 
 ## Ride safely
