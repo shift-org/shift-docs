@@ -138,4 +138,4 @@ More info: [@ZooBomb on Facebook](https://www.facebook.com/groups/2232941380)
 
 Hardcourt Bike Polo is a fast-paced, gender-inclusive team sport played on a hard, smooth, enclosed court. Three players per team ride bicycles and use mallets to hit a small ball into the opposing team's goal while avoiding physical contact with the ground. New players are welcome; loaner bikes & equipment available.
 
-More info: [Portland Bike Polo on Instagram](http://instagram.com/portlandbikepolo)
+More info: [@PortlandBikePolo on Instagram](http://instagram.com/portlandbikepolo)
