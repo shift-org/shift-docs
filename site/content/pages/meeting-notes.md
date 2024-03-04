@@ -1,7 +1,7 @@
 ---
 title: Meeting notes
 date: 2018-11-11T15:19:34.000Z
-weight: "9"
+weight: 10
 menu:
   main:
     parent: communitynav
