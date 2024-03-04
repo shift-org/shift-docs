@@ -1,8 +1,8 @@
 (function($) {
 
-  // uses CONSTANTS from helpers.js
+    // uses CONSTANTS from helpers.js
 
-  var _isFormDirty = false;
+    var _isFormDirty = false;
 
     $.fn.cleanFormDirt = function() {
       _isFormDirty = false;
@@ -28,6 +28,21 @@
             populateEditForm({ datestatuses: [] }, callback);
         }
     };
+
+    function buildMenuOptions(fieldValues, currentValue) {
+        options = [];
+        for (let [key, value] of Object.entries(fieldValues)) {
+            option = {
+                'code': key,
+                'text': value,
+            };
+            if (option.code == currentValue) {
+                option.isSelected = true;
+            }
+            options.push(option);
+        }
+        return options;
+    }
 
     function populateEditForm(shiftEvent, callback) {
         var i, h, m, meridian,
@@ -75,47 +90,17 @@
         if (!shiftEvent.audience) {
             shiftEvent.audience = DEFAULT_AUDIENCE;
         }
-        shiftEvent.audienceOptions = [];
-        for (let [key, value] of Object.entries(AUDIENCE_DESCRIPTION)) {
-            option = {
-                'code': key,
-                'text': value,
-            };
-            if (option.code == shiftEvent.audience) {
-                option.isSelected = true;
-            }
-            shiftEvent.audienceOptions.push(option);
-        });
+        shiftEvent.audienceOptions = buildMenuOptions(AUDIENCE_DESCRIPTION, shiftEvent.audience);
 
         if (!shiftEvent.area) {
             shiftEvent.area = DEFAULT_AREA;
         }
-        shiftEvent.areaOptions = [];
-        for (let [key, value] of Object.entries(AREA)) {
-            option = {
-                'code': key,
-                'text': value,
-            };
-            if (option.code == shiftEvent.area) {
-                option.isSelected = true;
-            }
-            shiftEvent.areaOptions.push(option);
-        }
+        shiftEvent.areaOptions = buildMenuOptions(AREA, shiftEvent.area);
 
         if (!shiftEvent.length) {
             shiftEvent.length = DEFAULT_LENGTH;
         }
-        shiftEvent.lengthOptions = [];
-        for (let [key, value] of Object.entries(LENGTH)) {
-            option = {
-                'code': key,
-                'text': value,
-            };
-            if (option.code == shiftEvent.length) {
-                option.isSelected = true;
-            }
-            shiftEvent.lengthOptions.push(option);
-        });
+        shiftEvent.lengthOptions = buildMenuOptions(LENGTH, shiftEvent.length);
 
         template = $('#mustache-edit').html();
         rendered = Mustache.render(template, shiftEvent);
