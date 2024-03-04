@@ -26,6 +26,7 @@ const LENGTH = Object.freeze({
     '15+'  : '15+ miles',
 });
 
+const DEFAULT_TIME = '17:00:00';
 const DEFAULT_AREA = 'P';
 const DEFAULT_AUDIENCE = 'G';
 const DEFAULT_LENGTH = '--';

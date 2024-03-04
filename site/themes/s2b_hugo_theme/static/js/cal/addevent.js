@@ -29,7 +29,67 @@
         }
     };
 
-    function buildMenuOptions(fieldValues, currentValue) {
+    function populateTimeOptions(currentValue) {
+        var h, m, s, meridian,
+            displayHour, displayMinute;
+        var option = {};
+        var options = [];
+
+        // add 15 minute increments for entire day: 12:00 AM, 12:15 AM, 12:30 AM, etc.
+        for ( h = 0; h < 24; h++ ) {
+            for ( m = 0; m < 60; m += 15 ) {
+                if ( h === 0 ) {
+                    displayHour = 12;
+                } else if ( h > 12 ) {
+                    displayHour = h - 12;
+                } else {
+                    displayHour = h;
+                }
+
+                if ( m === 0 ) {
+                    displayMinute = '00';
+                } else {
+                    displayMinute = m;
+                }
+
+                s = '00'; // seconds are always zero
+
+                if ( h > 11 ) {
+                    meridian = 'PM';
+                } else {
+                    meridian = 'AM';
+                }
+
+                option = {
+                    time: displayHour + ':' + displayMinute + ' ' + meridian,
+                    value: h + ':' + displayMinute + ':' + s
+                };
+                if (h < 10) {
+                    // add leading zero, e.g. 07:30
+                    option.value = '0' + option.value;
+                }
+
+                if (option.value === currentValue) {
+                    option.isSelected = true;
+                }
+                options.push(option);
+            }
+        }
+
+        // special value for "just before midnight"
+        option = {
+            time: '11:59 PM',
+            value: '23:59:00'
+        };
+        if (option.value === currentValue) {
+            option.isSelected = true;
+        }
+        options.push(option);
+
+        return options;
+    }
+
+    function populateMenuOptions(fieldValues, currentValue) {
         options = [];
         for (let [key, value] of Object.entries(fieldValues)) {
             option = {
@@ -45,62 +105,27 @@
     }
 
     function populateEditForm(shiftEvent, callback) {
-        var i, h, m, meridian,
-            displayHour, displayMinute, timeChoice,
-            template, rendered, item;
+        var template, rendered;
 
-        shiftEvent.timeOptions = [];
-        meridian = 'AM';
-        for ( h = 0; h < 24; h++ ) {
-            for ( m = 0; m < 60; m += 15 ) {
-                if ( h > 11 ) {
-                    meridian = 'PM';
-                }
-                if ( h === 0 ) {
-                    displayHour = 12;
-                } else if ( h > 12 ) {
-                    displayHour = h - 12;
-                } else {
-                    displayHour = h;
-                }
-                displayMinute = m;
-                if ( displayMinute === 0 ) {
-                    displayMinute = '00';
-                }
-                timeChoice = {
-                    time: displayHour + ':' + displayMinute + ' ' + meridian,
-                    value: h + ':' + displayMinute + ':00'
-                };
-                if (h < 10) {
-                    timeChoice.value = '0' + timeChoice.value;
-                }
-                if (shiftEvent.time === timeChoice.value) {
-                    timeChoice.isSelected = true;
-                }
-                shiftEvent.timeOptions.push(timeChoice);
-            }
-        }
-        shiftEvent.timeOptions.push({ time: "11:59 PM" });
         if (!shiftEvent.time) {
-            // default to 5:00pm if not set;
-            // 0 = 12:00am, 1 = 12:15am, 2 = 12:30am, ... 68 = 5:00pm
-            shiftEvent.timeOptions[68].isSelected = true;
+            shiftEvent.time = DEFAULT_TIME;
         }
+        shiftEvent.timeOptions = populateTimeOptions(shiftEvent.time);
 
         if (!shiftEvent.audience) {
             shiftEvent.audience = DEFAULT_AUDIENCE;
         }
-        shiftEvent.audienceOptions = buildMenuOptions(AUDIENCE_DESCRIPTION, shiftEvent.audience);
+        shiftEvent.audienceOptions = populateMenuOptions(AUDIENCE_DESCRIPTION, shiftEvent.audience);
 
         if (!shiftEvent.area) {
             shiftEvent.area = DEFAULT_AREA;
         }
-        shiftEvent.areaOptions = buildMenuOptions(AREA, shiftEvent.area);
+        shiftEvent.areaOptions = populateMenuOptions(AREA, shiftEvent.area);
 
         if (!shiftEvent.length) {
             shiftEvent.length = DEFAULT_LENGTH;
         }
-        shiftEvent.lengthOptions = buildMenuOptions(LENGTH, shiftEvent.length);
+        shiftEvent.lengthOptions = populateMenuOptions(LENGTH, shiftEvent.length);
 
         template = $('#mustache-edit').html();
         rendered = Mustache.render(template, shiftEvent);
