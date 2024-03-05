@@ -1,5 +1,8 @@
 # 26 Feb 2024: pushed as underscorefool/shift-docs-2024.1 to docker hub!
-
+# to run the resulting container:
+#    [create a local copy of the shift-docs repo as /opt/shift-docs]
+#    docker pull underscorefool/shift-docs-2024.1
+#    docker container run -p 443:443 -p 80:80 -it  --mount type=bind,source=/opt/shift-docs,target=/opt/shift-docs underscorefool/shift-docs-2024.1 bash
 FROM ubuntu:22.04
 RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker
 RUN echo 'APT::Install-Recommends "0";' >> /etc/apt/apt.conf.d/00-docker
@@ -11,9 +14,6 @@ RUN DEBIAN_FRONTEND=noninteractive \
   apt-get update \
   && apt-get install -y manpages mysql-server mysql-client man nodejs nginx git openssl ca-certificates net-tools hugo curl vim-tiny nano
 RUN mkdir -p /opt/shift-docs
-
-# change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster! Thereafter, may still need to `git checkout beta`
-RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-docs && git checkout beta
 
 # note that the below won't:
 #  be configured to listen on SSL externally 
@@ -30,13 +30,21 @@ EXPOSE 443/tcp
 EXPOSE 80/tcp 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 RUN . /root/.bashrc && nvm install v20
-RUN cd /opt/shift-docs/site && hugo
 # the below doesn't really seem to work, not sure the right way to do this - maybe ENTRYPOINT?
 #CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
 
 ## TODO
-# connect port 80 to nginx in container (today: use -p 80:80)
-# connect port 443 to nginx in container (today: use -p 443:443 - is there a way to automate this?)
+# get the site built on initial pull.
+#   let's do this on the host repo copy instead
+#     RUN cd /opt/shift-docs/site && hugo
+# get the repo on your host - I think it makes more sense to have a local copy of the repo and mount it into the container tho.
+#     RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-docs && git checkout node-beta
+#     or, could change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster! Thereafter, may still need to `git checkout beta`
+
+# map ports from host to container:
+#    connect port 80 to nginx in container (today: use -p 80:80)
+#    connect port 443 to nginx in container (today: use -p 443:443)
+#	 - is there a way to automate this?)
 # create less-privileged user to run the server
 	# RUN useradd -ms /bin/bash ubuntu
 	# USER ubuntu
@@ -44,7 +52,7 @@ RUN cd /opt/shift-docs/site && hugo
 # set up nginx to respond as beta.shift2bikes.org w/letsencrypt
 	# can probably work from https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal in case the OS-based version can't work.
 # import details from https://github.com/shift-org/shift-docs/blob/beta/node.docker as to how to run node inside the container
-# import data into mysql
+# import data into mysql.  currently are just copying data into container
 # figure out right way to start mysql and nginx
 # publish final image in docker hub: 
 	#   docker tag shift-docs-2024.1 underscorefool/shift-docs-2024.1
