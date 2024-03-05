@@ -53,7 +53,12 @@ RUN . /root/.bashrc && nvm install v20
 	# can probably work from https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal in case the OS-based version can't work.
 # import details from https://github.com/shift-org/shift-docs/blob/beta/node.docker as to how to run node inside the container
 # import data into mysql.  currently are just copying data into container
+#       add two lines near the top to a current dump:
+#               CREATE DATABASE IF NOT EXISTS shift;
+#               USE shift;
+#       then mysql < /opt/shift-docs/backup.mysql
 # figure out right way to start mysql and nginx
+# figure out the right way to leave the container running and attachable-to, once started
 # publish final image in docker hub: 
 	#   docker tag shift-docs-2024.1 underscorefool/shift-docs-2024.1
 	#   docker push underscorefool/shift-docs-2024.1
