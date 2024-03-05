@@ -42,8 +42,8 @@ server {
         # Don't use them in a production server!
         #
         # include snippets/snakeoil.conf;
-        ssl_certificate /etc/letsencrypt/live/beta.shift2bikes.org/cert.pem
-        ssl_certificate_key /etc/letsencrypt/live/beta.shift2bikes.org/privkey.pem
+        ssl_certificate /etc/letsencrypt/live/beta.shift2bikes.org/cert.pem;
+        ssl_certificate_key /etc/letsencrypt/live/beta.shift2bikes.org/privkey.pem;
 
         root /opt/shift-docs/site/public/;
 
@@ -65,23 +65,23 @@ server {
 client_max_body_size 2250k;
 
 # replace ics.php with the newer ical.php
-location ^~ /api/ics.php {
-    fastcgi_pass php:9000;
-    include fastcgi_params;
-    fastcgi_param HTTP_PROXY "";
-    fastcgi_param SCRIPT_FILENAME /opt/backend/www/ical.php;
-}
+#location ^~ /api/ics.php {
+#    fastcgi_pass php:9000;
+#    include fastcgi_params;
+#    fastcgi_param HTTP_PROXY "";
+#    fastcgi_param SCRIPT_FILENAME /opt/backend/www/ical.php;
+#}
 
 # replace the legacy pedalp endpoint with a range
-location ^~ /legacy/cal/new-icalpp.php {
-    fastcgi_pass php:9000;
-    include fastcgi_params;
-    fastcgi_param HTTP_PROXY "";
-    # set to a constant range for this year's pedalp
+#location ^~ /legacy/cal/new-icalpp.php {
+#    fastcgi_pass php:9000;
+#    include fastcgi_params;
+#    fastcgi_param HTTP_PROXY "";
+#    # set to a constant range for this year's pedalp
     # alt, could set to the blank string "" and it would return 3 month range
-    fastcgi_param QUERY_STRING "startdate=2023-06-01&enddate=2023-08-31&filename=pedalpalooza-2023.ics";
-    fastcgi_param SCRIPT_FILENAME /opt/backend/www/ical.php;
-}
+#    fastcgi_param QUERY_STRING "startdate=2023-06-01&enddate=2023-08-31&filename=pedalpalooza-2023.ics";
+#    fastcgi_param SCRIPT_FILENAME /opt/backend/www/ical.php;
+#}
 
 location ~ /api/.*\.php(/|$) {
     # split the filename (e.g. manage_event) out of the path
@@ -96,14 +96,14 @@ location ~ /api/.*\.php(/|$) {
         return 404;
     }
 
-    fastcgi_param HTTP_PROXY ""; # mitigate https://httpoxy.org/ vulnerabilities
-    fastcgi_pass php:9000;       # the php-fpm ( FastCGI Process Manager ) uses port 9000 .
-    fastcgi_index index.php;     # fix: remove. meant for queries ending in slash; no such file exists.
-    include fastcgi_params;      # include the /etc/nginx/fastcgi_params file
+#    fastcgi_param HTTP_PROXY ""; # mitigate https://httpoxy.org/ vulnerabilities
+#    fastcgi_pass php:9000;       # the php-fpm ( FastCGI Process Manager ) uses port 9000 .
+#    fastcgi_index index.php;     # fix: remove. meant for queries ending in slash; no such file exists.
+#    include fastcgi_params;      # include the /etc/nginx/fastcgi_params file
 
     # below path is PHP's path, not nginx
-    fastcgi_param SCRIPT_FILENAME /opt/backend/www/$fastcgi_script_name;
-}
+#    fastcgi_param SCRIPT_FILENAME /opt/backend/www/$fastcgi_script_name;
+#}
 
 # fix? should this be removed to prevent access to legacy files?
 location /legacy/cal {
@@ -136,6 +136,7 @@ location /addevent {
 
 location / {
     root /var/www/site;
+}
 }
 
 
