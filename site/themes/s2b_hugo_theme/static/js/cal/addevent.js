@@ -348,8 +348,8 @@
             expanded: true
         };
         $.each(previewEvent.datestatuses, function(index, value) {
-            var date = $form.formatDate(value['date']);
-            var displayDate = $form.formatDate(value['date'], abbreviated=true);
+            var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
+            var displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
             var newsflash = value['newsflash'];
             var cancelled = (value['status'] === 'C');
             mustacheData.dates.push({

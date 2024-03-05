@@ -104,26 +104,6 @@ const DEFAULT_LENGTH = '--';
         }
     };
 
-    $.fn.formatDate = function(dateString, abbreviated) {
-        var parts = dateString.split('-'),
-            date = new Date(parts[0], parseInt(parts[1]) - 1, parts[2]);
-
-        var dateStringType = 'long';
-        if (abbreviated) {
-            dateStringType = 'short';
-        }
-
-        return date.toLocaleDateString(
-            navigator.language,
-            {
-                weekday: dateStringType,
-                month: dateStringType,
-                day: 'numeric',
-                year: 'numeric'
-            }
-        );
-    };
-
     $.fn.formatTime = function(time) {
         var timeParts = time.split(':');
         var hour = parseInt(timeParts[0]);
