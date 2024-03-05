@@ -51,32 +51,35 @@ RUN . /root/.bashrc && nvm install v20
 #CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
 
 ## TODO
-# get the site built on initial pull.
-#   let's do this on the host repo copy instead
-#     RUN cd /opt/shift-docs/site && hugo
-# get the repo on your host - I think it makes more sense to have a local copy of the repo and mount it into the container tho.
-#     RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-docs && git checkout node-beta
-#     or, could change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster! Thereafter, may still need to `git checkout beta`
 
-# map ports from host to container:
-#    connect port 80 to nginx in container (today: use -p 80:80)
-#    connect port 443 to nginx in container (today: use -p 443:443)
-#	 - is there a way to automate this?)
-# create less-privileged user to run the server
-	# RUN useradd -ms /bin/bash ubuntu
-	# USER ubuntu
-# set up nginx similarly to prod (doesn't know about any of our config from prod except rootdir)
-# set up nginx to respond as beta.shift2bikes.org w/letsencrypt
-	# can probably work from https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal in case the OS-based version can't work.
+# confirm nginx setup (not sure what is missing from prod to connect to node)
 # import details from https://github.com/shift-org/shift-docs/blob/beta/node.docker as to how to run node inside the container
-# import data into mysql.  currently are just copying data into container
-#       add two lines near the top to a current dump:
-#               CREATE DATABASE IF NOT EXISTS shift;
-#               USE shift;
-#       then mysql < /opt/shift-docs/backup.mysql
-# figure out right way to start mysql and nginx
+
+# figure out right way to start mysql and nginx so they'll be running
 # figure out the right way to leave the container running and attachable-to, once started
+#	perhaps running the node app could be the foreground?  
+#	Not sure if it handles crashes/restarts
+
 # publish final image in docker hub: 
 	#   docker tag shift-docs-2024.1 underscorefool/shift-docs-2024.1
 	#   docker push underscorefool/shift-docs-2024.1
 # maybe:  RUN rm -rf /var/lib/apt/lists/* (found in the recipe I followed in creating the dockerfile, seems to have 167M of data after above)
+
+## POTENTIAL TODO
+# automate map ports from host to container:
+#    connect port 80 to nginx in container (today: use -p 80:80)
+#    connect port 443 to nginx in container (today: use -p 443:443)
+#	 
+# create less-privileged user to run the server
+	# RUN useradd -ms /bin/bash ubuntu
+	# USER ubuntu
+# import data into mysql.  currently are:
+#    copying data into container and leaving user to mysql < backup
+#       note that to make a prod backup from 5.x work on the latest, 
+#       you need to add two lines near the top to a current dump:
+#               CREATE DATABASE IF NOT EXISTS shift;
+#               USE shift;
+
+## DECIDED AGAINST BUT STILL HERE IN CASE WE CHANGE OUR MIND
+#     RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-docs && git checkout node-beta
+#     or, could change to something like ADD --keep-git-dir=true https://github.com/shift-org/shift-docs.git /opt/shift-docs  - will probably make cloning way faster! Thereafter, may still need to `git checkout beta`
