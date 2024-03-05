@@ -2,8 +2,15 @@
 # to run the resulting container:
 #    [create a local copy of the shift-docs repo as /opt/shift-docs]
 #    [also, checkout the node-beta branch]
-#    docker pull underscorefool/shift-docs-2024.1
-#    docker container run -p 443:443 -p 80:80 -it  --mount type=bind,source=/opt/shift-docs,target=/opt/shift-docs underscorefool/shift-docs-2024.1 bash
+#    then:
+#    	cd /opt/shift-docs/site && hugo
+#    	docker pull underscorefool/shift-docs-2024.1
+#    	docker container run -p 443:443 -p 80:80 -it  --mount type=bind,source=/opt/shift-docs,target=/opt/shift-docs underscorefool/shift-docs-2024.1 bash
+#       within the container (above will start a session), run:
+#		service mysql start
+#		mysql < /opt/shift-docs/backup.mysql
+#		service nginx start
+#    ...then you can browse (either localhost or beta.shift2bikes.org)
 FROM ubuntu:22.04
 RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker
 RUN echo 'APT::Install-Recommends "0";' >> /etc/apt/apt.conf.d/00-docker
