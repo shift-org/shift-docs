@@ -1,6 +1,7 @@
 # 26 Feb 2024: pushed as underscorefool/shift-docs-2024.1 to docker hub!
 # to run the resulting container:
 #    [create a local copy of the shift-docs repo as /opt/shift-docs]
+#    [also, checkout the node-beta branch]
 #    docker pull underscorefool/shift-docs-2024.1
 #    docker container run -p 443:443 -p 80:80 -it  --mount type=bind,source=/opt/shift-docs,target=/opt/shift-docs underscorefool/shift-docs-2024.1 bash
 FROM ubuntu:22.04
