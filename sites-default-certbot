@@ -95,6 +95,7 @@ location ~ /api/.*\.php(/|$) {
     if (!-f /opt/backend/www/$fastcgi_script_name) {
         return 404;
     }
+}
 
 #    fastcgi_param HTTP_PROXY ""; # mitigate https://httpoxy.org/ vulnerabilities
 #    fastcgi_pass php:9000;       # the php-fpm ( FastCGI Process Manager ) uses port 9000 .
@@ -106,37 +107,37 @@ location ~ /api/.*\.php(/|$) {
 #}
 
 # fix? should this be removed to prevent access to legacy files?
-location /legacy/cal {
-    alias /opt/legacy/cal;
-}
+#location /legacy/cal {
+#    alias /opt/shift-docs/legacy/cal;
+#}
 
 # handle images of the standard shift format
 # ex. /eventimages/9248-124.png
 #
 location ~ /eventimages/(\d+)(?:-\d+).(\w+) {
-    alias /opt/backend/eventimages/$1.$2;
+    alias /opt/shift-docs/backend/eventimages/$1.$2;
     expires max;
 }
 
 # a fallback for images that don't fit the expected format for some reason.
 #
-location /eventimages {
-    alias /opt/backend/eventimages;
-}
+#location /eventimages {
+#    alias /opt/shift-docs/backend/eventimages;
+#}
 
-location /calendar {
-    root /var/www/site;
-    try_files $uri $uri/ /calendar/index.html;
-}
+#location /calendar {
+#    root /opt/shift-docs/site/public;
+#    try_files $uri $uri/ /calendar/index.html;
+#}
 
-location /addevent {
-    root /var/www/site;
-    try_files $uri $uri/ /addevent/index.html;
-}
+#location /addevent {
+#    root /opt/shift-docs/site/public;
+#    try_files $uri $uri/ /addevent/index.html;
+#}
 
-location / {
-    root /var/www/site;
-}
+#location / {
+#    root /opt/shift-docs/site/public;
+#}
 }
 
 
