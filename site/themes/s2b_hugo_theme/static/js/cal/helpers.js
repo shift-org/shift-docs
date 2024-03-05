@@ -104,21 +104,6 @@ const DEFAULT_LENGTH = '--';
         }
     };
 
-    $.fn.formatTime = function(time) {
-        var timeParts = time.split(':');
-        var hour = parseInt(timeParts[0]);
-        var meridian = 'AM';
-        if ( hour === 0 ) {
-            hour = 12;
-        } else if ( hour >= 12 ) {
-            meridian = 'PM';
-            if ( hour > 12 ) {
-                hour = hour - 12;
-            }
-        }
-        return hour + ':' + timeParts[1] + ' ' + meridian;
-    };
-
     $.fn.compareTimes = function ( event1, event2 ) {
         if ( event1.time < event2.time ) {
             return -1;
