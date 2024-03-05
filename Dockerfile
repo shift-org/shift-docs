@@ -62,7 +62,7 @@ RUN . /root/.bashrc && nvm install v20
 
 WORKDIR /opt/shift-docs/app
 
-COPY ["/opt/shift-docs/app/package.json", "/opt/shift-docs/app/package-lock.json", "./"]
+# COPY ["/opt/shift-docs/app/package.json", "/opt/shift-docs/app/package-lock.json", "./"]
 
 # 'production' here excludes anything listed as a dev dependency in the package.json
 #RUN npm install --production
