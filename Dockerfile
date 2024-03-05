@@ -20,11 +20,16 @@ RUN mkdir -p /opt/shift-docs
 #  be configured to listen on SSL externally 
 #  or expose any port to even localhost much less the internet
 #	(use -p 443:443 arg to docker run to fix both of the above!)
+
 # todo self-signed cert below, needs certbot
 ADD cert.pem /etc/nginx/conf.d/cert.pem
 ADD key.pem /etc/nginx/conf.d/key.pem
 ADD sites-default /etc/nginx/sites-enabled/default
 ADD backup.mysql /opt/shift-docs/backup.mysql
+# to use certbot in "prod" you can instead run
+#	certbot certonly
+# 	and add "-mount type=bind,source=/etc/letsencrypt,target=/etc/letsencrypt" to the docker command line
+#	and use /etc/nginx/sites-enabled/default-certbot instead of the above 
 # for normal https traffic
 EXPOSE 443/tcp 
 # for certbot
