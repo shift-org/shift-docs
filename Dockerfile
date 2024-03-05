@@ -23,7 +23,7 @@ RUN cd /opt && git clone https://github.com/shift-org/shift-docs && cd shift-doc
 ADD cert.pem /etc/nginx/conf.d/cert.pem
 ADD key.pem /etc/nginx/conf.d/key.pem
 ADD sites-default /etc/nginx/sites-enabled/default
-ADD backup.mysql /home/ubuntu/backup.mysql
+ADD backup.mysql /opt/shift-docs/backup.mysql
 # for normal https traffic
 EXPOSE 443/tcp 
 # for certbot
@@ -32,7 +32,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | b
 RUN . /root/.bashrc && nvm install v20
 RUN cd /opt/shift-docs/site && hugo
 # the below doesn't really seem to work, not sure the right way to do this - maybe ENTRYPOINT?
-CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
+#CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
 
 ## TODO
 # connect port 80 to nginx in container (today: use -p 80:80)
@@ -45,6 +45,7 @@ CMD /usr/sbin/service nginx start && tail -f /var/log/nginx/*log
 	# can probably work from https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal in case the OS-based version can't work.
 # import details from https://github.com/shift-org/shift-docs/blob/beta/node.docker as to how to run node inside the container
 # import data into mysql
+# figure out right way to start mysql and nginx
 # publish final image in docker hub: 
 	#   docker tag shift-docs-2024.1 underscorefool/shift-docs-2024.1
 	#   docker push underscorefool/shift-docs-2024.1
