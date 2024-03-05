@@ -39,6 +39,20 @@ Migration scripts are located in `services/db/migrations/`. To apply a migration
 
 ```./shift mysql-pipe < services/db/migrations/0000-example-migration.sql```
 
+### Creating a migration
+
+Any change to the database should be done using a migration script so it can be consistently applied in any dev environment (including production). It should be safe to re-run a migration, so use SQL statements that won't error out if run a second time. (e.g. check for presence before dropping)
+
+Along with the migration, update the `setup.sql` script. This ensures that both new databases and existing databases that have been migrated will have the same structure.
+
+After you've applied your migration, run this command to dump the database structure but without the actual row data:
+
+```./shift mysqldump --no-data > setup.sql```
+
+Then:
+* Comment out each `DROP TABLE` line, e.g. `` -- DROP TABLE IF EXISTS `tablename` ``
+* Add `IF NOT EXISTS` to each `CREATE TABLE` statement, e.g. `` CREATE TABLE IF NOT EXISTS `tablename` ``
+
 
 ## Resetting tables
 

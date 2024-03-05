@@ -224,7 +224,7 @@
               <label class="control-label req-label" for="time">Time</label>
               <select name="time" class="form-control" id="time" aria-describedby="time-help">
                 [[# timeOptions ]]
-                <option value="[[time]]" [[# isSelected ]]selected[[/ isSelected ]]>[[time]]</option>
+                <option value="[[value]]" [[# isSelected ]]selected[[/ isSelected ]]>[[time]]</option>
                 [[/ timeOptions ]]
               </select>
               <p class="input-help" id="time-help">If your event has multiple times (for example, a "meet time" and a "ride time"), put the first time here. Describe the later times in the time details field, below.</p>
@@ -303,9 +303,8 @@
             <div class="form-group">
               <label class="control-label optional-label" for="length">Length of route</label>
               <select name="length" class="form-control" id="length">
-                <option value="--" [[# isSelected ]]selected[[/ isSelected ]]>--</option>
                 [[# lengthOptions ]]
-                <option value="[[range]]" [[# isSelected ]]selected[[/ isSelected ]]>[[range]] miles</option>
+                <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
                 [[/ lengthOptions ]]
               </select>
             </div>

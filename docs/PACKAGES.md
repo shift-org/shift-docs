@@ -9,7 +9,7 @@
   * [Font Awesome v4](https://fontawesome.com/v4.7/)
   * [jQuery](https://github.com/jquery/jquery/releases)
 * Calendar
-  * [Moment.js](https://github.com/moment/moment/releases)
+  * [Day.js](https://github.com/iamkun/dayjs/releases)
   * [Mustache](https://github.com/janl/mustache.js/releases); get latest minified file via [unpkg.com](https://unpkg.com/mustache@latest/mustache.min.js)
   * [FullCalendar v4](https://github.com/fullcalendar/fullcalendar/releases)
   * [Mailcheck](https://github.com/mailcheck/mailcheck/releases)

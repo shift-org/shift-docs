@@ -168,7 +168,7 @@
         var jsd = new Date(date);
         jsd.setTime(jsd.getTime() + jsd.getTimezoneOffset()*60*1000);
 
-        return moment(jsd).format("YYYY-MM-DD");
+        return dayjs(jsd).format("YYYY-MM-DD");
     }
 
     function isSelected(date) {

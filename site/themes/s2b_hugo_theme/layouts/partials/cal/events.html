@@ -2,7 +2,12 @@
 <script src="{{ .Site.BaseURL }}js/cal/main.js"></script>
 
 <script src="{{ .Site.BaseURL }}js/libs/mustache/mustache.min.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/moment/moment.min.js"></script>
+
+<script src="{{ .Site.BaseURL }}js/libs/dayjs/dayjs.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/libs/dayjs/plugin/customParseFormat.js"></script>
+<script>
+  dayjs.extend(window.dayjs_plugin_customParseFormat)
+</script>
 
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/daygrid/main.min.js"></script>

@@ -131,3 +131,11 @@ More info: [@sabspalooza (Sabrina) on Instagram](http://instagram.com/sabspalooz
 Hop on the MAX train at Providence Park Station (either Red or Blue line, $2.50 fare), exit Washington Park Station, take the elevator up to the zoo, then ride downhill fast for fun! Minibikes, helmet, & lights encouraged; full face helmets recommended & any safety gear you want to wear. Ride at your own risk, and leave no trace!
 
 More info: [@ZooBomb on Facebook](https://www.facebook.com/groups/2232941380)
+
+### Portland Bike Polo
+* Every Sunday
+* Starting location: Alberta Park, NE 20th Ave & NE Killingsworth St
+
+Hardcourt Bike Polo is a fast-paced, gender-inclusive team sport played on a hard, smooth, enclosed court. Three players per team ride bicycles and use mallets to hit a small ball into the opposing team's goal while avoiding physical contact with the ground. New players are welcome; loaner bikes & equipment available.
+
+More info: [@PortlandBikePolo on Instagram](http://instagram.com/portlandbikepolo)
