@@ -112,12 +112,12 @@ location / {
     }
 
     location /calendar {
-        root /opt/shift-docs/public;
+        root /opt/shift-docs/site/public;;
         try_files $uri $uri/ /calendar/index.html;
     }
 
     location /addevent {
-        root /opt/shift-docs/public;
+        root /opt/shift-docs/site/public;
         try_files $uri $uri/ /addevent/index.html;
     }
 }
