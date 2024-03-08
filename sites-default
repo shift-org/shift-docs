@@ -101,23 +101,23 @@ location / {
     # ex. /eventimages/9248-124.png
     #
     location ~ /eventimages/(\d+)(?:-\d+).(\w+) {
-        alias /opt/backend/eventimages/$1.$2;
+        alias /opt/shift-docs/backend/eventimages/$1.$2;
         expires max;
     }
 
     # a fallback for images that don't fit the expected format for some reason.
     #
     location /eventimages {
-        alias /opt/backend/eventimages;
+        alias /opt/shift-docs/backend/eventimages;
     }
 
     location /calendar {
-        root /var/www/site;
+        root /opt/shift-docs/public;
         try_files $uri $uri/ /calendar/index.html;
     }
 
     location /addevent {
-        root /var/www/site;
+        root /opt/shift-docs/public;
         try_files $uri $uri/ /addevent/index.html;
     }
 }
