@@ -11,62 +11,66 @@ $(document).ready(function() {
             url += 'startdate=' + dayjs(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + dayjs(options['enddate']).format("YYYY-MM-DD");
         }
 
-        $.get( url, function( data ) {
-            var groupedByDate = [];
-            var mustacheData = { dates: [] };
-            $.each(data.events, function( index, value ) {
+        $.ajax({
+            url: url,
+            headers: { 'API-Version': API_VERSION },
+            type: 'GET',
+            success: function( data ) {
+                var groupedByDate = [];
+                var mustacheData = { dates: [] };
+                $.each(data.events, function( index, value ) {
+                    var date = container.formatDate(value.date);
+                    if (groupedByDate[date] === undefined) {
+                        groupedByDate[date] = {
+                            yyyymmdd: value.date,
+                            date: date,
+                            events: []
+                        };
+                        mustacheData.dates.push(groupedByDate[date]);
+                    }
 
-                var date = container.formatDate(value.date);
-                if (groupedByDate[date] === undefined) {
-                    groupedByDate[date] = {
-                        yyyymmdd: value.date,
-                        date: date,
-                        events: []
-                    };
-                    mustacheData.dates.push(groupedByDate[date]);
+                    value.displayStartTime = container.formatTime(value.time);
+                    value.displayDate = container.formatDate(groupedByDate[date]['yyyymmdd'], abbreviated=true);
+                    if (value.endtime) {
+                      value.displayEndTime = container.formatTime(value.endtime);
+                    }
+
+                    value.audienceLabel = container.getAudienceLabel(value.audience);
+                    value.areaLabel = container.getAreaLabel(value.area);
+                    value.mapLink = container.getMapLink(value.address);
+
+                    if ( 'show_details' in options && options['show_details'] == true ) {
+                        value.expanded = true;
+                    }
+                    value.webLink = container.getWebLink(value.weburl);
+                    value.contactLink = container.getContactLink(value.contact);
+
+                    value.shareLink = '/calendar/event-' + value.caldaily_id;
+                    value.exportlink = '/api/ics.php?id=' + value.id;
+
+                    // value.showEditButton = true; // TODO: permissions
+                    groupedByDate[date].events.push(value);
+                });
+
+                for ( var date in groupedByDate )  {
+                    groupedByDate[date].events.sort(container.compareTimes);
                 }
-
-                value.displayStartTime = container.formatTime(value.time);
-                value.displayDate = container.formatDate(groupedByDate[date]['yyyymmdd'], abbreviated=true);
-                if (value.endtime) {
-                  value.displayEndTime = container.formatTime(value.endtime);
+                var template = $('#view-events-template').html();
+                var info = Mustache.render(template, mustacheData);
+                if ('id' in options) {
+                    // only set on individual ride pages
+                    var event = mustacheData.dates[0].events[0];
+                    $('meta[property="og:title"]')[0].setAttribute("content", event.title);
+                    if (event.printdescr) {
+                        $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
+                    } else {
+                        var desc = event.details.substring(0,250);
+                        $('meta[property="og:description"]')[0].setAttribute("content", desc);
+                    }
+                    document.title = event.title + " - Calendar - Shift";
                 }
-
-                value.audienceLabel = container.getAudienceLabel(value.audience);
-                value.areaLabel = container.getAreaLabel(value.area);
-                value.mapLink = container.getMapLink(value.address);
-
-                if ( 'show_details' in options && options['show_details'] == true ) {
-                    value.expanded = true;
-                }
-                value.webLink = container.getWebLink(value.weburl);
-                value.contactLink = container.getContactLink(value.contact);
-
-                value.shareLink = '/calendar/event-' + value.caldaily_id;
-                value.exportlink = '/api/ics.php?id=' + value.id;
-
-                // value.showEditButton = true; // TODO: permissions
-                groupedByDate[date].events.push(value);
-            });
-
-            for ( var date in groupedByDate )  {
-                groupedByDate[date].events.sort(container.compareTimes);
+                callback(info);
             }
-            var template = $('#view-events-template').html();
-            var info = Mustache.render(template, mustacheData);
-            if ('id' in options) {
-                // only set on individual ride pages
-                var event = mustacheData.dates[0].events[0];
-                $('meta[property="og:title"]')[0].setAttribute("content", event.title);
-                if (event.printdescr) {
-                    $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
-                } else {
-                    var desc = event.details.substring(0,250);
-                    $('meta[property="og:description"]')[0].setAttribute("content", desc);
-                }
-                document.title = event.title + " - Calendar - Shift";
-            }
-            callback(info);
         });
     }
 
@@ -79,6 +83,7 @@ $(document).ready(function() {
         var opts = {
             type: 'POST',
             url: '/api/delete_event.php',
+            headers: { 'API-Version': API_VERSION },
             contentType: false,
             processData: false,
             cache: false,
