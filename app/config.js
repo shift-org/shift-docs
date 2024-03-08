@@ -16,7 +16,7 @@ const appPath =  path.resolve(__dirname);
 
 const config = {
   db: {
-    host: env_default('MYSQL_HOST', 'db'),
+    host: env_default('MYSQL_HOST', 'localhost'),
     port: 3306, // standard mysql port.
     user: env_default('MYSQL_USER', 'shift'),
     pass: env_default('MYSQL_PASSWORD', 'ok124'),
