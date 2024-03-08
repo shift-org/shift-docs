@@ -1,7 +1,7 @@
-# 26 Feb 2024: pushed as underscorefool/shift-docs-2024.1 to docker hub!
+# 7 Mar 2024: pushed as underscorefool/shift-docs-2024.1 to docker hub!
 # to run the resulting container:
 #    [create a local copy of the shift-docs repo as /opt/shift-docs]
-#    [also, checkout the node-beta branch]
+#    [also, checkout the beta branch]
 #    then:
 #    	cd /opt/shift-docs/site && hugo
 #    	docker pull underscorefool/shift-docs-2024.1
@@ -60,7 +60,7 @@ RUN . /root/.bashrc && nvm install v20
 # http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production
 # NODE_ENV=production
 
-WORKDIR /opt/shift-docs/app
+# WORKDIR /opt/shift-docs/app
 
 # COPY ["/opt/shift-docs/app/package.json", "/opt/shift-docs/app/package-lock.json", "./"]
 
