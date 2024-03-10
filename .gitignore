@@ -20,3 +20,5 @@ app/eventimages/*
 !app/eventimages/
 !app/eventimages/README.md
 !app/eventimages/bike.jpg
+bin/
+node_modules/

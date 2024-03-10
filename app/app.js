@@ -3,6 +3,7 @@ const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
 const knex = require("./knex");
+const path = require('path');
 const app = express();
 
 // shift.conf for nginx sets the x-forward header
@@ -23,6 +24,21 @@ app.use(function (req, res, next) {
   next()
 });
 
+// for development, allow the backend to serve the frontend.
+// you can use "hugo --watch" to rebuild changes on demand.
+if (config.site.staticFiles) {
+  const staticFiles = path.resolve(__dirname, config.site.staticFiles);
+  console.log("serving static files from", staticFiles);
+  app.use(express.static(staticFiles));
+
+  // this is normally handled by ngnix
+  app.get(/\/addevent\/.*/, function (req, res, next) {
+    console.log("remapping", req.url);
+    const addEventPage = path.join(staticFiles, 'addevent', 'index.html')
+    res.sendFile(addEventPage);
+  });
+}
+
 // handle application/x-www-form-urlencoded and application/json posts
 // ( multipart posts are handled by their individual endpoints )
 app.use(express.urlencoded({extended:false}), express.json());
@@ -41,16 +57,16 @@ const endpoints = [
 // host each of those endpoint files at a php-like url:
 // note: require() is synchronous.
 endpoints.forEach((ep) => {
-  const path = `/api/${ep}.php`;
+  const apipath = `/api/${ep}.php`;
   const endpoint = require(`./endpoints/${ep}.js`);
   if (endpoint.get) {
-    app.get(path, endpoint.get);
+    app.get(apipath, endpoint.get);
   }
   if (endpoint.post) {
     if (Array.isArray(endpoint.post)) {
-      app.post(path, ...endpoint.post);
+      app.post(apipath, ...endpoint.post);
     } else {
-      app.post(path, endpoint.post);
+      app.post(apipath, endpoint.post);
     }
   }
 });

@@ -1,4 +1,4 @@
-const path = require('node:path');
+const path = require('path');
 
 function env_default(field, def) {
   return process.env[field] ?? def;
@@ -42,6 +42,7 @@ const config = {
     helpPage() {
       return config.site.url("pages/calendar-faq/");
     },
+    staticFiles: env_default('SHIFT_STATIC_FILES'),
   },
   // various useful email addresses
   // ( for sendConfirmationEmail() )

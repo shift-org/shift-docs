@@ -1,5 +1,6 @@
 // the knex object opens a connection to the db.
 const createKnex = require('knex');
+const path = require('path'); // for sqlite 3
 const pickBy = require('lodash/pickBy'); // a dependency of package knex
 const config = require("./config");
 const tables = require("./models/tables"); // for sqlite 3
@@ -18,7 +19,7 @@ const shift = {
 };
 
 // testing for sqlite
-const test = {
+const sqliteCfg = {
   client: "sqlite3",
   connection: ":memory:",
   useNullAsDefault: true,
@@ -27,13 +28,20 @@ const test = {
 // use sqlite when running `npm test`
 let useSqlite = process.env.npm_lifecycle_event === 'test';
 
-// hack: override mysql with sqlite if the environment variable MYSQL_DATABASE was set to "sqlite"
-if (!useSqlite && config.db.name === 'sqlite') {
-  console.log("using sqlite");
+// hack: change mysql to sqlite if the environment variable
+// MYSQL_DATABASE was set to "sqlite"
+// also: can specify a filename for the db "sqlite:somefile.db"
+if (!useSqlite && config.db.name.startsWith('sqlite')) {
+  const parts = config.db.name.split(':');
+  if (parts && parts.length === 2) {
+    const fn = parts[1];
+    sqliteCfg.connection = path.resolve(__dirname, fn);
+  }
+  console.log("using sqlite", sqliteCfg.connection);
   useSqlite = true;
 }
 
-const dbConfig = Object.freeze( useSqlite ? test : shift );
+const dbConfig = Object.freeze( useSqlite ? sqliteCfg : shift );
 
 const knex = {
   // lightly wrap knex with a query function.

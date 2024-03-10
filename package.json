@@ -1,0 +1,23 @@
+{
+  "name": "shift-docs",
+  "version": "0.0.0",
+  "type": "module",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "exec-bin": "^1.0.0",
+    "hugo-installer": "^4.0.1",
+    "env-cmd": "^10.1.0"
+  },
+  "workspaces": [
+    "app"
+  ],
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev-*\"",
+    "dev-app": "env-cmd -f dev.env npm run dev --workspace=app",
+    "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -d ../bin/dist",
+    "build": "npm run build-hugo",
+    "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
+    "postinstall": "hugo-installer --version 0.84.0",
+    "test": "npm run test --workspace=app"
+  }
+}

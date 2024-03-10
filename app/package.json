@@ -20,13 +20,14 @@
   },
   "scripts": {
     "test": "mocha --exit",
-    "dev": "env MYSQL_DATABASE=sqlite node app.js"
+    "dev": "env-cmd -f dev.env node app.js"
   },
   "devDependencies": {
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "lorem-ipsum": "^2.0.8",
     "mocha": "^10.2.0",
-    "sinon": "^15.0.3"
+    "sinon": "^15.0.3",
+    "exec-bin": "^1.0.0"
   }
 }
