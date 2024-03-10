@@ -33,7 +33,7 @@ if (config.site.staticFiles) {
 
   // this is normally handled by ngnix
   app.get(/\/addevent\/.*/, function (req, res, next) {
-    console.log("remapping", req.url);
+    // console.log("remapping", req.url);
     const addEventPage = path.join(staticFiles, 'addevent', 'index.html')
     res.sendFile(addEventPage);
   });
