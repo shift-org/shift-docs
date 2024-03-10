@@ -133,6 +133,7 @@ function updateEvent(evt, data) {
 function sendConfirmationEmail(evt) {
   const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
   const subject = `Shift2Bikes Secret URL for ${evt.title}`;
+  console.debug("sending confirmation for", url);
 
   const support= config.email.support;
   const body = nunjucks.render('email.njk', {
