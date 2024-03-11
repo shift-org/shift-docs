@@ -264,11 +264,6 @@
                     $('.preview-edit-button').click();
                 }
             };
-            if(data.fake) {
-                opts.xhr = function() { var xhr = jQuery.ajaxSettings.xhr(); xhr.send = xhr.sendAsBinary; return xhr; }
-                opts.contentType = "multipart/form-data; boundary="+data.boundary;
-                opts.data = data.toString();
-            }
             $.ajax(opts);
         });
 
