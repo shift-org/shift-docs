@@ -27,16 +27,8 @@ app.use(function (req, res, next) {
 // for development, allow the backend to serve the frontend.
 // you can use "hugo --watch" to rebuild changes on demand.
 if (config.site.staticFiles) {
-  const staticFiles = path.resolve(__dirname, config.site.staticFiles);
-  console.log("serving static files from", staticFiles);
-  app.use(express.static(staticFiles));
-
-  // this is normally handled by ngnix
-  app.get(/\/addevent\/.*/, function (req, res, next) {
-    // console.log("remapping", req.url);
-    const addEventPage = path.join(staticFiles, 'addevent', 'index.html')
-    res.sendFile(addEventPage);
-  });
+  const makeFacade = require('./facade');
+  makeFacade(app, config);
 }
 
 // handle application/x-www-form-urlencoded and application/json posts
