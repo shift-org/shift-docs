@@ -55,7 +55,7 @@ server {
 	charset utf-8;
 	expires $expires;
 
-	error_log  /var/log/nginx/error.log debug;
+	error_log  /var/log/nginx/error.log;
 	access_log /var/log/nginx/access.log;
 
 # see also manage_event.php which has its own limits
@@ -101,18 +101,18 @@ location / {
     # ex. /eventimages/9248-124.png
     #
     location ~ /eventimages/(\d+)(?:-\d+).(\w+) {
-        alias /opt/shift-docs/backend/eventimages/$1.$2;
+        alias /opt/shift-docs/app/eventimages/$1.$2;
         expires max;
     }
 
     # a fallback for images that don't fit the expected format for some reason.
     #
     location /eventimages {
-        alias /opt/shift-docs/backend/eventimages;
+        alias /opt/shift-docs/app/eventimages;
     }
 
     location /calendar {
-        root /opt/shift-docs/site/public;;
+        root /opt/shift-docs/site/public;
         try_files $uri $uri/ /calendar/index.html;
     }
 
