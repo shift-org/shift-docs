@@ -32,6 +32,8 @@ RUN mkdir -p /opt/shift-docs
 #  or expose any port to even localhost much less the internet
 #	(use -p 443:443 arg to docker run to fix both of the above!)
 ADD backup.mysql /opt/shift-docs/backup.mysql
+ADD mysqld-cnf-lessthreads /etc/mysql/mysql.conf.d/mysqld.cnf
+ADD nginx-conf-lessthreads /etc/nginx/nginx.conf
 
 # self-signed cert below, prod wants certbot
 ADD cert.pem /etc/nginx/conf.d/cert.pem
@@ -43,12 +45,14 @@ ADD sites-default /etc/nginx/sites-enabled/default
 #	remove the three above lines
 #	and swap /etc/nginx/sites-enabled-certbot instead of above:
 #		ADD sites-default-certbot /etc/nginx/sites-enabled/default
-# 	and add "-mount type=bind,source=/etc/letsencrypt,target=/etc/letsencrypt" to the docker command line
+# 	and add "--mount type=bind,source=/etc/letsencrypt,target=/etc/letsencrypt" to the docker command line
 
 # for normal https traffic
 EXPOSE 443/tcp 
 # for certbot
 EXPOSE 80/tcp 
+# for node - TODO probably not needed in prod!
+EXPOSE 3080/tcp 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 RUN . /root/.bashrc && nvm install v20
 
