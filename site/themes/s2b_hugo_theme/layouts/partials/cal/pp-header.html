@@ -13,12 +13,10 @@
   <div id="pp-description">
       <p><a href="/pages/pedalpalooza/">Pedalpalooza</a> is a festival of bikey fun. Hundreds of different events are organized by people like you. Most rides are free and all are open to the public to join.</p>
 
-      {{ if or (eq (.Param "year") 2021) (eq (.Param "year") 2022) (eq (.Param "year") 2023) }}
+      {{ if or (eq (.Param "year") 2021) (eq (.Param "year") 2022) (eq (.Param "year") 2023) (eq (.Param "year") 2024) }}
       <p>Bike Summer will be <strong>three whole months</strong> of fun on two wheels. 
 
-      <!-- 
-      {{ if eq (.Param "year") 2023 }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a>{{ end }}
-      -->
+      {{ if eq (.Param "year") 2024 }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a>{{ end }}
 
       Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> of past bicycle fun events. If you need help creating or editing an event, check out the <a href="/pages/calendar-faq/">calendar FAQ</a> or <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
 
