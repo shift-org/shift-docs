@@ -426,23 +426,6 @@
         } );
     } );
 
-    $(document).on('click', '#date-picker-prev-month', function(ev) {
-      var currentPosition = $("#date-select").scrollTop();
-      $("#date-select").scrollTop(currentPosition - 112);
-    });
-
-    $(document).on('click', '#date-picker-next-month', function(ev) {
-      var currentPosition = $("#date-select").scrollTop();
-      $("#date-select").scrollTop(currentPosition + 112);
-    });
-
-    $(document).on('click', '#date-picker-today', function(ev) {
-      $("#date-picker .calendar-day.today")[0].scrollIntoView({
-        block: "nearest",
-        behavior: "smooth"
-      });
-    });
-
     $(document).on('click', '#email-suggestion .correction', function () {
         $('#email').val( $( this ).text() );
         $('#email-suggestion')
