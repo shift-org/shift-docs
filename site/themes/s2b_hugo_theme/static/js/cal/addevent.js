@@ -377,6 +377,37 @@
         return harvestedEvent;
     }
 
+    function deleteEvent(id, secret) {
+        var data = new FormData();
+        data.append('json', JSON.stringify({
+            id: id,
+            secret: secret
+        }));
+        var opts = {
+            type: 'POST',
+            url: '/api/delete_event.php',
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function(returnVal) {
+                var msg = 'Your event has been deleted';
+                $('#success-message').text(msg);
+                $('#success-modal').modal('show');
+                $('#success-ok').on('click',function() {
+                    window.location.href = '/calendar/';
+                });
+            },
+            error: function(returnVal) {
+                var err = returnVal.responseJSON
+                    ? returnVal.responseJSON.error
+                    : { message: 'Server error deleting event!' };
+                $('.save-result').addClass('text-danger').text(err.message);
+            }
+        };
+        $.ajax(opts);
+    }
+
     // Set up email error detection and correction
     $(document).on( 'blur', '#email', function () {
         $( this ).mailcheck( {
@@ -434,9 +465,15 @@
     });
 
     $(document).on('click', '#confirm-cancel', function() {
-      $.fn.cleanFormDirt();
-      window.location.href = '/calendar/';
+        $.fn.cleanFormDirt();
+        window.location.href = '/calendar/';
     });
+
+    $(document).off('click', '#confirm-delete')
+        .on('click', '#confirm-delete', function() {
+            $.fn.cleanFormDirt();
+            deleteEvent(id.value, secret.value);
+        });
 
     function checkForChanges() {
         $(':input').on('input', function () {
