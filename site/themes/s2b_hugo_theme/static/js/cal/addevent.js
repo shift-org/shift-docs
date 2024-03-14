@@ -378,7 +378,7 @@
     }
 
     // Set up email error detection and correction
-    $( document ).on( 'blur', '#email', function () {
+    $(document).on( 'blur', '#email', function () {
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
                 var template = $( '#email-suggestion-template' ).html(),
@@ -395,19 +395,48 @@
         } );
     } );
 
-    $( document ).on( 'click', '#email-suggestion .correction', function () {
-        $( '#email' ).val( $( this ).text() );
-        $( '#email-suggestion' )
+    $(document).on('click', '#date-picker-prev-month', function(ev) {
+      var currentPosition = $("#date-select").scrollTop();
+      $("#date-select").scrollTop(currentPosition - 112);
+    });
+
+    $(document).on('click', '#date-picker-next-month', function(ev) {
+      var currentPosition = $("#date-select").scrollTop();
+      $("#date-select").scrollTop(currentPosition + 112);
+    });
+
+    $(document).on('click', '#date-picker-today', function(ev) {
+      $("#date-picker .calendar-day.today")[0].scrollIntoView({
+        block: "nearest",
+        behavior: "smooth"
+      });
+    });
+
+    $(document).on('click', '#email-suggestion .correction', function () {
+        $('#email').val( $( this ).text() );
+        $('#email-suggestion')
             .hide();
     } );
 
-    $( document ).on( 'click', '#email-suggestion .glyphicon-remove', function () {
-        $( '#email-suggestion' )
+    $(document).on('click', '#email-suggestion .glyphicon-remove', function () {
+        $('#email-suggestion')
             .hide();
         // They clicked the X button, turn mailcheck off
         // TODO: Remember unwanted corrections in local storage, don't offer again
-        $( document ).off( 'blur', '#email' );
+        $(document).off('blur', '#email');
     } );
+
+    $(document).on('click', '.preview-edit-button', function() {
+        $('#event-entry').show();
+        $('.date').remove();
+        $('.preview-button').show();
+        $('.preview-edit-button').hide();
+    });
+
+    $(document).on('click', '#confirm-cancel', function() {
+      $.fn.cleanFormDirt();
+      window.location.href = '/calendar/';
+    });
 
     function checkForChanges() {
         $(':input').on('input', function () {

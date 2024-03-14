@@ -45,7 +45,6 @@ $(document).ready(function() {
                 value.shareLink = '/calendar/event-' + value.caldaily_id;
                 value.exportlink = '/api/ics.php?id=' + value.id;
 
-                // value.showEditButton = true; // TODO: permissions
                 groupedByDate[date].events.push(value);
             });
 
@@ -197,11 +196,6 @@ $(document).ready(function() {
         });
     }
 
-    $(document).on('click', '#confirm-cancel', function() {
-      container.cleanFormDirt();
-      window.location.href = '/calendar/';
-    });
-
     $(document).on('click', '#show-details', function() {
       var url = new URL(window.location.href);
       var expanded = url.search.includes("show_details");
@@ -230,23 +224,6 @@ $(document).ready(function() {
       window.open(feedUrl);
     });
 
-    $(document).on('click', '#date-picker-prev-month', function(ev) {
-      var currentPosition = $("#date-select").scrollTop();
-      $("#date-select").scrollTop(currentPosition - 112);
-    });
-
-    $(document).on('click', '#date-picker-next-month', function(ev) {
-      var currentPosition = $("#date-select").scrollTop();
-      $("#date-select").scrollTop(currentPosition + 112);
-    });
-
-    $(document).on('click', '#date-picker-today', function(ev) {
-      $("#date-picker .calendar-day.today")[0].scrollIntoView({
-        block: "nearest",
-        behavior: "smooth"
-      });
-    });
-
     $(document).on('click','.navbar-collapse.collapse.in',function(e) {
         if( $(e.target).is('a') ) {
             $(this).collapse('hide');
@@ -256,18 +233,6 @@ $(document).ready(function() {
     $(document).on('click', 'a.expand-details', function(e) {
         e.preventDefault();
         return false;
-    });
-
-    $(document).on('click', 'button.edit', function(e) {
-        var id = $(e.target).closest('div.event').data('event-id');
-        viewAddEventForm(id);
-    });
-
-    $(document).on('click', '.preview-edit-button', function() {
-        $('#event-entry').show();
-        $('.date').remove();
-        $('.preview-button').show();
-        $('.preview-edit-button').hide();
     });
 
     $(document).on('click', 'button[data-toggle-target]', function() {
