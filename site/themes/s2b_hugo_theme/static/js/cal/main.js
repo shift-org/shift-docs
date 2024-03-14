@@ -224,12 +224,6 @@ $(document).ready(function() {
       window.open(feedUrl);
     });
 
-    $(document).on('click','.navbar-collapse.collapse.in',function(e) {
-        if( $(e.target).is('a') ) {
-            $(this).collapse('hide');
-        }
-    });
-
     $(document).on('click', 'a.expand-details', function(e) {
         e.preventDefault();
         return false;
