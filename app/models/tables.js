@@ -1,23 +1,34 @@
-// currently for use only by sqlite3 testing and local development
+// create tables if they dont already exist
 module.exports = {
-  create: async function(knex) {
+  create: async function(knex, mysql) {
+    // add a modified column
+    // fix? sqlite doesnt support "on update", set in knex.js store()?
+    function addModified(table) {
+      let ts= table.timestamp('modified')
+        .defaultTo(knex.fn.now());
+      if (mysql) {
+        ts.onUpdate(knex.fn.now());
+      }
+    }
     const hasCalDaily= await knex.schema.hasTable('caldaily');
     if (!hasCalDaily) {
       await knex.schema
         .createTable('caldaily', function (table) {
           table.increments('pkid');
-          table.timestamp('modified')
-            // fix? sqlite doesnt allow onUpdate
-            // could do this app side if needed.
-            // .onUpdate(knex.fn.now())
-            .defaultTo(knex.fn.now());
+          addModified(table);
           table.int('id', 11)
             .defaultTo(null);
-          table.text('newsflash', 11);
+          table.text('newsflash', "mediumtext"); // medium text supports up to 16 MiB(!)
           table.date('eventdate')
             .defaultTo(null);
+          // tbd: exceptionid is unused... omit?
+          table.int('exceptionid', 11)
+            .defaultTo(null);
+          // note: knex string is mysql varchar(255)
           table.string('eventstatus', 1)
             .defaultTo(null);
+          // tbd: how useful is this index?
+          table.index(['eventdate'], 'eventdate');
         });
     }
     const hasCalEvent= await knex.schema.hasTable('calevent');
@@ -27,12 +38,9 @@ module.exports = {
           table.increments('id');
           table.timestamp('created')
             .defaultTo(knex.fn.now());
-          table.timestamp('modified')
-            // fix? sqlite doesnt allow onUpdate
-            // could do this app side if needed.
-            //.onUpdate(knex.fn.now())
-            .defaultTo(knex.fn.now());
-          table.int('changes', 11);
+          addModified(table);
+          table.int('changes', 11)
+            .defaultTo(0);
           table.string('name', 255)
             .defaultTo(null);
           table.string('email', 255)
@@ -63,11 +71,12 @@ module.exports = {
             .defaultTo(null);
           table.string('title', 255)
             .defaultTo(null);
-          table.string('tinytitle', 255),
+          table.string('tinytitle', 255)
+            .notNullable(),
           table.specificType('audience', "char(1)")
             .defaultTo(null);
-          table.text('descr');
-          table.text('printdescr');
+          table.text('descr', "mediumtext");
+          table.text('printdescr', "mediumtext");
           table.string('image', 255)
             .defaultTo(null);
           table.int('imageheight', 11)

@@ -20,6 +20,7 @@ module.exports = {
   toYMDString,      // out: "YYYY-MM-DD"
   to12HourString,   // out: "9:10 PM"
   to24HourString,   // out: "21:10:00"
+  toTimestamp,      // out: mysql format
 
   fromYMDString,    // in : "YYYY-MM-DD"
   from24HourString, // in : "9:10 PM"
@@ -27,11 +28,17 @@ module.exports = {
 
   combineDateAndTime,
   getNow,
+  convert,
 };
 
 // wraps "now" so it can be stubbed out by tests
 function getNow() {
   return dayjs();
+}
+
+// conversion from javascript date object
+function convert(jsDate) {
+  return dayjs(jsDate);
 }
 
 // format a Date or dayjs as a string "Mon, Aug 8th"
@@ -77,6 +84,14 @@ function to12HourString(d) {
 function to24HourString(d) {
   const out = dayjs(d);
   return out.isValid() ? dayjs(out).format('HH:mm:ss') : null;
+}
+
+// format a Date or dayjs as a mysql friendly timestamp.
+// ( passing undefined -- no parameter -- returns the current timestamp )
+// https://dev.mysql.com/doc/refman/8.0/en/date-and-time-literals.html
+function toTimestamp(d) {
+  const out = dayjs(d);
+  return out.isValid() ? dayjs(out).format('YYYY-MM-DD HH:mm:ss') : null;
 }
 
 // turn a YYYY-MM-DD string ( ex. 2006-01-02 ) into a dayjs object.

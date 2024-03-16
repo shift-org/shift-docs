@@ -48,9 +48,9 @@ const knex = {
   // ex. knex.query('calevent').....
   query: createKnex(dbConfig),
 
-  // hack for a way to run sqlite locally instead of mysql.
+  // create tables if they dont already exist
   initialize() {
-    return useSqlite ? tables.create(knex.query) : Promise.resolve(knex.query);
+    return tables.create(knex.query);
   },
 
   // for tests to be able to reset the database.
@@ -63,22 +63,28 @@ const knex = {
    * update or insert into the database.
    * @param table string table name.
    * @oaram rec the object containing the data.
+   * @return promises the rec ( with its new id ).
    *
    * fix? an orm would probably be smart enough to only update the needed fields.
    * this updates *everything*.
    */
   store(table, idField, rec) {
     const q = knex.query(table);
-    const cleanData = pickBy(rec, isSafe);
-    return rec.exists() ?
-      q.update(cleanData)
+    // get everything from that isn't a function()
+    let cleanData = pickBy(rec, isSafe);
+    if (rec.exists()) {
+      // fix: manually set modified for sqlite?
+      // cleanData.modified = dt.toTimestamp();
+      return q.update(cleanData)
         .where(idField, rec[idField])
-        .then(_ => rec) :
-      q.insert(cleanData)
+        .then(_ => rec);
+    } else {
+      return q.insert(cleanData)
         .then(row => {
           rec[idField] = row[0];
           return rec;
         });
+    }
   },
   /**
    * delete one (or more) rows from the named table
