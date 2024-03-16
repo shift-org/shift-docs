@@ -16,7 +16,7 @@ $(document).ready(function() {
             var mustacheData = { dates: [] };
             $.each(data.events, function( index, value ) {
 
-                var date = container.formatDate(value.date);
+                var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
                 if (groupedByDate[date] === undefined) {
                     groupedByDate[date] = {
                         yyyymmdd: value.date,
@@ -26,10 +26,10 @@ $(document).ready(function() {
                     mustacheData.dates.push(groupedByDate[date]);
                 }
 
-                value.displayStartTime = container.formatTime(value.time);
-                value.displayDate = container.formatDate(groupedByDate[date]['yyyymmdd'], abbreviated=true);
+                value.displayStartTime = dayjs(value.time, 'hh:mm:ss').format('h:mm A');
+                value.displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
                 if (value.endtime) {
-                  value.displayEndTime = container.formatTime(value.endtime);
+                  value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
                 }
 
                 value.audienceLabel = container.getAudienceLabel(value.audience);
