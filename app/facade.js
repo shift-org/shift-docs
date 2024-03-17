@@ -16,7 +16,7 @@ function splat(app, url, filePath) {
 
 // fix? might be cool to make this express "middleware"
 module.exports = function(app, config) {
-  const staticFiles = path.resolve(__dirname, config.site.staticFiles);
+  const staticFiles = path.resolve(config.appPath, config.site.staticFiles);
   console.log("serving static files from", staticFiles);
   app.use(express.static(staticFiles));
 
@@ -35,7 +35,7 @@ module.exports = function(app, config) {
     const { id, rev, ext } = req.params;
     console.debug("got event image request:", id, rev || "xxx", ext );
     // ignores rev: that's for cache busting; the image is just id and extension.
-    const imageFiles = path.resolve(__dirname, config.image.dir);
+    const imageFiles = path.resolve(config.appPath, config.image.dir);
     const imageFile = path.join(imageFiles, id+"."+ext)
     res.sendFile(imageFile);
   };

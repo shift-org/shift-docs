@@ -35,7 +35,7 @@ if (!useSqlite && config.db.name.startsWith('sqlite')) {
   const parts = config.db.name.split(':');
   if (parts && parts.length === 2) {
     const fn = parts[1];
-    sqliteCfg.connection = path.resolve(__dirname, fn);
+    sqliteCfg.connection = path.resolve(config.appPath, fn);
   }
   console.log("using sqlite", sqliteCfg.connection);
   useSqlite = true;
