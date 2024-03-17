@@ -22,7 +22,8 @@
   "scripts": {
     "test": "mocha --exit",
     "dev": "env-cmd -f dev.env node app.js",
-    "fake": "env-cmd -f dev.env node scripts/faker.js"
+    "fake": "env-cmd -f dev.env node scripts/faker.js",
+    "postinstall": "env-cmd -f dev.env node scripts/postinstall.js"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

@@ -15,6 +15,7 @@ const siteHost = siteUrl(listen);
 const appPath =  path.resolve(__dirname);
 
 const config = {
+  appPath,
   db: {
     host: env_default('MYSQL_HOST', 'db'),
     port: 3306, // standard mysql port.
@@ -58,13 +59,12 @@ const config = {
     moderator: "shift-event-email-archives@googlegroups.com",
   },
   image: {
-    // storage location for images:
-    // testing for SHIFT_DOMAIN here is a simple way to check for docker.
-    dir: env_default('SHIFT_DOMAIN') ?
-       "/opt/backend/eventimages" :
-       path.join(appPath, "eventimages"),
-    // image link directory
-    path: "/eventimages/",
+    // storage location for event images
+    dir: env_default('SHIFT_IMAGE_DIR',
+      path.join(appPath, "eventimages")),
+    // used for generated event image links
+    // ( see also the ngnix config )
+    path: env_default('SHIFT_IMAGE_PATH', "/eventimages/"),
     // used for event image links
     // ex. https://shift2bikes.org/eventimages/9248.png
     url(name) {
