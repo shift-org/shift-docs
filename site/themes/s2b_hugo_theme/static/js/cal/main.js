@@ -15,7 +15,7 @@ $(document).ready(function() {
             url: url,
             headers: { 'API-Version': API_VERSION },
             type: 'GET',
-            success: function( data ) {
+            success: function() {
                 var groupedByDate = [];
                 var mustacheData = { dates: [] };
                 $.each(data.events, function( index, value ) {
@@ -72,38 +72,6 @@ $(document).ready(function() {
                 callback(info);
             }
         });
-    }
-
-    function deleteEvent(id, secret) {
-        var data = new FormData();
-        data.append('json', JSON.stringify({
-            id: id,
-            secret: secret
-        }));
-        var opts = {
-            type: 'POST',
-            url: '/api/delete_event.php',
-            headers: { 'API-Version': API_VERSION },
-            contentType: false,
-            processData: false,
-            cache: false,
-            data: data,
-            success: function(returnVal) {
-                var msg = 'Your event has been deleted';
-                $('#success-message').text(msg);
-                $('#success-modal').modal('show');
-                $('#success-ok').on('click',function() {
-                    window.location.href = '/calendar/';
-                });
-            },
-            error: function(returnVal) {
-                var err = returnVal.responseJSON
-                    ? returnVal.responseJSON.error
-                    : { message: 'Server error deleting event!' };
-                $('.save-result').addClass('text-danger').text(err.message);
-            }
-        };
-        $.ajax(opts);
     }
 
     function viewEvents(options){
@@ -192,20 +160,8 @@ $(document).ready(function() {
     function viewAddEventForm(id, secret) {
         container.getAddEventForm( id, secret, function(eventHTML) {
             container.empty().append(eventHTML);
-            if (id) {
-                $(document).off('click', '#confirm-delete')
-                    .on('click', '#confirm-delete', function() {
-                        container.cleanFormDirt();
-                        deleteEvent(id, secret);
-                    });
-            }
         });
     }
-
-    $(document).on('click', '#confirm-cancel', function() {
-      container.cleanFormDirt();
-      window.location.href = '/calendar/';
-    });
 
     $(document).on('click', '#show-details', function() {
       var url = new URL(window.location.href);
@@ -235,44 +191,9 @@ $(document).ready(function() {
       window.open(feedUrl);
     });
 
-    $(document).on('click', '#date-picker-prev-month', function(ev) {
-      var currentPosition = $("#date-select").scrollTop();
-      $("#date-select").scrollTop(currentPosition - 112);
-    });
-
-    $(document).on('click', '#date-picker-next-month', function(ev) {
-      var currentPosition = $("#date-select").scrollTop();
-      $("#date-select").scrollTop(currentPosition + 112);
-    });
-
-    $(document).on('click', '#date-picker-today', function(ev) {
-      $("#date-picker .calendar-day.today")[0].scrollIntoView({
-        block: "nearest",
-        behavior: "smooth"
-      });
-    });
-
-    $(document).on('click','.navbar-collapse.collapse.in',function(e) {
-        if( $(e.target).is('a') ) {
-            $(this).collapse('hide');
-        }
-    });
-
     $(document).on('click', 'a.expand-details', function(e) {
         e.preventDefault();
         return false;
-    });
-
-    $(document).on('click', 'button.edit', function(e) {
-        var id = $(e.target).closest('div.event').data('event-id');
-        viewAddEventForm(id);
-    });
-
-    $(document).on('click', '.preview-edit-button', function() {
-        $('#event-entry').show();
-        $('.date').remove();
-        $('.preview-button').show();
-        $('.preview-edit-button').hide();
     });
 
     $(document).on('click', 'button[data-toggle-target]', function() {
