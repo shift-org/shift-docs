@@ -93,8 +93,8 @@ location / {
     }
 
     # fix? should this be removed to prevent access to legacy files?
-    location /legacy/cal {
-        alias /opt/legacy/cal;
+    location /cal {
+        alias /opt/shift-docs/calendar;
     }
 
     # handle images of the standard shift format
