@@ -177,7 +177,7 @@ function buildCalEvent($at) {
     $contact = escapeBreak("CONTACT:", $evt->getName());
     $description = escapeBreak("DESCRIPTION:", $evt->getDescr(), $evt->getTimedetails(), $url);
     $location = escapeBreak("LOCATION:", $evt->getLocname(), $evt->getAddress(), $evt->getLocdetails());
-    $status =  $at->getCancelled() ? "CANCELLED" : "CONFIRMED";
+    $status =  $at->isUnscheduled() ? "CANCELLED" : "CONFIRMED";
     $start = dateFormat( $startAt, $utc );
     $end = dateFormat( $endAt, $utc );
     $created = dateFormat( $created, $utc );

@@ -129,11 +129,11 @@ class Event extends fActiveRecord {
         return $event;
     }
 
-    // cancel all occurrences of this event, and make it inaccessible to the organizer.
-    public function deleteEvent() {
+    // delist all occurrences of this event, and make it inaccessible to the organizer.
+    public function softDelete() {
         $eventTimes = $this->buildEventTimes('id');
         foreach ($eventTimes as $eventTime) {
-            $eventTime->deleteOccurrence();
+            $eventTime->delistOccurrence();
         }
         // setting 'E' excludes the event from getRangeVisible()
         $this->setReview('E');
@@ -147,7 +147,7 @@ class Event extends fActiveRecord {
         foreach ($eventTimes as $eventTime) {
             // dont send soft deleted events to the client.
             // tdb: is there someway to filter this via buildEventTimes()?
-            if (!$eventTime->getDeleted()) {
+            if (!$eventTime->isDelisted()) {
                 $eventDateStatuses []= $eventTime->getFormattedDateStatus();
             }
         }
@@ -233,7 +233,8 @@ class Event extends fActiveRecord {
         }
     }
 
-    // deleted events are marked as 'E' which makes them inaccessible to the front-end
+    // soft deleted events are marked as 'E' 
+    // that makes them inaccessible to the front-end
     // while still showing them on the ical feed ( as canceled. )
     public function isDeleted() {
         return $this->getReview() == 'E';

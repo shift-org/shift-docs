@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{title}}</title>
+		<meta property="og:title" content="{{title}}">
+		<meta property="og:url" content="{{url}}">
+		<meta property="og:image" content="{{image}}">
+		<meta property="og:type" content="{{type}}">
+		<meta property="og:description" content="{{description}}">
+		<meta property="og:site_name" content="{{siteName}}">
+		<meta name="description" content="{{description}}">
+		<meta name="keywords" content="bikes,fun,friends,Portland,exercise,community,social,events,outdoors">
+	</head>
+	<body>
+{%- if when %}
+		<h2>{{when.date}}, {{when.time}} - {{title}}</h2>
+{%- endif %}
+		<p>{{description}}</p>
+{%- if address %}		
+		<p>{{address}}</p>
+{%- endif %}
+{%- if type != 'website' %}
+		<img src="{{image}}" />
+{%- endif %}
+	</body>
+</html>
