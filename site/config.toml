@@ -151,6 +151,7 @@ paginate = 10
       """
     latitude = "-12.043333"
     longitude = "-77.028333"
+    verificationURL = "https://pdx.social/@shift2bikes"
 
 [Permalinks]
     blog = "/blog/:year/:month/:day/:filename/"
