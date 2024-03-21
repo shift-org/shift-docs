@@ -2,33 +2,50 @@
 
 The purpose of the Shift/Pedalpalooza Calendar is to empower citizens to create and view bike events and to spread bike fun.
 
+You can see the production site here: [https://www.shift2bikes.org](https://www.shift2bikes.org)
+
 # Software
 
-Built using:
-- [MySQL](https://www.mysql.com/)
-- [Node](https://www.nodejs.org/)
-- [Docker](https://www.docker.com/)
+The calendar is split into two main parts: the frontend, and the backend. The frontend is what most people think of the as the Shift website: it includes all of the webpages and static content. The backend holds all of the user submitted rides.
+
+The front end uses:
+
 - [Hugo](https://gohugo.io), using:
   - the theme "s2b_hugo_theme", ported from the ["Universal"](https://themes.gohugo.io/hugo-universal-theme/) theme
   - the content from the [legacy Shift website](https://old.shift2bikes.org)
-  - [Netlify web hosting](https://www.netlify.com) to serve the content
+- [Netlify web hosting](https://www.netlify.com) to serve the content
   - the [Netlify CMS](https://www.netlifycms.org) for editing static pages in Markdown
 
-You can see the live site here: [https://www.shift2bikes.org](https://www.shift2bikes.org)
+The backend uses:
+- [Docker](https://www.docker.com/)
+- [Nginx](https://nginx.org/en/)
+- [MySQL](https://www.mysql.com/)
+- [Node.js](https://www.nodejs.org/), and a variety of npm modules.
 
 ## Contributing
 
 - If you want to change something about the site configuration or theme, [pull requests](https://help.github.com/articles/creating-a-pull-request/) are welcome.  Once you create a PR, you can immediately check out [a link to the build status and log and a preview of your changes](https://app.netlify.com/sites/shift-docs/deploys).
 - If you only want to edit CONTENT rather than any code or site styling, (including creating new pages), [this doc shows how to easily do so without writing code](/docs/UPDATING.md).
 
-## Local development
+# Frontend development with Netlify
 
-Following the below steps you'll have a copy of the site running, including 3 docker containers running nginx, db, and the node server:
+While creating a pull request does automatically deploy a preview of the frontend to Netlify, you can also create previews manually: this could help you do things like theme development in your own repository before submitting your pr.
+
+1. [fork repo](https://help.github.com/articles/fork-a-repo/)
+2. read the comments in the netlify.toml file around changing the build command in the `[context.production]` section and make changes if needed.
+2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 additional configuration required to get the site running.  If you get a build failure around access denied for ssh, you probably need the advice in step 2 just above this!
+
+If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new) to let us know what you tried and what happened when you did.
+
+# Local development with Docker
+
+The production backend is run in several docker containers; including nginx, mysql, and the node server.
+
+The docker configuration also supports running your own frontend and backend server locally. The following steps assume a Linux, or MacOs development environment. On Windows, you'll need something like the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 1. Install Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
-3. Download additional external modules: `cd shift-docs ; git submodule update --init --recursive`
-4. Start shift site: `./shift up`
+4. Start shift site: `cd shift-docs ; ./shift up`
 5. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
 6. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
@@ -41,20 +58,6 @@ So - now you can hopefully access the site.  But a real end-to-end test of yours
 3. save the event (fix any validation errors around missing fields to ensure it saves)
 4. In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the file `services/node/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log, visit it, and hit publish event
 5. hopefully see your event on the https://localhost:4443/calendar page!
-
-## Netlify deployment
-
-You can easily run your own copy of the site with these two steps.  This could help you do things like theme development, in your own repository, before submitting your finished write-up to us for incorporation.
-
-1. [fork repo](https://help.github.com/articles/fork-a-repo/)
-2. read the comments in the netlify.toml file around changing the build command in the `[context.production]` section and make changes if needed.
-2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 additional configuration required to get the site running.  If you get a build failure around access denied for ssh, you probably need the advice in step 2 just above this!
-
-If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new) to let us know what you tried and what happened when you did.
-
-# Development Overview
-
-The site is run in several docker containers.
 
 ## Important Project Files
 
@@ -94,11 +97,22 @@ The site is run in several docker containers.
   * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with `shift_`
   * The "shift_" docker namespace comes from the shift file: `export COMPOSE_PROJECT_NAME="shift"`
 
+
+# Local development with Node.js
+
+You can also do local development with node. These steps will setup a local node server that acts as both frontend and backend. ( In this mode, [Sqlite](https://www.sqlite.org/index.html) is used instead of MySQL. )
+
+First, install [git](https://github.com/git-guides/install-git) and [node](https://nodejs.org/en/download) (currently Node.js v20.11.1). Then, open a command prompt or terminal window, change to some useful directory for development, and do the following:
+
+1. `git clone -b tooling https://github.com/ionous/shift-docs`
+1. `cd shift-docs`
+1. `npm install`
+1. optionally, create some placeholder events with: `npm run -w app make-fake-events`
+1. `npm run dev`
+1. browse to http://localhost:3080 and you should see the site running locally.
+
+When you new create events, the link for activating those events will be written to the terminal.
+
 ## Node tests
 
-If you are writing javascript code in the node backend, you will have to install the required node packages:
-In your local `shift-docs/app` sub-directory, run `npm install`.
-
-You can test everything is working as expected using `npm test`.
-
-Currently, the docker image has to be rebuilt after changing any javascript. ( ex. `./shift rebuild node` )
+If you are writing javascript code in the node backend, you can test everything is working as expected using `npm test`.
