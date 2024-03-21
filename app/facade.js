@@ -18,6 +18,9 @@ const facade = {
   // uses config for the source of the static files
   // you can use "hugo --watch" to rebuild changes on demand.
   serveFrontEnd(app, config) {
+    if (!config.site.staticFiles) {
+      throw new Error("missing static files path");
+    }
     const staticFiles = path.resolve(config.appPath, config.site.staticFiles);
     console.log("serving static files from", staticFiles);
     app.use(express.static(staticFiles));
