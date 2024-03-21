@@ -1,0 +1,17 @@
+{
+  "name": "shift-tools",
+  "version": "1.0.0",
+  "description": "things for development",
+  "type": "commonjs",
+  "author": "SHIFT calendar crew",
+  "license": "MIT",
+  "dependencies": {
+    "env-cmd": "^10.1.0",
+    "express": "^4.19.1",
+    "express-http-proxy": "^2.0.0",
+    "shift-docs": "1.0.0"
+  },
+  "scripts": {
+    "remote": "env-cmd -f dev.env node remote.js"
+  }
+}

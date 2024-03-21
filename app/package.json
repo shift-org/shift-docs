@@ -1,8 +1,7 @@
 {
-  "name": "shift",
+  "name": "shift-docs",
   "version": "1.0.0",
   "description": "SHIFT to Bikes nodejs calendar backend",
-  "main": "index.js",
   "type": "commonjs",
   "author": "SHIFT calendar crew",
   "license": "MIT",

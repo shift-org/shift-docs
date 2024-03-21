@@ -2,8 +2,7 @@ const express = require('express');
 const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
-const knex = require("./knex");
-const path = require('path');
+const knex = require("./knex");  // initialize on startup
 const app = express();
 
 // shift.conf for nginx sets the x-forward header
@@ -27,7 +26,7 @@ app.use(function (req, res, next) {
 // for development, allow the backend to serve the frontend.
 // you can use "hugo --watch" to rebuild changes on demand.
 if (config.site.staticFiles) {
-  const makeFacade = require('./facade');
+  const { makeFacade } = require('./facade');
   makeFacade(app, config);
 }
 
