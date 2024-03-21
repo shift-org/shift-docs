@@ -6,7 +6,7 @@ You can see the production site here: [https://www.shift2bikes.org](https://www.
 
 # Software
 
-The calendar is split into two main parts: the frontend, and the backend. The frontend is what most people think of the as the Shift website: it includes all of the webpages and static content. The backend holds all of the user submitted rides.
+The calendar is split into two main parts: the frontend, and the backend. The frontend is what most people think of the as the Shift website: it includes all of the webpages and static content. The backend holds all of the user submitted rides, and sends emails to users when they create new rides.
 
 The front end uses:
 
@@ -107,11 +107,13 @@ First, install [git](https://github.com/git-guides/install-git) and [node](https
 1. `git clone -b tooling https://github.com/ionous/shift-docs`
 1. `cd shift-docs`
 1. `npm install`
-1. optionally, create some placeholder events with: `npm run -w app make-fake-events`
+1. optionally, create some placeholder events with: `npm run -w tools make-fake-events`
 1. `npm run dev`
 1. browse to http://localhost:3080 and you should see the site running locally.
 
 When you new create events, the link for activating those events will be written to the terminal.
+
+Alternatively, you can preview a local frontend with the production backend by running: `npm run -w tools preview`; but note: any events you create while previewing will be seen by the world!
 
 ## Node tests
 

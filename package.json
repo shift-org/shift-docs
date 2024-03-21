@@ -1,8 +1,8 @@
 {
-  "name": "shift-docs",
-  "version": "0.0.0",
+  "name": "shift",
+  "version": "1.0.0",
   "type": "module",
-  "devDependencies": {
+  "dependencies": {
     "concurrently": "^8.2.2",
     "hugo-installer": "^4.0.1",
     "env-cmd": "^10.1.0",
@@ -14,11 +14,12 @@
   ],
   "scripts": {
     "dev": "concurrently -k \"npm:dev-*\"",
-    "dev-app": "npm run dev --workspace=app",
+    "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
+   	"dev-app": "env-cmd -f tools/dev.env npm start -w app",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -d ../bin/dist",
     "build": "npm run build-hugo",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
     "postinstall": "hugo-installer --version 0.84.4",
-    "test": "npm run test --workspace=app"
+    "test": "npm run test-w app"
   }
 }

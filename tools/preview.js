@@ -7,13 +7,11 @@
 const express = require('express');
 const config = require("shift-docs/config");
 const { serveFrontEnd } = require("shift-docs/facade");
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+
 const app = express();
-const {createProxyMiddleware} = require('http-proxy-middleware');
-
-
 serveFrontEnd(app, config);
-// https://www.shift2bikes.org/eventimages/11228-2.jpg
-// https://api.shift2bikes.org/eventimages/11228-2.jpg
 
 // https://github.com/chimurai/http-proxy-middleware
 app.use(createProxyMiddleware({
@@ -24,6 +22,8 @@ app.use(createProxyMiddleware({
 
 const port = config.site.listen;
 app.listen(port, _ => {
-	console.log(`${config.site.name} listening at ${config.site.url()}`)
-	app.emit("ready"); // raise a signal for testing.
+	console.log(`${config.site.name} listening at ${config.site.url()}`);
+  console.warn("***************************************************************");
+  console.warn("*** PREVIEWING A LOCAL FRONTEND WITH THE PRODUCTION BACKEND ***");
+  console.warn("***************************************************************");
 });

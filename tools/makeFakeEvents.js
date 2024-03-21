@@ -1,10 +1,11 @@
 /**
- * create one or more fake events
+ * create one or more fake events.
+ * ex. npm run -w tools make-fake-events
  */
 const { faker } = require('@faker-js/faker');
-const knex = require("../knex");
-const dt = require("../util/dateTime");
-const { Area, Audience, DatesType, EventStatus } = require('../models/calConst');
+const knex = require("shift-docs/knex");
+const dt = require("shift-docs/util/dateTime");
+const { Area, Audience, DatesType, EventStatus } = require('shift-docs/models/calConst');
 
 // todo: improve commandline parsing
 // this uses npm's command vars ( probably a bad idea )

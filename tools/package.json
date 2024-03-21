@@ -10,9 +10,11 @@
     "express": "^4.19.1",
     "express-http-proxy": "^2.0.0",
     "http-proxy-middleware": "^2.0.0",
-    "shift-docs": "1.0.0"
+    "shift-docs": "1.0.0",
+    "@faker-js/faker": "^8.4.1"
   },
   "scripts": {
-    "preview": "env-cmd -f dev.env node preview.js"
+    "preview": "env-cmd -f dev.env node preview.js",
+    "make-fake-events": "env-cmd -f dev.env node makeFakeEvents.js"
   }
 }

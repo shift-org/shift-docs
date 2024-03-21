@@ -70,7 +70,7 @@ app.use(function(err, req, res, next) {
 const port = config.site.listen;
 knex.initialize().then(_ => {
   app.listen(port, _ => {
-    console.log(`${config.site.name} listening on port ${port}`)
+    console.log(`${config.site.name} listening at ${config.site.url()}`)
     app.emit("ready"); // raise a signal for testing.
   });
 });

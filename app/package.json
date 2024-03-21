@@ -19,14 +19,10 @@
     "wordwrapjs": "^5.1.0"
   },
   "scripts": {
-    "predev": "env-cmd -f dev.env node scripts/setupEventImages.js",
-    "dev": "env-cmd -f dev.env node app.js",
     "start": "node app.js",
-    "make-fake-events": "env-cmd -f dev.env node scripts/makeFakeEvents.js",
     "test": "mocha --exit"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "lorem-ipsum": "^2.0.8",
