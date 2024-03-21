@@ -50,7 +50,7 @@ const knex = {
 
   // create tables if they dont already exist
   initialize() {
-    return tables.create(knex.query);
+    return tables.create(knex.query, !useSqlite);
   },
 
   // for tests to be able to reset the database.

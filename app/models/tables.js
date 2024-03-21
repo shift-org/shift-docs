@@ -2,27 +2,35 @@
 module.exports = {
   create: async function(knex, mysql) {
     // add a modified column
-    // fix? sqlite doesnt support "on update", set in knex.js store()?
     function addModified(table) {
-      let ts= table.timestamp('modified')
-        .defaultTo(knex.fn.now());
-      if (mysql) {
-        ts.onUpdate(knex.fn.now());
+      let ts= table.timestamp('modified').notNullable();
+      if (!mysql) { // fix? sqlite doesnt support "on update", set in knex.js store()?
+        ts.defaultTo(knex.fn.now());
+      } else {
+        ts.defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
       }
     }
     const hasCalDaily= await knex.schema.hasTable('caldaily');
     if (!hasCalDaily) {
       await knex.schema
         .createTable('caldaily', function (table) {
+          if (mysql) {
+            table.engine("MyISAM");
+          }
+          // knex creates these as unsigned; the original tables were signed
+          // it should be fine; that's a lot of ids.
           table.increments('pkid');
           addModified(table);
-          table.int('id', 11)
+          // note: in the original tables `int(11)` is a *display* size
+          // and its deprecated as of mysql 8.0.17
+          // https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html
+          table.integer('id')
             .defaultTo(null);
           table.text('newsflash', "mediumtext"); // medium text supports up to 16 MiB(!)
           table.date('eventdate')
             .defaultTo(null);
           // tbd: exceptionid is unused... omit?
-          table.int('exceptionid', 11)
+          table.integer('exceptionid')
             .defaultTo(null);
           // note: knex string is mysql varchar(255)
           table.string('eventstatus', 1)
@@ -35,39 +43,43 @@ module.exports = {
     if (!hasCalEvent) {
       await knex.schema
         .createTable('calevent', function (table) {
+          if (mysql) {
+            table.engine("MyISAM");
+          }
           table.increments('id');
           table.timestamp('created')
+            .notNullable()
             .defaultTo(knex.fn.now());
           addModified(table);
-          table.int('changes', 11)
+          table.integer('changes')
             .defaultTo(0);
           table.string('name', 255)
             .defaultTo(null);
           table.string('email', 255)
             .defaultTo(null);
-          table.int('hideemail', 1)
+          table.integer('hideemail')
             .defaultTo(null);
-          table.int('emailforum', 1)
+          table.integer('emailforum')
             .defaultTo(null);
-          table.int('printemail', 1)
+          table.integer('printemail')
             .defaultTo(null);
           table.string('phone', 255)
             .defaultTo(null);
-          table.int('hidephone', 1)
+          table.integer('hidephone')
             .defaultTo(null);
-          table.int('printphone', 1)
+          table.integer('printphone')
             .defaultTo(null);
           table.string('weburl', 255)
             .defaultTo(null);
           table.string('webname', 255)
             .defaultTo(null);
-          table.int('printweburl', 1)
+          table.integer('printweburl')
             .defaultTo(null);
           table.string('contact', 255)
             .defaultTo(null);
-          table.int('hidecontact', 1)
+          table.integer('hidecontact')
             .defaultTo(null);
-          table.int('printcontact', 1)
+          table.integer('printcontact')
             .defaultTo(null);
           table.string('title', 255)
             .defaultTo(null);
@@ -79,9 +91,9 @@ module.exports = {
           table.text('printdescr', "mediumtext");
           table.string('image', 255)
             .defaultTo(null);
-          table.int('imageheight', 11)
+          table.integer('imageheight')
             .defaultTo(null);
-          table.int('imagewidth', 11)
+          table.integer('imagewidth')
             .defaultTo(null);
           table.string('dates', 255)
             .defaultTo(null);
@@ -89,7 +101,7 @@ module.exports = {
             .defaultTo(null);
           table.time('eventtime')
             .defaultTo(null);
-          table.int('eventduration', 11)
+          table.integer('eventduration')
             .defaultTo(null);
           table.string('timedetails', 255)
             .defaultTo(null);
@@ -103,7 +115,7 @@ module.exports = {
             .defaultTo(null);
           table.string('locend', 255)
             .defaultTo(null);
-          table.int('loopride', 1)
+          table.integer('loopride')
             .defaultTo(null);
           table.specificType('area', "char(1)")
             .defaultTo(null);
@@ -111,21 +123,22 @@ module.exports = {
             .defaultTo(null);
           table.string('source', 250)
             .defaultTo(null);
-          table.int('nestid', 11)
+          table.integer('nestid')
             .defaultTo(null);
           table.string('nestflag', 1)
             .defaultTo(null);
           table.specificType('review', "char(1)")
+            .notNullable()
             .defaultTo('I');
-          table.int('highlight', 1)
+          table.integer('highlight')
             .notNullable(),
-          table.tinyint(`hidden`, 1)
+          table.tinyint(`hidden`)
             .defaultTo(null);
           table.string('password', 50)
             .defaultTo(null);
           table.string('ridelength', 255)
             .defaultTo(null);
-          table.int('safetyplan', 1)
+          table.integer('safetyplan')
             .defaultTo(null);
         });
       }
