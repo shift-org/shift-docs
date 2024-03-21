@@ -1,7 +1,7 @@
-FROM node:19.8.1
+FROM node:20.11.1
 
 # ----------------
-# email configuation copied from php's Dockerfile:
+# email configuration copied from php's Dockerfile:
 # configure the postfix mail installation to work in a non-interactive mode:
 # https://serverfault.com/questions/143968/automate-the-installation-of-postfix-on-ubuntu
 
@@ -17,13 +17,21 @@ RUN mkdir -p /var/spool/postfix/etc/ && cp -f /etc/services /var/spool/postfix/e
 # http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production
 # NODE_ENV=production
 
+# put all the files on the docker image in the "app" directory
+# ( otherwise the root directory gets messy )
 WORKDIR /app
 
-COPY ["./app/package.json", "./app/package-lock.json", "./"]
+# copy the root lock file, and the workspace package file.
+# see: https://github.com/npm/feedback/discussions/650
+COPY ["./package-lock.json", "./app/package.json",  "./"]
 
-# 'production' here excludes anything listed as a dev dependency in the package.json
-RUN npm install --production
+# ci is "clean install" and doesn't try to update the package-lock.json
+# this skips install scripts; re: https://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability
+RUN npm ci --omit dev --audit false --fund false --ignore-scripts
 
+# copy the source code *after* install to create a more stable docker cache
+# ( this order speeds image rebuilding when there's a code changes. )
 COPY ["./app/", "./"]
 
-CMD ["node", "app.js"]
+# configure the entrypoint so that when the container starts, it runs the app.
+CMD ["npm", "start"]
