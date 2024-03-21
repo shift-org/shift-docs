@@ -27,7 +27,7 @@ const args = {
 };
 
 // do the thing:
-async function run() {
+async function makeFakeEvents() {
   console.log("generating with:", JSON.stringify(args, null, " "));
   return knex.initialize().then(_ => {
     // start generating events
@@ -61,15 +61,13 @@ async function run() {
   .then(_ => {
     console.log("done");
     // can't use top-level "await" with commonjs modules
-    // ( ie. await run() )
+    // ( ie. await makeFakeEvents() )
     // and can't seem to use standard es modules with chai-http
     // ( todo: find an alternative to chai? )
     process.exit()
   });
 };
-run();
-
-
+makeFakeEvents();
 
 function randomDayCount() {
   // some dumb weighted random
@@ -146,9 +144,8 @@ function makeCalEvent() {
   const highlight = faker.datatype.boolean(0.1) ? 1: 0;
   const safetyplan  = faker.datatype.boolean(0.75) ? 1: 0;
   const loopride = faker.datatype.boolean(0.5) ? 1: 0;
-  const locname =  faker.datatype.boolean(0.25) ? null :
-                     capitalize(faker.word.adverb()) + " " +
-                     capitalize(faker.animal.fish(), false);
+  const locname =  capitalize(faker.word.adverb()) + " " +
+                   capitalize(faker.animal.fish(), false);
 
   const address = faker.location.streetAddress();
   const locdetails = faker.datatype.boolean(0.25) ? null :
@@ -176,7 +173,7 @@ function makeCalEvent() {
     printphone: printInfo,
     weburl,
     webname,
-    printweburl: weburl,
+    printweburl: printInfo,
     contact: organizer,
     hidecontact : 1,
     printcontact : printInfo,
@@ -192,7 +189,7 @@ function makeCalEvent() {
     timedetails,
     locname,
     address,
-    locdetails ,
+    locdetails,
     locend,
     loopride,
     area,

@@ -1,4 +1,4 @@
-// run by npm post-install
+// run by npm predev
 const path = require("path");
 const fs = require('fs').promises;
 const config = require("../config");
@@ -24,7 +24,4 @@ async function setupEventImages() {
   }
   process.exit(); // done.
 }
-async function runPostInstall() {
-  await setupEventImages();
-}
-runPostInstall();
+setupEventImages();
