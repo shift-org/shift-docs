@@ -24,7 +24,9 @@ async function newEtherealConfig()  {
             pass: account.pass  // generated ethereal password
         }
       }
-      fs.writeFileSync(outFile, JSON.stringify(data, null, " "));
+      const pretty = JSON.stringify(data, null, " ");
+      fs.writeFileSync(outFile, pretty);
+      console.log(`created new ethereal config: ${outFile} with ${pretty}`);
       process.exit(); // done.
   });
 }

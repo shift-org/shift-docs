@@ -155,7 +155,7 @@ function sendConfirmationEmail(evt) {
     bcc: config.email.moderator, // backup copy for debugging and/or moderating
     // html
     // attachments
-  });
+  }, evt.name, evt.email, evt.title, url);
 }
 
 /**

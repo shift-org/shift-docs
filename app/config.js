@@ -26,7 +26,8 @@ const config = {
     name: env_default('MYSQL_DATABASE', 'shift'),
     type: "mysql2", // name of driver, installed by npm
   },
-  smtp: getEmailSettings(),
+  // a nodemailer friendly config, or false if smtp is not configured.
+  smtp: getSmtpSettings(),
   site: {
     name: "SHIFT to Bikes",
     listen,
@@ -53,13 +54,15 @@ const config = {
     support: "bikecal@shift2bikes.org",
     // the confirmation emailer blind copies this address
     moderator: "shift-event-email-archives@googlegroups.com",
-    logfile: env_default('SHIFT_EMAIL_LOG',
-       path.join(appPath, "../services/node/shift-mail.log")),
+    logfile: function() {
+      const logfile = env_default('SHIFT_EMAIL_LOG');
+      return logfile ? path.resolve(appPath, logfile) : false;
+    }()
   },
   image: {
     // storage location for event images
-    dir: env_default('SHIFT_IMAGE_DIR',
-      path.join(appPath, "eventimages")),
+    dir: path.resolve(appPath,
+        env_default('SHIFT_IMAGE_DIR', "eventimages")),
     // used for generated event image links
     // ( see also the ngnix config )
     path: env_default('SHIFT_IMAGE_PATH', "/eventimages/"),
@@ -101,13 +104,9 @@ function siteUrl(proxyPort) {
   return protocol + hostname + portstr;
 }
 
-
+// returns a nodemailer friendly config, or false if smtp is not configured.
 // https://nodemailer.com/smtp/
-function getEmailSettings() {
-  // the json transport collects the mail without trying to send it.
-  // https://nodemailer.com/transports/stream/
-  const jsonCfg = { jsonTransport: true };
-
+function getSmtpSettings() {
   // hack to read email configuration from a file;
   // tools/newEtherealConfig.js can generated it.
   const emailCfg = env_default('SHIFT_EMAIL_CFG');
@@ -122,9 +121,9 @@ function getEmailSettings() {
       }
     }
   }
-  // use SMTP_HOST if it exists, otherwise use the json transport.
+  // assumes that if SMTP_HOST is set, the rest is okay.
   const host = env_default('SMTP_HOST');
-  return !host ? jsonCfg: {
+  return host && {
     host: host,
     port:  587,
     // secure should be true for 465;
