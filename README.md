@@ -6,9 +6,9 @@ You can see the production site here: [https://www.shift2bikes.org](https://www.
 
 # Software
 
-The calendar is split into two main parts: the frontend, and the backend. The frontend is what most people think of the as the Shift website: it includes all of the webpages and static content. The backend holds all of the user submitted rides, and sends emails to users when they create new rides.
+The calendar is split into two main parts: a frontend, and a backend. The frontend is what most people think of the as the Shift website: it includes all of the webpages and static content. The backend holds all of the user submitted rides, and sends emails to users when they create new rides.
 
-The front end uses:
+The frontend uses:
 
 - [Hugo](https://gohugo.io), using:
   - the theme "s2b_hugo_theme", ported from the ["Universal"](https://themes.gohugo.io/hugo-universal-theme/) theme
@@ -51,7 +51,7 @@ The docker configuration also supports running your own frontend and backend ser
 
 Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
 
-So - now you can hopefully access the site.  But a real end-to-end test of yoursetup, would be creating an event:
+So - now you can hopefully access the site.  But a real end-toend test of yoursetup, would be creating an event:
 
 1. visit https://localhost:4443/addevent/
 2. fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
@@ -100,21 +100,33 @@ So - now you can hopefully access the site.  But a real end-to-end test of yours
 
 # Local development with Node.js
 
-You can also do local development with node. These steps will setup a local node server that acts as both frontend and backend. ( In this mode, [Sqlite](https://www.sqlite.org/index.html) is used instead of MySQL. )
+You can also do local development with node. These steps will setup a local node server which, by default, acts as both frontend and backend. 
 
 First, install [git](https://github.com/git-guides/install-git) and [node](https://nodejs.org/en/download) (currently Node.js v20.11.1). Then, open a command prompt or terminal window, change to some useful directory for development, and do the following:
 
 1. `git clone -b tooling https://github.com/ionous/shift-docs`
-1. `cd shift-docs`
-1. `npm install`
-1. optionally, create some placeholder events with: `npm run -w tools make-fake-events`
-1. `npm run dev`
-1. browse to http://localhost:3080 and you should see the site running locally.
+2. `cd shift-docs`
+3. `npm install`
+4. optionally, create some placeholder events with: `npm run -w tools make-fake-events`
+5. `npm run dev`
+6. browse to http://localhost:3080, and you should see the site running locally.
 
-When you new create events, the link for activating those events will be written to the terminal.
+When you new create events, the link for activating those events will be written to the terminal. ( In this mode, [Sqlite](https://www.sqlite.org/index.html) is used instead of MySQL. )
 
-Alternatively, you can preview a local frontend with the production backend by running: `npm run -w tools preview`; but note: any events you create while previewing will be seen by the world!
-
-## Node tests
+### Node tests
 
 If you are writing javascript code in the node backend, you can test everything is working as expected using `npm test`.
+
+
+### Local previews using production data
+
+As an alternative to `npm run dev`, you can preview a local frontend with the actual production backend by using: `npm run -w tools preview`.  
+
+**NOTE:** any events you create while previewing this way *will* be seen by the world!
+
+
+### Ethereal email
+
+Before executing `npm run dev`, you can configure email debugging using `npm run -w tools new-ethereal-cfg`. It will generate a `shift-email.cfg` file in your `bin` directory which will be used when adding new events. Use the username and password listed in that file to check for emails here: https://ethereal.email/login.
+
+No actual emails are sent when running this way.

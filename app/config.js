@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require("fs");
 
 function env_default(field, def) {
   return process.env[field] ?? def;
@@ -14,10 +15,6 @@ const siteHost = siteUrl(listen);
 // location of app.js ( same as config.cs )
 const appPath =  path.resolve(__dirname);
 
-// https://nodemailer.com/transports/stream/
-const smtpTestCfg =  {
-  jsonTransport: true
-};
 
 const config = {
   appPath,
@@ -29,22 +26,7 @@ const config = {
     name: env_default('MYSQL_DATABASE', 'shift'),
     type: "mysql2", // name of driver, installed by npm
   },
-  // https://nodemailer.com/smtp/
-  // https://nodemailer.com/transports/stream/
-  smtp: function(){
-    const host = env_default('SMTP_HOST');
-    return !host ? smtpTestCfg: {
-      host: host,
-      port:  587,
-      // secure should be true for 465;
-      // false for everything else; and everyone seems to want 587.
-      secure: false,
-      auth: {
-        user: env_default('SMTP_USER'),
-        pass: env_default('SMTP_PASS'),
-      }
-    };
-  }(),
+  smtp: getEmailSettings(),
   site: {
     name: "SHIFT to Bikes",
     listen,
@@ -117,4 +99,40 @@ function siteUrl(proxyPort) {
   const protocol = serverPort ? "https://" : "http://";
   const portstr  = (serverPort === '443') ? '' : ':' + (serverPort ?? proxyPort);
   return protocol + hostname + portstr;
+}
+
+
+// https://nodemailer.com/smtp/
+function getEmailSettings() {
+  // the json transport collects the mail without trying to send it.
+  // https://nodemailer.com/transports/stream/
+  const jsonCfg = { jsonTransport: true };
+
+  // hack to read email configuration from a file;
+  // tools/newEtherealConfig.js can generated it.
+  const emailCfg = env_default('SHIFT_EMAIL_CFG');
+  if (emailCfg) {
+    try {
+      const raw= fs.readFileSync(emailCfg, "utf8");
+      return JSON.parse(raw);
+    } catch (err) {
+      // its okay if there is no such file...
+      if (err.code !== 'ENOENT') {
+        throw(err);
+      }
+    }
+  }
+  // use SMTP_HOST if it exists, otherwise use the json transport.
+  const host = env_default('SMTP_HOST');
+  return !host ? jsonCfg: {
+    host: host,
+    port:  587,
+    // secure should be true for 465;
+    // false for everything else; and everyone seems to want 587.
+    secure: false,
+    auth: {
+      user: env_default('SMTP_USER'),
+      pass: env_default('SMTP_PASS'),
+    }
+  };
 }
