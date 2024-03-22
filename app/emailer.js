@@ -4,24 +4,10 @@ const path = require('node:path');
 const config = require("./config");
 const dt = require("./util/dateTime");
 
-// https://nodemailer.com/transports/stream/
-const testCfg =  {
-  jsonTransport: true
-};
-
-// https://nodemailer.com/smtp/
-const smtpCfg = {
-  host: config.smtp.host,
-  port: 465,
-  secure: true, // use TLS
-  auth: {
-    user: config.smtp.user,
-    pass: config.smtp.pass,
-  },
-};
-
-const transporter = nodemailer.createTransport(
-  config.smtp.host ? smtpCfg : testCfg);
+// magically, config.smtp matches what nodemailer needs;
+// i wonder how that happened....
+// note: it uses a fake json if a proper SMTP_HOST variable isnt set.
+const transporter = nodemailer.createTransport(config.smtp);
 
 module.exports = {
   // returns a promise after sending the email and logging it.
@@ -30,8 +16,9 @@ module.exports = {
     return transporter.sendMail(email).then(info => {
       const date = dt.getNow().toString();
       let content = `Sending email ${date}:\n`;
-      // for debugging anything that might come up, log the whole returned data
-      // the test cfg includes the sent email, the smtp does not.
+      // for debugging anything that might come up, log the whole returned data.
+      // the jsonTransport (testCfg) includes the sent email,
+      // the smsmtpCfg does not.
       if (info.message) {
         const prettify = JSON.parse( info.message.toString() );
         content += JSON.stringify(prettify, null, " ");
@@ -40,7 +27,7 @@ module.exports = {
           info, email
         }, null, " ");
       }
-      return fsp.writeFile(config.smtp.logfile, content+"\n", {flag: 'a'});
+      return fsp.writeFile(config.email.logfile, content+"\n", {flag: 'a'});
     });
   }
 };

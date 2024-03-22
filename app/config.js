@@ -14,6 +14,11 @@ const siteHost = siteUrl(listen);
 // location of app.js ( same as config.cs )
 const appPath =  path.resolve(__dirname);
 
+// https://nodemailer.com/transports/stream/
+const smtpTestCfg =  {
+  jsonTransport: true
+};
+
 const config = {
   appPath,
   db: {
@@ -24,13 +29,22 @@ const config = {
     name: env_default('MYSQL_DATABASE', 'shift'),
     type: "mysql2", // name of driver, installed by npm
   },
-  smtp: {
-    host: env_default('SMTP_HOST'),
-    user: env_default('SMTP_USER'),
-    pass: env_default('SMTP_PASS'),
-    logfile: env_default('SHIFT_EMAIL_LOG',
-       path.join(appPath, "../services/node/shift-mail.log")),
-  },
+  // https://nodemailer.com/smtp/
+  // https://nodemailer.com/transports/stream/
+  smtp: function(){
+    const host = env_default('SMTP_HOST');
+    return !host ? smtpTestCfg: {
+      host: host,
+      port:  587,
+      // secure should be true for 465;
+      // false for everything else; and everyone seems to want 587.
+      secure: false,
+      auth: {
+        user: env_default('SMTP_USER'),
+        pass: env_default('SMTP_PASS'),
+      }
+    };
+  }(),
   site: {
     name: "SHIFT to Bikes",
     listen,
@@ -57,6 +71,8 @@ const config = {
     support: "bikecal@shift2bikes.org",
     // the confirmation emailer blind copies this address
     moderator: "shift-event-email-archives@googlegroups.com",
+    logfile: env_default('SHIFT_EMAIL_LOG',
+       path.join(appPath, "../services/node/shift-mail.log")),
   },
   image: {
     // storage location for event images
