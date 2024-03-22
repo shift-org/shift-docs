@@ -12,8 +12,8 @@ const testCfg =  {
 // https://nodemailer.com/smtp/
 const smtpCfg = {
   host: config.smtp.host,
-  port: 465,
-  secure: true, // use TLS
+  port: 587,
+  secure: false,
   auth: {
     user: config.smtp.user,
     pass: config.smtp.pass,
