@@ -21,17 +21,20 @@ export CONTAINERS="db nginx node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
-# by default it is setup to log to file, to see use:
+# with this configuration, emails will log to console, and to a file
 # ./shift emails
 # - or -
 # ./shift attach node
 # $ tail -f /var/log/shift-mail.log
 #
-SMTP_HOST=
-SMTP_USER=
-SMTP_PASS=
-SMTP_LOGIN=
-SMTP_DOMAIN=
+# it will also try to "send" ethereal emails
+# https://ethereal.email/messages
+#
+export SMTP_HOST=smtp.ethereal.email
+export SMTP_USER=h42vgcxjpznr6qhx@ethereal.email
+export SMTP_PASS=E18RgFGSnhwNMzmBdJ
+export SMTP_LOGIN=587
+export SHIFT_EMAIL_LOG="/opt/node/shift-mail.log"
 
 #####
 # === HERE BE DRAGONS ===
@@ -43,8 +46,6 @@ SMTP_DOMAIN=
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
-
-export SHIFT_EMAIL_LOG="/opt/node/shift-mail.log"
 
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
