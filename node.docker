@@ -1,18 +1,5 @@
 FROM node:20.11.1
 
-# ----------------
-# email configuration copied from php's Dockerfile:
-# configure the postfix mail installation to work in a non-interactive mode:
-# https://serverfault.com/questions/143968/automate-the-installation-of-postfix-on-ubuntu
-
-RUN echo "postfix postfix/mailname string example.com" | debconf-set-selections
-RUN echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
-
-# install:
-RUN apt-get update && apt-get install -q -y postfix libsasl2-modules rsyslog
-RUN mkdir -p /var/spool/postfix/etc/ && cp -f /etc/services /var/spool/postfix/etc/services && cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
-# ----------------
-
 # fix? maybe this could be done through shift.overrides.production?
 # http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production
 # NODE_ENV=production
