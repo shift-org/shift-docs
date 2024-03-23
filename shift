@@ -17,7 +17,7 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx node hugo"
+export CONTAINERS="db nginx php node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -30,11 +30,15 @@ export COMPOSE_PROJECT_NAME="shift"
 # it will also try to "send" ethereal emails
 # https://ethereal.email/messages
 #
-export SMTP_HOST=smtp.ethereal.email
-export SMTP_USER=h42vgcxjpznr6qhx@ethereal.email
-export SMTP_PASS=E18RgFGSnhwNMzmBdJ
-export SMTP_LOGIN=587
-export SHIFT_EMAIL_LOG="/opt/node/shift-mail.log"
+# export SMTP_HOST=smtp.ethereal.email
+# export SMTP_USER=h42vgcxjpznr6qhx@ethereal.email
+# export SMTP_PASS=E18RgFGSnhwNMzmBdJ
+# export SMTP_LOGIN=587
+SMTP_HOST=
+SMTP_USER=
+SMTP_PASS=
+SMTP_LOGIN=
+SMTP_DOMAIN=
 
 #####
 # === HERE BE DRAGONS ===
@@ -46,6 +50,9 @@ export SHIFT_EMAIL_LOG="/opt/node/shift-mail.log"
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
+
+export SHIFT_EMAIL_LOG="/opt/php/shift-mail.log"
+export SHIFT_IMAGE_DIR="/opt/backend/eventimages"
 
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
@@ -141,7 +148,7 @@ sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
 }
 
 sub_emails() { #                  - Show recent emails and update with new ones
-    sub_compose exec node tail -f ${SHIFT_EMAIL_LOG}
+    sub_compose exec php tail -f ${SHIFT_EMAIL_LOG}
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected

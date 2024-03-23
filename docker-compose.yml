@@ -15,6 +15,8 @@ services:
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
+    links:
+      - php
     ports:
       - "${NGINX_HTTPS_PORT}:443"
       - "${NGINX_HTTP_PORT}:80"
@@ -23,7 +25,7 @@ services:
 
   db:
     restart: always
-    image: mysql:8.0
+    image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE
@@ -42,6 +44,32 @@ services:
       - ./site/public/:/output/
     command: "hugo -v"
 
+  php:
+    build: ./services/php
+    restart: always
+    environment:
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_PASSWORD
+      - MYSQL_HOST
+      - SHIFT_DOMAIN
+      - NGINX_HTTPS_PORT
+      - CAL_ADMIN_PASSWORD
+      - SHIFT_EMAIL_LOG
+      - SMTP_HOST
+      - SMTP_USER
+      - SMTP_PASS
+      - SMTP_LOGIN
+      - SMTP_DOMAIN
+    links:
+      - db
+    volumes:
+      - ./backend/:/opt/backend/
+      - ./services/php/:/opt/php/
+      - ./legacy/:/opt/legacy
+    entrypoint: /opt/php/entrypoint.sh
+    command: php-fpm
+
   node:
     build: 
       context: . 
@@ -55,10 +83,10 @@ services:
         - SHIFT_DOMAIN
         - NGINX_HTTPS_PORT
         - SHIFT_EMAIL_LOG
+        - SHIFT_IMAGE_DIR
         - SMTP_HOST
         - SMTP_USER
         - SMTP_PASS
-        - SMTP_LOGIN
     volumes:
       - ./services/node/:/opt/node/
       - ./backend/:/opt/backend/
