@@ -83,14 +83,9 @@
 #------------------------------------------------------------------------------------
 [[redirects]]
   from = "/api/*"
-  to = "https://api.shift2bikes.org/api/:splat"
+  # to = "https://api.shift2bikes.org/api/:splat"
+  to = "https://api.shift2bikes.org/api2/:splat"
   status = 200
-
-# node version; comment out the redirect directly above this one.
-# [[redirects]]
-#   from = "/api/*"
-#   to = "https://api.shift2bikes.org/api2/:splat"
-#   status = 200
 
 [[redirects]]
   from = "/eventimages/*"
@@ -107,16 +102,10 @@
 # second URL for pedalpalooza feed that may work better in some clients (cf https://github.com/shift-org/shift-docs/issues/116#issuecomment-1101534820)
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
-  to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
+  # to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
+  to = "https://api.shift2bikes.org/api2/pedalpalooza-calendar.php"
   status = 200
   force = true
-
-# node version; comment out the redirect directly above this one.
-# [[redirects]]
-#   from = "/cal/pedalpalooza-calendar.php"
-#   to = "https://api.shift2bikes.org/api2/pedalpalooza-calendar.php"
-#   status = 200
-#   force = true
 
 #------------------------------------------------------------------------------------
 # these two are needed for legacy "shareable links" from 2017-early 2019 era
