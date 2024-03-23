@@ -1,6 +1,5 @@
 {{ partial "cal/events.html" . }}
 
-<script src="{{ .Site.BaseURL }}js/cal/formdata.js"></script>
 <script src="{{ .Site.BaseURL }}js/cal/addevent.js"></script>
 <script src="{{ .Site.BaseURL }}js/cal/datepicker.js"></script>
 
@@ -86,7 +85,7 @@
 
   <br>
   <form id="event-entry">
-    <input type="hidden" name="id" value="[[id]]" />
+    <input type="hidden" name="id" id="id" value="[[id]]" />
     <input type="hidden" name="secret" id="secret" value="[[secret]]" />
     <div class="panel-group" id="event-fields">
       <div class="panel panel-default">
