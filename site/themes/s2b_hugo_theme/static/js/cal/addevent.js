@@ -12,7 +12,7 @@
         if (id && secret) {
             // TODO: loading spinner
             $.ajax({
-                url: '/api2/retrieve_event.php?id=' + id + "&secret=" + secret,
+                url: '/api/retrieve_event.php?id=' + id + "&secret=" + secret,
                 type: 'GET',
                 success: function(data) {
                     data.secret = secret;
@@ -181,7 +181,7 @@
             data.append('json', JSON.stringify(postVars));
             var opts = {
                 type: 'POST',
-                url: '/api2/manage_event.php',
+                url: '/api/manage_event.php',
                 contentType: false,
                 processData: false,
                 cache: false,
@@ -380,7 +380,7 @@
         }));
         var opts = {
             type: 'POST',
-            url: '/api2/delete_event.php',
+            url: '/api/delete_event.php',
             contentType: false,
             processData: false,
             cache: false,

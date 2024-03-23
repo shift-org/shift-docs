@@ -3,7 +3,7 @@ $(document).ready(function() {
     var container = $('#mustache-html');
 
     function getEventHTML(options, callback) {
-        var url = '/api2/events.php?';
+        var url = '/api/events.php?';
         if ('id' in options) {
             url += 'id=' + options['id'];
         }
@@ -43,7 +43,7 @@ $(document).ready(function() {
                 value.contactLink = container.getContactLink(value.contact);
 
                 value.shareLink = '/calendar/event-' + value.caldaily_id;
-                value.exportlink = '/api2/ics.php?id=' + value.id;
+                value.exportlink = '/api/ics.php?id=' + value.id;
 
                 groupedByDate[date].events.push(value);
             });
