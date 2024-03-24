@@ -4,6 +4,10 @@
 
 [build]
   base = "site/"
+  # note: if you're using the netlify cli ( ie. "netlify dev" ) 
+  # this needs to be simply "public" ( otherwise it looks for "site/site/public" )
+  # tbd: is the global site config on netlify overriding this?
+  # could we switch this to be "public" always?
   publish = "site/public/"
 
 [build.environment]
