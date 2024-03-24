@@ -4,21 +4,24 @@ FROM node:20.11.1
 # http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production
 # NODE_ENV=production
 
-# put all the files on the docker image in the "app" directory
+# put all the files on the docker image in the "shift" directory
 # ( otherwise the root directory gets messy )
-WORKDIR /app
+WORKDIR /shift
 
-# copy the root lock file, and the workspace package file.
-# see: https://github.com/npm/feedback/discussions/650
-COPY ["./package-lock.json", "./app/package.json",  "./"]
+# copy the local lock and package files to the workdir
+# ( copying the tools is optional but might be handy )
+COPY ["./package-lock.json", "./package.json",  "./"]
+COPY ["./app/package.json",   "./app/"]
+COPY ["./tools/package.json", "./tools/"]
 
 # ci is "clean install" and doesn't try to update the package-lock.json
 # this skips install scripts; re: https://blog.npmjs.org/post/141702881055/package-install-scripts-vulnerability
 RUN npm ci --omit dev --audit false --fund false --ignore-scripts
 
 # copy the source code *after* install to create a more stable docker cache
-# ( this order speeds image rebuilding when there's a code changes. )
-COPY ["./app/", "./"]
+# ( this speeds image rebuilding when there are code changes. )
+COPY ["./app/", "./app"]
+COPY ["./tools/", "./tools"]
 
 # configure the entrypoint so that when the container starts, it runs the app.
-CMD ["npm", "start"]
+CMD ["npm", "-w", "app", "start"]
