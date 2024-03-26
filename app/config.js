@@ -101,19 +101,23 @@ function siteUrl(proxyPort) {
 }
 
 // returns a nodemailer friendly config, or false if smtp is not configured.
-// https://nodemailer.com/smtp/
 function getSmtpSettings() {
-  // assumes that if SMTP_HOST is set, the rest is okay.
   const host = env_default('SMTP_HOST');
-  return host && {
-    host: host,
-    port:  587,
-    // secure should be true for 465;
-    // false for everything else; and everyone seems to want 587.
-    secure: false,
-    auth: {
-      user: env_default('SMTP_USER'),
-      pass: env_default('SMTP_PASS'),
-    }
-  };
+  if (!host) {
+    return false;
+  } else {
+    // assumes that if SMTP_HOST is set, the rest is okay;
+    // ( and returns a nodemailer config: https://nodemailer.com/smtp/ )
+    return {
+      host: host,
+      port:  587,
+      // secure should be true for 465;
+      // false for everything else; and everyone seems to want 587.
+      secure: false,
+      auth: {
+        user: env_default('SMTP_USER'),
+        pass: env_default('SMTP_PASS'),
+      }
+    };
+  }
 }
