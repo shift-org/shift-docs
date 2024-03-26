@@ -82,7 +82,6 @@ services:
         - MYSQL_HOST
         - SHIFT_DOMAIN
         - NGINX_HTTPS_PORT
-        - SHIFT_EMAIL_LOG
         - SHIFT_IMAGE_DIR
         - SMTP_HOST
         - SMTP_USER
