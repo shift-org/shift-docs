@@ -2,6 +2,7 @@ const express = require('express');
 const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
+const { initMail } = require("./emailer");
 const knex = require("./knex");
 const app = express();
 
@@ -60,10 +61,17 @@ app.use(function(err, req, res, next) {
   console.error(err.stack);
 });
 
-const port = config.site.listen;
-knex.initialize().then(_ => {
+const verifyMail = initMail().then(hostName=> {
+  console.log("okay: verified email host", hostName);
+}).catch(e=> {
+  console.error("failed smtp verification:", e.toString());
+}).finally(_ => {
+  console.log("and emails will log to", config.email.logfile || "console");
+});
+Promise.all([knex.initialize(), verifyMail]).then(_ => {
+  const port = config.site.listen;
   app.listen(port, _ => {
-    console.log(`${config.site.name} listening on port ${port}`)
+    console.log(`${config.site.name} listening at ${config.site.url()}`)
     app.emit("ready"); // raise a signal for testing.
   });
 });

@@ -23,13 +23,8 @@ const config = {
     name: env_default('MYSQL_DATABASE', 'shift'),
     type: "mysql2", // name of driver, installed by npm
   },
-  smtp: {
-    host: env_default('SMTP_HOST'),
-    user: env_default('SMTP_USER'),
-    pass: env_default('SMTP_PASS'),
-    logfile: env_default('SHIFT_EMAIL_LOG',
-       path.join(appPath, "../services/node/shift-mail.log")),
-  },
+  // a nodemailer friendly config, or false if smtp is not configured.
+  smtp: getSmtpSettings(),
   site: {
     name: "SHIFT to Bikes",
     listen,
@@ -55,6 +50,10 @@ const config = {
     support: "bikecal@shift2bikes.org",
     // the confirmation emailer blind copies this address
     moderator: "shift-event-email-archives@googlegroups.com",
+    logfile: function() {
+      const logfile = env_default('SHIFT_EMAIL_LOG');
+      return logfile ? path.resolve(appPath, logfile) : false;
+    }()
   },
   image: {
     // storage location for event images
@@ -99,4 +98,26 @@ function siteUrl(proxyPort) {
   const protocol = serverPort ? "https://" : "http://";
   const portstr  = (serverPort === '443') ? '' : ':' + (serverPort ?? proxyPort);
   return protocol + hostname + portstr;
+}
+
+// returns a nodemailer friendly config, or false if smtp is not configured.
+function getSmtpSettings() {
+  const host = env_default('SMTP_HOST');
+  if (!host) {
+    return false;
+  } else {
+    // assumes that if SMTP_HOST is set, the rest is okay;
+    // ( and returns a nodemailer config: https://nodemailer.com/smtp/ )
+    return {
+      host: host,
+      port:  587,
+      // secure should be true for 465;
+      // false for everything else; and everyone seems to want 587.
+      secure: false,
+      auth: {
+        user: env_default('SMTP_USER'),
+        pass: env_default('SMTP_PASS'),
+      }
+    };
+  }
 }
