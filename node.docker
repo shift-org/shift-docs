@@ -21,7 +21,8 @@ RUN npm ci --omit dev --audit false --fund false --ignore-scripts
 # copy the source code *after* install to create a more stable docker cache
 # ( this speeds image rebuilding when there are code changes. )
 COPY ["./app/", "./app"]
-COPY ["./tools/", "./tools"]
+COPY ["./tools/*.js", "./tools"]
+COPY ["./tools/empty.env", "./tools/dev.env"]
 
 # configure the entrypoint so that when the container starts, it runs the app.
 CMD ["npm", "-w", "app", "start"]
