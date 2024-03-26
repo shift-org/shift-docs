@@ -15,8 +15,12 @@ services:
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
+    # shift.conf references the php and node ports
+    # (ex. proxy_pass http://node:3080 )
+    # so it needs links to be able to resolve those names
     links:
       - php
+      - node
     ports:
       - "${NGINX_HTTPS_PORT}:443"
       - "${NGINX_HTTP_PORT}:80"
@@ -75,6 +79,8 @@ services:
       context: . 
       dockerfile: node.docker
     restart: always
+    links:
+      - db
     environment:
         - MYSQL_DATABASE
         - MYSQL_USER
