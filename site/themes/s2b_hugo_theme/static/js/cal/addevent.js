@@ -264,11 +264,6 @@
                     $('.preview-edit-button').click();
                 }
             };
-            if(data.fake) {
-                opts.xhr = function() { var xhr = jQuery.ajaxSettings.xhr(); xhr.send = xhr.sendAsBinary; return xhr; }
-                opts.contentType = "multipart/form-data; boundary="+data.boundary;
-                opts.data = data.toString();
-            }
             $.ajax(opts);
         });
 
@@ -377,8 +372,39 @@
         return harvestedEvent;
     }
 
+    function deleteEvent(id, secret) {
+        var data = new FormData();
+        data.append('json', JSON.stringify({
+            id: id,
+            secret: secret
+        }));
+        var opts = {
+            type: 'POST',
+            url: '/api/delete_event.php',
+            contentType: false,
+            processData: false,
+            cache: false,
+            data: data,
+            success: function(returnVal) {
+                var msg = 'Your event has been deleted';
+                $('#success-message').text(msg);
+                $('#success-modal').modal('show');
+                $('#success-ok').on('click',function() {
+                    window.location.href = '/calendar/';
+                });
+            },
+            error: function(returnVal) {
+                var err = returnVal.responseJSON
+                    ? returnVal.responseJSON.error
+                    : { message: 'Server error deleting event!' };
+                $('.save-result').addClass('text-danger').text(err.message);
+            }
+        };
+        $.ajax(opts);
+    }
+
     // Set up email error detection and correction
-    $( document ).on( 'blur', '#email', function () {
+    $(document).on( 'blur', '#email', function () {
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
                 var template = $( '#email-suggestion-template' ).html(),
@@ -395,19 +421,37 @@
         } );
     } );
 
-    $( document ).on( 'click', '#email-suggestion .correction', function () {
-        $( '#email' ).val( $( this ).text() );
-        $( '#email-suggestion' )
+    $(document).on('click', '#email-suggestion .correction', function () {
+        $('#email').val( $( this ).text() );
+        $('#email-suggestion')
             .hide();
     } );
 
-    $( document ).on( 'click', '#email-suggestion .glyphicon-remove', function () {
-        $( '#email-suggestion' )
+    $(document).on('click', '#email-suggestion .glyphicon-remove', function () {
+        $('#email-suggestion')
             .hide();
         // They clicked the X button, turn mailcheck off
         // TODO: Remember unwanted corrections in local storage, don't offer again
-        $( document ).off( 'blur', '#email' );
+        $(document).off('blur', '#email');
     } );
+
+    $(document).on('click', '.preview-edit-button', function() {
+        $('#event-entry').show();
+        $('.date').remove();
+        $('.preview-button').show();
+        $('.preview-edit-button').hide();
+    });
+
+    $(document).on('click', '#confirm-cancel', function() {
+        $.fn.cleanFormDirt();
+        window.location.href = '/calendar/';
+    });
+
+    $(document).off('click', '#confirm-delete')
+        .on('click', '#confirm-delete', function() {
+            $.fn.cleanFormDirt();
+            deleteEvent(id.value, secret.value);
+        });
 
     function checkForChanges() {
         $(':input').on('input', function () {

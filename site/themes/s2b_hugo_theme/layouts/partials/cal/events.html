@@ -92,17 +92,20 @@
     var params = parseURL();
 
     if ('eventId' in params) {
+      // view single event
       viewEvent(params['eventId']);
 
     } else if ('editId' in params) {
+      // edit specific event
       var eventid = params["editId"];
       var secret = params["editSecret"];
       viewAddEventForm(eventid, secret);
 
-    } else if (window.legacycal_renderpage == "addevent") {
+    } else if (window.cal_renderpage == "addevent") {
+      // show blank form to add new event
       viewAddEventForm();
-
     } else {
+      // view list of events
       if ({{ .Param "pp" }}) {
         params["pp"] = {{ .Param "pp" }};
         params["startdate"] = {{ .Param "startdate" }};
