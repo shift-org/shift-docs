@@ -24,12 +24,13 @@ module.exports = {
       const date = dt.getNow().toString();
       const logMessage = `Sent email ${date}:\n` + JSON.stringify(logArgs, null, " ");
       console.log(logMessage);
+      return Promise.resolve(true); // don't log to the file for now; conflicts with php/node paths
       // tbd: would it be better to log to console only, and configure docker with "local"
       // it does compression, and auto rotation.
       // https://docs.docker.com/config/containers/logging/configure/
-      const logFile = config.email.logfile;
-      return !logFile ? Promise.resolve(true) :
-             fsp.writeFile(config.email.logfile, logMessage+"\n", {flag: 'a'});
+      // const logFile = config.email.logfile;
+      // return !logFile ? Promise.resolve(true) :
+      //        fsp.writeFile(config.email.logfile, logMessage+"\n", {flag: 'a'});
     });
   }
 };
