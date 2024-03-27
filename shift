@@ -7,6 +7,8 @@ export MYSQL_DATABASE=shift
 export MYSQL_USER=shift
 export MYSQL_PASSWORD=ok124
 export CAL_ADMIN_PASSWORD=notthis
+# can force the node version to use a sqlite in memory database instead of mysql:
+# export MYSQL_DATABASE=sqlite
 
 export NGINX_HTTPS_PORT=4443
 export NGINX_HTTP_PORT=4480
@@ -15,15 +17,23 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx php hugo"
+export CONTAINERS="db nginx php node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
-# by default it is setup to log to file, to see use:
-# ./shift attach php
-# $ tail -f /var/log/shift-mail.log
-# - or -
+# with this configuration, emails will log to console, and to a file
 # ./shift emails
+# - or -
+# ./shift attach node
+# $ tail -f /var/log/shift-mail.log
+#
+# it will also try to "send" ethereal emails
+# https://ethereal.email/messages
+#
+# export SMTP_HOST=smtp.ethereal.email
+# export SMTP_USER=h42vgcxjpznr6qhx@ethereal.email
+# export SMTP_PASS=E18RgFGSnhwNMzmBdJ
+# export SMTP_LOGIN=587
 SMTP_HOST=
 SMTP_USER=
 SMTP_PASS=
@@ -42,6 +52,7 @@ export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
 
 export SHIFT_EMAIL_LOG="/opt/php/shift-mail.log"
+export SHIFT_IMAGE_DIR="/opt/backend/eventimages"
 
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
@@ -84,9 +95,13 @@ sub_ps() { #                      - Print service information
     sub_compose ps
 }
 
-sub_pull() { #                      - Update the codebase to HEAD of currently deployed branch from https://github.com/Shift2Bikes/shift-docs
+sub_pull() { #                    - Update the codebase to HEAD of currently deployed branch from https://github.com/Shift2Bikes/shift-docs
     echo "pulling most recent commit from deployed branch of https://github.com/Shift2Bikes/shift-docs"
     cd ${ROOT} ; git pull
+    # build node image manually 
+    # ( docker can't auto-detect the .js to copy, nor the node modules to install. )
+    sub_compose build node  
+    # forces a recreation and restart of the containers from their images 
     sub_up
 }
 

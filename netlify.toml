@@ -3,11 +3,15 @@
 # [build] and [build.environment] are defaults, will apply to all builds unless overridden in a context stanza below
 
 [build]
-
   base = "site/"
+  # note: if you're using the netlify cli ( ie. "netlify dev" ) 
+  # this needs to be simply "public" ( otherwise it looks for "site/site/public" )
+  # tbd: is the global site config on netlify overriding this?
+  # could we switch this to be "public" always?
   publish = "site/public/"
 
 [build.environment]
+  # see also package.json, and docker-compose.yml
   HUGO_VERSION = "0.84.4"
 
 [context.deploy-preview]
@@ -17,7 +21,6 @@
 [context.branch-deploy]
   # this command builds draft content for branches
   command = 'hugo -D  && cp public/404/index.html public/404.html'
-
 
 [context.production]
   # Note that there are two versions of the below command 
@@ -79,29 +82,38 @@
   status = 302
   force = true
 
+#------------------------------------------------------------------------------------
 # dynamic back end + event images stored over here.  Solves CORS problems to proxy.
+#------------------------------------------------------------------------------------
 [[redirects]]
   from = "/api/*"
   to = "https://api.shift2bikes.org/api/:splat"
+  # to = "https://api.shift2bikes.org/api2/:splat"
   status = 200
+
 [[redirects]]
   from = "/eventimages/*"
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
+
 # legacy ical feed for pedalpalooza.  Can't get to /legacy/cal content via www.shift2bikes.org due to other redirects, so proxying secretly here.
 [[redirects]]
   from = "/cal/icalpp.php"
   to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
   status = 200
   force = true
+
 # second URL for pedalpalooza feed that may work better in some clients (cf https://github.com/shift-org/shift-docs/issues/116#issuecomment-1101534820)
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
   to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
+  # to = "https://api.shift2bikes.org/api2/pedalpalooza-calendar.php"
   status = 200
   force = true
 
+#------------------------------------------------------------------------------------
 # these two are needed for legacy "shareable links" from 2017-early 2019 era
+#------------------------------------------------------------------------------------
 [[redirects]]
   from = "/fun/*"
   to = "/calendar/:splat"
