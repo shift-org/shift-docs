@@ -23,7 +23,6 @@ Reach out to the ride organizers using the contact information on their ride pos
 
 * [Pedalpalooza](mailto:pedalpalooza@gmail.com)
 * [Breakfast on the Bridges](mailto:bonb@lists.riseup.net)
-* [Thursday Night Ride (TNR)](https://www.facebook.com/PortlandUrbanBike)
 * [Portland World Naked Bike Ride (PDX WNBR)](mailto:pdxwnbr@gmail.com)
 * [Move by Bike](https://www.facebook.com/groups/movebybike)
 
