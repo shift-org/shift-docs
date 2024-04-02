@@ -17,7 +17,7 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx php node hugo"
+export CONTAINERS="db nginx php hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -100,7 +100,7 @@ sub_pull() { #                    - Update the codebase to HEAD of currently dep
     cd ${ROOT} ; git pull
     # build node image manually 
     # ( docker can't auto-detect the .js to copy, nor the node modules to install. )
-    sub_compose build node  
+    # sub_compose build node  
     # forces a recreation and restart of the containers from their images 
     sub_up
 }

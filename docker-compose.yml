@@ -20,7 +20,7 @@ services:
     # so it needs links to be able to resolve those names
     links:
       - php
-      - node
+      # - node; disabled here and in the shift.conf
     ports:
       - "${NGINX_HTTPS_PORT}:443"
       - "${NGINX_HTTP_PORT}:80"
@@ -74,24 +74,24 @@ services:
     entrypoint: /opt/php/entrypoint.sh
     command: php-fpm
 
-  node:
-    build: 
-      context: . 
-      dockerfile: node.docker
-    restart: always
-    links:
-      - db
-    environment:
-        - MYSQL_DATABASE
-        - MYSQL_USER
-        - MYSQL_PASSWORD
-        - MYSQL_HOST
-        - SHIFT_DOMAIN
-        - NGINX_HTTPS_PORT
-        - SHIFT_IMAGE_DIR
-        - SMTP_HOST
-        - SMTP_USER
-        - SMTP_PASS
-    volumes:
-      - ./services/node/:/opt/node/
-      - ./backend/:/opt/backend/
+  # node:
+  #   build:
+  #     context: .
+  #     dockerfile: node.docker
+  #   restart: always
+  #   links:
+  #     - db
+  #   environment:
+  #       - MYSQL_DATABASE
+  #       - MYSQL_USER
+  #       - MYSQL_PASSWORD
+  #       - MYSQL_HOST
+  #       - SHIFT_DOMAIN
+  #       - NGINX_HTTPS_PORT
+  #       - SHIFT_IMAGE_DIR
+  #       - SMTP_HOST
+  #       - SMTP_USER
+  #       - SMTP_PASS
+  #   volumes:
+  #     - ./services/node/:/opt/node/
+  #     - ./backend/:/opt/backend/
