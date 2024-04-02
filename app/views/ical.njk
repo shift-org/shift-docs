@@ -1,0 +1,25 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:{{cal.prod|safe}}
+METHOD:PUBLISH
+X-WR-CALNAME:{{cal.name|safe}}
+X-WR-CALDESC:{{cal.desc|safe}}
+X-WR-RELCALID:{{cal.guid|safe}}
+{% for evt in events -%}
+BEGIN:VEVENT
+UID:{{evt.uid|safe}}
+{{evt.summary|safe}}
+{{evt.contact|safe}}
+{{evt.description|safe}}
+{{evt.location|safe}}
+STATUS:{{evt.status|safe}}
+DTSTART:{{evt.start|safe}}
+DTEND:{{evt.end|safe}}
+CREATED:{{evt.created|safe}}
+DTSTAMP:{{evt.modified|safe}}
+SEQUENCE:{{evt.sequence|safe}}
+URL:{{evt.url|safe}}
+END:VEVENT
+{% endfor -%}
+END:VCALENDAR
+{# ends with a new line #}
