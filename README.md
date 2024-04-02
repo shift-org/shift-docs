@@ -24,7 +24,7 @@ The backend uses:
 
 ## Contributing
 
-- If you want to change something about the site configuration or theme, [pull requests](https://help.github.com/articles/creating-a-pull-request/) are welcome.  Once you create a PR, you can immediately check out [a link to the build status and log and a preview of your changes](https://app.netlify.com/sites/shift-docs/deploys).
+- If you want to change something about the site configuration or theme, [pull requests](https://help.github.com/articles/creating-a-pull-request/) are welcome.  Once you create a PR, you can immediately check out a link to the [build status, log, and a preview of your changes](https://app.netlify.com/sites/shift-docs/deploys).
 - If you only want to edit CONTENT rather than any code or site styling, (including creating new pages), [this doc shows how to easily do so without writing code](/docs/UPDATING.md).
 
 # Frontend development with Netlify
