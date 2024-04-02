@@ -38,7 +38,7 @@
 
 [[redirects]]
   from = "https://shift2bikes.com/*"
-  to = "https://www.shift2bikes.org/:splat" 
+  to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
 [[redirects]]
@@ -87,8 +87,8 @@
 #------------------------------------------------------------------------------------
 [[redirects]]
   from = "/api/*"
-  to = "https://api.shift2bikes.org/api/:splat"
-  # to = "https://api.shift2bikes.org/api2/:splat"
+  # to = "https://api.shift2bikes.org/api/:splat"
+  to = "https://api.shift2bikes.org/api2/:splat"
   status = 200
 
 [[redirects]]
@@ -106,8 +106,8 @@
 # second URL for pedalpalooza feed that may work better in some clients (cf https://github.com/shift-org/shift-docs/issues/116#issuecomment-1101534820)
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
-  to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
-  # to = "https://api.shift2bikes.org/api2/pedalpalooza-calendar.php"
+  # to = "https://api.shift2bikes.org/legacy/cal/new-icalpp.php"
+  to = "https://api.shift2bikes.org/api2/pedalpalooza-calendar.php"
   status = 200
   force = true
 
