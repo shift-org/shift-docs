@@ -43,7 +43,8 @@ exports.get = function(req, res, next) {
       } else  {
         return getSummaries([daily]).then((events) => {
           res.json({
-            events
+            events,
+            version: config.apiVersion,
           });
         });
       }
@@ -67,6 +68,7 @@ exports.get = function(req, res, next) {
             res.json({
               events,
               pagination,
+              version: config.apiVersion,
             });
           });
         }).catch(next);

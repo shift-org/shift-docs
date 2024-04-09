@@ -75,7 +75,10 @@ function handleRequest(req, res, next) {
         });
       return q.then(_ => {
         return updateEvent(evt, data)
-        .then(details => res.json(details));
+        .then(details => {
+          details.version = config.apiVersion;
+          res.json(details);
+        });
       });
     }
   }).catch(next);

@@ -1,3 +1,5 @@
+const config = require("../config");
+
 module.exports = {
   textError,
   fieldError
@@ -14,9 +16,11 @@ module.exports = {
  *  addevent.js
  */
 function textError(res, message="unknown error", status_code=400) {
-  res.status(status_code).json({ error: {
-    message
-  }});
+  res.status(status_code).json({
+    version: config.apiVersion,
+    error: {
+      message
+    }});
 }
 
 
@@ -32,7 +36,9 @@ function textError(res, message="unknown error", status_code=400) {
  *  }
  */
 function fieldError(res, fields, message = "There were errors in your fields", status_code=400) {
-  res.status(status_code).json({ error: {
+  res.status(status_code).json({
+    version: config.apiVersion,
+    error: {
       message,
       fields,
    }});

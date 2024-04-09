@@ -14,6 +14,7 @@
  *  See also:
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
  */
+const config = require("../config");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 
@@ -34,8 +35,9 @@ exports.get = function get(req, res, next) {
         // so this doesnt either ( private data is only returned with a valid secret )
         const includePrivate = evt.isSecretValid(secret);
         const statuses = CalDaily.getStatusesByEventId(evt.id);
-        evt.getDetails(statuses, {includePrivate}).then((data)=> {
-          res.json(data);
+        evt.getDetails(statuses, {includePrivate}).then(details => {
+          details.version = config.apiVersion;
+          res.json(details);
         });
       }
     }).catch(next);
