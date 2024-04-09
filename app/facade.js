@@ -1,4 +1,5 @@
 // for development, allow the backend to serve the frontend.
+// ex. npm run -w tools preview
 const express = require('express');
 const path = require('path');
 
@@ -27,11 +28,11 @@ const facade = {
 
     // ex. http://localhost:3080/addevent/edit-1-d00c888b0a1d4bab8107ba2fbe2beddf
     splat(app,"/addevent/edit-:id-:secret",
-      path.join(staticFiles, 'addevent', 'index.html'));
+      path.posix.join(staticFiles, 'addevent', 'index.html'));
 
     // ex. http://localhost:3080/calendar/event-201
     splat(app,"/calendar/event-:id",
-      path.join(staticFiles, 'calendar', 'index.html'));
+      path.posix.join(staticFiles, 'calendar', 'index.html'));
   },
 
   // uses config for the image directory
@@ -43,6 +44,7 @@ const facade = {
       const { id, rev, ext } = req.params;
       console.debug("got event image request:", id, rev || "xxx", ext );
       // ignores rev: that's for cache busting; the image is just id and extension.
+      // these are local files, so it uses regular path functions
       const imageFiles = path.resolve(config.appPath, config.image.dir);
       const imageFile = path.join(imageFiles, id+"."+ext)
       res.sendFile(imageFile);
