@@ -65,6 +65,9 @@ describe("ical feed", () => {
         // now() is set by testData to 2002-08-05
         expect(err).to.be.null;
         expect(res).to.have.status(200);
+        // test that it also has an api version
+        // that exists everywhere, but only tested here.
+        expect(res).to.have.header('Api-Version');
         // not quite sure the proper way to test this.
         // expect(res).to.have.header('content-type', 'text/calendar');
         expect(res.text).to.equal(allEvents);

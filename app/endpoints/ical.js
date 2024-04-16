@@ -82,6 +82,7 @@ function respondWith(res, filename, events) {
   // note: the php sets includes utf8 in the content type but...
   // according to  https://en.wikipedia.org/wiki/ICalendar
   // its default utf8, and mime type should be used for anything different.
+  res.setHeader(config.api.header, config.api.version);
   res.setHeader('content-type', `text/calendar`);
   res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
   res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
