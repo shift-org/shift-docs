@@ -95,8 +95,8 @@ sub_ps() { #                      - Print service information
     sub_compose ps
 }
 
-sub_pull() { #                    - Update the codebase to HEAD of currently deployed branch from https://github.com/Shift2Bikes/shift-docs
-    echo "pulling most recent commit from deployed branch of https://github.com/Shift2Bikes/shift-docs"
+sub_pull() { #                    - Update the codebase to HEAD of currently deployed branch from https://github.com/shift-org/shift-docs
+    echo "pulling most recent commit from deployed branch of https://github.com/shift-org/shift-docs"
     cd ${ROOT} ; git pull
     # build node image manually 
     # ( docker can't auto-detect the .js to copy, nor the node modules to install. )
