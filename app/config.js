@@ -18,6 +18,10 @@ const appPath =  path.resolve(__dirname);
 
 const config = {
   appPath,
+  api: {
+    header: 'Api-Version',
+    version: "24.04.08",
+  },
   db: {
     host: env_default('MYSQL_HOST', 'db'),
     port: 3306, // standard mysql port.
@@ -66,11 +70,14 @@ const config = {
     // used for generated event image links
     // ( see also the ngnix config )
     path: env_default('SHIFT_IMAGE_PATH', "/eventimages/"),
-    // used for event image links
-    // ex. https://shift2bikes.org/eventimages/9248.png
+    // used for event image links.
+    // for backwards compatibility:
+    // 1. if you pass a falsey value, this returns null.
+    // 2. php used host relative image links so this does too.
+    // ex. not "https://shift2bikes.org/eventimages/9248-2.png"
+    // but "/eventimages/9248-2.png"
     url(name) {
-      const base = `${siteHost}${config.image.path}`;
-      return !name ? null : base + name;
+      return !name ? null : path.posix.join(config.image.path, name);
     }
   },
   crawl: {

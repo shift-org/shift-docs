@@ -14,6 +14,7 @@
  * returns http 400 "Bad Request" and a json error response (see errors.php)
  *
  */
+const config = require("../config");
 const express = require('express');
 const textError = require("../util/errors");
 const { CalEvent } = require("../models/calEvent");
@@ -48,7 +49,12 @@ exports.post = function(req, res, next) {
     // otherwise, soft delete it.
     let q = !evt.isPublished() ? evt.eraseEvent() : evt.softDelete();
     q.then((_) => {
-      res.json({"success": true})
+      // note: the frontend currently doesn't use this json;
+      // instead it looks for request success ( http 200 )
+      res.set(config.api.header, config.api.version);
+      res.json({
+        success: true
+      })
     }).catch((e) => {
       console.error("error trying to cancel an event", e);
       return res.textError('Server error');

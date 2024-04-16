@@ -58,6 +58,7 @@ describe("getting events", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        expect(res).to.have.header('Api-Version');
         if (expect(res.body.events).to.have.lengthOf(1)) {
           const evt = res.body.events[0];
           expect(evt.id).to.equal('2');
@@ -83,6 +84,7 @@ describe("getting events", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        expect(res).to.have.header('Api-Version');
         // console.log(res.body);
         if (expect(res.body.events).to.have.lengthOf(2)) {
           const evt = res.body.events[0];

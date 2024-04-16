@@ -27,6 +27,7 @@ exports.uploader = {
       return Promise.reject(Error("cant store an image without a valid extension"));
     }
     // ex. '/opt/backend/eventimages/7431.jpg'
+    // this uses regular path ( not posix ) because it involves local files
     const outpath = path.join(dir, name + ext);
 
     // file.path indicates a temp file in a temp directory
@@ -38,7 +39,7 @@ exports.uploader = {
     return q.then(_ => ({
       name,
       ext,
-      path: outpath
+      // path: outpath // unused; and maybe slightly dangerous to return local file info and system paths.
     }));
   },
 
@@ -69,7 +70,6 @@ exports.uploader = {
     },
   })
 }
-
 
 // https://github.com/expressjs/multer
 // req.file holds the file info ( the property is always .file regardless of the form name )
