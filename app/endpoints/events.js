@@ -42,9 +42,9 @@ exports.get = function(req, res, next) {
         res.textError("no such time");
       } else  {
         return getSummaries([daily]).then((events) => {
+          res.set(config.api.header, config.api.version);
           res.json({
-            events,
-            version: config.apiVersion,
+            events
           });
         });
       }
@@ -65,10 +65,10 @@ exports.get = function(req, res, next) {
         return CalDaily.getRangeVisible(start, end).then((dailies) => {
           return getSummaries(dailies).then((events) => {
             const pagination = getPagination(start, end, events.length);
+            res.set(config.api.header, config.api.version);
             res.json({
               events,
               pagination,
-              version: config.apiVersion,
             });
           });
         }).catch(next);

@@ -77,7 +77,7 @@ describe("event cancellation using a form", () => {
       .then(async function (res) {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body.version).to.be.a("string");
+        expect(res).to.have.header('Api-Version');
         expect(data.eventStore.callCount).to.equal(1);
         expect(data.dailyStore.callCount).to.equal(2);
 
@@ -124,7 +124,7 @@ describe("event cancellation using json", () => {
       .then(async function (res) {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body.version).to.be.a("string");
+        expect(res).to.have.header('Api-Version');
         expect(data.eventStore.callCount).to.equal(1);
         expect(data.dailyStore.callCount).to.equal(2);
         expect(data.eventErasures.callCount).to.equal(0);
@@ -152,7 +152,7 @@ describe("event cancellation using json", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body.version).to.be.a("string");
+        expect(res).to.have.header('Api-Version');
         expect(data.eventErasures.callCount).to.equal(1);
         done();
       });

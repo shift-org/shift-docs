@@ -51,9 +51,9 @@ exports.post = function(req, res, next) {
     q.then((_) => {
       // note: the frontend currently doesn't use this json;
       // instead it looks for request success ( http 200 )
+      res.set(config.api.header, config.api.version);
       res.json({
-        success: true,
-        version: config.apiVersion,
+        success: true
       })
     }).catch((e) => {
       console.error("error trying to cancel an event", e);

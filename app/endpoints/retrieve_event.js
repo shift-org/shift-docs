@@ -36,7 +36,7 @@ exports.get = function get(req, res, next) {
         const includePrivate = evt.isSecretValid(secret);
         const statuses = CalDaily.getStatusesByEventId(evt.id);
         evt.getDetails(statuses, {includePrivate}).then(details => {
-          details.version = config.apiVersion;
+          res.set(config.api.header, config.api.version);
           res.json(details);
         });
       }

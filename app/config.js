@@ -18,7 +18,10 @@ const appPath =  path.resolve(__dirname);
 
 const config = {
   appPath,
-  apiVersion: "24.04.08",
+  api: {
+    header: 'Api-Version',
+    version: "24.04.08",
+  },
   db: {
     host: env_default('MYSQL_HOST', 'db'),
     port: 3306, // standard mysql port.

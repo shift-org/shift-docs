@@ -39,7 +39,7 @@ describe("retrieving event data for editing", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body.version).to.be.a("string");
+        expect(res).to.have.header('Api-Version');
         expect(res.body.id).to.equal('2');
         expect(res.body.email, "email should be private")
           .to.be.null;
@@ -62,7 +62,7 @@ describe("retrieving event data for editing", () => {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body.version).to.be.a("string");
+        expect(res).to.have.header('Api-Version');
         expect(res.body.id).to.equal('2');
         expect(res.body.email, "b/c of the secret, email should be present")
           .to.exist;
