@@ -1,7 +1,8 @@
-version: "2"
-
 volumes:
+  # used by the db container to store mysql content
   db: {}
+  # used by the node container to cache node_modules
+  modules: {}
 
 services:
   nginx:
@@ -42,6 +43,9 @@ services:
       - 3306
 
   hugo:
+    # note: this container is only needed for local development.
+    # for production, netlify serves the hugo content instead.
+    # see also: ./shift watch ( sub_watch() )
     image: jojomi/hugo:0.84
     volumes:
       - ./site/:/src/
@@ -75,23 +79,48 @@ services:
     command: php-fpm
 
   node:
-    build: 
-      context: . 
-      dockerfile: node.docker
     restart: always
+    image: node:20.11.1-slim
+    # use the local logging driver for log storage and rotation
+	# https://docs.docker.com/config/containers/logging/local/
+    logging:
+      driver: local
     links:
       - db
     environment:
+        # these pull from the host environment
         - MYSQL_DATABASE
         - MYSQL_USER
         - MYSQL_PASSWORD
         - MYSQL_HOST
-        - SHIFT_DOMAIN
-        - NGINX_HTTPS_PORT
-        - SHIFT_IMAGE_DIR
+        - SHIFT_DOMAIN        # used for generating sharable links
+        - NGINX_HTTPS_PORT    # used for generating sharable links
+        - SHIFT_IMAGE_DIR     # event images
         - SMTP_HOST
         - SMTP_USER
         - SMTP_PASS
+    # by default the node image will run "node"
+    # https://github.com/nodejs/docker-node/blob/main/docker-entrypoint.sh
+    # override to run npm start; which auto installs from package-lock.json
+    command: npm start
+    working_dir: /shift
     volumes:
-      - ./services/node/:/opt/node/
-      - ./backend/:/opt/backend/
+      # map the shift node code and package files;
+      # and attach to the volume for its modules.
+      - ./app:/shift/app/
+      - ./tools:/shift/tools/
+      - ./package.json:/shift/package.json:ro
+      - ./package-lock.json:/shift/package-lock.json:ro
+      - modules:/shift/node_modules/
+
+      # provide access to images:
+      # the left-hand side is the host directory
+      # the right-hand side has to be SHIFT_IMAGE_DIR
+      # todo: change the host side to a named volume?
+      # fix: can the rhs here use the environment var?
+      - ./backend/eventimages/:/opt/backend/eventimages/
+
+      # DEACTIVATED: access for email log:
+      # email logging disabled has been disabled in emailer.js
+      # console logging being used instead re: "./shift logs node"
+      # - ./services/node/:/opt/node/
