@@ -244,7 +244,7 @@
             // ( offset height is the fixed size element height )
             // https://stackoverflow.com/questions/3962558/javascript-detect-scroll-end
             const currBottom = currTop + grid.offsetHeight;
-            if (currBottom >= grid.scrollHeight) {
+            if (currBottom > (grid.scrollHeight-scrollStep)) {
                 latestMonth = latestMonth.add(1, 'month');
                 $datePicker.append(getMonthHTML(latestMonth));
             }
