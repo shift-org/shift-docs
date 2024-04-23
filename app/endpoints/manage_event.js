@@ -23,7 +23,7 @@ const dt = require("../util/dateTime");
 const config = require("../config");
 const emailer = require("../emailer");
 const nunjucks = require("../nunjucks");
-
+const validateEvent = require("../models/calEventValidator");
 
 // read multipart (and curl) posts.
 exports.post = [ uploader.handle.single('file'), handleRequest ];
@@ -37,27 +37,29 @@ exports.post = [ uploader.handle.single('file'), handleRequest ];
  * it should only reject due to things like database or programmer errors.
  */
 function handleRequest(req, res, next) {
-  let data = req.body;
+  let input = req.body;
   // fix? the client uploads form data containing json
   // ( rather than raw json ) because multi-part forms require that.
   // a more rest-like api might use a separate put at some event/image url.
-  if (data && data.json) {
-    data = safeParse(data.json);
+  if (input && input.json) {
+    input = safeParse(input.json);
   }
-  // check for errors
-  let errors = validateRequest(data, {});
-  errors = validateStatus(data.datestatuses, errors);
+  if (!input) {
+    return res.textError("invalid request");
+  }
+  // parse for errors
+  const data = validateEvent(input);
   // the client code doesnt allow organizers to upload the image for new events
   // ensuring that's the case here, simplifies the file handling (below)
   if (req.file && !data.id) {
-    addError(errors, "image", "Images can only be added to existing events.");
+    data.errors.addError("image", "Images can only be added to existing events.");
   }
-  if (Object.keys(errors).length) {
-    return res.fieldError(errors);
+  if (data.errors.count) {
+    return res.fieldError(data.errors.getErrors());
   }
   // find or make the event, then update it with the sent data.
   // ( depending on whether an id was submitted )
-  return getOrCreateEvent(data).then((evt)=> {
+  return getOrCreateEvent(data.id, data.secret).then((evt)=> {
     if (!evt) {
       res.textError("Invalid secret, use link from email");
     } else {
@@ -74,7 +76,7 @@ function handleRequest(req, res, next) {
           evt.image = `${f.name}-${sequence}${f.ext}`;
         });
       return q.then(_ => {
-        return updateEvent(evt, data)
+        return updateEvent(evt, data.values, data.statusList)
         .then(details => {
           res.set(config.api.header, config.api.version);
           res.json(details);
@@ -86,18 +88,18 @@ function handleRequest(req, res, next) {
 
 // if no id was specified, create a new event.
 // otherwise, the id and secret are required or this returns null.
-function getOrCreateEvent(data) {
-  if (!data.id) {
+function getOrCreateEvent(id, secret) {
+  if (!id) {
     return Promise.resolve(CalEvent.newEvent());
   } else {
-    return CalEvent.getByID(data.id).then(evt => {
-      return (evt && evt.isSecretValid(data.secret)) ? evt : null;
+    return CalEvent.getByID(id).then(evt => {
+      return (evt && evt.isSecretValid(secret)) ? evt : null;
     });
   }
 }
 
 // promises the summary of the event after doing a successful update.
-function updateEvent(evt, data) {
+function updateEvent(evt, values, statusList) {
   // if the user is saving an existing event,
   // we assume they are publishing it.
   // ( the secret has been validated in handleRequest. )
@@ -105,7 +107,7 @@ function updateEvent(evt, data) {
   const previouslyPublished = evt.isPublished();
 
   // NOTE: overwrites (most) fields in the event with the user's input.
-  evt.updateFromJSON(data);
+  evt.updateFromJSON(values);
   if (existed) {
     evt.setPublished();
   }
@@ -114,8 +116,7 @@ function updateEvent(evt, data) {
   // ( this creates the event if it didnt exist. )
   return evt.storeChange().then(() =>{
     // now that the event has been stored, and it has an id: add/remove times.
-    const stauses = data.datestatuses || [];
-    const statusMap = new Map(stauses.map(status => [status.date, status]));
+    const statusMap = new Map(statusList.map(status => [status.date, status]));
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
       // email the organizer about new events.
       // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
@@ -159,144 +160,6 @@ function sendConfirmationEmail(evt) {
     // html
     // attachments
   }, evt.name, evt.email, evt.title, url);
-}
-
-/**
- * Ensures that the 'datestatuses' in 'data' (if any) are valid.
- * Allows an empty list ( which cancels all existing occurrences. )
- *
- * @param statusList:A list of data status objects sent by the organizer.
- *        [{ id, date, status, newsflash }, ...]
- *
- * @param errors: an object containing arbitrary {name: string} pairs.
- *
- * @see fieldError()
- * @see DateStatus.js
- */
-function validateStatus(statusList, errors) {
-  const invalidDateStrings = [];
-  if (statusList) {
-    if (!Array.isArray(statusList)) {
-      invalidDateStrings.push("expected an array");
-    } else {
-      statusList.forEach(status => {
-        const validDate = status.date && dt.fromYMDString(status.date).isValid();
-        if (!validDate) {
-          invalidDateStrings.push(status.date);
-        }
-      });
-    }
-  }
-  if (invalidDateStrings.length) {
-    const msg = "Invalid dates: " + invalidDateStrings.join(', ');
-    addError(errors, 'dates', msg);
-  }
-  return errors;
-}
-
-/**
- * ensure the email, title, etc. submitted by the organizer seem valid.
- * this can alter the passed data. ( ex. trimming string values )
- * note: unlike the php version, the secret gets determined separately.
- *
- * @param errors: an object containing arbitrary {name: string} pairs.
- * @see fieldError()
- */
-function validateRequest(data, errors) {
-  const hasValue = [
-    'title', 'details', 'venue', 'address', 'organizer',
-    // required only from March to June, during Pedalpalooza
-    // tinytitle', 'printdescr'
-  ];
-  const isTrue = {
-   'code_of_conduct': "You must have read the Ride Leading Comic",
-   'read_comic': "You must agree to the Code of Conduct"
-  };
-
-  // check the existence of required fields.
-  hasValue.forEach((field) => {
-    const val = (data[field] || '').trim();
-    if (validator.isEmpty(val)) {
-      addError(errors, field);
-    } else {
-      data[field] = val; // rewrite the trimmed value.
-    }
-  });
-
-  // check that boolean things exist and are true.
-  for (const field in isTrue) {
-    const val = data[field] || '';
-    // is the boolean value missing?
-    if (!validator.isBoolean(val)) {
-      addError(errors, field);
-    } else {
-      // is the boolean value false?
-      if (!validator.toBoolean(val)) {
-        const msg = isTrue[field];
-        addError(errors, field, msg);
-      } else {
-        // the boolean was true;
-        // rewrite the value.
-        data[field] = true;
-      }
-    }
-  }
-
-  // validate the email
-  {
-    const val = (data.email || '').trim();
-    if (!validator.isEmail(val)) {
-      addError(errors, 'email');
-    } else {
-      data.email = val; // rewrite the trimmed value.
-    }
-  }
-
-  // validate the event time
-  // the php doesnt do this, but it feels like a good idea.
-  // ( and CalEvent.updateFromJSON() relies on it. )
-  //
-  // interestingly: the upload is in AM/PM style
-  // but the server stores and reports in 24 hour style.
-  // and flourish stores communicates 'time' fields as an fTime
-  // while mysql stores as a 'hh:mm:ss' with no meridian
-  // so flourish must automatically transform to 24 time.
-  // https://dev.mysql.com/doc/refman/8.0/en/time.html
-  // https://flourishlib.com/docs/fTime.html
-  {
-    let val = (data.time || '').trim();
-    if (validator.isEmpty(val)) {
-      addError(errors, 'time');
-    } else {
-      let t = dt.from12HourString(val);
-      if (!t.isValid()) {
-        t = dt.from24HourString(val);
-      }
-      if (t.isValid()) {
-        data.time = dt.to24HourString(t);
-      } else {
-        addError(errors, 'time');
-      }
-    }
-  }
-
-  // munge print title:
-  // if print title (aka tinytitle) isn't set,
-  // use the first 24 chars of the regular title
-  {
-    let val = (data.tinytitle || '').trim();
-    if (validator.isEmpty(val)) {
-      // fix? cut at words? ( could use the wordwrapjs
-      val = validator.trim(data.title || '').substring(0,24);
-    }
-    data.tinytitle = val; // write back trimmed or substr'd title.
-  }
-
-  return errors;
-}
-
-function addError(errors, field, msg) {
-  errors[field] = msg ?? `Please enter a value for <span class=\"field-name\">${field}</span>`;
 }
 
 // read json into a javascript object.

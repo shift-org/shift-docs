@@ -73,6 +73,7 @@ describe("managing events", () => {
   });
 
   it("fail creation when missing required fields", function(){
+    // each time substitute a field value that should fail
     let pairs = [
       "title", "",
       "details", null,
@@ -90,8 +91,6 @@ describe("managing events", () => {
     for (let i=0; i< pairs.length; i+=2) {
       const key = pairs[i];
       const value = pairs[i+1];
-      // use the data that succeeded in "creates a new event"
-      // but each time substitute a field value that should fail
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
@@ -106,6 +105,34 @@ describe("managing events", () => {
     }
     return seq;
   });
+  it("fails creation when fields have invalid values", function(){
+    let pairs = [
+      "eventduration", "i am not a number, i am a man!",
+      "hideemail", "wants bool",
+      "hidephone", 42,
+      "loopride", "wants bool",
+      "datestype", "a long string",
+      "area", 23,
+    ];
+    let seq = Promise.resolve(""); // something to kick off the sequences.
+    for (let i=0; i< pairs.length; i+=2) {
+      const key = pairs[i];
+      const value = pairs[i+1];
+      const post = Object.assign({}, eventData);
+      post[key] = value;
+      seq = seq.then(_ => {
+        return chai.request( app )
+        .post(manage_api)
+        .send(post)
+        .then(function (res) {
+          expect(res, `expected failure for '${key}'`).to.have.status(400);
+          expect(res.body.error.fields).to.have.key(key);
+        });
+      })
+    }
+    return seq;
+  });
+
   it("publishes an event", function() {
     // id three is unpublished
     return CalEvent.getByID(3).then(evt => {
@@ -255,7 +282,6 @@ describe("managing events", () => {
   });
 });
 
-
 // minimal json for pushing a new event
 const eventData = {
   "title": "new event",
@@ -276,3 +302,4 @@ const eventData = {
     "newsflash": "not the news",
   }]
 }
+
