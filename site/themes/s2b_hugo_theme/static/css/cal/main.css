@@ -470,15 +470,6 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
   display: flex;
   justify-content: space-between;
 }
-#load-earlier {
-    background-color: green;
-}
-#load-later {
-    background-color: red;
-}
-.loading-zone {
-    height: auto;
-}
 
 .calendar-day {
     border-top: 1px solid gray;
