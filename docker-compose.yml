@@ -82,7 +82,7 @@ services:
     restart: always
     image: node:20.11.1-slim
     # use the local logging driver for log storage and rotation
-	# https://docs.docker.com/config/containers/logging/local/
+    # https://docs.docker.com/config/containers/logging/local/
     logging:
       driver: local
     links:
