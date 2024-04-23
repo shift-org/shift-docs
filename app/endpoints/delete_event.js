@@ -18,8 +18,13 @@ const config = require("../config");
 const express = require('express');
 const textError = require("../util/errors");
 const { CalEvent } = require("../models/calEvent");
+const { uploader } = require("../uploader");
 
-exports.post = function(req, res, next) {
+// the front end sends a multi-part form post
+// so... we need to handle that.
+exports.post = [ uploader.handle.single('file'), handleRequest ];
+
+function handleRequest(req, res, next) {
   let data = req.body;
   // fix? client uploads form data containing json...
   // probably to match manage_event where its currently required.
