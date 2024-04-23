@@ -102,14 +102,13 @@ So - now you can hopefully access the site.  But a real end-toend test of yourse
 
 You can also do local development with node. These steps will setup a local node server which, by default, acts as both frontend and backend. 
 
-First, install [git](https://github.com/git-guides/install-git) and [node](https://nodejs.org/en/download) (currently Node.js v20.11.1). Then, open a command prompt or terminal window, change to some useful directory for development, and do the following:
+After cloning the repo, install [node](https://nodejs.org/en/download) (currently Node.js v20.11.1). Then, open a command prompt or terminal window, change to some useful directory for development, and do the following:
 
-1. `git clone -b tooling https://github.com/ionous/shift-docs`
-2. `cd shift-docs`
-3. `npm install`
-4. optionally, create some placeholder events with: `npm run -w tools make-fake-events`
-5. `npm run dev`
-6. browse to http://localhost:3080, and you should see the site running locally.
+1. `cd shift-docs`
+2. `npm install`
+3. optionally, create some placeholder events with: `npm run -w tools make-fake-events`
+4. `npm run dev`
+5. browse to http://localhost:3080, and you should see the site running locally.
 
 When you new create events, the link for activating those events will be written to the terminal. ( In this mode, [Sqlite](https://www.sqlite.org/index.html) is used instead of MySQL. )
 
