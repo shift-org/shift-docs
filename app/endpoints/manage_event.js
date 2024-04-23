@@ -23,7 +23,7 @@ const dt = require("../util/dateTime");
 const config = require("../config");
 const emailer = require("../emailer");
 const nunjucks = require("../nunjucks");
-const validateEvent = require("../models/calEventValidator");
+const { validateEvent } = require("../models/calEventValidator");
 
 // read multipart (and curl) posts.
 exports.post = [ uploader.handle.single('file'), handleRequest ];

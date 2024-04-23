@@ -104,14 +104,17 @@ function makeValidator(input, errors) {
     },
     // if not specified, returns 0
     // otherwise expects an int-like value
+    // greater than or equal to 0
     zeroInt(field) {
       const str = getString(field);
       if (validator.isEmpty(str)) {
         return 0;
+      } else if (!validator.isInt(str)) {
+        errors.addError(field);
       } else {
-        // validator returns NaN, if the str isn't an int.
+        // validator returns NaN if it cant convert
         const val = validator.toInt(str);
-        if (isNaN(val)) {
+        if (isNaN(val) || val < 0) {
           errors.addError(field);
         } else {
           return val;
@@ -224,4 +227,9 @@ function validateEvent(input) {
   };
 }
 
-module.exports = validateEvent;
+module.exports = {
+  validateEvent,
+  // exported for testing:
+  makeValidator,
+  ErrorCollector
+}

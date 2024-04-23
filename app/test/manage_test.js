@@ -74,7 +74,7 @@ describe("managing events", () => {
 
   it("fail creation when missing required fields", function(){
     // each time substitute a field value that should fail
-    let pairs = [
+    const pairs = [
       "title", "",
       "details", null,
       "venue", "    ",
@@ -105,9 +105,15 @@ describe("managing events", () => {
     }
     return seq;
   });
+
   it("fails creation when fields have invalid values", function(){
-    let pairs = [
+    const pairs = [
       "eventduration", "i am not a number, i am a man!",
+      // converting directly toInt will ignore trailing text
+      // so verify that this fails as expected.
+      "eventduration", "42beep",
+      "eventduration", "-12",
+      "eventduration", -12,
       "hideemail", "wants bool",
       "hidephone", 42,
       "loopride", "wants bool",
@@ -132,7 +138,6 @@ describe("managing events", () => {
     }
     return seq;
   });
-
   it("publishes an event", function() {
     // id three is unpublished
     return CalEvent.getByID(3).then(evt => {
