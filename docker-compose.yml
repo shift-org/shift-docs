@@ -1,3 +1,5 @@
+version: "2"
+
 volumes:
   # used by the db container to store mysql content
   db: {}
