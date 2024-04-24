@@ -3,7 +3,8 @@ const createKnex = require('knex');
 const path = require('path'); // for sqlite 3
 const pickBy = require('lodash/pickBy'); // a dependency of package knex
 const config = require("./config");
-const tables = require("./models/tables"); // for sqlite 3
+const tables = require("./models/tables");
+const dt = require("./util/dateTime");
 
 // the default configuration;
 // the values change based on various environmental values
@@ -57,6 +58,21 @@ const knex = {
   recreate() {
     knex.query = createKnex(dbConfig);
     return knex.initialize();
+  },
+
+  // convert a dayjs object to a 'date' column.
+  //
+  // the sqlite driver stores a date as a number
+  // re: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+  // while that works, it's hard to read.
+  //
+  // mysql stores a date as "YYYY-MM-DD"
+  // re: https://dev.mysql.com/doc/refman/8.0/en/date-and-time-literals.html
+  // but the code has been handing it javascript dates, and it seems to like that.
+  // tbd: test if mysql can (also) use strings; if so, remove the if statement here.
+  //
+  toDate(date) {
+    return !useSqlite ? date.toDate() : dt.toYMDString(date);
   },
 
   /**
