@@ -17,7 +17,7 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx php node hugo"
+export CONTAINERS="db nginx node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -50,8 +50,6 @@ SMTP_DOMAIN=
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
-
-export SHIFT_EMAIL_LOG="/opt/php/shift-mail.log"
 export SHIFT_IMAGE_DIR="/opt/backend/eventimages"
 
 # Check for an overrides file
@@ -149,7 +147,7 @@ sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
 }
 
 sub_emails() { #                  - Show recent emails and update with new ones
-    sub_compose exec php tail -f ${SHIFT_EMAIL_LOG}
+    sub_compose logs node
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected
