@@ -22,6 +22,8 @@
     "build": "npm run build-hugo",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
     "postinstall": "hugo-installer --version 0.84.4",
-    "test": "npm run test -w app"
+    "test": "npm run test -w app",
+    "prefrontend": "npm i",
+    "frontend": "exec-bin bin/hugo/hugo -w -s site -d public"
   }
 }

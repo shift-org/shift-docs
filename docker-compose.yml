@@ -44,16 +44,6 @@ services:
     ports:
       - 3306
 
-  hugo:
-    # note: this container is only needed for local development.
-    # for production, netlify serves the hugo content instead.
-    # see also: ./shift watch ( sub_watch() )
-    image: jojomi/hugo:0.84
-    volumes:
-      - ./site/:/src/
-      - ./site/public/:/output/
-    command: "hugo -v"
-
   php:
     build: ./services/php
     restart: always

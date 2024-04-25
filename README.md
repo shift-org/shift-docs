@@ -44,14 +44,15 @@ The production backend is run in several docker containers; including nginx, mys
 The docker configuration also supports running your own frontend and backend server locally. The following steps assume a Linux, or MacOs development environment. On Windows, you'll need something like the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
 
 1. Install Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
+1. Install Node: https://nodejs.org/en/download
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
-4. Start shift site: `cd shift-docs ; ./shift up`
-5. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
-6. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
+3. Start the backend: `cd shift-docs ; ./shift up`
+4. Build the frontend: `./shift watch`
+5. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
 Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
 
-So - now you can hopefully access the site.  But a real end-toend test of yoursetup, would be creating an event:
+So - now you can hopefully access the site.  But a real end-to-end test of your setup, would be creating an event:
 
 1. visit https://localhost:4443/addevent/
 2. fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
@@ -117,13 +118,11 @@ When you new create events, the link for activating those events will be written
 
 If you are writing javascript code in the node backend, you can test everything is working as expected using `npm test`.
 
-
 ### Local previews using production data
 
 As an alternative to `npm run dev`, you can preview a local frontend with the actual production backend by using: `npm run -w tools preview`.  
 
 **NOTE:** any events you create while previewing this way *will* be seen by the world!
-
 
 ### Ethereal email
 
