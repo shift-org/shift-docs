@@ -1,3 +1,4 @@
+Some ideas for caching the ical feed:
 
 Outline:
    1. generate a "checksum" for a range of dates with a single database query.
@@ -37,39 +38,8 @@ Server storage:
 -------------
 
 Possible Options :
-  1. apcu
-  1. Ngnix etag caching
-  1. Using mysql 
-  1. Varnish
+  1. In memory: store the latest version in memory all the time. nice and simple; just have to be careful to not stomp cached data across multiple simultaneous requests.
+  1. Memcached: same idea, just store the data out at the [memcached](https://en.wikipedia.org/wiki/Memcached) level. this might be good for use with some sort of etag caching or checking.
+  1. Ngnix etag caching: https://www.nginx.com/blog/nginx-caching-guide/
+  1. Varnish:: ???
   
-
-### APCU 
-
-this seems the most promising solution. apcu is a common php extension that can communicate data across requests.
-
-while not the most efficient solution, its simple enough:
-```
-  $tag = calculate_tag();
-  $res = apcu_fetch("allEvents");
-  if (!$res || $res->tag != $tag) {
-	  $res = object [ 
-		  'body' => buildCalendar(),
-		  'tag' => tag,
-	  ];
-	  apcu_store("allEvents", $res);
-  }
-  return $res->body;
-```
-
-### Ngnix:  
-
-While nginx can [cache based on etags](https://www.nginx.com/blog/nginx-caching-guide/), it would need to check with the application to run the query to determine if the etag is valid .... it seems to require the "plus" version for dynamic query caching.
-
-### Sql: 
-
-Without something to clear out the cache periodically, the best we could probably do is a single "all events" cache:a single table containing a single row with "hash", "contents". this is the same idea as the apcu, but probably slower due to mysql communication ( serialization ) overhead.
-
-
-### Varnish 
-
-Seems like a big thing to add for this one feature, and i know nothing about it other than it exists to do things like this....
