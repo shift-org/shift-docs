@@ -6,7 +6,6 @@ export MYSQL_ROOT_PASSWORD=da642315cb2d390714590dad93e07c50
 export MYSQL_DATABASE=shift
 export MYSQL_USER=shift
 export MYSQL_PASSWORD=ok124
-export CAL_ADMIN_PASSWORD=notthis
 # can force the node version to use a sqlite in memory database instead of mysql:
 # export MYSQL_DATABASE=sqlite
 
@@ -17,7 +16,6 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -48,7 +46,6 @@ SMTP_DOMAIN=
 
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
 export SHIFT_IMAGE_DIR="/opt/backend/eventimages"
 
@@ -75,7 +72,7 @@ sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
 	mkdir $LETSENCRYPT_WEBROOT
     fi 
-    sub_compose up --force-recreate -d ${CONTAINERS}
+    sub_compose up --force-recreate -d
     echo "Assuming no fatal errors are shown above, you can now use the environment!"
     echo "You can run './${SCRIPT_NAME} watch' to monitor for changes and rebuild."
 }
