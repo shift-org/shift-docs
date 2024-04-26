@@ -394,6 +394,18 @@ a.expand-details {
     margin-bottom: 2em;
 }
 
+.pp-banner .promo-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+@media screen and (width <= 600px) {
+    .pp-banner .promo-wrapper {
+        flex-direction: column;
+    }
+}
+
 .pp-banner .pp-headline,
 .promo-banner .pp-headline {
     font-weight: bold;
