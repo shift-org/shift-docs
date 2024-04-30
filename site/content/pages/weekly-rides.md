@@ -24,13 +24,14 @@ More info: [@NakedHearts:PDX on Instagram](https://instagram.com/nakedhearts.pdx
 ## Tuesday
 
 ### Foster Night Ride
-* Every other Tuesday (opposite Twosday Road Rascals)
-* Starting location: FoPo Food Carts
+* Every other Tuesday <!-- (opposite Twosday Road Rascals) -->
+* Starting location: Portland Mercado
 
 Eat, drink, and bike on a bike adventure in the Foster-Powell neighborhood & beyond.
 
 More info: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosternightridepdx/), [Foster Night Ride on Facebook](https://www.facebook.com/foponr/)
 
+<!--
 ### Twosday Road Rascals (TRR)
 * Every other Tuesday (opposite Foster Night Ride)
 * Starting location: Irving Park
@@ -38,6 +39,7 @@ More info: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosterni
 Laid back social ride, with new riders and leaders encouraged — contact the ride leaders if you're interested in leading.
 
 More info: [Twosday Road Rascals on Facebook](https://www.facebook.com/groups/1885750641672755/about/)
+-->
 
 ## Wednesday
 

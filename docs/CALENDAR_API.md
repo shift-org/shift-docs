@@ -516,3 +516,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.12.0: (2024-01-22) New values for Area field (Westside, East Portland, Clackamas); added pagination object to Events endpoint response when requesting a range of events
 * 3.12.1: (2024-02-12) Manage Event (create/update) endpoint documentation
 * 3.13.0: (2024-03-04) Event info now accepts UTF-8 characters (previously limited to latin1 ASCII)
+* 3.50.0: (2024-04-22) Backend now running on Node instead of PHP; no (planned) breaking changes
