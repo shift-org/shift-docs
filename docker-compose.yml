@@ -111,10 +111,12 @@ services:
     volumes:
       # map the shift node code and package files;
       # and attach to the volume for its modules.
+      # remaps "package-lock" to "npm-shrinkwrap"
+      # to ensure "npm i" uses a fixed set of dependencies.
       - ./app:/shift/app/
       - ./tools:/shift/tools/
-      - ./package.json:/shift/package.json:ro
-      - ./package-lock.json:/shift/package-lock.json:ro
+      - ./package.json:/shift/package.json
+      - ./package-lock.json:/shift/npm-shrinkwrap.json
       - modules:/shift/node_modules/
 
       # provide access to images:

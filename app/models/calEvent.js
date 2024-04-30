@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const knex = require("../knex");
 const { CalDaily } = require("./calDaily");
-const { Area, DatesType, Review } = require("./calConst");
+const { Review } = require("./calConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
@@ -68,56 +68,14 @@ const methods =  {
     return out;
   },
 
-  // aka "fromArray" in php
-  // assumes that the fields have been validated
-  // and doesnt try to re-validate them.
-  updateFromJSON(input) {
-    // note: this is different from || ( also ?? ) because of null vs. undefined.
-    // and, also, in floush -- an empty string is converted to null(!)
-    // https://flourishlib.com/docs/fActiveRecord.html#ColumnOperations
-    function get (field, def) {
-      const val = (field in input) ? input[field] : def;
-      return val === '' ? null : val;
-    };
-    // These are marked as required
-    this.title = get('title', 'Title missing');
-    this.locname = get('venue', 'Venue missing');
-    this.address = get('address', 'Address missing');
-    this.name = get('organizer', 'Organizer missing');
-    this.email = get('email', 'Email missing');
+  // similar to "fromArray" in php
+  updateFromJSON(data) {
+    // ugly: assumes the data is validated and adjusted already.
+    Object.assign(this, data);
 
-    // these are optional
-    this.hideemail = get('hideemail', 0);
-    this.phone = get('phone', '');
-    this.hidephone = get('hidephone', 0);
-    this.contact = get('contact', '');
-    this.hidecontact = get('hidecontact', 0);
-    this.descr = get('details', '');
-    // note: this node version considers this time required.
-    // and manage_event.validateRequest() tries to ensure the time is good.
-    this.eventtime = get('time', '');
-    this.timedetails = get('timedetails', '');
-    this.locdetails = get('locdetails', '');
-    this.loopride = get('loopride', 0);
-    this.locend = get('locend', '');
-    this.eventduration = get('eventduration', 0);
-    this.weburl = get('weburl', '');
-    this.webname = get('webname', '');
-    this.audience = get('audience', '');
-    this.tinytitle = get('tinytitle', '');
-    this.printdescr = get('printdescr', '');
-    this.dates = get('datestring', ''); // string field 'dates' needed for legacy admin calendar
-    this.datestype = get('datestype', DatesType.OneDay);
-    this.area = get('area', Area.Portland);
-    this.printemail = get('printemail', 0);
-    this.printphone = get('printphone', 0);
-    this.printweburl = get('printweburl', 0);
-    this.printcontact = get('printcontact', 0);
-    this.safetyplan = get('safetyplan', 0);
-
-    // default highlight to off = (zero); but if it's already set, leave it as-is
+    // default highlight to zero; but if it's already set, leave as-is
     // fix: add a default to mysql? could there be db entries with null in there already
-    // and why is this happening in "fromJSON"?
+    // and why is this happening in "updateFromJSON"?
     this.highlight = this.highlight ?? 0;
   },
 
