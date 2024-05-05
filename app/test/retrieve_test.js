@@ -50,7 +50,7 @@ describe("retrieving event data for editing", () => {
         done();
       });
   });
-  it("succeeds with a valid id and secret", function(done) {
+  it("retrieves with a valid id and secret", function(done) {
     chai.request( app )
       .get('/api/retrieve_event.php')
       .query({
@@ -88,4 +88,30 @@ describe("retrieving event data for editing", () => {
         done();
       });
   });
+  it("errors on a hidden event", function(done) {
+    chai.request( app )
+      .get('/api/retrieve_event.php')
+      .query({
+        id: 3
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        testData.expectError(expect, res);
+        done();
+      });
+  });
+  it("errors on a hidden event, unless given the secret", function(done) {
+    chai.request( app )
+      .get('/api/retrieve_event.php')
+      .query({
+        id: 3,
+        secret: testData.secret,
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
 });
+

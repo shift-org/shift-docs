@@ -162,7 +162,9 @@ const methods =  {
 
   // can people looking for rides see this event?
   isPublished() {
-    return this.hidden === 0;
+    // note: legacy events have null for the hidden field
+    // zero and null are considered published.
+    return !this.hidden;
   },
 
   // make this event visible to all
