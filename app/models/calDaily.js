@@ -161,7 +161,7 @@ class CalDaily {
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id') // join for hidden test.
       .where('pkid', pkid)
-      .whereNot('hidden', 1) // calevent.hidden is 0 once published
+      .whereRaw('not coalesce(hidden, 0)') // zero when published; null for legacy events.
       .whereNot('eventstatus', EventStatus.Delisted)
       .first()
       .then(function(at) {
@@ -197,7 +197,7 @@ class CalDaily {
     return knex
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id')
-      .whereNot('hidden', 1)         // hidden is 0 once published
+      .whereRaw('not coalesce(hidden, 0)')         // zero when published; null for legacy events.
       .where('eventdate', '>=', knex.toDate(firstDay))
       .where('eventdate', '<=', knex.toDate(lastDay))
       .orderBy('eventdate')
@@ -212,7 +212,7 @@ class CalDaily {
    return knex
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id')
-      .whereNot('hidden', 1)                         // calevent: hidden is 0 once published
+      .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
       .whereNot('review', Review.Excluded)           // calevent: a legacy status code.
       .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
       .whereNot('eventstatus', EventStatus.Delisted) // caldaily: for soft deletion.

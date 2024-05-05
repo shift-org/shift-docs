@@ -91,10 +91,23 @@ function fakeCalEvent(eventId) {
     loopride : 1,
     area: Area.Portland,
     highlight: 0,
-    hidden: eventId !== 3 ? 0 : 1,  // #3 is unpublished.
+    hidden: hidden(eventId),
     password: testData.secret,
     safetyplan : 1,
   };
+}
+
+function hidden(eventId) {
+  switch (eventId) {
+  case 3:
+    return 1; // #3 is hidden/unpublished.
+  case 2:
+    return 0;
+  case 1:
+    return null; // use a legacy hidden code.
+  default:
+    throw new Error("unexpected event id", eventId);
+  }
 }
 
 // https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
