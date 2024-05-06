@@ -47,7 +47,7 @@ The docker configuration also supports running your own frontend and backend ser
 1. Install Node: https://nodejs.org/en/download
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
 3. Start your local server: `cd shift-docs ; ./shift up`
-4. Build frontend content: `./shift watch`
+4. Optionally, watch for content changes: `./shift watch`
 5. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
 Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
@@ -97,7 +97,6 @@ So - now you can hopefully access the site.  But a real end-to-end test of your 
 * `docker volume ls`
   * This will show the persistent volumes that docker knows about. The shift project volumes are prefixed with `shift_`
   * The "shift_" docker namespace comes from the shift file: `export COMPOSE_PROJECT_NAME="shift"`
-
 
 # Local development with Node.js
 

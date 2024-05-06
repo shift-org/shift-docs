@@ -74,8 +74,13 @@ sub_help() { #                    - Show this text
 
 sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
-	mkdir $LETSENCRYPT_WEBROOT
+        mkdir $LETSENCRYPT_WEBROOT
     fi 
+    # build content for local development
+    # production doesn't need this. it uses netlify.
+    if [ "$SHIFT_DOMAIN" == "localhost" ] ; then
+        npm run build
+    fi
     sub_compose up --force-recreate -d 
     echo "Assuming no fatal errors are shown above, you can now use the environment!"
     echo "You can run './${SCRIPT_NAME} watch' to monitor for changes and rebuild."
@@ -130,15 +135,7 @@ sub_attach() { # <service>        - Run bash on a running service
 }
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
-    OS=`uname`
-    if [ "$OS" == "Darwin" ] ; then
-	    docker compose $@
-    elif [ "$OS" == "Linux" ] ; then 
-	    docker-compose $@
-    else
-	    echo "not sure how to handle your OS' version of docker.  One of the above should work!"
-	    exit 255
-    fi
+    docker-compose $@
 }
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
