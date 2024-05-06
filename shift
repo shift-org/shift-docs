@@ -17,7 +17,6 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx php node hugo"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -88,7 +87,7 @@ function waitUntilServiceIsReady() {
     fi
     echo "Waiting for $2 container... (attempt: $((attempt++)))"
     # wait more each time; hopefully less than --since
-    sleep $((3*attempt))
+    sleep $((3*(attempt-1)))
   done
 
   if [ $attempt -gt $MAX_TRIES ]; then
@@ -111,6 +110,11 @@ sub_up() { #                      - Bring all services up
 	mkdir $LETSENCRYPT_WEBROOT
     fi 
     sub_compose up --force-recreate -d ${CONTAINERS}
+
+    # wait for node to be ready
+    # tbd: for staging, could also check for "mysqld: ready for connections."
+    waitUntilServiceIsReady nodeIsReady "node"
+
     echo "Assuming no fatal errors are shown above, you can now use the environment!"
     echo "You can run './${SCRIPT_NAME} watch' to monitor for changes and rebuild."
 }
@@ -142,8 +146,6 @@ sub_reload() { # <service>, ...   - Trigger a code/conf reload
 
 sub_start() { # <service>, ..     - Start service(s)
     sub_compose up --force-recreate -d $@
-    # tbd: for staging, could also check for "mysqld: ready for connections."
-    waitUntilServiceIsReady nodeIsReady "node"
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)
