@@ -17,7 +17,6 @@ export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
 export SHIFT_DOMAIN="localhost"
 
 #### DOCKER ####
-export CONTAINERS="db nginx php node"
 export COMPOSE_PROJECT_NAME="shift"
 
 #### SMTP ####
@@ -77,7 +76,7 @@ sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
 	mkdir $LETSENCRYPT_WEBROOT
     fi 
-    sub_compose up --force-recreate -d ${CONTAINERS}
+    sub_compose up --force-recreate -d 
     echo "Assuming no fatal errors are shown above, you can now use the environment!"
     echo "You can run './${SCRIPT_NAME} watch' to monitor for changes and rebuild."
 }
