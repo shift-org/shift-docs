@@ -87,7 +87,7 @@ sub_up() { #                      - Bring all services up
 }
 
 sub_watch() { #                   - Watch the site directory for changes and rebuild the site
-    npm run frontend
+    npm run watch
 }
 sub_down() { #                    - Stop and remove services
     sub_compose down
