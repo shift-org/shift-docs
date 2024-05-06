@@ -109,7 +109,7 @@ sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
 	mkdir $LETSENCRYPT_WEBROOT
     fi 
-    sub_compose up --force-recreate -d ${CONTAINERS}
+    sub_compose up --force-recreate -d
 
     # wait for node to be ready
     # tbd: for staging, could also check for "mysqld: ready for connections."
