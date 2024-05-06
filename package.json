@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "start": "npm -w app start",
-    "prestart": "npm ci --omit dev --audit false --fund false --ignore-scripts",
+    "prestart": "npm i --omit dev --audit false --fund false --ignore-scripts",
     "dev": "concurrently -k \"npm:dev-*\"",
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
    	"dev-app": "env-cmd -f tools/dev.env npm start -w app",
