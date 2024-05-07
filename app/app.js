@@ -78,6 +78,7 @@ const verifyMail = initMail().then(hostName=> {
 Promise.all([knex.initialize(), verifyMail]).then(_ => {
   const port = config.site.listen;
   app.listen(port, _ => {
+    // NOTE: the ./shift script listens for this message!
     console.log(`${config.site.name} listening at ${config.site.url()}`)
     app.emit("ready"); // raise a signal for testing.
   });
