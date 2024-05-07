@@ -74,8 +74,9 @@ MAX_TRIES=5
 # Return true-like values if and only if logs
 # contain the expected "ready" line
 function nodeIsReady() {
+  # todo: need a new docker version to use --since
   # use --since 1 minute to try to filter out old log messages
-  docker-compose logs node --since 1m | grep "SHIFT to Bikes listening"
+  docker-compose logs node | grep "SHIFT to Bikes listening"
 }
 
 function waitUntilServiceIsReady() {
