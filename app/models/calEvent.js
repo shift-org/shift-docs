@@ -33,7 +33,7 @@ const methods =  {
       length :  null,
       timedetails :  this.timedetails,
       locdetails :  this.locdetails,
-      loopride :  this.loopride != 0,
+      loopride    : !!this.loopride,    // false if never set ( null )
       locend :  this.locend,
       eventduration :  duration,
       weburl :  this.weburl,
@@ -49,13 +49,13 @@ const methods =  {
       printdescr :  this.printdescr,
       datestype :  this.datestype,
       area :  this.area,
-      featured :  this.highlight != 0,
-      printemail :  this.printemail != 0,
-      printphone :  this.printphone != 0,
-      printweburl :  this.printweburl != 0,
-      printcontact :  this.printcontact != 0,
-      published :  this.isPublished(),
-      safetyplan :  this.safetyplan != 0,
+      featured    : !!this.highlight,    // false if never set ( null )
+      printemail  : !!this.printemail,   // false if never set ( null )
+      printphone  : !!this.printphone,   // false if never set ( null )
+      printweburl : !!this.printweburl,  // false if never set ( null )
+      printcontact: !!this.printcontact, // false if never set ( null )
+      published   : this.isPublished(),
+      safetyplan  : !!this.safetyplan,   // false if never set ( null )
       // note: (null==0) is false, so this wont include email, etc. by default.
       email: (this.hideemail == 0 || includePrivate) ? this.email : null,
       phone: (this.hidephone == 0 || includePrivate) ? this.phone : null,
