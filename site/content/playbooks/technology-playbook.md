@@ -30,4 +30,4 @@ This [website](https://www.shift2bikes.org) and [calendar](https://shift2bikes.o
 
 Some of the old website/calendar codebase is in github here: https://github.com/Shift2Bikes/shiftcal/tree/Legacy
 
-Finally, we use mxroute.com (account is in fool's name) to handle mails to addresses@shift2bikes.org and you have to login there to set up new aliases (on [this page](https://taylor.mxrouting.net:2222/evo/user/email/forwarders).  @carrythebanner and @fool have access to the admin account on this service.
+Finally, we use mxroute.com (account is in fool's name) to handle mails to addresses@shift2bikes.org and you have to login there to set up new aliases (on [this page](https://taylor.mxrouting.net:2222/evo/user/email/forwarders)).  Josh/@carrythebanner and @fool have access to the admin account on this service and can diagnose problems with @shift2bikes.org emails.
