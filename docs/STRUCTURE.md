@@ -5,9 +5,10 @@
 The root of the project contains:
 
 - Docs: Markdown documentation
-- Legacy: PHP backends and copies of the old javascript. TODO: Delete old JS, move PHP to a backend folder, enable cal admin tools
+- App: Javascript backend 
+- Tool: Javascript helpers
 - Services: Container configuration for required services
-- Site: Hugo standard project
+- Site: Website content ( built using Hugo )
 
 It also contains:
 - docker-compose.yml: Describes the relationship between services
@@ -32,12 +33,7 @@ This is a standard hugo install
 
 ## Backend
 
-The backend is first hit by the user using a `/api/{file}.php` url. Nginx routes this to the `php` container using the filename `/opt/backend/www/{file}.php`, as configured in `./services/nginx/conf.d/shift.conf`
-
-PHP maps `/opt/backend/www/{file}.php` to the host file `./backend/www/{file}.php
-
-The files in `www` read user input, call specific backend functions from the parent directory, and write the output back out to the user
-
+In production,  Netlify fetches `api` urls from the `api.shift2bikes.org` aws server. Nginx reroutes this to a Node server as configured in `./services/nginx/conf.d/shift.conf`. Express.js routes those to specific endpoints as defined in `app/app.js`.
 
 ## Services
 
@@ -76,23 +72,8 @@ On startup nginx runs `entrypoint.sh` which creates a self-signed ssl cert at `.
 4. If they match certbot and puts the cert in `/etc/letsencrypt/live/{doman}.crt|key` (on the host)
 5. It copies these certs to the dir (host) `/opt/shift-docs/services/nginx/ssl` AKA (container) `/opt/nginx/ssl/default.crt|key`
 
-### PHP:
-
-The php backend is based on flourish, a basic ORM
-
-The service configuration is located in `./services/php/` and mounted in the container as `/opt/php/`
-
-`entrypoint.sh` is responsible for configuring xdebug and postfix using values passed in from `./shift`
-
 #### Emails
 
-There is a drastic fork between production and local development with respect to emails.
+Organizers receive an email for every ride they create with instructions they must follow to publish the ride. The backend uses [nodemailer](https://nodemailer.com) to send that mail via smtp. In production, AWS handles the actual delivery. In development, [ethereal](https://ethereal.email/messages) can be used to test; otherwise, by default, it simply logs to console. 
 
-PHP is configured to use the script `./serices/php/sendmail.sh` to send all emails.
-
-1. During startup inside the php container `./services/php/entrypoint.sh` checks if remote stmp is configured (via `shift.overrides`)
-2. If so postconf/postmap/rsyslogd are used to setup smtp forwarding
-3. `sendmail.sh` checks for the same emails, and if so send all input over to the postfix provided sendmail binary
-4. `sendmail.sh` also always writes all email to `/var/log/shift-mail.log`
-
-Users can use `./shift mail` to view this log from the host computer
+Users can view sent mail via `./shift mail` from the host computer.

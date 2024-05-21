@@ -11,18 +11,16 @@ services:
     image: nginx
     restart: always
     volumes:
+      # DEV SITE:
       - ./site/public/:/var/www/site/
-      - ./legacy/cal/:/opt/legacy/cal/
-      - ./backend/www/:/opt/backend/www/
+      # EVENT IMAGES:
       - "${EVENTIMAGES}:/opt/backend/eventimages"
+      # NGINX CONF:
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
-    # shift.conf references the php and node ports
-    # (ex. proxy_pass http://node:3080 )
-    # so it needs links to be able to resolve those names
     links:
-      - php
+      # lets shift.conf reference node ( ex. http://node:3080 )
       - node
     ports:
       - "${NGINX_HTTPS_PORT}:443"
@@ -53,32 +51,6 @@ services:
       - ./site/:/src/
       - ./site/public/:/output/
     command: "hugo -v"
-
-  php:
-    build: ./services/php
-    restart: always
-    environment:
-      - MYSQL_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_HOST
-      - SHIFT_DOMAIN
-      - NGINX_HTTPS_PORT
-      - CAL_ADMIN_PASSWORD
-      - SHIFT_EMAIL_LOG
-      - SMTP_HOST
-      - SMTP_USER
-      - SMTP_PASS
-      - SMTP_LOGIN
-      - SMTP_DOMAIN
-    links:
-      - db
-    volumes:
-      - ./backend/:/opt/backend/
-      - ./services/php/:/opt/php/
-      - ./legacy/:/opt/legacy
-    entrypoint: /opt/php/entrypoint.sh
-    command: php-fpm
 
   node:
     restart: always

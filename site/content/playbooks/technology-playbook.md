@@ -27,6 +27,6 @@ The calendar is written in php, talks to a mysql database that is backed up semi
 
 The [website](https://www.shift2bikes.org) and [calendar](https://shift2bikes.org/calendar/) are their own codebase in [GitHub](https://github.com), which is free to join, use in any way that you might while collaborating with us on mainteance/development, and of course free to download from.
 
-Some of the old website/calendar codebase is in github here: https://github.com/Shift2Bikes/shiftcal/tree/Legacy
+Some of the old website/calendar codebase is in github here: https://github.com/shift-org/shift-docs/tree/033e75e35947c95246e63f932246a59ea5714c27/legacy
 
 We generally meet once a week to work on the website/calendar.  Ping the [website crew](mailto:bikecal@shift2bikes.org) to get details about our next meetup.  All are welcome;  coders, testers, content editors, visionaries, etc.

@@ -6,7 +6,6 @@ export MYSQL_ROOT_PASSWORD=da642315cb2d390714590dad93e07c50
 export MYSQL_DATABASE=shift
 export MYSQL_USER=shift
 export MYSQL_PASSWORD=ok124
-export CAL_ADMIN_PASSWORD=notthis
 # can force the node version to use a sqlite in memory database instead of mysql:
 # export MYSQL_DATABASE=sqlite
 
@@ -47,10 +46,7 @@ SMTP_DOMAIN=
 
 # ENV
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export SERVICES="${ROOT}/services"
 export EVENTIMAGES="${ROOT}/backend/eventimages"
-
-export SHIFT_EMAIL_LOG="/opt/php/shift-mail.log"
 export SHIFT_IMAGE_DIR="/opt/backend/eventimages"
 
 # Check for an overrides file
@@ -187,7 +183,7 @@ sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
 }
 
 sub_emails() { #                  - Show recent emails and update with new ones
-    sub_compose exec php tail -f ${SHIFT_EMAIL_LOG}
+    sub_compose logs node
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected

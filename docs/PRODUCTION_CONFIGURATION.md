@@ -28,8 +28,8 @@ During production configuration the `/opt/shift-docs/shift.overrides` is soft li
 
 The event images are served from the `/opt/shift-docs/backend/eventimages` directory, which must have 777 permissions.
 Configuration locations:
-* `shift.overrides -> shift -> docker-compose.yml -> ./backend/config.php`
-* `shift.overrides -> shift -> ./backend/config.php`
+* `shift.overrides -> shift -> docker-compose.yml -> ./app/config.js`
+* `shift.overrides -> shift -> ./app/config.js`
 * `./services/nginx/conf.d/shift.conf`
 
 ## Mail
