@@ -225,7 +225,7 @@
                       err = {
                         message: 'There were errors in your fields',
                         fields: {
-                          file: 'The file uploaded is over the limit of 2.0 M',
+                          file: 'Your image was too large.',
                         }
                       };
                     } else {

@@ -22,7 +22,7 @@ const { uploader } = require("../uploader");
 
 // the front end sends a multi-part form post
 // so... we need to handle that.
-exports.post = [ uploader.handle.single('file'), handleRequest ];
+exports.post = [ uploader.makeHandler(), handleRequest ];
 
 function handleRequest(req, res, next) {
   let data = req.body;

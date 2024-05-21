@@ -1,74 +1,90 @@
 const fsp = require('fs').promises;
 const path = require('node:path');
-
-const bytesPerMeg = 1024*1024;
-const imageTypes = {
-  'image/gif'  : '.gif',
-  'image/jpeg' : '.jpg',
-  'image/pjpeg': '.jpg',
-  'image/png'  : '.png',
-};
-
 const validator = require('validator');
 const multer = require('multer');
+const config = require("./config");
+
+class FileFilterError extends Error {}
 
 exports.uploader = {
-  // after successfully saving the file data to the passed directory,
-  // promises a dictionary with the image file name: {name, .ext, path}
-  write( file, name, dir ) {
+  // save an uploaded file to a new file with 'name' (event id).
+  // The uploaded file contains a 'mimetype', and either:
+  // a 'buffer' of binary data, or a 'path' (to a temp file in system tmp.)
+  // Promises an object with the name and an extension: `{name, ext}`.
+  write( file, name ) {
     if (!name) {
       return Promise.reject(Error("cant store an image without a valid name"));
     }
     if (!file) {
       return Promise.reject(Error("no file data specified"));
     }
-    const ext = imageTypes[file.mimetype];
+    // this is also validated during upload in fileFilter
+    const ext = config.image.imageTypes[file.mimetype];
     if (!ext) {
       return Promise.reject(Error("cant store an image without a valid extension"));
     }
     // ex. '/opt/backend/eventimages/7431.jpg'
-    // this uses regular path ( not posix ) because it involves local files
-    const outpath = path.join(dir, name + ext);
+    // this uses regular path ( not posix ) because it involves local files.
+    const outpath = path.join(config.image.dir, name + ext);
 
     // file.path indicates a temp file in a temp directory
     // file.buffer is used if the image contents were uploaded into memory.
-    let q = file.path ? fsp.rename(file.path, outpath) :
+    const saveImage = file.path ? fsp.rename(file.path, outpath) :
           file.buffer ? fsp.writeFile(outpath, file.buffer) :
-          Promise.reject(Error("image has no data"));
-    // after moving/writing the file, return the name data.
-    return q.then(_ => ({
-      name,
-      ext,
-      // path: outpath // unused; and maybe slightly dangerous to return local file info and system paths.
-    }));
+          Promise.reject("Image has no data");
+    // after moving/writing the file, return the name and extension.
+    return saveImage.then(_ => ({ name,  ext }));
   },
 
-  // generates middleware for express endpoints
-  handle: multer({
-    // because the limits are so small
-    // using memory storage for multner is probably fine.
-    // storage: multer.diskStorage()
-    limits: {
-      files: 1,
-      fileSize: 2 * bytesPerMeg,
-      // https://github.com/mscdex/busboy#busboy-methods
-      // fieldNameSize  Max field name size  100 bytes
-      // fieldSize  Max field value size (in bytes)  1MB
-      // fields  Max number of non-file fields  Infinity
-      // fileSize  For multipart forms, the max file size (in bytes)  Infinity
-      // files  For multipart forms, the max number of file fields  Infinity
-      // parts  For multipart forms, the max number of parts (fields + files)  Infinity
-      // headerPairs  For multipart forms, the max number of header key=>value pairs to parse  2000
-    },
-    fileFilter(req, file, cb) {
-      const mimeTypes = Object.keys(imageTypes);
-      if (validator.isIn(file.mimetype, mimeTypes)) {
-        cb(null, true)
-      } else {
-        cb(new Error('Invalid image type'));
-      }
-    },
-  })
+  // generates "middleware" for express endpoints
+  // ( middleware is any function following a certain pattern. )
+  makeHandler(dataField= 'file', errorField= 'image') {
+    // ask multer to create its middleware
+    const upload = multer({
+      // because the limits are so small
+      // using memory storage for multner is probably fine.
+      // storage: multer.diskStorage()
+      limits: {
+        files: 1,
+        fileSize: config.image.maxFileSize,
+        // https://github.com/mscdex/busboy#busboy-methods
+        // fieldNameSize  Max field name size  100 bytes
+        // fieldSize  Max field value size (in bytes)  1MB
+        // fields  Max number of non-file fields  Infinity
+        // fileSize  For multipart forms, the max file size (in bytes)  Infinity
+        // files  For multipart forms, the max number of file fields  Infinity
+        // parts  For multipart forms, the max number of parts (fields + files)  Infinity
+        // headerPairs  For multipart forms, the max number of header key=>value pairs to parse  2000
+      },
+      fileFilter(req, file, cb) {
+        const imageTypes = config.image.imageTypes;
+        const mimeTypes = Object.keys(imageTypes);
+        if (validator.isIn(file.mimetype, mimeTypes)) {
+          cb(null, true)
+        } else {
+          cb(new FileFilterError('Invalid image type'));
+        }
+      },
+    }).single(dataField);
+
+    // make our own middleware to call multner's
+    // so that we can handle any errors we generated in fileFilter()
+    // ( why couldn't they just use promises like everyone else!? )
+    return function(req, res, next) {
+      upload(req, res, err => {
+        // this catches multner's error for surpassing limits;
+        // and the custom error generated in fileFilter() above.
+        if (err) {
+          res.fieldError({ [errorField]: err.message || "Unknown error" });
+        } else {
+          // tell express to call the next middleware
+          // if we pass 'err' to 'next()' express respond with http 500
+          // https://expressjs.com/en/guide/error-handling.html#error-handling
+          next();
+        }
+      });
+    };
+  } // makeHandler()
 }
 
 // https://github.com/expressjs/multer
