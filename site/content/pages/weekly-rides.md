@@ -112,7 +112,7 @@ More info: [@HamiRamani on Instagram](https://instagram.com/hamiramani), [@HamiR
 
 Meet up around 7:30pm and ride at 9:00pm. Route under 9-miles with refreshment stops midway. All are welcome, freak bikes encouraged. 
 
-More info: [Dead Baby Bikes Portland on Facebook](https://www.facebook.com/groups/426657747988717/events/), [@deadbabybikes_pdx on Instagram](https://www.instagram.com/deadbabybikes_pdx/)
+More info: [Dead Baby Bikes Portland on Facebook](https://www.facebook.com/groups/426657747988717/events/), [@DeadBabyBikes_PDX on Instagram](https://www.instagram.com/deadbabybikes_pdx/)
 
 ## Sunday
 
