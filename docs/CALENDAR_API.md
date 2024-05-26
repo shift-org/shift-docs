@@ -519,4 +519,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.50.0: (2024-04-22) Backend now running on Node instead of PHP; no (planned) breaking changes
 * 3.50.1: (2024-04-29) Improved validation of data payloads for manage/delete event endpoint requests
 * 3.50.2: (2024-05-06) Fixed handling of some boolean fields which may unexpectedly be null (hidden, highlight, printemail, etc)
-* 3.50.3: (2024-05-20) Removed now-unused PHP
+* 3.51.0: (2024-05-20) Removed now-unused PHP
