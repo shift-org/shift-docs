@@ -25,6 +25,7 @@ It depends. Some rides do, and some don't. Ride leaders have the option to indic
 
 Use the contact info on the event listing to contact the organizer.
 
+
 ## Posting events
 
 ### Who can post events to the calendar?
@@ -94,19 +95,19 @@ Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help
 
 ## Subscribing to the calendar
 
-The Pedalpalooza events can be added to your computer or smart phone's calendar. As new rides are created, they will show up on your calendar automatically ( usually within 24 hours of the ride being posted by the organizer. ) This is a convenient way to stay up to date, but remember these are community driven events: any and all events will be visible when you view your calendar.
+The Pedalpalooza events can be added to your computer or smart phone's calendar. As new rides are created, they will show up on your calendar automatically (usually within 24 hours of the ride being posted by the organizer). This is a convenient way to stay up to date, but remember these are community driven events: any and all events will be visible when you view your calendar.
 
 On many devices, clicking this link — [webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php](webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php) — will open your calendar app automatically, and the app will guide you through the steps to subscribe.
 
-For Android devices ( or for google calendar on iOS devices ) you will have to subscribe manually.
+For Android devices (or for Google Calendar on iOS devices) you will have to subscribe manually.
 
 ### Android and Google Calendar:
 
-1. Copy the pedalpalooza calendar link above ( on Android, by pressing and holding the link until the "Copy link address" menu appears, and then selecting that option. ) 
+1. Copy the Pedalpalooza calendar link above. (On Android, by pressing and holding the link until the "Copy link address" menu appears, and then selecting that option.) 
 2. Visit [Google Calendar](https://calendar.google.com/calendar/u/0/r/settings/addbyurl) and if asked log into your Google account.
-3. On that Google Calendar page, paste the link you copied into the "URL of Calendar" box ( press on that box and hold until the "Paste" menu appears, then choose that option. )
+3. On that Google Calendar page, paste the link you copied into the "URL of Calendar" box (press on that box and hold until the "Paste" menu appears, then choose that option).
 4. Finally, click the "Add calendar" button. 
-5. 🎉 ( Now find a ride you like, and bike on over! )
+5. 🎉 (Now find a ride you like, and bike on over!)
 
 For additional help with Android and Google Calendar, please see this [Google support page](https://support.google.com/calendar/answer/37100) under "Use a link to add a public calendar."
 
@@ -116,3 +117,22 @@ For additional help with Android and Google Calendar, please see this [Google su
 1. [Mac Mail](https://support.apple.com/guide/calendar/subscribe-to-calendars-icl1022/mac) - follow the instructions for "Subscribe to a calendar."
 1. [Outlook](https://support.microsoft.com/en-us/office/import-or-subscribe-to-a-calendar-in-outlook-on-the-web-503ffaf6-7b86-44fe-8dd6-8099d95f38df) - follow the instructions for "Subscribing to a calendar."
 1. [Thunderbird](https://support.mozilla.org/en-US/kb/adding-a-holiday-calendar) - follow the instructions for subscribing to an "internet holiday calendar", but use the pedalpalooza calendar link from above.  ( Pedalpalooza is basically a holiday anyway, right? 😊 )
+
+
+## Glossary
+
+Here are some acronyms and phrases that might be used in a ride listing: 
+
+* PP: [Pedalpalooza](/pages/pedalpalooza/)
+* MMR: [Midnight Mystery Ride](/pages/mmr/)
+* BonB: [Breakfast on the Bridges](/pages/bonb/)
+* WNBR: [World Naked Bike Ride](/pages/wnbr/)
+* MCBF: [Multnomah County Bike Fair](/pages/mcbf/)
+* MBB, MXB: [Move By Bike](/pages/mbb/)
+* S2B: [Shift2Bikes](/pages/mission_statement/) :)
+* BP: [BikePortland](https://bikeportland.org/)
+* LNT: [Leave no trace](https://en.wikipedia.org/wiki/Leave_No_Trace)
+* R2R: "ride to the ride"; a ride specifically for arriving at another ride
+* corkers, corking: riders who block traffic from side roads at an intersection so that the rest of the ride can freely proceed through without interruption
+* no-drop: a ride where no one gets left behind — the ride waits for all riders in the event of mechanical difficulties, slower riders, etc; contrast with a drop ride, which isn't expected to wait for everyone
+
