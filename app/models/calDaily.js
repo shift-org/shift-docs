@@ -213,12 +213,16 @@ class CalDaily {
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id')
       .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
-      .modify(function(q) {
+      .where(function(q) {
         if (!includeDeleted) {
           // calevent: a legacy code; reused for soft-delete
           q.whereNot('review', Review.Excluded)
           // caldaily: for deselected days; soft-deleted days are also deselected.
           q.whereNot('eventstatus', EventStatus.Delisted)
+        } else {
+          q.whereNot('eventstatus', EventStatus.Delisted)
+           .orWhere('eventstatus', EventStatus.Delisted)
+           .andWhere('review', Review.Excluded)
         }
       })
       .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
