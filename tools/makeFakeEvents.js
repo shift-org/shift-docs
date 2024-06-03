@@ -104,7 +104,7 @@ function makeCalDailies(eventId, start, numDays) {
     }
     out.push({
       id          : eventId,
-      eventdate   : knex.toDate(start),
+      eventdate   : start.toDate(),
       eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
       newsflash   : msg,
     });
