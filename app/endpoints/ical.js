@@ -5,6 +5,7 @@
  * The parameter 'id' returns all of the days for that ride;
  * 'startdate' and 'enddate' (in YYYY-MM-DD format) returns a custom range of rides;
  * 'filename' customizes the name of the generated file ( the default name is in config.js. )
+ * ( the special name of "none" will not generate an attachment )
  *
  *   https://localhost:4443/api/ical.php
  *   https://localhost:4443/api/ical.php?id=998
@@ -83,11 +84,16 @@ function respondWith(res, filename, events) {
   // according to  https://en.wikipedia.org/wiki/ICalendar
   // its default utf8, and mime type should be used for anything different.
   res.setHeader(config.api.header, config.api.version);
-  res.setHeader('content-type', `text/calendar`);
-  res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
-  res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
+  if (!filename || filename === "none") {
+    res.setHeader('content-type', `text/plain`);
+  } else {
+    res.setHeader('content-type', `text/calendar`);
+    res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
+    res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
+  }
   // tbd: maybe there's filter or something for nunjucks to add the carriage returns.
   const body = nunjucks.render('ical.njk', {cal, events});
+  // replace the our "normalized" line break with what ical wants
   res.send(body.replaceAll("\n", "\r\n"));
 }
 
@@ -198,8 +204,8 @@ function buildCalEntry(evt, at) {
 
 /**
  * Format a set of strings for ical, word-wrapping if necessary.
- * Note: the returned string uses bare newline, not carriage return,
- * the caller is responsible for adding those.
+ * Note: the returned string uses bare newline, ical requires carriage returns,
+ * the caller is responsible for adding those. ( ie. respondWith() )
  *
  * @param string        row     The lede text of the ical row, including a colon. ( ex. "SUMMARY:" )
  * @param array<string> strings One or more strings to join into newlines.
@@ -225,8 +231,8 @@ function escapeBreak(row, ...strings) {
   // immediately followed by a single linear [space].
   // 74 is best to fit the required leading space of subsequent lines.
   //
-  // note: only injecting "\n " here, buildCalendar() replaces those with "\r\n" later.
-  const lines =  wordwrap.lines(row + str, { width: 74, break: true });
+  // note: only injecting "\n" here, respondWith() replaces those with "\r\n" later.
+  const lines =  wordwrap.lines(row + str, { width: 74, break: true, noTrim: true });
   return lines.join("\n ");
 }
 
