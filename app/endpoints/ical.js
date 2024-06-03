@@ -30,13 +30,18 @@ module.exports = {
   replace,
 };
 
+function readBool(b) {
+  return b === "true" || b === "1";
+}
+
 function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = req.query.startdate || "";
   const end = req.query.enddate || "";
+  const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
 
-  return getEventData(id, start, end).then(data => {
+  return getEventData(id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
     return respondWith(res, customName || filename, events);
   }).catch(err => {
@@ -51,7 +56,7 @@ function get(req, res, next) {
 }
 
 // promise a structure containing: filename and events.
-function getEventData(id, start, end) {
+function getEventData(id, start, end, includeDeleted) {
   let filename;
   let buildEvents;
   const cal= config.cal;
@@ -64,7 +69,7 @@ function getEventData(id, start, end) {
   } else if (start || end) {
     // ex. shift-calendar-2001-06-02-to-2022-01-01.ics
     filename = `${cal.filename}-${start}-to-${end}` + cal.ext;
-    buildEvents = buildRange(start, end);
+    buildEvents = buildRange(start, end, includeDeleted);
   } else {
     // ex. shift-calendar.ics
     filename = cal.filename + cal.ext;
@@ -119,7 +124,7 @@ function buildCurrent() {
 
 // Promise a range of events in ical format as string,
 // where start and end are timestamps.
-function buildRange(start, end) {
+function buildRange(start, end, includeDeleted) {
   const started  = dt.fromYMDString(start);
   const ended  = dt.fromYMDString(end);
   if (!started.isValid() || !ended.isValid()) {
@@ -129,8 +134,11 @@ function buildRange(start, end) {
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
-    return CalDaily.getFullRange(started, ended).then((dailies)=>{
-      return buildEntries(dailies);
+    const q = includeDeleted?
+              CalDaily.getFullRange:
+              CalDaily.getRangeVisible;
+    return q(started,ended).then((dailies)=>{
+      return  buildEntries(dailies);
     });
   }
 }
