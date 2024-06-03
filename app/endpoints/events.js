@@ -5,6 +5,7 @@
  * This endpoint supports two different queries:
  *   id=caldaily_id ( the time id )
  *   startdate=YYYY-MM-DD & enddate=YYYY-MM-DD
+ *   &all=true ( to include soft deleted rides )
  *
  * For example:
  *   http://localhost:3080/api/events.php?id=1893
@@ -33,6 +34,7 @@ exports.get = function(req, res, next) {
   let id = req.query.id;
   let start = req.query.startdate;
   let end = req.query.enddate;
+  const includeDeleted = (req.query.all === "true") || (req.query.all === "1");
   if (id && start && end) {
     res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
   } else if (id) {
@@ -62,7 +64,7 @@ exports.get = function(req, res, next) {
       } else if (range > 100) {
         res.textError(`event range too large: ${range} days requested; max 100 days`);
       } else {
-        return CalDaily.getRangeVisible(start, end).then((dailies) => {
+        return CalDaily.getRangeVisible(start, end, includeDeleted).then((dailies) => {
           return getSummaries(dailies).then((events) => {
             const pagination = getPagination(start, end, events.length);
             res.set(config.api.header, config.api.version);

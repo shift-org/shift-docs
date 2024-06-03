@@ -208,14 +208,20 @@ class CalDaily {
 
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
-  static getRangeVisible(firstDay, lastDay) {
+  static getRangeVisible(firstDay, lastDay, includeDeleted=false) {
    return knex
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id')
       .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
-      .whereNot('review', Review.Excluded)           // calevent: a legacy status code.
+      .modify(function(q) {
+        if (!includeDeleted) {
+          // calevent: a legacy code; reused for soft-delete
+          q.whereNot('review', Review.Excluded)
+          // caldaily: for deselected days; soft-deleted days are also deselected.
+          q.whereNot('eventstatus', EventStatus.Delisted)
+        }
+      })
       .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
-      .whereNot('eventstatus', EventStatus.Delisted) // caldaily: for soft deletion.
       .where('eventdate', '>=', firstDay.toDate())   // caldaily: instance of the event.
       .where('eventdate', '<=', lastDay.toDate())
       .orderBy('eventdate')
