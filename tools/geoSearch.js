@@ -42,7 +42,7 @@ async function geoSearch()  {
   const params = {
     format: "jsonv2",    // -- one of: xml, json, jsonv2, geojson, geocodejson
     // json_callback:    // -- for jsonp: a function name
-    //limit:  "1",         // -- number of results: max 40
+    limit:  "1",         // -- number of results: max 40
     // addressdetails:   // -- (0,1): address breakdown; content depend on 'format'
     // extratags:        // -- (0,1): info supplied by users: ex. wikipedia link, opening hours, etc.
     // namedetails:      // -- (0,1): other names for the locations: language variants, etc.
