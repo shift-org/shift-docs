@@ -18,6 +18,7 @@
     "preview": "env-cmd -f dev.env node preview.js",
     "make-fake-events": "env-cmd -f dev.env node makeFakeEvents.js",
     "new-ethereal-cfg": "env-cmd -f dev.env node newEtherealConfig.js",
-    "import-mysql": "env-cmd -f dev.env node importMysql.js"
+    "import-mysql": "env-cmd -f dev.env node importMysql.js",
+    "geo": "node geoSearch.js"
   }
 }
