@@ -2,7 +2,8 @@
  * geo coding experiment
  * https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
  *
- * ex. npm run -w tools geo --in="Wilshire Park, Portland OR"
+ * ex. npm run -w tools geo --q="Wilshire Park, Portland OR"
+ *     npm run -w tools geo --street="915 SE Hawthorne Blvd"
  */
 const https = require('node:https');
 
@@ -14,37 +15,53 @@ const nominatim = {
 // ----------------------------------------------------------------
 // command line arguments
 const args = {
-  // --in "search string"
+  // --q "search string"
   // paths are relative to the root shift-docs directory
-  in : process.env.npm_config_in || "<missing in file>"
+  q : process.env.npm_config_in,
+  // --amenity "search string"
+  amenity : process.env.npm_config_amenity,
+  // --street "search string"
+  street : process.env.npm_config_street,
 };
 
 // the tool function:
 async function geoSearch()  {
-  const params = {
-    "q": encodeURIComponent(args.in),
-  // --- parameters ---
-    "format": "jsonv2",   // -- one of: xml, json, jsonv2, geojson, geocodejson
-    // "json_callback"    // -- for jsonp: a function name
-    "limit":  "1",        // -- number of results: max 40
-    // "addressdetails"   // -- (0,1): address breakdown; content depend on 'format'
-    // "extratags"        // -- (0,1): info supplied by users: ex. wikipedia link, opening hours, etc.
-    // "namedetails"      // -- (0,1): other names for the locations: language variants, etc.
-    // "accept-language"  // -- the default uses the header 'Accept-Language'
-    "countrycodes": "us", // -- filter specific comma-separated countries.
-    // "layer"            // -- filter comma-separated results
-    // "featureType"      // -- filter when layer includes 'address' either: country, state, city, or settlement
-    // "exclude_place_ids"// -- reject specific earlier results
-    // "viewbox"          // -- a search area <x1>,<y1>,<x2>,<y2> in longitude
-    // "bounded"          // -- modify 'viewbox'. 0: boost results in the box; 1: filter to only the box.
-    // "polygon_*"        // -- various options to control the returned geometry (if any)
-    "email": "bikecal@shift2bikes.org", // -- "If you are making large numbers of request please include an appropriate email address to identify your requests."
-    // "dedupe"           // -- (1,0): filter duplicate entries representing the same location.
-    // "debug"            // -- (0,1): forces html output; includes data on Nominatim's "search loop" and SQL queries.
+  const query=  args.in? {
+    // free form query:
+    q: safe(args.in),
+  } : {
+    // structured query:
+    amenity: safe(args.amenity), //   name and/or type of POI
+    street: safe(args.street), //  housenumber and streetname
+    "city": "portland",
+    "state": "or",
+    "country": "us"
+    // county
+    // postalcode
   };
-  const qs= Object.keys(params).map(at=> at + "=" + params[at]);
+  const params = {
+    format: "jsonv2",    // -- one of: xml, json, jsonv2, geojson, geocodejson
+    // json_callback:    // -- for jsonp: a function name
+    limit:  "1",         // -- number of results: max 40
+    // addressdetails:   // -- (0,1): address breakdown; content depend on 'format'
+    // extratags:        // -- (0,1): info supplied by users: ex. wikipedia link, opening hours, etc.
+    // namedetails:      // -- (0,1): other names for the locations: language variants, etc.
+    // accept-language:  // -- the default uses the header 'Accept-Language'
+    countrycodes: "us",  // -- filter specific comma-separated countries.
+    // layer:            // -- filter comma-separated results
+    // featureType:      // -- filter when layer includes 'address' either: country, state, city, or settlement
+    // exclude_place_ids:// -- reject specific earlier results
+    // viewbox:          // -- a search area <x1>,<y1>,<x2>,<y2> in longitude
+    // bounded:          // -- modify 'viewbox'. 0: boost results in the box; 1: filter to only the box.
+    // polygon_*:        // -- various options to control the returned geometry (if any)
+    email: "bikecal@shift2bikes.org", // -- "If you are making large numbers of request please include an appropriate email address to identify your requests."
+    // dedupe:           // -- (1,0): filter duplicate entries representing the same location.
+    // debug:            // -- (0,1): forces html output; includes data on Nominatim's "search loop" and SQL queries.
+  };
+  const qs= makeQueries(query,params);
   const url = nominatim.search + qs.join("&");
   console.log("requesting:", url);
+
   const res = await fetch(url, {
     headers: {
       // a custom user-agent is required by the api to identify the user.
@@ -60,6 +77,23 @@ async function geoSearch()  {
     const json = await res.json(); // a promise of a pojo.
     console.log( JSON.stringify(json, null, " ") );
   }
+}
+
+// uri encode the passed string, but not if its undefined; otherwise you get "undefined". ugh.
+function safe(str) {
+  return str && encodeURIComponent(str);
+}
+
+// given a list of query objects, return a single array of "key=value" strings
+function makeQueries(...listOfParams) {
+  return listOfParams.reduce((sum, params) => sum.concat(makeQuery(params)), []);
+}
+
+// give a single query object, return an array of "key=value" strings
+function makeQuery(params) {
+  return Object.keys(params)
+    .filter((key) => params[key]) // remove any blank entries
+    .map(key=> key + "=" + params[key]);
 }
 
 // ----------------------------------------------------------------
