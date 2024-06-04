@@ -15,9 +15,9 @@ const nominatim = {
 // ----------------------------------------------------------------
 // command line arguments
 const args = {
-  // --q "search string"
+  // --in "search string"
   // paths are relative to the root shift-docs directory
-  q : process.env.npm_config_in,
+  in : process.env.npm_config_in,
   // --amenity "search string"
   amenity : process.env.npm_config_amenity,
   // --street "search string"
@@ -42,7 +42,7 @@ async function geoSearch()  {
   const params = {
     format: "jsonv2",    // -- one of: xml, json, jsonv2, geojson, geocodejson
     // json_callback:    // -- for jsonp: a function name
-    limit:  "1",         // -- number of results: max 40
+    //limit:  "1",         // -- number of results: max 40
     // addressdetails:   // -- (0,1): address breakdown; content depend on 'format'
     // extratags:        // -- (0,1): info supplied by users: ex. wikipedia link, opening hours, etc.
     // namedetails:      // -- (0,1): other names for the locations: language variants, etc.
