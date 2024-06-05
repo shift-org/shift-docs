@@ -4,11 +4,14 @@ $(document).ready(function() {
 
     function getEventHTML(options, callback) {
         var url = '/api/events.php?';
-        if ('id' in options) {
-            url += 'id=' + options['id'];
-        }
-        if ('startdate' in options && 'enddate' in options) {
-            url += 'startdate=' + dayjs(options['startdate']).format("YYYY-MM-DD") + '&enddate=' + dayjs(options['enddate']).format("YYYY-MM-DD");
+        if (options.id) {
+            url += 'id=' + options.id;
+        } else if (options.startdate && options.enddate) {
+            // these are dayjs objects.
+            url += 'startdate=' + options.startdate.format("YYYY-MM-DD") +
+                   '&enddate=' + options.enddate.format("YYYY-MM-DD");
+        } else {
+            throw Error("requires id or range");
         }
 
         $.get( url, function( data ) {
@@ -36,7 +39,7 @@ $(document).ready(function() {
                 value.areaLabel = container.getAreaLabel(value.area);
                 value.mapLink = container.getMapLink(value.address);
 
-                if ( 'show_details' in options && options['show_details'] == true ) {
+                if (options.show_details) {
                     value.expanded = true;
                 }
                 value.webLink = container.getWebLink(value.weburl);
@@ -53,7 +56,7 @@ $(document).ready(function() {
             }
             var template = $('#view-events-template').html();
             var info = Mustache.render(template, mustacheData);
-            if ('id' in options) {
+            if (options.id) {
                 // only set on individual ride pages
                 var event = mustacheData.dates[0].events[0];
                 $('meta[property="og:title"]')[0].setAttribute("content", event.title);
@@ -69,53 +72,55 @@ $(document).ready(function() {
         });
     }
 
+    // default range of days to show.
+    const dayRange = 10;
+
+    // compute range and details settings from options.
+    // the returned object gets passed to getEventHTML().
+    function getInitialView(options) {
+        const today = dayjs().utc();
+        const start = dayjs(options.startdate).utc(); // if start or end are missing,
+        const end   = dayjs(options.enddate).utc();   // dayjs returns today.
+        const inRange = today >= start && today <= end;
+        const from = inRange ? today : start;
+        return {
+          // since this year's PP will be in range
+          // ( as will the normal calendar events page )
+          // 'from' is today; for other PP pages it's options startdate.
+          startdate: from,
+          // if there was an enddate, use it; otherwise use a fixed number of days.
+          enddate: options.enddate ? end : from.add(dayRange, 'day'),
+          // pass this on to the events listing.
+          show_details: options.show_details,
+        };
+    }
+
+    // build a list of all upcoming events
+    // using the 'view-events-template' template from events.html
+    //
+    // this is called from events.html when neither /edit nor /event are in the url.
+    // options is from parseURL() and includes
+    // pp, and startdate, enddate from markdown if on a "pp" page.
     function viewEvents(options){
+        const view = getInitialView(options);
+        // container is $('#mustache-html'); empty it out.
+        container.empty();
 
-        function daysAfter(d, days) {
-            return new Date ((new Date(d)).setDate(d.getDate() + days));
-        }
+        // append the floating "scrollToTop" button
+        // ( template is in events.html )
+        container.append($('#scrollToTop').html());
 
-        var nextDay = 1;
-        var dayRange = 10;
-
-        var currentDateTime = new Date();
-        var timezoneOffset = (currentDateTime.getTimezoneOffset() / 60);
-
-        var firstDayOfRange = new Date(currentDateTime.setHours(0,0,0,0)); // set time to midnight
-
-        if ('startdate' in options) {
-          startDate = new Date(options['startdate']).setUTCHours(timezoneOffset,0,0,0);
-          firstDayOfRange = new Date(startDate);
-        }
-
-        var lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
-
-        if ('enddate' in options) {
-          endDate = new Date(options['enddate']).setUTCHours(timezoneOffset,0,0,0);
-          lastDayOfRange = new Date(endDate);
-        }
-
-        var isExpanded = false;
-        if ('show_details' in options) {
-          isExpanded = true;
-        }
-
-        container.empty()
-             .append($('#scrollToTop').html())
-
+        // build the events list:
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
-        getEventHTML({
-            startdate: firstDayOfRange,
-            enddate: lastDayOfRange,
-            show_details: isExpanded
-        }, function (eventHTML) {
-             // don't load list/grid toggle on PP page (always displays grid)
-             if ( !('pp' in options) ) {
+        getEventHTML(view, function (eventHTML) {
+             // on PP pages only allow grid view
+             // otherwise, add the template to toggle.
+             if (!options.pp) {
                container.append($('#view-as-options').html());
                container.append($('#event-list-options-template').html());
              }
              container.append(eventHTML);
-             if ( !('pp' in options) ) {
+             if (!options.pp) {
                // PP has set start and end dates,
                // so don't display "load more" button if PP
                container.append($('#load-more-template').html());
@@ -123,13 +128,11 @@ $(document).ready(function() {
              lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
-                      firstDayOfRange = daysAfter(lastDayOfRange, nextDay);
-                      lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
-                      getEventHTML({
-                          startdate: firstDayOfRange,
-                          enddate: lastDayOfRange,
-                          show_details: isExpanded
-                      }, function(eventHTML) {
+                      // the next day to view is one day after the previous last
+                      view.startdate = view.startdate.add(1, 'day');
+                      view.enddate = view.enddate.add(dayRange, 'day');
+                      // add new events to the end of those we've already added.
+                      getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
                           lazyLoadEventImages();
                       });
