@@ -14,8 +14,10 @@ const methods =  {
     if (duration <= 0) {
       duration = null;
     }
-
-    let out = {
+    return this.isDeleted() ? {
+      id        : this.id.toString(),
+      deleted   : true,
+    } : {
       id        : this.id.toString(),
       title     : this.title,
       venue     : this.locname,
@@ -64,7 +66,7 @@ const methods =  {
       // for now, therefore this is in CalDaily
       // endtime: getEndTime()
     };
-    return out;
+
   },
 
   // similar to "fromArray" in php
