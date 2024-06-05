@@ -87,7 +87,7 @@ const methods =  {
     return this.eventstatus == EventStatus.Delisted;
   },
 
-  // return true if the occurrence has been cancelled or delistd;
+  // return true if the occurrence has been cancelled or delisted;
   // false if confirmed.
   // fix: an isConfirmed() would make more sense.
   isUnscheduled() {
@@ -102,8 +102,12 @@ const methods =  {
       date: this.getFormattedDate(),
       caldaily_id: this.pkid.toString(),
       shareable: this.getShareable(),
-      cancelled: this.isUnscheduled(),
-      newsflash: this.newsflash,
+      cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
+      // dont send newsflash when delisted:
+      // its not scheduled and may be deleted
+      // either way, its not info we want to show.
+      newsflash: !this.isDelisted() ? this.newsflash : null,
+      status: this.eventstatus,
     };
     // see notes in CalEvent.getJSON()
     if (endtime !== undefined) {
@@ -208,14 +212,30 @@ class CalDaily {
 
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
-  static getRangeVisible(firstDay, lastDay) {
+  static getRangeVisible(firstDay, lastDay, includeAllEvents=false) {
    return knex
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id')
       .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
-      .whereNot('review', Review.Excluded)           // calevent: a legacy status code.
+      .where(function(q) {
+        if (!includeAllEvents) {
+          // calevent: a legacy code; reused for soft-delete
+          q.whereNot('review', Review.Excluded)
+          // caldaily: for deselected days; soft-deleted days are also deselected.
+          q.whereNot('eventstatus', EventStatus.Delisted)
+        }
+        // the normal behavior is to not show "delisted days":
+        // those are days deselected by an organizer on the calendar widget
+        // but not explicitly canceled.
+        //
+        // enabling this block hides "delisted days" when includingDeleted events
+        // commenting out this block shows "delisted days" when includingDeleted events.
+        // else {
+        // q.whereNot('eventstatus', EventStatus.Delisted)
+        //  .orWhere('eventstatus', EventStatus.Delisted)
+        //  .andWhere('review', Review.Excluded)
+      })
       .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
-      .whereNot('eventstatus', EventStatus.Delisted) // caldaily: for soft deletion.
       .where('eventdate', '>=', firstDay.toDate())   // caldaily: instance of the event.
       .where('eventdate', '<=', lastDay.toDate())
       .orderBy('eventdate')
