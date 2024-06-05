@@ -1,7 +1,13 @@
 // CalEvent.review enum.
+// see helpers.js for the authoritative version.
+// fix: how can we share? symlink? some sort of copy by hugo build? remote fetch and make the api server authoritative??
 const Area = Object.freeze({
   Portland  : 'P',
   Vancouver : 'V',
+  //
+  Westside : 'W',
+  Eastside : 'E',
+  Clackamas: 'C',
 });
 
 const Audience = Object.freeze({
