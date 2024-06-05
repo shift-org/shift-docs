@@ -104,10 +104,8 @@ const methods =  {
       shareable: this.getShareable(),
       cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
       newsflash: this.newsflash,
+      status: this.eventstatus,
     };
-    if (this.eventstatus === EventStatus.Cancelled) {
-      data.explicit_cancel = true;
-    }
     // see notes in CalEvent.getJSON()
     if (endtime !== undefined) {
       data.endtime = endtime;
