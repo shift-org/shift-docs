@@ -6,6 +6,17 @@
  *     npm run -w tools geo --street="915 SE Hawthorne Blvd"
  *     npm run -w tools geo --db="../bin/prodlike.db" --date="2024-06-01" --out="../out.sql"
  */
+//
+// installing a local docker nominatim server:
+// docker run -it --shm-size=1g \
+//   -e PBF_URL=https://download.geofabrik.de/north-america/us/oregon-latest.osm.pbf \
+//   -e IMPORT_WIKIPEDIA=false \
+//   -e NOMINATIM_PASSWORD=very_secure_password \
+//   -v nominatim-data:/var/lib/postgresql/14/main \
+//   -p 8080:8080 \
+//   --name nominatim2 \
+//   mediagis/nominatim:4.4
+//
 const fsp= require('fs').promises;
 const https = require('node:https');
 const path = require('node:path');
