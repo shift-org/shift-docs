@@ -101,9 +101,7 @@ const methods =  {
     let data = {
       date: this.getFormattedDate(),
       caldaily_id: this.pkid.toString(),
-      // don't send shareable when delisted:
-      // url is no longer valid
-      shareable: !this.isDelisted() ? this.getShareable() : null,
+      shareable: this.getShareable(),
       cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
       // don't send newsflash when delisted:
       // it's not scheduled and may be deleted
