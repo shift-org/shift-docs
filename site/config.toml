@@ -59,20 +59,6 @@ disableKinds = ["taxonomy", "term"]
     weight = 3
     identifier = "communitynav"
 
-#[[menu.main]]
-#    name = "Tips"
-#    url  = "/pages/"
-#    weight = 4
-#    identifier = "tips"
-
-#[[menu.main]]
-#    name = "Shift Shop"
-#    url  = "/who-we-are/"
-#    weight = 5
-#    identifier = "shiftshop"
-
-# Main menu
-
 [[menu.main]]
     name = "About"
     url  = "/about/"
@@ -81,7 +67,10 @@ disableKinds = ["taxonomy", "term"]
 
 
 # -------------------------------------
-# Site data, available to layouts via {{ .Site.Params.<name of param> }}
+# Site parameters, available to layouts via `{{ .Site.Params.<something> }}`
+# if a layout uses `{{ .Param.<something> }}` ( note the singular usage )
+# hugo will first check the page for the parameter,
+# and then fallback to the value here ( if any. )
 [params]
 	# Style options available
     # Add style.name.css file to the theme CSS directory for alternate base styles
