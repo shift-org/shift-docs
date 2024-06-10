@@ -1,6 +1,6 @@
 <script src="{{ .Site.BaseURL }}js/cal/helpers.js"></script>
 <script src="{{ .Site.BaseURL }}js/cal/main.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/mustache/mustache.min.js"></script>
 
 <script src="{{ .Site.BaseURL }}js/libs/dayjs/dayjs.min.js"></script>
@@ -14,6 +14,7 @@
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/daygrid/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/timegrid/main.min.js"></script>
+
 
 <script type="text/javascript">
   //only show grid view for PP pages, 2008 or later
@@ -133,7 +134,7 @@
     <ul class="events-list">
       [[#events]]
 
-      <li class="event row [[#cancelled]]cancelled[[/cancelled]] [[#featured]]featured[[/featured]]" data-event-id="[[id]]">
+      <li class="event row [[#cancelled]]cancelled[[/cancelled]] [[#featured]]featured[[/featured]]" data-event-id="[[caldaily_id]]">
         [[#featured]]<p class="featured-text" id="featured[[caldaily_id]]"><span aria-hidden="true">★ </span>Featured Event<span aria-hidden="true"> ★</span></p>[[/featured]]
         <div class="time col-xs-2">
           [[#cancelled]]<del>[[/cancelled]]
@@ -381,6 +382,10 @@
   <div class="event-list-options">
     <div class="show-details">
       <button type="button" id="show-details" class="btn">Toggle details</button>
+    </div>
+    <div class="event-search">
+      <label for="event-search-field">Search</label>
+      <input type="text" id="event-search-field">
     </div>
     <div class="go-to-date">
       <label for="go-to-date-field">Go to date</label>

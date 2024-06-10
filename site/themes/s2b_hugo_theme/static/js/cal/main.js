@@ -51,21 +51,10 @@ $(document).ready(function() {
             for ( var date in groupedByDate )  {
                 groupedByDate[date].events.sort(container.compareTimes);
             }
-            var template = $('#view-events-template').html();
-            var info = Mustache.render(template, mustacheData);
-            if ('id' in options) {
-                // only set on individual ride pages
-                var event = mustacheData.dates[0].events[0];
-                $('meta[property="og:title"]')[0].setAttribute("content", event.title);
-                if (event.printdescr) {
-                    $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
-                } else {
-                    var desc = event.details.substring(0,250);
-                    $('meta[property="og:description"]')[0].setAttribute("content", desc);
-                }
-                document.title = event.title + " - Calendar - Shift";
-            }
-            callback(info);
+
+            const template = $('#view-events-template').html();
+            const htmlResult = Mustache.render(template, mustacheData);
+            callback(htmlResult, data.events);
         });
     }
 
@@ -100,28 +89,54 @@ $(document).ready(function() {
           isExpanded = true;
         }
 
-        container.empty()
-             .append($('#scrollToTop').html())
+        const miniSearch = new MiniSearch({
+          idField: 'caldaily_id',
+          fields: ['title', 'details' ], // venue? address?
+          searchOptions: {
+            boost: { title: 2 },
+            fuzzy: 0.2
+          }});
+
+        container.empty();
+        container.append($('#scrollToTop').html());
 
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
         getEventHTML({
             startdate: firstDayOfRange,
             enddate: lastDayOfRange,
             show_details: isExpanded
-        }, function (eventHTML) {
-             // don't load list/grid toggle on PP page (always displays grid)
-             if ( !('pp' in options) ) {
+        }, function (eventHTML, events) {
+
+            miniSearch.addAllAsync(events);
+
+            // don't load list/grid toggle on PP page (always displays grid)
+             if ( !options.pp ) {
                container.append($('#view-as-options').html());
                container.append($('#event-list-options-template').html());
              }
              container.append(eventHTML);
-             if ( !('pp' in options) ) {
+             const search = document.getElementById("event-search-field");
+             search.addEventListener("change", evt=> {
+                const items= document.querySelectorAll("li[data-event-id]");
+                const text = evt.target.value.trim();
+                if (!text)  {
+                    items.forEach(el => { el.hidden= false; });
+                } else {
+                    const res = miniSearch.search(text);
+                    items.forEach(el => {
+                        const caldaily_id = el.getAttribute("data-event-id");
+                        const idx = res.findIndex( s=> s.id == caldaily_id );
+                        el.hidden = idx < 0;
+                    });
+                }
+             });
+             lazyLoadEventImages();
+
+             if ( !options.pp ) {
                // PP has set start and end dates,
                // so don't display "load more" button if PP
                container.append($('#load-more-template').html());
-             }
-             lazyLoadEventImages();
-             $(document).off('click', '#load-more')
+               $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
                       firstDayOfRange = daysAfter(lastDayOfRange, nextDay);
                       lastDayOfRange = daysAfter(firstDayOfRange, dayRange);
@@ -129,12 +144,14 @@ $(document).ready(function() {
                           startdate: firstDayOfRange,
                           enddate: lastDayOfRange,
                           show_details: isExpanded
-                      }, function(eventHTML) {
+                      }, function(eventHTML, moreEvents) {
+                          miniSearch.addAllAsync(moreEvents);
                           $('#load-more').before(eventHTML);
                           lazyLoadEventImages();
                       });
                       return false;
                  });
+            }
         });
     }
 
@@ -146,9 +163,20 @@ $(document).ready(function() {
         getEventHTML({
             id: id,
             show_details: true // always expand details for a single event
-        }, function (eventHTML) {
+        }, function (eventHTML, eventData) {
             container.append(eventHTML);
             lazyLoadEventImages();
+
+            // set html metadata:
+            const event = eventData[0];
+            $('meta[property="og:title"]')[0].setAttribute("content", event.title);
+            if (event.printdescr) {
+                $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
+            } else {
+                const desc = event.details.substring(0,250);
+                $('meta[property="og:description"]')[0].setAttribute("content", desc);
+            }
+            document.title = event.title + " - Calendar - Shift";
         });
     }
 
