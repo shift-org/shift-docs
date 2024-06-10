@@ -103,8 +103,8 @@ const methods =  {
       caldaily_id: this.pkid.toString(),
       shareable: this.getShareable(),
       cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
-      // dont send newsflash when delisted:
-      // its not scheduled and may be deleted
+      // don't send newsflash when delisted:
+      // it's not scheduled and may be deleted
       // either way, its not info we want to show.
       newsflash: !this.isDelisted() ? this.newsflash : null,
       status: this.eventstatus,
