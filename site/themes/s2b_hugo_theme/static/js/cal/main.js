@@ -82,7 +82,7 @@ $(document).ready(function() {
         const start = dayjs(options.startdate).utc(); // if start or end are missing,
         const end   = dayjs(options.enddate).utc();   // dayjs returns today.
         const inRange = today >= start && today <= end;
-        const from = inRange ? today : start;
+        const from = (inRange && options.pp) ? today : start;
         return {
           // since this year's PP will be in range
           // ( as will the normal calendar events page )
