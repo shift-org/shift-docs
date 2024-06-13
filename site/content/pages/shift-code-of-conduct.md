@@ -4,6 +4,7 @@ weight: 2
 menu:
   main:
     parent: aboutmenu
+type: policy
 ---
 ## 1. Purpose
 
