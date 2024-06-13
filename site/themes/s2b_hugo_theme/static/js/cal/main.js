@@ -129,8 +129,8 @@ $(document).ready(function() {
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
                       // the next day to view is one day after the previous last
-                      view.startdate = view.startdate.add(1, 'day');
-                      view.enddate = view.enddate.add(dayRange, 'day');
+                      view.startdate = view.enddate.add(1, 'day');
+                      view.enddate = view.startdate.add(dayRange, 'day');
                       // add new events to the end of those we've already added.
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
