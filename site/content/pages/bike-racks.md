@@ -5,17 +5,17 @@ menu:
   main:
     parent: communitynav
 ---
+Shift has built some easily-transportable bike racks which are available to rent with advance arrangements. The rental program is a fundraiser for Shift, and there is a suggested donation (or rental fee, if your organization is unable to make donations) of $10 per bike rack. 
 
-Shift has built some easily-transportable bike racks which we'd love to loan to your community or nonprofit group for your event.  They'll accommodate around 70 bikes.  We'll also consider renting to businesses.
+The (7) racks can accommodate about 70 bikes total, or (10) bikes per rack. The racks consist of lightweight tubing which is intuitive and simple to assemble and disassemble. Collapsed, the racks are one 11' long group of tubes that is about 1.5' in diameter and weighs around 70 pounds, plus one bundle of 3.5' tubing that is about 1.5' in diameter and weighs around 20 pounds.
 
-The racks consist of lightweight tubing which is intuitive and simple to assemble and disassemble; the collapsed racks are one 11' long group of tubes that is about 1.5' in diameter and weighs around 70 pounds, and one bundle of 3.5' tubing that is about 1.5' in diameter and weighs around 20 pounds.
-
-When assembled, you get 70' of bike parking in 7 "large sawhorse" shapes, each suitable to holding around 10 bikes.
+When assembled, you get 70' of bike parking in 7 "large sawhorse" shapes.
 
 This is 1/7th of the bike parking setup demonstrating some different placement methods--the seat hang, the underwheel tuck, and the lean: 
 
 ![Shift bike racks](/images/bikeracks.jpg)
 
-Got questions? There are some higher resolution pictures I can share.  [Email for more info](mailto:bikeracks@shift2bikes.org).
+We normally only rent these out for a few days at a time (such as over a weekend), and you must retrieve them from (and return them to) a location in East Portland near Burnside & E 70th that is open by appointment. Delivery is not available.
 
-We typically only loan these out to nonprofits or other community organizations for a few days at a time, and you must retrieve them from (and return them to) a location in East Portland near Burnside & E 70th.
+\
+To start your rental inquiry, or for any questions, please [email for more info](mailto:bikeracks@shift2bikes.org).[](mailto:bikeracks@shift2bikes.org)
