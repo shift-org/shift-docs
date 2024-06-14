@@ -22,10 +22,13 @@ Endpoint:
 * GET `events`
 
 Example requests:
-* `/events.php?startdate=2019-06-01&enddate=2019-06-15`
 * `/events.php?id=1234`
+* `/events.php?startdate=2019-06-01&enddate=2019-06-15`
 
 URL parameters:
+* `id`:
+  * `caldaily` event ID
+  * if `id` is provided it takes precedence; all other params will be ignored
 * `startdate`:
   * first day of range, inclusive
   * `YYYY-MM-DD` format
@@ -34,9 +37,9 @@ URL parameters:
   * last day of range, inclusive
   * `YYYY-MM-DD` format
   * if not provided, current date is used
-* `id`:
-  * `caldaily` event ID
-  * if `id` is provided, it takes precedence over `startdate` and `enddate`; the date range will be ignored
+* `all`:
+  * for range requests only (no effect when `id` is provided)
+  * if `true`, delisted events are included, with minimal information provided in their event object; useful for clients that cache results and need to reconcile events that have been removed
 
 Unknown parameters are ignored.
 
@@ -86,6 +89,7 @@ Example response for a single event:
           "shareable": "https://shift2bikes.org/calendar/event-9300",
           "cancelled": false,
           "newsflash": null,
+          "status": "A",
           "endtime": "20:00:00"
         }
       ]
@@ -117,6 +121,64 @@ Example response for a range of events:
       }
     }
 
+
+Example response for a range of events, including delisted events:
+
+    {
+      "events": [
+        {
+          // for scheduled and canceled events,
+          // all event fields are provided
+          "id": "9000",
+          "title": "Early Bird New Year's Day Ride",
+          ... // all standard fields
+          "date": "2025-01-01",
+          "caldaily_id": "10101",
+          "shareable": "https://shift2bikes.org/calendar/event-10101",
+          "cancelled": false,
+          "newsflash": null,
+          "status": "A",
+          "endtime": "10:00:00"
+        },
+        {
+          // for delisted occurrences when there are still valid occurences in the series,
+          // all event fields are provided
+          "id": "9001",
+          "title": "Late-Riser New Year's Day Ride",
+          ... // all standard fields
+          "date": "2025-01-01",
+          "caldaily_id": "10102",
+          "shareable": "https://shift2bikes.org/calendar/event-10102",
+          "cancelled": true,
+          "newsflash": "New start time",
+          "status": "D",     // D=delisted
+          "endtime": null
+        },
+        {
+          // for delisted occurences when the entire event series has been deleted,
+          // only these limited fields are provided
+          "id": "9002",
+          "deleted": true,
+          "date": "2025-01-01",
+          "caldaily_id": "10103",
+          "shareable": "https://shift2bikes.org/calendar/event-10103",
+          "cancelled": true,
+          "newsflash": null, // always null when delisted
+          "status": "D",     // D=delisted
+          "endtime": null
+        }
+          // if an event is deleted when it is unpublished (aka hidden),
+          // the event is entirely gone and is not included here
+      ],
+      "pagination": {
+        "start": "2025-01-01",
+        "end": "2025-01-01",
+        "range": 1,
+        "events": 3,
+        "next": "https://www.shift2bikes.org/api/events.php?startdate=2025-01-02&enddate=2025-01-02"
+      }
+    }
+
 Errors:
 * status code: `400`
 * `error`: object containing `message` key
@@ -141,15 +203,36 @@ Endpoint:
 
 Example request:
 * `/ics.php?id=1234`
+* `/ics.php?startdate=2019-06-01&enddate=2019-06-15`
 
 URL parameters:
-* `id`: `calevent` event ID
+* `id`:
+  * `calevent` event ID
+  * if `id` is provided it takes precedence; all other params will be ignored
+* `startdate`:
+  * first day of range, inclusive
+  * `YYYY-MM-DD` format
+  * if not provided, current date is used
+* `enddate`:
+  * last day of range, inclusive
+  * `YYYY-MM-DD` format
+  * if not provided, current date is used
+* `all`:
+  * for range requests only (no effect when `id` is provided)
+  * if `true`, delisted events are included; useful for clients that cache results and need to reconcile events that have been removed
+* `filename`:
+  * if `none`, the output is plain text instead of an ICS file; useful for local debugging
+
+If no parameters are provided, it responds with a range from 1 month prior to 3 months forward from the current date.
+
+Unknown parameters are ignored.
 
 Errors:
-* status code: `404`
+* status code: `400`, `404`
 * possible errors
-  * no `id` specified
-  * `id` not found? (**TODO**: verify)
+  * `id` not found
+  * `enddate` before `startdate`
+  * date range too large (100 days maximum)
 
 
 ### Crawling an event
@@ -520,3 +603,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.50.1: (2024-04-29) Improved validation of data payloads for manage/delete event endpoint requests
 * 3.50.2: (2024-05-06) Fixed handling of some boolean fields which may unexpectedly be null (hidden, highlight, printemail, etc)
 * 3.51.0: (2024-05-20) Removed now-unused PHP
+* 3.52.0: (2024-06-04) Added `all=true` param to the events and ICS endpoints to include delisted events with a range request. For the events endpoint, minimal information will be provided in the event object if an event is delisted; useful for clients that cache results and need to reconcile events that have been removed. Also added a `filename=none` param to the ICS endpoint as a debugging tool, and improved line-wrapping in the iCal feed event descriptions.
