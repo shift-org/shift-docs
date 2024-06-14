@@ -20,15 +20,19 @@
   if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
 
     document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('fullcalendar');
+    	// the values are pulled from the .md page file
+      // all PP pages require start and enddates
+      const today = dayjs();
+      const range = { 
+          start: dayjs( {{ .Param "startdate" }} ),
+          end : dayjs( {{ .Param "enddate" }} ),
+        };
+      // is today in range? then use today; otherwise use the range start
+      const initialDate = (today >= range.start && today <= range.end) ?
+                          today : range.start;  
 
-      var today = new Date;
-      default_start_date = {{ .Param "startdate" }};
-      if ( new Date({{ .Param "startdate" }}) <= today && new Date({{ .Param "enddate" }}) >= today) {
-        default_start_date = today;
-      }
-
-      var calendar = new FullCalendar.Calendar(calendarEl, {
+      const calendarEl = document.getElementById('fullcalendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: [ 'dayGrid', 'timeGrid' ],
         defaultView: 'dayGridMonth',
         header: {
@@ -36,10 +40,11 @@
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        defaultDate: default_start_date,
+        defaultDate: initialDate,
         validRange: {
-          start: {{ .Param "startdate" }},
-          end: {{ .Param "enddate" }}
+          start: range.start.toDate(),
+          // fullcal ranges are exclusive.
+          end: range.end.add(1, 'day').toDate(),
         },
         nowIndicator: true,
         eventLimit: true,
