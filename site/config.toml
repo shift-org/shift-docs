@@ -101,6 +101,11 @@ paginate = 10
     pre = "<i class='fa fa-2x fa-envelope'></i>"
 
 [params]
+    # force dayjs to think its a certain time and day
+    # you shouldn't submit with this enabled; but also:
+    # it only works when running with --buildDrafts  ( aka -D )
+    # forceCurrentTime =  "06-13-2024 19:00"
+
     viewMorePostLink = "/blog/"
     editURL = "/admin/#/collections/"
     description = "Shift website reboot documents"
