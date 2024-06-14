@@ -20,14 +20,15 @@
   if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
 
     document.addEventListener('DOMContentLoaded', function() {
-    	// the values are pulled from the .md page file
+      // the values are pulled from the .md page file
       // all PP pages require start and enddates
-      const today = dayjs();
+      const today = dayjs().startOf('day');
       const range = { 
-          start: dayjs( {{ .Param "startdate" }} ),
-          end : dayjs( {{ .Param "enddate" }} ),
-        };
-      // is today in range? then use today; otherwise use the range start
+        start: dayjs( {{ .Params.startdate }} ),
+        end : dayjs( {{ .Params.enddate }} ),
+      };
+      // use today as the initially focused day, if its within the range;
+      // otherwise use the start of the range.
       const initialDate = (today >= range.start && today <= range.end) ?
                           today : range.start;  
 
@@ -40,10 +41,10 @@
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        defaultDate: initialDate,
+        defaultDate: initialDate.toDate(),
         validRange: {
           start: range.start.toDate(),
-          // fullcal ranges are exclusive.
+          // warning: fullcal enddate is exclusive.
           end: range.end.add(1, 'day').toDate(),
         },
         nowIndicator: true,
