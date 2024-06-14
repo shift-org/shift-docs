@@ -75,12 +75,12 @@ $(document).ready(function() {
     // default range of days to show.
     const dayRange = 10;
 
-    // compute range and details settings from options.
+    // compute range and details settings from the url options.
     // the returned object gets passed to getEventHTML().
     function getInitialView(options) {
-        const today = dayjs().utc();
-        const start = dayjs(options.startdate).utc(); // if start or end are missing,
-        const end   = dayjs(options.enddate).utc();   // dayjs returns today.
+        const today = dayjs().startOf('day');
+        const start = dayjs(options.startdate); // if start or end are missing ( from the url )
+        const end   = dayjs(options.enddate);   // dayjs returns today.
         const inRange = today >= start && today <= end;
         const from = (inRange && options.pp) ? today : start;
         return {
