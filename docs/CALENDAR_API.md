@@ -1,9 +1,5 @@
 # Calendar API
 
-**Work in progress**
-
-----
-
 ## General
 
 Base URL:
