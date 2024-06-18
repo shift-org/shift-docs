@@ -1,0 +1,75 @@
+# Understanding the site
+
+The site is built with [Hugo](https://gohugo.io/) with the ([Universal](https://github.com/devcows/hugo-universal-theme) theme. All of the edits related to the theme and its content are done in **shift-docs/site**. see docs/THEME_EDITING.md for more info.
+
+# Folder structure
+
+**Important: changes can't be done in the Public directory.**
+
+`site/`
+
+`└── config.toml` Site configuration. Among other things controls the site's main menu, and the site params that can be read by layout files during build.
+
+`|── archetypes/` Archetypes generate new pages when running "hugo new content" at the command line. The site/archetypes take precedence over the theme archetypes. See: https://gohugo.io/content-management/archetypes/
+
+`|── content/` The pages for the site. `.md` files in these directories get transformed into `.html` (etc.) when Hugo is built.
+
+Each page contains two parts: [head matter](https://gohugo.io/content-management/front-matter) and content. Among other things, the head matter selects a layout file ( using `type: <name of layout>` ), and specifies variables for use when the page is built ( read via `{{ .Params }}` ). If the head matter starts and end with triple dashes, the format of the data is in yaml; triple pluses indicate toml format.
+
+Each sub-directory can contain an `_index.md` which provides data for rendering the list of file in that directory. ( Or an `index.md` which can substitute a single page in place of a directory listing. )
+
+`    └── archive` This is where we keep pages that are older and unlikely to be updated.
+
+`    └── playbooks`  This is documentation, somewhat like shift-docs/docs, but the accessible via the website.
+
+`    └── pages`  This is where the majority of the page content from the site are located. Some examples of such pages ( which are linked to in the site menu ):
+
+`        └── pages/get-involved.md` becomes https://www.shift2bikes.org/pages/get-involved/
+`        └── pages/pedalpalooza.md` becomes https://www.shift2bikes.org/pages/pedalpalooza/
+
+
+`|── data/` Provides global data for use during build. Each data directory becomes a dictionary within `{{ .Site.Data }}`. For example, the carousel data is available via `{{ .Site.Data.carousel }}` https://gohugo.io/templates/data-templates/#the-data-directory
+
+`    └── clients` Used for the "Sponsors" section on the home page.
+
+`    └── carousel`
+ This is where the text/settings are defined for the carousel on the home page. There are four properties needed for each slide:
+
+> - Weight: this number represents the order of the slide.
+> - Title: this is the text displayed on the slide when we are viewing the page in the browser.
+> - Description: TO BE VERIFIED
+> - Image: a path to the image used
+
+`|── layouts/`
+Layouts (also called templates) do the actual conversion of the content into output. The site/layouts take precedence over the theme/layouts. ( **TODO?** Shift's layouts should probably be moved into this directory. )
+
+`   └── layouts/_default` There are three key files:
+
+`      └── baseof.html` Defines a standard structure for every generated file. ( shift currently doesnt use this )
+
+`      └── single.html` Used as a fallback when no specific `type:` has been set for a given content file. This template is used to render all of Shift's "static" pages ( about, faq, playbooks, etc. )
+
+`      └── list.html` Used as a fallback for rendering directory listings when no specific `type:` has been set in the directory's `_index.md`.
+
+`|── public/`  Hugo's output: the site rendered in the browser. *No edits should be done here.*  Not submitted to git.
+
+`|── static/` Contain site assets. Its sub-directories are copied "as is" to public during build. The `admin` sub-directory provides information to netlify so that the static pages of the shift site can be edited via the netlify cms.
+
+`|── themes/s2b_hugo_theme`  Default layouts, css styles, etc. based on https://github.com/devcows/hugo-universal-theme. **TODO** Some niceties would be to move all shift changes into the sites folders ( sites overrides themes ), and to pull in the theme as a "module" https://gohugo.io/hugo-modules/theme-components/.
+
+`   └── archetypes/` The theme's archetype(s), ignored because overridden by site/archetypes.
+
+`   └── i18n/` Provides translation into other languages when using `{{ i18n "<some keyword>" }}`. A few things from the original theme use this: the footer, the navbar, list pages; for example: `{{ i18n "navHome" }}`. The shift site and its content, however, are almost entirely in English.
+
+`   └── layouts/` Contains shift's html templates.
+
+`   └── static/` Contains a mix of shift's static files and the theme's static files ( css styles, javascript, and images. ) style.default.css is used by this project and minor changes were added to another CSS filed named custom.css (themes/s2b_hugo_theme/static/css)
+
+`   └── static/js/libs` Third party javascript used by the site. **TODO?** Might be neat to use hugo's [js.Build](https://gohugo.io/functions/js/build/) so we could use npm ( and a package.json ) to manage these libraries.
+
+# Hugo notes:
+
+There is a difference between `.Param` and `.Params`.
+
+* [Param](https://gohugo.io/methods/page/param/) will check a page's front matter for the named value, and if its missing, will then check the site `config.toml` for that value.
+* [Params](https://gohugo.io/methods/page/params/) only checks the page; it does not fallback to the config.
