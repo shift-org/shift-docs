@@ -13,6 +13,7 @@
             // TODO: loading spinner
             $.ajax({
                 url: '/api/retrieve_event.php?id=' + id + "&secret=" + secret,
+                headers: { 'Api-Version': API_VERSION },
                 type: 'GET',
                 success: function(data) {
                     data.secret = secret;
@@ -182,6 +183,7 @@
             var opts = {
                 type: 'POST',
                 url: '/api/manage_event.php',
+                headers: { 'Api-Version': API_VERSION },
                 contentType: false,
                 processData: false,
                 cache: false,
@@ -381,6 +383,7 @@
         var opts = {
             type: 'POST',
             url: '/api/delete_event.php',
+            headers: { 'Api-Version': API_VERSION },
             contentType: false,
             processData: false,
             cache: false,
