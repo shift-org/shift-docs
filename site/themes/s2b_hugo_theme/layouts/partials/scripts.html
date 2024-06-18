@@ -2,7 +2,7 @@
 <script src="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 {{/* front.js: contains scripts for the nav bar and the carousel */}}
 <script src="{{ .Site.BaseURL }}js/front.js"></script>
-{/* owl carousel: only used on the homepage */}}
+{{/* owl carousel: only used on the homepage */}}
 {{ if (eq .Type "homepage") }}
 <script src="{{ .Site.BaseURL }}js/owl.carousel.min.js"></script>
 {{ end }}
