@@ -6,7 +6,7 @@ weight: 1
 
 ---
 
-<h1>Meeting Notes Archive</h1>
+<h2>Table of contents</h2>
 
 <ul class="toc">
 <li><a href="#july_wed_07-19-2013">July Wed 07-19-2013</a></li>
