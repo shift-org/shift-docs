@@ -70,7 +70,7 @@ Example response for a single event:
           "eventduration": "120",
           "weburl": null,
           "webname": "shift",
-          "image": "/eventimages/6245.jpg",
+          "image": "/eventimages/6245-3.jpg",
           "audience": "G",
           "tinytitle": "shift2pedalpalooza",
           "printdescr": "learn how to get involved with shift and pedalpalooza",
@@ -194,6 +194,15 @@ Example error:
         "message": "enddate: 2019-06-01 is before startdate: 2019-06-15"
       }
     }
+
+#### Fetching event images
+
+Images must be fetched separately from the initial `event` request; each event object provides a URL to its image, if it has one.
+
+Some best practices for handling images:
+* Only fetch images if you plan to use them. Especially for range requests, you may not need images for every event in the range.
+* Clients should be able to handle image request failures (e.g. 404, 429, or 5xx errors).
+* Caching is encouraged. The image file has change number after the event ID, e.g. `/eventimages/6245-3.jpg`. This number is incremented only when the image has changed. If the change number is the same, you can safely use a cached image.
 
 
 ### Exporting an event
@@ -321,7 +330,7 @@ Example response:
       "eventduration": "120",
       "weburl": null,
       "webname": "shift",
-      "image": "/eventimages/6245.jpg",
+      "image": "/eventimages/6245-3.jpg",
       "audience": "G",
       "tinytitle": "shift2pedalpalooza",
       "printdescr": "learn how to get involved with shift and pedalpalooza",
