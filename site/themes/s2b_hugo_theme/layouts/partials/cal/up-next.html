@@ -2,6 +2,11 @@
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/list/main.min.js"></script>
 
 <script type="text/javascript">
+  {{/* 
+    up-next is used by the homepage to display a list of upcoming events.
+    the list view here is different than the /calendar and /pedalp pages.
+    this uses FullCalendar; those use custom code and a mustache template.
+  */}}
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
 

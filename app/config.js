@@ -15,12 +15,14 @@ const siteHost = siteUrl(listen);
 // location of app.js ( same as config.cs )
 const appPath =  path.resolve(__dirname);
 
+// for max file size
+const bytesPerMeg = 1024*1024;
 
 const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.52.0",
+    version: "3.53.0",
   },
   db: {
     host: env_default('MYSQL_HOST', 'db'),
@@ -78,7 +80,19 @@ const config = {
     // but "/eventimages/9248-2.png"
     url(name) {
       return !name ? null : path.posix.join(config.image.path, name);
-    }
+    },
+    // see also: shift.conf (ngnix configuration)
+    // we set this *larger* than ngnix so to accept everything it gives us.
+    // ( while still having a fail-safe if something unexpected occurs. )
+    maxFileSize: 5.5 * bytesPerMeg,
+    // mime type to a desired image extension.
+    // we assign the extension based on the content.
+    imageTypes:{
+      'image/gif'  : '.gif',
+      'image/jpeg' : '.jpg',
+      'image/pjpeg': '.jpg',
+      'image/png'  : '.png',
+    },
   },
   crawl: {
     image: 'https://www.shift2bikes.org/images/shiftLogo_plain.gif',

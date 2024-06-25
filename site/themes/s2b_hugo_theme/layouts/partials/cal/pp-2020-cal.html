@@ -8,6 +8,15 @@
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
+    const range = {
+      // warning: fullcal dates are exclusive.
+      start : {{ .Params.startdate }},
+      end : function() {
+        const d = new Date( {{ .Params.enddate }} );
+        d.setDate( d.getDate() + 1);
+        return d;
+      }(), 
+    };
   
     var calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid', 'timeGrid', 'list' ],
@@ -42,11 +51,8 @@
         right: 'dayGridSixWeeks,listDaySixWeeks,listDay'
       },
       noEventsMessage: "Open day — submit a theme at Pedalpalooza.org!",
-      defaultDate: {{ .Param "startdate" }},
-      validRange: {
-        start: {{ .Param "startdate" }},
-        end: {{ .Param "enddate" }}
-      },
+      defaultDate: range.start,
+      validRange: range,
       nowIndicator: true,
       eventLimit: true,
       navLinks: true,

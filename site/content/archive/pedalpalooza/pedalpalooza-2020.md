@@ -7,7 +7,7 @@ type: pp-theme-cal
 pp: true
 year: 2020
 startdate: 2020-06-01
-enddate: 2020-07-06 # end date is exclusive
+enddate: 2020-07-05
 daterange: June 1–July 5, 2020
 banner-image: "/images/pp/pp2020-banner.png"
 poster-image: "/images/pp/pp2020.png"

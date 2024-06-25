@@ -1,9 +1,5 @@
 # Calendar API
 
-**Work in progress**
-
-----
-
 ## General
 
 Base URL:
@@ -70,7 +66,7 @@ Example response for a single event:
           "eventduration": "120",
           "weburl": null,
           "webname": "shift",
-          "image": "/eventimages/6245.jpg",
+          "image": "/eventimages/6245-3.jpg",
           "audience": "G",
           "tinytitle": "shift2pedalpalooza",
           "printdescr": "learn how to get involved with shift and pedalpalooza",
@@ -194,6 +190,15 @@ Example error:
         "message": "enddate: 2019-06-01 is before startdate: 2019-06-15"
       }
     }
+
+#### Fetching event images
+
+Images must be fetched separately from the initial `event` request; each event object provides a URL to its image, if it has one.
+
+Some best practices for handling images:
+* Only fetch images if you plan to use them. Especially for range requests, you may not need images for every event in the range.
+* Clients should be able to handle image request failures (e.g. 404, 429, or 5xx errors).
+* Caching is encouraged. The image file has change number after the event ID, e.g. `/eventimages/6245-3.jpg`. This number is incremented only when the image has changed. If the change number is the same, you can safely use a cached image.
 
 
 ### Exporting an event
@@ -321,7 +326,7 @@ Example response:
       "eventduration": "120",
       "weburl": null,
       "webname": "shift",
-      "image": "/eventimages/6245.jpg",
+      "image": "/eventimages/6245-3.jpg",
       "audience": "G",
       "tinytitle": "shift2pedalpalooza",
       "printdescr": "learn how to get involved with shift and pedalpalooza",
@@ -467,7 +472,7 @@ Example error:
       }
     }
 
-To add an image to the event, use a multipart/form-data request and send the image as binary. Accepts gif, jpeg, pjpeg, and png images, up to 2 MB.
+To add an image to the event, use a multipart/form-data request and send the image as binary. Accepts gif, jpeg, pjpeg, and png images, up to 5 MB.
 
 Example multipart/form-data request:
 
@@ -604,3 +609,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.50.2: (2024-05-06) Fixed handling of some boolean fields which may unexpectedly be null (hidden, highlight, printemail, etc)
 * 3.51.0: (2024-05-20) Removed now-unused PHP
 * 3.52.0: (2024-06-04) Added `all=true` param to the events and ICS endpoints to include delisted events with a range request. For the events endpoint, minimal information will be provided in the event object if an event is delisted; useful for clients that cache results and need to reconcile events that have been removed. Also added a `filename=none` param to the ICS endpoint as a debugging tool, and improved line-wrapping in the iCal feed event descriptions.
+* 3.53.0: (2024-06-24) Increased event image size limit to 5 MB (previously 2 MB).

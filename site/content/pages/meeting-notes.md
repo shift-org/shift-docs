@@ -14,4 +14,4 @@ The meeting notes for the board from 2018-2020 can be found here:
 
 * [Google Drive link](https://drive.google.com/drive/folders/1Ap4BIWV2usuA_XqiGGM-HStbVjyisomD)
 
-There are also [many years of legacy Shift meeting notes from 200x until 2014 or so (PDF)](/docs/Shift-biz_Meeting_Notes.pdf), when there was less organization. Sorry these are poorly formatted, but saved in a PDF for posterity!
+There are also [many years of legacy Shift meeting notes from 200x until 2014 or so](/archive/meeting-notes-archive/), when there was less organization.
