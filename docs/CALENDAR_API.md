@@ -463,7 +463,7 @@ Example error:
       }
     }
 
-To add an image to the event, use a multipart/form-data request and send the image as binary. Accepts gif, jpeg, pjpeg, and png images, up to 2 MB.
+To add an image to the event, use a multipart/form-data request and send the image as binary. Accepts gif, jpeg, pjpeg, and png images, up to 5 MB.
 
 Example multipart/form-data request:
 
@@ -600,3 +600,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.50.2: (2024-05-06) Fixed handling of some boolean fields which may unexpectedly be null (hidden, highlight, printemail, etc)
 * 3.51.0: (2024-05-20) Removed now-unused PHP
 * 3.52.0: (2024-06-04) Added `all=true` param to the events and ICS endpoints to include delisted events with a range request. For the events endpoint, minimal information will be provided in the event object if an event is delisted; useful for clients that cache results and need to reconcile events that have been removed. Also added a `filename=none` param to the ICS endpoint as a debugging tool, and improved line-wrapping in the iCal feed event descriptions.
+* 3.53.0: (2024-06-24) Increased event image size limit to 5 MB (previously 2 MB).
