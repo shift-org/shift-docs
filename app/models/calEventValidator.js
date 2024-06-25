@@ -182,8 +182,8 @@ function validateEvent(input) {
   const errors = new ErrorCollector();
   const v = makeValidator(input, errors);
   // these don't get stored; but are still required
-  v.requireTrue('code_of_conduct', "You must have read the Ride Leading Comic");
-  v.requireTrue('read_comic', "You must agree to the Code of Conduct");
+  v.requireTrue('code_of_conduct', "You must agree to the Code of Conduct");
+  v.requireTrue('read_comic', "You must have read the Ride Leading Comic");
   const title = v.requireString('title', 'Title missing');
   let values = {
     title: title,

@@ -439,6 +439,8 @@
         </div>
       </div>
 
+      [[^ id ]]
+      <!-- only show Terms section for initial submission -->
       <div class="panel panel-default">
         <div class="panel-heading">
           <h2>
@@ -454,7 +456,6 @@
           <div class="panel-body">
             <p class="input-help">Rides posted to the Shift calendar must abide by the <a href="/pages/shift-code-of-conduct/" target="_blank" title="opens in a new window">Code of Conduct</a>.</p>
             <div class="checkbox">
-              <input type="hidden" name="code_of_conduct" value="0" />
               <label class="control-label" for="code_of_conduct">
                 <input type="checkbox" name="code_of_conduct" id="code_of_conduct" value="1" [[# codeOfConduct ]]checked[[/ codeOfConduct ]] />
                 I agree to the Code of Conduct
@@ -462,7 +463,6 @@
             </div>
             <p class="input-help">For tips on making your ride successful, we ask that you read the <a href="/images/rideleadingcomiccolor.jpg" target="_blank" title="opens in a new window">Ride Leading Comic</a> at least once before submitting an event.</p>
             <div class="checkbox">
-              <input type="hidden" name="read_comic" value="0" />
               <label class="control-label" for="read_comic">
                 <input type="checkbox" name="read_comic" id="read_comic" value="1" [[# readComic ]]checked[[/ readComic ]] />
                 I have read the Ride Leading Comic
@@ -472,6 +472,12 @@
           </div>
         </div>
       </div>
+      [[/ id ]]
+
+      [[# id ]]
+      <input type="hidden" name="code_of_conduct" value="[[# codeOfConduct ]]1[[/ codeOfConduct ]]" />
+      <input type="hidden" name="read_comic" value="[[# readComic]]1[[/ readComic ]]" />
+      [[/ id ]]
 
       [[# id ]]
       <div class="panel panel-default">
