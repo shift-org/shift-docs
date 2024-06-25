@@ -31,6 +31,10 @@ const DEFAULT_AREA = 'P';
 const DEFAULT_AUDIENCE = 'G';
 const DEFAULT_LENGTH = '--';
 
+const SITE_TITLE = "Shift";
+
+const API_VERSION = '3';
+
 (function($) {
 
     $.fn.getAudienceLabel = function(audience) {
