@@ -10,14 +10,19 @@ module.exports = {
   secret,
   email,
   // helper for testing the calendar's custom error message format.
-  expectError(expect, res) {
+  expectError(expect, res, ...fields) {
     expect(res).to.have.status(400);
     expect(res).to.be.json;
     expect(res).to.have.header('Api-Version');
-    if (expect(res.body).to.have.property('error') &&
-      expect(res.body.error).to.have.property('message')) {
-      expect(res.body.error.message).to.be.a('string');
-      expect(res.body.error.message).to.not.be.empty;
+    if (expect(res.body).to.have.property('error')) {
+      const err= res.body.error;
+      if (expect(err).to.have.property('message')) {
+        expect(err.message).to.be.a('string');
+        expect(err.message).to.not.be.empty;
+      }
+      fields.forEach(field => {
+        expect(err.fields, field).to.have.key(field);
+      });
     }
   },
   // create a fake database of cal events and dailies:

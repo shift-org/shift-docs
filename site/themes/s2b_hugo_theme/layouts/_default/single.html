@@ -28,13 +28,6 @@
               <div id="post-content">
               {{ .Content }}
               </div>
-              <!-- /#post-content -->
-              {{ if .Site.DisqusShortname }}
-              <div id="comments">
-                {{ template "_internal/disqus.html" . }}
-              </div>
-              {{ end }}
-
             </div>
             <!-- /#blog-post -->
 
@@ -45,10 +38,6 @@
             <div class="col-md-3">
 
               <!-- *** MENUS AND WIDGETS *** -->
-
-              {{ partial "sidebar.html" . }}
-
-              <!-- *** MENUS AND FILTERS END *** -->
 
             </div>
             <!-- /.col-md-3 -->

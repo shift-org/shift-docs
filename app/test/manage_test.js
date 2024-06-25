@@ -13,7 +13,6 @@
 // x multi-part form ( attach image )
 
 const fsp = require('fs').promises;
-const fs = require('fs');
 const path = require('node:path');
 const sinon = require('sinon');
 const app = require("../app");
@@ -230,9 +229,10 @@ describe("managing events", () => {
         });
     });
   });
-  it("attaches an image", function(){
-    const imageSource = path.join( config.image.dir, "bike.jpg" );
-    const imageTarget = path.join( config.image.dir, "3.jpg" );
+  function getImageTarget(id, imageSource) {
+    return path.join( config.image.dir, id + path.extname(imageSource) );
+  };
+  async function postImage(id, imageSource, imageTarget) {
     // remove any image from earlier tests:
     return fsp.rm(imageTarget, {force:true}).then(_ => {
       // act as if we are a client who just created an event
@@ -251,22 +251,54 @@ describe("managing events", () => {
             .field({
               json: JSON.stringify(post)
             })
-            .attach('file', imageSource, path.basename(imageSource))
-            .then(async function (res) {
-              // console.log(res.body);
-              expect(res).to.have.status(200);
-              //
-              const evt = await CalEvent.getByID(3);
-              // event creation is change 1,
-              // the image post is change 2,
-              // the event id is 3.
-              expect(evt.image, "image names should have a sequence number")
-                .to.equal("3-2.jpg");
-              //
-              return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
-            });
+            .attach('file', imageSource, path.basename(imageSource));
         });
       });
+    });
+  }
+  it("attaches an image", async function(){
+    const imageSource = path.join( config.image.dir, "bike.jpg" );
+    const imageTarget = getImageTarget(3, imageSource);
+    return postImage(3, imageSource, imageTarget).then(async function (res) {
+      expect(res).to.have.status(200);
+      //
+      const evt = await CalEvent.getByID(3);
+      // event creation is change 1,
+      // the image post is change 2,
+      // the event id is 3.
+      expect(evt.image, "image names should have a sequence number")
+        .to.equal("3-2.jpg");
+      //
+      const imageTarget = getImageTarget(3, imageSource);
+      return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
+    });
+  });
+  it("fails too large", async function(){
+    const imageSource = path.join( config.image.dir, "bike-big.png" );
+    const imageTarget = getImageTarget(3, imageSource);
+    return postImage(3, imageSource, imageTarget).then(async function (res) {
+      testData.expectError(expect, res, 'image');
+      return fsp.stat(imageTarget)
+        .then(_ => {
+          chai.assert(false, `didn't expect ${imageTarget} to exists`);
+        })
+        .catch(_ => {
+          chai.assert(true);
+        });
+    });
+  });
+  it("fails bad format", async function(){
+    const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
+    const imageTarget = getImageTarget(3, imageSource);
+    return postImage(3, imageSource, imageTarget).then(async function (res) {
+      testData.expectError(expect, res, 'image');
+      return fsp.stat(imageTarget)
+        .then(_ => {
+          chai.assert(false, `didn't expect ${imageTarget} to exists`);
+        })
+        .catch(_ => {
+          chai.assert(true);
+        });
     });
   });
   it("prevents image upload on new events", function(){
