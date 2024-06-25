@@ -1,41 +1,13 @@
 // create tables if they dont already exist
+// fix? modified time doesn't work for sqlite
+// ( maybe manually set the time in knex.js store()? )
 module.exports = {
   create: async function(knex, mysql) {
-    // add a modified column
-    function addModified(table) {
-      let ts= table.timestamp('modified').notNullable();
-      if (!mysql) { // fix? sqlite doesnt support "on update", set in knex.js store()?
-        ts.defaultTo(knex.fn.now());
-      } else {
-        ts.defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
-      }
-    }
     const hasCalDaily= await knex.schema.hasTable('caldaily');
     if (!hasCalDaily) {
       await knex.schema
         .createTable('caldaily', function (table) {
-          if (mysql) {
-            table.engine("MyISAM");
-          }
-          // knex creates these as unsigned; the original tables were signed
-          // it should be fine; that's a lot of ids.
-          table.increments('pkid');
-          addModified(table);
-          // note: in the original tables `int(11)` is a *display* size
-          // and its deprecated as of mysql 8.0.17
-          // https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html
-          table.integer('id')
-            .defaultTo(null);
-          table.text('newsflash', "mediumtext"); // medium text supports up to 16 MiB(!)
-          table.date('eventdate')
-            .defaultTo(null);
-          // tbd: exceptionid is unused... omit?
-          table.integer('exceptionid')
-            .defaultTo(null);
-          // note: knex string is mysql varchar(255)
-          table.string('eventstatus', 1)
-            .defaultTo(null);
-          // tbd: how useful is this index?
+          createCalDaily( newTableMaker(knex, mysql, table) );
           table.index(['eventdate'], 'eventdate');
         });
     }
@@ -43,105 +15,164 @@ module.exports = {
     if (!hasCalEvent) {
       await knex.schema
         .createTable('calevent', function (table) {
-          if (mysql) {
-            table.engine("MyISAM");
-          }
-          table.increments('id');
-          table.timestamp('created')
-            .notNullable()
-            .defaultTo(knex.fn.now());
-          addModified(table);
-          table.integer('changes')
-            .defaultTo(0);
-          table.string('name', 255)
-            .defaultTo(null);
-          table.string('email', 255)
-            .defaultTo(null);
-          table.integer('hideemail')
-            .defaultTo(null);
-          table.integer('emailforum')
-            .defaultTo(null);
-          table.integer('printemail')
-            .defaultTo(null);
-          table.string('phone', 255)
-            .defaultTo(null);
-          table.integer('hidephone')
-            .defaultTo(null);
-          table.integer('printphone')
-            .defaultTo(null);
-          table.string('weburl', 255)
-            .defaultTo(null);
-          table.string('webname', 255)
-            .defaultTo(null);
-          table.integer('printweburl')
-            .defaultTo(null);
-          table.string('contact', 255)
-            .defaultTo(null);
-          table.integer('hidecontact')
-            .defaultTo(null);
-          table.integer('printcontact')
-            .defaultTo(null);
-          table.string('title', 255)
-            .defaultTo(null);
-          table.string('tinytitle', 255)
-            .notNullable(),
-          table.specificType('audience', "char(1)")
-            .defaultTo(null);
-          table.text('descr', "mediumtext");
-          table.text('printdescr', "mediumtext");
-          table.string('image', 255)
-            .defaultTo(null);
-          table.integer('imageheight')
-            .defaultTo(null);
-          table.integer('imagewidth')
-            .defaultTo(null);
-          table.string('dates', 255)
-            .defaultTo(null);
-          table.specificType('datestype', "char(1)")
-            .defaultTo(null);
-          table.time('eventtime')
-            .defaultTo(null);
-          table.integer('eventduration')
-            .defaultTo(null);
-          table.string('timedetails', 255)
-            .defaultTo(null);
-          table.string('locname', 255)
-            .defaultTo(null);
-          table.string('address', 255)
-            .defaultTo(null);
-          table.specificType('addressverified', "char(1)")
-            .defaultTo(null);
-          table.string('locdetails', 255)
-            .defaultTo(null);
-          table.string('locend', 255)
-            .defaultTo(null);
-          table.integer('loopride')
-            .defaultTo(null);
-          table.specificType('area', "char(1)")
-            .defaultTo(null);
-          table.string('external', 250)
-            .defaultTo(null);
-          table.string('source', 250)
-            .defaultTo(null);
-          table.integer('nestid')
-            .defaultTo(null);
-          table.string('nestflag', 1)
-            .defaultTo(null);
-          table.specificType('review', "char(1)")
-            .notNullable()
-            .defaultTo('I');
-          table.integer('highlight')
-            .notNullable(),
-          table.tinyint(`hidden`)
-            .defaultTo(null);
-          table.string('password', 50)
-            .defaultTo(null);
-          table.string('ridelength', 255)
-            .defaultTo(null);
-          table.integer('safetyplan')
-            .defaultTo(null);
+          createCalEvent( newTableMaker(knex, mysql, table) );
         });
       }
     return knex;
   }
 };
+
+// table is a tableMaker
+// order based on existing tables to support reading dumps
+// ( see also: setup.sql )
+function createCalDaily(table) {
+  table.modifiedTime();   // note: caldaily doesnt use createdTime
+  table.integer('id');    // a reference to CalEvent.id
+  table.text('newsflash', "mediumtext"); // medium text supports up to 16 MiB(!)
+  table.date('eventdate');
+  table.varchar('eventstatus', 1);  // see: EventStatus (calConst.js); varchar, not char.
+  table.integer('exceptionid');     // legacy
+  table.primaryKey('pkid');
+}
+
+// table is a tableMaker
+// order based on existing tables to support reading dumps
+// ( see also: setup.sql )
+function createCalEvent(table) {
+  table.createdTime();
+  table.modifiedTime();
+  table.integer('changes', 0);
+  table.primaryKey('id');
+  table.varchar('name');
+  table.varchar('email');
+  table.flag('hideemail');
+  table.flag('emailforum');        // legacy
+  table.flag('printemail');
+  table.varchar('phone');
+  table.flag('hidephone');
+  table.flag('printphone');
+  table.varchar('weburl');
+  table.varchar('webname');
+  table.flag('printweburl');
+  table.varchar('contact');       // arbitrary organizer contact information
+  table.flag('hidecontact');
+  table.flag('printcontact');
+  table.varchar('title');
+  table.varchar('tinytitle', 255, true); // true: not nullable but no explicit default
+  table.enum('audience');         // see: Audience (calConst.js)
+  table.text('descr');
+  table.text('printdescr');
+  table.varchar('image');         // currently, always "id.ext", some older (2016) rides have a name.
+  table.integer('imageheight');   // legacy, not used since 2019
+  table.integer('imagewidth');
+  table.varchar('dates');         // legacy, unused since 2019 ( includes text like "Monday, June 23" )
+  table.enum('datestype');        // see: DatesType (calConst.js)
+  table.time('eventtime');        // rides occur on one or more days, all at the same time.
+  table.integer('eventduration'); // number of minutes; usually treated as 60 minutes when not specified.
+  table.varchar('timedetails');
+  table.varchar('locname');
+  table.varchar('address');
+  table.enum('addressverified');    // legacy, was: Y/N/V/X/A
+  table.varchar('locdetails');
+  table.varchar('locend');
+  table.flag('loopride');
+  table.enum('area');               // see: Area (calConst.js)
+  table.varchar('external', 250);   // legacy, appears completely unused.
+  table.varchar('source', 250);     // legacy, appears completely unused.
+  table.integer('nestid');          // legacy, appears completely unused.
+  table.varchar('nestflag', 1);     // legacy, appears completely unused; note varchar, not char.
+  table.enum('review', 'I');        // see: Review (calConst.js)
+  table.flag('highlight', true);    // true: not nullable but no explicit default
+  table.tinyflag('hidden');         // 0 until published by the organizer
+  table.varchar('password', 50);    // aka secret; autogenerated guid (mostly)
+  table.varchar('ridelength');      // legacy, set to 12 for 2019's TNR; otherwise null.
+  table.flag('safetyplan');
+};
+
+// wrapper to provide a simpler version of creating tables.
+function newTableMaker(knex, mysql, table) {
+  if (mysql) {
+    table.engine("MyISAM");
+  }
+  return {
+    primaryKey(name) {
+      // knex creates these as unsigned; the original tables were signed
+      // it should be fine; that's a lot of ids.
+      table.increments(name);
+    },
+    // add a column for row created time
+    createdTime() {
+      table.timestamp('created')
+      .notNullable()
+      .defaultTo(knex.fn.now());
+    },
+    // add a column for row modified time
+    // fix? modified time doesn't work for sqlite;
+    // ( maybe manually set the time in knex.js store()? )
+    modifiedTime() {
+      const ts= table.timestamp('modified').notNullable();
+      if (!mysql) {
+        ts.defaultTo(knex.fn.now());
+      } else {
+        ts.defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      }
+    },
+    text(name, kind= "mediumtext") {
+      // medium text supports up to 16 MiB(!)
+      // in the shift db, they don't have any sort of default.
+      table.text(name, kind);
+    },
+    date(name) {
+      table.date(name).defaultTo(null);
+    },
+    time(name) {
+      table.time(name).defaultTo(null);
+    },
+    // semantically meant for 0/1 true/false values.
+    // the shift db uses integers for these.
+    flag(name, hasDefaultValue=false) {
+      const column = table.integer(name);
+      setDefaults(column, hasDefaultValue);
+    },
+    // meant for 0/1 true/false values.
+    // a 1 byte signed value ranging from -128 to 127
+    tinyflag(name, hasDefaultValue=false) {
+      const column = table.tinyint(name);
+      setDefaults(column, hasDefaultValue);
+    },
+    // 4 byte signed value (-2147483648 to 2147483647)
+    integer(name, hasDefaultValue=false) {
+      // note: in the original tables `int(11)` is a *display* size
+      // and its deprecated as of mysql 8.0.17
+      // https://dev.mysql.com/doc/refman/8.0/en/numeric-type-attributes.html
+      const column = table.integer(name);
+      setDefaults(column, hasDefaultValue);
+    },
+    // a single character value ( A-Z )
+    enum(name, hasDefaultValue=false) {
+      const column = table.specificType(name, "char(1)");
+      setDefaults(column, hasDefaultValue);
+    },
+    // a string containing no more than 'width' characters.
+    varchar(name, width=255, hasDefaultValue=false) {
+      // note: knex string is mysql varchar(255)
+      const column = table.string(name, width);
+      setDefaults(column, hasDefaultValue);
+    },
+  };
+}
+
+// when hasDefaultValue is:
+// . explicitly false, default to null
+// . explicitly true, set as "not nullable"
+// . otherwise: set "not nullable" and give it that default
+function setDefaults(column, hasDefaultValue) {
+  if (hasDefaultValue === false) {
+    column.defaultTo(null);
+  } else {
+    column.notNullable();
+    if (hasDefaultValue !== false) {
+      column.defaultTo(hasDefaultValue)
+    }
+  }
+}

@@ -34,7 +34,7 @@ function fakeCalDaily(order, eventId) {
   return {
     id          : eventId,
     pkid        : pkid,
-    eventdate   : dt.fromYMDString(ymd).toDate(),
+    eventdate   : knex.toDate(dt.fromYMDString(ymd)),
     eventstatus : EventStatus.Active,
     newsflash   : "news flash",
   };

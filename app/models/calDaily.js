@@ -136,7 +136,7 @@ class CalDaily {
       id: evt.id,
       // for the sake of the sqlite driver, convert to a javascript date manually
       // the mysql driver does this automatically.
-      eventdate: eventdate.toDate(),
+      eventdate:  knex.toDate(eventdate),
       // defaults here are mainly to simplify testing
       // in theory, the client always specifies them
       eventstatus: dateStatus.status || EventStatus.Active,
@@ -202,8 +202,8 @@ class CalDaily {
       .query('caldaily')
       .join('calevent', 'caldaily.id', 'calevent.id')
       .whereRaw('not coalesce(hidden, 0)')         // zero when published; null for legacy events.
-      .where('eventdate', '>=', firstDay.toDate())
-      .where('eventdate', '<=', lastDay.toDate())
+      .where('eventdate', '>=', knex.toDate(firstDay))
+      .where('eventdate', '<=', knex.toDate(lastDay))
       .orderBy('eventdate')
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
@@ -236,8 +236,8 @@ class CalDaily {
         //  .andWhere('review', Review.Excluded)
       })
       .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
-      .where('eventdate', '>=', firstDay.toDate())   // caldaily: instance of the event.
-      .where('eventdate', '<=', lastDay.toDate())
+      .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
+      .where('eventdate', '<=', knex.toDate(lastDay))
       .orderBy('eventdate')
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
