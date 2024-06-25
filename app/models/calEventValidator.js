@@ -28,6 +28,9 @@ function makeValidator(input, errors) {
     return ((input[field] ?? '') + '').trim();
   }
   return {
+    hasValue(field) {
+      return field in input;
+    },
     requireString(field, msg) {
       const str = getString(field);
       if (validator.isEmpty(str)) {
@@ -206,16 +209,23 @@ function validateEvent(input) {
     weburl: v.nullString('weburl'), // fix? validate this is a url>
     webname: v.nullString('webname'),
     audience: v.nullString('audience'),
-    tinytitle: v.mungeTinyTitle(title),
-    printdescr: v.nullString('printdescr'),
     dates: v.nullString('datestring'), // string field 'dates' needed for legacy admin calendar
     datestype: v.optionalChar('datestype', DatesType.OneDay),
     area: v.optionalChar('area', Area.Portland),
-    printemail: v.optionalFlag('printemail'),
-    printphone: v.optionalFlag('printphone'),
-    printweburl: v.optionalFlag('printweburl'),
-    printcontact: v.optionalFlag('printcontact'),
     safetyplan: v.optionalFlag('safetyplan'),
+  };
+  // print calendar data:
+  // if the tinytitle exists, assume the rest are valid too
+  // ( otherwise, we'll keep them however they were )
+  if (v.hasValue('tinytitle')) {
+    Object.assign(values, {
+      tinytitle: v.mungeTinyTitle(title),
+      printdescr: v.nullString('printdescr'),
+      printemail: v.optionalFlag('printemail'),
+      printphone: v.optionalFlag('printphone'),
+      printweburl: v.optionalFlag('printweburl'),
+      printcontact: v.optionalFlag('printcontact'),
+    });
   };
   const statusList = v.validateStatus(input.datestatuses);
   return {

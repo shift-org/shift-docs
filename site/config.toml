@@ -86,6 +86,11 @@ disableKinds = ["taxonomy", "term"]
     logo = "images/shift-logo-large.jpg"
     verificationURL = "https://pdx.social/@shift2bikes"
 
+# Pedalpalooza specific config
+[params.pedalp]
+    # can be enabled between March-June during Pedalpalooza when these fields are required
+    enablePrintCal = false
+
 # Main page image carousel
 [params.carousel]
     enable = true
