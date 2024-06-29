@@ -5,4 +5,16 @@
 {{/* owl carousel: only used on the homepage */}}
 {{ if (eq .Type "homepage") }}
 <script src="{{ .Site.BaseURL }}js/owl.carousel.min.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 {{ end }}
