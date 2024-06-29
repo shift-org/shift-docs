@@ -46,7 +46,7 @@ services:
     # note: this container is only needed for local development.
     # for production, netlify serves the hugo content instead.
     # see also: ./shift watch ( sub_watch() )
-    image: jojomi/hugo:0.84
+    image: floryn90/hugo:0.128.0-busybox
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/

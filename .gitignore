@@ -1,5 +1,6 @@
 # never commit the built site
 site/public/
+site/.hugo_build.lock
 services/nginx/ssl/
 shift.overrides
 .idea/
