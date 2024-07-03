@@ -22,6 +22,10 @@
     "build": "npm run build-hugo",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
     "postinstall": "hugo-installer --version 0.128.0",
-    "test": "npm run test -w app"
+    "test": "npm run test -w app",
+    "preview": "concurrently -k \"npm:dev-*\"",
+    "preview-hugo": "npm run dev-hugo",
+    "preview-app": " npm -w tools run preview"
+
   }
 }
