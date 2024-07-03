@@ -11,8 +11,8 @@
 // x add / cancel dates from a published event
 // x raw json ( curl ) vs body json ( forms )
 // x multi-part form ( attach image )
-
-const fsp = require('fs').promises;
+const fs = require('fs');
+const fsp = fs.promises;
 const path = require('node:path');
 const sinon = require('sinon');
 const app = require("../app");
@@ -232,7 +232,7 @@ describe("managing events", () => {
   function getImageTarget(id, imageSource) {
     return path.join( config.image.dir, id + path.extname(imageSource) );
   };
-  async function postImage(id, imageSource, imageTarget) {
+  function postImage(id, imageSource, imageTarget) {
     // remove any image from earlier tests:
     return fsp.rm(imageTarget, {force:true}).then(_ => {
       // act as if we are a client who just created an event
@@ -251,32 +251,35 @@ describe("managing events", () => {
             .field({
               json: JSON.stringify(post)
             })
-            .attach('file', imageSource, path.basename(imageSource));
+            // the tests originally based a filepath here
+            // but that started generating EPIPE errors for reasons.
+            .attach('file', fs.readFileSync(imageSource), path.basename(imageSource));
         });
       });
     });
   }
-  it("attaches an image", async function(){
+  it("attaches an image", function(){
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(async function (res) {
+    return postImage(3, imageSource, imageTarget).then(function (res) {
       expect(res).to.have.status(200);
       //
-      const evt = await CalEvent.getByID(3);
-      // event creation is change 1,
-      // the image post is change 2,
-      // the event id is 3.
-      expect(evt.image, "image names should have a sequence number")
-        .to.equal("3-2.jpg");
-      //
-      const imageTarget = getImageTarget(3, imageSource);
-      return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
+      CalEvent.getByID(3).then(evt => {
+        // event creation is change 1,
+        // the image post is change 2,
+        // the event id is 3.
+        expect(evt.image, "image names should have a sequence number")
+          .to.equal("3-2.jpg");
+        //
+        const imageTarget = getImageTarget(3, imageSource);
+        return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
+      });
     });
   });
-  it("fails too large", async function(){
+  it("fails too large", function(){
     const imageSource = path.join( config.image.dir, "bike-big.png" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(async function (res) {
+    return postImage(3, imageSource, imageTarget).then(function (res) {
       testData.expectError(expect, res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
@@ -287,10 +290,10 @@ describe("managing events", () => {
         });
     });
   });
-  it("fails bad format", async function(){
+  it("fails bad format", function(){
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(async function (res) {
+    return postImage(3, imageSource, imageTarget).then(function (res) {
       testData.expectError(expect, res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
@@ -311,8 +314,8 @@ describe("managing events", () => {
       .field({
         json: JSON.stringify(eventData)
       })
-      .attach('file', imageSource, path.basename(imageSource))
-      .then(function (res) {
+      .attach('file', fs.readFileSync(imageSource), path.basename(imageSource))
+      .then(async function (res) {
         expect(res).to.have.status(400);
         expect(res.body.error.fields).to.have.key('image');
       });
