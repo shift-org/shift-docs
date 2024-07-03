@@ -12,11 +12,14 @@
     "express-http-proxy": "^2.0.0",
     "http-proxy-middleware": "^2.0.0",
     "nodemailer": "^6.9.13",
-    "shift-docs": "1.0.0"
+    "shift-docs": "1.0.0",
+    "sqlstring": "^2.3.3"
   },
   "scripts": {
     "preview": "env-cmd -f dev.env node preview.js",
     "make-fake-events": "env-cmd -f dev.env node makeFakeEvents.js",
-    "new-ethereal-cfg": "env-cmd -f dev.env node newEtherealConfig.js"
+    "new-ethereal-cfg": "env-cmd -f dev.env node newEtherealConfig.js",
+    "import-mysql": "env-cmd -f dev.env node importMysql.js",
+    "geo": "node geoSearch.js"
   }
 }
