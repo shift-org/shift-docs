@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -e # set exit on error; but its disabled later for sub_* commands
 
 #### DB ####
 export MYSQL_ROOT_PASSWORD=da642315cb2d390714590dad93e07c50
@@ -131,7 +131,8 @@ sub_ps() { #                      - Print service information
 
 sub_pull() { #                    - Update the codebase to HEAD of currently deployed branch from https://github.com/shift-org/shift-docs
     echo "pulling most recent commit from deployed branch of https://github.com/shift-org/shift-docs"
-    cd ${ROOT} ; git pull
+    cd ${ROOT}
+    git pull || exit 1
     # forces a recreation and restart of the containers from their images
     sub_up
 }
@@ -169,12 +170,12 @@ sub_attach() { # <service>        - Run bash on a running service
 sub_compose() { # <cmd...>        - Run a compose with associated files
     OS=`uname`
     if [ "$OS" == "Darwin" ] ; then
-	    docker compose $@
+      docker compose $@
     elif [ "$OS" == "Linux" ] ; then 
-	    docker-compose $@
+      docker-compose $@
     else
-	    echo "not sure how to handle your OS' version of docker.  One of the above should work!"
-	    exit 255
+      echo "not sure how to handle your OS' version of docker.  One of the above should work!"
+      exit 255
     fi
 }
 
@@ -209,7 +210,7 @@ case ${SUB_CMD} in
     *)
         shift
 
-        set +e
+        set +e # disables exit on error
         sub_${SUB_CMD} $@
 
         if [ $? = 127 ]; then
@@ -217,6 +218,6 @@ case ${SUB_CMD} in
             echo "       Run '${SCRIPT_NAME} --help' for a list of known subcommands." >&2
             exit 1
         fi
-        set -e
+        set -e # re-enables exit on error
         ;;
 esac
