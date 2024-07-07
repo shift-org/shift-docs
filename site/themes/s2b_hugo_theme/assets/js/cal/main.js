@@ -131,9 +131,13 @@ $(document).ready(function() {
              lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
+                      // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
+                      // otherwise, use the default range
+                      range = options.enddate ? view.enddate.diff(view.startdate, 'day') + 1 : dayRange;
+
                       // the next day to view is one day after the previous last
                       view.startdate = view.enddate.add(1, 'day');
-                      view.enddate = view.startdate.add(dayRange - 1, 'day');
+                      view.enddate = view.startdate.add(range - 1, 'day');
                       // add new events to the end of those we've already added.
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
