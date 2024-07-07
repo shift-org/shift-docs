@@ -102,7 +102,7 @@ So - now you can hopefully access the site.  But a real end-toend test of yourse
 
 You can also do local development with node. These steps will setup a local node server which, by default, acts as both frontend and backend. 
 
-After cloning the repo, install [node](https://nodejs.org/en/download) (currently Node.js v20.11.1). Then, open a command prompt or terminal window, change to some useful directory for development, and do the following:
+After cloning the repo, install [node](https://nodejs.org/en/download) (currently Node.js v20). Then, open a command prompt or terminal window, change to some useful directory for development, and do the following:
 
 1. `cd shift-docs`
 2. `npm install`
