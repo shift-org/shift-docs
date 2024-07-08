@@ -9,7 +9,7 @@
 {{ if (eq .Type "homepage") }}
 {{ $jsCarousel := resources.Get "js/carousel/owl.min.js" }} <!-- already minified -->
 <script src="{{ $jsCarousel.Permalink }}"></script>
-<!-- <script src="{{ .Site.BaseURL }}js/carousel/owl.min.js"></script> -->
+
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.netlifyIdentity) {

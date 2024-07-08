@@ -49,10 +49,6 @@
 
 <!-- owl carousel; only load styles on homepage -->
 {{ if (eq .Type "homepage") }}
-<!-- 
-<link href="{{ .Site.BaseURL }}css/owl.carousel.css" rel="stylesheet">
-<link href="{{ .Site.BaseURL }}css/owl.theme.css" rel="stylesheet">
- -->
 {{ $cssCarouselCore := resources.Get "css/carousel/core.css" | minify }}
 <link rel="stylesheet" href="{{ $cssCarouselCore.Permalink }}">
 {{ $cssCarouselTheme := resources.Get "css/carousel/theme.css" | minify }}

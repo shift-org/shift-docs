@@ -3,9 +3,6 @@
 {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
 <script src="{{ $jsCalMain.Permalink }}"></script>
 
-<!-- <script src="{{ .Site.BaseURL }}js/cal/helpers.js"></script> -->
-<!-- <script src="{{ .Site.BaseURL }}js/cal/main.js"></script> -->
-
 <script src="{{ .Site.BaseURL }}js/libs/mustache/mustache.min.js"></script>
 
 <script src="{{ .Site.BaseURL }}js/libs/dayjs/dayjs.min.js"></script>
