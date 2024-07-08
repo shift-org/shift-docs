@@ -1,10 +1,15 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
 {{/* front.js: contains scripts for the nav bar and the carousel */}}
-<script src="{{ .Site.BaseURL }}js/front.js"></script>
+{{ $jsFront := resources.Get "js/front.js" | minify }}
+<script src="{{ $jsFront.Permalink }}"></script>
+
 {{/* owl carousel: only used on the homepage */}}
 {{ if (eq .Type "homepage") }}
-<script src="{{ .Site.BaseURL }}js/owl.carousel.min.js"></script>
+{{ $jsCarousel := resources.Get "js/carousel/owl.min.js" }} <!-- already minified -->
+<script src="{{ $jsCarousel.Permalink }}"></script>
+<!-- <script src="{{ .Site.BaseURL }}js/carousel/owl.min.js"></script> -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
   if (window.netlifyIdentity) {

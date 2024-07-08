@@ -72,11 +72,6 @@ disableKinds = ["taxonomy", "term"]
 # hugo will first check the page for the parameter,
 # and then fallback to the value here ( if any. )
 [params]
-	# Style options available
-    # Add style.name.css file to the theme CSS directory for alternate base styles
-	# used by head.html to load: shift-docs/site/themes/s2b_hugo_theme/static/css/style.default.css
-    style = "default"
-
 	# used by footer.html
     copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"
 
