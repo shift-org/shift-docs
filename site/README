@@ -67,7 +67,7 @@ Layouts (also called templates) do the actual conversion of the content into out
 
 `   └── static/` Contains a mix of shift's static files and the theme's static images files.
 
-`   └── static/js/libs` Third party javascript used by the site. **TODO?** Might be neat to use hugo's [js.Build](https://gohugo.io/functions/js/build/) so we could use npm ( and a package.json ) to manage these libraries.
+`   └── static/lib` Third party javascript used by the site. **TODO?** Might be neat to use hugo's [js.Build](https://gohugo.io/functions/js/build/) so we could use npm ( and a package.json ) to manage these libraries.
 
 # Hugo notes:
 
