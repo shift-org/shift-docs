@@ -171,7 +171,7 @@ function setDefaults(column, hasDefaultValue) {
     column.defaultTo(null);
   } else {
     column.notNullable();
-    if (hasDefaultValue !== false) {
+    if (hasDefaultValue !== true) {
       column.defaultTo(hasDefaultValue)
     }
   }
