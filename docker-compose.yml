@@ -14,10 +14,12 @@ services:
       # DEV SITE:
       - ./site/public/:/var/www/site/
       # EVENT IMAGES:
-      - "${EVENTIMAGES}:/opt/backend/eventimages"
+      - ./backend/eventimages:/opt/backend/eventimages
       # NGINX CONF:
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
+      # maps the hosts letsencrypt onto the ngnix's container
+      # see also services/certbot.sh and ./shift script
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
     links:
       # lets shift.conf reference node ( ex. http://node:3080 )
@@ -42,7 +44,6 @@ services:
       - db:/var/lib/mysql/
     ports:
       - 3306
-
 
   node:
     restart: always

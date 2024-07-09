@@ -23,11 +23,12 @@
    	"dev-app": "env-cmd -f tools/dev.env npm start -w app",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -d ../bin/dist",
 
-    "build": "exec-bin bin/hugo/hugo -s site -d public",
-    "prebuild": "npm i",
-
-    "prewatch": "npm i",
     "watch": "exec-bin bin/hugo/hugo -w -s site -d public",
+    "hugo-build": "exec-bin bin/hugo/hugo -s site -d public",
+
+    "preup": "npm i && npm run hugo-build",
+    "up": "docker compose up -d",
+    "down": "docker compose down",
 
     "preview": "concurrently -k \"npm:dev-*\"",
     "preview-hugo": "npm run dev-hugo",
