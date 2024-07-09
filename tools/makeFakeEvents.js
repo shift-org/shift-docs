@@ -5,7 +5,11 @@
 const { faker } = require('@faker-js/faker');
 const knex = require("shift-docs/knex");
 const dt = require("shift-docs/util/dateTime");
+const config = require("shift-docs/config");
 const { Area, Audience, DatesType, EventStatus } = require('shift-docs/models/calConst');
+
+// password shared for all fake events
+const password = "supersecret";
 
 // todo: improve commandline parsing
 // this uses npm's command vars ( probably a bad idea )
@@ -42,13 +46,15 @@ async function makeFakeEvents() {
             refDate: firstDay.toDate(),
             days: args.range,
           }));
+      const title = faker.music.songName();
       const pendingEvt =
         knex.query('calevent')
-        .insert(makeCalEvent()).then(row=> {
-          const id= row[0]; // the magic to get the event id.
-          const numDays= randomDayCount();
+        .insert(makeCalEvent(title)).then(row=> {
+          const id = row[0]; // the magic to get the event id.
+          const numDays = randomDayCount();
           const list = makeCalDailies(id, start, numDays);
-          console.log("making", list.length, "days");
+          const url = config.site.url("addevent", `edit-${id}-${password}`);
+          console.log(`new event "${title}" with ${list.length} days: ${url}`);
           let promisedDays = list.map(at => {
             return knex.query('caldaily').insert(at);
            });
@@ -98,7 +104,7 @@ function makeCalDailies(eventId, start, numDays) {
     }
     out.push({
       id          : eventId,
-      eventdate   : start.toDate(),
+      eventdate   : knex.toDate(start),
       eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
       newsflash   : msg,
     });
@@ -111,8 +117,7 @@ function capitalize(str, yes= true) {
   return (yes? first.toUpperCase() : first.toLowerCase() ) + str.slice(1);
 }
 
-function makeCalEvent() {
-  const title = faker.music.songName() ;
+function makeCalEvent(title) {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
   const organizer = faker.person.fullName({firstName, lastName});
@@ -157,7 +162,6 @@ function makeCalEvent() {
   // constants:
   const changes = 1;
   const hidden = 0; // never hidden
-  const password = "12e1c433836d6c92431ac71f1ff6dd97";
   const datestype = DatesType.OneDay;
 
   return {

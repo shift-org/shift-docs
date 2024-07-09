@@ -5,6 +5,11 @@
 {{ partial "cal/scripts.html" . }}
 
 <script type="text/javascript">
+  {{/*
+    this partial is used by the calgrid and pp-landing layouts.
+    pp-landing is used only if pedalpalooza _isnt_ happening.
+    calgrid is used by the calgrid page ( /calendar and the "Grid" option )
+  */}}
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
     var params = parseURL();

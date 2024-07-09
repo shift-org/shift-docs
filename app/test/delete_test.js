@@ -56,7 +56,7 @@ describe("event cancellation using a form", () => {
         done();
       });
   });
-  it("succeeds with a valid id and secret", async function() {
+  it("deletes with a valid id and secret", async function() {
     const e0 = await CalEvent.getByID(2);
     const d1 = await CalDaily.getForTesting(201);
     const d2 = await CalDaily.getForTesting(202);
@@ -146,6 +146,22 @@ describe("event cancellation using json", () => {
       .post(delete_api)
       .send({
         id: 3,
+        secret: testData.secret,
+      })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        expect(res).to.have.header('Api-Version');
+        expect(data.eventErasures.callCount).to.equal(1);
+        done();
+      });
+  });
+  it("deletes a legacy event", function(done) {
+    chai.request( app )
+      .post(delete_api)
+      .send({
+        id: 1, // id 1 is hidden null
         secret: testData.secret,
       })
       .end(function (err, res) {

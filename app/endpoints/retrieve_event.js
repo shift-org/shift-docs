@@ -34,11 +34,17 @@ exports.get = function get(req, res, next) {
         // the php version didnt error on invalid secret;
         // so this doesnt either ( private data is only returned with a valid secret )
         const includePrivate = evt.isSecretValid(secret);
-        const statuses = CalDaily.getStatusesByEventId(evt.id);
-        evt.getDetails(statuses, {includePrivate}).then(details => {
-          res.set(config.api.header, config.api.version);
-          res.json(details);
-        });
+        if (!evt.isPublished() && !includePrivate) {
+          // act exactly as if unpublished events don't exist
+          // ( unless you know the secret )
+          res.textError("Event not found");
+        } else {
+          const statuses = CalDaily.getStatusesByEventId(evt.id);
+          evt.getDetails(statuses, {includePrivate}).then(details => {
+            res.set(config.api.header, config.api.version);
+            res.json(details);
+          });
+        }
       }
     }).catch(next);
   }

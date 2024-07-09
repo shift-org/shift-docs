@@ -204,6 +204,7 @@ That pairing is, in a sense, its true identity.
   
     * A=as scheduled
     * C=canceled
+    * D=delisted - just removed, not explicitly canceled
     * S=skipped   - legacy
     * E=exception - legacy
     

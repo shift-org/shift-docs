@@ -5,6 +5,7 @@
  * The parameter 'id' returns all of the days for that ride;
  * 'startdate' and 'enddate' (in YYYY-MM-DD format) returns a custom range of rides;
  * 'filename' customizes the name of the generated file ( the default name is in config.js. )
+ * ( the special name of "none" will not generate an attachment )
  *
  *   https://localhost:4443/api/ical.php
  *   https://localhost:4443/api/ical.php?id=998
@@ -30,13 +31,18 @@ module.exports = {
   replace,
 };
 
+function readBool(b) {
+  return b === "true" || b === "1";
+}
+
 function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = req.query.startdate || "";
   const end = req.query.enddate || "";
+  const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
 
-  return getEventData(id, start, end).then(data => {
+  return getEventData(id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
     return respondWith(res, customName || filename, events);
   }).catch(err => {
@@ -51,7 +57,7 @@ function get(req, res, next) {
 }
 
 // promise a structure containing: filename and events.
-function getEventData(id, start, end) {
+function getEventData(id, start, end, includeDeleted) {
   let filename;
   let buildEvents;
   const cal= config.cal;
@@ -64,7 +70,7 @@ function getEventData(id, start, end) {
   } else if (start || end) {
     // ex. shift-calendar-2001-06-02-to-2022-01-01.ics
     filename = `${cal.filename}-${start}-to-${end}` + cal.ext;
-    buildEvents = buildRange(start, end);
+    buildEvents = buildRange(start, end, includeDeleted);
   } else {
     // ex. shift-calendar.ics
     filename = cal.filename + cal.ext;
@@ -83,11 +89,16 @@ function respondWith(res, filename, events) {
   // according to  https://en.wikipedia.org/wiki/ICalendar
   // its default utf8, and mime type should be used for anything different.
   res.setHeader(config.api.header, config.api.version);
-  res.setHeader('content-type', `text/calendar`);
-  res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
-  res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
+  if (!filename || filename === "none") {
+    res.setHeader('content-type', `text/plain`);
+  } else {
+    res.setHeader('content-type', `text/calendar`);
+    res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
+    res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
+  }
   // tbd: maybe there's filter or something for nunjucks to add the carriage returns.
   const body = nunjucks.render('ical.njk', {cal, events});
+  // replace the our "normalized" line break with what ical wants
   res.send(body.replaceAll("\n", "\r\n"));
 }
 
@@ -119,7 +130,7 @@ function buildCurrent() {
 
 // Promise a range of events in ical format as string,
 // where start and end are timestamps.
-function buildRange(start, end) {
+function buildRange(start, end, includeDeleted) {
   const started  = dt.fromYMDString(start);
   const ended  = dt.fromYMDString(end);
   if (!started.isValid() || !ended.isValid()) {
@@ -129,8 +140,11 @@ function buildRange(start, end) {
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
-    return CalDaily.getFullRange(started, ended).then((dailies)=>{
-      return buildEntries(dailies);
+    const q = includeDeleted?
+              CalDaily.getFullRange:
+              CalDaily.getRangeVisible;
+    return q(started,ended).then((dailies)=>{
+      return  buildEntries(dailies);
     });
   }
 }
@@ -198,8 +212,8 @@ function buildCalEntry(evt, at) {
 
 /**
  * Format a set of strings for ical, word-wrapping if necessary.
- * Note: the returned string uses bare newline, not carriage return,
- * the caller is responsible for adding those.
+ * Note: the returned string uses bare newline, ical requires carriage returns,
+ * the caller is responsible for adding those. ( ie. respondWith() )
  *
  * @param string        row     The lede text of the ical row, including a colon. ( ex. "SUMMARY:" )
  * @param array<string> strings One or more strings to join into newlines.
@@ -225,8 +239,8 @@ function escapeBreak(row, ...strings) {
   // immediately followed by a single linear [space].
   // 74 is best to fit the required leading space of subsequent lines.
   //
-  // note: only injecting "\n " here, buildCalendar() replaces those with "\r\n" later.
-  const lines =  wordwrap.lines(row + str, { width: 74, break: true });
+  // note: only injecting "\n" here, respondWith() replaces those with "\r\n" later.
+  const lines =  wordwrap.lines(row + str, { width: 74, break: true, noTrim: true });
   return lines.join("\n ");
 }
 

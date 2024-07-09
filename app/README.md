@@ -7,7 +7,7 @@ Node js port of the 2023 Shift Calendar php backend. Only includes code actively
 * **knex**: sql statement generator.
 * **multer**: handles multi-part forms and file uploading.
 * **mysql2**: a mysql driver ( for knex ).
-* **nodemailer**: communicates with sendmail ( can also interact with aws directly and could be used for html emails, and calendar ical attachments. )
+* **nodemailer**: communicates with aws using smtp ( can also interact with aws directly and could be used for html emails, and calendar ical attachments. )
 * **nunjucks**: template engine for generating html, mail, and ical output.
 * **validator**: helper to validate and sanitize user input.
 * **wordwrapjs**: wrap text at a given width.

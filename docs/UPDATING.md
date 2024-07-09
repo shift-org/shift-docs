@@ -22,7 +22,7 @@ Before you can edit or create pages for the first time, you must do a few things
 
 Some additional details of interst:
 
-- after you make a CMS edit, the change is saved to github and then netlify starts building the site.  All changes to *content* should be visible in deploy previews (unlike changes to PHP which require a commit to master).
+- after you make a CMS edit, the change is saved to github and then netlify starts building the site.  All changes to *content* should be visible in deploy previews (unlike changes to the backend which require a commit to main).
 - the CMS login widget "netlify-identity-widget" doesn't work with most password managers.  Sorry about that, but feel free to use a simple password...
 
 

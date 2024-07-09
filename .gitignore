@@ -1,5 +1,6 @@
 # never commit the built site
 site/public/
+site/.hugo_build.lock
 services/nginx/ssl/
 shift.overrides
 .idea/
@@ -20,5 +21,7 @@ app/eventimages/*
 !app/eventimages/
 !app/eventimages/README.md
 !app/eventimages/bike.jpg
+!app/eventimages/bike-big.png
+!app/eventimages/bike-bad.tiff
 bin/
 node_modules/

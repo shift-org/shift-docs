@@ -1,34 +1,20 @@
-{{ template "_internal/google_analytics.html" . }}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0/jquery.counterup.min.js"></script>
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-parallax/1.1.3/jquery-parallax.js"></script>-->
-
-
-{{ if .Site.Params.googleMapsApiKey }}
-<!-- script src="//maps.googleapis.com/maps/api/js?key={{.Site.Params.googleMapsApiKey}}&v=3.exp"></script -->
-{{ else }}
-<!-- script src="//maps.googleapis.com/maps/api/js?v=3.exp"></script -->
-{{ end }}
-<!-- script src="{{ .Site.BaseURL }}js/hpneo.gmaps.js"></script -->
-<!-- script src="{{ .Site.BaseURL }}js/gmaps.init.js"></script -->
-
+{{/* front.js: contains scripts for the nav bar and the carousel */}}
 <script src="{{ .Site.BaseURL }}js/front.js"></script>
-
-<!-- owl carousel; only load scripts on homepage -->
+{{/* owl carousel: only used on the homepage */}}
 {{ if (eq .Type "homepage") }}
 <script src="{{ .Site.BaseURL }}js/owl.carousel.min.js"></script>
-{{ end }}
-
-<!-- To get the external links in nav bar to open in new tabs (but keep the other nav bar link to open in the same tab) -->
-<script type="text/javascript">
-  $(document).ready(function() {
-    $(".s2b-external-link").attr("target", "_blank");
-    $(".s2b-external-link").attr("rel", "noopener nofollow external");
-    $(".s2b-external-link").attr("title", "Opens in a new window");
-    $(".s2b-external-link").prepend($("<i class='glyphicon glyphicon-new-window' aria-hidden='true'></i>"));
-  });
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
 </script>
+{{ end }}

@@ -19,11 +19,17 @@
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
    	"dev-app": "env-cmd -f tools/dev.env npm start -w app",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -d ../bin/dist",
-    "postinstall": "hugo-installer --version 0.84.4",
+    "build": "npm run build-hugo",
+    "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
+    "postinstall": "hugo-installer --version 0.128.0",
     "test": "npm run test -w app",
     "prebuild": "npm i",
     "build": "exec-bin bin/hugo/hugo -s site -d public",
     "prewatch": "npm i",
     "watch": "exec-bin bin/hugo/hugo -w -s site -d public"
+    "preview": "concurrently -k \"npm:dev-*\"",
+    "preview-hugo": "npm run dev-hugo",
+    "preview-app": " npm -w tools run preview"
+
   }
 }
