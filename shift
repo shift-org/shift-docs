@@ -67,14 +67,16 @@ sub_help() { #                    - Show this text
 
 sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
-        mkdir $LETSENCRYPT_WEBROOT
+	mkdir $LETSENCRYPT_WEBROOT
     fi 
+
     # build content for local development
     # production doesn't need this. it uses netlify.
     if [ "$SHIFT_DOMAIN" == "localhost" ] ; then
         npm run build
     fi
-    sub_compose up --force-recreate -d 
+
+    sub_compose up --force-recreate -d
 
     # wait for node to be ready
     # tbd: for staging, could also check for "mysqld: ready for connections."
@@ -133,7 +135,15 @@ sub_attach() { # <service>        - Run bash on a running service
 }
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
-    docker-compose $@
+    OS=`uname`
+    if [ "$OS" == "Darwin" ] ; then
+	    docker compose $@
+    elif [ "$OS" == "Linux" ] ; then
+	    docker-compose $@
+    else
+	    echo "not sure how to handle your OS' version of docker.  One of the above should work!"
+	    exit 255
+    fi
 }
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
