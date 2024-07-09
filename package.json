@@ -36,6 +36,7 @@
     "preview-hugo": "npm run dev-hugo",
     "preview-app": " npm -w tools run preview",
 
-    "test": "npm run test -w app"
+    "test": "npm run test -w app",
+    "docker-create-events": "docker compose exec node node ./tools/makeFakeEvents.js"
   }
 }
