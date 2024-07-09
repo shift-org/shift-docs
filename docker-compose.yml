@@ -18,6 +18,8 @@ services:
       # NGINX CONF:
       - ./services/nginx/:/opt/nginx/
       - ./services/nginx/conf.d:/etc/nginx/conf.d
+      # maps the hosts letsencrypt onto the ngnix's container
+      # see also services/certbot.sh and ./shift script
       - ${LETSENCRYPT_WEBROOT}:/tmp/letsencrypt-auto
     links:
       # lets shift.conf reference node ( ex. http://node:3080 )
@@ -97,7 +99,7 @@ services:
       # the right-hand side has to be SHIFT_IMAGE_DIR
       # todo: change the host side to a named volume?
       # fix: can the rhs here use the environment var?
-      - ./backend/eventimages/:/opt/backend/eventimages/
+      - "${EVENTIMAGES}:/opt/backend/eventimages"
 
       # DEACTIVATED: access for email log:
       # email logging disabled has been disabled in emailer.js
