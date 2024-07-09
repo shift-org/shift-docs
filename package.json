@@ -24,11 +24,12 @@
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -d ../bin/dist",
 
     "watch": "exec-bin bin/hugo/hugo -w -s site -d public",
-    "hugo-build": "exec-bin bin/hugo/hugo -s site -d public",
+    "build-hugo": "exec-bin bin/hugo/hugo -s site -d public",
 
-    "preup": "npm i && npm run hugo-build",
+    "preup": "npm i && npm run build-hugo",
     "up": "docker compose up -d",
     "down": "docker compose down",
+    "emails": "docker compose logs node -f",
 
     "preview": "concurrently -k \"npm:dev-*\"",
     "preview-hugo": "npm run dev-hugo",

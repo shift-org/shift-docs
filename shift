@@ -151,7 +151,7 @@ sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
 }
 
 sub_emails() { #                  - Show recent emails and update with new ones
-    sub_compose logs node
+    sub_compose logs node -f
 }
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected
