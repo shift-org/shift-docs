@@ -27,38 +27,33 @@ The backend uses:
 - If you want to change something about the site configuration or theme, [pull requests](https://help.github.com/articles/creating-a-pull-request/) are welcome.  Once you create a PR, you can immediately check out a link to the [build status, log, and a preview of your changes](https://app.netlify.com/sites/shift-docs/deploys).
 - If you only want to edit CONTENT rather than any code or site styling, (including creating new pages), [this doc shows how to easily do so without writing code](/docs/UPDATING.md).
 
-# Frontend development with Netlify
-
-While creating a pull request does automatically deploy a preview of the frontend to Netlify, you can also create previews manually: this could help you do things like theme development in your own repository before submitting your pr.
-
-1. [fork repo](https://help.github.com/articles/fork-a-repo/)
-2. read the comments in the netlify.toml file around changing the build command in the `[context.production]` section and make changes if needed.
-2. [deploy on Netlify](https://app.netlify.com/start) by linking your forked repo.  Included configuration file `netlify.toml` should mean 0 additional configuration required to get the site running.  If you get a build failure around access denied for ssh, you probably need the advice in step 2 just above this!
-
-If you have trouble with it please [file an issue](https://github.com/shift-org/shift-docs/issues/new) to let us know what you tried and what happened when you did.
-
 # Local development with Docker
 
-The production backend is run in several docker containers; including nginx, mysql, and the node server.
-
-The docker configuration also supports running your own frontend and backend server locally. The following steps assume a Linux, or MacOs development environment. On Windows, you'll need something like the [Windows Subsystem for Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
+Docker runs the production backend, and Netlify runs the frontend. When developing locally, however, you can use Docker to run both. The following steps assume a Linux, or MacOs development environment.
 
 1. Install Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
 1. Install Node: https://nodejs.org/en/download
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
-3. Start your local server: `cd shift-docs ; ./shift up`
-4. Optionally, watch for content changes: `./shift watch`
+3. Start your local server: `cd shift-docs ; ./shift up` ( On Windows, use `npm run up` )
+4. Optionally, watch for content changes: `./shift watch` ( On Windows, use `npm run watch` )
 5. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
-Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
+Note that no changes **inside** the Docker containers should ever be needed. The containers read from your **local** filesystem, so updating the files on your machine will automatically update docker too. ( Sometimes after a `./shift down`, `./shift up` to restart the server. )
 
-So - now you can hopefully access the site.  But a real end-to-end test of your setup, would be creating an event:
+So now you can hopefully access the site.  But for a real end-to-end test of your setup, you'll need to create an event:
 
-1. visit https://localhost:4443/addevent/
-2. fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
-3. save the event (fix any validation errors around missing fields to ensure it saves)
-4. In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the file `services/node/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log, visit it, and hit publish event
-5. hopefully see your event on the https://localhost:4443/calendar page!
+1. Visit https://localhost:4443/addevent/
+2. Fill out all required fields (ones marked with an asterisk) for a date a day or two in the future.
+3. Save the event (fix any validation errors around missing fields to ensure it saves.)
+4. In production, we send you an email with a link to confirm the ride listing. For local development, we don't actually send the email. Instead, use `./shift emails` ( or `npm run emails` ) to view the email log file.
+5. Publish your event by visiting the url printed to the log file.
+6. See your event on the https://localhost:4443/calendar page!
+
+You can also create some sample test events using the command:
+
+1. `npm run docker-create-events`
+
+It will print the event urls to the console, but they are automatically published to your test site.
 
 ## Important Project Files
 
