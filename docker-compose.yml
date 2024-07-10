@@ -51,7 +51,7 @@ services:
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/
-    command: "hugo -v"
+    command: "--logLevel debug"
 
   node:
     restart: always
