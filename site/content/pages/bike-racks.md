@@ -15,7 +15,7 @@ This is 1/7th of the bike parking setup demonstrating some different placement m
 
 ![Shift bike racks](/images/bikeracks.jpg)
 
-We normally only rent these out for a few days at a time (such as over a weekend), and you must retrieve them from (and return them to) a location in East Portland near Burnside & E 70th that is open by appointment. Delivery is not available.
+We normally only rent these out for a few days at a time (such as over a weekend), and you must retrieve them from (and return them to) a location in NE Portland near the 60th Ave MAX station, that is open by appointment. Delivery is not available. 
 
 \
-To start your rental inquiry, or for any questions, please [email for more info](mailto:bikeracks@shift2bikes.org).[](mailto:bikeracks@shift2bikes.org)
+To start your rental inquiry, or for any questions, please [email for more info](mailto:bikeracks@shift2bikes.org). We recommend sending your inquiry at least 2 weeks in advance in order to allow for volunteer response time. [](mailto:bikeracks@shift2bikes.org)
