@@ -14,61 +14,67 @@ $(document).ready(function() {
             throw Error("requires id or range");
         }
 
-        $.get( url, function( data ) {
-            var groupedByDate = [];
-            var mustacheData = { dates: [] };
-            $.each(data.events, function( index, value ) {
+        $.ajax({
+            url: url,
+            headers: { 'Api-Version': API_VERSION },
+            type: 'GET',
+            success: function(data) {
+                var groupedByDate = [];
 
-                var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
-                if (groupedByDate[date] === undefined) {
-                    groupedByDate[date] = {
-                        yyyymmdd: value.date,
-                        date: date,
-                        events: []
-                    };
-                    mustacheData.dates.push(groupedByDate[date]);
+                var mustacheData = { dates: [] };
+                $.each(data.events, function( index, value ) {
+
+                    var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
+                    if (groupedByDate[date] === undefined) {
+                        groupedByDate[date] = {
+                            yyyymmdd: value.date,
+                            date: date,
+                            events: []
+                        };
+                        mustacheData.dates.push(groupedByDate[date]);
+                    }
+
+                    value.displayStartTime = dayjs(value.time, 'hh:mm:ss').format('h:mm A');
+                    value.displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
+                    if (value.endtime) {
+                      value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
+                    }
+
+                    value.audienceLabel = container.getAudienceLabel(value.audience);
+                    value.areaLabel = container.getAreaLabel(value.area);
+                    value.mapLink = container.getMapLink(value.address);
+
+                    if (options.show_details) {
+                        value.expanded = true;
+                    }
+                    value.webLink = container.getWebLink(value.weburl);
+                    value.contactLink = container.getContactLink(value.contact);
+
+                    value.shareLink = '/calendar/event-' + value.caldaily_id;
+                    value.exportlink = '/api/ics.php?id=' + value.id;
+
+                    groupedByDate[date].events.push(value);
+                });
+
+                for ( var date in groupedByDate )  {
+                    groupedByDate[date].events.sort(container.compareTimes);
                 }
-
-                value.displayStartTime = dayjs(value.time, 'hh:mm:ss').format('h:mm A');
-                value.displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
-                if (value.endtime) {
-                  value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
+                var template = $('#view-events-template').html();
+                var info = Mustache.render(template, mustacheData);
+                if (options.id) {
+                    // only set on individual ride pages
+                    var event = mustacheData.dates[0].events[0];
+                    $('meta[property="og:title"]')[0].setAttribute("content", event.title);
+                    if (event.printdescr) {
+                        $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
+                    } else {
+                        var desc = event.details.substring(0,250);
+                        $('meta[property="og:description"]')[0].setAttribute("content", desc);
+                    }
+                    document.title = event.title + " - Calendar - " + SITE_TITLE;
                 }
-
-                value.audienceLabel = container.getAudienceLabel(value.audience);
-                value.areaLabel = container.getAreaLabel(value.area);
-                value.mapLink = container.getMapLink(value.address);
-
-                if (options.show_details) {
-                    value.expanded = true;
-                }
-                value.webLink = container.getWebLink(value.weburl);
-                value.contactLink = container.getContactLink(value.contact);
-
-                value.shareLink = '/calendar/event-' + value.caldaily_id;
-                value.exportlink = '/api/ics.php?id=' + value.id;
-
-                groupedByDate[date].events.push(value);
-            });
-
-            for ( var date in groupedByDate )  {
-                groupedByDate[date].events.sort(container.compareTimes);
+                callback(info);
             }
-            var template = $('#view-events-template').html();
-            var info = Mustache.render(template, mustacheData);
-            if (options.id) {
-                // only set on individual ride pages
-                var event = mustacheData.dates[0].events[0];
-                $('meta[property="og:title"]')[0].setAttribute("content", event.title);
-                if (event.printdescr) {
-                    $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
-                } else {
-                    var desc = event.details.substring(0,250);
-                    $('meta[property="og:description"]')[0].setAttribute("content", desc);
-                }
-                document.title = event.title + " - Calendar - Shift";
-            }
-            callback(info);
         });
     }
 
