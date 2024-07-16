@@ -5,17 +5,11 @@
 
 <script src="{{ .Site.BaseURL }}lib/mustache/mustache.min.js"></script>
 
-<script src="{{ .Site.BaseURL }}lib/dayjs/dayjs.min.js"></script>
-<script src="{{ .Site.BaseURL }}lib/dayjs/plugin/utc.js"></script>
-<script src="{{ .Site.BaseURL }}lib/dayjs/plugin/customParseFormat.js"></script>
-<script>
-  dayjs.extend(window.dayjs_plugin_utc)
-  dayjs.extend(window.dayjs_plugin_customParseFormat)
-</script>
+{{ partial "cal/dayjs.html" . }}
 
-<script src="{{ .Site.BaseURL }}lib/fullcalendar/core/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}lib/fullcalendar/daygrid/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}lib/fullcalendar/timegrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/libs/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/libs/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}js/libs/fullcalendar/timegrid/main.min.js"></script>
 
 <script type="text/javascript">
   //only show grid view for PP pages, 2008 or later

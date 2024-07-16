@@ -72,27 +72,35 @@ disableKinds = ["taxonomy", "term"]
 # hugo will first check the page for the parameter,
 # and then fallback to the value here ( if any. )
 [params]
-	# used by footer.html
+    # force dayjs to think its a certain time and day
+    # you shouldn't submit with this enabled; but also:
+    # it only works when running with --buildDrafts  ( aka -D )
+    # forceCurrentTime =  "06-13-2024 19:00"
+
+    # copyright used by footer.html
     copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"
 
     # Format dates with Go's time formatting ( used by layout/list )
     date_format = "January 2, 2006"
-	# Logo for the main page and 404 header
+
+    # Logo for the main page and 404 header
     logo = "images/shift-logo-large.jpg"
+
+    # mastodon verification
     verificationURL = "https://pdx.social/@shift2bikes"
 
 # Main page image carousel
 [params.carousel]
     enable = true
     # All carousel items are defined via 'shift-doc/site/data/carousel'.
-	# They become available via `{{ .Site.Data.carousel }}`
+    # They become available via `{{ .Site.Data.carousel }}`
     # For more informtion take a look at the README.
 
 # Main page sponsors footer
 [params.clients]
     enable = true
     # All sponsors are defined via 'shift-doc/site/data/clients'.
-	# They become available via `{{ .Site.Data.clients }}`
+    # They become available via `{{ .Site.Data.clients }}`
 
     # For more information take a look at the README.
     title = "Our Sponsors"
@@ -102,8 +110,7 @@ disableKinds = ["taxonomy", "term"]
 [markup.goldmark.renderer]
     unsafe= true
 
-# For search functionality
-
+# the outputs that hugo builds.
 [outputs]
-# add "JSON" to enable lunr.js search functionality
-home = [ "HTML", "RSS"]
+    # add "JSON" to enable lunr.js search functionality
+    home = [ "HTML", "RSS"]

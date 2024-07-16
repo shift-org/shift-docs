@@ -25,6 +25,10 @@ It depends. Some rides do, and some don't. Ride leaders have the option to indic
 
 Use the contact info on the event listing to contact the organizer.
 
+### A ride leader didn't post any contact info. How can I contact them?
+
+We recommend that all ride leaders include at least 1 public contact method, but not all do. If you have a question for a ride leader but don't have a way to contact them, email the [Shift calendar crew](mailto:bikecal@shift2bikes.org). We can't share the ride leader's contact info without their permission, but we can forward your message to them. The ride leader may then choose to respond or not — it's up to them.
+
 
 ## Posting events
 
