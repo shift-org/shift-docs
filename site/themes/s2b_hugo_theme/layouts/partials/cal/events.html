@@ -1,16 +1,7 @@
 <script src="{{ .Site.BaseURL }}js/cal/helpers.js"></script>
 <script src="{{ .Site.BaseURL }}js/cal/main.js"></script>
-
 <script src="{{ .Site.BaseURL }}js/libs/mustache/mustache.min.js"></script>
-
-<script src="{{ .Site.BaseURL }}js/libs/dayjs/dayjs.min.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/dayjs/plugin/utc.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/dayjs/plugin/customParseFormat.js"></script>
-<script>
-  dayjs.extend(window.dayjs_plugin_utc)
-  dayjs.extend(window.dayjs_plugin_customParseFormat)
-</script>
-
+{{ partial "cal/dayjs.html" . }}
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/core/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/daygrid/main.min.js"></script>
 <script src="{{ .Site.BaseURL }}js/libs/fullcalendar/timegrid/main.min.js"></script>
