@@ -31,6 +31,10 @@ const DEFAULT_AREA = 'P';
 const DEFAULT_AUDIENCE = 'G';
 const DEFAULT_LENGTH = '--';
 
+const EVENTS_RANGE = Object.freeze({
+  DEFAULT_DAYS : 10,
+});
+
 const SITE_TITLE = "Shift";
 
 const API_VERSION = '3';
