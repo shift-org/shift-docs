@@ -8,7 +8,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.17.8
+    image: nginx:1.26.1
     restart: always
     volumes:
       # DEV SITE:
