@@ -1,10 +1,15 @@
-<script src="{{ .Site.BaseURL }}js/cal/helpers.js"></script>
-<script src="{{ .Site.BaseURL }}js/cal/main.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/mustache/mustache.min.js"></script>
+{{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
+<script src="{{ $jsCalHelpers.Permalink }}"></script>
+{{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
+<script src="{{ $jsCalMain.Permalink }}"></script>
+
+<script src="{{ .Site.BaseURL }}lib/mustache/mustache.min.js"></script>
+
 {{ partial "cal/dayjs.html" . }}
-<script src="{{ .Site.BaseURL }}js/libs/fullcalendar/core/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/fullcalendar/daygrid/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}js/libs/fullcalendar/timegrid/main.min.js"></script>
+
+<script src="{{ .Site.BaseURL }}lib/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}lib/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}lib/fullcalendar/timegrid/main.min.js"></script>
 
 <script type="text/javascript">
   //only show grid view for PP pages, 2008 or later

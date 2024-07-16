@@ -1,7 +1,9 @@
 {{ partial "cal/events.html" . }}
 
-<script src="{{ .Site.BaseURL }}js/cal/addevent.js"></script>
-<script src="{{ .Site.BaseURL }}js/cal/datepicker.js"></script>
+{{ $jsCalAddEvent := resources.Get "js/cal/addevent.js" | minify }}
+<script src="{{ $jsCalAddEvent.Permalink }}"></script>
+{{ $jsCalDatePicker := resources.Get "js/cal/datepicker.js" | minify }}
+<script src="{{ $jsCalDatePicker.Permalink }}"></script>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/mailcheck/1.1.2/mailcheck.min.js"></script>
 

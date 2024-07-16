@@ -77,16 +77,15 @@ disableKinds = ["taxonomy", "term"]
     # it only works when running with --buildDrafts  ( aka -D )
     # forceCurrentTime =  "06-13-2024 19:00"
 
-    # Style options available
-    # Add style.name.css file to the theme CSS directory for alternate base styles
-    # used by head.html to load: shift-docs/site/themes/s2b_hugo_theme/static/css/style.default.css
-    style = "default"
     # copyright used by footer.html
     copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"
+
     # Format dates with Go's time formatting ( used by layout/list )
     date_format = "January 2, 2006"
+
     # Logo for the main page and 404 header
     logo = "images/shift-logo-large.jpg"
+
     # mastodon verification
     verificationURL = "https://pdx.social/@shift2bikes"
 

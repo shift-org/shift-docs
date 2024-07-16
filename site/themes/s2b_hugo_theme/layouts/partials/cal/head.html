@@ -1,15 +1,16 @@
 <!-- styles for calendar pages; also needed on homepage for "up next" widget -->
-<link rel="stylesheet" type="text/css" href="/css/cal/main.css">
+{{ $cssCalMain := resources.Get "css/cal/main.css" | minify }}
+<link rel="stylesheet" href="{{ $cssCalMain.Permalink }}">
 
 <!-- only load grid view styles on calendar list pages; not needed on edit pages -->
 {{ if or (eq .Type "calevents") (eq .Type "calgrid") (eq .Type "pp-theme-cal") }}
-<link rel="stylesheet" type="text/css" href="/js/libs/fullcalendar/core/main.min.css">
-<link rel="stylesheet" type="text/css" href="/js/libs/fullcalendar/daygrid/main.min.css">
-<link rel="stylesheet" type="text/css" href="/js/libs/fullcalendar/timegrid/main.min.css">
+<link rel="stylesheet" type="text/css" href="/lib/fullcalendar/core/main.min.css">
+<link rel="stylesheet" type="text/css" href="/lib/fullcalendar/daygrid/main.min.css">
+<link rel="stylesheet" type="text/css" href="/lib/fullcalendar/timegrid/main.min.css">
 {{ end }}
 
 <!-- only load list view styles on homepage for "up next" widget and PP cal page -->
 {{ if or (eq .Type "homepage") (eq .Type "pp-theme-cal") }}
-<link rel="stylesheet" type="text/css" href="/js/libs/fullcalendar/core/main.min.css"/>
-<link rel="stylesheet" type="text/css" href="/js/libs/fullcalendar/list/main.min.css"/>
+<link rel="stylesheet" type="text/css" href="/lib/fullcalendar/core/main.min.css"/>
+<link rel="stylesheet" type="text/css" href="/lib/fullcalendar/list/main.min.css"/>
 {{ end }}
