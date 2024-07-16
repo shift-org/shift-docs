@@ -1,0 +1,7 @@
+# tldr: this directory makes nginx happy during development.
+#
+# the nginx container expects the environment variable LETSENCRYPT_WEBROOT 
+# to tell it a location on the host to map its /tmp/letscrypt directory 
+# on production certbot.sh **requires** that the host directory also be called /tmp/letscrypt 
+# but not all development machines have such a location (ie. windows)
+# see also: docs/PRODUCTION_CONFIGURATION.md

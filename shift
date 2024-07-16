@@ -1,53 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-#### DB ####
-export MYSQL_ROOT_PASSWORD=da642315cb2d390714590dad93e07c50
-export MYSQL_DATABASE=shift
-export MYSQL_USER=shift
-export MYSQL_PASSWORD=ok124
-# can force the node version to use a sqlite in memory database instead of mysql:
-# export MYSQL_DATABASE=sqlite
+# ====================
+# setup environment overrides
+# ====================
 
-export NGINX_HTTPS_PORT=4443
-export NGINX_HTTP_PORT=4480
-export LETSENCRYPT_WEBROOT="/tmp/letsencrypt-auto"
-
-export SHIFT_DOMAIN="localhost"
-
-#### DOCKER ####
-export COMPOSE_PROJECT_NAME="shift"
-
-#### SMTP ####
-# with this configuration, emails will log to console, and to a file
-# ./shift emails
-# - or -
-# ./shift attach node
-# $ tail -f /var/log/shift-mail.log
-#
-# it will also try to "send" ethereal emails
-# https://ethereal.email/messages
-#
-# export SMTP_HOST=smtp.ethereal.email
-# export SMTP_USER=h42vgcxjpznr6qhx@ethereal.email
-# export SMTP_PASS=E18RgFGSnhwNMzmBdJ
-# export SMTP_LOGIN=587
-SMTP_HOST=
-SMTP_USER=
-SMTP_PASS=
-SMTP_LOGIN=
-SMTP_DOMAIN=
-
-#####
-# === HERE BE DRAGONS ===
-# These are some convenience pattens and functions that vincent@khougaz.com has found most helpful
-# Feel free to copy into your own projects, or mostly don't worry about it!
-#####
-
-# ENV
+# Get location of this script
 export ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-export EVENTIMAGES="${ROOT}/backend/eventimages"
-export SHIFT_IMAGE_DIR="/opt/backend/eventimages"
 
 # Check for an overrides file
 if [ -f ${ROOT}/shift.overrides ]; then
@@ -59,9 +18,8 @@ if [ -f $ROOT/secrets ]; then
     source $ROOT/secrets
 fi
 
-SCRIPT_NAME=$(basename $0)
-
 # ====================
+# helper to wait for node startup.
 # https://www.marksayson.com/blog/wait-until-docker-containers-initialized/
 
 # Max query attempts before consider setup failed
@@ -94,6 +52,7 @@ function waitUntilServiceIsReady() {
 }
 
 # ====================
+SCRIPT_NAME=$(basename $0)
 
 sub_help() { #                    - Show this text
     echo "Usage: ./${SCRIPT_NAME} <subcommand> [options]"
@@ -104,7 +63,13 @@ sub_help() { #                    - Show this text
 
 sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
-	mkdir $LETSENCRYPT_WEBROOT
+  # tbd: maybe we shouldn't mkdir, and instead let docker/nginx fail?
+  # rationale: certbot.sh creates and fills this directory.
+  # and if certbot hasn't already already run https will fail,
+  # but it won't be obvious until you visit the site.
+  # see docs/PRODUCTION_CONFIGURATION.md
+  echo "*** if this is production: have you run certbot? ***"
+	mkdir -p $LETSENCRYPT_WEBROOT
     fi 
     sub_compose up --force-recreate -d
 
