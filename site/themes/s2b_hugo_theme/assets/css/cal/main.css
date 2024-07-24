@@ -40,10 +40,19 @@ But if someone is using a high contrast display mode, the border will appear.
   margin-top: 14px;
 }
 
-.scrollToTop:hover {
-  /* uses the normalize.css link color */
-  background-color: rgb(51, 119, 187);
-  opacity: 1.0 !important;
+@media (hover: hover) {
+  .scrollToTop:hover {
+    /* uses the normalize.css link color */
+    background-color: rgb(51, 119, 187);
+    opacity: 1.0 !important;
+  }
+}
+@media (hover: none) {
+  /* where hover doesn't work, still give feedback for the click */
+  .scrollToTop:active {
+    background-color: rgb(51, 119, 187);
+    opacity: 1.0 !important;
+  }
 }
 
 /* added when fading in/out */
