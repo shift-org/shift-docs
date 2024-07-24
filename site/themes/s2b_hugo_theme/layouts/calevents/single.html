@@ -47,8 +47,10 @@
                 {{ end }}
 
                 <div id="mustache-html" class="container">
-
                 </div>
+
+                {{/* always added but only activate for multiple events */}}
+                <a id="scrollToTop" class="scrollToTop"></a>
 
                 {{ if isset .Params "pp" }}
                   {{ partial "cal/promo-banner-main-cal.html" . }}

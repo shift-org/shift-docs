@@ -10,21 +10,47 @@ But if someone is using a high contrast display mode, the border will appear.
 }
 
 .scrollToTop {
-  width:100px;
-  height:70px;
-  text-align:center;
-  color: #663300;
   position:fixed;
-  bottom:75px;
-  right:40px;
-  display:none;
-  z-index:1;
-  background: url('../../img/cal/icons/up-arrow.svg') no-repeat 0px 20px;
+  bottom:70px;
+  right:50%;
+  /* border radius needs to be half to pull this into a circle */
+  border-radius: 20px;
+  margin-right: -20px;
+  width:40px;
+  height:40px;
+  display: inline-block;
+  background-color: #808080;
+  text-align: center;
+  z-index: 100;
   background-position: center;
+   /* start invisible; the 'show' class fades in. */
+  visibility: hidden;
+  opacity: 0;
+}
+
+.scrollToTop::after {
+  content: '';
+  /* displays the bottom left corner of a box, and then rotates it. */
+  border: solid white;
+  border-width: 0 4px 4px 0;
+  display: inline-block;
+  padding: 6px;
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  margin-top: 14px;
 }
 
 .scrollToTop:hover {
-  color: #452200;
+  /* uses the normalize.css link color */
+  background-color: rgb(51, 119, 187);
+  opacity: 1.0 !important;
+}
+
+/* added when fading in/out */
+.scrollToTop.show {
+  opacity: 0.6;
+  visibility: visible;
+  transition: 0.4s opacity;
 }
 
 svg.icon {

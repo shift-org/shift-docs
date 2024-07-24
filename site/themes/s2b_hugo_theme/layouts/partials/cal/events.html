@@ -13,6 +13,7 @@
 
 <script type="text/javascript">
   //only show grid view for PP pages, 2008 or later
+  {{/* todo: change these ifs to hugo if statements */}}
   if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -122,10 +123,6 @@
 </script>
 
 {{ partial "cal/icons.html" . }}
-
-<script id="scrollToTop" type="text/template">
-  <a href="#" class="scrollToTop">Back To Top</a>
-</script>
 
 <script id="view-events-template" type="text/template">
   [[#dates]]

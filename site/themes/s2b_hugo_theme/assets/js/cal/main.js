@@ -112,9 +112,8 @@ $(document).ready(function() {
         // container is $('#mustache-html'); empty it out.
         container.empty();
 
-        // append the floating "scrollToTop" button
-        // ( template is in events.html )
-        container.append($('#scrollToTop').html());
+        // we only do this when viewing multiple events
+        enableScrollToTop();
 
         // build the events list:
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
@@ -149,8 +148,7 @@ $(document).ready(function() {
 
     function viewEvent(id) {
         container.empty()
-            .append($('#show-all-template').html())
-            .append($('#scrollToTop').html());
+            .append($('#show-all-template').html());
 
         getEventHTML({
             id: id,
@@ -211,19 +209,40 @@ $(document).ready(function() {
         }
     });
 
-    //scroll to top functionality
-    $(window).scroll(function(){
-        if ($(this).scrollTop() > 100) {
-            $('.scrollToTop').fadeIn();
-        } else {
-            $('.scrollToTop').fadeOut();
-        }
-    });
+    // scroll to top functionality
+    function enableScrollToTop() {
+      const scroller = $('#scrollToTop');
+      const scroll = {  
+        start: 300,   // y offset below which we might show
+        end :100      // y offset above which we never show
+      };   
+      let fadeState = 0;     // nicety: don't fade multiple times
+      let lastScrollPos = 0; // helper to fade when scrolling up
 
-    $('scrollToTop').click(function(){
-        $('html, body').animate({scrollTop: 0}, 800);
-        return false;
-    });
+      $(window).scroll(function(){
+        // determine the direction of scrolling:
+        const pos = window.scrollY;
+        const dir = pos - lastScrollPos;
+        lastScrollPos = pos;
+        // when scrolling up, show.
+        if ((pos > scroll.start) && (dir < 0)) {
+              if (fadeState !== 1) {
+                scroller.addClass("show");
+                fadeState = 1;
+              }
+          } else if ((dir > 0) || (pos < scroll.end)) {
+            // when scrolling down, hide.
+            if (fadeState !== -1) {
+              scroller.removeClass("show");
+              fadeState = -1;
+            }
+          }
+      });
+      scroller.click(function(){
+          $('html, body').animate({scrollTop: 0}, 600);
+          return false;
+      });
+    };
 
     // lightly adapted from
     // https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/
