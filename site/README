@@ -8,7 +8,11 @@ The site is built with [Hugo](https://gohugo.io/) with the [Universal](https://g
 
 `site/`
 
-`└── hugo.toml` Site configuration. Among other things controls the site's main menu, and the site params that can be read by layout files during build.
+`|── config/` [Site configuration.](https://gohugo.io/getting-started/configuration/)
+
+`    └── config/_default/hugo.toml` The main configuration file. Among other things controls the site's main menu, and the site params that can be read by layout files during build.
+
+`    └── config/development` Overrides and additions specific to development. ( included when by default when running "hugo server" or when explicitly setting "-e development" ( like the package.json does for `npm run dev` )
 
 `|── archetypes/` Archetypes generate new pages when running "hugo new content" at the command line. The site/archetypes take precedence over the theme archetypes. See: https://gohugo.io/content-management/archetypes/
 
@@ -25,6 +29,7 @@ Each sub-directory can contain an `_index.md` which provides data for rendering 
 `    └── pages`  This is where the majority of the page content from the site are located. Some examples of such pages ( which are linked to in the site menu ):
 
 `        └── pages/get-involved.md` becomes https://www.shift2bikes.org/pages/get-involved/
+
 `        └── pages/pedalpalooza.md` becomes https://www.shift2bikes.org/pages/pedalpalooza/
 
 
