@@ -8,7 +8,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.17.8
+    image: nginx:1.26.1
     restart: always
     volumes:
       # DEV SITE:
@@ -51,7 +51,7 @@ services:
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/
-    command: "hugo -v"
+    command: "--logLevel debug"
 
   node:
     restart: always

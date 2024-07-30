@@ -29,7 +29,8 @@ This is a standard hugo install
 
 ## Frontend dynamic code
 
-- All frontend code is located in the `./site/themes/s2b_hugo_theme/static` directory
+- All frontend code is located in the `./site/themes/s2b_hugo_theme/assets` directory
+- Frontend third party libraries are in `./site/themes/s2b_hugo_theme/static/lib`
 
 ## Backend
 
