@@ -9,3 +9,12 @@
 
 <!--   {{ partial "cal/pp-merch.html" . }} -->
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const pathname = window.location.pathname;
+    if (pathname !== "/calendar/") {
+      document.body.classList.add("single-event-calendar-page");
+    }
+  });
+</script>

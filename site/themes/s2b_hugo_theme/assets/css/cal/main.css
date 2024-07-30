@@ -714,3 +714,9 @@ button.jump-to-date[aria-expanded="true"] .icon.expand {
   display: flex;
   justify-content: space-between;
 }
+
+.single-event-calendar-page {
+    .pp-banner {
+        display: none;
+    }
+}
