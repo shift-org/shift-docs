@@ -12,7 +12,7 @@
 
 [build.environment]
   # see also package.json, and docker-compose.yml
-  HUGO_VERSION = "0.128.0"
+  HUGO_VERSION = "0.128.2"
 
 [context.deploy-preview]
   # this command builds draft content for deploy previews
