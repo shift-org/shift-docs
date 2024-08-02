@@ -1,22 +1,20 @@
 {{ define "page_body" }}
-            <div class="col-md-12">
+<div class="col-md-12">
+  <div>
+    {{ .Content }}
+  </div>
+  {{/*  only display when PP is coming soon or happening now */}}
+  {{ partial "cal/pp-promo-banner.html" . }}
+  
+  {{/* only display during Steptember */}}
+  {{/* partial "cal/promo-banner-steptember.html" . */}}
 
-              <div>
-                {{ .Content }}
-              </div>
-              {{/*  only display when PP is coming soon or happening now */}}
-              {{ partial "cal/pp-promo-banner.html" . }}
-              {{/* only display during Steptember */}}
-              {{/* partial "cal/promo-banner-steptember.html" . */}}
+  {{ partial "cal/view-options.html" . }}
+  {{ partial "cal/fullcal.html" . }} 
 
-              {{ partial "cal/view-options.html" . }}
-              {{ partial "cal/fullcal.html" . }} 
+  <div id="fullcalendar"></div>
 
-              <div id="fullcalendar"></div>
-
-              {{ partial "alert_banner.html" . }}
-
-              {{ partial "disclaimer.html" . }}
-
-            </div>
+  {{ partial "alert_banner.html" . }}
+  {{ partial "disclaimer.html" . }}
+</div>
 {{ end }}

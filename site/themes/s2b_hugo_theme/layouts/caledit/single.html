@@ -1,20 +1,16 @@
 {{ define "page_body" }}
+<div class="col-md-12">
+  {{ partial "alert_banner.html" . }}
+  <div>
+    {{ .Content }}
 
-              <div class="col-md-12">
-
-                {{ partial "alert_banner.html" . }}
-
-                <div>
-                  {{ .Content }}
-
-                  {{ if isset .Params "pp" }}
-                    {{ partial "cal/pp-header.html" . }}
-                  {{ end }}
-                </div>
-
-                <div id="mustache-html" class="container"></div>
-
-              </div>
+    {{ if isset .Params "pp" }}
+      {{ partial "cal/pp-header.html" . }}
+    {{ end }}
+  </div>
+  <div id="mustache-html" class="container">
+  </div>
+</div>
 {{ end }}
 {{ define "postscript" }}
   {{ partial "cal/edit.html" . }}

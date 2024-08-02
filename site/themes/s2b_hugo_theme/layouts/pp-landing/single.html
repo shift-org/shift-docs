@@ -1,20 +1,15 @@
 {{ define "page_body" }}
-              <div class="col-md-12">
-
-                <div>
-                  <!-- modified pp_heading partial -->
-                  <div class="pp-banner">
-                    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
-                    <div>
-                      <span class="pp-headline">Pedalpalooza!</span>
-                      <!-- <span class="pp-daterange">{{ .Param "daterange" }}</span> -->
-                    </div>
-
-                  {{ .Content }}
-                  
-                  </div> <!-- end pp_heading -->
-                  
-                </div>
-
-              </div>
+<div class="col-md-12">
+  <div>
+    <!-- modified pp_heading partial -->
+    <div class="pp-banner">
+      <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
+      <div>
+        <span class="pp-headline">Pedalpalooza!</span>
+        <!-- <span class="pp-daterange">{{ .Param "daterange" }}</span> -->
+      </div>
+      {{ .Content }}
+    </div>
+  </div>
+</div>
 {{ end }}

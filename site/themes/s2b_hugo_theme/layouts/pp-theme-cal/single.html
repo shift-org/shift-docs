@@ -1,15 +1,11 @@
 {{ define "page_body" }}
-              <div class="col-md-12">
-
-                  <!-- modified pp_heading partial -->
-                  <div class="pp-banner">
-                    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
-                    {{ .Content }}
-                  </div> <!-- end pp_heading -->
-
-                {{ partial "cal/pp-2020-cal.html" . }}
-
-                {{ partial "disclaimer.html" . }}
-
-              </div>
+<div class="col-md-12">
+  <!-- modified pp_heading partial -->
+  <div class="pp-banner">
+    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
+    {{ .Content }}
+  </div>
+  {{ partial "cal/pp-2020-cal.html" . }}
+  {{ partial "disclaimer.html" . }}
+</div>
 {{ end }}
