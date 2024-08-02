@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-        {{ partial "breadcrumbs.html" . }}
-
-        <div id="content">
-          <div class="container">
-
-            <div class="row">
-
+{{ define "page_body" }}
               <div class="col-md-12">
 
                 <div>
@@ -32,9 +9,8 @@
                     <!-- on other cal pages, display smaller banner that links to PP cal page -->
                     <!-- only display when PP is coming soon or happening now -->
                     {{ partial "cal/pp-promo-banner.html" . }}
-
-                    <!-- only display during Steptember -->
-                    <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
+                    {{/* only display during Steptember */}}
+                    {{/* partial "cal/promo-banner-steptember.html" . */}}
                   {{ end }}
 
                   {{ .Content }}
@@ -57,32 +33,13 @@
                 {{ partial "alert_banner.html" . }}
 
                 {{ partial "disclaimer.html" . }}
-
               </div>
 
-            </div>
-            <!-- /.row -->
-
-          </div>
-          <!-- /.container -->
-        </div>
-        <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
-  </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
+{{ end }}
+{{ define "postscript" }}
   {{ partial "cal/events.html" . }}
 
   <script type="text/javascript">
     window.cal_renderpage = "{{ .Params.id }}";
-    // TODO
   </script>
-
-</body>
-</html>
+{{ end }}

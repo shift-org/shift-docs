@@ -4,7 +4,11 @@
 <script src="{{ $jsCalAddEvent.Permalink }}"></script>
 {{ $jsCalDatePicker := resources.Get "js/cal/datepicker.js" | minify }}
 <script src="{{ $jsCalDatePicker.Permalink }}"></script>
-
+{{/* 
+		helper to prompt fixes for common email mistakes:
+			example@hotnail.con 
+		https://github.com/mailcheck/mailcheck 
+*/}}
 <script src="//cdnjs.cloudflare.com/ajax/libs/mailcheck/1.1.2/mailcheck.min.js"></script>
 
 <div class="modal fade" tabindex="-1" id="cancel-modal" role="dialog">
