@@ -1,60 +1,11 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-        {{ partial "breadcrumbs.html" . }}
-
-        <div id="content">
-          <div class="container">
-
-            <div class="row">
-
-              <div class="col-md-12">
-
-                   <!-- {{ partial "alert_banner.html" . }} -->
-
-                  <!-- modified pp_heading partial -->
-                  <div class="pp-banner">
-                    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
-                    {{ .Content }}
-                  </div> <!-- end pp_heading -->
-
-                {{ partial "cal/pp-2020-cal.html" . }}
-
-                {{ partial "disclaimer.html" . }}
-
-              </div>
-
-            </div>
-            <!-- /.row -->
-
-          </div>
-          <!-- /.container -->
-        </div>
-        <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
+{{ define "page_body" }}
+<div class="col-md-12">
+  <!-- modified pp_heading partial -->
+  <div class="pp-banner">
+    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
+    {{ .Content }}
   </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
-
-</body>
-
-</html>
+  {{ partial "cal/pp-2020-cal.html" . }}
+  {{ partial "disclaimer.html" . }}
+</div>
+{{ end }}

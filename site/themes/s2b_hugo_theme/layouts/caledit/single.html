@@ -1,66 +1,20 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
+{{ define "page_body" }}
+<div class="col-md-12">
+  {{ partial "alert_banner.html" . }}
+  <div>
+    {{ .Content }}
 
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-        {{ partial "breadcrumbs.html" . }}
-
-        <div id="content">
-          <div class="container">
-
-            <div class="row">
-
-              <div class="col-md-12">
-
-                {{ partial "alert_banner.html" . }}
-
-                <div>
-                  {{ .Content }}
-
-                  {{ if isset .Params "pp" }}
-                    {{ partial "cal/pp-header.html" . }}
-                  {{ end }}
-                </div>
-
-                <div id="mustache-html" class="container"></div>
-
-              </div>
-
-            </div>
-            <!-- /.row -->
-
-          </div>
-          <!-- /.container -->
-        </div>
-        <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
+    {{ if isset .Params "pp" }}
+      {{ partial "cal/pp-header.html" . }}
+    {{ end }}
   </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
+  <div id="mustache-html" class="container">
+  </div>
+</div>
+{{ end }}
+{{ define "postscript" }}
   {{ partial "cal/edit.html" . }}
-
   <script type="text/javascript">
     window.cal_renderpage = "{{ .Params.id }}";
   </script>
-
-</body>
-
-</html>
+{{ end }}

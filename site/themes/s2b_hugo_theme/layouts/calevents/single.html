@@ -1,88 +1,39 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
+{{ define "page_body" }}
+<div class="col-md-12">
+  <div>
+    {{ if isset .Params "pp" }}
+      <!-- on PP cal page, display full PP header -->
+      {{ partial "cal/pp-header.html" . }}
+    {{ else }}
+      <!-- on other cal pages, display smaller banner that links to PP cal page -->
+      <!-- only display when PP is coming soon or happening now -->
+      {{ partial "cal/pp-promo-banner.html" . }}
+      {{/* only display during Steptember */}}
+      {{/* partial "cal/promo-banner-steptember.html" . */}}
+    {{ end }}
 
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-        {{ partial "breadcrumbs.html" . }}
-
-        <div id="content">
-          <div class="container">
-
-            <div class="row">
-
-              <div class="col-md-12">
-
-                <div>
-                  {{ if isset .Params "pp" }}
-                    <!-- on PP cal page, display full PP header -->
-                    {{ partial "cal/pp-header.html" . }}
-                  {{ else }}
-                    <!-- on other cal pages, display smaller banner that links to PP cal page -->
-                    <!-- only display when PP is coming soon or happening now -->
-                    {{ partial "cal/pp-promo-banner.html" . }}
-
-                    <!-- only display during Steptember -->
-                    <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
-                  {{ end }}
-
-                  {{ .Content }}
-                </div>
-
-                <div id="fullcalendar"></div>
-
-                {{ if isset .Params "pp" }}
-                  {{ partial "cal/pp-feed.html" . }}
-                {{ end }}
-
-                <div id="mustache-html" class="container">
-
-                </div>
-
-                {{ if isset .Params "pp" }}
-                  {{ partial "cal/promo-banner-main-cal.html" . }}
-                {{ end }}
-
-                {{ partial "alert_banner.html" . }}
-
-                {{ partial "disclaimer.html" . }}
-
-              </div>
-
-            </div>
-            <!-- /.row -->
-
-          </div>
-          <!-- /.container -->
-        </div>
-        <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
+    {{ .Content }}
   </div>
-  <!-- /#all -->
 
-  {{ partial "scripts.html" . }}
+  <div id="fullcalendar"></div>
+
+  {{ if isset .Params "pp" }}
+    {{ partial "cal/pp-feed.html" . }}
+  {{ end }}
+
+  <div id="mustache-html" class="container"> 
+  </div>
+
+  {{ if isset .Params "pp" }}
+    {{ partial "cal/promo-banner-main-cal.html" . }}
+  {{ end }}
+  {{ partial "alert_banner.html" . }}
+  {{ partial "disclaimer.html" . }}
+</div>
+{{ end }}
+{{ define "postscript" }}
   {{ partial "cal/events.html" . }}
-
   <script type="text/javascript">
     window.cal_renderpage = "{{ .Params.id }}";
-    // TODO
   </script>
-
-</body>
-</html>
+{{ end }}
