@@ -132,16 +132,6 @@
   from = "/calendar/pedalpalooza"
   to = "/pages/pedalpalooza"
   status = 301
-  
-# remove-add trailing slashes kinda?  fool can't really believe this works :P
-[[redirects]]
-  from = "/addevent/*"
-  to = "/addevent"
-  status = 200
-[[redirects]]
-  from = "/calendar/*"
-  to = "/calendar"
-  status = 200
 
 # old pedalpalooza page should link to new one
 [[redirects]]
@@ -161,3 +151,33 @@
   to = "https://shop.ohmydollar.com/collections/breakfast-on-the-bridges-20th-year-collection"
   status = 200
   force = true
+
+
+#------------------------------------------------------------------------------------
+# rewrites 
+# see: https://docs.netlify.com/routing/redirects/rewrites-proxies/
+#
+# fix: for both addevent and calendar
+# it'd be nice to separate the "single" and "multi" pages.
+# ( ex. maybe add `from = "/calendar/event-:event"; to = "/calevent"`
+#   and add a content/calevent.md to handle it. )
+#------------------------------------------------------------------------------------
+
+# this makes the frontend return the "addevent" page for all addevent urls
+# ex.  https://shift2bikes.org/addevent/
+# and  https://shift2bikes.org/addevent/edit-:id-:secret
+#
+# see: https://docs.netlify.com/routing/redirects/rewrites-proxies/
+[[redirects]]
+  from = "/addevent/*"
+  to = "/addevent"
+  status = 200
+
+# a "rewrite" not a redirect.
+# this makes the frontend return the "calendar" page for all calendar urls
+# ex. https://shift2bikes.org/calendar/   
+# and https://shift2bikes.org/calendar/event-12345
+[[redirects]]
+  from = "/calendar/*"
+  to = "/calendar"
+  status = 200
