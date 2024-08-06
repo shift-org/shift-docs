@@ -117,7 +117,7 @@ sub_up() { #                      - Bring all services up
 }
 
 sub_watch() { #                   - Watch the site directory for changes and rebuild the site
-    sub_compose run --rm hugo -w
+    sub_compose run --rm hugo -w -e development
     wait
 }
 

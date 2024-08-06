@@ -1,0 +1,4 @@
+# see the following like for options
+# https://gohugo.io/getting-started/configuration/#configure-minify
+# note: confusingly, when disableJS is 'true', the filenames will still be ".min.js" even though their contents are correctly non-minified.
+disableJS = true
