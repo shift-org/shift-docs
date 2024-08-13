@@ -41,10 +41,12 @@ function get(req, res, next) {
   const end = req.query.enddate || "";
   const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
+  const pedalp = customName.startsWith("pedalp");
+  const cal = Object.assign({}, config.cal.base, pedalp? config.cal.pedalp: config.cal.shift);
 
-  return getEventData(id, start, end, includeDeleted).then(data => {
+  return getEventData(cal, id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
-    return respondWith(res, customName || filename, events);
+    return respondWith(cal, res, customName || filename, events);
   }).catch(err => {
     // the code below uses strings for expected errors.
     // ex. a bad range; allow other things to be 500 server errors with stacks.
@@ -57,10 +59,9 @@ function get(req, res, next) {
 }
 
 // promise a structure containing: filename and events.
-function getEventData(id, start, end, includeDeleted) {
+function getEventData(cal, id, start, end, includeDeleted) {
   let filename;
   let buildEvents;
-  const cal= config.cal;
   if (id && start && end) {
     buildEvents = Promise.reject("expected either an id or date range");
   } else if (id) {
@@ -83,8 +84,7 @@ function getEventData(id, start, end, includeDeleted) {
  * Turn event entries into a http response.
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
-function respondWith(res, filename, events) {
-  const cal = config.cal;
+function respondWith(cal, res, filename, events) {
   // note: the php sets includes utf8 in the content type but...
   // according to  https://en.wikipedia.org/wiki/ICalendar
   // its default utf8, and mime type should be used for anything different.
@@ -122,7 +122,7 @@ function buildOne(id) {
 function buildCurrent() {
   const now = dt.getNow();
   const started = now.subtract(1, 'month');
-  const ended = now.add(3, 'month');
+  const ended = now.add(6, 'month');
   return CalDaily.getFullRange(started, ended).then((dailies)=>{
     return buildEntries(dailies);
   });

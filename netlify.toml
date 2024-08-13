@@ -101,10 +101,17 @@
   status = 200
   force = true
 
-# second URL for pedalpalooza feed that may work better in some clients (cf https://github.com/shift-org/shift-docs/issues/116#issuecomment-1101534820)
+# the official pedalpalooza feed
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
   to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  status = 200
+  force = true
+
+# the official "all events" feed.
+[[redirects]]
+  from = "/cal/shift-calendar.php"
+  to = "https://api.shift2bikes.org/api/shift-calendar.php"
   status = 200
   force = true
 
