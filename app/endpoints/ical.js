@@ -31,14 +31,33 @@ module.exports = {
   replace,
 };
 
+// text|escapeBreak("HEADER") => HEADER:text
+// text can be either a string or an array.
+nunjucks.addFilter('escapeBreak', function(text, header) {
+  header += ":";
+  return !Array.isArray(text) ? 
+          escapeBreak(header, text) : 
+          escapeBreak(header, ...text);
+});
+
+// format a dayjs object in a ical friendly way.
+nunjucks.addFilter('ical', function(d) {
+  return dt.icalFormat(d);
+});
+
 function readBool(b) {
   return b === "true" || b === "1";
 }
 
+function readDate(d) {
+  return d && dt.fromYMDString(d);
+}
+
+// the endpoint handler for all ical feeds.
 function get(req, res, next) {
   const id = req.query.id; // a cal event id
-  const start = req.query.startdate || "";
-  const end = req.query.enddate || "";
+  const start = readDate(req.query.startdate);
+  const end = readDate(req.query.enddate);
   const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
   const pedalp = customName.startsWith("pedalp");
@@ -46,6 +65,9 @@ function get(req, res, next) {
 
   return getEventData(cal, id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
+    if (pedalp) {
+      events.push( buildClosingEvent(end) );
+    }
     return respondWith(cal, res, customName || filename, events);
   }).catch(err => {
     // the code below uses strings for expected errors.
@@ -59,18 +81,23 @@ function get(req, res, next) {
 }
 
 // promise a structure containing: filename and events.
+// start and end are dayjs objects ( or false )
 function getEventData(cal, id, start, end, includeDeleted) {
   let filename;
   let buildEvents;
   if (id && start && end) {
+    // there's not a real need to validate the parameters like this
+    // its probably over-zealous and could be removed.
     buildEvents = Promise.reject("expected either an id or date range");
   } else if (id) {
-    filename = `${cal.filename}-${id}` + cal.ext;
     // ex. shift-calendar-12414.ics
+    filename = `${cal.filename}-${id}` + cal.ext;
     buildEvents = buildOne(id);
-  } else if (start || end) {
+  } else if (start && end) {
     // ex. shift-calendar-2001-06-02-to-2022-01-01.ics
-    filename = `${cal.filename}-${start}-to-${end}` + cal.ext;
+    filename = [cal.filename, 
+                dt.toYMDString(start), "to", 
+                dt.toYMDString(end)].join("-") + cal.ext;
     buildEvents = buildRange(start, end, includeDeleted);
   } else {
     // ex. shift-calendar.ics
@@ -129,22 +156,20 @@ function buildCurrent() {
 }
 
 // Promise a range of events in ical format as string,
-// where start and end are timestamps.
+// where start and end are dayjs objects.
 function buildRange(start, end, includeDeleted) {
-  const started  = dt.fromYMDString(start);
-  const ended  = dt.fromYMDString(end);
-  if (!started.isValid() || !ended.isValid()) {
+  if (!start.isValid() || !end.isValid()) {
     return Promise.reject("invalid dates");
   } else {
-    const range = ended.diff(started, 'day');
+    const range = end.diff(start, 'day');
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
     const q = includeDeleted?
               CalDaily.getFullRange:
               CalDaily.getRangeVisible;
-    return q(started,ended).then((dailies)=>{
-      return  buildEntries(dailies);
+    return q(start,end).then((dailies)=>{
+      return buildEntries(dailies);
     });
   }
 }
@@ -189,22 +214,58 @@ function buildCalEntry(evt, at) {
   return {
     uid: "event-" + at.pkid + "@shift2bikes.org",
     url,
-    summary: escapeBreak("SUMMARY:", evt.title),
-    contact: escapeBreak("CONTACT:", evt.name),
-    description: escapeBreak("DESCRIPTION:",
+    summary: evt.title,
+    contact: evt.name,
+    description: [
       evt.descr, evt.timedetails,
       evt.locend? "Ends at "+ evt.locend: null,
-      url),
-    location: escapeBreak("LOCATION:",
-      evt.locname, evt.address, evt.locdetails),
+      url
+    ],
+    location: [
+      evt.locname, evt.address, evt.locdetails
+    ],
     status:  at.isUnscheduled() ? "CANCELLED": "CONFIRMED",
-    start: dt.icalFormat( startAt ),
-    end: dt.icalFormat( endAt ),
-    created: dt.icalFormat( evt.created ),
-    modified: dt.icalFormat( evt.modified ),
+    start:    startAt,
+    end:      endAt,
+    created:  evt.created,
+    modified: evt.modified,
     sequence: evt.changes + 1,
   };
 }
+
+/**
+ * Create a fake closing event for pedalp.
+ * @param  dayjs  lastDay of Pedalpalooza ( ex. the final day of the month )
+ * @return an object containing the elements needed for producing a v-event.
+ * @see buildCalEntry()
+ */
+function buildClosingEvent(lastDay) {
+  const year = lastDay.year();
+  const fakeModified = dayjs(`06-01-${year}`, "MM-DD-YYYY");
+  const oneDayLater = lastDay.add(1, 'day');
+  const url = "https://shift2bikes.org/calendar/";
+  return {
+    // usually: "event-123@shift2bikes.org"
+    uid: `pedalpalooza-${year}-end@shift2bikes.org`,
+    summary: `Pedalpalooza ${year} is over!`,
+    contact: "bikecal@shift2bikes.org",
+    description: 
+    "We hope you've had a great bike summer and a great Pedalpalooza!!!\n"+
+    "While Pedalpalooza is done, there is still plenty of bike fun to be found on the Shift2bikes website. "+
+    "And you can also subscribe to the Shift community calendar to see those rides.\n"+ 
+    `Visit ${url} for more details.`,
+    location: "Portland, and beyond!",
+    status:   "CONFIRMED",
+    // create an all day event on the day after Pedalpalooza
+    start:    oneDayLater.startOf('day'),
+    end:      oneDayLater.endOf('day'),
+    created:  fakeModified,
+    modified: fakeModified,
+    sequence: 1, 
+    url,
+  };
+}
+
 
 // ---------------------------------
 // the internals:
