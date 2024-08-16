@@ -95,6 +95,10 @@ const methods =  {
            (this.eventstatus == EventStatus.Delisted);
   },
 
+  getNewsFlash() {
+    return !this.isDelisted() ? this.newsflash : null
+  },
+
   // return a summary of this occurrence for the "events" endpoint.
   // backcompat: include the endtime if specified.
   getJSON(endtime) {
@@ -106,7 +110,7 @@ const methods =  {
       // don't send newsflash when delisted:
       // it's not scheduled and may be deleted
       // either way, its not info we want to show.
-      newsflash: !this.isDelisted() ? this.newsflash : null,
+      newsflash: this.getNewsFlash(),
       status: this.eventstatus,
     };
     // see notes in CalEvent.getJSON()
