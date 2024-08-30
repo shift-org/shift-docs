@@ -8,15 +8,15 @@ X-WR-RELCALID:{{cal.guid|safe}}
 {% for evt in events -%}
 BEGIN:VEVENT
 UID:{{evt.uid|safe}}
-{{evt.summary|safe}}
-{{evt.contact|safe}}
-{{evt.description|safe}}
-{{evt.location|safe}}
+{{evt.summary|escapeBreak("SUMMARY")|safe}}
+{{evt.contact|escapeBreak("CONTACT")|safe}}
+{{evt.description|escapeBreak("DESCRIPTION")|safe}}
+{{evt.location|escapeBreak("LOCATION")|safe}}
 STATUS:{{evt.status|safe}}
-DTSTART:{{evt.start|safe}}
-DTEND:{{evt.end|safe}}
-CREATED:{{evt.created|safe}}
-DTSTAMP:{{evt.modified|safe}}
+DTSTART:{{evt.start|ical}}
+DTEND:{{evt.end|ical}}
+CREATED:{{evt.created|ical}}
+DTSTAMP:{{evt.modified|ical}}
 SEQUENCE:{{evt.sequence|safe}}
 URL:{{evt.url|safe}}
 END:VEVENT

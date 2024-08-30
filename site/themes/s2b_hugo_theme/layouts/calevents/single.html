@@ -40,9 +40,13 @@
                   {{ .Content }}
                 </div>
 
+                {{ if not .Params.pp }}
+                  {{ partial "cal/shift-feed.html" . }}
+                {{ end }}
+
                 <div id="fullcalendar"></div>
 
-                {{ if isset .Params "pp" }}
+                {{ if .Params.pp }}
                   {{ partial "cal/pp-feed.html" . }}
                 {{ end }}
 
