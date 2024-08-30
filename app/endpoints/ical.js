@@ -211,12 +211,25 @@ function buildCalEntry(evt, at) {
   }
   const endAt = evt.addDuration(startAt);
   const url = at.getShareable();
+  let title = evt.title;
+  // google calendar doesn't indicated canceled events well;
+  // so force it to.
+  if (at.isUnscheduled()) {
+    title = "CANCELLED: " + title;
+  }
+  let news = at.getNewsFlash();
+  if (!news) {
+    news = "";  // no news is null news; we want an empty string.
+  } else {
+    news += "\n";
+  }
   return {
     uid: "event-" + at.pkid + "@shift2bikes.org",
     url,
-    summary: evt.title,
+    summary: title,
     contact: evt.name,
     description: [
+      news,
       evt.descr, evt.timedetails,
       evt.locend? "Ends at "+ evt.locend: null,
       url
