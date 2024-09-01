@@ -65,6 +65,14 @@ main .donate a {
   font-size: 16px;
 }
 
+.affix {
+    position: fixed;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+    border-bottom: 1px solid transparent;
+}
+
 @media (max-width: 991px) {
   .home-carousel h1 {
     font-size: 32px;

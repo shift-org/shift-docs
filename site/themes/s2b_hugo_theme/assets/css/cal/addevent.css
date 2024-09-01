@@ -1,0 +1,248 @@
+.panel {
+    min-width: 310px;
+}
+
+.panel h2 {
+    font-size: 1.25em;
+}
+
+.panel-default > .panel-heading {
+    background-color: #F2F2F2;
+    background-image: none;
+}
+
+.panel-heading a .icon {
+    height: 20px;
+    width: 20px;
+    padding: 4px;
+    float: left;
+}
+
+.panel-heading a svg use {
+    stroke: currentColor;
+}
+
+.edit-buttons {
+    width:100%;
+    background:white;
+    padding: 8px 16px;
+}
+
+.unpublished-event {
+    text-align: center;
+    color: #663300;
+    background: #FCFAF2;
+    border: 1px solid #FFDD66;
+    padding: 1em;
+    margin-bottom: 2em;
+}
+
+/* date picker */
+
+#date-select-container {
+    margin: 0 auto;
+}
+
+.date-select-container-style {
+    width: 310px;
+    background-color: #fff56f;
+}
+
+form#event-entry .date-select-container-style {
+    width: 280px;
+}
+
+.date-select-container-style.jump-to-date {
+    float: right;
+    clear: right;
+}
+
+#date-select {
+    height: 140px;
+}
+
+.date-select-style {
+    background-color: #ffbd2c;
+    overflow: scroll;
+}
+
+.date-picker-style {
+    width: 100%;
+}
+
+#date-picker-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendar-day {
+    border-top: 1px solid gray;
+    padding: 3px;
+    color: #404040;
+    line-height: 1.5em;
+    text-align: center;
+}
+
+.calendar-day:hover {
+    cursor: pointer;
+    outline: 2px dotted #663300;
+}
+
+.calendar-day.today {
+    text-decoration: 2px solid #404040 underline;
+    background-color: #fff;
+}
+
+.calendar-day.selected {
+    background-color: #663300;
+    outline: 2px solid #663300;
+    color: #FCFAF2;
+}
+
+.calendar-day.today.selected {
+    text-decoration-color: white;
+}
+
+.calendar-day.today:hover {
+     outline: 2px dotted #663300;
+}
+
+.calendar-month-title {
+    position: relative;
+    width: 30px;
+    color: #404040;
+    background-color: #f90;
+    font-weight: bold;
+}
+
+.calendar-month-title span {
+    white-space: nowrap;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    width: 0;
+    left: 10px;
+    bottom: 0;
+    display: block;
+    position: absolute;
+    font-size: .8em;
+}
+
+.day-of-week {
+    width: 100%;
+    font-size: 0.9em;
+    text-align: center;
+    table-layout: fixed;
+    color: #404040;
+}
+
+.color-jan, .color-mar, .color-may, .color-jul, .color-sep, .color-nov {
+    background-color: #fc6;
+}
+
+.color-jan-odd, .color-mar-odd, .color-may-odd,
+.color-jul-odd, .color-sep-odd, .color-nov-odd {
+    background-color: #fd6;
+}
+
+.color-feb, .color-apr, .color-jun, .color-aug, .color-oct, .color-dec {
+    background-color: #fd6;
+}
+
+.color-feb-odd, .color-apr-odd, .color-jun-odd,
+.color-aug-odd, .color-oct-odd, .color-dec-odd {
+    background-color: #fe9;
+}
+/* /date picker */
+
+.modal-dialog .modal-footer .btn-warning,
+#delete-button {
+  color: #D00000;
+  background-image: none;
+  background-color: #F6E0E1;
+  border: 1px solid #D00000;
+  text-shadow: none;
+}
+
+.modal-dialog .modal-footer .btn-warning:focus,
+#delete-button:focus {
+    outline: 2px solid #D00000;
+    outline-offset: 1px;
+}
+
+.modal-dialog.modal-sm .modal-body {
+    text-align:center;
+}
+
+.control-label {
+    color: #404040;
+    font-weight: normal;
+}
+
+.req-label::after {
+    content: " *";
+    color: #D00000;
+}
+
+.optional-label::after {
+    content: " (optional)";
+    color: #707070;
+}
+
+.input-help {
+    color: #707070;
+}
+
+#email-suggestion {
+    display:none;
+    color: red;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+#email-suggestion .correction {
+    color: blue;
+    cursor: pointer;
+}
+
+#email-suggestion .glyphicon {
+    color: grey;
+    cursor: pointer;
+    margin-left: 3px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
+
+#event-fields .image-form {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#event-fields .image-form .image-display {
+  margin-right: 1em;
+}
+
+#event-fields .image-form .image-display img {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+#event-fields .image-form .image-display img.placeholder {
+  width: 80px;
+  height: 80px;
+  border: 2px dashed #707070;
+  border-radius: 2px;
+  padding: 4px;
+  opacity: 0.5;
+}
+
+.ride-comic {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comic-thumbnail {
+    float: left;
+    margin-right: 10px;
+}
