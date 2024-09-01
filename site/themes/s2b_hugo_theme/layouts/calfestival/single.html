@@ -24,17 +24,25 @@
 
               <div class="col-md-12">
 
-                {{ partial "alert_banner.html" . }}
-
                 <div>
-                  {{ .Content }}
+                  {{ partial "cal/pp-header.html" . }}
 
-                  {{ if isset .Params "pp" }}
-                    {{ partial "cal/pp-header.html" . }}
-                  {{ end }}
+                  {{ .Content }}
                 </div>
 
-                <div id="mustache-html" class="container"></div>
+                <div id="fullcalendar"></div>
+
+                {{ partial "cal/pp-feed.html" . }}
+
+                <div id="mustache-html" class="container">
+
+                </div>
+
+                {{ partial "cal/promo-banner-main-cal.html" . }}
+
+                {{ partial "alert_banner.html" . }}
+
+                {{ partial "disclaimer.html" . }}
 
               </div>
 
@@ -56,12 +64,12 @@
 
   {{ partial "scripts.html" . }}
   {{ partial "cal/scripts.html" . }}
-  {{ partial "cal/edit.html" . }}
+  {{ partial "cal/events.html" . }}
 
   <script type="text/javascript">
     window.cal_renderpage = "{{ .Params.id }}";
+    // TODO
   </script>
 
 </body>
-
 </html>

@@ -1,3 +1,19 @@
+{{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
+<script src="{{ $jsCalHelpers.Permalink }}"></script>
+{{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
+<script src="{{ $jsCalMain.Permalink }}"></script>
+
+<script src="{{ .Site.BaseURL }}lib/mustache/mustache.min.js"></script>
+
+{{ partial "cal/dayjs.html" . }}
+
+<!-- only load FullCal scripts on calendar grid and festival pages; not needed on list or edit pages -->
+{{ if or (eq .Type "calgrid") (eq .Type "calfestival") (eq .Type "pp-theme-cal") }}
+<script src="{{ .Site.BaseURL }}lib/fullcalendar/core/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}lib/fullcalendar/daygrid/main.min.js"></script>
+<script src="{{ .Site.BaseURL }}lib/fullcalendar/timegrid/main.min.js"></script>
+{{ end }}
+
 <script type="text/javascript">
   function parseURL() {
     var urlParams = {};

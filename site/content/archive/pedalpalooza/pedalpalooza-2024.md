@@ -3,7 +3,7 @@ title: "2024 Pedalpalooza calendar"
 description: "2024 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: calevents
+type: calfestival
 pp: true
 year: 2024
 startdate: 2024-06-01
