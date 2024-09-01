@@ -5,7 +5,7 @@
 {{ $jsCalDatePicker := resources.Get "js/cal/datepicker.js" | minify }}
 <script src="{{ $jsCalDatePicker.Permalink }}"></script>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/mailcheck/1.1.2/mailcheck.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/mailcheck/1.1.2/mailcheck.min.js" integrity="sha512-xbDYG2aNoxRNdWVXnGkOBrCafX3GZ7+8lSfSOjkpvUmHLwZSFxrcX9aMXsBAbUeus18rxTCiAg5bj5v2EYQUJw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <div class="modal fade" tabindex="-1" id="cancel-modal" role="dialog">
   <div class="modal-dialog modal-sm">
