@@ -85,10 +85,14 @@ $(document).ready(function() {
     // the returned object gets passed to getEventHTML().
     function getInitialView(options) {
         const today = dayjs().startOf('day');
-        const start = dayjs(options.startdate); // if start or end are missing ( from the url )
-        const end   = dayjs(options.enddate);   // dayjs returns today.
+
+        // use the start/end dates from the url; otherwise, use today
+        const start = options.startdate ? dayjs(options.startdate) : dayjs(today);
+        const end = options.enddate ? dayjs(options.enddate) : dayjs(today);
+
         const inRange = today >= start && today <= end;
         const from = (inRange && options.pp) ? today : start;
+
         return {
           // since this year's PP will be in range
           // ( as will the normal calendar events page )
@@ -178,15 +182,6 @@ $(document).ready(function() {
       } else {
         url.searchParams.delete('show_details');
         window.location.href = url.href;
-      }
-    });
-
-    $(document).on('click', '#go-to-date', function() {
-      var date = $("#go-to-date-field").val();
-      if (date) {
-        window.location.href = '/calendar/?startdate=' + date;
-      } else {
-        window.location.href = '/calendar/';
       }
     });
 
