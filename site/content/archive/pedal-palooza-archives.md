@@ -12,7 +12,7 @@ In 2002, Portland hosted [Bike Summer](https://criticalmass.wikia.com/wiki/Bike_
 
 *   [2024](/archive/pedalpalooza/pedalpalooza-2024/)
 
-    Started on a Saturday and ended Labor Day weekend, with oodles of rides large and small, every day! 878 events!
+    Started on a Saturday and ended Labor Day weekend, with oodles of rides large and small, every day! 875 events!
 
 *   [2023](/archive/pedalpalooza/pedalpalooza-2023/)
 
