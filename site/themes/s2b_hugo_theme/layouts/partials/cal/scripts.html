@@ -1,4 +1,4 @@
-{{ if or (eq .Type "calevents") (eq .Type "calfestival") }}
+{{ if or (eq .Type "calevents") (eq .Type "caledit") (eq .Type "calfestival") }}
   {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
   <script src="{{ $jsCalHelpers.Permalink }}"></script>
   {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
