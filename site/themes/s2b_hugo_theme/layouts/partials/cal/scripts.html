@@ -1,3 +1,4 @@
+<!-- only load on list, edit, and festival pages; not needed for grid view page -->
 {{ if or (eq .Type "calevents") (eq .Type "caledit") (eq .Type "calfestival") }}
   {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
   <script src="{{ $jsCalHelpers.Permalink }}"></script>
@@ -16,6 +17,7 @@
   <script src="{{ .Site.BaseURL }}lib/fullcalendar/timegrid/main.min.js"></script>
 {{ end }}
 
+<!-- load on all cal pages -->
 <script type="text/javascript">
   function parseURL() {
     var urlParams = {};
