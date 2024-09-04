@@ -3,7 +3,7 @@ title: "2019 Pedalpalooza calendar"
 description: "2019 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: calevents
+type: calfestival
 pp: true
 year: 2019
 startdate: 2019-06-01

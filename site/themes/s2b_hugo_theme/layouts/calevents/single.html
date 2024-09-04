@@ -25,38 +25,22 @@
               <div class="col-md-12">
 
                 <div>
-                  {{ if isset .Params "pp" }}
-                    <!-- on PP cal page, display full PP header -->
-                    {{ partial "cal/pp-header.html" . }}
-                  {{ else }}
-                    <!-- on other cal pages, display smaller banner that links to PP cal page -->
-                    <!-- only display when PP is coming soon or happening now -->
-                    <!-- {{ partial "cal/pp-promo-banner.html" . }} -->
+                  <!-- when PP is coming soon or happening now, display smaller banner that links to PP cal page -->
+                  <!-- {{ partial "cal/pp-promo-banner.html" . }} -->
 
-                    <!-- only display during Steptember -->
-                    <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
-                  {{ end }}
+                  <!-- only display during Steptember -->
+                  <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
 
                   {{ .Content }}
                 </div>
 
-                {{ if not .Params.pp }}
-                  {{ partial "cal/shift-feed.html" . }}
-                {{ end }}
+                {{ partial "cal/shift-feed.html" . }}
 
                 <div id="fullcalendar"></div>
-
-                {{ if .Params.pp }}
-                  {{ partial "cal/pp-feed.html" . }}
-                {{ end }}
 
                 <div id="mustache-html" class="container">
 
                 </div>
-
-                {{ if isset .Params "pp" }}
-                  {{ partial "cal/promo-banner-main-cal.html" . }}
-                {{ end }}
 
                 {{ partial "alert_banner.html" . }}
 
@@ -81,6 +65,7 @@
   <!-- /#all -->
 
   {{ partial "scripts.html" . }}
+  {{ partial "cal/scripts.html" . }}
   {{ partial "cal/events.html" . }}
 
   <script type="text/javascript">

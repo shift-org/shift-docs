@@ -3,7 +3,7 @@ title: "2022 Pedalpalooza calendar"
 description: "2022 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: calevents
+type: calfestival
 pp: true
 year: 2022
 startdate: 2022-06-01

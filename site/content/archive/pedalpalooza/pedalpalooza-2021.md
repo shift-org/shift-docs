@@ -3,7 +3,7 @@ title: "2021 Pedalpalooza calendar"
 description: "2021 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: calevents
+type: calfestival
 pp: true
 year: 2021
 startdate: 2021-06-01

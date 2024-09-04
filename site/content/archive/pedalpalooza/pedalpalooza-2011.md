@@ -3,7 +3,7 @@ title: "2011 Pedalpalooza calendar"
 description: "2011 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: calevents
+type: calfestival
 pp: true
 year: 2011
 startdate: 2011-06-09

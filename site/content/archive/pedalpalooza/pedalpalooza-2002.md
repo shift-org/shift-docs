@@ -2,7 +2,7 @@
 title: 2002 Pedalpalooza calendar
 weight: 2
 id: pedalpalooza-calendar
-type: calevents
+type: calfestival
 pp: true
 year: 2002
 startdate: 2002-08-01
