@@ -303,8 +303,9 @@ h3 {
     overflow-wrap: break-word;
 }
 
-.btn{
+.btn {
     color: #37b;
+    background: #efefef;
 }
 
 .btn-add-event {
