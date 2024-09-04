@@ -14,3 +14,9 @@
 <link rel="stylesheet" type="text/css" href="/lib/fullcalendar/core/main.min.css"/>
 <link rel="stylesheet" type="text/css" href="/lib/fullcalendar/list/main.min.css"/>
 {{ end }}
+
+<!-- only edit page styles on add/event calendar page; not needed on other cal pages -->
+{{ if (eq .Type "caledit") }}
+{{ $cssCalAddEvent := resources.Get "css/cal/addevent.css" | minify }}
+<link rel="stylesheet" href="{{ $cssCalAddEvent.Permalink }}">
+{{ end }}
