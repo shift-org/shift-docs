@@ -9,17 +9,3 @@
 
 <!--   {{ partial "cal/pp-merch.html" . }} -->
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const pathname = window.location.pathname;
-    const calpage = "/calendar/";
-    // todo: we should try to separate each unique "endpoint"
-    // into separate hugo .md and layout files so we don't need this kind of test.
-    // see also: events.html which tries to suss out which page we are on.
-    // ( and possibly, move this there )
-    if (pathname.startsWith(calpage) && !pathname.endsWith(calpage)) {
-      document.body.classList.add("single-event-calendar-page");
-    }
-  });
-</script>

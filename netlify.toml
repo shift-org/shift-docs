@@ -146,6 +146,10 @@
   to = "/addevent"
   status = 200
 [[redirects]]
+  from = "/calendar/event/*"
+  to = "/calendar/event"
+  status = 200
+[[redirects]]
   from = "/calendar/*"
   to = "/calendar"
   status = 200
