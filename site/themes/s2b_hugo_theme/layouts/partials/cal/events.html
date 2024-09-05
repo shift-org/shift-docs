@@ -339,40 +339,11 @@
   </ul>
   </div>
   [[/dates]]
+
   [[^dates]]
   <p class="no-events">No matching events</p>
   [[/dates]]
-</script>
 
-<script id="load-more-template" type="text/template">
-  <button type="button" id="load-more" class="more-events">Show additional events</button>
-</script>
-
-<script id="show-all-template" type="text/template">
-  <a id="show-all" href="/calendar/">Show all upcoming events</a>
-</script>
-
-<script id="view-as-options" type="text/template">
-  {{ partial "cal/view-options.html" . }}
-</script>
-
-<script id="alert-banner-template" type="text/template">
-  {{ partial "alert_banner.html" . }}
-</script>
-
-<script id="event-list-options-template" type="text/template">
-  <div class="event-list-options">
-    <div class="show-details">
-      <button type="button" id="show-details" class="btn">Toggle details</button>
-    </div>
-    <form class="go-to-date" action="/calendar/" method="GET">
-      <label for="go-to-date-field">Go to date</label>
-      <input type="date" name="startdate" id="go-to-date-field" min="2008-01-01">
-      <button type="submit" class="btn">Go</button>
-    </form>
-  </div>
-</script>
-
-<script id="scrollToTop" type="text/template">
   <a href="#" class="scrollToTop">Back To Top</a>
+
 </script>
