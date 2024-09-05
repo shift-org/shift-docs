@@ -61,3 +61,76 @@
     return urlParams;
   }
 </script>
+
+<!-- only render grid view for festival pages, 2008 or later -->
+{{ if and (eq .Type "calfestival") (ge .Params.year 2008) }}
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    // the values are pulled from the .md page file
+    // all PP pages require start and enddates
+    const today = dayjs().startOf('day');
+    const range = {
+      start: dayjs( {{ .Params.startdate }} ),
+      end : dayjs( {{ .Params.enddate }} ),
+    };
+    // use today as the initially focused day, if its within the range;
+    // otherwise use the start of the range.
+    const initialDate = (today >= range.start && today <= range.end) ?
+                        today : range.start;
+
+    const calendarEl = document.getElementById('fullcalendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'dayGrid', 'timeGrid' ],
+      defaultView: 'dayGridMonth',
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      defaultDate: initialDate.toDate(),
+      validRange: {
+        start: range.start.toDate(),
+        // warning: fullcal enddate is exclusive.
+        end: range.end.add(1, 'day').toDate(),
+      },
+      nowIndicator: true,
+      eventLimit: true,
+      navLinks: true,
+      eventSources: [
+        {
+          url: '{{ .Site.BaseURL }}api/events.php',
+          startParam: 'startdate',
+          endParam: 'enddate',
+          success: function( content ) {
+            // our API returns { "events": [ ] }
+            // and this will return just the inner array as fullcalendar expects
+            return content.events;
+          },
+          eventDataTransform: function( eventData ) {
+            // this transforms the data for individual rides
+            // into the format needed by fullcalendar
+            var event = {
+                id: eventData.caldaily_id,
+                title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
+                start: eventData.date + 'T' + eventData.time,
+                url: '/calendar/event-' + eventData.caldaily_id,
+            };
+
+            event.classNames = [];
+            if (eventData.cancelled == true) {
+              event.classNames.push('cancelled');
+            }
+            if (eventData.featured == true) {
+              event.classNames.push('featured');
+            }
+
+            return event;
+          },
+        },
+      ]
+    });
+
+    calendar.render();
+  });
+</script>
+{{ end }}
