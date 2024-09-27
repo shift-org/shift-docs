@@ -77,16 +77,18 @@ Many thanks to these generous friends who make Breakfast on the Bridges possible
 
 ## Other
 
-Tardy slips are often available for those who are running late. They may not get you out of trouble, but they'll probably lighten the mood. At least you wont be trying to explain yourself on an empty stomach. 
+Tardy slips are often available for those who are running late. They may not get you out of trouble, but they'll probably lighten the mood. At least you won't be trying to explain yourself on an empty stomach. 
 
 BonB Superhero trading cards (on hand at special times) are a popular collectible commodity. You can expect them to triple in value over the next ten years. A whole set may someday go for eight times its original value at auction.
 
-And check out [some pictures on Flickr](http://flickr.com/photos/tags/bonb/)!
+And check out [some pictures on Flickr](https://flickr.com/photos/tags/bonb/)!
 
 ## Contact
 
 * Facebook: [bonbpdx](https://www.facebook.com/bonbpdx/)
+* Instagram: [@bonbpdx](https://www.instagram.com/bonbpdx/)
 * Mastodon: [@bonbpdx@social.ridetrans.it](https://social.ridetrans.it/@bonbpdx)
+* Bluesky: [@bonbpdx@bsky.social](https://bsky.app/profile/bonbpdx.bsky.social)
 * Twitter: [@bonbpdx](https://twitter.com/bonbpdx)
 
 ## Support
