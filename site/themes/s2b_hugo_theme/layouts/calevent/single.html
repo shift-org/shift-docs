@@ -25,30 +25,15 @@
               <div class="col-md-12">
 
                 <div>
-                  {{ partial "cal/pp-header.html" . }}
-
                   {{ .Content }}
                 </div>
 
-                <!-- events grid -->
-                <div id="fullcalendar"></div>
+                <a href="/calendar/">Show all upcoming events</a>
 
-                <!-- only display on current year -->
-                {{ if eq (.Param "year") 2024 }}
-                  {{ partial "cal/pp-feed.html" . }}
-                {{ end }}
-
-                <!-- events list; don't display for old PP pages with static content -->
-                {{ if ge (.Param "year") 2008 }}
+                <!-- event listing -->
                 <div id="mustache-html" class="container"></div>
-                {{ end }}
 
-                <!-- only display on current year -->
-                {{ if eq (.Param "year") 2024 }}
-                  {{ partial "cal/promo-banner-main-cal.html" . }}
-
-                  {{ partial "alert_banner.html" . }}
-                {{ end }}
+                {{ partial "alert_banner.html" . }}
 
                 {{ partial "disclaimer.html" . }}
 

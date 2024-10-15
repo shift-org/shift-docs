@@ -36,11 +36,13 @@
 
                 {{ partial "cal/shift-feed.html" . }}
 
-                <div id="fullcalendar"></div>
+                {{ partial "cal/view-options.html" . }}
+                {{ partial "cal/event-list-options" . }}
 
-                <div id="mustache-html" class="container">
+                <!-- events list -->
+                <div id="mustache-html" class="container"></div>
 
-                </div>
+                <button type="button" id="load-more" class="more-events">Show additional events</button>
 
                 {{ partial "alert_banner.html" . }}
 

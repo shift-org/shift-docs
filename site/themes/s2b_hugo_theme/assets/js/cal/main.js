@@ -120,25 +120,10 @@ $(document).ready(function() {
         // container is $('#mustache-html'); empty it out.
         container.empty();
 
-        // append the floating "scrollToTop" button
-        // ( template is in events.html )
-        container.append($('#scrollToTop').html());
-
         // build the events list:
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
         getEventHTML(view, function (eventHTML) {
-             // on PP pages only allow grid view
-             // otherwise, add the template to toggle.
-             if (!options.pp) {
-               container.append($('#view-as-options').html());
-               container.append($('#event-list-options-template').html());
-             }
              container.append(eventHTML);
-             if (!options.pp) {
-               // PP has set start and end dates,
-               // so don't display "load more" button if PP
-               container.append($('#load-more-template').html());
-             }
              lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
@@ -156,10 +141,6 @@ $(document).ready(function() {
     }
 
     function viewEvent(id) {
-        container.empty()
-            .append($('#show-all-template').html())
-            .append($('#scrollToTop').html());
-
         getEventHTML({
             id: id,
             show_details: true // always expand details for a single event

@@ -1,79 +1,4 @@
 <script type="text/javascript">
-  //only show grid view for PP pages, 2008 or later
-  if ({{ .Param "pp" }} && ( {{ .Param "year" }} >= 2008 ) ) {
-
-    document.addEventListener('DOMContentLoaded', function() {
-      // the values are pulled from the .md page file
-      // all PP pages require start and enddates
-      const today = dayjs().startOf('day');
-      const range = { 
-        start: dayjs( {{ .Params.startdate }} ),
-        end : dayjs( {{ .Params.enddate }} ),
-      };
-      // use today as the initially focused day, if its within the range;
-      // otherwise use the start of the range.
-      const initialDate = (today >= range.start && today <= range.end) ?
-                          today : range.start;  
-
-      const calendarEl = document.getElementById('fullcalendar');
-      const calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'dayGrid', 'timeGrid' ],
-        defaultView: 'dayGridMonth',
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        defaultDate: initialDate.toDate(),
-        validRange: {
-          start: range.start.toDate(),
-          // warning: fullcal enddate is exclusive.
-          end: range.end.add(1, 'day').toDate(),
-        },
-        nowIndicator: true,
-        eventLimit: true,
-        navLinks: true,
-        eventSources: [
-          {
-            url: '{{ .Site.BaseURL }}api/events.php',
-            startParam: 'startdate',
-            endParam: 'enddate',
-            success: function( content ) {
-              // our API returns { "events": [ ] }
-              // and this will return just the inner array as fullcalendar expects
-              return content.events;
-            },
-            eventDataTransform: function( eventData ) {
-              // this transforms the data for individual rides
-              // into the format needed by fullcalendar
-              var event = {
-                  id: eventData.caldaily_id,
-                  title: (eventData.tinytitle ? eventData.tinytitle : eventData.title),
-                  start: eventData.date + 'T' + eventData.time,
-                  url: '/calendar/event-' + eventData.caldaily_id,
-              };
-
-              event.classNames = [];
-              if (eventData.cancelled == true) {
-                event.classNames.push('cancelled');
-              }
-              if (eventData.featured == true) {
-                event.classNames.push('featured');
-              }
-
-              return event;
-            },
-          },
-        ]
-      });
-
-      calendar.render();
-    });
-
-  }
-</script>
-
-<script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
 
@@ -339,40 +264,11 @@
   </ul>
   </div>
   [[/dates]]
+
   [[^dates]]
   <p class="no-events">No matching events</p>
   [[/dates]]
-</script>
 
-<script id="load-more-template" type="text/template">
-  <button type="button" id="load-more" class="more-events">Show additional events</button>
-</script>
-
-<script id="show-all-template" type="text/template">
-  <a id="show-all" href="/calendar/">Show all upcoming events</a>
-</script>
-
-<script id="view-as-options" type="text/template">
-  {{ partial "cal/view-options.html" . }}
-</script>
-
-<script id="alert-banner-template" type="text/template">
-  {{ partial "alert_banner.html" . }}
-</script>
-
-<script id="event-list-options-template" type="text/template">
-  <div class="event-list-options">
-    <div class="show-details">
-      <button type="button" id="show-details" class="btn">Toggle details</button>
-    </div>
-    <form class="go-to-date" action="/calendar/" method="GET">
-      <label for="go-to-date-field">Go to date</label>
-      <input type="date" name="startdate" id="go-to-date-field" min="2008-01-01">
-      <button type="submit" class="btn">Go</button>
-    </form>
-  </div>
-</script>
-
-<script id="scrollToTop" type="text/template">
   <a href="#" class="scrollToTop">Back To Top</a>
+
 </script>

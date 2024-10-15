@@ -147,7 +147,7 @@
   status = 200
 [[redirects]]
   from = "/calendar/*"
-  to = "/calendar"
+  to = "/calendar/event"
   status = 200
 
 # old pedalpalooza page should link to new one
