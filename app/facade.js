@@ -32,7 +32,7 @@ const facade = {
 
     // ex. http://localhost:3080/calendar/event-201
     splat(app,"/calendar/event-:id",
-      path.posix.join(staticFiles, 'calendar', 'index.html'));
+      path.posix.join(staticFiles, 'calendar/event', 'index.html'));
   },
 
   // uses config for the image directory
