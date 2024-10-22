@@ -45,9 +45,15 @@ The docker configuration also supports running your own frontend and backend ser
 
 1. Install Docker: [https://docs.docker.com/get-docker/](https://docs.docker.com/get-docker/)
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
-4. Start shift site: `cd shift-docs ; ./shift up`
-5. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
-6. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
+3. Start shift site: `cd shift-docs ; ./shift up`  
+  a. If you are running windows, you may need to use a WSL extension in order to execute code in a unix (bash) terminal.  
+  b. You may recieve an error in the nginx container: `...bash\r: command not found`. This is because the docker container is trying to execute the script using dos formatting, instead of unix formatting. To fix this, you will need to reformat `services/nginx/entrypoint.sh` using the `dos2unix` tool:
+    ```
+    $ dos2unix services/nginx/entrypoint.sh
+    ```  
+    (you may need to download the `dos2unix` tool if it is not already on your local machine)
+4. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
+5. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
 Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
 
