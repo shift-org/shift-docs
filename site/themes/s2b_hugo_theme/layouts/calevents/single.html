@@ -42,6 +42,9 @@
                 <!-- events list -->
                 <div id="mustache-html" class="container"></div>
 
+                {{/* always added but only activate for multiple events */}}
+                <a id="scrollToTop" class="scrollToTop"></a>
+
                 <button type="button" id="load-more" class="more-events">Show additional events</button>
 
                 {{ partial "alert_banner.html" . }}
