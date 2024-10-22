@@ -169,13 +169,16 @@ sub_attach() { # <service>        - Run bash on a running service
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
     OS=`uname`
+    OSAlt=`uname -o`
     if [ "$OS" == "Darwin" ] ; then
 	    docker compose $@
     elif [ "$OS" == "Linux" ] ; then
 	    docker-compose $@
-    else
+    elif [ "$OSAlt" == "Msys" ] ; then
       docker-compose $@
+    else
 	    echo "if docker compose isn't working, please email bikecal@shift2bikes.org to let us know"
+	    exit 255
     fi
 }
 
