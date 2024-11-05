@@ -34,5 +34,5 @@ In any given year, PDX WNBR is usually the largest organized point-to-point bike
 
 ## Support
 
-Help make it happen! [Donate to support PDXWNBR](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HYGT4BR38SRDW target=_blank) or [volunteer](https://pdxwnbr.org/volunteer/).
+Help make it happen! <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=HYGT4BR38SRDW" target="_blank">Donate to support PDXWNBR</a> or [volunteer](https://pdxwnbr.org/volunteer/).
 
