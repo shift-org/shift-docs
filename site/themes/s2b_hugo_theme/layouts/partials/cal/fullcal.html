@@ -35,7 +35,7 @@
       navLinks: true,
       eventSources: [
         {
-          url: '{{ .Site.BaseURL }}api/events.php',
+          url: '{{ absURL "api/events.php" }}',
           startParam: 'startdate',
           endParam: 'enddate',
           success: function( content ) {

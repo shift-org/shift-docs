@@ -145,7 +145,7 @@
           <div class="eventImg">
             [[# image]]
             <a href="[[image]]">
-              <img class="lazy" src="{{ .Site.BaseURL }}img/cal/icons/blank.svg" data-src="[[image]]" alt="User-uploaded image for [[title]]" />
+              <img class="lazy" src="{{ absURL "img/cal/icons/blank.svg" }}" data-src="[[image]]" alt="User-uploaded image for [[title]]" />
             </a>
             [[/ image]]
           </div>
@@ -216,7 +216,7 @@
           <div class="eventlink">
             <p class="facebook-share">
               <a href="https://www.facebook.com/sharer/sharer.php?u=[[shareable]]" target="_blank">
-                <img src="{{ .Site.BaseURL }}img/cal/icons/facebook.svg" alt="Facebook"/>Share</a>
+                <img src="{{ absURL "img/cal/icons/facebook.svg" }}" alt="Facebook"/>Share</a>
             </p>
             <ul>
               <li>
