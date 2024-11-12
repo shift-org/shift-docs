@@ -57,14 +57,14 @@ CREATE TABLE IF NOT EXISTS `calcount` (
 CREATE TABLE IF NOT EXISTS `caldaily` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `id` int DEFAULT NULL,
-  `newsflash` text,
+  `newsflash` mediumtext COLLATE utf8mb4_general_ci,
   `eventdate` date DEFAULT NULL,
-  `eventstatus` varchar(1) DEFAULT NULL,
+  `eventstatus` varchar(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `exceptionid` int DEFAULT NULL,
   `pkid` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`pkid`),
   KEY `eventdate` (`eventdate`)
-) ENGINE=MyISAM AUTO_INCREMENT=18542 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=18542 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,52 +79,52 @@ CREATE TABLE IF NOT EXISTS `calevent` (
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `changes` int DEFAULT '0',
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `hideemail` int DEFAULT NULL,
   `emailforum` int DEFAULT NULL,
   `printemail` int DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `hidephone` int DEFAULT NULL,
   `printphone` int DEFAULT NULL,
-  `weburl` varchar(255) DEFAULT NULL,
-  `webname` varchar(255) DEFAULT NULL,
+  `weburl` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `webname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `printweburl` int DEFAULT NULL,
-  `contact` varchar(255) DEFAULT NULL,
+  `contact` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `hidecontact` int DEFAULT NULL,
   `printcontact` int DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  `tinytitle` varchar(255) NOT NULL,
-  `audience` char(1) DEFAULT NULL,
-  `descr` text,
-  `printdescr` text,
-  `image` varchar(255) DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tinytitle` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `audience` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descr` mediumtext COLLATE utf8mb4_general_ci,
+  `printdescr` mediumtext COLLATE utf8mb4_general_ci,
+  `image` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `imageheight` int DEFAULT NULL,
   `imagewidth` int DEFAULT NULL,
-  `dates` varchar(255) DEFAULT NULL,
-  `datestype` char(1) DEFAULT NULL,
+  `dates` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `datestype` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `eventtime` time DEFAULT NULL,
   `eventduration` int DEFAULT NULL,
-  `timedetails` varchar(255) DEFAULT NULL,
-  `locname` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `addressverified` char(1) DEFAULT NULL,
-  `locdetails` varchar(255) DEFAULT NULL,
-  `locend` varchar(255) DEFAULT NULL,
+  `timedetails` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `locname` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `addressverified` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `locdetails` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `locend` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `loopride` int DEFAULT NULL,
-  `area` char(1) DEFAULT NULL,
-  `external` varchar(250) DEFAULT NULL,
-  `source` varchar(250) DEFAULT NULL,
+  `area` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `external` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `source` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nestid` int DEFAULT NULL,
-  `nestflag` varchar(1) DEFAULT NULL,
-  `review` char(1) NOT NULL DEFAULT 'I',
+  `nestflag` varchar(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `review` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'I',
   `highlight` int NOT NULL,
   `hidden` tinyint(1) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `ridelength` varchar(255) DEFAULT NULL,
+  `password` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ridelength` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `safetyplan` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11214 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11214 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,4 +308,4 @@ CREATE TABLE IF NOT EXISTS `sched` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-12  1:56:23
+-- Dump completed on 2024-11-12  3:12:51
