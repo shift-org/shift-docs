@@ -96,9 +96,8 @@ main .donate a {
 }
 
 /* see https://github.com/shift-org/shift-docs/issues/326 */
-@media (-ms-high-contrast: active), (forced-colors: active) {
+@media (forced-colors: active) {
   svg.icon, svg.logo {
-    -ms-high-contrast-adjust: auto;
     forced-color-adjust: auto;
   }
 }
