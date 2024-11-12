@@ -28,5 +28,5 @@ The Ladds 500 is annual event. It takes place each April, the day after that mon
 
 ## Support
 
-Help make The Ladds 500 happen! [Donate to support The Ladds 500.](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=JB8YUKRB2KPV4)
+Help make The Ladds 500 happen! <a href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=JB8YUKRB2KPV4" target="_blank">Donate to support The Ladds 500</a>.
 

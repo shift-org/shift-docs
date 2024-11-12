@@ -95,7 +95,7 @@ And check out [some pictures on Flickr](https://flickr.com/photos/tags/bonb/)!
 
 If you'd like to give money to support Breakfast on the Bridges, the below PayPal link is for Breakfast on the Bridges:
 
-<form action="https://www.paypal.com/donate" method="post" target="_top">
+<form action="https://www.paypal.com/donate" method="post" target="_blank">
 <input type="hidden" name="hosted_button_id" value="NZ9BJRJ43NMTC" />
 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
 <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
