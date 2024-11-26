@@ -101,7 +101,7 @@ $(document).ready(function() {
           startdate: from,
           // if there was an enddate, use it; otherwise use a fixed number of days.
           // subtract 1 so range is inclusive
-          enddate: options.enddate ? end : from.add(EVENTS_RANGE.DEFAULT_DAYS - 1, 'day'),
+          enddate: options.enddate ? end : from.add( (DEFAULT_DAYS_TO_FETCH - 1), 'day'),
           // pass this on to the events listing.
           show_details: options.show_details,
         };
@@ -130,7 +130,7 @@ $(document).ready(function() {
                   .on('click', '#load-more', function(e) {
                       // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
                       // otherwise, use the default range
-                      range = options.enddate ? view.enddate.diff(view.startdate, 'day') + 1 : EVENTS_RANGE.DEFAULT_DAYS;
+                      range = options.enddate ? (view.enddate.diff(view.startdate, 'day') + 1) : DEFAULT_DAYS_TO_FETCH;
 
                       // the next day to view is one day after the previous last
                       view.startdate = view.enddate.add(1, 'day');
