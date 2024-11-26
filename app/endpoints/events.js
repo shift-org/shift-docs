@@ -62,8 +62,8 @@ exports.get = function(req, res, next) {
     } else {
       // add 1 so days in range is inclusive
       const range = end.diff(start, 'day') + 1;
-      if (range < 0) {
-        res.textError("start date should be before end date");
+      if (range <= 0) {
+        res.textError("start date must be before end date");
       } else if (range > EventsRange.MaxDays) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
       } else {
