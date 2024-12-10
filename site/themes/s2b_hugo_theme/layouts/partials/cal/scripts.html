@@ -5,16 +5,16 @@
   {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
   <script src="{{ $jsCalMain.Permalink }}"></script>
 
-  <script src="{{ .Site.BaseURL }}lib/mustache/mustache.min.js"></script>
+  <script src="{{ absURL "lib/mustache/mustache.min.js" }}"></script>
 
   {{ partial "cal/dayjs.html" . }}
 {{ end }}
 
 <!-- only load FullCal scripts on calendar grid and festival pages; not needed on list, single ride, or edit pages -->
 {{ if or (eq .Type "calgrid") (eq .Type "calfestival") (eq .Type "pp-theme-cal") }}
-  <script src="{{ .Site.BaseURL }}lib/fullcalendar/core/main.min.js"></script>
-  <script src="{{ .Site.BaseURL }}lib/fullcalendar/daygrid/main.min.js"></script>
-  <script src="{{ .Site.BaseURL }}lib/fullcalendar/timegrid/main.min.js"></script>
+  <script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
+  <script src="{{ absURL "lib/fullcalendar/daygrid/main.min.js" }}"></script>
+  <script src="{{ absURL "lib/fullcalendar/timegrid/main.min.js" }}"></script>
 {{ end }}
 
 <!-- load on all cal pages -->
@@ -98,7 +98,7 @@
       navLinks: true,
       eventSources: [
         {
-          url: '{{ .Site.BaseURL }}api/events.php',
+          url: '{{ absURL "api/events.php" }}',
           startParam: 'startdate',
           endParam: 'enddate',
           success: function( content ) {

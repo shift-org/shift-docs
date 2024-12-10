@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
 
 <!-- Preload header background image -->
-<link rel="preload" as="image" href="{{ .Site.BaseURL }}img/banner_bikes_city-bw.webp" type="image/webp" />
+<link rel="preload" as="image" href="{{ absURL "img/banner_bikes_city-bw.webp" }}" type="image/webp" />
 
 <!-- Theme stylesheet, if possible do not edit this stylesheet -->
 {{ $cssTheme := resources.Get "css/theme.css" | minify }}
@@ -44,9 +44,9 @@
 <link rel="stylesheet" href="{{ $cssCustom.Permalink }}">
 
 <!-- Favicon and apple touch icons-->
-<link rel="icon" href="{{ .Site.BaseURL }}img/favicon.ico">
-<link rel="icon" href="{{ .Site.BaseURL }}img/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="{{ .Site.BaseURL }}img/apple-touch-icon.png">
+<link rel="icon" href="{{ absURL "img/favicon.ico" }}">
+<link rel="icon" href="{{ absURL "img/favicon.png" }}" type="image/png">
+<link rel="apple-touch-icon" href="{{ absURL "img/apple-touch-icon.png" }}">
 
 <!-- owl carousel; only load styles on homepage -->
 {{ if (eq .Type "homepage") }}
@@ -62,7 +62,7 @@
 <meta property="og:title" content="{{ .Title }}" />
 <meta property="og:description" content="{{ .Description }}" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="https://www.shift2bikes.org/{{ .Site.Params.logo }}" />
+<meta property="og:image" content="{{ absURL .Site.Params.logo }}" />
 <meta property="og:image:height" content="1200" />
 <meta property="og:image:width" content="1200" />
 

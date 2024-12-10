@@ -1,5 +1,5 @@
-<script src="{{ .Site.BaseURL }}lib/fullcalendar/core/main.min.js"></script>
-<script src="{{ .Site.BaseURL }}lib/fullcalendar/list/main.min.js"></script>
+<script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
+<script src="{{ absURL "lib/fullcalendar/list/main.min.js" }}"></script>
 
 <script type="text/javascript">
   {{/* 
@@ -32,7 +32,7 @@
       noEventsMessage: "No events happening today or tomorrow",
       eventSources: [
         {
-          url: '{{ .Site.BaseURL }}api/events.php',
+          url: '{{ absURL "api/events.php" }}',
           startParam: 'startdate',
           endParam: 'enddate',
           success: function( content ) {
