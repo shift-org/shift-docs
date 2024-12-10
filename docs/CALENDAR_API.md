@@ -612,3 +612,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.53.0: (2024-06-24) Increased event image size limit to 5 MB (previously 2 MB).
 * 3.54.0: (2024-07-02) Migrated to latest MySQL LTS version (v8.4).
 * 3.55.0: (2024-08-30) Added year-round calendar iCal feed (at `/api/shift-calendar.php`), in addition to Pedalpalooza-specific one
+* 3.55.1: (2024-12-09) Terms fields (`code_of_conduct`, `ride_comic`) are now only validated on initial submission
