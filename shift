@@ -207,8 +207,8 @@ sub_mysqldump() { #               - Dump the mysql database
 
 sub_backup() { #                  - Backup the mysql database
     cd "${ROOT}"
-    docker-compose exec -T db mysqldump -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" --no-tablespaces ${MYSQL_DATABASE} >  /tmp/mysql-$(date +%F).out
-    aws s3 cp /tmp/mysql-$(date +%F).out s3://shift2bikes-backups-us-west-2/
+    docker-compose exec -T db mysqldump -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" --no-tablespaces ${MYSQL_DATABASE} | gzip -c > /tmp/mysql-$(date +%F).out.gz
+    aws s3 cp /tmp/mysql-$(date +%F).out.gz s3://shift2bikes-backups-us-west-2/
 }
 
 SUB_CMD=$1
