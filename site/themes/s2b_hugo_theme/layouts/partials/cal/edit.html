@@ -537,6 +537,22 @@
   [[/weeks]]
 </script>
 
+<script id="mustache-datestatuses" type="text/template">
+  [[# dateStatuses ]]
+  <li data-id="[[ id ]]">
+    <span>[[ date ]]</span>
+    <select class="status-selector">,
+      <option value="A" [[# scheduled ]]selected[[/ scheduled ]]>Scheduled</option>
+      <option value="C" [[# cancelled ]]selected[[/ cancelled ]]>Cancelled</option>
+    </select>
+    <label>
+      newsflash message (optional)
+      <input type="text" class="newsflash" value="[[ newsflash ]]">
+    </label>
+  </li>
+  [[/ dateStatuses ]]
+</script>
+
 <script id="email-suggestion-template" type="text/template">
   Did you mean <span class="correction">[[ suggestion ]]</span>?
   <sup><span class="glyphicon glyphicon-remove"></span></sup>
