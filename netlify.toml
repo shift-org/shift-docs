@@ -116,6 +116,12 @@
   force = true
 
 [[redirects]]
+  from = "/pedalpalooza-calendar/*"
+  to = "/pages/maintenance"
+  status = 307
+  force = true
+
+[[redirects]]
   from = "/addevent/*"
   to = "/pages/maintenance"
   status = 307
