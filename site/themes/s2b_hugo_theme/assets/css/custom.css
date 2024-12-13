@@ -1,6 +1,7 @@
 /* your styles go here */
 :root {
-  --primary-accent: #FF9819;
+  --primary-accent: #ff9819;
+  --navbar-focus: #ffc14d;
 }
 
 .box-image-text .image {
@@ -69,11 +70,11 @@ main .donate a {
 }
 
 .affix {
-    position: fixed;
-    top: 0;
-    background: #fff;
-    z-index: 1;
-    border-bottom: 1px solid transparent;
+  position: fixed;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+  border-bottom: 1px solid transparent;
 }
 
 @media (max-width: 991px) {
