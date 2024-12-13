@@ -112,6 +112,11 @@
   status = 307
 
 [[redirects]]
+  from = "/calendar"
+  to = "/pages/maintenance"
+  status = 307
+
+[[redirects]]
   from = "/addevent/*"
   to = "/pages/maintenance"
   status = 307
