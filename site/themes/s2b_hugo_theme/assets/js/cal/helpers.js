@@ -31,6 +31,10 @@ const DEFAULT_AREA = 'P';
 const DEFAULT_AUDIENCE = 'G';
 const DEFAULT_LENGTH = '--';
 
+// total number of days to fetch, inclusive of start and end dates;
+// minimum of 1, maximum set by server
+const DEFAULT_DAYS_TO_FETCH = 10;
+
 const SITE_TITLE = "Shift";
 
 const API_VERSION = '3';

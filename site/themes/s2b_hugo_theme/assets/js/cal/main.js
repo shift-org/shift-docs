@@ -82,9 +82,6 @@ $(document).ready(function() {
         });
     }
 
-    // default range of days to show.
-    const dayRange = 10;
-
     // compute range and details settings from the url options.
     // the returned object gets passed to getEventHTML().
     function getInitialView(options) {
@@ -103,7 +100,8 @@ $(document).ready(function() {
           // 'from' is today; for other PP pages it's options startdate.
           startdate: from,
           // if there was an enddate, use it; otherwise use a fixed number of days.
-          enddate: options.enddate ? end : from.add(dayRange, 'day'),
+          // subtract 1 so range is inclusive
+          enddate: options.enddate ? end : from.add( (DEFAULT_DAYS_TO_FETCH - 1), 'day'),
           // pass this on to the events listing.
           show_details: options.show_details,
         };
@@ -130,9 +128,13 @@ $(document).ready(function() {
              lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
+                      // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
+                      // otherwise, use the default range
+                      range = options.enddate ? (view.enddate.diff(view.startdate, 'day') + 1) : DEFAULT_DAYS_TO_FETCH;
+
                       // the next day to view is one day after the previous last
                       view.startdate = view.enddate.add(1, 'day');
-                      view.enddate = view.startdate.add(dayRange, 'day');
+                      view.enddate = view.startdate.add(range - 1, 'day');
                       // add new events to the end of those we've already added.
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
