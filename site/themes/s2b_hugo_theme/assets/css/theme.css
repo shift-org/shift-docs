@@ -715,7 +715,7 @@ fieldset[disabled] .btn-template-transparent-black.active {
 .open > .dropdown-toggle.btn-template-primary {
   color: #ffffff;
   background-color: var(--link-hover-bg);
-  border-color: #2a7d8c;
+  border-color: var(--button-border);
 }
 .btn-template-primary:active,
 .btn-template-primary.active,
