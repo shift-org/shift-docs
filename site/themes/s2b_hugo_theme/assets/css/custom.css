@@ -87,6 +87,10 @@ main .donate a {
   border-bottom: 1px solid transparent;
 }
 
+#heading-breadcrumbs h1 {
+  text-align: center;
+}
+
 @media (max-width: 991px) {
   .home-carousel h1 {
     font-size: 32px;
@@ -109,8 +113,18 @@ main .donate a {
   -webkit-filter: none;
 }
 
+section,
+div.section {
+  margin-bottom: 0;
+}
+
 .icon {
   color: currentColor;
+}
+
+a i.fa,
+button i.fa {
+  margin: 0 5px;
 }
 
 /* see https://github.com/shift-org/shift-docs/issues/326 */
