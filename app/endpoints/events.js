@@ -61,9 +61,10 @@ exports.get = function(req, res, next) {
       res.textError("need valid start and end times");
     } else {
       // add 1 so days in range is inclusive
+      // e.g. (2025-06-10 - 2025-06-01 = 9 days difference) + 1 day = 10 day range
       const range = end.diff(start, 'day') + 1;
-      if (range <= 0) {
-        res.textError("start date must be before end date");
+      if (range < 1) {
+        res.textError("end date cannot be before start date");
       } else if (range > EventsRange.MaxDays) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
       } else {
