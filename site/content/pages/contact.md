@@ -13,7 +13,7 @@ S﻿hift is an entirely volunteer-run organization.  As of February 2023, it is 
 * [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
 * [Email our Code of Conduct Committee](mailto:conduct@shift2bikes.org)
 * [Join our Community Mailing list](/pages/email-list/)
-* Connect with us on social media: [Facebook](https://www.facebook.com/shift2bikes/), [Instagram](https://www.instagram.com/shift2bikes/), [Twitter](https://twitter.com/shift2bikes), [Mastodon](https://pdx.social/@shift2bikes), and [LinkedIn](https://www.linkedin.com/company/shift2bikes)
+* Connect with us on social media: [Facebook](https://www.facebook.com/shift2bikes/), [Instagram](https://www.instagram.com/shift2bikes/), [Bluesky](https://bsky.app/profile/shift2bikes.bsky.social), [Mastodon](https://pdx.social/@shift2bikes), and [LinkedIn](https://www.linkedin.com/company/shift2bikes)
 * [Check out our code on GitHub](https://github.com/shift-org)
 * [Join us for a ride](/calendar/) or [post one of your own](/addevent/) — for free!
 
