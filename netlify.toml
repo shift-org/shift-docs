@@ -93,28 +93,28 @@
 #------------------------------------------------------------------------------------
 [[redirects]]
   from = "/api/*"
-  to = "/maintenance/"
-  status = 521
+  to = "/pages/maintenance/"
+  status = 307
 
 [[redirects]]
   from = "/eventimages/*"
-  to = "/maintenance"
-  status = 521
+  to = "/pages/maintenance"
+  status = 307
 
 [[redirects]]
   from = "/cal/*"
-  to = "/maintenance"
-  status = 521
+  to = "/pages/maintenance"
+  status = 307
 
 [[redirects]]
   from = "/calendar/*"
-  to = "/maintenance"
-  status = 521
+  to = "/pages/maintenance"
+  status = 307
 
 [[redirects]]
   from = "/addevent/*"
-  to = "/maintenance"
-  status = 521
+  to = "/pages/maintenance"
+  status = 307
 
 
   
