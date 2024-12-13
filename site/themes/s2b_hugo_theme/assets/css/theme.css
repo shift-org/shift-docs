@@ -139,7 +139,7 @@ div.section {
   display: inline-block;
   width: 80px;
   height: 80px;
-  color: currentColor;
+  color: #fff;
   line-height: 80px;
   border-radius: 40px;
   border: solid 1px #fff;
@@ -369,7 +369,7 @@ ul.list-style-none {
 }
 .navbar ul.dropdown-menu li a {
   position: relative;
-  color: #555555;
+  color: #999999;
   font-size: 12px;
   display: block;
   -webkit-transition: all 0.2s ease-out;
@@ -1447,8 +1447,8 @@ fieldset[disabled] .btn-template-primary.active {
   margin-bottom: 40px;
 }
 .box-simple .icon {
-  color: #38a7bb;
-  border-color: #38a7bb;
+  color: var(--primary-accent);
+  border-color: var(--primary-accent);
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -2192,6 +2192,12 @@ fieldset[disabled] .btn-template-primary.active {
 #blog-post #post-content {
   margin-bottom: 20px;
 }
+#blog-post #post-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
 #blog-post .comment {
   margin-bottom: 25px;
 }
@@ -2509,7 +2515,7 @@ fieldset[disabled] .btn-template-primary.active {
   margin-bottom: 30px;
 }
 #get-it {
-  background: #38a7bb;
+  background: var(--primary-accent);
   padding: 50px 0 30px;
   color: #fff;
   text-align: center;
@@ -2553,7 +2559,7 @@ fieldset[disabled] .btn-template-primary.active {
   list-style: none;
 }
 
-#footer-ul li{
+#footer-ul li {
   padding-left: 10px;
   padding-right:10px;
   text-transform: uppercase;
@@ -2564,7 +2570,7 @@ fieldset[disabled] .btn-template-primary.active {
   color: #999999;
 }
 #footer ul a:hover {
-  color: #38a7bb;
+  color: var(--primary-accent);
   text-decoration: none;
 }
 #footer .photostream div {
@@ -2631,7 +2637,7 @@ fieldset[disabled] .btn-template-primary.active {
   margin: 0 10px 0 0;
 }
 #footer .social a:hover {
-  color: #38a7bb;
+  color: var(--primary-accent);
 }
 #copyright {
   background: #333;
@@ -2707,10 +2713,10 @@ fieldset[disabled] .btn-template-primary.active {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #eeeeee;
-  border-color: #38a7bb;
+  border-color: var(--primary-accent);
 }
 .nav-tabs {
-  border-bottom: 1px solid #38a7bb;
+  border-bottom: 1px solid var(--primary-accent);
 }
 .nav-tabs > li {
   float: left;
@@ -2723,20 +2729,20 @@ fieldset[disabled] .btn-template-primary.active {
   border-radius: 0 0 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee #38a7bb;
+  border-color: #eeeeee #eeeeee var(--primary-accent);
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
   background-color: #ffffff;
-  border: 1px solid #38a7bb;
+  border: 1px solid var(--primary-accent);
   border-bottom-color: transparent;
   cursor: default;
 }
 .nav-tabs.nav-justified {
   width: 100%;
-  border-bottom: solid 1px #38a7bb;
+  border-bottom: solid 1px var(--primary-accent);
   border-bottom: 0;
 }
 .nav-tabs.nav-justified > li {
@@ -2757,11 +2763,11 @@ fieldset[disabled] .btn-template-primary.active {
 .nav-tabs.nav-justified > .active > a,
 .nav-tabs.nav-justified > .active > a:hover,
 .nav-tabs.nav-justified > .active > a:focus {
-  border: 1px solid #38a7bb;
+  border: 1px solid var(--primary-accent);
 }
 @media (min-width: 768px) {
   .nav-tabs.nav-justified > li > a {
-    border-bottom: 1px solid #38a7bb;
+    border-bottom: 1px solid var(--primary-accent);
     border-radius: 0 0 0 0;
   }
   .nav-tabs.nav-justified > .active > a,
@@ -2783,7 +2789,7 @@ fieldset[disabled] .btn-template-primary.active {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   color: #ffffff;
-  background-color: #38a7bb;
+  background-color: var(--primary-accent);
 }
 .nav-stacked > li {
   float: none;
@@ -2794,7 +2800,7 @@ fieldset[disabled] .btn-template-primary.active {
 }
 .nav-justified {
   width: 100%;
-  border-bottom: solid 1px #38a7bb;
+  border-bottom: solid 1px var(--primary-accent);
 }
 .nav-justified > li {
   float: none;
@@ -2817,11 +2823,11 @@ fieldset[disabled] .btn-template-primary.active {
 .nav-tabs-justified > .active > a,
 .nav-tabs-justified > .active > a:hover,
 .nav-tabs-justified > .active > a:focus {
-  border: 1px solid #38a7bb;
+  border: 1px solid var(--primary-accent);
 }
 @media (min-width: 768px) {
   .nav-tabs-justified > li > a {
-    border-bottom: 1px solid #38a7bb;
+    border-bottom: 1px solid var(--primary-accent);
     border-radius: 0 0 0 0;
   }
   .nav-tabs-justified > .active > a,
@@ -3204,7 +3210,7 @@ a:focus {
 a:focus {
   outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;Ø
+  outline-offset: -2px;
 }
 .img-rounded {
   border-radius: 50%;
@@ -3555,7 +3561,7 @@ a.list-group-item.active > .badge,
   margin-left: 3px;
 }
 .progress-bar-primary {
-  background-color: #ffaf4d;
+  background-color: var(--primary-accent);
 }
 .progress-striped .progress-bar-primary {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
