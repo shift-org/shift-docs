@@ -1,4 +1,7 @@
 /* your styles go here */
+:root {
+  --primary-accent: #FF9819;
+}
 
 .box-image-text .image {
   min-height: 200px;
