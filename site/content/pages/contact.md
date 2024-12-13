@@ -7,7 +7,7 @@ menu:
 ---
 ## Want to connect with Shift?
 
-S﻿hift is an entirely volunteer-run organization.  As of February 2023, it is managed by a 3-person board of directors.
+S﻿hift is an entirely volunteer-run organization.  As of December 2024, it is managed by a 6-person board of directors.
 
 * [Email our Board of Directors](mailto:board@shift2bikes.org)
 * [Email our Website and Calendar Crew](mailto:bikecal@shift2bikes.org)
