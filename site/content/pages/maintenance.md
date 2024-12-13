@@ -1,10 +1,6 @@
 
 ---
 title: Maintenance
-weight: 3
-menu:
-  main:
-    parent: aboutmenu
 ---
 ## Our calendar is undergoing maintenance
 
