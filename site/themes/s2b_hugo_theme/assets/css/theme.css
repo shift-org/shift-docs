@@ -329,7 +329,7 @@ ul.list-style-none {
 .navbar ul.nav > li.active > a,
 .navbar ul.nav > li.open > a {
   text-decoration: none !important;
-  border-top: solid 5px #ffc14d;
+  border-top: solid 5px var(--navbar-border-top);
 }
 @media (max-width: 768px) {
   .navbar ul.nav > li.active > a,
@@ -341,12 +341,12 @@ ul.list-style-none {
   }
 }
 .navbar.navbar-light ul.nav > li.active > a {
-  border-top: solid 5px #ffaf4d;
+  border-top: solid 5px var(--navbar-border-top);
   background: #fff !important;
   color: #555555 !important;
 }
 .navbar.navbar-light ul.nav > li.active > a:hover {
-  border-top: solid 5px #ffaf4d;
+  border-top: solid 5px var(--navbar-border-top);
 }
 .navbar.navbar-light ul.nav > li > a:hover,
 .navbar.navbar-light ul.nav > li.open > a:hover,

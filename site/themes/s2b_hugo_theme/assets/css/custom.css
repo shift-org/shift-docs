@@ -2,6 +2,7 @@
 :root {
   --primary-accent: #ff9819;
   --navbar-focus: #ffc14d;
+  --navbar-border-top: #ffaf4d;
 }
 
 .box-image-text .image {
