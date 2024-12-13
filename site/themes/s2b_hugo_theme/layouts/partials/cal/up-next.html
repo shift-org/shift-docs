@@ -1,75 +1,7 @@
 <script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
 <script src="{{ absURL "lib/fullcalendar/list/main.min.js" }}"></script>
 
-<script type="text/javascript">
-  {{/* 
-    up-next is used by the homepage to display a list of upcoming events.
-    the list view here is different than the /calendar and /pedalp pages.
-    this uses FullCalendar; those use custom code and a mustache template.
-  */}}
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('fullcalendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'list' ],
-      defaultView: 'listDayTodayAndTomorrow',
-      height: 600,
-      contentHeight: 'auto',
-      header: false,
-      listDayFormat: {
-        month: 'short',
-        year: 'numeric',
-        day: 'numeric',
-        weekday: 'short'
-      },
-      views: {
-        listDayTodayAndTomorrow: {
-          type: 'listDay',
-          duration: { days: 2 },
-          buttonText: '2 day'
-        }
-      },
-      noEventsMessage: "No events happening today or tomorrow",
-      eventSources: [
-        {
-          url: '{{ absURL "api/events.php" }}',
-          startParam: 'startdate',
-          endParam: 'enddate',
-          success: function( content ) {
-            // our API returns { "events": [ ] }
-            // and this will return just the inner array as fullcalendar expects
-            return content.events;
-          },
-          eventDataTransform: function( eventData ) {
-            // this transforms the data for individual rides
-            // into the format needed by fullcalendar
-            var event = {
-                id: eventData.caldaily_id,
-                title: eventData.title, // full-length title is OK in list view
-                start: eventData.date + 'T' + eventData.time,
-                url: '/calendar/event-' + eventData.caldaily_id,
-            };
-
-            event.classNames = [];
-            if (eventData.cancelled == true) {
-              event.classNames.push('cancelled');
-            }
-            if (eventData.featured == true) {
-              event.classNames.push('featured');
-            }
-            return event;
-          },
-        }
-      ]
-    });
-
-    calendar.render();
-  });
-</script>
-
 <div id="up-next">
-  <h2>Events happening soon</h2>
-  <div id="fullcalendar"></div>
-<!--   <p><a href="/pedalpalooza-calendar/">See all upcoming events</a></p> -->
-  <p><a href="/calendar/">See all upcoming events</a> or <a href="/addevent/">add an event</a></p>
+  <h2>Our events calendar is temporarily down.</h2>
+  See [the website maintenance page](/pages/maintenance) for more information.
 </div>
