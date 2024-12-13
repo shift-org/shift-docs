@@ -95,31 +95,32 @@
   from = "/api/*"
   to = "/pages/maintenance/"
   status = 307
+  force = true
 
 [[redirects]]
   from = "/eventimages/*"
   to = "/pages/maintenance"
   status = 307
+  force = true
 
 [[redirects]]
   from = "/cal/*"
   to = "/pages/maintenance"
   status = 307
+  force = true
 
 [[redirects]]
   from = "/calendar/*"
   to = "/pages/maintenance"
   status = 307
-
-[[redirects]]
-  from = "/calendar"
-  to = "/pages/maintenance"
-  status = 307
+  force = true
 
 [[redirects]]
   from = "/addevent/*"
   to = "/pages/maintenance"
   status = 307
+  force = true
+
 
 
   
