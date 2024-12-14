@@ -23,6 +23,13 @@ footer #footer-ul a {
   color: #ccc;
 }
 
+#footer-ul li {
+  padding-left: 10px;
+  padding-right:10px;
+  text-transform: uppercase;
+  display: inline;
+}
+
 footer #footer-ul a:hover {
   color: #38a7bb;
 }
@@ -56,6 +63,14 @@ header {
   color: #555555;
 }
 
+.header-dark-mask {
+  background: var(--primary-accent);
+  opacity: 0.8;
+  padding: 20px 0;
+  margin-bottom: 40px;
+  z-index: 1;
+}
+
 main a {
   color: #337AB7;
   text-decoration: underline;
@@ -87,8 +102,20 @@ main .donate a {
   border-bottom: 1px solid transparent;
 }
 
+#heading-breadcrumbs {
+  background: url('../img/banner_bikes_city-bw.webp') center center repeat;
+  padding: 0;
+  margin-bottom: 0;
+  z-index: -1;
+}
+
 #heading-breadcrumbs h1 {
   text-align: center;
+}
+
+.home-carousel {
+  background: url('../img/S2B_photo_grid_2094x796.jpg') center center repeat;
+  background-size: cover;
 }
 
 @media (max-width: 991px) {
