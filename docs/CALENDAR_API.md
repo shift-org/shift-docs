@@ -110,10 +110,11 @@ Example response for a range of events:
       ], 
       "pagination": {
         "start": "2024-07-01",
-        "end": "2024-07-11",
+        "end": "2024-07-10",
         "range": 10,
         "events": 3,
-        "next": "https://www.shift2bikes.org/api/events.php?startdate=2024-07-12&enddate=2024-07-22"
+        "prev": "https://www.shift2bikes.org/api/events.php?startdate=2024-06-21&enddate=2024-06-30",
+        "next": "https://www.shift2bikes.org/api/events.php?startdate=2024-07-11&enddate=2024-07-20"
       }
     }
 
@@ -171,6 +172,7 @@ Example response for a range of events, including delisted events:
         "end": "2025-01-01",
         "range": 1,
         "events": 3,
+        "prev": "https://www.shift2bikes.org/api/events.php?startdate=2024-12-31&enddate=2023-12-31",
         "next": "https://www.shift2bikes.org/api/events.php?startdate=2025-01-02&enddate=2025-01-02"
       }
     }
