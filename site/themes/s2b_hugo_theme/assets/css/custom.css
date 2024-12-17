@@ -1,4 +1,10 @@
 /* your styles go here */
+:root {
+  --primary-accent: #ff9819;
+  --navbar-focus: #ffc14d;
+  --navbar-border-top: #ffaf4d;
+  --link-focus: #e57e00;
+}
 
 .box-image-text .image {
   min-height: 200px;
@@ -15,6 +21,17 @@ footer {
 
 footer #footer-ul a {
   color: #ccc;
+}
+
+#footer-ul li {
+  padding-left: 10px;
+  padding-right:10px;
+  text-transform: uppercase;
+  display: inline;
+}
+
+footer #footer-ul a:hover {
+  color: #38a7bb;
 }
 
 footer a {
@@ -42,6 +59,18 @@ header {
   text-decoration: none;
 }
 
+.navbar ul.dropdown-menu li a {
+  color: #555555;
+}
+
+.header-dark-mask {
+  background: var(--primary-accent);
+  opacity: 0.8;
+  padding: 20px 0;
+  margin-bottom: 40px;
+  z-index: 1;
+}
+
 main a {
   color: #337AB7;
   text-decoration: underline;
@@ -66,11 +95,27 @@ main .donate a {
 }
 
 .affix {
-    position: fixed;
-    top: 0;
-    background: #fff;
-    z-index: 1;
-    border-bottom: 1px solid transparent;
+  position: fixed;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+  border-bottom: 1px solid transparent;
+}
+
+#heading-breadcrumbs {
+  background: url('../img/banner_bikes_city-bw.webp') center center repeat;
+  padding: 0;
+  margin-bottom: 0;
+  z-index: -1;
+}
+
+#heading-breadcrumbs h1 {
+  text-align: center;
+}
+
+.home-carousel {
+  background: url('../img/S2B_photo_grid_2094x796.jpg') center center repeat;
+  background-size: cover;
 }
 
 @media (max-width: 991px) {
@@ -93,6 +138,20 @@ main .donate a {
   max-width: auto;
   filter: none;
   -webkit-filter: none;
+}
+
+section,
+div.section {
+  margin-bottom: 0;
+}
+
+.icon {
+  color: currentColor;
+}
+
+a i.fa,
+button i.fa {
+  margin: 0 5px;
 }
 
 /* see https://github.com/shift-org/shift-docs/issues/326 */
