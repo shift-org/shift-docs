@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-        {{ partial "breadcrumbs.html" . }}
-
-        <div id="content">
-          <div class="container">
-
-            <div class="row">
-
+{{ define "page_body" }}
               <div class="col-md-12">
 
                 <div>
@@ -53,30 +30,12 @@
 
               </div>
 
-            </div>
-            <!-- /.row -->
-
-          </div>
-          <!-- /.container -->
-        </div>
-        <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
-  </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
+{{ end }}
+{{ define "postscript" }}
   {{ partial "cal/scripts.html" . }}
   {{ partial "cal/events.html" . }}
 
   <script type="text/javascript">
     window.cal_renderpage = "{{ .Params.id }}";
-    // TODO
   </script>
-
-</body>
-</html>
+{{ end }}

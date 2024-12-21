@@ -1,20 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
+{{ define "main" }}
       {{ partial "carousel.html" . }}
 
       {{ partial "cal/up-next.html" . }}
@@ -22,17 +6,7 @@
       {{ partial "alert_banner.html" . }}
 
       {{ partial "sponsors.html" . }}
-    </main>
 
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
-  </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
-
-</body>
-
-</html>
+      {{/* include the .md file content if any */}}
+      {{ .Content }}
+{{ end }}
