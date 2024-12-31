@@ -11,10 +11,10 @@
     $.fn.getAddEventForm = function(id, secret, callback) {
         if (id && secret) {
             // TODO: loading spinner
-            $.ajax({
+            var opts = {
+                type: 'GET',
                 url: '/api/retrieve_event.php?id=' + id + "&secret=" + secret,
                 headers: { 'Api-Version': API_VERSION },
-                type: 'GET',
                 success: function(data) {
                     data.secret = secret;
                     data.readComic = true;
@@ -24,7 +24,8 @@
                 error: function(data) {
                     callback( data.responseJSON.error.message );
                 }
-            });
+            };
+            $.ajax(opts);
         } else {
             populateEditForm({ datestatuses: [] }, callback);
         }

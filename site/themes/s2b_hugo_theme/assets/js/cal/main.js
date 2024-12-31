@@ -14,10 +14,10 @@ $(document).ready(function() {
             throw Error("requires id or range");
         }
 
-        $.ajax({
+        var opts = {
+            type: 'GET',
             url: url,
             headers: { 'Api-Version': API_VERSION },
-            type: 'GET',
             success: function(data) {
                 var groupedByDate = [];
 
@@ -78,8 +78,12 @@ $(document).ready(function() {
                     document.title = event.title + " - Calendar - " + SITE_TITLE;
                 }
                 callback(info);
+            },
+            error: function(data) {
+                callback( data.responseJSON.error.message );
             }
-        });
+        };
+        $.ajax(opts);
     }
 
     // compute range and details settings from the url options.
