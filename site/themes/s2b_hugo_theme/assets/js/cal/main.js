@@ -18,7 +18,7 @@ $(document).ready(function() {
 
         var opts = {
             type: 'GET',
-            url: url,
+            url: url.toString(),
             headers: API_HEADERS,
             success: function(data) {
                 var groupedByDate = [];
