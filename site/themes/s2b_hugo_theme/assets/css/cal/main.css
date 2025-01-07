@@ -75,10 +75,6 @@ svg.icon {
   border-radius: 0;
 }
 
-.preview .eventlink {
-  visibility: hidden;
-}
-
 .eventlink ul {
     padding: 0;
     list-style: none;
@@ -344,18 +340,8 @@ h3 {
     background: #efefef;
 }
 
-.btn-add-event {
-    color: #630;
-    background: #f90;
-}
-
 .btn:focus {
     outline: 2px solid #37b;
-    outline-offset: 1px;
-}
-
-.btn-add-event:focus {
-    outline: 2px solid #630;
     outline-offset: 1px;
 }
 
@@ -488,10 +474,4 @@ button.expand-details {
 .event-list-options {
   display: flex;
   justify-content: space-between;
-}
-
-.single-event-calendar-page {
-    .pp-banner {
-        display: none;
-    }
 }

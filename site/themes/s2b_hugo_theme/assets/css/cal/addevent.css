@@ -37,6 +37,16 @@
     margin-bottom: 2em;
 }
 
+.btn-add-event {
+    color: #630;
+    background: #f90;
+}
+
+.btn-add-event:focus {
+    outline: 2px solid #630;
+    outline-offset: 1px;
+}
+
 /* date picker */
 
 #date-select-container {
@@ -245,4 +255,8 @@ form#event-entry .date-select-container-style {
 .comic-thumbnail {
     float: left;
     margin-right: 10px;
+}
+
+.preview .eventlink {
+  visibility: hidden;
 }
