@@ -11,6 +11,7 @@
 {{ end }}
 </head>
 <body>
+{{ block "html_body" . }}
   <div id="all">
     <header>
       {{ partial "nav.html" . }}
@@ -43,5 +44,6 @@
   */}}
   {{ block "postscript" . }}
   {{ end }}
+ {{ end }}  {{/*html_body*/}}
 </body>
 </html>
