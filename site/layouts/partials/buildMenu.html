@@ -1,0 +1,14 @@
+{{/* 
+  helper to generate site menu resource
+*/}}
+{{ $result := slice }}{{/* start with an empty list */}}
+{{ range . }}
+  {{ $entry := dict  "name"  .Name  "url" .URL }}
+  {{ $kids := partial "buildMenu.html" .Children }}
+  {{/* overkill, only add kinds to the dictionary if there are any */}}
+  {{ if $kids }}
+    {{ $entry = merge $entry (dict "kids" $kids) }}
+  {{ end }}
+  {{ $result = $result | append $entry -}}
+{{ end }}
+{{ return $result }}

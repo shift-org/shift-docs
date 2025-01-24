@@ -1,0 +1,35 @@
+{{/* 
+  single page app for one or more events
+*/}}
+{{ define "html_header" }}
+  {{ partial "head-content.html" . }}
+  <link rel="stylesheet" type="text/css" href="/css/appstyles.css"/>
+{{ end }}
+{{ define "html_body" }}
+{{/* fix: should be local includes */}}
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+      "vue-router": "https://unpkg.com/vue-router@4.3.0/dist/vue-router.esm-browser.js",
+      "@vue/devtools-api": "https://unpkg.com/@vue/devtools-api@6.6.1/lib/esm/index.js"
+    }
+  }
+</script>
+{{/* 
+  site menu, generated from hugo.toml.
+  outputs to a json file, that we can include.
+*/}}
+{{ $menus := partial "buildMenu.html" site.Menus.main }}
+{{ $json := ( $menus | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $json = (print "export default " $json  | safeJS )}}
+{{ $r := resources.FromString "slim/menus.js" $json }}
+{{ $r.Publish }}
+
+{{/* the vue app injects itself here. */}}
+<div id="app" class="container"></div>
+{{ partial "cal/dayjs.html" . }}
+{{/* the vue app javascript. FIX: | minify  */}}
+{{ $calMain := resources.Get "js/cal/calMain.js" }}
+<script type="module" src="{{ $calMain.RelPermalink }}"></script>
+{{ end }}
