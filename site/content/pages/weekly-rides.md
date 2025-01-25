@@ -53,7 +53,7 @@ More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/wests
 
 ### Bike Happy Hour
 * Every Wednesday
-* Starting location: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road)
+* Starting location: Migration Brewing, N Williams Ave (between N Failing St & N Shaver St)
 
 Not a ride itself, but a great place to hang out with other bike-y folks. Come by 3pm to 6pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Name tags are encouraged as well; see Jonathan Maus or another Happy Hour Ambassador if you need one. Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun!
 
