@@ -9,6 +9,8 @@
 // using button but the original uses:
 // <a @click="toggle(menu.name)" role="button" aria-haspopup="true" :aria-expanded="expanded === menu.name">{{ menu.name }}</a>
 //
+import Toolbar from './toolbar.js'
+
 const Menu = {
   template: `
 <ul>
@@ -27,13 +29,13 @@ const Menu = {
   },
   data() {
     return {
-      expanded: ""
+      expanded: false
     }
   },
   methods: {
     toggle(name) {
       if (name === this.expanded) {
-        this.expanded = "";
+        this.expanded = false;
       } else {
         this.expanded = name;
       }
@@ -76,8 +78,10 @@ export default {
   <button class="c-top--hamburger" @click="clickedMenuButton">&equiv;</button>
 </header>
 <Menu v-if="menu.expanded" :menus="menus">
-</Menu>`,
-  components: { Menu },
+</Menu>
+<Toolbar>
+</Toolbar>`,
+  components: { Menu, Toolbar },
 }
 
 
