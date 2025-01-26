@@ -8,7 +8,8 @@ const facade = {
   // uses config for the source of the static files
   // you can use "hugo --watch" to rebuild changes on demand.
   serveFrontEnd(app, config) {
-    if (!config.site.staticFiles) {
+    const { staticFiles } = config.site;
+    if (!staticFiles) {
       throw new Error("missing static files path");
     }
     console.log("serving static files from", staticFiles);
@@ -19,7 +20,7 @@ const facade = {
     // running locally with docker, this is done by nginx.
     // this handles local node development via "npm run dev"
     config.site.devEndpoints.forEach(item => {
-      const { item, filePath } = item;
+      const { url, filePath } = item;
       // when someone gets the url
       app.get(url, function (req, res, next) {
         // log url parts for debugging
