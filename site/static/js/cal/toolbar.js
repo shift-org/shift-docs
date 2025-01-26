@@ -51,27 +51,35 @@ const ToolDetails = {
 // note: <dialog> is cool -- but it overlays the contents rather than reflows.
 export default {
   template: `
-<div class="c-button-bar">
+<div class="c-toolbar">
   <button v-for="tool in tools"  @click="toggle(tool.name)">{{tool.button}}</button>
+  <button class="c-toolbar__menu" @click="toggle('menu')">&equiv;</button>
 </div>
 <div class="c-button-details">
 <template v-for="tool in tools">
-  <ToolDetails :tool="tool" v-if="expanded == tool.name"></ToolDetails>
+  <ToolDetails :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
 </template>
 </div>`,
 components: { ToolDetails },
+props: {
+  // a dict with a single member: 'tool',
+  // set to the name of the tool to show.
+  // ( this allow the expanded object to be shared
+  //   and the name of the tool to be poked into it; read elsewhere. )
+  expanded: Object,    
+},
 data() {
     const router = this.$router;
     return {
       // not expanded by default; can set to one of the tools for testing
       // can set to one of the tools for testing, ex. "search"
-      expanded: false,
       tools: [{
         name: "search",
         button: "Search",
-        label: "Enter keywords: ",
+        // label: "Enter keywords: ",
         attrs: {
           type: "text",
+          placeholder: "Search for titles or descriptions",
         },
         runTool() {
         }
@@ -95,13 +103,15 @@ data() {
   },
   methods: {
     toggle(name) {
-      if (name === this.expanded) {
-        this.expanded = false;
+      const q = { ...this.$route.query };
+      if (name === this.expanded.tool) {
+        this.expanded.tool = false;
+        q.expanded = undefined;
       } else {
-        this.expanded = name;
+        this.expanded.tool = name;
+        q.expanded = name;
       }
+      this.$router.replace({query: q});
     }
   }
 }
-
-

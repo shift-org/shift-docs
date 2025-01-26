@@ -3,7 +3,7 @@
 */}}
 {{ $result := slice }}{{/* start with an empty list */}}
 {{ range . }}
-  {{ $entry := dict  "name"  .Name  "url" .URL }}
+  {{ $entry := dict "name"  .Name  "url" .URL "id" (replace (lower .Name) " " "-" )}}
   {{ $kids := partial "buildMenu.html" .Children }}
   {{/* overkill, only add kinds to the dictionary if there are any */}}
   {{ if $kids }}

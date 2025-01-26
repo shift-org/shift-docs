@@ -10,38 +10,8 @@
 // <a @click="toggle(menu.name)" role="button" aria-haspopup="true" :aria-expanded="expanded === menu.name">{{ menu.name }}</a>
 //
 import Toolbar from './toolbar.js'
-
-const Menu = {
-  template: `
-<ul>
-<li v-for="menu in menus">
-  <button @click="toggle(menu.name)">{{ menu.name }}</button>
-  <ul v-if="expanded === menu.name">
-    <li v-for="kid in menu.kids">
-      <a :href="kid.url">{{kid.name}}</a>
-    </li>
-  </ul>
-</li>
-</ul>
-`,  
-  props: {
-    "menus": Object,
-  },
-  data() {
-    return {
-      expanded: false
-    }
-  },
-  methods: {
-    toggle(name) {
-      if (name === this.expanded) {
-        this.expanded = false;
-      } else {
-        this.expanded = name;
-      }
-    }
-  }
-}
+import Menu from './menu.js'
+// background-image: url("http://www.example.com/bck.png");
 
 export default {
   props: {
@@ -53,34 +23,33 @@ export default {
   computed: {
     logo() { return this.siteinfo.header.logo },
     title() { return this.siteinfo.header.title },
-    menus() { return  this.siteinfo.menus },
+    banner() { return this.siteinfo.header.banner },
+    // defined by buildMenu.html; slim/single.html 
+    menu() { return  this.siteinfo.menu },
   },
   // data is a function that creates and returns .... data.
   data() {
+    const q = this.$route.query;
     return {
-      // passes this object to Menu so that we can share the 'expanded' state.
-      menu: {
-        expanded: false,
-      }
-    }
-  },
-  methods: {
-    clickedMenuButton() {
-      this.menu.expanded = !this.menu.expanded;
+      // passes this object to Toolbar so that we can share the 'expanded' state.
+      expanded: {
+        tool: q.expanded || false,
+      },
     }
   },
   template: `
 <header class="c-top">
-  <svg class="c-top--logo" role="img" aria-hidden="true" width="100" height="55" viewBox="0 0 206 112">
-    <use :href="logo"/>
-  </svg>
-  <span class="c-top--title">{{ title }}</span>
-  <button class="c-top--hamburger" @click="clickedMenuButton">&equiv;</button>
+  <template v-if="banner">
+    <a href="banner.target"><img :alt="banner.alt" :src="banner.image" class="c-top__banner"></a>
+  </template>
+  <template v-else-if="title">
+    <span class="c-top__title">{{ title }}</span>
+  </template>
 </header>
-<Menu v-if="menu.expanded" :menus="menus">
-</Menu>
-<Toolbar>
-</Toolbar>`,
+<Toolbar :expanded="expanded">
+</Toolbar>
+<Menu v-if="expanded.tool === 'menu'" :menu="menu">
+</Menu>`,
   components: { Menu, Toolbar },
 }
 

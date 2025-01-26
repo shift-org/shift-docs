@@ -3,7 +3,7 @@
 */}}
 {{ define "html_header" }}
   {{ partial "head-content.html" . }}
-  <link rel="stylesheet" type="text/css" href="/css/appstyles.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/slim.css"/>
 {{ end }}
 {{ define "html_body" }}
 {{/* fix: should be local includes */}}
@@ -20,10 +20,10 @@
   site menu, generated from hugo.toml.
   outputs to a json file, that we can include.
 */}}
-{{ $menus := partial "buildMenu.html" site.Menus.main }}
-{{ $json := ( $menus | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $menu := partial "buildMenu.html" site.Menus.main }}
+{{ $json := ( $menu | jsonify (dict "prefix" " " "indent" "  "))}}
 {{ $json = (print "export default " $json  | safeJS )}}
-{{ $r := resources.FromString "slim/menus.js" $json }}
+{{ $r := resources.FromString "slim/menu.js" $json }}
 {{ $r.Publish }}
 
 {{/* the vue app injects itself here. */}}
