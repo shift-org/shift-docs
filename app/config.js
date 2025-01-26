@@ -18,6 +18,8 @@ const appPath =  path.resolve(__dirname);
 // for max file size
 const bytesPerMeg = 1024*1024;
 
+const staticFiles = env_default('SHIFT_STATIC_FILES');
+
 const config = {
   appPath,
   api: {
@@ -46,7 +48,16 @@ const config = {
     helpPage() {
       return config.site.url("pages/calendar-faq/");
     },
-    staticFiles: env_default('SHIFT_STATIC_FILES'),
+    staticFiles,
+    devEndpoints: !staticFiles ? null : [{
+      // ex. http://localhost:3080/addevent/edit-1-d00c888b0a1d4bab8107ba2fbe2beddf
+      url: "/addevent/edit-:id-:secret",
+      path: path.posix.join(staticFiles, 'addevent', 'index.html')
+    }, {
+      // ex. http://localhost:3080/calendar/event-201
+      url: "/calendar/event-:id",
+      filePath: path.posix.join(staticFiles, 'calendar/event', 'index.html'))
+    }],
   },
   // various useful email addresses
   // ( for sendConfirmationEmail() )

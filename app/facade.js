@@ -3,17 +3,6 @@
 const express = require('express');
 const path = require('path');
 
-// for these, javascript on the static page parses the url and sends backend requests.
-// ngnix does this remapping when running docker locally;
-// in production, its handled by netlify.
-function splat(app, url, filePath) {
-  app.get(url, function (req, res, next) {
-    const parts = JSON.stringify(req.params);
-    console.debug(`remapping ${url} with ${parts}`);
-    res.sendFile(filePath);
-  });
-}
-
 // fix? might be cool to make this express "middleware"
 const facade = {
   // uses config for the source of the static files
@@ -22,17 +11,24 @@ const facade = {
     if (!config.site.staticFiles) {
       throw new Error("missing static files path");
     }
-    const staticFiles = path.resolve(config.appPath, config.site.staticFiles);
     console.log("serving static files from", staticFiles);
     app.use(express.static(staticFiles));
 
-    // ex. http://localhost:3080/addevent/edit-1-d00c888b0a1d4bab8107ba2fbe2beddf
-    splat(app,"/addevent/edit-:id-:secret",
-      path.posix.join(staticFiles, 'addevent', 'index.html'));
-
-    // ex. http://localhost:3080/calendar/event-201
-    splat(app,"/calendar/event-:id",
-      path.posix.join(staticFiles, 'calendar/event', 'index.html'));
+    // remap any path under a url to a specific html pages. 
+    // in production, this is done by netlify.
+    // running locally with docker, this is done by nginx.
+    // this handles local node development via "npm run dev"
+    config.site.devEndpoints.forEach(item => {
+      const { item, filePath } = item;
+      // when someone gets the url
+      app.get(url, function (req, res, next) {
+        // log url parts for debugging
+        const parts = JSON.stringify(req.params);
+        console.debug(`remapping ${url} with ${parts}`);
+        // and always return the specified file
+        res.sendFile(filePath);
+      });
+    });
   },
 
   // uses config for the image directory
