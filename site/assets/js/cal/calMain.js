@@ -12,6 +12,14 @@ import CalPage from './calPage.js'
 import SingleEvent from './singleEvent.js'
 import menus from '/slim/menus.js'
 
+const siteinfo = {
+  header: {
+    logo: "/img/cal/logos/shift-logo.svg#shift-logo",
+    title: "Ride Calendar"
+  },
+  menus: menus,
+};
+
 // the router reads and writes the user's address bar
 const router = createRouter({
   history: createWebHistory(),
@@ -19,21 +27,13 @@ const router = createRouter({
     // paths do url matching 
     // temp: use a new set of paths for prototyping
     { 
+      name: "calendar",
       path: "/slim/", 
       component: CalPage,
-      props: { 
-        siteinfo: {
-          header: {
-            logo: "/img/cal/logos/shift-logo.svg#shift-logo",
-            title: "Ride Calendar"
-          },
-          menus: menus,
-        }
-      }
+      props: { siteinfo },
     }, 
     // named elements are used by the javascript code to link from place to place
     { name: 'event', path: '/slim/event-:caldaily_id', component: SingleEvent },
-    { name: 'calendar', path: "/slim/", component: CalPage },
 
     // TODO: .... something for event add preview ... 
     // TODO: .... something for the real urls ...

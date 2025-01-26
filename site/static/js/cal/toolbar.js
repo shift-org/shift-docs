@@ -1,17 +1,30 @@
 
+// todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms
 const ToolDetails = {
+  // a form's action identifies a server endpoint
+  // the method determines the client-server interaction ( GET, POST, etc. )
+  // for get, the browser will send controls as name-value query params
+  // for post, it will send a request body with that same info.
+  // the 'dialog' method is a do-nothing which javascript can intercept.
   template: `
-<div><form method="dialog">
+<form method="dialog">
     <label :for="id">{{tool.label}}</label>
     <input :name="tool.name" 
-    :id="id" 
-    ref="inputItem"
-    v-bind="tool.attrs">
+      :id="id" 
+      ref="inputItem"
+      v-model="inputText"
+      v-bind="tool.attrs">
     <button @click="submit()">Go</button>
-</form></div>
+</form>
 `,
   props: {
     tool: Object,
+  },
+  data() {
+    return {
+      // when the input changes, v-model changes this value.
+      inputText: "",
+    }
   },
   computed: {
     id() {
@@ -24,8 +37,7 @@ const ToolDetails = {
     // keyhandler on the input button
     //  @keyup.enter="submit"
     submit(src) {
-      console.log("--- submit --", src);
-      this.tool.runTool();
+      this.tool.runTool(this.inputText);
     },
   },
   mounted() {
@@ -49,6 +61,7 @@ export default {
 </div>`,
 components: { ToolDetails },
 data() {
+    const router = this.$router;
     return {
       // not expanded by default; can set to one of the tools for testing
       // can set to one of the tools for testing, ex. "search"
@@ -67,10 +80,15 @@ data() {
         button: "Jump to date",
         label: "Enter date: ",
         attrs: {
+          // browsers automatically provide calendar pickers for 'date' type input.
           type: "date",
           min: "2008-01-01",
+          // placeholder?
         },
-        runTool() {
+        runTool(startdate) {
+          // https://router.vuejs.org/guide/essentials/navigation.html
+          console.log("changed startdate", startdate);
+          router.replace({name: 'calendar', query: { startdate }});
         }
       }]
     }
