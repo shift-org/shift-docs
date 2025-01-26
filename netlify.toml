@@ -164,6 +164,9 @@
 # ie. `/calendar/event-ID` is handled by `content/calendar/event.md`
 # and `/addevent/edit-ID-PASSWORD` by `content/addevent.md`
 # those pages read the full url to customize the page.
+#
+# note that if there is an .md page under the addevent or calendar path
+# that will still be served instead of the 'to' path here.
 #------------------------------------------------------------------------------------
 [[redirects]]
   from = "/addevent/*"
