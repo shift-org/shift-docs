@@ -8,7 +8,7 @@
 
 approx. January–March
 
-* Change `/site/content/pedalpalooza-calendar.md` page type from `calevents` to `pp-landing`; un-comment the "stay tuned" body text. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
+* Change `/site/content/pedalpalooza-calendar.md` page type from `calevents` to `pp-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
 * Un-comment the contents of `/site/data/carousel/pedalpalooza.yaml`. Change the year, and temporarily set the evergreen image (`images/carousel/pedalpalooza-general.png`). Leave it at its current carousel position for now.
 * Update the Pedalpalooza ical feed dates in `/services/nginx/conf.d/shift.conf` ( specifies start and end dates, and exported filename. )
 
@@ -17,7 +17,7 @@ approx. January–March
 
 approx. April–early May
 
-* Change `/site/content/pedalpalooza-calendar.md` page type back to `calevents`; comment out the "stay tuned" body text
+* Change `/site/content/pedalpalooza-calendar.md` page type back to `calevents`.
 * Move the Pedalpalooza carousel to the first position
 * Set the real image in the carousel
 * Set the real image in the pp-header banner
