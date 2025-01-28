@@ -1,28 +1,63 @@
+html, body {
+  height: 100%;
+  margin: 0px;
+}
+.c-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .c-top {
   display: flex;
+  justify-content: center;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: center;
-}
+ }
 .c-top__title {
  font-size: x-large;
  font-style: bold;
 }
 .c-top__banner {
-  max-width: 438px;
-  width: 100%;
-  height: auto;
+  max-height: 200px;
+  width: auto;
+  margin: 10px;
 }
-
 .c-toolbar {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
 }
 .c-toolbar__menu {
   width: 50px;
-/*  height: 50px;*/
   font-size: x-large;
-  font-style: bold;
+}
+
+.c-cal-list {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 0px 1em;
+}
+
+.c-shortcuts {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  gap: 20px;
+  border-top: solid;
+  border-color: lightgray;
+}
+.c-shortcut {
+  font-size: x-large;
+  /* make a circle */
+  border-radius: 25px;
+  border-width: 1px;
+  border: none;
+  width: 50px;
+  height:50px;
+}
+.c-shortcut:hover {
+  background: darkgrey; 
+}
+.c-shortcut:active {
+  color: white;
 }

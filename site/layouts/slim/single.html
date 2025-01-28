@@ -25,9 +25,17 @@
 {{ $json = (print "export default " $json  | safeJS )}}
 {{ $r := resources.FromString "slim/menu.js" $json }}
 {{ $r.Publish }}
+{{/*
+  pedalp dates
+*/}}
+{{ $pedal := partial "buildPedalDates.html" . }}
+{{ $pjson := ( $pedal | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $pjson = (print "export default " $pjson  | safeJS )}}
+{{ $pr := resources.FromString "slim/pedalp.js" $pjson }}
+{{ $pr.Publish }}
 
 {{/* the vue app injects itself here. */}}
-<div id="app" class="container"></div>
+<div id="app" class="c-app"></div>
 {{ partial "cal/dayjs.html" . }}
 {{/* the vue app javascript. FIX: | minify  */}}
 {{ $calMain := resources.Get "js/cal/calMain.js" }}

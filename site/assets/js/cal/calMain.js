@@ -10,23 +10,6 @@ import { createWebHistory, createRouter, RouterView } from 'vue-router'
 // ( or even combine them with a buld and use import map )
 import CalPage from './calPage.js'
 import SingleEvent from './singleEvent.js'
-import menu from '/slim/menu.js'
-
-const siteinfo = {
-  header: {
-    logo: "/img/cal/logos/shift-logo.svg#shift-logo",
-    title: "Ride Calendar",
-    // https://www.shift2bikes.org
-    banner: {
-      image: "/images/pp/pp2024-banner.png",
-      // interestingly, clicking on the banner in the main site
-      // navigates to the image.s
-      target: "pedalpalooza.org",
-      alt: "Pedalpalooza",
-    }
-  },
-  menu: menu,
-};
 
 // the router reads and writes the user's address bar
 const router = createRouter({
@@ -38,14 +21,9 @@ const router = createRouter({
       name: "calendar",
       path: "/slim/", 
       component: CalPage,
-      props: { siteinfo },
     }, 
     // named elements are used by the javascript code to link from place to place
     { name: 'event', path: '/slim/event-:caldaily_id', component: SingleEvent },
-
-    // TODO: .... something for event add preview ... 
-    // TODO: .... something for the real urls ...
-    // { path: "/pedalpalooza-calendar/", component: CalPage }
   ],
 })
 

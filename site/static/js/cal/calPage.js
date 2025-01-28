@@ -1,6 +1,6 @@
 import TopBar from './topBar.js'
 import CalList from './calList.js'
-import BottomBar from './bottomBar.js'
+import QuickNav from './quickNav.js'
 
 export default {
   props: {
@@ -9,9 +9,9 @@ export default {
   template: `
 <TopBar :siteinfo="siteinfo"/>
 <CalList/>
-<BottomBar/>
+<QuickNav/>
 `,  
-  components: { TopBar, CalList, BottomBar },
+  components: { TopBar, CalList, QuickNav },
 }
 
 

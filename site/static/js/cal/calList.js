@@ -7,6 +7,7 @@
 import { RouterLink } from 'vue-router'
 import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
+import siteConfig from './siteConfig.js'
 
 const Term = {
   template: `
@@ -171,11 +172,7 @@ export default {
     // 
     // enddate is optional ( might want to cap it to some reasonable amount )
     async fetchData(q) {
-      // read the days to view from the url.
-      // FIX: pedalp will have a fixed start and end
-      // but we want to move from "today"
-      //
-      const dayRange = 10;
+      const dayRange = siteConfig.daysToFetch;
       const start = dayjs(q.startdate); // dayjs returns 'now' if startdate is missing.
       const end = q.enddate ? dayjs(q.enddate) : start.add(dayRange, 'day');
       const logFmt = "YYYY-MM-DD"
