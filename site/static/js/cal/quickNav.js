@@ -1,7 +1,7 @@
 // the shortcut contains search, jump to date, and maybe list/grid toggle
 // or a jump to old view.
 // note: <dialog> is cool -- but it overlays the contents rather than reflows.
-import siteConfig from '/.siteConfig.js'
+import siteConfig from './siteConfig.js'
 
 export default {
   template: `

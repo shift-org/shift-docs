@@ -3,11 +3,8 @@ import CalList from './calList.js'
 import QuickNav from './quickNav.js'
 
 export default {
-  props: {
-    siteinfo: Object,
-  },
   template: `
-<TopBar :siteinfo="siteinfo"/>
+<TopBar/>
 <CalList/>
 <QuickNav/>
 `,  

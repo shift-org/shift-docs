@@ -2,7 +2,8 @@
  * global constants
  * ( we might want some of this customizable )
  */
-import menu from '/slim/menu.js'
+import menu from '/events/menu.js'
+import pedalp from '/events/pedalp.js'
 
 export default {
   header: {
@@ -23,11 +24,5 @@ export default {
   daysToFetch: 10,
 
   // generate start and 
-  pedalp: {
-    2002: { 
-      startdate:, 
-      enddate: 
-
-    },
-  },
+  pedalp,
 };

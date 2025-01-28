@@ -3,7 +3,7 @@
 */}}
 {{ define "html_header" }}
   {{ partial "head-content.html" . }}
-  <link rel="stylesheet" type="text/css" href="/css/slim.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/events.css"/>
 {{ end }}
 {{ define "html_body" }}
 {{/* fix: should be local includes */}}
@@ -23,7 +23,7 @@
 {{ $menu := partial "buildMenu.html" site.Menus.main }}
 {{ $json := ( $menu | jsonify (dict "prefix" " " "indent" "  "))}}
 {{ $json = (print "export default " $json  | safeJS )}}
-{{ $r := resources.FromString "slim/menu.js" $json }}
+{{ $r := resources.FromString "events/menu.js" $json }}
 {{ $r.Publish }}
 {{/*
   pedalp dates
@@ -31,7 +31,7 @@
 {{ $pedal := partial "buildPedalDates.html" . }}
 {{ $pjson := ( $pedal | jsonify (dict "prefix" " " "indent" "  "))}}
 {{ $pjson = (print "export default " $pjson  | safeJS )}}
-{{ $pr := resources.FromString "slim/pedalp.js" $pjson }}
+{{ $pr := resources.FromString "events/pedalp.js" $pjson }}
 {{ $pr.Publish }}
 
 {{/* the vue app injects itself here. */}}

@@ -3,14 +3,14 @@
  */
 import Toolbar from './toolbar.js'
 import Menu from './menu.js'
-import siteConfig from '/.siteConfig.js'
+import siteConfig from './siteConfig.js'
 
 export default {
   computed: {
     logo() { return siteConfig.header.logo },
     title() { return siteConfig.header.title },
     banner() { return siteConfig.header.banner },
-    // defined by buildMenu.html; slim/single.html 
+    // defined by buildMenu.html; events/single.html 
     menu() { return  siteConfig.menu },
   },
   // data is a function that creates and returns .... data.

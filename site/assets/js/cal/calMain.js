@@ -19,11 +19,11 @@ const router = createRouter({
     // temp: use a new set of paths for prototyping
     { 
       name: "calendar",
-      path: "/slim/", 
+      path: "/events/", 
       component: CalPage,
     }, 
     // named elements are used by the javascript code to link from place to place
-    { name: 'event', path: '/slim/event-:caldaily_id', component: SingleEvent },
+    { name: 'event', path: '/events/event-:caldaily_id', component: SingleEvent },
   ],
 })
 
@@ -32,7 +32,7 @@ createApp({
     RouterView,
   },
   // tbd: can we this template with something more direct?
-  // ex. put this in the slim.html page maybe?
+  // ex. put this in the events.html page maybe?
   template: ` <router-view></router-view>`})
 .use(router)
 .mount('#app');
