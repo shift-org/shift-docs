@@ -89,7 +89,6 @@ And check out [some pictures on Flickr](https://flickr.com/photos/tags/bonb/)!
 * Instagram: [@bonbpdx](https://www.instagram.com/bonbpdx/)
 * Mastodon: [@bonbpdx@social.ridetrans.it](https://social.ridetrans.it/@bonbpdx)
 * Bluesky: [@bonbpdx@bsky.social](https://bsky.app/profile/bonbpdx.bsky.social)
-* Twitter: [@bonbpdx](https://twitter.com/bonbpdx)
 
 ## Support
 
