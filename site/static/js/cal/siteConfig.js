@@ -17,15 +17,23 @@ export default {
   },
   // hugo generated menu data 
   // a json version of what's in hugo.toml
+  // see buildMenu.html
   menu: menu,
+  // hugo generated info on all pedalpalooza events
+  // see buildPedalDates.html
+  pedalp,
+  // prev/next amounts
+  // in the original it was 10 days by default 
+  // a week feels better for the prev/next setup.
   daysToFetch: {
     default: 7,
     max: 10, 
   }, 
-
-  // generate start and 
-  pedalp,
-
+  // access to the backend.
+  // in production it proxies through netlify.
+  // using abspath makes it relative to localhost or to https://www.shift2bikes.org/
+  // depending how the pages are hosted
+  apiEndpoint: "/api/",
   // dayjs date
   getFestival(date) {
     const year = date.year().toString();

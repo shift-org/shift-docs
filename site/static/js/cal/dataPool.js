@@ -1,27 +1,43 @@
-//  * dataPool.getDaily
-//  * dataPool.getRange
-//  * dataPool.loadMore( key? days? )
-let dataPool = {};
+/**
+ * the intention of data pool is to provide a cache to avoid multiple browser requests
+ * but maybe the browser can handle that well enough itself
+ */
+import siteConfig from './siteConfig.js'
 
 // https://www.shift2bikes.org/api/events.php?startdate=2025-01-19&enddate=2025-01-28
+const endpoint = siteConfig.apiEndpoint + 'events.php';
 
-// FIX -- use local ( where base is just the /api/ part )
-const base = "https://www.shift2bikes.org/api/"
-const endpoint = base + 'events.php';
+// cache the most recent range.
+// useful for front-end development where browser caching is disable.
+let lastRange = {
+  key: '',
+  data: [],
+}
 
 export default {
-  // expects dayjs
-  // returns json 
+  // expects dayjs objects; returns json 
   async getRange(start, end) {
-    const url = endpoint +
-         '?startdate=' + start.format("YYYY-MM-DD") +
-         '&enddate=' + end.format("YYYY-MM-DD");
-    const resp= await fetch(url);
-    return resp.json();
+    let data;
+    const startDate = start.format("YYYY-MM-DD");
+    const endDate = end.format("YYYY-MM-DD");
+    const key = startDate + endDate;
+    if (lastRange.key === key) {
+      data = lastRange.data;
+    } else {
+      const url = endpoint +
+           '?startdate=' + startDate +
+           '&enddate=' + endDate;
+      const resp = await fetch(url);  // fetch is built-in browser api
+      data = resp.json();
+      // data = { events: [], pagination: {} }
+      lastRange = { key, data };
+    }
+    return data;
   },
+  // caldaily_id as a string
   async getDaily(caldaily_id) {
     const url = endpoint + '?id=' + caldaily_id;
-    const resp= await fetch(url);
+    const resp = await fetch(url);  // fetch is built-in browser api
     // returns a list of one event
     const data = await resp.json();
     return (data && data.events.length > 0) ? data.events[0] : false;
