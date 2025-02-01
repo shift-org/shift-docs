@@ -25,4 +25,10 @@ export default {
 
   // generate start and 
   pedalp,
+
+  // dayjs date
+  getFestival(date) {
+    const year = date.year().toString();
+    return pedalp[year];
+  },
 };

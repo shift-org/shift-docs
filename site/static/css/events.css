@@ -51,6 +51,19 @@ html, body {
   } 
 }
 
+.c-day__division--start {
+  margin-top: 2em;
+/*  border-bottom: dashed red;*/
+  background-color: black;
+  color: white;
+}
+.c-day__division--end {
+/*  border-top: dashed red;*/
+  margin-bottom: 2em;
+  background-color: black;
+  color: white;
+}
+
 .c-shortcuts {
   display: flex;
   padding: 10px;

@@ -42,7 +42,24 @@ const SITE_TITLE = "Shift";
 
 const API_VERSION = '3';
 
+
+// a <= b
+function sameOrBefore(a, b) {
+  return a.isSame(b) || a.isBefore(b);
+}
+// a >= b
+function sameOrAfter(a, b) {
+  return a.isSame(b) || a.isAfter(b);
+}
+// start <= a <= end
+function within(a, start, end) {
+  return sameOrAfter(a, start) && sameOrBefore(a, end);
+}
+
 export default {
+  sameOrBefore,
+  sameOrAfter,
+  within,
 
     getAudienceTag(audience) {
         return (audience || DEFAULT_AUDIENCE).toLowerCase();
@@ -114,14 +131,4 @@ export default {
             return;
         }
     },
-
-    compareTimes ( event1, event2 ) {
-        if ( event1.time < event2.time ) {
-            return -1;
-        }
-        if ( event1.time > event2.time ) {
-            return 1;
-        }
-        return 0;
-    }
 }

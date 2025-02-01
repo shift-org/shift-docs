@@ -100,11 +100,17 @@ const Event = {
 
 export default {
   template: `
-<article v-for="day in days" 
+<article v-for="(day, index) in days" 
   class="c-day" 
   :data-date="day.date">
-  <h2>{{ longDate(day.date) }}</h2>
-  <Event v-for="evt in day.events" :evt="evt"></Event>
+  <h2 v-if="divides(day, index, -1)" class="c-day__division c-day__division--start">
+    {{fest.title}} Starts
+  </h2>
+  <h3>{{ longDate(day.date) }}</h3>
+  <Event v-for="evt in day.events" :key="evt.caldaily_id" :evt="evt"/>
+  <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
+    {{fest.title}} Ends
+  </h2>
 </article>
 `,  
   props: {
@@ -112,15 +118,45 @@ export default {
       // cal should contain start, end, [data]
       type: Object, 
       required: true,
-    },
+    }
   },
   computed: {
+    // an array of days
+    // each day containing an array of event instances ( a joined calevent + caldaily )
     days() {
       return this.cal.data;
-    }
+    },
+    // festival of the current year
+    // if there's a winter fest that goes over the year boundary:
+    // well... you'll have to code that.
+    fest() {
+      return siteConfig.getFestival(this.cal.start);
+    },
   },
   components: { Event },
   methods: {
+    divides(day, index, dir) {
+      let okay = false;
+      // don't ever put a dividing line before the first element
+      if (index > 0) {
+        const fest = this.fest;
+        if (fest) {
+          // tbd: should we be pre-building these?
+          const festStart = dayjs(fest.startdate);
+          const festEnd = dayjs(fest.enddate);
+
+          // ditto dates....
+          const curr = dayjs(day.date);
+          const other = curr.add(dir, 'day');
+          const cin = helpers.within(curr, festStart, festEnd);
+          const oin = helpers.within(other, festStart, festEnd);
+
+          // current day is within the festival; the other is outside.
+          return cin && !oin;
+        }
+      }
+      return okay
+    },
     longDate(when) {
       const date = dayjs(when);
       const now = dayjs();

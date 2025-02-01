@@ -6,18 +6,6 @@ import siteConfig from './siteConfig.js'
 import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
 
-// a <= b
-function sameOrBefore(a, b) {
-  return a.isSame(b) || a.isBefore(b);
-}
-// a >= b
-function sameOrAfter(a, b) {
-  return a.isSame(b) || a.isAfter(b);
-}
-// start <= a <= end
-function within(a, start, end) {
-  return sameOrAfter(a, start) && sameOrBefore(a, end);
-}
 // dayJs or null
 function makeGoodRange(start, end) {
   if (!end || end.subtract(start) > siteConfig.daysToFetch.max) {
@@ -91,12 +79,12 @@ export default {
     // for now, display the banner based on the requested start day
     // ( could also show it if *any* date is in there.
     pickBanner(start) {
-      let banner = siteConfig.banner;
-      const fest = siteConfig.pedalp[start.year().toString()];
+      let banner = siteConfig.banner; // default banner.
+      const fest = siteConfig.getFestival(this.cal.start);
       if (fest) {
         const festStart = dayjs(fest.startdate);
         const festEnd = dayjs(fest.enddate);
-        const startsWithin = within(start, festStart, festEnd);
+        const startsWithin = helpers.within(start, festStart, festEnd);
         if (startsWithin) {
           banner = fest;
         }
