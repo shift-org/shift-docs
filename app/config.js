@@ -51,12 +51,19 @@ const config = {
     staticFiles,
     devEndpoints: !staticFiles ? null : [{
       // ex. http://localhost:3080/addevent/edit-1-d00c888b0a1d4bab8107ba2fbe2beddf
-      url: "/addevent/edit-:id-:secret",
-      filePath: path.posix.join(staticFiles, 'addevent', 'index.html')
+      // loads http://localhost:3080/addevent/index.html
+      url: "/addevent/edit-:series-:secret",
+      filePath: path.posix.resolve(staticFiles, 'addevent', 'index.html')
     }, {
       // ex. http://localhost:3080/calendar/event-201
-      url: "/calendar/event-:id",
-      filePath: path.posix.join(staticFiles, 'calendar/event', 'index.html')
+      // loads http://localhost:3080/calendar/event/index.html
+      url: "/calendar/event-:caldaily",
+      filePath: path.posix.resolve(staticFiles, 'calendar/event', 'index.html')
+    }, {
+      // ex. http://localhost:3080/events/event-201
+      // loads http://localhost:3080/events/index.html
+      url: "/events/event-:caldaily",
+      filePath: path.posix.resolve(staticFiles, 'events', 'index.html')
     }],
   },
   // various useful email addresses

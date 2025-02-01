@@ -25,7 +25,7 @@ const facade = {
       app.get(url, function (req, res, next) {
         // log url parts for debugging
         const parts = JSON.stringify(req.params);
-        console.debug(`remapping ${url} with ${parts}`);
+        console.debug(`remapping ${url} with ${parts} to ${filePath}`);
         // and always return the specified file
         res.sendFile(filePath);
       });
