@@ -6,12 +6,13 @@ import Menu from './menu.js'
 import siteConfig from './siteConfig.js'
 
 export default {
+  props: {
+    // see siteConfig.js and buildPedalDates.html
+    banner: Object, // image, target, title, alt?
+  },
   computed: {
-    logo() { return siteConfig.header.logo },
-    title() { return siteConfig.header.title },
-    banner() { return siteConfig.header.banner },
     // defined by buildMenu.html; events/single.html 
-    menu() { return  siteConfig.menu },
+    menu() { return siteConfig.menu },
   },
   // data is a function that creates and returns .... data.
   data() {
@@ -28,8 +29,8 @@ export default {
   <template v-if="banner">
     <a :href="banner.target"><img :alt="banner.alt" :src="banner.image" class="c-top__banner"></a>
   </template>
-  <template v-else-if="title">
-    <span class="c-top__title">{{ title }}</span>
+  <template v-else-if="banner.title">
+    <span class="c-top__title">{{ banner.title }}</span>
   </template>
 </header>
 <section class="c-mid">

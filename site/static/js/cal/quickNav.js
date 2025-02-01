@@ -2,41 +2,33 @@
 // or a jump to old view.
 // note: <dialog> is cool -- but it overlays the contents rather than reflows.
 import siteConfig from './siteConfig.js'
+const daysToFetch = siteConfig.daysToFetch.default;
 
 export default {
   template: `
 <div class="c-shortcuts">
   <button class="c-shortcut" v-for="cut in shortcuts" @click="cut.exec">{{cut.icon}}</button>
 </div>`,
-props: {
-  // a dict with a single member: 'shortcut',
-  // set to the id of the shortcut to show.
-  // ( this allow the expanded object to be shared
-  //   and the id of the shortcut to be poked into it; read elsewhere. )
-  expanded: Object,
-},
-data() {
-    const route = this.$route;
-    const router = this.$router;
+  props: {
+    // cal should contain start, end, [data]
+    cal: {
+      type: Object,
+      required: true,
+    }
+  },
+  data() {
+    //const self = this; // inside callbacks we need access to our component
     return {
       shortcuts: [{
         id: "left",
         icon: "⇦",
         label: "Previous Events",
-        exec() {
-          // startDate - 10
-          const q = route.query;
-          const start = dayjs(q.startdate); // will be now if missing
-          ending.subtract(siteConfig.daysToFetch);
-
-
-        }
+        exec: () => this.shiftRange(-daysToFetch)
       },{
         id: "right",
         icon: "⇨",
         label: "Future Events",
-        exec() {
-        }
+        exec: () => this.shiftRange(daysToFetch)
       },{
         id: "add",
         icon: "+",
@@ -69,14 +61,15 @@ data() {
     }
   },
   methods: {
-    toggle(id) {
+    // shift the current range ahead or behind the passed number of days.
+    shiftRange(days) {
       const q = { ...this.$route.query };
-      if (id === this.expanded.shortcut) {
-        this.expanded.shortcut = false;
-        q.expanded = undefined;
-      } else {
-        this.expanded.shortcut = id;
-        q.expanded = id;
+      const start = this.cal.start.add(days, 'day');
+      q.startdate = start.format("YYYY-MM-DD");
+      // if the query doesn't have "enddate" -- dont add it.
+      if (q.enddate) {
+        const end = this.cal.end.add(days, 'day');
+        q.enddate = end.format("YYYY-MM-DD");
       }
       this.$router.replace({query: q});
     }

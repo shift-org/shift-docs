@@ -6,22 +6,22 @@ import menu from '/events/menu.js'
 import pedalp from '/events/pedalp.js'
 
 export default {
-  header: {
-    logo: "/img/cal/logos/shift-logo.svg#shift-logo",
+  logo: "/img/cal/logos/shift-logo.svg#shift-logo",
+  // banner matches the format of the pedalp.js data
+  // ( as generated with buildPedalDates.html )
+  banner: {
+    image: "/images/shiftlogo.jpg",
+    target: "/pages/mission_statement/",
     title: "Ride Calendar",
-    // https://www.shift2bikes.org
-    banner: {
-      image: "/images/pp/pp2024-banner.png",
-      // interestingly, clicking on the banner in the main site
-      // navigates to the image.s
-      target: "https://pedalpalooza.org",
-      alt: "Pedalpalooza",
-    }
+    alt: "The shift to bikes logo",
   },
   // hugo generated menu data 
   // a json version of what's in hugo.toml
   menu: menu,
-  daysToFetch: 10,
+  daysToFetch: {
+    default: 7,
+    max: 10, 
+  }, 
 
   // generate start and 
   pedalp,

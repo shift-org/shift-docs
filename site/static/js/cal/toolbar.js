@@ -14,6 +14,7 @@ const ToolDetails = {
       ref="inputItem"
       v-model="inputText"
       v-bind="tool.attrs">
+    <button v-if="tool.attrs.type == 'date'" @click="today()">Today</button>
     <button @click="submit()">Go</button>
 </form>
 `,
@@ -38,6 +39,9 @@ const ToolDetails = {
     //  @keyup.enter="submit"
     submit(src) {
       this.tool.runTool(this.inputText);
+    },
+    today() {
+      this.inputText = dayjs().format("YYYY-MM-DD");
     },
   },
   mounted() {
@@ -69,7 +73,7 @@ props: {
   expanded: Object,    
 },
 data() {
-    const router = this.$router;
+    const self = this; // pin our component for the tool callbacks
     return {
       // not expanded by default; can set to one of the tools for testing
       // can set to one of the tools for testing, ex. "search"
@@ -93,10 +97,22 @@ data() {
           min: "2008-01-01",
           // placeholder?
         },
-        runTool(startdate) {
-          // https://router.vuejs.org/guide/essentials/navigation.html
-          console.log("changed startdate", startdate);
-          router.replace({name: 'calendar', query: { startdate }});
+        runTool(inputText) {
+          // if the user doesn't select anything the inputText is blank
+          // and the day invalid; take no action when that happens.
+          const start = dayjs(inputText);
+          if (start.isValid()) {
+            const startdate = start.format("YYYY-MM-DD");
+            console.log("jump start date", startdate);
+            // alter the url bar; this will trigger calPage queryChanged()
+            // https://router.vuejs.org/guide/essentials/navigation.html
+            self.$router.replace({name: 'calendar', query: { startdate }});
+            // close the tool on a timeout otherwise chrome complains 
+            // ( about the form having disappeared )
+            setTimeout(() => {
+              self.expanded.tool = false;
+            });
+          }
         }
       }]
     }

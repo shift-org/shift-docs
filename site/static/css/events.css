@@ -32,10 +32,23 @@ html, body {
   font-size: x-large;
 }
 
-.c-cal-list {
+.c-cal-body {
   flex-grow: 1;
   overflow: auto;
   padding: 0px 1em;
+}
+
+.c-cal-body__loading::before {
+  content: "⚙";
+  position: absolute;
+  font-size: 50px;
+  animation: spin 4s linear infinite;
+  margin: 20px;
+}
+@keyframes spin { 
+  100% { 
+    transform: rotate(360deg); 
+  } 
 }
 
 .c-shortcuts {

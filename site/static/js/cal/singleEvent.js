@@ -1,7 +1,7 @@
 /**
  * ideally:
  * 
- * [ ] small pedalpaooluza top bar ( maybe swap out shift completely )
+ * [ ] put the image up top if any.
  * [x] < All Events back button
  * [x] TIME | **TITLE**
  * location icon ( and link? ) location info
