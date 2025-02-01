@@ -21,11 +21,12 @@ export default {
 <div v-if="loading" class="c-cal-body__loading">Loading...</div>
 <div v-else-if="error" class="c-cal-body__error">{{ error }}</div>
 <div class="c-cal-body__list" v-else>
-<CalList :cal="cal"></CalList>
+<CalList :cal="cal" :lastEvent="lastEvent"></CalList>
 </div>
 </section>
 <QuickNav :cal="cal"></QuickNav>
-`,  
+`, 
+  // called once per site load 
   created() {
     // watch the params of the route to fetch the data again
     // https://router.vuejs.org/guide/advanced/data-fetching.html
@@ -40,13 +41,28 @@ export default {
       { immediate: true }
     )
   },
+  // this might be easier to use than "query changed"?
+  // but doesn't seem to be called?
+  // https://router.vuejs.org/guide/advanced/navigation-guards.html
+  beforeRouteUpdate(to, from) {
+    log.console(`beforeRouteUpdate ${to},  ${from}`);
+  },
   data() {
+    // we do this just once ( rather than every time the query changes while on this page )
+    // we assume the query is only changing due to jumping dates or loading more events
+    // when that happens -- we want to reset the top event.
+    // TBD: do we?
+    const lastEvent = this.getLastEvent();
+    console.log(`last event was ${lastEvent || "nothing"}`);
+    //
     return {
       loading: false,
       error: null,
-      // { image, target, label }
-      // just like the pedalp.js data
+      // default banner data
+      // updated during queryChanged()
       banner: siteConfig.banner,
+      // updated during queryChanged()
+      lastEvent,
       // presumably start and end are meant to be inclusive. 
       // this is updated by "queryChanged" when the url changes.
       // ( not sure if that's the best pattern... good enough for now? )
@@ -59,6 +75,15 @@ export default {
     }
   },
   methods: {
+    // find the page we came from using the query
+    getLastEvent() {
+      // declare a variable "eventId" pulled from  query "at", use null as default.
+      const { at: eventId = null } = this.$route.query;
+      // grab the id from the event
+      const match = eventId ? eventId.match(/event-(.*)/) : null; 
+      // id as a string, or the blank string.
+      return match ? match[1] : "";
+    },
     queryChanged(q, oldq) {
       // note: this doesn't require 'enddate' to be in the url
       // ( and doesn't try to add it if its missing )
@@ -108,7 +133,7 @@ export default {
         // when to replace the dayes? before or after the get?
         this.cal.start = start;
         this.cal.end = end;
-        this.cal.data = groupByDay(data);
+        this.cal.data = groupByDay(data.events);
         // console.log(JSON.stringify(data));
       } catch (err) {
         this.error = err.toString();
@@ -124,12 +149,12 @@ export default {
 // [{ label, date: 'YYYY-MM-DD', events: [] }, ... ]
 // the "id" of an event is the "calevent" id 
 // it also has its "caldaily_id"
-function groupByDay( data, showDetails=false ) {
+function groupByDay( eventData, showDetails=false ) {
   // group events by day:
   let allDays = [], currDay = null;
   // assumes the dates are sorted; but the times within each might not be.
   // ( FIX: order the times on the server )
-  data.events.forEach(( evt, index ) => {
+  eventData.forEach(( evt, index ) => {
     // each evt is a combined event listing + daily.
     const date = evt.date;
     if (!currDay || currDay.date !== date) {

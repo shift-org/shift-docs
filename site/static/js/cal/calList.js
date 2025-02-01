@@ -29,11 +29,12 @@ const Event = {
   template: `
 <article 
   class="c-event"
+  ref="article"
   :class="{ 'c-event--cancelled': evt.cancelled, 
             'c-event--featured': evt.featured }"
   :data-event-id="evt.id">
 <h3 class="c-event__title"><router-link 
-  :to="{name: 'event', params: {caldaily_id: evt.caldaily_id}}"
+  :to="eventLink"
 >{{ evt.title }}</router-link></h3>
 <dl>
   <Term type="time" label="Start Time">{{ friendlyTime }}</Term>
@@ -55,9 +56,34 @@ const Event = {
 `,
   props: {
     evt: Object,
+    startdate: String, // a date for returning to the same start date view.
+    focused: Boolean,
+  },
+  mounted() {
+    if (this.focused) {
+      this.$refs.article.scrollIntoView();
+    }
   },
   components: { Term },
   computed: {
+    // the link uses the vue router to manipulate the url and history
+    // without reloading the page.
+    eventLink() {
+      return {
+        // the 'event' route description in calMain.js
+        name: 'event', 
+        // the ':caldaily_id' in that route description
+        // ( which becomes pieces of the url's path )
+        params: {
+            caldaily_id: this.evt.caldaily_id
+        }, 
+        // query parameters after the path.
+        // we can use the router to find the previous page
+        query: {
+          start: this.startdate,
+        }
+      };
+    },
     friendlyTime() {
       return dayjs(this.evt.time, 'hh:mm:ss').format('h:mm A');
     },
@@ -107,7 +133,11 @@ export default {
     {{fest.title}} Starts
   </h2>
   <h3>{{ longDate(day.date) }}</h3>
-  <Event v-for="evt in day.events" :key="evt.caldaily_id" :evt="evt"/>
+  <Event v-for="evt in day.events" 
+      :evt="evt" 
+      :key="evt.caldaily_id" 
+      :focused="lastEvent === evt.caldaily_id"
+      :startdate="startdate"/>
   <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
     {{fest.title}} Ends
   </h2>
@@ -118,9 +148,15 @@ export default {
       // cal should contain start, end, [data]
       type: Object, 
       required: true,
-    }
+    },
+    // not required; scrolls to this event 
+    lastEvent: [ String, null ], 
   },
   computed: {
+    // the startdate as a string
+    startdate() {
+      return this.cal.start.format("YYYY-MM-DD");
+    },
     // an array of days
     // each day containing an array of event instances ( a joined calevent + caldaily )
     days() {
