@@ -1,29 +1,15 @@
 /**
- * display slit of events:
+ * display list of events:
  * equivalent of viewEvents()
  */
+// components:
 import { RouterLink } from 'vue-router'
+import CalTags from './calTags.js'
+import LocationLink from './locLink.js'
+import Term from './calTerm.js'
+// support:
 import siteConfig from './siteConfig.js'
 import helpers from './calHelpers.js'
-
-const Term = {
-  template: `
-<dt :class="termClass">{{ label }}</dt>
-<dd :class="valueClass"><slot></slot></dd>
-`,
-  props: {
-    type: String,
-    label: String
-  },
-  computed: {
-    termClass() {
-      return [ `c-event__term c-event__term--${this.type}` ] 
-    },
-    valueClass() {
-      return [ `c-event__value c-event__value--${this.type}` ]
-    }
-  }
-};
 
 const Event = {
   template: `
@@ -32,24 +18,19 @@ const Event = {
   ref="article"
   :class="{ 'c-event--cancelled': evt.cancelled, 
             'c-event--featured': evt.featured }"
-  :data-event-id="evt.id">
+  :data-event-id="evt.caldaily_id">
 <h3 class="c-event__title"><router-link 
   :to="eventLink"
 >{{ evt.title }}</router-link></h3>
 <dl>
   <Term type="time" label="Start Time">{{ friendlyTime }}</Term>
   <Term type="news" label="Newsflash" v-if="evt.newsflash">{{ evt.newsflash }}</Term>
-  <Term type="author" label="Organizer">{{ evt.organizer }}</Term>
   <Term type="loc" label="Location">
-    <a target="_blank" rel="noopener nofollow external" title="Opens in a new window" href="mapLink">{{ join(evt.venue, evt.address) }}</a>
-    <div v-if="evt.locdetails">{{ evt.locdetails }}</div>
+    <LocationLink :evt="evt"></LocationLink>
   </Term>
+  <Term type="author" label="Organizer">{{ evt.organizer }}</Term>
   <Term type="tags" label="Tags">
-    <ul class="c-event__tags">
-      <li :class="tag('audience', audienceTag)">{{ audienceLabel }}</li>
-      <li :class="tag('area', areaTag)">{{ areaLabel }}</li>
-      <li :class="tag('safety', safetyTag)" v-if="evt.safetyplan">{{ safetyLabel }}</li>
-    </ul>
+    <CalTags :evt="evt"/>
   </Term>
 </dl>
 </article>
@@ -64,7 +45,7 @@ const Event = {
       this.$refs.article.scrollIntoView();
     }
   },
-  components: { Term },
+  components: { CalTags, LocationLink, Term },
   computed: {
     // the link uses the vue router to manipulate the url and history
     // without reloading the page.
@@ -87,41 +68,11 @@ const Event = {
     friendlyTime() {
       return dayjs(this.evt.time, 'hh:mm:ss').format('h:mm A');
     },
-    // maybe this should include hovertext, or something for more details?
-    audienceTag() {
-      return helpers.getAudienceTag(this.evt.audience);
-    },
-    audienceLabel() {
-      return  helpers.getAudienceLabel(this.evt.audience);
-    },
-    areaTag() {
-      return helpers.getAreaTag(this.evt.area);
-    },
-    areaLabel() {
-      return helpers.getAreaLabel(this.evt.area);
-    },
-    safetyTag() {
-      return this.evt.safetyplan ? "yes" : "no";
-    },
-    safetyLabel() {
-      return this.evt.safetyplan ? "COVID Safety plan" : "No COVID plan";
-    },
     mapLink() {
       return helpers.getMapLink(this.evt.address);
     }
   },
-  methods: {
-    yesNo(v) { return v ? "yes" : "no" },
-    // return a list of classes, ex:
-    // c-event__audience c-event_audience-G
-    tag(name, tag) {
-      tag = tag || "unknown";
-      return [`c-event__${name}`, `c-event__${name}-${tag}`];
-    },
-    join(a, b) {
-      return [a, b].filter(Boolean).join(", ");
-    }
-  }
+  
 };
 
 export default {
@@ -171,6 +122,8 @@ export default {
   },
   components: { Event },
   methods: {
+    longDate: helpers.longDate,
+
     divides(day, index, dir) {
       let okay = false;
       // don't ever put a dividing line before the first element
@@ -193,23 +146,5 @@ export default {
       }
       return okay
     },
-    longDate(when) {
-      const date = dayjs(when);
-      const now = dayjs();
-      let format;
-      if (date.year() !== now.year()) {
-        // Wed, January 22, 2025
-        format = 'ddd, MMMM D, YYYY';
-      } else if (!date.isSame(now, 'week'))
-        // Wed, January 22
-        format  = 'ddd, MMMM D';
-      else if (!date.isSame(now, 'day')) {
-        // Thursday  — Jan 22
-        format = 'dddd — MMM D'
-      } else {
-        format = '[Today] — ddd, MMM D'
-      }
-      return date.format(format);
-    }
   }
 }

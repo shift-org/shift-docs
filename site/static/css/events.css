@@ -17,7 +17,7 @@ html, body {
  font-size: x-large;
  font-style: bold;
 }
-.c-top__banner {
+.c-top__image {
   max-height: 200px;
   width: auto;
   margin: 10px;
@@ -31,13 +31,11 @@ html, body {
   width: 50px;
   font-size: x-large;
 }
-
-.c-cal-body {
+.c-cal-body, .c-single {
   flex-grow: 1;
   overflow: auto;
   padding: 0px 1em;
 }
-
 .c-cal-body__loading::before {
   content: "⚙";
   position: absolute;
@@ -53,12 +51,10 @@ html, body {
 
 .c-day__division--start {
   margin-top: 2em;
-/*  border-bottom: dashed red;*/
   background-color: black;
   color: white;
 }
 .c-day__division--end {
-/*  border-top: dashed red;*/
   margin-bottom: 2em;
   background-color: black;
   color: white;
@@ -86,4 +82,31 @@ html, body {
 }
 .c-shortcut:active {
   color: white;
+}
+.c-single {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.c-single__banner {
+  max-height: 200px;
+  width: auto;
+  object-fit: contain;
+}
+
+.c-single__loc::before {
+  content: " 📍 ";
+  font-size: x-large;
+}
+c-single__organizer::before {
+  content: " 👤 ";
+  font-size: x-large;
+}
+.c-single__time {
+  box-shadow: 2px 2px 1px 1px black;
+  padding: 0.5em;
+  margin: 0.5em;
+  border: solid black thin;
 }

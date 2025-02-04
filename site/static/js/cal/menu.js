@@ -1,11 +1,22 @@
+/**
+ * renders a menu object containing:
+ * { id, name, url, kids: [] )
+ * 
+ * see also: buildMenu.html which generates a menu from the hugo.toml
+ * 
+ * while it's possible to define a recursive vue template,
+ * this keeps things simple and kids can't have kids.
+ */
+// support:
+import siteConfig from './siteConfig.js'
 
 export default {
   template: `
 <ul>
-<li v-for="menu in menu">
+<li v-for="menu in menu" :key="menu.id">
   <button @click="toggle(menu.id)">{{ menu.name }}</button>
   <ul v-if="expanded === menu.id">
-    <li v-for="kid in menu.kids">
+    <li v-for="kid in menu.kids" :key="kid.id">
       <a :href="kid.url">{{kid.name}}</a>
     </li>
   </ul>
@@ -13,7 +24,14 @@ export default {
 </ul>
 `,  
   props: {
-    "menu": Object,
+    // if not specified, falls back to the siteConfig
+    "menu": {
+      type: Object,
+      default(rawProps) {
+        // defined by buildMenu.html; events/single.html 
+        return siteConfig.menu
+      }
+    }
   },
   data() {
     const q = this.$route.query;

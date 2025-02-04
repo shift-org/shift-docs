@@ -12,7 +12,10 @@ const endpoint = siteConfig.apiEndpoint + 'events.php';
 let lastRange = {
   key: '',
   data: [],
-}
+};
+
+// object containing daily id -> event data.
+const caldaily_map = new Map();
 
 export default {
   // expects dayjs objects; returns json 
@@ -28,18 +31,31 @@ export default {
            '?startdate=' + startDate +
            '&enddate=' + endDate;
       const resp = await fetch(url);  // fetch is built-in browser api
-      data = resp.json();
-      // data = { events: [], pagination: {} }
+      data = await  resp.json(); // data => { events: [], pagination: {} }
+      data.events.forEach( evt => {
+        // evt.date -- pretransform the date to dayjs?
+        caldaily_map.set(evt.caldaily_id, evt);
+      });
       lastRange = { key, data };
     }
     return data;
   },
   // caldaily_id as a string
+  // returns a single event blob.
+  // ( unlike getRange it doesn't have any pagination )
   async getDaily(caldaily_id) {
-    const url = endpoint + '?id=' + caldaily_id;
-    const resp = await fetch(url);  // fetch is built-in browser api
-    // returns a list of one event
-    const data = await resp.json();
-    return (data && data.events.length > 0) ? data.events[0] : false;
+    const cached = caldaily_map.get(caldaily_id);
+    if (false && cached) {
+      return cached;
+    } else {
+      const url = endpoint + '?id=' + caldaily_id;
+      const resp = await fetch(url);  // fetch is built-in browser api
+      const data = await resp.json();  // a list of one [ event ]
+      const oneEvent = (data && data.events.length > 0) ? data.events[0] : false;
+      if (oneEvent) {
+        caldaily_map.set(caldaily_id, oneEvent);
+      }
+      return oneEvent;
+    }
   },
 }

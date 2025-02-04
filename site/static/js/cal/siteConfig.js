@@ -15,6 +15,10 @@ export default {
     title: "Ride Calendar",
     alt: "The shift to bikes logo",
   },
+  defaultRideBanner: {
+    alt: "Default image for a community organized ride.",
+    image: "/img/banner_bikes_city.jpg"
+  },
   // hugo generated menu data 
   // a json version of what's in hugo.toml
   // see buildMenu.html

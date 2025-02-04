@@ -60,75 +60,94 @@ export default {
   sameOrBefore,
   sameOrAfter,
   within,
+  // turn a dayjs date into words
+  longDate(when) {
+    const date = dayjs(when);
+    const now = dayjs();
+    let format;
+    if (date.year() !== now.year()) {
+      // Wed, January 22, 2025
+      format = 'ddd, MMMM D, YYYY';
+    } else if (!date.isSame(now, 'week'))
+      // Wed, January 22
+      format  = 'ddd, MMMM D';
+    else if (!date.isSame(now, 'day')) {
+      // Thursday  — Jan 22
+      format = 'dddd — MMM D'
+    } else {
+      format = '[Today] — ddd, MMM D'
+    }
+    return date.format(format);
+  },
 
-    getAudienceTag(audience) {
-        return (audience || DEFAULT_AUDIENCE).toLowerCase();
-    },
+  getAudienceTag(audience) {
+      return (audience || DEFAULT_AUDIENCE).toLowerCase();
+  },
 
-    getAudienceLabel(audience) {
-        return AUDIENCE[audience || DEFAULT_AUDIENCE];
-    },
+  getAudienceLabel(audience) {
+      return AUDIENCE[audience || DEFAULT_AUDIENCE];
+  },
 
-    getAreaTag(area) {
-        return (area || DEFAULT_AREA).toLowerCase();
-    },
+  getAreaTag(area) {
+      return (area || DEFAULT_AREA).toLowerCase();
+  },
 
-    getAreaLabel(area) {
-        return AREA[area || DEFAULT_AREA];
-    },
+  getAreaLabel(area) {
+      return AREA[area || DEFAULT_AREA];
+  },
 
-    getMapLink(address) {
-        if (!address || address == 'TBA' || address == 'TBD') {
-            // if address is null or not available yet, don't try to map it
-            return null;
-        }
+  getMapLink(address) {
+      if (!address || address == 'TBA' || address == 'TBD') {
+          // if address is null or not available yet, don't try to map it
+          return null;
+      }
 
-        var urlPattern = /^https*:\/\//;
-        if (address.match(urlPattern)) {
-            // if address is a URL rather than a street address, return it as-is
-            return address;
-        } else {
-            // otherwise, map it with Google Maps
-            return 'https://maps.google.com/' +
-                '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
-                encodeURIComponent(address);
-        }
-    },
+      var urlPattern = /^https*:\/\//;
+      if (address.match(urlPattern)) {
+          // if address is a URL rather than a street address, return it as-is
+          return address;
+      } else {
+          // otherwise, map it with Google Maps
+          return 'https://maps.google.com/' +
+              '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
+              encodeURIComponent(address);
+      }
+  },
 
-    getWebLink(url) {
-        if (!url) {
-            // if url is not set, return nothing
-            return null;
-        }
+  getWebLink(url) {
+      if (!url) {
+          // if url is not set, return nothing
+          return null;
+      }
 
-        var urlPattern = /^https*:\/\//;
-        if (url.match(urlPattern)) {
-            // if url already starts with http/s, return it as-is
-            return url;
-        } else {
-            // if it doesn't start with http/s, prepend http
-            return 'http://' + url;
-        }
-    },
+      var urlPattern = /^https*:\/\//;
+      if (url.match(urlPattern)) {
+          // if url already starts with http/s, return it as-is
+          return url;
+      } else {
+          // if it doesn't start with http/s, prepend http
+          return 'http://' + url;
+      }
+  },
 
-    getContactLink(contactInfo) {
-        if (!contactInfo) {
-            // if no add'l contact info is set, return nothing
-            return null;
-        }
+  getContactLink(contactInfo) {
+      if (!contactInfo) {
+          // if no add'l contact info is set, return nothing
+          return null;
+      }
 
-        var urlPattern = /^https*:\/\//;
-        var emailPattern = /.+@.+[.].+/;
+      var urlPattern = /^https*:\/\//;
+      var emailPattern = /.+@.+[.].+/;
 
-        if (contactInfo.match(urlPattern)) {
-            // if add'l contact info is an http/s link, return it as-is
-            return contactInfo;
-        } else if (contactInfo.match(emailPattern)) {
-            // if add'l contact info is an email address, return a mailto link
-            return 'mailto:' + contactInfo;
-        } else {
-            // if it's not a link, return nothing
-            return;
-        }
-    },
+      if (contactInfo.match(urlPattern)) {
+          // if add'l contact info is an http/s link, return it as-is
+          return contactInfo;
+      } else if (contactInfo.match(emailPattern)) {
+          // if add'l contact info is an email address, return a mailto link
+          return 'mailto:' + contactInfo;
+      } else {
+          // if it's not a link, return nothing
+          return;
+      }
+  },
 }

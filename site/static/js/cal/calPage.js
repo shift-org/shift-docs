@@ -1,10 +1,15 @@
-import TopBar from './topBar.js'
+// components:
+import Banner from './banner.js'
 import CalList from './calList.js'
+import Menu from './menu.js'
 import QuickNav from './quickNav.js'
-//
-import siteConfig from './siteConfig.js'
+import Toolbar from './toolbar.js'
+// support:
 import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
+import siteConfig from './siteConfig.js'
+
+const daysToFetch = siteConfig.daysToFetch.default;
 
 // dayJs or null
 function makeGoodRange(start, end) {
@@ -16,7 +21,9 @@ function makeGoodRange(start, end) {
 
 export default {
   template: `
-<TopBar :banner="banner"></TopBar>
+<Banner :banner="banner" />
+<Toolbar :expanded="expanded" />
+<Menu v-if="expanded.tool === 'menu'"/>
 <section class="c-cal-body">
 <div v-if="loading" class="c-cal-body__loading">Loading...</div>
 <div v-else-if="error" class="c-cal-body__error">{{ error }}</div>
@@ -24,8 +31,9 @@ export default {
 <CalList :cal="cal" :lastEvent="lastEvent"></CalList>
 </div>
 </section>
-<QuickNav :cal="cal"></QuickNav>
+<QuickNav @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
 `, 
+  components: { Banner, CalList, Menu, QuickNav, Toolbar },
   // called once per site load 
   created() {
     // watch the params of the route to fetch the data again
@@ -45,24 +53,25 @@ export default {
   // but doesn't seem to be called?
   // https://router.vuejs.org/guide/advanced/navigation-guards.html
   beforeRouteUpdate(to, from) {
-    log.console(`beforeRouteUpdate ${to},  ${from}`);
+    console.log(`beforeRouteUpdate ${to},  ${from}`);
   },
   data() {
-    // we do this just once ( rather than every time the query changes while on this page )
-    // we assume the query is only changing due to jumping dates or loading more events
-    // when that happens -- we want to reset the top event.
-    // TBD: do we?
+    // determines lastEvent on page load, rather on query changes.
+    // assumes the query changes only due to jumping dates or loading more events.
     const lastEvent = this.getLastEvent();
     console.log(`last event was ${lastEvent || "nothing"}`);
     //
     return {
       loading: false,
       error: null,
-      // default banner data
-      // updated during queryChanged()
       banner: siteConfig.banner,
       // updated during queryChanged()
       lastEvent,
+      // the toolbar wants an object with one property:
+      // 'expanded' containing the name of the expanded 
+      expanded: {
+        tool: this.getExpanded()
+      },
       // presumably start and end are meant to be inclusive. 
       // this is updated by "queryChanged" when the url changes.
       // ( not sure if that's the best pattern... good enough for now? )
@@ -75,6 +84,11 @@ export default {
     }
   },
   methods: {
+    getExpanded() {
+      // default to 'false' if expanded isn't part of the query.
+      const { expanded = false } = this.$route.query;
+      return expanded;
+    },
     // find the page we came from using the query
     getLastEvent() {
       // declare a variable "eventId" pulled from  query "at", use null as default.
@@ -97,10 +111,11 @@ export default {
         } else {
           const end = makeGoodRange(start, q.enddate ? dayjs(q.enddate) : null);
           this.fetchData(start, end); // fetch happens in background, over time.
-          this.banner = this.pickBanner(start);
+          this.banner = this.pickBanner();
         }
       }
     },
+    
     // for now, display the banner based on the requested start day
     // ( could also show it if *any* date is in there.
     pickBanner(start) {
@@ -115,6 +130,19 @@ export default {
         }
       }
       return banner;
+    },
+    // shift the current range ahead or behind the passed number of days.
+    shiftRange(dir) {
+      const days = daysToFetch
+      const q = { ...this.$route.query }; // *copy* the query object.
+      const start = this.cal.start.add(days, 'day');
+      q.startdate = start.format("YYYY-MM-DD");
+      // if the query doesn't have "enddate" -- dont add it.
+      if (q.enddate) {
+        const end = this.cal.end.add(days, 'day');
+        q.enddate = end.format("YYYY-MM-DD");
+      }
+      this.$router.replace({query: q});
     },
     async fetchData(start, end) {
       const logFmt = "YYYY-MM-DD"
@@ -136,13 +164,14 @@ export default {
         this.cal.data = groupByDay(data.events);
         // console.log(JSON.stringify(data));
       } catch (err) {
+        console.error(err);
+        console.trace();
         this.error = err.toString();
       } finally {
         this.loading = false;
       }
     },
   },
-  components: { TopBar, CalList, QuickNav },
 }
 
 // takes the api events data and splits into an array of days:
