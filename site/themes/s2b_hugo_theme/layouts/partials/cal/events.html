@@ -1,34 +1,6 @@
 <script type="text/javascript">
   //Mustache delimiter changing: https://stackoverflow.com/questions/13944623/escape-double-braces-in-mustache-template-templating-a-template-in-n
   Mustache.tags = ["[[", "]]"];
-
-  $(document).ready(function() {
-    var params = parseURL();
-
-    if ('eventId' in params) {
-      // view single event
-      viewEvent(params['eventId']);
-
-    } else if ('editId' in params) {
-      // edit specific event
-      var eventid = params["editId"];
-      var secret = params["editSecret"];
-      viewAddEventForm(eventid, secret);
-
-    } else if (window.cal_renderpage == "addevent") {
-      // show blank form to add new event
-      viewAddEventForm();
-    } else {
-      // view list of events
-      if ({{ .Param "pp" }}) {
-        params["pp"] = {{ .Param "pp" }};
-        params["startdate"] = {{ .Param "startdate" }};
-        params["enddate"] = {{ .Param "enddate" }};
-      }
-
-      viewEvents(params);
-    }
-  });
 </script>
 
 {{ partial "cal/icons.html" . }}
