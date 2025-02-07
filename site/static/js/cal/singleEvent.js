@@ -30,7 +30,7 @@ function makeRange(date, dir) {
     return { start, end: date };
   } else if (dir > 0) {
     // start at date, end in the future.
-    const end = one.add(daysToFetch, 'day');
+    const end = date.add(daysToFetch, 'day');
     return { start: date, end };
   } else {
     throw new Error("expected valid direction for makeRange");
@@ -83,8 +83,13 @@ export default {
     }
   },
   beforeMount() {
-    const { caldaily_id } = this;
-    console.log(`beforeMount of the singleEvent requesting caldaily_id ${caldaily_id}`);
+    const { caldaily_id } = this.$route.params;
+    console.log(`beforeMount event-${caldaily_id}`);
+    this.fetchData(caldaily_id);
+  },
+  beforeRouteUpdate(to, from) {
+    const { caldaily_id } = to.params;
+    console.log(`beforeRouteUpdate event-${caldaily_id} ${to.fullPath}, ${from.fullPath}`);
     this.fetchData(caldaily_id);
   },
   computed: {
@@ -164,6 +169,7 @@ export default {
     // currently, this queries a week of data to figure out what's before/after.
     // TODO: make the server always return prev/next ids as part of pagination for a single event.
     shiftEvent(dir) {
+      const { evt } = this;
       if (!evt.date) {
         // to-do: disable buttons until the current event's data has loaded.
         console.log("can't browse dates until the date is valid");
@@ -180,7 +186,7 @@ export default {
             console.log(`no ${directionInWords} events found`);
           } else {
             // change our current page to the the next event.
-            const nextEvt = data.events[nextIndex];
+            const nextEvt = data.events[thisIndex+dir];
             this.$router.push({name: 'event', params:{caldaily_id: nextEvt.caldaily_id}});
           }
         });
