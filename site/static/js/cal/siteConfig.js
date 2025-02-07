@@ -15,6 +15,7 @@ export default {
     title: "Ride Calendar",
     alt: "The shift to bikes logo",
   },
+  // for a ride when no image has been specified.
   defaultRideBanner: {
     alt: "Default image for a community organized ride.",
     image: "/img/banner_bikes_city.jpg"
@@ -25,14 +26,7 @@ export default {
   menu: menu,
   // hugo generated info on all pedalpalooza events
   // see buildPedalDates.html
-  pedalp,
-  // prev/next amounts
-  // in the original it was 10 days by default 
-  // a week feels better for the prev/next setup.
-  daysToFetch: {
-    default: 7,
-    max: 10, 
-  }, 
+  pedalp, 
   // access to the backend.
   // in production it proxies through netlify.
   // using abspath makes it relative to localhost or to https://www.shift2bikes.org/

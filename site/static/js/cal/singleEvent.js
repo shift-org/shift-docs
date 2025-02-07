@@ -12,45 +12,30 @@ import QuickNav from './quickNav.js'
 import Term from './calTerm.js'
 import Toolbar from './toolbar.js'
 // helpers
+import siteConfig from './siteConfig.js'
 import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
-
-// an example of swapping b/t <del> and <span>
-// "slot" is the content of <DelSpan>SLOT CONTENT</DelSpan>
-// const DelSpan = {
-// template: `<component :is="htmlEl"><slot></slot></component>`,
-//   computed: {
-//     htmlEl() {
-//       return this.deleted ? "del" : "span";
-//     }
-//   },
-//   props: {
-//     deleted: {
-//       type: Boolean,
-//       required: true,
-//     }
-//   }
-// };
 
 function formatTime(t) {
   return dayjs(t, 'hh:mm:ss').format('h:mm A');
 }
 
-// TODO:
-// additional contact info -- which is at the end of the page 
-// share link
-// export to caledar 
-// add the lower nav bar? -- should next and prev go to the next event in the day?
-// do you want the menu bar? -- you could keep it the same, with a new button "back to all events' or you could put that link under the menu bar.
-
-
-
-// <p class="contactInfo">
-//             <a href="https://ridewithgps.com/routes/31874092" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
-//               <svg class="icon" role="img" aria-label="Website"><use href="#icon-website"></use><title>Website</title></svg>
-//               Route           
-//             </a>
-//           </p>
+// given a date and a direction
+// return a start and end pair
+function makeRange(date, dir) {
+  const daysToFetch = 7;
+  if (dir < 0) {
+    // start in the past, ending at date.
+    const start = date.subtract(daysToFetch-1, 'day');
+    return { start, end: date };
+  } else if (dir > 0) {
+    // start at date, end in the future.
+    const end = one.add(daysToFetch, 'day');
+    return { start: date, end };
+  } else {
+    throw new Error("expected valid direction for makeRange");
+  }
+}
 
 export default {
   template: `
@@ -79,11 +64,10 @@ export default {
     <Term type="author" label="Organizer">{{ evt.organizer }}</Term>
     <Term v-for="term in terms" :type="term.type" :label="term.label">{{ term.text }}</Term>
     <Term type="description" label="Description">{{ evt.details }}</Term>
-    
   </dl>
 </article>
 </section>
-<QuickNav @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
+<QuickNav @nav-left="shiftEvent(-1)" @nav-right="shiftEvent(1)"></QuickNav>
   `,
   components: { Banner, CalTags, LocationLink, Menu, QuickNav, Term, Toolbar, },
   data() {
@@ -91,10 +75,6 @@ export default {
     return {
       evt: {},
       caldaily_id,
-      banner: {
-        alt: "Default image for a community organized ride.",
-        image: "/img/banner_bikes_city.jpg"
-      },
       // the toolbar wants an object with one property:
       // 'expanded' containing the name of the expanded 
       expanded: {
@@ -108,6 +88,13 @@ export default {
     this.fetchData(caldaily_id);
   },
   computed: {
+    banner() {
+      const { evt } = this;
+      return !evt || !evt.image ? siteConfig.defaultRideBanner : {
+        image: evt.image,
+        alt: `User-uploaded image for ${evt.title}`
+      };
+    },
     terms() {
       const { evt } = this;
       const startTime = formatTime(evt.time);
@@ -144,7 +131,7 @@ export default {
     // without reloading the page.
     returnLink() {
       const route = this.$route;
-      const { startdate, enddate } = route.query;
+      const { start } = route.query;
       const { caldaily_id } = route.params;
       return {
         // the 'event' route description in calMain.js
@@ -156,9 +143,7 @@ export default {
         // query parameters after the path.
         query: {
           // to query the right stuff
-          startdate,
-          // probably doesn't exist
-          enddate,
+          start,
           // to scroll back to this event in the view.
           // alt: store some global var with scroll position?
           // ( ex. a 'currScrollPos' var at the top of calList.js }
@@ -169,19 +154,42 @@ export default {
   },
   methods: {
     longDate: helpers.longDate,
+    // returns which toolbar tool ( or menu section ) is visible:
     getExpanded() {
       // default to 'false' if expanded isn't part of the query.
       const { expanded = false } = this.$route.query;
       return expanded;
     },
+    // shift today left (-1) or right (1) by a single day.
+    // currently, this queries a week of data to figure out what's before/after.
+    // TODO: make the server always return prev/next ids as part of pagination for a single event.
+    shiftEvent(dir) {
+      if (!evt.date) {
+        // to-do: disable buttons until the current event's data has loaded.
+        console.log("can't browse dates until the date is valid");
+      } else {
+        // ask for a range of events before or after the current event.
+        const range = makeRange(dayjs(evt.date), dir);
+        dataPool.getRange(range.start, range.end).then((data) => {
+          // find where our event is in the returned data.
+          const thisIndex = data.events.findIndex(t => t.caldaily_id === evt.caldaily_id);
+          if (thisIndex < 0 || thisIndex == data.events.length) {
+            // TODO: although this would be extremely rare: add some communication.
+            // ( ex. maybe disable/change the buttons. )
+            const directionInWords = dir > 0 ? "next" : "previous";
+            console.log(`no ${directionInWords} events found`);
+          } else {
+            // change our current page to the the next event.
+            const nextEvt = data.events[nextIndex];
+            this.$router.push({name: 'event', params:{caldaily_id: nextEvt.caldaily_id}});
+          }
+        });
+      }
+    },
+    // query a single day
     async fetchData(caldaily_id) {
       const evt = await dataPool.getDaily(caldaily_id);
       this.evt = evt;
-      if (evt.image) {
-        this.banner.image = evt.image;
-        this.banner.alt = `User-uploaded image for ${evt.title}`;
-      }
     }
   }
 }
-

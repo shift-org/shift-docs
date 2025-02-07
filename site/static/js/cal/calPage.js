@@ -9,16 +9,6 @@ import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
-const daysToFetch = siteConfig.daysToFetch.default;
-
-// dayJs or null
-function makeGoodRange(start, end) {
-  if (!end || end.subtract(start) > siteConfig.daysToFetch.max) {
-    end =  start.add(siteConfig.daysToFetch.default, 'day')
-  }
-  return end;
-}
-
 export default {
   template: `
 <Banner :banner="banner" />
@@ -53,7 +43,7 @@ export default {
   // but doesn't seem to be called?
   // https://router.vuejs.org/guide/advanced/navigation-guards.html
   beforeRouteUpdate(to, from) {
-    console.log(`beforeRouteUpdate ${to},  ${from}`);
+    console.log(`beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
   },
   data() {
     // determines lastEvent on page load, rather on query changes.
@@ -98,29 +88,28 @@ export default {
       // id as a string, or the blank string.
       return match ? match[1] : "";
     },
+    // watches for a change in the query parameter to fetch new data
+    // tbd: beforeRouteUpdate() might be a better hook
     queryChanged(q, oldq) {
-      // note: this doesn't require 'enddate' to be in the url
-      // ( and doesn't try to add it if its missing )
-      const changed = !oldq || 
-                (q.startdate  !== oldq.startdate) ||
-                (q.enddate  !== oldq.enddate);
+      const changed = !oldq || (q.start  !== oldq.start);
       if (changed) {
-        const start = dayjs(q.startdate); // dayjs returns 'now' if startdate is missing.
+        // dayjs returns 'now' if q.start is missing.
+        const start = dayjs(q.start); 
         if (!start.isValid()) {
-          this.error = `Invalid start date: "${q.startdate}"`;
+          this.error = `Invalid start date: "${q.start}"`;
         } else {
-          const end = makeGoodRange(start, q.enddate ? dayjs(q.enddate) : null);
-          this.fetchData(start, end); // fetch happens in background, over time.
-          this.banner = this.pickBanner();
+          // fetch happens in background, over time.
+          // TODO: some indication that the app is loading new data
+          this.fetchFrom(start); 
+          this.banner = this.pickBanner(start);
         }
       }
     },
-    
     // for now, display the banner based on the requested start day
     // ( could also show it if *any* date is in there.
     pickBanner(start) {
       let banner = siteConfig.banner; // default banner.
-      const fest = siteConfig.getFestival(this.cal.start);
+      const fest = siteConfig.getFestival(start);
       if (fest) {
         const festStart = dayjs(fest.startdate);
         const festEnd = dayjs(fest.enddate);
@@ -131,37 +120,28 @@ export default {
       }
       return banner;
     },
-    // shift the current range ahead or behind the passed number of days.
+    // shift the current range by a week.
+    // along with fetchFrom this means if today is a monday
+    // we see monday-sunday; and then shift to the next/previous monday.
     shiftRange(dir) {
-      const days = daysToFetch
       const q = { ...this.$route.query }; // *copy* the query object.
-      const start = this.cal.start.add(days, 'day');
-      q.startdate = start.format("YYYY-MM-DD");
-      // if the query doesn't have "enddate" -- dont add it.
-      if (q.enddate) {
-        const end = this.cal.end.add(days, 'day');
-        q.enddate = end.format("YYYY-MM-DD");
-      }
-      this.$router.replace({query: q});
+      const start = this.cal.start.add(dir, 'week');
+      q.start = start.format("YYYY-MM-DD"); // add/replace the start.
+      this.$router.replace({query: q});     // request the new page.
     },
-    async fetchData(start, end) {
+    // fetch six days of events from 'start' ( including 'start'. )
+    // 'start' should be a valid dayjs date.
+    async fetchFrom(start) {
+      const end = start.add(6, 'day');
       const logFmt = "YYYY-MM-DD"
-      console.log(`fetching ${start.format(logFmt)} to ${end.format(logFmt)}`);
-    
       this.error = null;
       this.loading = true;
-
-      // TODO: timeout?
       try {
-        if (end.isBefore(start)) {
-          throw new Error(`requesting invalid date range: ${start} to ${end}`);
-        }
-        //
         const data = await dataPool.getRange(start, end);
-        // when to replace the dayes? before or after the get?
+        // TODO: when to replace cal start/end? before or after the get?
         this.cal.start = start;
         this.cal.end = end;
-        this.cal.data = groupByDay(data.events);
+        this.cal.data = groupByDay(start, end, data.events);
         // console.log(JSON.stringify(data));
       } catch (err) {
         console.error(err);
@@ -174,33 +154,25 @@ export default {
   },
 }
 
-// takes the api events data and splits into an array of days:
-// [{ label, date: 'YYYY-MM-DD', events: [] }, ... ]
-// the "id" of an event is the "calevent" id 
-// it also has its "caldaily_id"
-function groupByDay( eventData, showDetails=false ) {
-  // group events by day:
-  let allDays = [], currDay = null;
-  // assumes the dates are sorted; but the times within each might not be.
-  // ( FIX: order the times on the server )
-  eventData.forEach(( evt, index ) => {
-    // each evt is a combined event listing + daily.
-    const date = evt.date;
-    if (!currDay || currDay.date !== date) {
-        // it's a brand new day.
-        currDay = {
-            date,
-            events: [],
-        };
-        allDays.push(currDay);
-    }
-    currDay.events.push(evt);
+// given api data returned by the server, generate a contiguous array of days.
+// each day contains the dayjs date, and an array of events for that day.
+// [ { date, events: [] }, ... ]
+// this helps calList show every day of the week, including days with no events.
+// NOTE: assumes that the incoming eventData is sorted.
+function groupByDay( start, end, eventData ) {
+  // create entries for every day between start and end ( inclusive )
+  const length = end.diff(start, 'day') + 1;
+  const allDays = Array.from({length}, (_, idx) => {
+    return {
+      date: start.add(idx,'day'),
+      events: []
+    };
   });
-  // sort the times within each day
-  // ( times are listed as a 24hr string "17:30:00" )
-  allDays.forEach(day => {
-    day.events.sort(helpers.compareTimes);
+  eventData.forEach((evt) => {
+    const date = dayjs(evt.date);
+    const idx = date.diff(start, 'day');
+    const currDay = allDays[idx]; // a reference to the entry; not a copy.
+    currDay.events.push(evt);
   });
   return allDays;
 };
-

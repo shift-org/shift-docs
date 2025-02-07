@@ -100,13 +100,13 @@ data() {
         runTool(inputText) {
           // if the user doesn't select anything the inputText is blank
           // and the day invalid; take no action when that happens.
-          const start = dayjs(inputText);
-          if (start.isValid()) {
-            const startdate = start.format("YYYY-MM-DD");
-            console.log("jump start date", startdate);
+          const startDate = dayjs(inputText);
+          if (startDate.isValid()) {
+            const start = start.format("YYYY-MM-DD");
+            console.log("jump start date", start);
             // alter the url bar; this will trigger calPage queryChanged()
             // https://router.vuejs.org/guide/essentials/navigation.html
-            self.$router.replace({name: 'calendar', query: { startdate }});
+            self.$router.replace({name: 'calendar', query: { start }});
             // close the tool on a timeout otherwise chrome complains 
             // ( about the form having disappeared )
             setTimeout(() => {
