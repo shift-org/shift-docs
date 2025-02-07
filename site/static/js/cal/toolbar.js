@@ -102,7 +102,7 @@ data() {
           // and the day invalid; take no action when that happens.
           const startDate = dayjs(inputText);
           if (startDate.isValid()) {
-            const start = start.format("YYYY-MM-DD");
+            const start = startDate.format("YYYY-MM-DD");
             console.log("jump start date", start);
             // alter the url bar; this will trigger calPage queryChanged()
             // https://router.vuejs.org/guide/essentials/navigation.html
