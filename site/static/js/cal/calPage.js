@@ -24,26 +24,12 @@ export default {
 <QuickNav @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
 `, 
   components: { Banner, CalList, Menu, QuickNav, Toolbar },
-  // called once per site load 
-  created() {
-    // watch the params of the route to fetch the data again
-    // https://router.vuejs.org/guide/advanced/data-fetching.html
-    this.$watch(
-      // source: a function that returns the object to watch.
-      // in this case: the query parameters of the url.
-      // (  i think because the route doesn't exist immediately )
-      () => this.$route.query,
-      // callback ( below )
-      this.queryChanged,
-      // call when created ( as well as on changed )
-      { immediate: true }
-    )
+  beforeMount() {
+    this.updateData(this.$route.query);
   },
-  // this might be easier to use than "query changed"?
-  // but doesn't seem to be called?
-  // https://router.vuejs.org/guide/advanced/navigation-guards.html
-  beforeRouteUpdate(to, from) {
+  beforeRouteUpdate(to, from) { 
     console.log(`beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
+    this.updateData(to.query);
   },
   data() {
     // determines lastEvent on page load, rather on query changes.
@@ -89,20 +75,17 @@ export default {
       return match ? match[1] : "";
     },
     // watches for a change in the query parameter to fetch new data
-    // tbd: beforeRouteUpdate() might be a better hook
-    queryChanged(q, oldq) {
-      const changed = !oldq || (q.start  !== oldq.start);
-      if (changed) {
-        // dayjs returns 'now' if q.start is missing.
-        const start = dayjs(q.start); 
-        if (!start.isValid()) {
-          this.error = `Invalid start date: "${q.start}"`;
-        } else {
-          // fetch happens in background, over time.
-          // TODO: some indication that the app is loading new data
-          this.fetchFrom(start); 
-          this.banner = this.pickBanner(start);
-        }
+    updateData(q) {
+      // if start is missing, dayjs returns now()
+      const start = dayjs(q.start); 
+      if (!start.isValid()) {
+        this.error = `Invalid start date: "${q.start}"`;
+      } else {
+        // TBD: change to computed?
+        this.banner = this.pickBanner(start);
+        // fetch happens in background, over time.
+        // it sets this.loading, which triggers an animation
+        this.fetchFrom(start); 
       }
     },
     // for now, display the banner based on the requested start day
