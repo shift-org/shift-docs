@@ -97,6 +97,10 @@ html, body {
   }
   color: darkslategray;
 }
+.c-toolbar__special {
+  position: absolute;
+  left: 0;
+}
 .c-shortcut__label {
   /*font-size: small;
   font-family: ui-sans-serif, sans-serif;
@@ -104,7 +108,8 @@ html, body {
   display: none;
 }
 .c-single {
-  margin: 10px;
+  margin: 0 10px;
+  padding-top: 1em;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -120,7 +125,7 @@ html, body {
   content: " 📍 ";
   font-size: x-large;
 }
-c-single__organizer::before {
+.c-single__organizer::before {
   content: " 👤 ";
   font-size: x-large;
 }
@@ -129,4 +134,7 @@ c-single__organizer::before {
   padding: 0.5em;
   margin: 0.5em;
   border: solid black thin;
+}
+.c-event__value--organizer span {
+  margin-left:10px;
 }

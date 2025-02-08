@@ -56,6 +56,7 @@ const ToolDetails = {
 export default {
   template: `
 <div class="c-toolbar">
+<slot></slot>
   <button v-for="tool in tools" :key="tool.name" 
     @click="toggle(tool.name)">{{tool.button}}</button>
   <button class="c-toolbar__menu" @click="toggle('menu')">&equiv;</button>

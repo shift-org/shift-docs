@@ -51,8 +51,8 @@ const Event = {
     // without reloading the page.
     eventLink() {
       return {
-        // the 'event' route description in calMain.js
-        name: 'event', 
+        // the 'singleEvent' route description in calMain.js
+        name: 'singleEvent', 
         // the ':caldaily_id' in that route description
         // ( which becomes pieces of the url's path )
         params: {

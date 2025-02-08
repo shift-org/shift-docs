@@ -24,6 +24,17 @@ export default {
 <QuickNav :shortcuts="shortcuts" @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
 `, 
   components: { Banner, CalList, Menu, QuickNav, Toolbar },
+  beforeRouteEnter(to, from, next) {
+    // called before the route that renders this component is confirmed.
+    // does NOT have access to `this` component instance,
+    // because it has not been created yet when this guard is called!
+    const lastEvent = from.params.caldaily_id || null;
+    console.log(`beforeRouteEnter last event was ${lastEvent || "nothing"}`);
+    next(vm => {
+      // access to component public instance via `vm`
+      vm.lastEvent = lastEvent;
+    });
+  },
   beforeMount() {
     this.updateData(this.$route.query);
   },
@@ -32,18 +43,13 @@ export default {
     this.updateData(to.query);
   },
   data() {
-    // determines lastEvent on page load, rather on query changes.
-    // assumes the query changes only due to jumping dates or loading more events.
-    const lastEvent = this.getLastEvent();
-    console.log(`last event was ${lastEvent || "nothing"}`);
-    //
     return {
       loading: false,
       error: null,
       // default, updated when the url changes.
       banner: siteConfig.banner,
-      // updated during queryChanged()
-      lastEvent,
+      // set during beforeRouteEnter()
+      lastEvent: null,
       // the toolbar wants an object with one property:
       // 'expanded' containing the name of the expanded 
       expanded: {
@@ -97,15 +103,6 @@ export default {
       // default to 'false' if expanded isn't part of the query.
       const { expanded = false } = this.$route.query;
       return expanded;
-    },
-    // find the page we came from using the query
-    getLastEvent() {
-      // declare a variable "eventId" pulled from  query "at", use null as default.
-      const { at: eventId = null } = this.$route.query;
-      // grab the id from the event
-      const match = eventId ? eventId.match(/event-(.*)/) : null; 
-      // id as a string, or the blank string.
-      return match ? match[1] : "";
     },
     // watches for a change in the query parameter to fetch new data
     updateData(q) {

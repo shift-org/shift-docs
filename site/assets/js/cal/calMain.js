@@ -35,7 +35,7 @@ const router = createRouter({
     }, 
     // named elements are used by the javascript code to link from place to place
     { 
-      name: 'event', 
+      name: 'singleEvent', 
       path: '/events/event-:caldaily_id', 
       component: SingleEvent 
     },

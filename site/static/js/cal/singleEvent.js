@@ -36,14 +36,14 @@ function makeRange(date, dir) {
     throw new Error("expected valid direction for makeRange");
   }
 }
-
+// 
 export default {
   template: `
 <Banner :banner="banner" />
-<Toolbar :expanded="expanded" />
+<Toolbar :expanded="expanded">
+  <router-link :to="returnLink" class="c-toolbar__special">&lt; All Events</router-link>
+</Toolbar>
 <Menu v-if="expanded.tool === 'menu'"/>
-<section class="c-single">
-<router-link :to="returnLink">&lt; All Events</router-link>
 <article 
   class="c-single"
   :class="{ 'c-single--cancelled': evt.cancelled, 
@@ -61,12 +61,34 @@ export default {
     <Term type="loc" label="Location">
       <LocationLink :evt="evt"></LocationLink>
     </Term>
-    <Term type="author" label="Organizer">{{ evt.organizer }}</Term>
-    <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">{{ term.text }}</Term>
-    <Term type="description" label="Description">{{ evt.details }}</Term>
+    <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">
+      <template v-if="term.id != 'organizer'">
+      {{ term.text }}
+      </template>
+      <template v-else>
+        <span class="c-organizer__name c-organizer__name--link" v-if="contactLink(evt)">
+          <a  href="contactLink(evt)" target="_blank" rel="noopener nofollow external" 
+          title="Opens in a new window">{{evt.organizer}}
+          </a>
+        </span>
+        <span v-else class="c-organizer__name c-organizer__name--text">
+          {{ evt.organizer }}
+        </span>
+        <span v-if="evt.email"
+          class="c-organizer__phone"
+        >(<a :href="'mailto:' + evt.email">{{evt.email}}</a>)</span>
+        <span v-if="evt.phone"
+          class="c-organizer__phone"
+        >(<a :href="'tel:' + evt.phone">{{evt.phone}}</a>)</span>
+      </template>
+    </Term>    
+    <Term v-if="evt.weburl" label="More Info">
+      <a :href="webLink(evt)" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
+        {{evt.webname || evt.weburl}}
+      </a>
+    </Term>
   </dl>
 </article>
-</section>
 <QuickNav :shortcuts="shortcuts" @nav-left="shiftEvent(-1)" @nav-right="shiftEvent(1)"></QuickNav>
   `,
   components: { Banner, CalTags, LocationLink, Menu, QuickNav, Term, Toolbar, },
@@ -103,12 +125,14 @@ export default {
       const startTime = formatTime(evt.time);
       const endTime = evt.endtime && formatTime(evt.endtime);
       const terms = [
+        { id: "organizer",  label: "Organizer", text: evt.organizer },
         { id: "news",       label: "Newsflash", text: evt.newsflash },
         { id: "starttime",  label: "Start Time", text:  startTime },
         { id: "timedetails",label: "Time Details", text: evt.timedetails },
         { id: "endtime",    label: "End Time", text: endTime },
         { id: "locend",     label: "End Location", text: evt.locend },
         { id: "loopride",   label: "Loop", text: evt.loopride && "Ride is a loop" },
+        { id: "desc",       label: "Description", text: evt.details },
       ];
       return terms.filter(a => a.text);
     },
@@ -191,18 +215,20 @@ export default {
         params: {},
         // query parameters after the path.
         query: {
-          // to query the right stuff
+          // to query the right stuff upon returning.
           start,
-          // to scroll back to this event in the view.
-          // alt: store some global var with scroll position?
-          // ( ex. a 'currScrollPos' var at the top of calList.js }
-          at: `event-${caldaily_id}`,
         }
       };
     },
   },
   methods: {
     longDate: helpers.longDate,
+    webLink(evt) {
+      return helpers.getWebLink(evt.weburl);
+    },
+    contactLink(evt) {
+      return helpers.getContactLink(evt.contact);
+    },
     // returns which toolbar tool ( or menu section ) is visible:
     getExpanded() {
       // default to 'false' if expanded isn't part of the query.

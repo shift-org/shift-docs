@@ -32,16 +32,12 @@ const LENGTH = Object.freeze({
 const DEFAULT_TIME = '17:00:00';
 const DEFAULT_AREA = 'P';
 const DEFAULT_AUDIENCE = 'G';
-const DEFAULT_LENGTH = '--';
 
-// total number of days to fetch, inclusive of start and end dates;
-// minimum of 1, maximum set by server
-const DEFAULT_DAYS_TO_FETCH = 10;
+// only for add event:
+//const DEFAULT_LENGTH = '--';
 
-const SITE_TITLE = "Shift";
-
+// TODO: add to queries
 const API_VERSION = '3';
-
 
 // a <= b
 function sameOrBefore(a, b) {
@@ -56,11 +52,15 @@ function within(a, start, end) {
   return sameOrAfter(a, start) && sameOrBefore(a, end);
 }
 
+const urlPattern = /^https*:\/\//;
+const emailPattern = /.+@.+[.].+/;
+
 export default {
   sameOrBefore,
   sameOrAfter,
   within,
   // turn a dayjs date into words
+  // todo: turn into a template.
   longDate(when) {
     const date = dayjs(when);
     const now = dayjs();
@@ -79,30 +79,30 @@ export default {
     }
     return date.format(format);
   },
-
+  // used by calTags
   getAudienceTag(audience) {
       return (audience || DEFAULT_AUDIENCE).toLowerCase();
   },
-
+  // used by calTags
   getAudienceLabel(audience) {
       return AUDIENCE[audience || DEFAULT_AUDIENCE];
   },
-
+  // used by calTags
   getAreaTag(area) {
       return (area || DEFAULT_AREA).toLowerCase();
   },
-
+  // used by calTags
   getAreaLabel(area) {
       return AREA[area || DEFAULT_AREA];
   },
 
+  // used on the calList page.
+  // format an event '.address'
   getMapLink(address) {
       if (!address || address == 'TBA' || address == 'TBD') {
           // if address is null or not available yet, don't try to map it
           return null;
       }
-
-      var urlPattern = /^https*:\/\//;
       if (address.match(urlPattern)) {
           // if address is a URL rather than a street address, return it as-is
           return address;
@@ -113,41 +113,21 @@ export default {
               encodeURIComponent(address);
       }
   },
-
+  // format an event '.weburl'
+  // if url already starts with http/s, return it as-is
+  // otherwise prepend http.
   getWebLink(url) {
-      if (!url) {
-          // if url is not set, return nothing
-          return null;
-      }
-
-      var urlPattern = /^https*:\/\//;
-      if (url.match(urlPattern)) {
-          // if url already starts with http/s, return it as-is
-          return url;
-      } else {
-          // if it doesn't start with http/s, prepend http
-          return 'http://' + url;
-      }
+    return url.match(urlPattern) ? url : ('http://' + url);
   },
-
-  getContactLink(contactInfo) {
-      if (!contactInfo) {
-          // if no add'l contact info is set, return nothing
-          return null;
-      }
-
-      var urlPattern = /^https*:\/\//;
-      var emailPattern = /.+@.+[.].+/;
-
-      if (contactInfo.match(urlPattern)) {
+  // format an event '.contact'
+  getContactLink(contact) {
+      if (contact && contact.match(urlPattern)) {
           // if add'l contact info is an http/s link, return it as-is
-          return contactInfo;
-      } else if (contactInfo.match(emailPattern)) {
+          return contact;
+      } else if (contact&& contact.match(emailPattern)) {
           // if add'l contact info is an email address, return a mailto link
-          return 'mailto:' + contactInfo;
-      } else {
-          // if it's not a link, return nothing
-          return;
-      }
+          return 'mailto:' + contact;
+      } 
+      // if it's not a link, return nothing
   },
 }
