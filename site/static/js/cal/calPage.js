@@ -21,7 +21,7 @@ export default {
 <CalList :cal="cal" :lastEvent="lastEvent"></CalList>
 </div>
 </section>
-<QuickNav @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
+<QuickNav :shortcuts="shortcuts" @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
 `, 
   components: { Banner, CalList, Menu, QuickNav, Toolbar },
   beforeMount() {
@@ -40,6 +40,7 @@ export default {
     return {
       loading: false,
       error: null,
+      // default, updated when the url changes.
       banner: siteConfig.banner,
       // updated during queryChanged()
       lastEvent,
@@ -56,7 +57,39 @@ export default {
         end: dayjs(),
         // the fetched data
         data: [],
-      }
+      },
+      // for the bottom nav panel:
+      shortcuts: [{
+        id: "left",
+        icon: "⇦",
+        label: "Earlier",
+        emit: "navLeft"
+      },{
+        id: "right",
+        icon: "⇨",
+        label: "Later",
+        emit: "navRight"
+      },{
+        id: "add",
+        icon: "+",
+        label: "Add",
+        url:"/addevent/"
+      },{
+        id: "info",
+        icon: "ℹ", //  ⛭ or a shift gear icon?
+        label: "Info",
+        url: "/pages/mission_statement/"
+      },{
+        id: "donate",
+        icon: "$",
+        label: "Donate",
+        url: "/pages/donate"
+      },{
+        id: "favorites",
+        icon: "☆",
+        label: "Favorites"
+        // TODO: router navigate to 
+      }]
     }
   },
   methods: {
@@ -110,13 +143,15 @@ export default {
       const q = { ...this.$route.query }; // *copy* the query object.
       const start = this.cal.start.add(dir, 'week');
       q.start = start.format("YYYY-MM-DD"); // add/replace the start.
-      this.$router.replace({query: q});     // request the new page.
+      // TBD: could maybe do a thing of evaluating the previous page
+      // and unwinding rather than pushing the history in case they're
+      // using navLeft as a back-button.
+      this.$router.push({query: q});        // request the new page.
     },
     // fetch six days of events from 'start' ( including 'start'. )
     // 'start' should be a valid dayjs date.
     async fetchFrom(start) {
       const end = start.add(6, 'day');
-      const logFmt = "YYYY-MM-DD"
       this.error = null;
       this.loading = true;
       try {
@@ -125,7 +160,9 @@ export default {
         this.cal.start = start;
         this.cal.end = end;
         this.cal.data = groupByDay(start, end, data.events);
-        // console.log(JSON.stringify(data));
+        // ex. August 16, 2018
+        const startDate = start.format("MMMM D, YYYY");
+        document.title = `${siteConfig.title} - Calendar - ${startDate}`;
       } catch (err) {
         console.error(err);
         console.trace();
@@ -157,5 +194,6 @@ function groupByDay( start, end, eventData ) {
     const currDay = allDays[idx]; // a reference to the entry; not a copy.
     currDay.events.push(evt);
   });
+  // console.log(JSON.stringify(allDays));
   return allDays;
 };

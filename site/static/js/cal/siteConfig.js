@@ -32,6 +32,7 @@ export default {
   // using abspath makes it relative to localhost or to https://www.shift2bikes.org/
   // depending how the pages are hosted
   apiEndpoint: "/api/",
+  title: "Shift",
   // dayjs date
   getFestival(date) {
     const year = date.year().toString();

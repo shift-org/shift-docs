@@ -5,13 +5,36 @@
  * 
  * while most buttons are links; 
  * the left/right buttons emit: @navLeft, @navRight 
+ * 
+ * shortcut: { id, icon, label, (emit|url) }
  */ 
 export default {
   template: `
 <div class="c-shortcuts">
-  <button class="c-shortcut" v-for="el in shortcuts" @click="onClick(el)">{{el.icon}}</button>
+  <div class="c-shortcut" v-for="el in shortcuts" :key="el.id">
+    <a v-if="el.url"  class="c-shortcut__link"
+      :href="el.url" 
+      v-bind="el.attrs"
+    >{{el.icon}}</a>
+    <button v-else class="c-shortcut__button" 
+      @click="onClick(el)"
+      v-bind="el.attrs"
+    >{{el.icon}}</button>
+    <div class="c-shortcut__label">{{el.label}}</div>
+  </div>
 </div>`,
+  props: {
+    shortcuts: {
+      type: Array,
+      required: true,
+    }
+  },
   methods: {
+    id(el) {
+      return el.id;
+    },
+    href(el) {
+    },
     // el: one of the shortcuts
     onClick(el) {
       if (el.url) {
@@ -23,42 +46,6 @@ export default {
         // and/or a "route" for navigating to named routes
         console.error(`nothing to do for shortcut ${el.id}`);
       }
-    }
-  },
-  data() {
-    const self = this; // inside callbacks we need access to our component
-    return {
-      shortcuts: [{
-        id: "left",
-        icon: "⇦",
-        label: "Previous Events",
-        emit: "navLeft"
-      },{
-        id: "right",
-        icon: "⇨",
-        label: "Future Events",
-        emit: "navRight"
-      },{
-        id: "add",
-        icon: "+",
-        label: "Add",
-        url:"/addevent/"
-      },{
-        id: "info",
-        icon: "ℹ", //  ⛭ or a shift gear icon?
-        label: "Info",
-        url: "/pages/mission_statement/"
-      },{
-        id: "donate",
-        icon: "$",
-        label: "Donate",
-        url: "/pages/donate"
-      },{
-        id: "favorites",
-        icon: "☆",
-        label: "Favorites"
-        // TODO: router navigate to 
-      }]
     }
   }
 }

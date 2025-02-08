@@ -62,25 +62,23 @@ export default {
       <LocationLink :evt="evt"></LocationLink>
     </Term>
     <Term type="author" label="Organizer">{{ evt.organizer }}</Term>
-    <Term v-for="term in terms" :type="term.type" :label="term.label">{{ term.text }}</Term>
+    <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">{{ term.text }}</Term>
     <Term type="description" label="Description">{{ evt.details }}</Term>
   </dl>
 </article>
 </section>
-<QuickNav @nav-left="shiftEvent(-1)" @nav-right="shiftEvent(1)"></QuickNav>
+<QuickNav :shortcuts="shortcuts" @nav-left="shiftEvent(-1)" @nav-right="shiftEvent(1)"></QuickNav>
   `,
   components: { Banner, CalTags, LocationLink, Menu, QuickNav, Term, Toolbar, },
   data() {
-    const { caldaily_id } = this.$route.params;
     return {
       evt: {},
-      caldaily_id,
       // the toolbar wants an object with one property:
       // 'expanded' containing the name of the expanded 
       expanded: {
         tool: this.getExpanded()
       },
-    }
+    };
   },
   beforeMount() {
     const { caldaily_id } = this.$route.params;
@@ -105,18 +103,64 @@ export default {
       const startTime = formatTime(evt.time);
       const endTime = evt.endtime && formatTime(evt.endtime);
       const terms = [
-        { type: "news",       label: "Newsflash", text: evt.newsflash },
-        { type: "starttime",  label: "Start Time", text:  startTime },
-        { type: "timedetails",label: "Time Details", text: evt.timedetails },
-        { type: "endtime",    label: "End Time", text: endTime },
-        { type: "locend",     label: "End Location", text: evt.locend },
-        { type: "loopride",   label: "Loop", text: evt.loopride && "Ride is a loop" },
+        { id: "news",       label: "Newsflash", text: evt.newsflash },
+        { id: "starttime",  label: "Start Time", text:  startTime },
+        { id: "timedetails",label: "Time Details", text: evt.timedetails },
+        { id: "endtime",    label: "End Time", text: endTime },
+        { id: "locend",     label: "End Location", text: evt.locend },
+        { id: "loopride",   label: "Loop", text: evt.loopride && "Ride is a loop" },
       ];
       return terms.filter(a => a.text);
     },
     startTime() {
       const { evt } = this;
       return formatTime(evt.time);
+    },
+    // for the bottom nav panel:
+    shortcuts() { 
+      const { evt } = this;
+      return [{
+        id: "prev",
+        icon: "⇦",
+        label: "Previous",
+        emit: "navRight"
+      },{
+        id: "next",
+        icon: "⇨",
+        label: "Next",
+        emit: "navLeft"
+      },{
+        id: "add",
+        icon: "+",
+        label: "Add",
+        url:"/addevent/"
+      },{
+        // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share
+        // activate the sharing api?
+        // const shareData = {
+        //   title: "MDN",
+        //   text: "Learn web development on MDN!",
+        //   url: "https://developer.mozilla.org",
+        // };
+        id: "share",
+        icon: "⤴", 
+        label: "Share",
+        url: `/events/event-${evt.caldaily_id}`,
+        attrs: {
+          rel: "bookmark"
+        }
+      },{
+        id: "export",
+        icon: "⤵",
+        label: "Export",
+        // FIX: neither this nor the calendar version works
+        // also... shouldn't this be a single day export not all of them?
+        url: `/api/ics.php?id=${evt.id}`
+      },{
+        id: "favorites",
+        icon: "☆",
+        label: "Favorites"
+      }];
     },
     // an example of generating :aria-describedby with "newflash" and "featured"
     // describedBy() {
@@ -196,6 +240,7 @@ export default {
     async fetchData(caldaily_id) {
       const evt = await dataPool.getDaily(caldaily_id);
       this.evt = evt;
+      document.title = `${(evt.tinytitle || evt.title)} - Calendar - ${siteConfig.title}`;
     }
   }
 }
