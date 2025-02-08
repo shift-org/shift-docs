@@ -56,11 +56,12 @@ const ToolDetails = {
 export default {
   template: `
 <div class="c-toolbar">
-  <button v-for="tool in tools" @click="toggle(tool.name)">{{tool.button}}</button>
+  <button v-for="tool in tools" :key="tool.name" 
+    @click="toggle(tool.name)">{{tool.button}}</button>
   <button class="c-toolbar__menu" @click="toggle('menu')">&equiv;</button>
 </div>
 <div class="c-button-details">
-<template v-for="tool in tools">
+<template v-for="tool in tools" :key="tool.name">
   <ToolDetails :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
 </template>
 </div>`,

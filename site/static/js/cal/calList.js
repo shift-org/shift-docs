@@ -77,16 +77,17 @@ const Event = {
 
 export default {
   template: `
-<article v-for="(day, index) in days" 
-  class="c-day" 
+<article 
+  v-for="(day, index) in days" :key="day.date.format('YYYY-MM-DD')" 
+  class="c-day"
   :data-date="day.date">
   <h2 v-if="divides(day, index, -1)" class="c-day__division c-day__division--start">
     {{fest.title}} Starts
   </h2>
   <h3>{{ longDate(day.date) }}</h3>
-  <Event v-for="evt in day.events" 
+  <Event 
+      v-for="evt in day.events" :key="evt.caldaily_id" 
       :evt="evt" 
-      :key="evt.caldaily_id" 
       :focused="lastEvent === evt.caldaily_id"
       :startdate="startdate"/>
   <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
