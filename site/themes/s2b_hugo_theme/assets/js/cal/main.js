@@ -1,23 +1,25 @@
+// uses CONSTANTS from config.js
+
 $(document).ready(function() {
 
     var container = $('#mustache-html');
 
     function getEventHTML(options, callback) {
-        var url = '/api/events.php?';
+        let url = new URL(API_EVENTS_URL);
         if (options.id) {
-            url += 'id=' + options.id;
+            url.searchParams.set('id', options.id);
         } else if (options.startdate && options.enddate) {
-            // these are dayjs objects.
-            url += 'startdate=' + options.startdate.format("YYYY-MM-DD") +
-                   '&enddate=' + options.enddate.format("YYYY-MM-DD");
+            // options.startdate and .enddate are dayjs objects
+            url.searchParams.set('startdate', options.startdate.format("YYYY-MM-DD"));
+            url.searchParams.set('enddate', options.enddate.format("YYYY-MM-DD"));
         } else {
             throw Error("requires id or range");
         }
 
         var opts = {
             type: 'GET',
-            url: url,
-            headers: { 'Api-Version': API_VERSION },
+            url: url.toString(),
+            headers: API_HEADERS,
             success: function(data) {
                 var groupedByDate = [];
 
@@ -50,8 +52,9 @@ $(document).ready(function() {
                     value.webLink = container.getWebLink(value.weburl);
                     value.contactLink = container.getContactLink(value.contact);
 
-                    value.shareLink = '/calendar/event-' + value.caldaily_id;
-                    value.exportlink = '/api/ics.php?id=' + value.id;
+                    let exportURL = new URL(API_ICS_URL);
+                    exportURL.searchParams.set('id', value.id);
+                    value.exportlink = exportURL.toString();
 
                     groupedByDate[date].events.push(value);
                 });

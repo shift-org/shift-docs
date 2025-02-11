@@ -1,3 +1,7 @@
+<!-- load on all cal pages -->
+{{ $jsCalConfig := resources.Get "js/cal/config.js" | minify }}
+<script src="{{ $jsCalConfig.Permalink }}"></script>
+
 <!-- only load on list, single ride, edit, and festival pages; not needed for grid view page -->
 {{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") }}
   {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
