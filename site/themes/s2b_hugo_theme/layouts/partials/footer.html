@@ -5,12 +5,11 @@
 
             <div class="col-md-12">
                 <ul id="footer-ul">
-                    <li><a href="https://www.facebook.com/shift2bikes">Facebook</a></li>
-                    <li><a href="https://www.instagram.com/shift2bikes/">Instagram</a></li>
-                    <li><a href="https://bsky.app/profile/shift2bikes.bsky.social">Bluesky</a></li>
-                    <li><a href="https://pdx.social/@shift2bikes">Mastodon</a></li>
-                    <li><a href="https://github.com/shift-org">GitHub</a></li>
-                    <li><a href="https://www.linkedin.com/company/shift2bikes">LinkedIn</a></li>
+                    {{ range .Site.Data.socialmedia }}
+                    <li>
+                        <a href="{{ .url }}" rel="external">{{ .name }}</a>
+                    </li>
+                    {{ end }}
                 </ul>
                 <br>
             </div>
@@ -32,14 +31,14 @@ _________________________________________________________ -->
     <div class="container">
         <div class="col-md-12">
             {{ if isset .Site.Params "copyright" }}
-            <p class="center">Shift 2 Bikes is a project of <a href="https://www.umbrellapdx.org/">Umbrella</a>.</p>
+            <p class="center">{{ .Site.Params.about | safeHTML }}</p>
             <p class="pull-left">{{ .Site.Params.copyright | safeHTML }}</p>
             {{ end }}
             <p class="pull-right">
-              {{ i18n "templateBy" }} <a href="http://bootstrapious.com/free-templates">Bootstrapious</a>.
+              {{ i18n "templateBy" }} <a href="http://bootstrapious.com/free-templates" rel="external">Bootstrapious</a>.
               <!-- Not removing this link is part of the licence conditions of the template. Thanks for understanding :) -->
 
-              {{ i18n "portedBy" }} <a href="https://github.com/devcows/hugo-universal-theme">DevCows</a>
+              {{ i18n "portedBy" }} <a href="https://github.com/devcows/hugo-universal-theme" rel="external">DevCows</a>
             </p>
         </div>
     </div>
