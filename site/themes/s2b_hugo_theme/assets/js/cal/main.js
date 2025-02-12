@@ -83,7 +83,11 @@ $(document).ready(function() {
                 callback(info);
             },
             error: function(data) {
-                callback( data.responseJSON.error.message );
+                if (data.responseJSON) {
+                  callback( `Error: ${data.responseJSON.error.message}` );
+                } else {
+                  callback( `Error: ${data.status} ${data.statusText}` );
+                }
             }
         };
         $.ajax(opts);
