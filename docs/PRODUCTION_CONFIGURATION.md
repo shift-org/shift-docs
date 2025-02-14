@@ -19,11 +19,9 @@ That same shift script can be used on production manually ( ex. `./shift start`,
 
 ## Configuration
 
-The shift command inspects the `./shift.overrides` file for environment variable updates.
+The `./shift` script looks for a  `./shift.overrides` file to update environment variables ( ex. to set the nginx port to 443 rather than the 4443 port defined at the top of `./shift` ) 
 
-The `./shift.overrides.production` contains the overrides used for production (ex: nginx https 443 rather than 4443)
-
-During production configuration the `/opt/shift-docs/shift.overrides` is soft linked to `/opt/shift-docs/shift.overrides.production` file in order to activate production overrides.
+There is no such file in the repo. Instead, there is an `/opt/shift-docs/shift.overrides.production` in the repo, and that file was manually soft linked as  `/opt/shift-docs/shift.overrides` when setting up the production machine. Nothing in this file is or should be secret. ( no credentials )
 
 ## Images
 
