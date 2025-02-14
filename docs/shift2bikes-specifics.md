@@ -14,6 +14,8 @@ cf [this other doc](https://github.com/shift-org/shift-docs?tab=readme-ov-file#f
 
 TBA 
 
+### SMTP
+
 ### Timezone:
 
 We generally treat `YYYY-MM-DD` and ride times as timezone free strings, and they are stored in the DB that way too. So, if the organizer says the ride starts at "7PM" then that's the value we report. Everyone in the world should -- so far as i know -- see that exact text: 7PM. However, on the backend -- for reporting the ical feed, and to ensure we get a `now()` that matches what portland riders would expect -- we explictly set a default timezone:
@@ -36,3 +38,22 @@ The primary netlify config is all in [`netlify.toml`](https://github.com/shift-o
 2. and also building the frontend (with every commit) and the pushing backend content to our API server (with production commits)
 
 If you were to rip netlify out, you'd not need most of that stuff but would need to manage SSL certificates and handle building your site for yourself; TL;DR the backend can run standalone and serve all content!
+
+## Misc Production Details
+
+Currently running Ubuntu 20.04.6 LTS with a planned upgrade this year.
+
+### cron
+we have two cron jobs, one that updates our certbot certificate and one that does a mysql backup
+
+### certbot
+there is dark magic? the cron uses this script to renew the cert on a regular basis: https://github.com/shift-org/shift-docs/blob/main/services/nginx/certbot.sh  
+
+---- 
+# FAQ:
+
+1. Q: docker-compose is no longer supported; but the shift script uses it?
+   
+   A: we need to update production to the latest version of Ubuntu, which will have the needed version of docker for the "docker" space "compose" command. The `docker-compose.yml` will need some updates ( tho maybe just "version is obsolete " ) which, unfortunately, docker has no smooth migration for. ( possibly we could have two different docker compose files one for each version; and have the shift script sniff out the OS version to use the right commands and compose. But, probably we'll let things break for a moment and fix them during the upgrade. )
+    
+2.  Q: What setup is needed for the ec2 server that will be running the database? Do I just need to change the db passwords and the domain in shift script? See 1, but also there are two files to setup: the `secrets` ( for email ) and the `shift.overrides` ( for the domain ) -- see https://github.com/shift-org/shift-docs/blob/hosting-docs/docs/PRODUCTION_CONFIGURATION.md for more info on those.
