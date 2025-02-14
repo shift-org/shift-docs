@@ -14,6 +14,14 @@ cf [this other doc](https://github.com/shift-org/shift-docs?tab=readme-ov-file#f
 
 TBA 
 
+### Timezone:
+
+We generally treat `YYYY-MM-DD` and ride times as timezone free strings, and they are stored in the DB that way too. So, if the organizer says the ride starts at "7PM" then that's the value we report. Everyone in the world should -- so far as i know -- see that exact text: 7PM. However, on the backend -- for reporting the ical feed, and to ensure we get a `now()` that matches what portland riders would expect -- we explictly set a default timezone:
+
+https://github.com/shift-org/shift-docs/blob/652af30e3c3a4d623a34ff0ff43ead9d671f2320/app/util/dateTime.js#L10
+
+( we could move that to [the config.js ](https://github.com/shift-org/shift-docs/blob/main/app/config.js) if that were helpful. )
+
 ## Netlify specifics
 
 We use [Netlify](https://www.netlify.com) to host the frontend of the production site, and also host some static content. We also have Netlify proxy to the backend server and handle some caching and avoid some [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues that can come from serving API-backed content from multiple domains.  
