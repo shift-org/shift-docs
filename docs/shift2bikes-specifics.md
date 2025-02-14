@@ -12,9 +12,11 @@ cf [this other doc](https://github.com/shift-org/shift-docs?tab=readme-ov-file#f
 
 ## backend specifics
 
-TBA 
+misc configuration for email sender and and ical attribution live in [config](https://github.com/shift-org/shift-docs/blob/main/app/config.js) and there's also [email.njk](https://github.com/shift-org/shift-docs/blob/main/app/views/email.njk) for the confirmation email text. 
 
 ### SMTP
+
+nodemailer is configured to use smtp to send confirmation emails. see https://github.com/shift-org/shift-docs/blob/hosting-docs/docs/PRODUCTION_CONFIGURATION.md for details.
 
 ### Timezone:
 
@@ -22,7 +24,7 @@ We generally treat `YYYY-MM-DD` and ride times as timezone free strings, and the
 
 https://github.com/shift-org/shift-docs/blob/652af30e3c3a4d623a34ff0ff43ead9d671f2320/app/util/dateTime.js#L10
 
-( we could move that to [the config.js ](https://github.com/shift-org/shift-docs/blob/main/app/config.js) if that were helpful. )
+( we could move that to [the config.js](https://github.com/shift-org/shift-docs/blob/main/app/config.js) if that were helpful. )
 
 ## Netlify specifics
 
