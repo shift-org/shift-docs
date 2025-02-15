@@ -30,7 +30,7 @@
     "predeploy": "npm i --workspaces=false && npm i -w cal",
     "deploy": "concurrently --max-processes 1 -P 'npm:deploy:hugo -- {@}' 'npm:deploy:vite' --",
     "deploy:hugo": "exec-bin bin/hugo/hugo -s site",
-    "deploy:vite": "pwd && ls -1 site && npm -w cal run deploy",
+    "deploy:vite": "pwd && ls -1 site/public && ls -1 site/public/extras",
     "postdeploy": "cp site/public/404/index.html site/public/404.html",
     
     "postinstall": "hugo-installer --version 0.128.2",
