@@ -58,4 +58,24 @@ there is dark magic? the cron uses this script to renew the cert on a regular ba
    
    A: we need to update production to the latest version of Ubuntu, which will have the needed version of docker for the "docker" space "compose" command. The `docker-compose.yml` will need some updates ( tho maybe just "version is obsolete " ) which, unfortunately, docker has no smooth migration for. ( possibly we could have two different docker compose files one for each version; and have the shift script sniff out the OS version to use the right commands and compose. But, probably we'll let things break for a moment and fix them during the upgrade. )
     
-2.  Q: What setup is needed for the ec2 server that will be running the database? Do I just need to change the db passwords and the domain in shift script? See 1, but also there are two files to setup: the `secrets` ( for email ) and the `shift.overrides` ( for the domain ) -- see https://github.com/shift-org/shift-docs/blob/hosting-docs/docs/PRODUCTION_CONFIGURATION.md for more info on those.
+2.  Q: What setup is needed for the ec2 server that will be running the database? Do I just need to change the db passwords and the domain in shift script?
+
+    A: See 1, but also there are two files to setup: the `secrets` ( for email ) and the `shift.overrides` ( for the domain ) -- see https://github.com/shift-org/shift-docs/blob/hosting-docs/docs/PRODUCTION_CONFIGURATION.md for more info on those.
+
+3.  Q: Where do I need to repoint/change the api.shift2bikes.org? 
+
+    1. `netlify.toml`: various places: for api access, uploaded user image access, ical feeds. 
+    2. the secrets file: for smtp 
+    3. `shift.overrides`: for generating links to events in returned responses 
+    4. `certbot.sh`: so the backend can be accessed with https 
+    5. minor: `tools/preview.js`: for testing local content with the production backend
+  
+4. Q: And what about references to the frontend or domain?
+
+   1. `app/config.js`: reply email address, ical guid(s), etc.
+   2. `app/endpoints/ical.js` (and `test/ical_test.js`): more ical guid generation
+   3. `site/content/404.md`, `addevent.md`,` site/themes/s2b_hugo_theme/layouts/partials/cal/edit.html`, `pp-header.html`: support emails
+   4. `site/themes/s2b_hugo_theme/layouts/partials/cal/shift-feed.html`, `pp-feed.html`: ical subscription links
+   5. probably some content pages.
+  
+   
