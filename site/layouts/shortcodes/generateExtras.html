@@ -6,7 +6,6 @@
 {{ $json := ( $menu | jsonify (dict "prefix" " " "indent" "  "))}}
 {{ $r := resources.FromString "extras/siteMenu.json" $json }}
 {{ $r.Publish }}
-{{ warnf "published %q" $r.Permalink }}
 
 {{/*
   pedalp dates

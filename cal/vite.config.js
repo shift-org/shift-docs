@@ -11,7 +11,7 @@ const isNetlify = !!process.env.NETLIFY;
 // 'npm dev' tells hugo to output to the bin/dist directory;
 // while netlify always uses the site/public directory.
 const localExtras = "../bin/dist/extras/"
-const netlifyExtras = "../site/public/extras/"
+const netlifyExtras = "../public/extras/"
 
 // https://vite.dev/config/
 export default defineConfig({
