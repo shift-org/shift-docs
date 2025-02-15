@@ -5,7 +5,7 @@
 [build]
   # note: the netlify global config ( on netlify.com ) appear to override these.
   base = "site"
-  publish = "public"
+  publish = "site/public/"
 
 [build.environment]
   # extra environment variables if needed.
