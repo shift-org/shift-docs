@@ -76,6 +76,6 @@ there is dark magic? the cron uses this script to renew the cert on a regular ba
    2. `app/endpoints/ical.js` (and `test/ical_test.js`): more ical guid generation
    3. `site/content/404.md`, `addevent.md`,` site/themes/s2b_hugo_theme/layouts/partials/cal/edit.html`, `pp-header.html`: support emails
    4. `site/themes/s2b_hugo_theme/layouts/partials/cal/shift-feed.html`, `pp-feed.html`: ical subscription links
-   5. probably some content pages.
+   5. probably some content pages ( ex. for documentation, links, or email: but nothing that would directly affect functionality )
   
    
