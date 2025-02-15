@@ -23,9 +23,14 @@
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -e development -d ../bin/dist",
     "dev-cal": "env-cmd -f tools/dev.env npm -w cal run dev",
     
-    "build": "concurrently -k \"npm:build-*\" --max-processes 1",
+    "build": "concurrently  --max-processes 1 -k \"npm:build-*\"",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
     "build-vite": "npm -w cal run build",
+
+    "deploy": "concurrently --max-processes 1 -P 'npm:deploy:hugo -- {@}' 'npm:deploy:vite' --",
+    "deploy:hugo": "exec-bin bin/hugo/hugo -s site",
+    "deploy:vite": "npm -w cal run deploy",
+    "postdeploy": "cp site/public/404/index.html site/public/404.html",
     
     "postinstall": "hugo-installer --version 0.128.2",
     "test": "npm -w app run test",

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --emptyOutDir",
-    "preview": "vite preview"
+    "build": "vite build --emptyOutDir --outDir ../bin/dist/events",
+    "deploy": "vite build --outDir ../site/public/events"
   },
   "dependencies": {
     "dayjs": "^1.11.13",
