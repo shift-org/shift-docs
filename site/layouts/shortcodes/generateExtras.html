@@ -4,14 +4,14 @@
 */}}
 {{ $menu := partial "buildMenu.html" site.Menus.main }}
 {{ $json := ( $menu | jsonify (dict "prefix" " " "indent" "  "))}}
-{{/* $json = (print "export default " $json  | safeJS )*/}}
 {{ $r := resources.FromString "extras/siteMenu.json" $json }}
 {{ $r.Publish }}
+{{ warnf "published %q" $r.Permalink }}
+
 {{/*
   pedalp dates
 */}}
 {{ $pedal := partial "buildPedalDates.html" . }}
 {{ $pjson := ( $pedal | jsonify (dict "prefix" " " "indent" "  "))}}
-{{/* $pjson = (print "export default " $pjson  | safeJS )*/}}
 {{ $pr := resources.FromString "extras/pedalDates.json" $pjson }}
 {{ $pr.Publish }}
