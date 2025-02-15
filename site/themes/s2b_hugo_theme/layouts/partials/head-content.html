@@ -1,0 +1,42 @@
+<meta charset="utf-8">
+<meta name="robots" content="all,follow">
+<meta name="googlebot" content="index,follow,snippet,archive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{ if eq .Title .Site.Title }}
+<!-- if page title and site title are equal, don't repeat it -->
+<title>{{ .Title }}</title>
+{{ else }}
+<title>{{ .Title }} - {{ .Site.Title }}</title>
+{{ end }}
+<meta name="author" content="{{ .Site.Author.name }}" />
+
+{{ if .Keywords }}
+<meta name="keywords" content="{{ delimit .Keywords ", " }}">
+{{ else if .Site.Params.DefaultKeywords }}
+<meta name="keywords" content="{{ delimit .Site.Params.DefaultKeywords ", " }}">
+{{ end }}
+
+{{ if .Description }}
+<meta name="description" content="{{ .Description }}">
+{{ else if .Site.Params.DefaultDescription }}
+<meta name="description" content="{{ .Site.Params.DefaultDescription }}">
+{{ end }}
+<link rel="alternate" href="{{ "/index.xml" | absURL }}" type="application/rss+xml" title="{{ .Site.Title }}">
+
+{{ hugo.Generator }}
+
+<!-- Favicon and apple touch icons-->
+<link rel="icon" href="{{ absURL "img/favicon.ico" }}">
+<link rel="icon" href="{{ absURL "img/favicon.png" }}" type="image/png">
+<link rel="apple-touch-icon" href="{{ absURL "img/apple-touch-icon.png" }}">
+
+<!-- Facebook OpenGraph tags -->
+<meta property="og:title" content="{{ .Title }}" />
+<meta property="og:description" content="{{ .Description }}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ absURL .Site.Params.logo }}" />
+<meta property="og:image:height" content="1200" />
+<meta property="og:image:width" content="1200" />
+
+<!-- Verification metadata for Mastodon -->
+<link href="{{ .Site.Params.verificationURL }}" rel="me">

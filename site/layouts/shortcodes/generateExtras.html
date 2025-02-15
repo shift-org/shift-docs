@@ -1,0 +1,16 @@
+{{/* 
+  site menu, generated from hugo.toml.
+  outputs to a json file, that we can include.
+*/}}
+{{ $menu := partial "buildMenu.html" site.Menus.main }}
+{{ $json := ( $menu | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $r := resources.FromString "extras/siteMenu.json" $json }}
+{{ $r.Publish }}
+
+{{/*
+  pedalp dates
+*/}}
+{{ $pedal := partial "buildPedalDates.html" . }}
+{{ $pjson := ( $pedal | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $pr := resources.FromString "extras/pedalDates.json" $pjson }}
+{{ $pr.Publish }}
