@@ -1,3 +1,4 @@
+<script>
 /**
  * display a single instance of an event on a particular day
  * for comparison see: events.html <div class="event-details">
@@ -6,13 +7,13 @@
 import dayjs from 'dayjs'
 // components:
 import { RouterLink } from 'vue-router'
-import Banner from './banner.js'
-import CalTags from './calTags.js'
-import LocationLink from './locLink.js'
-import Menu from './menu.js'
-import QuickNav from './quickNav.js'
-import Term from './calTerm.js'
-import Toolbar from './toolbar.js'
+import Banner from './Banner.vue'
+import CalTags from './CalTags.vue'
+import LocationLink from './LocLink.vue'
+import Menu from './Menu.vue'
+import QuickNav from './QuickNav.vue'
+import Term from './CalTerm.vue'
+import Toolbar from './Toolbar.vue'
 // helpers
 import siteConfig from './siteConfig.js'
 import dataPool from './dataPool.js'
@@ -42,59 +43,6 @@ function makeRange(date, dir) {
 }
 // 
 export default {
-  template: `
-<Banner :banner="banner" />
-<Toolbar :expanded="expanded">
-  <router-link :to="returnLink" class="c-toolbar__special">&lt; All Events</router-link>
-</Toolbar>
-<Menu v-if="expanded.tool === 'menu'"/>
-<article 
-  class="c-single"
-  :class="{ 'c-single--cancelled': evt.cancelled, 
-            'c-single--featured': evt.featured }"
-  :data-event-id="evt.caldaily_id">
-  <h3 class="c-single__date">{{longDate(evt.date)}}</h3>
-  <h3 class="c-single__title">
-      <span class="c-single__time">{{startTime}}</span>
-      <span class="c-single__words">{{evt.title}}</span>
-  </h3>
-  <dl>
-    <Term type="tags" label="Tags">
-      <CalTags :evt="evt"/>
-    </Term>
-    <Term type="loc" label="Location">
-      <LocationLink :evt="evt"></LocationLink>
-    </Term>
-    <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">
-      <template v-if="term.id != 'organizer'">
-      {{ term.text }}
-      </template>
-      <template v-else>
-        <span class="c-organizer__name c-organizer__name--link" v-if="contactLink(evt)">
-          <a  href="contactLink(evt)" target="_blank" rel="noopener nofollow external" 
-          title="Opens in a new window">{{evt.organizer}}
-          </a>
-        </span>
-        <span v-else class="c-organizer__name c-organizer__name--text">
-          {{ evt.organizer }}
-        </span>
-        <span v-if="evt.email"
-          class="c-organizer__phone"
-        >(<a :href="'mailto:' + evt.email">{{evt.email}}</a>)</span>
-        <span v-if="evt.phone"
-          class="c-organizer__phone"
-        >(<a :href="'tel:' + evt.phone">{{evt.phone}}</a>)</span>
-      </template>
-    </Term>    
-    <Term v-if="evt.weburl" label="More Info">
-      <a :href="webLink(evt)" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
-        {{evt.webname || evt.weburl}}
-      </a>
-    </Term>
-  </dl>
-</article>
-<QuickNav :shortcuts="shortcuts" @nav-left="shiftEvent(-1)" @nav-right="shiftEvent(1)"></QuickNav>
-  `,
   components: { Banner, CalTags, LocationLink, Menu, QuickNav, Term, Toolbar, },
   data() {
     return {
@@ -275,3 +223,61 @@ export default {
     }
   }
 }
+</script>
+
+<template>
+  <Banner :banner="banner" />
+  <Toolbar :expanded="expanded">
+    <router-link :to="returnLink" class="c-toolbar__special">&lt; All Events</router-link>
+  </Toolbar>
+  <Menu v-if="expanded.tool === 'menu'"/>
+  <article 
+    class="c-single"
+    :class="{ 'c-single--cancelled': evt.cancelled, 
+              'c-single--featured': evt.featured }"
+    :data-event-id="evt.caldaily_id">
+    <h3 class="c-single__date">{{longDate(evt.date)}}</h3>
+    <h3 class="c-single__title">
+        <span class="c-single__time">{{startTime}}</span>
+        <span class="c-single__words">{{evt.title}}</span>
+    </h3>
+    <dl>
+      <Term type="tags" label="Tags">
+        <CalTags :evt="evt"/>
+      </Term>
+      <Term type="loc" label="Location">
+        <LocationLink :evt="evt"></LocationLink>
+      </Term>
+      <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">
+        <template v-if="term.id != 'organizer'">
+        {{ term.text }}
+        </template>
+        <template v-else>
+          <span class="c-organizer__name c-organizer__name--link" v-if="contactLink(evt)">
+            <a  href="contactLink(evt)" target="_blank" rel="noopener nofollow external" 
+            title="Opens in a new window">{{evt.organizer}}
+            </a>
+          </span>
+          <span v-else class="c-organizer__name c-organizer__name--text">
+            {{ evt.organizer }}
+          </span>
+          <span v-if="evt.email"
+            class="c-organizer__phone"
+          >(<a :href="'mailto:' + evt.email">{{evt.email}}</a>)</span>
+          <span v-if="evt.phone"
+            class="c-organizer__phone"
+          >(<a :href="'tel:' + evt.phone">{{evt.phone}}</a>)</span>
+        </template>
+      </Term>    
+      <Term v-if="evt.weburl" label="More Info">
+        <a :href="webLink(evt)" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
+          {{evt.webname || evt.weburl}}
+        </a>
+      </Term>
+    </dl>
+  </article>
+  <QuickNav :shortcuts="shortcuts" @nav-left="shiftEvent(-1)" @nav-right="shiftEvent(1)"></QuickNav>
+</template>
+
+<style>
+</style>

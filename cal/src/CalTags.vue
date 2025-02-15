@@ -1,16 +1,10 @@
+<script>
 /**
  * Predefined labels describing a ride
  */
 import helpers from './calHelpers.js'
 
 export default {
-  template: `
-      <ul class="c-event__tags">
-        <li :class="tag('audience', audienceTag)">{{ audienceLabel }}</li>
-        <li :class="tag('area', areaTag)">{{ areaLabel }}</li>
-        <li :class="tag('safety', safetyTag)" v-if="useSafetyTag">{{ safetyLabel }}</li>
-      </ul>
-  `,
   props: {
     evt: Object, 
   },
@@ -48,3 +42,15 @@ export default {
     }
   }
 };
+</script>
+
+<template>
+  <ul class="c-event__tags">
+    <li :class="tag('audience', audienceTag)">{{ audienceLabel }}</li>
+    <li :class="tag('area', areaTag)">{{ areaLabel }}</li>
+    <li :class="tag('safety', safetyTag)" v-if="useSafetyTag">{{ safetyLabel }}</li>
+  </ul>
+</template>
+
+<style>
+</style>

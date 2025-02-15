@@ -1,3 +1,4 @@
+<script>
 /**
  * Term and definition in a <dl> definition list.
  *    <Term label="name">content</Term>
@@ -5,10 +6,6 @@
  *    <dt>name</dt><dd>content</dd>
  */
 export default {
-  template: `
-<dt :class="termClass">{{ label }}</dt>
-<dd :class="valueClass"><slot /></dd>
-`,
   props: {
     type: String, // suffix for the css class
     label: String // the name of the term
@@ -24,3 +21,12 @@ export default {
     }
   }
 };
+</script>
+
+<template>
+  <dt :class="termClass">{{ label }}</dt>
+  <dd :class="valueClass"><slot /></dd>
+</template>
+
+<style>
+</style>

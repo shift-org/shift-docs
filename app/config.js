@@ -60,9 +60,9 @@ const config = {
       url: "/calendar/event-:caldaily",
       filePath: path.posix.resolve(staticFiles, 'calendar/event', 'index.html')
     }, {
-      // ex. http://localhost:3080/events/event-201
+      // ex. http://localhost:3080/events/201
       // loads http://localhost:3080/events/index.html
-      url: "/events/event-:caldaily",
+      url: "/events/:caldaily_id",
       filePath: path.posix.resolve(staticFiles, 'events', 'index.html')
     }],
   },

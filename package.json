@@ -30,9 +30,9 @@
     "postinstall": "hugo-installer --version 0.128.2",
     "test": "npm -w app run test",
 
-    "preview": "concurrently -k \"npm:dev-*\"",
+    "preview": "concurrently --kill-others-on-fail \"npm:preview-*\"",
     "preview-hugo": "npm run dev-hugo",
-    "preview-cal": "npm -w cal run dev",
+    "preview-cal": "npm -w cal run build",
     "preview-app": " npm -w tools run preview"
   },
   "devDependencies": {

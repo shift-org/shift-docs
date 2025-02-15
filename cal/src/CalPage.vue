@@ -1,30 +1,18 @@
+<script>
 // globals:
 import dayjs from 'dayjs'
 // components:
-import Banner from './banner.js'
-import CalList from './calList.js'
-import Menu from './menu.js'
-import QuickNav from './quickNav.js'
-import Toolbar from './toolbar.js'
+import Banner from './Banner.vue'
+import CalList from './CalList.vue'
+import Menu from './Menu.vue'
+import QuickNav from './QuickNav.vue'
+import Toolbar from './Toolbar.vue'
 // support:
 import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
 export default {
-  template: `
-<Banner :banner="banner" />
-<Toolbar :expanded="expanded" />
-<Menu v-if="expanded.tool === 'menu'"/>
-<section class="c-cal-body">
-<div v-if="loading" class="c-cal-body__loading">Loading...</div>
-<div v-else-if="error" class="c-cal-body__error">{{ error }}</div>
-<div class="c-cal-body__list" v-else>
-<CalList :cal="cal" :lastEvent="lastEvent"></CalList>
-</div>
-</section>
-<QuickNav :shortcuts="shortcuts" @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
-`, 
   components: { Banner, CalList, Menu, QuickNav, Toolbar },
   beforeRouteEnter(to, from, next) {
     // called before the route that renders this component is confirmed.
@@ -196,3 +184,21 @@ function groupByDay( start, end, eventData ) {
   // console.log(JSON.stringify(allDays));
   return allDays;
 };
+</script>
+
+<template>
+  <Banner :banner="banner" />
+  <Toolbar :expanded="expanded" />
+  <Menu v-if="expanded.tool === 'menu'"/>
+  <section class="c-cal-body">
+  <div v-if="loading" class="c-cal-body__loading">Loading...</div>
+  <div v-else-if="error" class="c-cal-body__error">{{ error }}</div>
+  <div class="c-cal-body__list" v-else>
+  <CalList :cal="cal" :lastEvent="lastEvent"></CalList>
+  </div>
+  </section>
+  <QuickNav :shortcuts="shortcuts" @nav-left="shiftRange(-1)" @nav-right="shiftRange(1)"></QuickNav>
+</template>
+
+<style>
+</style>

@@ -1,73 +1,11 @@
-// globals:
+<script>
 import dayjs from 'dayjs'
-
-// todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms
-const ToolDetails = {
-  // a form's action identifies a server endpoint
-  // the method determines the client-server interaction ( GET, POST, etc. )
-  // for get, the browser will send controls as name-value query params
-  // for post, it will send a request body with that same info.
-  // the 'dialog' method is a do-nothing which javascript can intercept.
-  template: `
-<form method="dialog">
-    <label :for="id">{{tool.label}}</label>
-    <input :name="tool.name" 
-      :id="id" 
-      ref="inputItem"
-      v-model="inputText"
-      v-bind="tool.attrs">
-    <button v-if="tool.attrs.type == 'date'" @click="today()">Today</button>
-    <button @click="submit()">Go</button>
-</form>
-`,
-  props: {
-    tool: Object,
-  },
-  data() {
-    return {
-      // when the input changes, v-model changes this value.
-      inputText: "",
-    }
-  },
-  computed: {
-    id() {
-      // custom tool id: ex. "jump-tool"
-      return `${this.tool.name}-tool`
-    }
-  },
-  methods: {
-    // because its a form, we don't need the 
-    // keyhandler on the input button
-    //  @keyup.enter="submit"
-    submit(src) {
-      this.tool.runTool(this.inputText);
-    },
-    today() {
-      this.inputText = dayjs().format("YYYY-MM-DD");
-    },
-  },
-  mounted() {
-    // console.log("mounted", this.$refs.inputItem);
-    this.$refs.inputItem.focus();
-  },
-}
+import ToolDetails from './ToolDetails.vue'
 
 // the toolbar contains search, jump to date, and maybe list/grid toggle
 // or a jump to old view.
 // note: <dialog> is cool -- but it overlays the contents rather than reflows.
 export default {
-  template: `
-<div class="c-toolbar">
-<slot></slot>
-  <button v-for="tool in tools" :key="tool.name" 
-    @click="toggle(tool.name)">{{tool.button}}</button>
-  <button class="c-toolbar__menu" @click="toggle('menu')">&equiv;</button>
-</div>
-<div class="c-button-details">
-<template v-for="tool in tools" :key="tool.name">
-  <ToolDetails :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
-</template>
-</div>`,
 components: { ToolDetails },
 props: {
   // a dict with a single member: 'tool',
@@ -135,3 +73,21 @@ data() {
     }
   }
 }
+</script>
+
+<template>
+  <div class="c-toolbar">
+  <slot></slot>
+    <button v-for="tool in tools" :key="tool.name" 
+      @click="toggle(tool.name)">{{tool.button}}</button>
+    <button class="c-toolbar__menu" @click="toggle('menu')">&equiv;</button>
+  </div>
+  <div class="c-button-details">
+  <template v-for="tool in tools" :key="tool.name">
+    <ToolDetails :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
+  </template>
+  </div>
+</template>
+
+<style>
+</style>

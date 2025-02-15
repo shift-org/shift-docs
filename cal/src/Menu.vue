@@ -1,3 +1,4 @@
+<script>
 /**
  * renders a menu object containing:
  * { id, name, url, kids: [] )
@@ -11,24 +12,12 @@
 import siteConfig from './siteConfig.js'
 
 export default {
-  template: `
-<ul>
-<li v-for="menu in menu" :key="menu.id">
-  <button @click="toggle(menu.id)">{{ menu.name }}</button>
-  <ul v-if="expanded === menu.id">
-    <li v-for="kid in menu.kids" :key="kid.id">
-      <a :href="kid.url">{{kid.name}}</a>
-    </li>
-  </ul>
-</li>
-</ul>
-`,  
   props: {
     // if not specified, falls back to the siteConfig
     "menu": {
       type: Object,
       default(rawProps) {
-        // defined by buildMenu.html; events/single.html 
+        // defined by buildMenu.html
         return siteConfig.menu
       }
     }
@@ -53,3 +42,20 @@ export default {
     }
   }
 }
+</script>
+
+<template>  
+  <ul>
+  <li v-for="menu in menu" :key="menu.id">
+    <button @click="toggle(menu.id)">{{ menu.name }}</button>
+    <ul v-if="expanded === menu.id">
+      <li v-for="kid in menu.kids" :key="kid.id">
+        <a :href="kid.url">{{kid.name}}</a>
+      </li>
+    </ul>
+  </li>
+  </ul>
+</template>
+
+<style>
+</style>
