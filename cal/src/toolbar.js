@@ -1,3 +1,5 @@
+// globals:
+import dayjs from 'dayjs'
 
 // todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms
 const ToolDetails = {

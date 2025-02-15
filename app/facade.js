@@ -2,12 +2,13 @@
 // ex. npm run -w tools preview
 const express = require('express');
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // fix? might be cool to make this express "middleware"
 const facade = {
   // uses config for the source of the static files
   // you can use "hugo --watch" to rebuild changes on demand.
-  serveFrontEnd(app, config) {
+  serveHugoContent(app, config) {
     const { staticFiles } = config.site;
     if (!staticFiles) {
       throw new Error("missing static files path");
@@ -32,6 +33,35 @@ const facade = {
     });
   },
 
+  // in production, netlify uses vite to build the frontend app
+  // into a single set of files embedded into events/index.html
+  // in development, vite runs a server to watch for source code changes
+  // our webpage can only talk to one server, so we make it talk to node
+  // and have node -- here -- send "events" requests to vite.
+  serveVite(app, config) {
+    const events = createProxyMiddleware({
+      logger: console,
+      target: 'http://localhost:5173/events/',
+      changeOrigin: true,
+      ws: true 
+    });
+    app.use('/events', events);
+    const etc = createProxyMiddleware({
+      logger: console,
+      target: 'http://localhost:5173/',
+      pathFilter: [
+        '/@*/**', // ex. @vite/client
+        '/src/**', 
+        '/node_modules/**',
+        // the proxy code uses micromatch, https://www.npmjs.com/package/micromatch and it doesn't allow star (*) to match dot (.) 
+        '/node_modules/.*/**',
+       ],
+      changeOrigin: true,
+      ws: true 
+    });
+    app.use('/', etc);
+  },
+
   // uses config for the image directory
   // in production, "eventimages/*" gets redirected by netlify to the backend,
   // then remapped and served by ngnix.
@@ -51,8 +81,9 @@ const facade = {
   },
 
   makeFacade(app, config) {
-    facade.serveFrontEnd(app,config);
-    facade.serveImages(app,config);
+    facade.serveHugoContent(app, config);
+    facade.serveVite(app, config);
+    facade.serveImages(app, config);
   }
 };
 

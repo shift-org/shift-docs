@@ -2,6 +2,8 @@
  * display a single instance of an event on a particular day
  * for comparison see: events.html <div class="event-details">
  */
+// globals:
+import dayjs from 'dayjs'
 // components:
 import { RouterLink } from 'vue-router'
 import Banner from './banner.js'
@@ -17,6 +19,8 @@ import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
 
 function formatTime(t) {
+  // parsing the time this way requires the customParseFormat
+  // ( loaded by siteConfig )
   return dayjs(t, 'hh:mm:ss').format('h:mm A');
 }
 
@@ -104,12 +108,12 @@ export default {
   },
   beforeMount() {
     const { caldaily_id } = this.$route.params;
-    console.log(`beforeMount event-${caldaily_id}`);
+    console.log(`beforeMount event ${caldaily_id}`);
     this.fetchData(caldaily_id);
   },
   beforeRouteUpdate(to, from) {
     const { caldaily_id } = to.params;
-    console.log(`beforeRouteUpdate event-${caldaily_id} ${to.fullPath}, ${from.fullPath}`);
+    console.log(`beforeRouteUpdate event ${caldaily_id} ${to.fullPath}, ${from.fullPath}`);
     this.fetchData(caldaily_id);
   },
   computed: {
@@ -169,7 +173,8 @@ export default {
         id: "share",
         icon: "⤴", 
         label: "Share",
-        url: `/events/event-${evt.caldaily_id}`,
+        // FIX --- FRIENDLY URL
+        url: `/events/${evt.caldaily_id}`,
         attrs: {
           rel: "bookmark"
         }

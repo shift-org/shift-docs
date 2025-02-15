@@ -1,5 +1,6 @@
 // converted from the jquery helpers.js
 // TBD: how to share? do we need to?
+import dayjs from 'dayjs'
 
 const AREA = Object.freeze({
     'P' : 'Portland',

@@ -1,3 +1,5 @@
+// globals:
+import dayjs from 'dayjs'
 // components:
 import Banner from './banner.js'
 import CalList from './calList.js'

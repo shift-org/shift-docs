@@ -2,6 +2,9 @@
  * the intention of data pool is to provide a cache to avoid multiple browser requests
  * but maybe the browser can handle that well enough itself
  */
+// globals:
+import dayjs from 'dayjs'
+// support:
 import siteConfig from './siteConfig.js'
 
 // https://www.shift2bikes.org/api/events.php?start=2025-01-19
@@ -41,6 +44,8 @@ export default {
       // TODO: timeout?
       console.log(`fetching ${start.format(debugFormat)} to ${end.format(debugFormat)}`);
       const resp = await fetch(apiUrl);  // fetch is built-in browser api
+
+      // if its not json, this exceptions
       data = await resp.json(); // data => { events: [], pagination: {} }
 
       data.events.forEach((evt, i) => {

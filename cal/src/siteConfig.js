@@ -2,8 +2,12 @@
  * global constants
  * ( we might want some of this customizable )
  */
-import menu from '/events/menu.js'
-import pedalp from '/events/pedalp.js'
+import menu from 'extras/siteMenu.js'
+import pedalp from 'extras/pedalDates.js'
+//
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat);
 
 export default {
   logo: "/img/cal/logos/shift-logo.svg#shift-logo",

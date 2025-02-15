@@ -2,6 +2,8 @@
  * display list of events:
  * equivalent of viewEvents()
  */
+// globals:
+import dayjs from 'dayjs'
 // components:
 import { RouterLink } from 'vue-router'
 import CalTags from './calTags.js'
