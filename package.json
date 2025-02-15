@@ -10,21 +10,29 @@
   },
   "workspaces": [
     "app",
+    "cal",
     "tools"
   ],
   "scripts": {
     "start": "npm -w app start",
     "prestart": "npm i --omit dev --audit false --fund false --ignore-scripts",
+    
     "dev": "concurrently -k \"npm:dev-*\"",
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
-    "dev-app": "env-cmd -f tools/dev.env npm start -w app",
+    "dev-app": "env-cmd -f tools/dev.env npm -w app start",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -e development -d ../bin/dist",
-    "build": "npm run build-hugo",
+    "dev-cal": "env-cmd -f tools/dev.env npm -w cal run dev",
+    
+    "build": "concurrently -k \"npm:build-*\" --max-processes 1",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
+    "build-vite": "npm -w cal run build",
+    
     "postinstall": "hugo-installer --version 0.128.2",
-    "test": "npm run test -w app",
+    "test": "npm -w app run test",
+
     "preview": "concurrently -k \"npm:dev-*\"",
     "preview-hugo": "npm run dev-hugo",
+    "preview-cal": "npm -w cal run dev",
     "preview-app": " npm -w tools run preview"
   },
   "devDependencies": {

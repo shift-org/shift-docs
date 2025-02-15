@@ -81,8 +81,10 @@ const facade = {
   },
 
   makeFacade(app, config) {
-    facade.serveHugoContent(app, config);
+    // serve vite first so its events path will override any events folder in dist
+    // ( ex. if previously built with npm run build )
     facade.serveVite(app, config);
+    facade.serveHugoContent(app, config);
     facade.serveImages(app, config);
   }
 };
