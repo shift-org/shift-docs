@@ -2,8 +2,8 @@
  * global constants
  * ( we might want some of this customizable )
  */
-import menu from 'extras/siteMenu.js'
-import pedalp from 'extras/pedalDates.js'
+import menu from 'extras/siteMenu.json'
+import pedalp from 'extras/pedalDates.json'
 //
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
