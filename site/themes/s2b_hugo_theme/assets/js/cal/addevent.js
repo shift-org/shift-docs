@@ -418,14 +418,12 @@
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
                 const template = $( '#email-suggestion-template' ).html(),
-                    data = { suggestion: suggestion.full },
-                    message = Mustache.render( template, data );
-                $( '#email-suggestion' )
-                    .html( message );
+                      data = { suggestion: suggestion.full },
+                      message = Mustache.render( template, data );
+                $( '#email-suggestion' ).html( message );
             },
             empty: function ( element ) {
-                $( '#email-suggestion' )
-                    .empty();
+                $( '#email-suggestion' ).empty();
             }
         } );
     } );
