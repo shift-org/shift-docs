@@ -203,23 +203,27 @@ form#event-entry .date-select-container-style {
 }
 
 #email-suggestion {
-    display:none;
-    color: red;
+    color: #d00000;
     font-style: italic;
     margin-top: 5px;
 }
 
-#email-suggestion .correction {
+#email-suggestion .email-address {
     color: blue;
-    cursor: pointer;
+    text-decoration: underline;
+}
+
+#email-suggestion button {
+    background: none;
+    border: none;
 }
 
 #email-suggestion .glyphicon {
     color: grey;
-    cursor: pointer;
     margin-left: 3px;
     border: 1px solid lightgray;
     border-radius: 3px;
+    font-style: normal;
 }
 
 #event-fields .image-form {

@@ -332,9 +332,9 @@
 
             <div class="form-group">
               <label class="control-label req-label" for="email">Email</label>
-              <input type="text" class="form-control" name="email" id="email" value="[[email]]" autocomplete="email" aria-describedby="email-help" required="true" aria-invalid="false" />
+              <input type="text" class="form-control" name="email" id="email" value="[[email]]" autocomplete="email" aria-describedby="email-help email-suggestion" required="true" aria-invalid="false" />
               <p class="input-help" id="email-help">This must be a valid email address where we can reach you. A confirmation message will be mailed to this address.</p>
-              <div id="email-suggestion"></div>
+              <div id="email-suggestion" aria-live="polite"></div>
 
               <div>
                 <label class="control-label" for="hideemail">
@@ -554,6 +554,6 @@
 </script>
 
 <script id="email-suggestion-template" type="text/template">
-  Did you mean <span class="correction">[[ suggestion ]]</span>?
-  <sup><span class="glyphicon glyphicon-remove"></span></sup>
+  <button type="button" data-js-correction>Did you mean <span class="email-address">[[ suggestion ]]</span>?</button>
+  <button type="button" data-js-dismiss><span class="glyphicon glyphicon-remove" role="img" aria-label="Dismiss"></span></button>
 </script>
