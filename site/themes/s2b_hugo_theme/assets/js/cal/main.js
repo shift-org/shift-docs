@@ -83,12 +83,13 @@ $(document).ready(function() {
                 callback(info);
             },
             error: function(data) {
-                const msg = data.responseJSON?.error?.message;
-                if (msg) {
-                    callback( `Error: ${msg}` );
-                } else {
-                    callback( `Error: ${data.status} ${data.statusText}` );
+                let msg = data.responseJSON?.error?.message;
+                if (!msg) {
+                    msg = `${data.status} ${data.statusText}`;
                 }
+                template = $('#request-error').html();
+                rendered = Mustache.render(template, { "error": msg } );
+                callback(rendered);
             }
         };
         $.ajax(opts);
