@@ -23,20 +23,20 @@ Starting from the from AWS console homepage once you login,
 
 With those details in hand, head to [Launch instance](https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2#LaunchInstances)
 
-	- *make sure you're in region Oregon `us-west-2`* (upper right dropdown)
-	- choose ubuntu quickstart - will give LTS latest AMI (24.04 as of this writing)
-	- set a name - latest is production 2025)
-	- ensure instance type, security group, subnet, VPC matches existinge match prod
-	- setup a key pair and make note of private key, you'll need it soon!
-	- configure storage (update default to 30GB, add second 30GB)
-	- no need to change any `Advanced Details` except enabling termination protection (nice to have not required)
-	- finally, click launch instance 
+- *make sure you're in region Oregon `us-west-2`* (upper right dropdown)
+- choose ubuntu quickstart - will give LTS latest AMI (24.04 as of this writing)
+- set a name - latest is production 2025)
+- ensure instance type, security group, subnet, VPC matches existinge match prod
+- setup a key pair and make note of private key, you'll need it soon!
+- configure storage (update default to 30GB, add second 30GB)
+- no need to change any `Advanced Details` except enabling termination protection (nice to have not required)
+- finally, click launch instance 
 
 Then:
-	- you can see it running under "Instances"
-	- from your own laptop, you should be able to `ssh -i newkeypair.id ubuntu@new IP` after saving the keypair to a safe directory (`~/.ssh`) with safe permissions (`600`)
-	- ...and copy auth in via the new login to `newserver:~/.ssh/authorized_keys` from old server,  to grant the rest of the team access
-	
+
+- you can see it running under "Instances"
+- from your own laptop, you should be able to `ssh -i newkeypair.id ubuntu@new IP` after saving the keypair to a safe directory (`~/.ssh`) with safe permissions (`600`)
+- ...and copy auth in via the new login to `newserver:~/.ssh/authorized_keys` from old server,  to grant the rest of the team access
 
 ## Specific setup steps on the server to get it ready to run our stack.
 
