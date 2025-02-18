@@ -161,6 +161,7 @@ class CalDaily {
       });
   }
 
+
   // promises one CalDaily but only for published Events.
   // yields null if not found or not published.
   // ( this is the php EventTime::getByID )
@@ -246,6 +247,43 @@ class CalDaily {
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
       });
+  }
+  // Promises all occurrences of any scheduled CalDaily within the specified date range.
+  // Days are datejs objects.
+  static getEventsBySearch(firstDay, lastDay, term, searchOldEvents=false) {
+    let query = knex
+        .query('caldaily')
+        .join('calevent', 'caldaily.id', 'calevent.id')
+        .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
+        .whereLike('title', `%${term}%`)
+        // .whereRaw("title like '%??%'", [term])  // late binding xperiment
+        .where(function(q) {
+          if (true) {
+            // calevent: a legacy code; reused for soft-delete
+            q.whereNot('review', Review.Excluded)
+            // caldaily: for deselected days; soft-deleted days are also deselected.
+            q.whereNot('eventstatus', EventStatus.Delisted)
+          }
+          // the normal behavior is to not show "delisted days":
+          // those are days deselected by an organizer on the calendar widget
+          // but not explicitly canceled.
+          //
+          // enabling this block hides "delisted days" when includingDeleted events
+          // commenting out this block shows "delisted days" when includingDeleted events.
+          // else {
+          // q.whereNot('eventstatus', EventStatus.Delisted)
+          //  .orWhere('eventstatus', EventStatus.Delisted)
+          //  .andWhere('review', Review.Excluded)
+        })
+        .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
+        .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
+        .where('eventdate', '<=', knex.toDate(lastDay))
+        .orderBy('eventdate')
+        .then(function(dailies) {
+          return dailies.map(at => addMethods(at));
+        });
+    // console.log(query.toString());
+    return query;
   }
   /**
    * Add, cancel, and update occurrences of a particular event.
