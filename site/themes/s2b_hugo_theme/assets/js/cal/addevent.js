@@ -417,31 +417,30 @@
     $(document).on( 'blur', '#email', function () {
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
-                var template = $( '#email-suggestion-template' ).html(),
+                const template = $( '#email-suggestion-template' ).html(),
                     data = { suggestion: suggestion.full },
                     message = Mustache.render( template, data );
                 $( '#email-suggestion' )
-                    .html( message )
-                    .show();
+                    .html( message );
             },
             empty: function ( element ) {
-                $( '#emailMsg' )
-                    .hide();
+                $( '#email-suggestion' )
+                    .empty();
             }
         } );
     } );
 
-    $(document).on('click', '#email-suggestion .correction', function () {
-        $('#email').val( $( this ).text() );
-        $('#email-suggestion')
-            .hide();
+    $(document).on('click', '#email-suggestion [data-js-correction]', function () {
+        $('#email').val( $( '#email-suggestion .email-address' ).text() );
+        $('#email').focus();
+        $('#email-suggestion').empty();
     } );
 
-    $(document).on('click', '#email-suggestion .glyphicon-remove', function () {
-        $('#email-suggestion')
-            .hide();
+    $(document).on('click', '#email-suggestion [data-js-dismiss]', function () {
         // They clicked the X button, turn mailcheck off
         // TODO: Remember unwanted corrections in local storage, don't offer again
+        $('#email-suggestion').empty();
+        $('#email').next('input').focus();
         $(document).off('blur', '#email');
     } );
 
