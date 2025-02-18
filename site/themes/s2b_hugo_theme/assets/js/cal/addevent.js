@@ -1,6 +1,6 @@
-(function($) {
+// uses CONSTANTS from config.js
 
-    // uses CONSTANTS from helpers.js
+(function($) {
 
     var _isFormDirty = false;
 
@@ -9,12 +9,16 @@
     }
 
     $.fn.getAddEventForm = function(id, secret, callback) {
+        // TODO: loading spinner
         if (id && secret) {
-            // TODO: loading spinner
-            var opts = {
+            let url = new URL(API_RETRIEVE_URL);
+            url.searchParams.set('id', id);
+            url.searchParams.set('secret', secret);
+
+            let opts = {
                 type: 'GET',
-                url: '/api/retrieve_event?id=' + id + "&secret=" + secret, // 735-TODO: validate
-                headers: { 'Api-Version': API_VERSION },
+                url: url.toString(),
+                headers: API_HEADERS,
                 success: function(data) {
                     data.secret = secret;
                     data.readComic = true;
@@ -166,7 +170,7 @@
         }
 
         $('.save-button, .publish-button').click(function() {
-            var postVars,
+            let postVars,
                 isNew = !shiftEvent.id;
             $('.form-group').removeClass('has-error');
             $('[aria-invalid="true"]').attr('aria-invalid', false);
@@ -176,15 +180,16 @@
             if (!isNew) {
                 postVars['id'] = shiftEvent.id;
             }
-            var data = new FormData();
+            let data = new FormData();
             $.each($('#image')[0].files, function(i, file) {
                 data.append('file', file);
             });
             data.append('json', JSON.stringify(postVars));
-            var opts = {
+            let url = new URL(API_MANAGE_URL);
+            let opts = {
                 type: 'POST',
-                url: '/api/manage_event', // 735-TODO: validate
-                headers: { 'Api-Version': API_VERSION },
+                url: url.toString(),
+                headers: API_HEADERS,
                 contentType: false,
                 processData: false,
                 cache: false,
@@ -376,14 +381,15 @@
     }
 
     function deleteEvent(id, secret) {
-        var data = new FormData();
+        let data = new FormData();
         data.append('json', JSON.stringify({
             id: id,
             secret: secret
         }));
-        var opts = {
+        let url = new URL(API_DELETE_URL);
+        let opts = {
             type: 'POST',
-            url: '/api/delete_event', // 735-TODO: validate
+            url: url.toString(),
             headers: { 'Api-Version': API_VERSION },
             contentType: false,
             processData: false,

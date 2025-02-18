@@ -28,7 +28,6 @@ Check out the [archives of previous years](/archive/pedal-palooza-archives/) for
 * Website: [Pedalpalooza.org](https://www.pedalpalooza.org/)
 * Instagram: [@pedalpaloozapdx](https://www.instagram.com/pedalpaloozapdx/)
 * Facebook: [pedalpalooza](https://www.facebook.com/pedalpalooza)
-* Twitter: [@pedalpalooza](https://twitter.com/pedalpalooza/)
 * Email: [pedalpalooza@gmail.com](mailto:pedalpalooza@gmail.com)
 
 ## Support

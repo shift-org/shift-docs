@@ -8,6 +8,9 @@
   --pagination-bg: #a7dbe5;
   --link-hover-bg: #2c8494;
   --navbar-focus: #80cbd9;
+  /* commented-out to avoid unnecessary network request for stock images */
+  /* --carousel-bg-img: url('../img/photogrid.jpg') center center repeat; */
+  /* --heading-bg-img: url('../img/texture-bw.png') center center repeat; */
 }
 
 .clearfix:before,
@@ -1160,8 +1163,7 @@ fieldset[disabled] .btn-template-primary.active {
 }
 .home-carousel {
   position: relative;
-  /* commented-out to avoid unnecessary network request for stock image */
-  /* background: url('../img/photogrid.jpg') center center repeat; */
+  background: var(--carousel-bg-img);
   background-size: cover;
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
@@ -1744,8 +1746,7 @@ fieldset[disabled] .btn-template-primary.active {
   border: none;
 }
 #heading-breadcrumbs {
-  /* commented-out to avoid unnecessary network request for stock image */
-  /* background: url('../img/texture-bw.png') center center repeat; */
+  background: var(--heading-bg-img);
   padding: 20px 0;
   margin-bottom: 40px;
 }

@@ -1,6 +1,6 @@
 # build settings for netlify
 
-# [build] and [build.environment] are defaults, will apply to all builds unless overridden in a context stanza below
+# [build] and [build.environment] are defaults; will apply to all builds unless overridden in a context stanza below
 
 [build]
   base = "site/"
@@ -16,18 +16,22 @@
 
 # we need to manually copy the 404 page over for now, in every environment
 # cf https://github.com/shift-org/shift-docs/issues/862
+
 [context.deploy-preview]
   # this command additionally builds draft content for deploy previews (PR's)
+  # you'd set a page as draft in the frontmatter of the markdown.
   # cf https://docs.netlify.com/site-deploys/deploy-previews/
   command = 'hugo -D && cp public/404/index.html public/404.html'
 
 [context.branch-deploy]
   # this command builds draft content for branches
+  # you'd set a page as draft in the frontmatter of the markdown.
   command = 'hugo -D  && cp public/404/index.html public/404.html'
 
 [context.production]
   # Note that there are two versions of the below command 
-  # drafts are excluded (no `-D` option to hugo) for prod build.  We also pull new code to the server in this case!
+  # drafts are excluded (no `-D` option to hugo) for prod build.  
+  # We also pull new backend code to the server for prod deploys
 
   # see this guide about why we do this funky thing with ssh: 
   # https://answers.netlify.com/t/support-guide-using-an-ssh-key-via-environment-variable-during-build/2457
@@ -38,85 +42,60 @@
   # uncomment the next line if you are working on your own Netlify site!
   # command = 'hugo && cp public/404/index.html public/404.html'
 
-## domain redirects to serve alternative domains.  First, we canonicalize
-## so that we can serve just the "best" version (NETLIFY DNS record)
+## need to support multiple domains?  
+## Use domain redirects to serve alternative domains.  
+## First, canonicalize secondarydomain.com to primarydomain.org
+## so that we can serve all content via the "best" hostname (NETLIFY DNS record)
 ## such redirects must be first redirects in this file!
 
 [[redirects]]
-  from = "https://shift2bikes.com/*"
-  to = "https://www.shift2bikes.org/:splat"
+  from = "https://secondarydomain.com/*"
+  to = "https://www.primarydomain.org/:splat"
   status = 301
   force = true
 [[redirects]]
-  from = "https://www.shift2bikes.com/*"
-  to = "https://www.shift2bikes.org/:splat"
-  status = 301
-  force = true
-[[redirects]]
-  from = "https://shifttobikes.org/*"
-  to = "https://www.shift2bikes.org/:splat"
-  status = 301
-  force = true
-[[redirects]]
-  from = "https://www.shifttobikes.org/*"
-  to = "https://www.shift2bikes.org/:splat"
+  from = "https://www.secondarydomain.com/*"
+  to = "https://www.primarydomain.org/:splat"
   status = 301
   force = true
 
 ## ---------------------------------------------------------------------------
-## dynamic back end + event images stored on our API server
+## dynamic back end + event images stored on the API server
+## which is api.primarydomain.org in these examples
 ## Solves CORS problems to proxy via Netlify
 ## cf https://docs.netlify.com/routing/redirects/rewrites-proxies/
 ## ---------------------------------------------------------------------------
 
 [[redirects]]
   from = "/api/*"
-  to = "https://api.shift2bikes.org/api/:splat"
+  to = "https://api.primarydomain.org/api/:splat"
   status = 200
 
 [[redirects]]
   from = "/eventimages/*"
-  to = "https://api.shift2bikes.org/eventimages/:splat"
+  to = "https://api.primarydomain.org/eventimages/:splat"
   status = 200
 
-## legacy (people have been using it for years) ical feed for pedalpalooza.
-## Can't directly get to /legacy/cal content via www.shift2bikes.org
-## due to other redirects, so proxying secretly here.
+## have a www path you want to serve via some path on the backend?  here's how:
 
 [[redirects]]
-  from = "/cal/icalpp.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  from = "/my/specialpath"
+  to = "https://api.primarydomain.org/api/pedalpalooza-calendar.php"
   status = 200
   force = true
 
-## the official pedalpalooza feed
+## the official "all events" feed.  
+## you'll probably want this somewhere on your ite!
 [[redirects]]
-  from = "/cal/pedalpalooza-calendar.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  from = "/allevents"
+  to = "https://api.primarydomain.org/api/shift-calendar.php"
   status = 200
   force = true
 
-## the official "all events" feed.
-[[redirects]]
-  from = "/cal/shift-calendar.php"
-  to = "https://api.shift2bikes.org/api/shift-calendar.php"
-  status = 200
-  force = true
+## remove trailing slashes via some magic.  
+## fool can't really believe this works;  it is likely fragile!
+## helps with prerendering: https://docs.netlify.com/site-deploys/post-processing/prerendering/
 
-## we can't translate REALLY legacy links (<2017) - they used some odd format.  
-## But let's at least land on the calendar page in case someone clicks one.
-[[redirects]]
-  from = "/cal/*"
-  to = "/calendar/"
-  status = 301
-
-## a special redirect for a URL that someone made up
-[[redirects]]
-  from = "/calendar/pedalpalooza"
-  to = "/pages/pedalpalooza"
-  status = 301
-  
-## remove-add trailing slashes kinda?  fool can't really believe this works :P
 [[redirects]]
   from = "/addevent/*"
   to = "/addevent"
@@ -126,14 +105,12 @@
   to = "/calendar/event"
   status = 200
 
-## old pedalpalooza page should link to new one
+## have a path you want to simplify vs its real location, all front-end?
+## note that this tells the client about the new location so the redirect
+## will be automatic & will be client side in the future!
+## here's how: 
+
 [[redirects]]
   from = "/pedalpalooza"
   to = "/pages/pedalpalooza"
-  status = 301
-
-## old bike rack webpage linked from PBoT and other offsite pages  we can't fix
-[[redirects]]
-  from = "/wiki/shift-shop:rack-rental"
-  to = "/pages/bike-racks/"
   status = 301

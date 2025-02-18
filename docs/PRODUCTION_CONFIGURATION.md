@@ -11,18 +11,17 @@ The repo is located under
 
 ## Git -> production
 
-`/opt/shift-docs/`
+The git folder is on production is: `/opt/shift-docs/`
 
-The start command is the same as local development,
-`./opt/shift-docs/shift start`
+In github, whenever we merge a new PR, netlify automatically deploys the code and content to production. The `netlify.toml` controls that under the `[context.production]`. It logs into the production server and uses `./shift pull` to update the server's backend code.
 
-## Configuration
+That same shift script can be used on production manually ( ex. `./shift start`, `./shift logs`, etc. as needed. )
 
-The shift command inspects the `./shift.overrides` file for environment variable updates.
+## Environment Var Configuration
 
-The `./shift.overrides.production` contains the overrides used for production (ex: nginx https 443 rather than 4443)
+The `./shift` script looks for a  `./shift.overrides` file to update environment variables ( ex. to set the nginx port to 443 rather than the 4443 port defined at the top of `./shift` ) 
 
-During production configuration the `/opt/shift-docs/shift.overrides` is soft linked to `/opt/shift-docs/shift.overrides.production` file in order to activate production overrides.
+There is no such file in the repo. Instead, there's [shift.overrides.production](https://github.com/shift-org/shift-docs/blob/hosting-docs/shift.overrides.production), and it was manually soft linked as  `/opt/shift-docs/shift.overrides` when setting up the production machine. Nothing in this file is or should be secret. ( ie. no credentials. )
 
 ## Images
 
@@ -33,7 +32,11 @@ Configuration locations:
 * `./services/nginx/conf.d/shift.conf`
 
 ## Mail
-TODO
+See  [secrets.example](https://github.com/shift-org/shift-docs/blob/main/secrets.example). 
+
+A filled out version of that file exists as `/opt/shift-docs/secrets` on our server. I believe `CAL_ADMIN_PASSWORD` is no longer needed, but you'll have to setup the smtp bits so that your sever can send confirmation emails. 
+
+We use amazon's smtp service. ex. `SMTP_HOST=smtp.us-west-2.amazonaws.com` with USER and PASS credentials obtained from the amazon, and `SMTP_DOMAIN=shift2bikes.org`.
 
 ## SSL
 Our SSL certificate is provided by [lets encrypt](https://letsencrypt.org).  This is required for the hugo front-end running on Netlify to connect to the calendar, and if it doesn't work, you'll see a 500 HTTP error in your devtools (and a blank calendar page in the browser) when trying to fetch calendar data.
