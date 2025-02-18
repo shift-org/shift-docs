@@ -26,7 +26,13 @@
                     populateEditForm( data, callback );
                 },
                 error: function(data) {
-                    callback( data.responseJSON.error.message );
+                    let msg = data.responseJSON?.error?.message;
+                    if (!msg) {
+                        msg = `${data.status} ${data.statusText}`;
+                    }
+                    template = $('#request-error').html();
+                    rendered = Mustache.render(template, { "error": msg } );
+                    callback(rendered);
                 }
             };
             $.ajax(opts);
