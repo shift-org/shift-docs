@@ -3,7 +3,7 @@ $(document).ready(function() {
     var container = $('#mustache-html');
 
     function getEventHTML(options, callback) {
-        var url = '/api/events.php?';
+        var url = '/api/events?'; // 735-TODO: validate
         if (options.id) {
             url += 'id=' + options.id;
         } else if (options.startdate && options.enddate) {
@@ -51,7 +51,7 @@ $(document).ready(function() {
                     value.contactLink = container.getContactLink(value.contact);
 
                     value.shareLink = '/calendar/event-' + value.caldaily_id;
-                    value.exportlink = '/api/ics.php?id=' + value.id;
+                    value.exportlink = '/api/ics.php?id=' + value.id; // 735-TODO: validate
 
                     groupedByDate[date].events.push(value);
                 });

@@ -13,7 +13,7 @@
             // TODO: loading spinner
             var opts = {
                 type: 'GET',
-                url: '/api/retrieve_event.php?id=' + id + "&secret=" + secret,
+                url: '/api/retrieve_event?id=' + id + "&secret=" + secret, // 735-TODO: validate
                 headers: { 'Api-Version': API_VERSION },
                 success: function(data) {
                     data.secret = secret;
@@ -183,7 +183,7 @@
             data.append('json', JSON.stringify(postVars));
             var opts = {
                 type: 'POST',
-                url: '/api/manage_event.php',
+                url: '/api/manage_event', // 735-TODO: validate
                 headers: { 'Api-Version': API_VERSION },
                 contentType: false,
                 processData: false,
@@ -238,7 +238,7 @@
                     }
                     // munge the "file" errors to be "image" errors
                     // so that the error message shows on proper line.
-                    // tbd: we also change this in manage_event.php
+                    // tbd: we also change this in manage_event.php // 735-TODO: does this comment make sense anymore?
                     if (err.fields && err.fields.file && !err.fields.image) {
                       err.fields.image = err.fields.file;
                     }
@@ -383,7 +383,7 @@
         }));
         var opts = {
             type: 'POST',
-            url: '/api/delete_event.php',
+            url: '/api/delete_event', // 735-TODO: validate
             headers: { 'Api-Version': API_VERSION },
             contentType: false,
             processData: false,

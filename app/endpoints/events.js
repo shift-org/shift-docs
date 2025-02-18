@@ -8,8 +8,8 @@
  *   &all=true ( to include soft deleted rides )
  *
  * For example:
- *   http://localhost:3080/api/events.php?id=1893
- *   https://localhost:4443/api/events.php?startdate=2023-03-19&enddate=2023-03-29
+ *   http://localhost:3080/api/events?id=1893
+ *   https://localhost:4443/api/events?startdate=2023-03-19&enddate=2023-03-29
  *
  * In both cases it returns a list of events as a JSON object:
  *  {
@@ -146,5 +146,5 @@ function getEventRangeUrl(start, end) {
   // the start and end, filtered through date formatting
   // should be safe to use as is, otherwise see: encodeURIComponent()
   return config.site.url("api",
-    `events.php?startdate=${startdate}&enddate=${enddate}`);
+    `events?startdate=${startdate}&enddate=${enddate}`); // 735-TODO: validate
 }

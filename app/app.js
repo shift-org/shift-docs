@@ -46,10 +46,12 @@ const endpoints = [
   "retrieve_event"
 ];
 
-// host each of those endpoint files at a php-like url:
+// TODO: check for hardcoded uses of .php across repo
+
+// host each of those endpoint files:
 // note: require() is synchronous.
 endpoints.forEach((ep) => {
-  const apipath = `/api/${ep}.php`;
+  const apipath = `/api/${ep}`;
   const endpoint = require(`./endpoints/${ep}.js`);
   if (endpoint.get) {
     app.get(apipath, endpoint.get);

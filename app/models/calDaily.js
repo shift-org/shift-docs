@@ -254,7 +254,7 @@ class CalDaily {
    * @param  statusMap a js Map containing {YYYY-MM-DD: dateStatus }
    * @return the promise of valid CalDaily(s)
    *
-   * @see: DateStatus.php, manage_event.php
+   * @see: DateStatus.php, manage_event.php // 735-TODO: do these files exist? delete or update to js versions?
    */
   static reconcile(evt, statusMap, softDelete = true) {
     return CalDaily.getByEventID(evt.id).then((dailies) => {

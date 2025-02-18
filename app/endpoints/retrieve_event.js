@@ -5,11 +5,11 @@
  * Expects an calevent id (and optionally, its matching secret) using url query parameters.
  *
  * For example:
- * https://localhost:3080/api/retrieve_event.php?id=595&secret=12e1c433836d6c92431ac71f1ff6dd97
+ * https://localhost:3080/api/retrieve_event?id=595&secret=12e1c433836d6c92431ac71f1ff6dd97
  *
  * On success, returns a json summary of event.
  * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" with a json error response ( see errors.php )
+ * returns http 400 "Bad Request" with a json error response ( see errors.php ) // 735-TODO: remove? does file exist?
  *
  *  See also:
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
@@ -31,8 +31,6 @@ exports.get = function get(req, res, next) {
       } else if (evt.isDeleted()) {
         res.textError("Event was deleted");
       } else {
-        // the php version didnt error on invalid secret;
-        // so this doesnt either ( private data is only returned with a valid secret )
         const includePrivate = evt.isSecretValid(secret);
         if (!evt.isPublished() && !includePrivate) {
           // act exactly as if unpublished events don't exist
