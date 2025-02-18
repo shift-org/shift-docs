@@ -4,6 +4,9 @@
   --navbar-focus: #ffc14d;
   --navbar-border-top: #ffaf4d;
   --link-focus: #e57e00;
+  --heading-bg-img: url('../img/banner_bikes_city-bw.webp') center center repeat;
+  --carousel-bg-img: url('../img/S2B_photo_grid_2094x796.jpg') center center repeat;
+  }
 }
 
 .box-image-text .image {
@@ -103,7 +106,6 @@ main .donate a {
 }
 
 #heading-breadcrumbs {
-  background: url('../img/banner_bikes_city-bw.webp') center center repeat;
   padding: 0;
   margin-bottom: 0;
   z-index: -1;
@@ -114,7 +116,6 @@ main .donate a {
 }
 
 .home-carousel {
-  background: url('../img/S2B_photo_grid_2094x796.jpg') center center repeat;
   background-size: cover;
 }
 
