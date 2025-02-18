@@ -28,19 +28,16 @@ export default {
   computed: {
     // the link uses the vue router to manipulate the url and history
     // without reloading the page.
-    eventLink() {
+    eventDetailsLink() {
+      const { evt } = this;
       return {
-        // the 'EventDetails' route description in calMain.js
+        // the 'EventDetails' route description in cal/main.js
         name: 'EventDetails', 
         // the ':caldaily_id' in that route description
         // ( which becomes pieces of the url's path )
         params: {
-            caldaily_id: this.evt.caldaily_id
-        }, 
-        // query parameters after the path.
-        // we can use the router to find the previous page
-        query: {
-          start: this.startdate,
+            caldaily_id: evt.caldaily_id,
+            slug: helpers.slugify(evt)
         }
       };
     },
@@ -61,7 +58,7 @@ export default {
               'c-event--featured': evt.featured }"
     :data-event-id="evt.caldaily_id">
   <h3 class="c-event__title"><router-link 
-    :to="eventLink"
+    :to="eventDetailsLink"
   >{{ evt.title }}</router-link></h3>
   <dl>
     <Term type="time" label="Start Time">{{ friendlyTime }}</Term>

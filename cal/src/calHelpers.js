@@ -131,4 +131,20 @@ export default {
       } 
       // if it's not a link, return nothing
   },
+
+  // https://jasonwatmore.com/vanilla-js-slugify-a-string-in-javascript
+  // might want the server to do this; but fine for now.
+  slugify(evt) {
+    const str = evt.tinytitle;
+    // make lower case and trim whitespace
+    return str.toLowerCase()
+      // remove accents from characters
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      // replace invalid chars with spaces
+      .replace(/[^a-z0-9\s-]/g, ' ')
+      // replace multiple spaces or hyphens with a single hyphen
+      .replace(/[\s-]+/g, '-')
+      // Remove hyphens from the beginning or end
+      .replace(/^-+|-+$/g, ''); 
+  }
 }

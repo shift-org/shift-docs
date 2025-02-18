@@ -11,6 +11,7 @@ import Banner from './Banner.vue'
 import CalTags from './CalTags.vue'
 import LocationLink from './LocLink.vue'
 import Menu from './Menu.vue'
+import Meta from './Meta.vue'
 import QuickNav from './QuickNav.vue'
 import Term from './CalTerm.vue'
 import Toolbar from './Toolbar.vue'
@@ -41,12 +42,18 @@ function makeRange(date, dir) {
     throw new Error("expected valid direction for makeRange");
   }
 }
-// 
+
+// future improve by not chopping words?
+function sliceWords(str, size = 250) {
+  return str.length <= size ? str : str.substring(0, size) + "…";
+}
+
 export default {
-  components: { Banner, CalTags, LocationLink, Menu, QuickNav, Term, Toolbar, },
+  components: { Banner, CalTags, LocationLink, Menu, Meta, QuickNav, Term, Toolbar, },
   data() {
     return {
       evt: {},
+      calStart: null,
       // the toolbar wants an object with one property:
       // 'expanded' containing the name of the expanded 
       expanded: {
@@ -54,15 +61,41 @@ export default {
       },
     };
   },
-  beforeMount() {
-    const { caldaily_id } = this.$route.params;
-    console.log(`beforeMount event ${caldaily_id}`);
-    this.fetchData(caldaily_id);
-  },
-  beforeRouteUpdate(to, from) {
-    const { caldaily_id } = to.params;
-    console.log(`beforeRouteUpdate event ${caldaily_id} ${to.fullPath}, ${from.fullPath}`);
-    this.fetchData(caldaily_id);
+  // before the page is rendered...
+  // 'to' and 'from' are 'Route'(s).
+  // note: a valid 'this' doesn't exist during beforeRouteEnter
+  beforeRouteEnter(to, from, next) {
+    // fetch the requested caldaily 
+    const { caldaily_id, slug } = to.params;
+    console.log(`beforeRouteEnter id: ${caldaily_id} slug: ${slug}`);
+    dataPool.getDaily(caldaily_id).then((evt) => {
+      // validate/update the slug:
+      const wantSlug = helpers.slugify(evt);
+      if (slug !== wantSlug) {
+        // next can use a path or location object.
+        console.log(`requesting redirect to slug ${wantSlug}`);
+        next({
+          name: to.name,
+          params: {
+            caldaily_id,
+            slug: wantSlug,
+          }
+        });
+      } else {
+        // next can also take a callback:
+        // 'vm' is the component's 'this'.
+        next(vm => {
+          vm.evt = evt; 
+          // and remember the calendar start
+          if (from.name === 'calendar') {
+            const q = from.query;
+            if (q.start) {
+              vm.calStart = q.start;
+            }
+          }
+        });
+      }
+    });
   },
   computed: {
     banner() {
@@ -71,6 +104,15 @@ export default {
         image: evt.image,
         alt: `User-uploaded image for ${evt.title}`
       };
+    },
+    pageTitle() {
+      const { evt } = this;
+      return `${(evt.tinytitle || evt.title)} - Calendar - ${siteConfig.title}`;
+    },
+    // https://github.com/shift-org/shift-docs/blob/652af30e3c3a4d623a34ff0ff43ead9d671f2320/site/themes/s2b_hugo_theme/assets/js/cal/main.js#L68
+    pageDesc() {
+      const { evt } = this;
+      return evt.printdescr || sliceWords(evt.details || evt.title || "");
     },
     terms() {
       const { evt } = this;
@@ -121,8 +163,7 @@ export default {
         id: "share",
         icon: "⤴", 
         label: "Share",
-        // FIX --- FRIENDLY URL
-        url: `/events/${evt.caldaily_id}`,
+        url: `${this.$route.fullPath}`,
         attrs: {
           rel: "bookmark"
         }
@@ -153,14 +194,10 @@ export default {
     // },
     //
     // a link to return to the list of all events.
-    // the link uses the vue router to manipulate the url and history
-    // without reloading the page.
     returnLink() {
-      const route = this.$route;
-      const { start } = route.query;
-      const { caldaily_id } = route.params;
+      const start = this.calStart || undefined;
       return {
-        // the 'event' route description in calMain.js
+        // the named route pageDesc from cal/main.js
         name: 'calendar', 
         // remove this page from history?
         replace: true,
@@ -199,6 +236,7 @@ export default {
       } else {
         // ask for a range of events before or after the current event.
         const range = makeRange(dayjs(evt.date), dir);
+        // ( see also: shiftEvent )
         dataPool.getRange(range.start, range.end).then((data) => {
           // find where our event is in the returned data.
           const thisIndex = data.events.findIndex(t => t.caldaily_id === evt.caldaily_id);
@@ -208,26 +246,33 @@ export default {
             const directionInWords = dir > 0 ? "next" : "previous";
             console.log(`no ${directionInWords} events found`);
           } else {
-            // change our current page to the the next event.
+            // change our current view to the the next event.
+            // ( the router won't reload the page b/c we're already here! )
             const nextEvt = data.events[thisIndex+dir];
-            this.$router.push({name: 'event', params:{caldaily_id: nextEvt.caldaily_id}});
+            const caldaily_id = nextEvt.caldaily_id;
+            const slug = helpers.slugify(evt);
+            this.$router.push({name: 'EventDetails', params: {caldaily_id, slug} });
+            this.evt = nextEvt; 
           }
         });
       }
     },
-    // query a single day
-    async fetchData(caldaily_id) {
-      const evt = await dataPool.getDaily(caldaily_id);
-      this.evt = evt;
-      document.title = `${(evt.tinytitle || evt.title)} - Calendar - ${siteConfig.title}`;
-    }
   }
 }
 </script>
 
 <template>
-  <Banner :banner="banner" />
-  <Toolbar :expanded="expanded">
+  <Meta :title="pageTitle" />
+  <Meta name="description" :content="pageDesc" />
+  <!--  -->
+  <Meta property="og:title" :content="evt.title" />
+  <Meta property="og:description" :content="pageDesc" />
+  <Meta property="og:type" content="website" />
+  <Meta property="og:image" :content="banner.image" />
+  <!-- excludes image:width and height; we don't know them and since we aren't providing multiple
+  sites can't pick between them based on size -->
+  <Banner :banner/>
+  <Toolbar :expanded>
     <router-link :to="returnLink" class="c-toolbar__special">&lt; All Events</router-link>
   </Toolbar>
   <Menu v-if="expanded.tool === 'menu'"/>
