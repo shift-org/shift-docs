@@ -60,11 +60,10 @@ All further commands executed as `ubuntu` user which is the default login we sha
 **This is where we stopped 18 Feb**
 
 - Review steps in https://github.com/shift-org/shift-docs/blob/main/docs/new-server-config-details.txt
-
-
+```
 	sudo apt-get install certbot
 	sudo apt install docker-compose
 	cd /opt/shift-docs
 	./shift up
-
-(...and debug from there.  Docker permissions at least are off from prod - see difference in running `docker ps` in both places as `ubuntu`)
+```
+- (...and debug from there.  Docker permissions at least are off from prod - see difference in running `docker ps` in both places as `ubuntu`)
