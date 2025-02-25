@@ -69,11 +69,9 @@ export default {
       if (index > 0) {
         const fest = this.fest;
         if (fest) {
-          // tbd: should we be pre-building these?
           const festStart = dayjs(fest.startdate);
           const festEnd = dayjs(fest.enddate);
 
-          // ditto dates....
           const curr = dayjs(day.date);
           const other = curr.add(dir, 'day');
           const cin = helpers.within(curr, festStart, festEnd);
@@ -85,9 +83,9 @@ export default {
       }
       return okay
     },
-    // fetch six days of events including 'start'.
+    // promise six days of events including 'start'.
     // 'start' should be a valid dayjs date.
-    // calls finishedLoading() when done.
+    // emits the 'pageLoaded' event when done.
     updateRange(start) {
       return fetchRange(start).then((page) => {
         this.start = page.range.start;
