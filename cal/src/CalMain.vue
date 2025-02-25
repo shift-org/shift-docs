@@ -22,10 +22,12 @@ export default {
     return {
       // default, updated when views send pageLoaded events.
       page: siteConfig.defaultPageInfo,
+      // shows loading spinner
       loading: false,
+      // critical errors, if any.
       error: null,
-      // shared with the Toolbar.
-      // contains the name of the expanded tool, or menu.
+      // given to the Toolbar.
+      // contains the name of the expanded tool or menu.
       expanded: {
         // default to 'false' if expanded isn't part of the query.
         tool: this.$route.query.expanded || false,
@@ -37,19 +39,18 @@ export default {
   computed: {
     // used for browser bar title
     fullTitle() {
-      return [ siteConfig.title, this.page.title ].join(" - ");
+      return this.page.title || siteConfig.title;
     },
   },
   methods: {
     // custom event sent by the each of the subviews 
     // ( after they've loaded their data for a given url. )
     pageLoaded(context, error) {
-      // console.log(!error? "pageLoaded": "pageError");
       this.loading = false; // stop displaying the spinning icon
       if (error) {
         this.error = error; // if any; alt could redirect to 404 style page.
       } else {
-        this.page = context.page;
+        this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
       }
     }
