@@ -36,13 +36,16 @@ export default {
 // <meta name="description" content="Rides calendar">
 function setMeta(key, type, content) {
   let meta = document.querySelector(`meta[${key}="${type}"]`);
-  if (!meta) {
-    meta = document.createElement('meta');
-    meta.setAttribute(key, type);
-    document.head.appendChild(meta);
+  if (!content && meta) {
+    meta.remove()
+  } else if (content) {
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute(key, type);
+      document.head.appendChild(meta);
+    }
+    meta.content = content;
   }
-  meta.content = content;
-  return meta;
 }
 </script>
 <template></template>
