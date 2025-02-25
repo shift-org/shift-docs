@@ -1,54 +1,27 @@
 <script>
 /**
- * Predefined labels describing a ride
+ * Predefined texts describing a ride
  */
-import helpers from './calHelpers.js'
-
 export default {
   props: {
-    evt: Object, 
-  },
-  computed: {
-    areaTag() {
-      return helpers.getAreaTag(this.evt.area);
-    },
-    areaLabel() {
-      return helpers.getAreaLabel(this.evt.area);
-    },
-    // maybe this should include hovertext, or something for more details?
-    audienceTag() {
-      return helpers.getAudienceTag(this.evt.audience);
-    },
-    audienceLabel() {
-      return  helpers.getAudienceLabel(this.evt.audience);
-    },
-    //
-    useSafetyTag() {
-      return !!this.evt.safetyplan;
-    },
-    safetyTag() {
-      return this.evt.safetyplan ? "yes" : "no";
-    },
-    safetyLabel() {
-      return this.evt.safetyplan ? "COVID Safety plan" : "No COVID plan";
-    },
+    tags: Array,
   },
   methods: {
     // return a list of classes, ex:
     // c-event__audience c-event_audience-G
-    tag(name, tag) {
-      tag = tag || "unknown";
-      return [`c-event__${name}`, `c-event__${name}-${tag}`];
+    tagClass(tag) {
+      const short = tag.short || "unknown";
+      return [`c-event__${tag.id}`, `c-event__${tag.id}-${short}`];
     }
   }
 };
 </script>
 
 <template>
-  <ul class="c-event__tags">
-    <li :class="tag('audience', audienceTag)">{{ audienceLabel }}</li>
-    <li :class="tag('area', areaTag)">{{ areaLabel }}</li>
-    <li :class="tag('safety', safetyTag)" v-if="useSafetyTag">{{ safetyLabel }}</li>
+  <ul class="c-event__tags" v-if="tags.length">
+    <template v-for="tag in tags" :key="tag.id">
+      <li :class="tagClass(tag)">{{tag.text}}</li>
+    </template>
   </ul>
 </template>
 

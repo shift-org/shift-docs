@@ -3,8 +3,16 @@ Cal Single Page App Status
 
 ## Needed for feature complete:
 
+TODO: 
+  make sure fake event creation cancels some;
+  and features some.
+
+
 * show canceled ride status ( on both list and individual events )
   - communicate cancelled events using plain text on the page, plus styles.
+  - what about instead of tags, there's a canceled tag.
+  [ c-event--cancelled ]
+
 
 * show featured event/s info and styles
 
@@ -39,6 +47,7 @@ Cal Single Page App Status
 
 ## Future Issues:
 
+* add a "reoccurs" for each event
 * hook up search
 * implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
 * reuse the app somehow for preview event?
@@ -82,3 +91,20 @@ Macro Issues:
 * missing the owl carousel -- but it makes me kind of dizzy, so maybe that's okay.
 * missing `<del>` for cancelled events. ( tbd: i imagine we're using del as opposed to just styles for the sake of screen readers. but, at least according to mdn: many people with screen readers turn off notifications of ins/del; so we maybe we could communicate cancelled events using plain text on the page, plus styles. )
 * no query end date; query only has "start"; the events page always shows one complete week starting with today; and shifts forward/backwards to show the next week. ( i like this simplification, but it is different. )
+
+Overview 
+--------
+
+* CalMain:
+  * Banner: switches if detailed event or pedalp 
+  * Toolbar: always the same
+  * Menu: always the same 
+
+  * Content: router switches on query and params
+    * CalList: if start or no query
+    * EventDetail: if caldaily set
+    * Search: if query=q
+    * Favorites: tab
+
+  * QuickNav: switches on contents.
+  

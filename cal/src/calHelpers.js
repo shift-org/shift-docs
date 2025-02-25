@@ -80,22 +80,6 @@ export default {
     }
     return date.format(format);
   },
-  // used by calTags
-  getAudienceTag(audience) {
-      return (audience || DEFAULT_AUDIENCE).toLowerCase();
-  },
-  // used by calTags
-  getAudienceLabel(audience) {
-      return AUDIENCE[audience || DEFAULT_AUDIENCE];
-  },
-  // used by calTags
-  getAreaTag(area) {
-      return (area || DEFAULT_AREA).toLowerCase();
-  },
-  // used by calTags
-  getAreaLabel(area) {
-      return AREA[area || DEFAULT_AREA];
-  },
 
   // used on the calList page.
   // format an event '.address'
@@ -146,5 +130,28 @@ export default {
       .replace(/[\s-]+/g, '-')
       // Remove hyphens from the beginning or end
       .replace(/^-+|-+$/g, ''); 
+  }, 
+
+  buildEventTags(evt) {
+    return evt.cancelled ?
+      [{
+        id: 'cancelled',
+        short: 'cancelled',
+        text: 'Cancelled',
+      }] :
+      [{
+        id: 'audience',
+        short: (evt.audience || DEFAULT_AUDIENCE).toLowerCase(), // ex. 'g'      
+        text: AUDIENCE[evt.audience || DEFAULT_AUDIENCE] // ex. General
+      }, { 
+        id: 'area',
+        short: (evt.area || DEFAULT_AREA).toLowerCase(), // ex. 'p'
+        text: AREA[evt.area || DEFAULT_AREA] // ex. Portland
+      }, {
+        id: 'safety',
+        short: evt.safetyplan ? "yes" : "no",
+        text: evt.safetyplan ? "COVID Safety plan" : "No COVID plan",
+        hide: !!evt.safetyplan
+      }];
   }
 }

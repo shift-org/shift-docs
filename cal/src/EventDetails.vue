@@ -104,9 +104,15 @@ export default {
       ];
       return terms.filter(a => a.text);
     },
+    tags() {
+      return helpers.buildEventTags(this.evt)
+    },
     startTime() {
       return formatTime(this.evt.time);
     },
+    cancelled() {
+      return this.evt.cancelled;
+    }
     
     // an example of generating :aria-describedby with "newflash" and "featured"
     // describedBy() {
@@ -141,19 +147,22 @@ export default {
     :class="{ 'c-single--cancelled': evt.cancelled, 
               'c-single--featured': evt.featured }"
     :data-event-id="evt.caldaily_id">
-    <h3 class="c-single__date">{{longDate(evt.date)}}</h3>
-    <h3 class="c-single__title">
+    <h3 class="c-single__date"
+        :class="{ 'c-single__data--cancelled': evt.cancelled}">
+        {{longDate(evt.date)}}</h3>
+    <h3 class="c-single__title"
+        :class="{ 'c-single__title--cancelled': evt.cancelled}">
         <span class="c-single__time">{{startTime}}</span>
         <span class="c-single__words">{{evt.title}}</span>
     </h3>
     <dl>
       <Term type="tags" label="Tags">
-        <CalTags :evt="evt"/>
+        <CalTags :tags/>
       </Term>
-      <Term type="loc" label="Location">
+      <Term type="loc" label="Location" :cancelled>
         <LocationLink :evt="evt"></LocationLink>
       </Term>
-      <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">
+      <Term v-for="term in terms" :type="term.id" :label="term.label" :cancelled :key="term.id">
         <template v-if="term.id != 'organizer'">
         {{ term.text }}
         </template>
@@ -174,7 +183,7 @@ export default {
           >(<a :href="'tel:' + evt.phone">{{evt.phone}}</a>)</span>
         </template>
       </Term>    
-      <Term v-if="evt.weburl" label="More Info">
+      <Term v-if="evt.weburl" label="More Info" :cancelled>
         <a :href="webLink(evt)" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
           {{evt.webname || evt.weburl}}
         </a>
@@ -184,4 +193,7 @@ export default {
 </template>
 
 <style>
+.c-single__title, .c-single__date {
+  text-decoration: line-through;
+}
 </style>

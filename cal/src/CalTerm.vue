@@ -8,25 +8,28 @@
 export default {
   props: {
     type: String, // suffix for the css class
-    label: String // the name of the term
+    label: String, // the name of the term
+    cancelled: Boolean
   },
-  computed: {
-    termClass() {
-      const { type } = this;
-      return type && [ "c-event__term",  `c-event__term--${type}` ] 
-    },
-    valueClass() {
-      const { type } = this;
-      return type && [ "c-event__value", `c-event__value--${type}` ]
+  methods: {
+    cls(which) {
+      return {
+        [`c-event__${which}`]: true,
+        [`c-event__${which}--${this.type}`]: !!this.type,
+        [`c-event__${which}--cancelled`]: this.cancelled,
+      };
     }
   }
 };
 </script>
 
 <template>
-  <dt :class="termClass">{{ label }}</dt>
-  <dd :class="valueClass"><slot /></dd>
+  <dt :class="cls('term')">{{ label }}</dt>
+  <dd :class="cls('value')"><slot /></dd>
 </template>
 
 <style>
+.c-event__value--cancelled {
+  text-decoration: line-through;
+}
 </style>

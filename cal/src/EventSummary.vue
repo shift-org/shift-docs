@@ -46,6 +46,16 @@ export default {
     },
     mapLink() {
       return helpers.getMapLink(this.evt.address);
+    },
+    // unfortunately, the text-decoration style can't be turned off 
+    // for a child element; and we want the newsflash to be easily readable
+    // so each term supports cancellation instead.
+    // the caltags 
+    cancelled() {
+      return this.evt.cancelled
+    },
+    tags() {
+      return helpers.buildEventTags(this.evt)
     }
   },
 };
@@ -54,22 +64,27 @@ export default {
   <article 
     class="c-event"
     ref="article"
-    :class="{ 'c-event--cancelled': evt.cancelled, 
+    :class="{ 'c-event--cancelled': cancelled, 
               'c-event--featured': evt.featured }"
     :data-event-id="evt.caldaily_id">
-  <h3 class="c-event__title"><router-link 
+  <h3 class="c-event__title" :class="{'c-event__title--cancelled': cancelled}"><router-link 
     :to="eventDetailsLink"
   >{{ evt.title }}</router-link></h3>
   <dl>
-    <Term type="time" label="Start Time">{{ friendlyTime }}</Term>
+    <Term type="time" label="Start Time" :cancelled>{{ friendlyTime }}</Term>
     <Term type="news" label="Newsflash" v-if="evt.newsflash">{{ evt.newsflash }}</Term>
-    <Term type="loc" label="Location">
+    <Term type="loc" label="Location" :cancelled>
       <LocationLink :evt="evt"></LocationLink>
     </Term>
-    <Term type="author" label="Organizer">{{ evt.organizer }}</Term>
+    <Term type="author" label="Organizer" :cancelled>{{ evt.organizer }}</Term>
     <Term type="tags" label="Tags">
-      <CalTags :evt="evt"/>
+      <CalTags :tags="tags" />
     </Term>
   </dl>
   </article>
 </template>
+<style>
+.c-event__title--cancelled {
+  text-decoration: line-through;
+}
+</style>
