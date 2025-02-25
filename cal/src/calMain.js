@@ -6,22 +6,26 @@ import { createWebHistory, createRouter } from 'vue-router'
 import './style.css'
 
 // our main pages:
-import App from './App.vue'
-import CalPage from './CalPage.vue'
+import CalMain from './CalMain.vue'
+import CalList from './CalList.vue'
 import EventDetails from './EventDetails.vue'
+// import Empty from './Empty.vue'
 
 // the router reads and writes the user's address bar
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     // paths do url matching 
-    // temp: use a new set of paths for prototyping
     { 
-      name: "calendar",
+      name: "calendar",  // names are used by the templates to jump from place to place
       path: "/events/", 
-      component: CalPage,
+      component: CalList,
     }, 
-    // named elements are used by the javascript code to link from place to place
+    // { 
+    //   name: "search",  
+    //   path: "/events/search", 
+    //   component: Search,
+    // }, 
     { 
       name: 'EventDetails', 
       // caldaily_id will only match numbers
@@ -34,6 +38,6 @@ const router = createRouter({
   ],
 })
 
-createApp(App)
+createApp(CalMain)
 .use(router)
 .mount('#app');

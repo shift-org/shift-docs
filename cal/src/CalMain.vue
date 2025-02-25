@@ -1,0 +1,92 @@
+<script>
+// globals:
+import dayjs from 'dayjs'
+// components:
+import Banner from './Banner.vue'
+import Menu from './Menu.vue'
+import Meta from './Meta.vue'
+import QuickNav from './QuickNav.vue'
+import { RouterLink, RouterView } from 'vue-router'
+import Toolbar from './Toolbar.vue'
+// support:
+import siteConfig from './siteConfig.js'
+
+export default {
+  components: { Banner, Menu, Meta, QuickNav, RouterView, Toolbar },
+  mounted() {
+    this.$router.beforeEach(() => {
+      this.loading = true;
+    });
+  },
+  data() {
+    return {
+      // default, updated when views send pageLoaded events.
+      page: siteConfig.defaultPageInfo,
+      loading: false,
+      error: null,
+      // shared with the Toolbar.
+      // contains the name of the expanded tool, or menu.
+      expanded: {
+        // default to 'false' if expanded isn't part of the query.
+        tool: this.$route.query.expanded || false,
+      },
+      // for the bottom nav panel:
+      shortcuts: [],
+    }
+  },
+  computed: {
+    // used for browser bar title
+    fullTitle() {
+      return [ siteConfig.title, this.page.title ].join(" - ");
+    },
+  },
+  methods: {
+    // custom event sent by the each of the subviews 
+    // ( after they've loaded their data for a given url. )
+    pageLoaded(context, error) {
+      // console.log(!error? "pageLoaded": "pageError");
+      this.loading = false; // stop displaying the spinning icon
+      if (error) {
+        this.error = error; // if any; alt could redirect to 404 style page.
+      } else {
+        this.page = context.page;
+        this.shortcuts = context.shortcuts;
+      }
+    }
+  }
+}
+
+</script>
+<!-- 
+  The page is largely the same for every route:
+  only the center swaps out.
+ -->
+<template>
+  <Meta :title="fullTitle" />
+  <Meta name="description" :content="page.desc" />
+  <!--  -->
+  <Meta property="og:type" content="website" />
+  <Meta property="og:title" :content="page.title" />
+  <Meta property="og:description" :content="page.desc" />
+  <Meta property="og:image" :content="page.banner.image" />
+  <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
+  sites can't pick between them based on size -->
+  <!--  -->
+  <Banner :banner="page.banner" />
+  <Toolbar :expanded="expanded">
+      <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>
+  </Toolbar>
+  <Menu v-if="expanded.tool === 'menu'"/>
+  <section class="c-cal-body">
+  <div v-if="loading" class="c-cal-body__loading">Loading...</div>
+  <div v-else-if="error" class="c-cal-body__error">{{ error }}</div>
+  <div class="c-cal-body__content" v-show="!loading">
+    <RouterView @pageLoaded="pageLoaded"/>
+  </div>
+  </section>
+  <QuickNav :shortcuts="shortcuts"></QuickNav>
+</template>
+<!-- 
+-->
+<style>
+</style>

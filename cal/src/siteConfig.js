@@ -11,18 +11,24 @@ dayjs.extend(customParseFormat);
 
 export default {
   logo: "/img/cal/logos/shift-logo.svg#shift-logo",
-  // banner matches the format of the pedalp.js data
-  // ( as generated with buildPedalDates.html )
-  banner: {
-    image: "/images/shiftlogo.jpg",
-    target: "/pages/mission_statement/",
-    title: "Ride Calendar",
-    alt: "The shift to bikes logo",
-  },
   // for a ride when no image has been specified.
   defaultRideBanner: {
     alt: "Default image for a community organized ride.",
     image: "/img/banner_bikes_city.jpg"
+  },
+  // default page data when not provided by a particular view.
+  defaultPageInfo: {
+    title:  "Shift",
+    desc: "Shift’s mission is to promote inclusive bike fun.",
+    returnLink: false,
+    // in a strange coincidence, banner matches the format of the pedalp.js data
+    // ( see: generated site/buildPedalDates.html )
+    banner: {
+      image: "/images/shiftlogo.jpg",
+      target: "/pages/mission_statement/",
+      title: "Ride Calendar",
+      alt: "The shift to bikes logo",
+    },
   },
   // hugo generated menu data 
   // a json version of what's in hugo.toml

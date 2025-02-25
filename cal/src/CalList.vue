@@ -1,47 +1,68 @@
-<script>
-/**
+<!-- 
  * display list of events:
  * equivalent of viewEvents()
- */
+ -->
+<script>
 // globals:
 import dayjs from 'dayjs'
 // components:
 import EventSummary from './EventSummary.vue'
 // support:
-import siteConfig from './siteConfig.js'
+import { fetchRange } from './calList.js'
 import helpers from './calHelpers.js'
+import siteConfig from './siteConfig.js'
 
 export default {
-  props: {
-    cal: {
-      // cal should contain start, end, [data]
-      type: Object, 
-      required: true,
-    },
-    // not required; scrolls to this event 
-    lastEvent: [ String, null ], 
+  components: { EventSummary },
+  emits: [ 'pageLoaded' ],
+  // called before the component is fully created
+  // ( doesnt have access to `this` )
+  beforeRouteEnter(to, from, next) {
+    // remember where we came from ( so we can scroll it into view )
+    const lastEvent = from.params.caldaily_id || null;
+    console.log(`beforeRouteEnter last event was ${lastEvent || "nothing"}`);
+    next(vm => {
+      // access to component public instance via `vm`
+      vm.lastEvent = lastEvent;
+      vm.updateRange(to.query.start);
+    });
+  },
+  // triggered when naving left/right through weeks.
+  beforeRouteUpdate(to, from) { 
+    if (to.query.start !== from.query.start) {
+      console.log(`beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
+      return this.updateRange(to.query.start);
+    }
+  },
+  data() {
+    return { 
+      // defaults to now; overridden by query parameters
+      // ( via beforeRoute* )
+      start: dayjs(),
+      // set during beforeRouteEnter()
+      // provides a way to scroll to the specified event
+      lastEvent: null,
+      // an array of days
+      // each day containing an array of event instances ( a joined calevent + caldaily )
+      days: [],
+    };
   },
   computed: {
-    // the startdate as a string
+    // the starting date as a string
     startdate() {
-      return this.cal.start.format("YYYY-MM-DD");
-    },
-    // an array of days
-    // each day containing an array of event instances ( a joined calevent + caldaily )
-    days() {
-      return this.cal.data;
+      return this.start.format("YYYY-MM-DD");
     },
     // festival of the current year
     // if there's a winter fest that goes over the year boundary:
     // well... you'll have to code that.
     fest() {
-      return siteConfig.getFestival(this.cal.start);
+      return siteConfig.getFestival(this.start);
     },
   },
-  components: { EventSummary },
   methods: {
     longDate: helpers.longDate,
-
+    // return true if there should be a dividing line 
+    // before ( when dir < 0 ) or after ( when dir > 0 )
     divides(day, index, dir) {
       let okay = false;
       // don't ever put a dividing line before the first element
@@ -64,11 +85,23 @@ export default {
       }
       return okay
     },
+    // fetch six days of events including 'start'.
+    // 'start' should be a valid dayjs date.
+    // calls finishedLoading() when done.
+    updateRange(start) {
+      return fetchRange(start).then((page) => {
+        this.start = page.range.start;
+        this.days = page.range.days;
+        this.$emit("pageLoaded", page);
+      }).catch((error) => {
+        console.error("updateRange error:", error);
+        this.$emit("pageLoaded", null, error);
+      });
+    },
   }
 }
 </script>
-
-<template>  
+<template> 
   <article 
     v-for="(day, index) in days" :key="day.date.format('YYYY-MM-DD')" 
     class="c-day"
@@ -87,6 +120,5 @@ export default {
     </h2>
   </article>
 </template>
-
 <style>
 </style>

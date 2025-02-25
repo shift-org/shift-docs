@@ -5,11 +5,13 @@ Cal Single Page App Status
 
 * show canceled ride status ( on both list and individual events )
   - communicate cancelled events using plain text on the page, plus styles.
+
 * show featured event/s info and styles
 
 * single event time context: should show "TODAY" above time if its today; 
   some sort of "this event has passed" if its more than an hour ago
   "starting soon" if its near, or  "X days from now"
+
 * where does ride distance go???
 
 ## Needed for parity:
@@ -24,6 +26,7 @@ Cal Single Page App Status
 
 ## Misc Issues:
 
+* include this change: https://github.com/shift-org/shift-docs/pull/866
 * review html tags ( article, section, etc. ) what's a good setup?
 * compare and contrast layout/styles/functionality to bikefun app! 
 * hand it around for beta testing?
@@ -35,6 +38,7 @@ Cal Single Page App Status
 * re-measure download size after adding styles and icons
 
 ## Future Issues:
+
 * hook up search
 * implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
 * reuse the app somehow for preview event?

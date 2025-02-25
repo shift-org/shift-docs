@@ -97,9 +97,9 @@ html, body {
   }
   color: darkslategray;
 }
-.c-toolbar__special {
+.c-toolbar__backlink {
   position: absolute;
-  left: 0;
+  left: 1em;
 }
 .c-shortcut__label {
   /*font-size: small;
