@@ -90,4 +90,14 @@ data() {
 </template>
 
 <style>
+ .c-toolbar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.c-toolbar__menu {
+  width: 50px;
+  font-size: x-large;
+}
+
 </style>

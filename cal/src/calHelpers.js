@@ -60,26 +60,6 @@ export default {
   sameOrBefore,
   sameOrAfter,
   within,
-  // turn a dayjs date into words
-  // todo: turn into a template.
-  longDate(when) {
-    const date = dayjs(when);
-    const now = dayjs();
-    let format;
-    if (date.year() !== now.year()) {
-      // Wed, January 22, 2025
-      format = 'ddd, MMMM D, YYYY';
-    } else if (!date.isSame(now, 'week'))
-      // Wed, January 22
-      format  = 'ddd, MMMM D';
-    else if (!date.isSame(now, 'day')) {
-      // Thursday  — Jan 22
-      format = 'dddd — MMM D'
-    } else {
-      format = '[Today] — ddd, MMM D'
-    }
-    return date.format(format);
-  },
 
   // used on the calList page.
   // format an event '.address'

@@ -14,8 +14,14 @@ import siteConfig from './siteConfig.js'
 export default {
   components: { Banner, Menu, Meta, QuickNav, RouterView, Toolbar },
   mounted() {
-    this.$router.beforeEach(() => {
-      this.loading = true;
+    this.$router.beforeEach((to, from) => {
+      // when the route changes, we are loading a new page
+      // tbd: but not when query parameters change?
+      // fix: might want to block quick nav left/right.
+      if (to.name !== from.name) {
+        console.log("loading...");
+        this.loading = true;
+      }
     });
   },
   data() {
@@ -73,7 +79,7 @@ export default {
   <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
   sites can't pick between them based on size -->
   <!--  -->
-  <Banner :banner="page.banner" />
+  <Banner :banner="page.banner" :loading/>
   <Toolbar :expanded="expanded">
       <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>
   </Toolbar>
@@ -90,4 +96,21 @@ export default {
 <!-- 
 -->
 <style>
+.c-cal-body, .c-single {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 0px 1em;
+}
+.c-cal-body__loading::before {
+  content: "⚙";
+  position: absolute;
+  font-size: 50px;
+  animation: spin 4s linear infinite;
+  margin: 20px;
+}
+@keyframes spin { 
+  100% { 
+    transform: rotate(360deg); 
+  } 
+}
 </style>

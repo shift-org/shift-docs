@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 // components:
 import { RouterLink } from 'vue-router'
 import CalTags from './CalTags.vue'
+import EventHeader from './EventHeader.vue'
 import LocationLink from './LocLink.vue'
 import Term from './CalTerm.vue'
 // support:
@@ -24,7 +25,7 @@ export default {
       setTimeout(() => this.$refs.article.scrollIntoView());
     }
   },
-  components: { CalTags, LocationLink, Term },
+  components: { CalTags, EventHeader, LocationLink, Term },
   computed: {
     // the link uses the vue router to manipulate the url and history
     // without reloading the page.
@@ -47,13 +48,6 @@ export default {
     mapLink() {
       return helpers.getMapLink(this.evt.address);
     },
-    // unfortunately, the text-decoration style can't be turned off 
-    // for a child element; and we want the newsflash to be easily readable
-    // so each term supports cancellation instead.
-    // the caltags 
-    cancelled() {
-      return this.evt.cancelled
-    },
     tags() {
       return helpers.buildEventTags(this.evt)
     }
@@ -62,21 +56,21 @@ export default {
 </script>
   <template>
   <article 
-    class="c-event"
     ref="article"
-    :class="{ 'c-event--cancelled': cancelled, 
-              'c-event--featured': evt.featured }"
-    :data-event-id="evt.caldaily_id">
-  <h3 class="c-event__title" :class="{'c-event__title--cancelled': cancelled}"><router-link 
-    :to="eventDetailsLink"
-  >{{ evt.title }}</router-link></h3>
+    :data-event-id="evt.caldaily_id"
+    class="c-event"
+    :class="{ 'c-event--cancelled': evt.cancelled, 
+              'c-event--featured': evt.featured }">
+  <EventHeader :featured="evt.featured">
+    <router-link :to="eventDetailsLink">{{ evt.title }}</router-link>
+  </EventHeader>
   <dl>
-    <Term type="time" label="Start Time" :cancelled>{{ friendlyTime }}</Term>
+    <Term type="time" label="Start Time">{{ friendlyTime }}</Term>
     <Term type="news" label="Newsflash" v-if="evt.newsflash">{{ evt.newsflash }}</Term>
-    <Term type="loc" label="Location" :cancelled>
+    <Term type="loc" label="Location">
       <LocationLink :evt="evt"></LocationLink>
     </Term>
-    <Term type="author" label="Organizer" :cancelled>{{ evt.organizer }}</Term>
+    <Term type="organizer" label="Organizer">{{ evt.organizer }}</Term>
     <Term type="tags" label="Tags">
       <CalTags :tags="tags" />
     </Term>
@@ -84,7 +78,18 @@ export default {
   </article>
 </template>
 <style>
-.c-event__title--cancelled {
-  text-decoration: line-through;
+.c-event--featured {
+  background-color: #fcfaf2;
+  border: 1px solid #fd6;
+  padding: 0px 1em;
+}
+.c-event--cancelled {
+  .c-header {
+    text-decoration: line-through;
+  }
+  /* strike through the values of things, except for the news and the tags */
+  .c-term__value:not(.c-term__value--news, .c-term__value--tags) {
+    text-decoration: line-through;
+  }
 }
 </style>

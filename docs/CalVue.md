@@ -1,34 +1,18 @@
 Cal Single Page App Status 
 ============
 
-## Needed for feature complete:
-
-TODO: 
-  make sure fake event creation cancels some;
-  and features some.
-
-
-* show canceled ride status ( on both list and individual events )
-  - communicate cancelled events using plain text on the page, plus styles.
-  - what about instead of tags, there's a canceled tag.
-  [ c-event--cancelled ]
-
-
-* show featured event/s info and styles
-
-* single event time context: should show "TODAY" above time if its today; 
-  some sort of "this event has passed" if its more than an hour ago
-  "starting soon" if its near, or  "X days from now"
+## Needed for parity:
 
 * where does ride distance go???
-
-## Needed for parity:
 * individual ride pages should have the trailing info and discalimer
 * compare and contrast to existing site! ( set data source to real site; maybe via commandline/env var)
 * need to test the event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
 * svg icons: i'd like to use font-awesome via styles unless the svg is necessary.
 * setup aria
-* setup styles; note: bug: The flex box ( margins? ) on the single event page isn't quite right. Expanding the menu cuts off the event rather than pushing it down. ( It seems to work properly on the cal list page. )
+* setup styles; 
+  * canceled tag/icon style
+  * note: bug: The flex box ( margins? ) on the single event page isn't quite right. Expanding the menu cuts off the event rather than pushing it down. ( It seems to work properly on the cal list page. )
+
 * icons/css to hide/ replace ride tags (ex. General, Portland ); but maybe keep the text for screen readers?
 * currently missing the "how to ical subscribe", where to add it? maybe to menu?
 
@@ -45,21 +29,26 @@ TODO:
 * todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms for the toolbar.
 * re-measure download size after adding styles and icons
 
-## Future Issues:
+## Future Tasks:
+* single event time context: should show "TODAY" above time if its today; 
+  some sort of "this event has passed" if its more than an hour ago
+  "starting soon" if its near, or  "X days from now"
 
 * add a "reoccurs" for each event
 * hook up search
 * implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
+* make a "featured events" page that shows the time / date / extra info that can include the menu's text, but also show when those events are.
 * reuse the app somehow for preview event?
 * consider redirecting existing urls to the single page app and trimming the old views.
 * timeout/error for data fetches?
+* consider block quick nav left/right while loading; possibly other stuff.
 * improve loading animation ( maybe don't hide the previous data while loading )
 * show loading indicator for singleEvent next/prev
 * server: linked lists for single events?
 * consider merging the "chrome" of calpage and single event, so just the center swaps out.
 * consider a smaller server "overview" endpoint; maybe with days grouped already.
 * move day sorting to server
-* instead of helpers.js, what about components? [ ex. longDate as <LongDate>? )
+* instead of helpers.js, what about components?
 * better communication if there is no next/prev event ( this would be a very rare edge case issue )
 * update the site menu layout? (ex. donate/sponsors/about)
 * minor: tooltips or labels for the lower nav buttons?
@@ -68,6 +57,8 @@ TODO:
     shiftEvent could be smart, knowing when you've swapped weeks; updating calStart.
     ( noting that the 'start' can be any day of the week; so week is not always sunday )
     [ if return point is "now" shouldn't need to add start to it 
+* bug: there's a flash of the shift image when reloading an event page
+  http://localhost:3080/events/59/rock-with-you
 
 Benefits:
 ----

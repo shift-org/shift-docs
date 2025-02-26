@@ -7,6 +7,8 @@
 import dayjs from 'dayjs'
 // components:
 import CalTags from './CalTags.vue'
+import DateDivider from './DateDivider.vue'
+import EventHeader from './EventHeader.vue'
 import LocationLink from './LocLink.vue'
 import Term from './CalTerm.vue'
 // helpers
@@ -20,7 +22,7 @@ function formatTime(t) {
 }
 
 export default {
-  components: { CalTags, LocationLink, Term },
+  components: { CalTags, DateDivider, EventHeader, LocationLink, Term },
   emits: [ 'pageLoaded' ],
   // before the component is fully created
   // determine our slug and redirect to the proper url
@@ -95,7 +97,7 @@ export default {
       const terms = [
         { id: "organizer",  label: "Organizer", text: evt.organizer },
         { id: "news",       label: "Newsflash", text: evt.newsflash },
-        { id: "starttime",  label: "Start Time", text:  startTime },
+        { id: "time",       label: "Start Time", text:  startTime },
         { id: "timedetails",label: "Time Details", text: evt.timedetails },
         { id: "endtime",    label: "End Time", text: endTime },
         { id: "locend",     label: "End Location", text: evt.locend },
@@ -110,10 +112,6 @@ export default {
     startTime() {
       return formatTime(this.evt.time);
     },
-    cancelled() {
-      return this.evt.cancelled;
-    }
-    
     // an example of generating :aria-describedby with "newflash" and "featured"
     // describedBy() {
     //   const { caldaily_id } = this;
@@ -130,7 +128,6 @@ export default {
     
   },
   methods: {
-    longDate: helpers.longDate,
     webLink(evt) {
       return helpers.getWebLink(evt.weburl);
     },
@@ -142,27 +139,23 @@ export default {
 </script>
 <!--  -->
 <template>
+  <DateDivider :date="evt.date"></DateDivider>
   <article 
-    class="c-single"
-    :class="{ 'c-single--cancelled': evt.cancelled, 
-              'c-single--featured': evt.featured }"
-    :data-event-id="evt.caldaily_id">
-    <h3 class="c-single__date"
-        :class="{ 'c-single__data--cancelled': evt.cancelled}">
-        {{longDate(evt.date)}}</h3>
-    <h3 class="c-single__title"
-        :class="{ 'c-single__title--cancelled': evt.cancelled}">
-        <span class="c-single__time">{{startTime}}</span>
-        <span class="c-single__words">{{evt.title}}</span>
-    </h3>
+    :data-event-id="evt.caldaily_id"
+    class="c-details"
+    :class="{ 'c-details--cancelled': evt.cancelled, 
+              'c-details--featured': evt.featured }">
+    <EventHeader :featured="evt.featured" :time="startTime">
+      {{evt.title}}
+    </EventHeader>
     <dl>
       <Term type="tags" label="Tags">
         <CalTags :tags/>
       </Term>
-      <Term type="loc" label="Location" :cancelled>
+      <Term type="loc" label="Location">
         <LocationLink :evt="evt"></LocationLink>
       </Term>
-      <Term v-for="term in terms" :type="term.id" :label="term.label" :cancelled :key="term.id">
+      <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">
         <template v-if="term.id != 'organizer'">
         {{ term.text }}
         </template>
@@ -193,7 +186,25 @@ export default {
 </template>
 
 <style>
-.c-single__title, .c-single__date {
-  text-decoration: line-through;
+.c-details--featured {
+  background-color: #fcfaf2;
+  border: 1px solid #fd6;
+  padding: 0px 1em;
 }
+.c-details--cancelled {
+  .c-header {
+    text-decoration: line-through;
+  }
+  /* strike through the values of things, except for the news and the tags */
+  .c-term__value:not(.c-term__value--news, .c-term__value--tags) {
+    text-decoration: line-through;
+  }
+}
+.c-details {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
 </style>

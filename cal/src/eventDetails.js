@@ -131,7 +131,7 @@ function buildShortcuts(evt, fullPath) {
     //   url: "https://developer.mozilla.org",
     // };
     id: "share",
-    icon: "⤴", 
+    icon: "🔗", 
     label: "Share",
     url: fullPath,
     attrs: {

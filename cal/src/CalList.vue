@@ -7,13 +7,14 @@
 import dayjs from 'dayjs'
 // components:
 import EventSummary from './EventSummary.vue'
+import DateDivider from './DateDivider.vue'
 // support:
 import { fetchRange } from './calList.js'
 import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
 export default {
-  components: { EventSummary },
+  components: { EventSummary, DateDivider },
   emits: [ 'pageLoaded' ],
   // called before the component is fully created
   // ( doesnt have access to `this` )
@@ -60,7 +61,6 @@ export default {
     },
   },
   methods: {
-    longDate: helpers.longDate,
     // return true if there should be a dividing line 
     // before ( when dir < 0 ) or after ( when dir > 0 )
     divides(day, index, dir) {
@@ -107,7 +107,7 @@ export default {
     <h2 v-if="divides(day, index, -1)" class="c-day__division c-day__division--start">
       {{fest.title}} Starts
     </h2>
-    <h3>{{ longDate(day.date) }}</h3>
+    <DateDivider :date="day.date" />
     <EventSummary 
         v-for="evt in day.events" :key="evt.caldaily_id" 
         :evt="evt" 
@@ -119,4 +119,15 @@ export default {
   </article>
 </template>
 <style>
+  
+.c-day__division--start {
+  margin-top: 2em;
+  background-color: black;
+  color: white;
+}
+.c-day__division--end {
+  margin-bottom: 2em;
+  background-color: black;
+  color: white;
+}
 </style>

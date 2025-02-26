@@ -56,4 +56,45 @@ export default {
 </template>
 
 <style>
+
+.c-shortcuts {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  gap: 20px;
+  border-top: solid;
+  border-color: lightgray;
+}
+.c-shortcut {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.c-shortcut__link, .c-shortcut__button {
+  font-size: x-large;
+  /* make a circle */
+  border-radius: 25px;
+  border-width: 1px;
+  border: none;
+  width: 50px;
+  height:50px;
+  line-height: 50px;
+  text-align: center;
+  background: lightgray;
+  text-decoration: none;
+  cursor: pointer;
+  :hover {
+    background: darkgrey; 
+  }
+  :active {
+    color: white;
+  }
+  :visited {
+    color: darkslategray
+  }
+  color: darkslategray;
+}
+.c-shortcut__label {
+  display: none;
+}
 </style>
