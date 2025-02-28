@@ -21,12 +21,16 @@ export default {
   },
   methods: {
     updateDoc() {
+      let hadContent = false;
       if (this.title) {
         document.title = this.title;
-      } else if (this.name) {
-        setMeta('name', this.name, this.content);
-      } else if (this.property) {
-        setMeta('property', this.property, this.content);
+      } else if (this.content || hadContent) {
+        if (this.name) {
+          setMeta('name', this.name, this.content);
+        } else if (this.property) {
+          setMeta('property', this.property, this.content);
+        }
+        hadContent = true;
       }
     }
   }
