@@ -40,7 +40,7 @@ function shiftEvent(router, evt, dir) {
     console.log("can't browse dates until the date is valid");
   } else {
     // ask for a range of events before or after the current event.
-    const range = makeRange(dayjs(evt.date), dir);
+    const range = makeRange(dayjs(evt.date).startOf('day'), dir);
     // ( see also: shiftEvent )
     return dataPool.getRange(range.start, range.end).then((data) => {
       // find where our event is in the returned data.
@@ -105,23 +105,26 @@ function returnLink(calStart) {
 function buildShortcuts(evt, fullPath) {
   return [{
     id: "prev",
-    icon: "⇦",
     label: "Previous",
     nav(router) {
       shiftEvent(router, evt, -1);
     }
   },{
     id: "next",
-    icon: "⇨",
     label: "Next",
     nav(router) {
       shiftEvent(router, evt, 1);
     }
   },{
-    id: "add",
-    icon: "+",
+    id: "addevent",
     label: "Add",
     url:"/addevent/"
+  },{
+    id: "export",
+    label: "Export",
+    // FIX: neither this nor the calendar version works
+    // also... shouldn't this be a single day export not all of them?
+    url: `/api/ics.php?id=${evt.id}`
   },{
     // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share
     // activate the sharing api?
@@ -131,22 +134,13 @@ function buildShortcuts(evt, fullPath) {
     //   url: "https://developer.mozilla.org",
     // };
     id: "share",
-    icon: "🔗", 
     label: "Share",
     url: fullPath,
     attrs: {
       rel: "bookmark"
     }
   },{
-    id: "export",
-    icon: "⤵",
-    label: "Export",
-    // FIX: neither this nor the calendar version works
-    // also... shouldn't this be a single day export not all of them?
-    url: `/api/ics.php?id=${evt.id}`
-  },{
-    id: "favorites",
-    icon: "☆",
+    id: "favorite",
     label: "Favorites"
   }];
 }

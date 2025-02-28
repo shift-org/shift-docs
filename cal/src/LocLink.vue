@@ -1,21 +1,60 @@
 <script>
+import ExternalLink from './ExternalLink.vue'
+
+const urlPattern = /^https*:\/\//;
+
+
 export default  {
+  components: { ExternalLink },
   props: {
     evt: Object,
     class: String,
   },
-  methods: {
-    join(a, b) {
-      return [a, b].filter(Boolean).join(", ");
+  computed: {
+    // ported from helpers.js getMapLink
+    mapLink() {
+      const { address } = this.evt;
+      if (!address || address == 'TBA' || address == 'TBD') {
+        // if address is null or not available yet, don't try to map it
+        return null;
+      } else if (address.match(urlPattern)) {
+        // if address is a URL rather than a street address, return it as-is
+        return address;
+      } else {
+        // otherwise, map it with Google Maps
+        return 'https://maps.google.com/' +
+            '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
+            encodeURIComponent(address);
+      }
+    },
+    mapText() {
+      const { address, venue } = this.evt;
+      function join(a, b) {
+        return [a, b].filter(Boolean).join(", ");
+      };
+      return join(venue, address);
     }
   },
 }
 </script>
 
 <template>
-  <a target="_blank" rel="noopener nofollow external" title="Opens in a new window" href="mapLink" class="c-map-link">{{ join(evt.venue, evt.address) }}</a>
-  <div v-if="evt.locdetails">{{ evt.locdetails }}</div>
+  <!-- <span class="c-loc" v-if="mapLink"> -->
+    <ExternalLink v-if="mapLink" :href="mapLink" class="c-loc__link">{{mapText}}</ExternalLink>
+    <span v-else>{{mapText}}</span>
+    <div v-if="evt.locdetails" class="c-loc__details">{{ evt.locdetails }}</div>
+  <!-- </span> -->
 </template>
 
 <style>
+.c-loc {
+  display: flex;
+  flex-flow: row wrap; 
+}
+.c-loc__link {
+  flex-grow: 1;
+}
+.c-loc__details {
+  margin-left: 28px;
+}
 </style>

@@ -13,12 +13,16 @@ export default {
       Featured Event
     </h3>
     <h3 class="c-header__title">
-      <span class="c-header__time" v-if="time">{{time}}</span>
-      <span class="c-header__text"><slot /></span>
+      <div class="c-header__time" v-if="time">{{time}}</div>
+      <div class="c-header__text"><slot /></div>
     </h3>
   </header>
 </template>
 <style>
+.c-header__title {
+  display: flex;
+  align-items: center;
+}
 .c-header--featured {
   .c-header__marquee {
     text-align: center;
@@ -35,10 +39,10 @@ export default {
 }
 .c-header__time {
   box-shadow: 2px 2px 1px 1px black;
-  padding: 0.5em;
-  margin: 0.5em;
   border: solid black thin;
   background: white;
+  padding: 0.5em;
+  margin: 0.5em;
+  white-space: nowrap;
 }
-
 </style>

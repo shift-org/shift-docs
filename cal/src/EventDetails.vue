@@ -9,10 +9,12 @@ import dayjs from 'dayjs'
 import CalTags from './CalTags.vue'
 import DateDivider from './DateDivider.vue'
 import EventHeader from './EventHeader.vue'
+import ExternalLink from './ExternalLink.vue'
 import LocationLink from './LocLink.vue'
 import Term from './CalTerm.vue'
 // helpers
 import { buildPage } from './eventDetails.js'
+import calTags from './calTags.js'
 import dataPool from './dataPool.js'
 import helpers from './calHelpers.js'
 
@@ -22,7 +24,7 @@ function formatTime(t) {
 }
 
 export default {
-  components: { CalTags, DateDivider, EventHeader, LocationLink, Term },
+  components: { CalTags, DateDivider, EventHeader, ExternalLink, LocationLink, Term },
   emits: [ 'pageLoaded' ],
   // before the component is fully created
   // determine our slug and redirect to the proper url
@@ -90,28 +92,18 @@ export default {
     };
   },
   computed: {
-    terms() {
-      const { evt } = this;
-      const startTime = formatTime(evt.time);
-      const endTime = evt.endtime && formatTime(evt.endtime);
-      const terms = [
-        { id: "organizer",  label: "Organizer", text: evt.organizer },
-        { id: "news",       label: "Newsflash", text: evt.newsflash },
-        { id: "time",       label: "Start Time", text:  startTime },
-        { id: "timedetails",label: "Time Details", text: evt.timedetails },
-        { id: "endtime",    label: "End Time", text: endTime },
-        { id: "locend",     label: "End Location", text: evt.locend },
-        { id: "loopride",   label: "Loop", text: evt.loopride && "Ride is a loop" },
-        { id: "desc",       label: "Description", text: evt.details },
-      ];
-      return terms.filter(a => a.text);
-    },
     tags() {
-      return helpers.buildEventTags(this.evt)
+      return calTags.buildEventTags(this.evt)
     },
     startTime() {
       return formatTime(this.evt.time);
     },
+    timeRange() {
+      return helpers.getTimeRange(this.evt);
+    },
+    loopText() {
+      return this.evt.loopride && 'Ride is a loop';
+    }
     // an example of generating :aria-describedby with "newflash" and "featured"
     // describedBy() {
     //   const { caldaily_id } = this;
@@ -124,8 +116,6 @@ export default {
     //   // returning undefined hides the html attr
     //   return out.length ? out.join(" ") : undefined;
     // },
-    //
-    
   },
   methods: {
     webLink(evt) {
@@ -142,28 +132,22 @@ export default {
   <DateDivider :date="evt.date"></DateDivider>
   <article 
     :data-event-id="evt.caldaily_id"
-    class="c-details"
-    :class="{ 'c-details--cancelled': evt.cancelled, 
-              'c-details--featured': evt.featured }">
-    <EventHeader :featured="evt.featured" :time="startTime">
+    class="c-detail"
+    :class="{ 'c-detail--cancelled': evt.cancelled, 
+              'c-detail--featured': evt.featured }">
+    <EventHeader class="c-detail__header" :featured="evt.featured" :time="startTime">
       {{evt.title}}
     </EventHeader>
-    <dl>
-      <Term type="tags" label="Tags">
+    <dl class="c-terms c-detail__terms">
+      <Term id="tags" label="Tags">
         <CalTags :tags/>
       </Term>
-      <Term type="loc" label="Location">
+      <Term id="location" label="Location">
         <LocationLink :evt="evt"></LocationLink>
       </Term>
-      <Term v-for="term in terms" :type="term.id" :label="term.label" :key="term.id">
-        <template v-if="term.id != 'organizer'">
-        {{ term.text }}
-        </template>
-        <template v-else>
+      <Term id="organizer"  label= "Organizer">
           <span class="c-organizer__name c-organizer__name--link" v-if="contactLink(evt)">
-            <a  href="contactLink(evt)" target="_blank" rel="noopener nofollow external" 
-            title="Opens in a new window">{{evt.organizer}}
-            </a>
+            <ExternalLink :href="contactLink(evt)">{{evt.organizer}}</ExternalLink>
           </span>
           <span v-else class="c-organizer__name c-organizer__name--text">
             {{ evt.organizer }}
@@ -174,24 +158,37 @@ export default {
           <span v-if="evt.phone"
             class="c-organizer__phone"
           >(<a :href="'tel:' + evt.phone">{{evt.phone}}</a>)</span>
-        </template>
-      </Term>    
-      <Term v-if="evt.weburl" label="More Info" :cancelled>
-        <a :href="webLink(evt)" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
-          {{evt.webname || evt.weburl}}
-        </a>
       </Term>
+      <Term id="news"       label= "Newsflash"    :text="evt.newsflash"/>
+      <Term id="time"       label= "Start Time"   :text="timeRange"/>
+      <Term id="timedetails"label= "Time Details" :text="evt.timedetails"/>
+      <Term id="locend"     label= "End Location" :text="evt.locend"/>
+      <Term id="loop"       label= "Loop"         :text="loopText"/>
+    </dl>
+    <dl class="c-terms c-detail__footer">
+      <Term id="desc" label= "Description" :text="evt.details"/>
+      <Term v-if="evt.weburl" label="More Info">
+        <ExternalLink :href="webLink(evt)">
+          {{evt.webname || evt.weburl}}
+        </ExternalLink>
+      </Term> 
     </dl>
   </article>
 </template>
 
 <style>
-.c-details--featured {
+.c-detail {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+} 
+.c-detail--featured {
   background-color: #fcfaf2;
   border: 1px solid #fd6;
   padding: 0px 1em;
 }
-.c-details--cancelled {
+.c-detail--cancelled {
   .c-header {
     text-decoration: line-through;
   }
@@ -200,11 +197,11 @@ export default {
     text-decoration: line-through;
   }
 }
-.c-details {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  flex-wrap: nowrap;
+.c-terms {
+  margin: 0px;
 }
-
+.c-term__value--desc {
+  margin: 1em;
+  white-space: pre-line;
+}
 </style>

@@ -7,7 +7,7 @@ import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
 export async function fetchRange(startDate) {
-  const start = dayjs(startDate);   // if start is missing, dayjs returns now()
+  const start = dayjs(startDate).startOf('day'); // if start is missing, dayjs returns now()
   if (!start.isValid()) {
     throw new Error(`Invalid start date: "${startDate}"`);
   }
@@ -71,8 +71,7 @@ function pickBanner(start) {
 // ---------------------------------------------------------------------
 function buildShortcuts(start) {
   return [{
-    id: "left",
-    icon: "⇦",
+    id: "prev",
     label: "Earlier",
     nav(router) {
       // TBD: could maybe do a thing of evaluating the previous page
@@ -81,32 +80,27 @@ function buildShortcuts(start) {
       shiftRange(router, start, -1);
     }
   },{
-    id: "right",
-    icon: "⇨",
+    id: "next",
     label: "Later",
     nav(router) {
       shiftRange(router, start, 1);
     }
   },{
-    id: "add",
-    icon: "+",
+    id: "addevent",
     label: "Add",
     url:"/addevent/"
   },{
     id: "info",
-    icon: "ℹ", //  ⛭ or a shift gear icon?
     label: "Info",
     url: "/pages/mission_statement/"
   },{
     id: "donate",
-    icon: "$",
     label: "Donate",
     url: "/pages/donate"
   },{
-    id: "favorites",
-    icon: "☆",
+    id: "favorite",
     label: "Favorites"
-    // TODO: router navigate to 
+    // TODO: router navigate
   }]
 }
 
@@ -115,8 +109,10 @@ function buildShortcuts(start) {
 // each day contains the dayjs date, and an array of events for that day.
 // [ { date, events: [] }, ... ]
 // this helps calList show every day of the week, including days with no events.
+//
 // NOTE: assumes that the incoming eventData is sorted.
-function groupByDay( start, end, eventData ) {
+//       assumes start, end are .startOf('day')
+function groupByDay(start, end, eventData) {
   // create entries for every day between start and end ( inclusive )
   const length = end.diff(start, 'day') + 1;
   const allDays = Array.from({length}, (_, idx) => {
@@ -125,7 +121,7 @@ function groupByDay( start, end, eventData ) {
       events: []
     };
   });
-  eventData.forEach((evt) => {
+  eventData.forEach((evt,j) => {
     const date = dayjs(evt.date);
     const idx = date.diff(start, 'day');
     const currDay = allDays[idx]; // a reference to the entry; not a copy.

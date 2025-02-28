@@ -90,6 +90,14 @@ export default {
   <div class="c-cal-body__content" v-show="!loading">
     <RouterView @pageLoaded="pageLoaded"/>
   </div>
+  <div class="c-promo-banner">
+    <div>
+      <p>Support your community — see how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</p>
+    </div>
+  </div>
+  <div class="c-disclaimer">
+    <p>SHIFT hosts this calendar as a public service. Rides and events are posted to the SHIFT calendar by community members, not by SHIFT. Rides and events posted to the SHIFT calendar are not sponsored by SHIFT or SHIFT’s fiscal sponsor Umbrella.</p>
+  </div>
   </section>
   <QuickNav :shortcuts="shortcuts"></QuickNav>
 </template>
@@ -112,5 +120,19 @@ export default {
   100% { 
     transform: rotate(360deg); 
   } 
+}
+/** tweaked from main.css */
+.c-promo-banner {
+  text-align: center;
+  color: #663300;
+  background: #FCFAF2;
+  border: 1px solid #FFDD66;
+  margin-top: 1em;
+}
+.c-disclaimer {
+  font-size: small;
+  color: #707070;
+  margin: 0 2em;
+  text-align: center;
 }
 </style>

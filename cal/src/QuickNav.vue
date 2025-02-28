@@ -4,7 +4,11 @@
  * for navigating through events, with common shortcuts 
  * for adding new events, donations, etc.
  */ 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
+import icons from './icons.js';
+
 export default {
+  components: { FontAwesomeIcon },
   props: {
     // each shortcut in the array should contain an object:
     // shortcut: { id, icon, label, (emit|url|nav) }
@@ -19,7 +23,8 @@ export default {
     id(el) {
       return el.id;
     },
-    href(el) {
+    icon(el) {
+      return icons[el.id];
     },
     // el: one of the shortcuts
     onClick(el) {
@@ -45,11 +50,11 @@ export default {
     <a v-if="el.url"  class="c-shortcut__link"
       :href="el.url" 
       v-bind="el.attrs"
-    >{{el.icon}}</a>
+    ><FontAwesomeIcon class="c-shortcut__icon" :icon="icon(el)" fixed-width/></a>
     <button v-else class="c-shortcut__button" 
       @click="onClick(el)"
       v-bind="el.attrs"
-    >{{el.icon}}</button>
+    ><FontAwesomeIcon class="c-shortcut__icon" :icon="icon(el)" fixed-width/></button>
     <div class="c-shortcut__label">{{el.label}}</div>
   </div>
   </div>
@@ -83,13 +88,14 @@ export default {
   background: lightgray;
   text-decoration: none;
   cursor: pointer;
-  :hover {
+  
+  &:hover {
     background: darkgrey; 
   }
-  :active {
+  &:active {
     color: white;
   }
-  :visited {
+  &:visited {
     color: darkslategray
   }
   color: darkslategray;

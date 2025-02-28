@@ -10,7 +10,9 @@ import EventHeader from './EventHeader.vue'
 import LocationLink from './LocLink.vue'
 import Term from './CalTerm.vue'
 // support:
+import calTags from './calTags.js'
 import helpers from './calHelpers.js'
+import icons from './icons.js'
 
 export default {
   props: {
@@ -26,6 +28,11 @@ export default {
     }
   },
   components: { CalTags, EventHeader, LocationLink, Term },
+  data() {
+    return {
+      icons,
+    }
+  },
   computed: {
     // the link uses the vue router to manipulate the url and history
     // without reloading the page.
@@ -42,14 +49,11 @@ export default {
         }
       };
     },
-    friendlyTime() {
-      return dayjs(this.evt.time, 'hh:mm:ss').format('h:mm A');
-    },
-    mapLink() {
-      return helpers.getMapLink(this.evt.address);
+    timeRange() {
+      return helpers.getTimeRange(this.evt);
     },
     tags() {
-      return helpers.buildEventTags(this.evt)
+      return calTags.buildEventTags(this.evt);
     }
   },
 };
@@ -62,22 +66,29 @@ export default {
     :class="{ 'c-event--cancelled': evt.cancelled, 
               'c-event--featured': evt.featured }">
   <EventHeader :featured="evt.featured">
-    <router-link :to="eventDetailsLink">{{ evt.title }}</router-link>
+    <RouterLink :to="eventDetailsLink">{{ evt.title }}</RouterLink>
   </EventHeader>
-  <dl>
-    <Term type="time" label="Start Time">{{ friendlyTime }}</Term>
-    <Term type="news" label="Newsflash" v-if="evt.newsflash">{{ evt.newsflash }}</Term>
-    <Term type="loc" label="Location">
+  <dl class="c-terms c-event__terms">
+    <Term id="time" label="Time" :text="timeRange"/>
+    <Term id="news" label="Newsflash"  :text="evt.newsflash"/>
+    <Term id="location" label="Location">
       <LocationLink :evt="evt"></LocationLink>
     </Term>
-    <Term type="organizer" label="Organizer">{{ evt.organizer }}</Term>
-    <Term type="tags" label="Tags">
-      <CalTags :tags="tags" />
+    <Term id="organizer" label="Organizer" :text="evt.organizer"/>
+    <Term id="tags" label="Tags">
+      <CalTags :tags="tags"/>
     </Term>
   </dl>
   </article>
 </template>
 <style>
+.c-event {
+  border: 1px solid;
+  border-radius: 20px;
+  border-color: lightgray;
+  margin: 10px 20px;
+  padding: 0px 1em;
+}
 .c-event--featured {
   background-color: #fcfaf2;
   border: 1px solid #fd6;

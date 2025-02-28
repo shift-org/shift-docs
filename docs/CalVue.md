@@ -3,31 +3,33 @@ Cal Single Page App Status
 
 ## Needed for parity:
 
-* where does ride distance go???
-* individual ride pages should have the trailing info and discalimer
-* compare and contrast to existing site! ( set data source to real site; maybe via commandline/env var)
-* need to test the event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
-* svg icons: i'd like to use font-awesome via styles unless the svg is necessary.
-* setup aria
-* setup styles; 
-  * canceled tag/icon style
-  * note: bug: The flex box ( margins? ) on the single event page isn't quite right. Expanding the menu cuts off the event rather than pushing it down. ( It seems to work properly on the cal list page. )
+* individual ride pages should have the trailing info and disclaimer
+* missing the "how to ical subscribe", where to add it? maybe to menu?
+* compare and contrast to existing site! 
+* re-measure download size after adding styles and icons
 
-* icons/css to hide/ replace ride tags (ex. General, Portland ); but maybe keep the text for screen readers?
-* currently missing the "how to ical subscribe", where to add it? maybe to menu?
+-----------
+
+* bugs:
+  http://localhost:3080/events/20502/ride-safe-thursdays-qu
+  long ride titles overlap the time
+  
+* need to test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
+
+* TODO: style search, jump, hamburger menu
 
 ## Misc Issues:
 
+* setup aria
 * include this change: https://github.com/shift-org/shift-docs/pull/866
-* review html tags ( article, section, etc. ) what's a good setup?
-* compare and contrast layout/styles/functionality to bikefun app! 
+* review html tags ( article, section, etc. ) what's a good setup? (especially for date dividers and the like )
 * hand it around for beta testing?
 * review josh's url / query parameter ideas, and see if they can be used here.
 * add API_VERSION to data queries
 * TBD: where should the 'shift' logo link to?
 * TBD: add a pedalp button to the toolbar when pedalp is near?
 * todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms for the toolbar.
-* re-measure download size after adding styles and icons
+* should whole summary be clickable ( safety would only be clickable on details then )
 
 ## Future Tasks:
 * single event time context: should show "TODAY" above time if its today; 
@@ -59,6 +61,10 @@ Cal Single Page App Status
     [ if return point is "now" shouldn't need to add start to it 
 * bug: there's a flash of the shift image when reloading an event page
   http://localhost:3080/events/59/rock-with-you
+
+* bikefun: lets you browse rides at a location
+* bikefun: resources page with links to external sites 
+* bikefun: cal reminders 
 
 Benefits:
 ----
@@ -99,3 +105,14 @@ Overview
 
   * QuickNav: switches on contents.
   
+
+Font Awesome 
+------
+font awesome icons use svg and javascript to render. they have an adapter so they can be used as vue components.  https://docs.fontawesome.com/web/use-with/vue
+
+npm i --save @fortawesome/vue-fontawesome@latest-3
+npm i --save @fortawesome/free-solid-svg-icons
+npm i --save @fortawesome/free-regular-svg-icons
+npm i --save @fortawesome/free-brands-svg-icons
+
+https://fontawesome.com/search?o=r&ic=free&s=solid&ip=classic

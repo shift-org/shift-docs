@@ -1,41 +1,8 @@
-// converted from the jquery helpers.js
-// TBD: how to share? do we need to?
+/**
+ * code used on one or more pages
+ * ported from the jquery helpers.js
+ */
 import dayjs from 'dayjs'
-
-const AREA = Object.freeze({
-    'P' : 'Portland',
-    'V' : 'Vancouver',
-    'W' : 'Westside',
-    'E' : 'East Portland',
-    'C' : 'Clackamas',
-});
-
-const AUDIENCE = Object.freeze({
-    'G' : 'General Audience',
-    'F' : 'Family Friendly',
-    'A' : '21+ Only',
-});
-
-const AUDIENCE_DESCRIPTION = Object.freeze({
-    'G' : 'General — For adults, but kids welcome',
-    'F' : 'Family Friendly — Adults bring children',
-    'A' : '21+ Only — Adults only',
-});
-
-const LENGTH = Object.freeze({
-    '--'   : '--',
-    '0-3'  : '0-3 miles',
-    '3-8'  : '3-8 miles',
-    '8-15' : '8-15 miles',
-    '15+'  : '15+ miles',
-});
-
-const DEFAULT_TIME = '17:00:00';
-const DEFAULT_AREA = 'P';
-const DEFAULT_AUDIENCE = 'G';
-
-// only for add event:
-//const DEFAULT_LENGTH = '--';
 
 // TODO: add to queries
 const API_VERSION = '3';
@@ -56,28 +23,18 @@ function within(a, start, end) {
 const urlPattern = /^https*:\/\//;
 const emailPattern = /.+@.+[.].+/;
 
+
+
+function friendlyTime(time) {
+  return dayjs(time, 'hh:mm:ss').format('h:mm A');
+}
+
+
 export default {
   sameOrBefore,
   sameOrAfter,
   within,
 
-  // used on the calList page.
-  // format an event '.address'
-  getMapLink(address) {
-      if (!address || address == 'TBA' || address == 'TBD') {
-          // if address is null or not available yet, don't try to map it
-          return null;
-      }
-      if (address.match(urlPattern)) {
-          // if address is a URL rather than a street address, return it as-is
-          return address;
-      } else {
-          // otherwise, map it with Google Maps
-          return 'https://maps.google.com/' +
-              '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
-              encodeURIComponent(address);
-      }
-  },
   // format an event '.weburl'
   // if url already starts with http/s, return it as-is
   // otherwise prepend http.
@@ -96,6 +53,13 @@ export default {
       // if it's not a link, return nothing
   },
 
+  //7:00 AM to 9:00 AM
+  getTimeRange(evt) {
+    const {endtime, time} = evt;
+    const suffix = !endtime ? "" : ` to ${friendlyTime(endtime)}`;
+    return friendlyTime(time) + suffix;
+  },
+
   // https://jasonwatmore.com/vanilla-js-slugify-a-string-in-javascript
   // might want the server to do this; but fine for now.
   slugify(evt) {
@@ -111,27 +75,4 @@ export default {
       // Remove hyphens from the beginning or end
       .replace(/^-+|-+$/g, ''); 
   }, 
-
-  buildEventTags(evt) {
-    return evt.cancelled ?
-      [{
-        id: 'cancelled',
-        short: 'cancelled',
-        text: 'Cancelled',
-      }] :
-      [{
-        id: 'audience',
-        short: (evt.audience || DEFAULT_AUDIENCE).toLowerCase(), // ex. 'g'      
-        text: AUDIENCE[evt.audience || DEFAULT_AUDIENCE] // ex. General
-      }, { 
-        id: 'area',
-        short: (evt.area || DEFAULT_AREA).toLowerCase(), // ex. 'p'
-        text: AREA[evt.area || DEFAULT_AREA] // ex. Portland
-      }, {
-        id: 'safety',
-        short: evt.safetyplan ? "yes" : "no",
-        text: evt.safetyplan ? "COVID Safety plan" : "No COVID plan",
-        hide: !!evt.safetyplan
-      }];
-  }
 }

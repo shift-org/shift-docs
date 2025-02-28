@@ -13,15 +13,15 @@ export default {
       let format;
       if (date.year() !== now.year()) {
         // Wed, January 22, 2025
-        format = 'ddd, MMMM D, YYYY';
-      } else if (!date.isSame(now, 'week'))
+        format = 'MMMM D, YYYY (ddd)';
+      } else if (!date.isSame(now, 'month')) {
         // Wed, January 22
-        format  = 'ddd, MMMM D';
-      else if (!date.isSame(now, 'day')) {
-        // Thursday  — Jan 22
-        format = 'dddd — MMM D'
+        format  = 'dddd, MMMM Do';
+      } else if (!date.isSame(now, 'day')) {
+        // Wed, Jan 22
+        format  = 'dddd, MMM Do';
       } else {
-        format = '[Today] — ddd, MMM D'
+        format = '[Today] — ddd, MMM Do'
       }
       return date.format(format);
     }

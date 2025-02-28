@@ -7,7 +7,9 @@ import pedalp from 'extras/pedalDates.json'
 //
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);  // for ordinal formatting ( 1st, 2nd )
 
 export default {
   logo: "/img/cal/logos/shift-logo.svg#shift-logo",
