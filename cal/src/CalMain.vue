@@ -92,7 +92,7 @@ export default {
   </div>
   <div class="c-promo-banner">
     <div>
-      <p>Support your community — see how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</p>
+      <div>Support your community!</div> <div>See how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</div>
     </div>
   </div>
   <div class="c-disclaimer">
@@ -132,7 +132,8 @@ export default {
 .c-disclaimer {
   font-size: small;
   color: #707070;
-  margin: 0 2em;
+  margin: 0 auto;
   text-align: center;
+  max-width: 50em;
 }
 </style>
