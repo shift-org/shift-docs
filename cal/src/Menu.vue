@@ -1,43 +1,36 @@
 <script>
 /**
- * renders a menu object containing:
- * { id, name, url, kids: [] )
+ * The site menu. 
+ * Mainly, it renders a menu object containing:
+ * { name, url, kids: [] }
  * 
  * see also: buildMenu.html which generates a menu from the hugo.toml
  * 
  * while it's possible to define a recursive vue template,
  * this keeps things simple and kids can't have kids.
  */
-// support:
 import siteConfig from './siteConfig.js'
 
 export default {
   props: {
-    // if not specified, falls back to the siteConfig
     "menu": {
       type: Object,
-      default(rawProps) {
+      default() {
         // defined by buildMenu.html
         return siteConfig.menu
       }
     }
   },
-  data() {
-    const q = this.$route.query;
-    return {
-      expanded: q.menu || false
+  computed: {
+    submenu() {
+      const q = this.$route.query;
+      return q.menu;  
     }
   },
   methods: {
     toggle(name) {
       const q = { ...this.$route.query };
-      if (name === this.expanded) {
-        this.expanded = false;
-        q.menu = undefined;
-      } else {
-        this.expanded = name;
-        q.menu = name;
-      }
+      q.menu = (name !== this.submenu) ? name : undefined;
       this.$router.replace({query: q});
     }
   }
@@ -46,16 +39,33 @@ export default {
 
 <template>  
   <ul>
-  <li v-for="menu in menu" :key="menu.id">
-    <button @click="toggle(menu.id)">{{ menu.name }}</button>
-    <ul v-if="expanded === menu.id">
-      <li v-for="kid in menu.kids" :key="kid.id">
+  <li v-for="(menu, menu_id) in menu" :key="menu_id">
+    <button @click="toggle(menu_id)">{{ menu.name }}</button>
+    <ul v-if="submenu === menu_id">
+      <li v-for="(kid, kid_id) in menu.kids" :key="kid_id">
         <a :href="kid.url">{{kid.name}}</a>
       </li>
     </ul>
   </li>
   </ul>
+  <div class="c-notice c-subscribe">
+  <p>Want to see rides using your computer or phone's calendar app?</p>
+  <p><button type="button" class="c-subscribe__button" data-url="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar feed</button></p>
+  <p>If that doesn't open your calendar app, see <a href="/pages/calendar-faq/#subscribing-to-the-calendar">other ways to subscribe to the calendar</a>.</p>
+</div>
 </template>
 
 <style>
+/*  fix? currently using CalMain's c-notice; probably should create some vars for the colors and reuse those colors here. */
+.c-subscribe {
+  margin: 1em;
+}
+.c-subscribe__button {
+  color: #37b;
+  background: #efefef;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 1em;
+  border-style: none;
+}
 </style>

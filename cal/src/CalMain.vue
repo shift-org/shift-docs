@@ -16,6 +16,8 @@ export default {
   components: { Banner, GenericError, Menu, Meta, QuickNav, RouterView, Toolbar },
   mounted() {
     // listen to all router changes
+    // because this.mounted() happens before the initial route is determined
+    // this callback gets all of the route request including the very first one.
     this.$router.beforeEach((to, from) => {
       // when the route changes, we are loading a new (sub) page
       // tbd: but not when query parameters change?
@@ -23,6 +25,7 @@ export default {
       if (to.name !== from.name) {
         console.log("loading...");
         this.loading = true;
+        this.expanded.tool = to.query.expanded || false;
       }
     });
   },
@@ -36,9 +39,9 @@ export default {
       error: null,
       // given to the Toolbar.
       // contains the name of the expanded tool or menu.
+      // defaults to false, and is set in beforeEach ( above )
       expanded: {
-        // default to 'false' if expanded isn't part of the query.
-        tool: this.$route.query.expanded || false,
+        tool: false,
       },
       // for the bottom nav panel:
       shortcuts: [],
@@ -51,7 +54,7 @@ export default {
     },
     bannerImage() {
       return this.page.banner?.image;
-    }
+    },
   },
   methods: {
     // custom event sent by the each of the subviews 
@@ -87,11 +90,13 @@ export default {
   <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
   sites can't pick between them based on size -->
   <!--  -->
-  <Banner :banner="page.banner" :loading/>
-  <Toolbar :expanded="expanded">
-      <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>
-  </Toolbar>
-  <Menu v-if="expanded.tool === 'menu'"/>
+  
+    <Banner :banner="page.banner" :loading/>
+    <Toolbar :expanded="expanded">
+        <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>
+    </Toolbar>
+    <Menu v-if="expanded.tool === 'menu'"/>
+  
   <section class="c-cal-body">
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error />
@@ -99,7 +104,7 @@ export default {
     <RouterView @pageLoaded="pageLoaded"/>
   </div>
   <div class="c-footer" v-show="!loading">
-    <div class="c-promo-banner">
+    <div class="c-notice">
       <div>
         <div>Support your community!</div> <div>See how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</div>
       </div>
@@ -114,6 +119,11 @@ export default {
 <!-- 
 -->
 <style>
+.c-cal-top {
+  /*border: 1px solid black;
+  padding: 0.2em;
+  margin: 5px 5px;*/
+}
 .c-cal-body, .c-single {
   flex-grow: 1;
   overflow: auto;
@@ -132,12 +142,12 @@ export default {
   } 
 }
 /** tweaked from main.css */
-.c-promo-banner {
+.c-notice {
   text-align: center;
   color: #663300;
   background: #FCFAF2;
   border: 1px solid #FFDD66;
-  margin-top: 1em;
+  padding: 0.5em;
 }
 .c-disclaimer {
   font-size: small;

@@ -11,6 +11,13 @@ import advancedFormat from 'dayjs/plugin/advancedFormat'
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);  // for ordinal formatting ( 1st, 2nd )
 
+// the calendar part of the menu has links to the pages we are already on
+// so those are unneeded.
+if (menu.calendar) {
+  menu.about.kids["calendar-faq"] = menu.calendar.kids["calendar-faq"];
+  delete menu.calendar;
+}
+
 export default {
   logo: "/img/cal/logos/shift-logo.svg#shift-logo",
   // for a ride when no image has been specified.

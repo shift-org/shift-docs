@@ -1,14 +1,15 @@
 {{/* 
   helper to generate site menu resource
 */}}
-{{ $result := slice }}{{/* start with an empty list */}}
+{{ $result := dict }}{{/* start with an empty map */}}
 {{ range . }}
-  {{ $entry := dict "name"  .Name  "url" .URL "id" (replace (lower .Name) " " "-" )}}
+  {{ $id := replace (lower .Name) " " "-" }}
+  {{ $entry := dict "name"  .Name  "url" .URL }}
   {{ $kids := partial "buildMenu.html" .Children }}
   {{/* overkill, only add kinds to the dictionary if there are any */}}
   {{ if $kids }}
     {{ $entry = merge $entry (dict "kids" $kids) }}
   {{ end }}
-  {{ $result = $result | append $entry -}}
+  {{ $result = merge $result (dict $id $entry) -}}
 {{ end }}
 {{ return $result }}

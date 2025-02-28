@@ -64,9 +64,10 @@ export default {
 
 .c-shortcuts {
   display: flex;
-  padding: 10px;
+  padding: 10px 0;
+  /* space-evenly is nicer than gap; but not sure how to cap the maximum area on desktop */
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   border-top: solid;
   border-color: lightgray;
 }
