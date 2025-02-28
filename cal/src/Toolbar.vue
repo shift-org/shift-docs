@@ -1,18 +1,27 @@
 <script>
-import dayjs from 'dayjs'
+//
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 import ToolDetails from './ToolDetails.vue'
+//
+import dayjs from 'dayjs'
+import icons from './icons.js'
 
 // the toolbar contains search, jump to date, and maybe list/grid toggle
 // or a jump to old view.
 // note: <dialog> is cool -- but it overlays the contents rather than reflows.
 export default {
-components: { ToolDetails },
+components: { FontAwesomeIcon, ToolDetails },
 props: {
   // a dict with a single member: 'tool',
   // set to the name of the tool to show.
   // ( this allow the expanded object to be shared
   //   and the name of the tool to be poked into it; read elsewhere. )
   expanded: Object,    
+},
+computed: {
+  menuIcon() {
+    return icons.menu;
+  }
 },
 data() {
     const self = this; // pin our component for the tool callbacks
@@ -79,25 +88,57 @@ data() {
   <div class="c-toolbar">
   <slot></slot>
     <button v-for="tool in tools" :key="tool.name" 
+      class="c-tool"
+     :class="{'c-tool--active': tool.name === expanded.tool}"
       @click="toggle(tool.name)">{{tool.button}}</button>
-    <button class="c-toolbar__menu" @click="toggle('menu')">&equiv;</button>
+    <button 
+      class="c-tool c-tool__menu" 
+     :class="{'c-tool--active': 'menu' === expanded.tool}"
+    @click="toggle('menu')">
+    <FontAwesomeIcon class="c-toolbar__icon" :icon="menuIcon"/>
+  </button>
   </div>
   <div class="c-button-details">
   <template v-for="tool in tools" :key="tool.name">
-    <ToolDetails :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
+    <ToolDetails class="c-tool__details" :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
   </template>
   </div>
 </template>
 
 <style>
- .c-toolbar {
+.c-toolbar {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
-.c-toolbar__menu {
-  width: 50px;
-  font-size: x-large;
+.c-tool  {
+  height: 35px; 
+  min-width: 50px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ddd;
+  background-color: white;
 }
-
+ .c-tool:hover {
+  color: white;
+  background-color: #ff9819; /*var(--primary-accent);*/
+  cursor: pointer;
+}
+.c-tool--active  {
+  color: white;
+  background-color: #ff9819;
+  border-color: darkgrey;
+}
+/* see also c-menu */
+.c-tool__details {
+  margin: 1em;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  gap:  0.5em;
+  font-size: 16px;
+}
+#search-tool {
+  font-size: 16px;
+}
 </style>

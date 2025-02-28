@@ -3,16 +3,16 @@ Cal Single Page App Status
 
 ## Issues:
 
-* missing the "how to ical subscribe", where to add it? maybe to menu?
+* events earlier in the day than "now" are missing.
 
+* hook up search test
 * TBD: add a pedalp button to the toolbar when pedalp is near?
-* try to NOT load the shift image if there's going to be an event image; that will save some good amount of data when hitting an event page. (* bug: there's a flash of the shift image when reloading an event page   http://localhost:3080/events/59/rock-with-you )
 * test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
 * include this change: https://github.com/shift-org/shift-docs/pull/866
-* hook up search test
 
 ## Style Tasks
-* TODO: style search, jump, hamburger menu
+* TDOO: styles for expanded menus
+
 * too much space at top in chrome. http://localhost:3080/events/20691/breakfast-on-the-bridges
 * should have a max width or something for desktop on details page
 * "All Events" button doesnt look great
@@ -62,10 +62,11 @@ Benefits:
 
 Size Comparison
 ---
+(  `npm run preview`, using http://localhost:3080/events/20691/breakfast-on-the-bridges )
 vue:
 * events: 8 requests, 298 kB transferred, 296 kB resources
-* details: 10 requests, 372 kB transferred, 369 kB resources
- (  30kb is the shift logo; 88kb is new ride image header )
+* details: 8 requests, 326 kB transferred, 323 kB resources
+ ( 88kb is new ride image header )
 
 calendar on site:
 * calendar: 28 requests, 301 kB transferred, 679 kB resources

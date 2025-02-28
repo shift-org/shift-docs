@@ -38,24 +38,33 @@ export default {
 </script>
 
 <template>  
-  <ul>
-  <li v-for="(menu, menu_id) in menu" :key="menu_id">
-    <button @click="toggle(menu_id)">{{ menu.name }}</button>
-    <ul v-if="submenu === menu_id">
-      <li v-for="(kid, kid_id) in menu.kids" :key="kid_id">
-        <a :href="kid.url">{{kid.name}}</a>
-      </li>
-    </ul>
-  </li>
+<div class="c-menu">
+  <ul class="c-menu__items">
+    <li v-for="(menu, menu_id) in menu" :key="menu_id">
+      <button @click="toggle(menu_id)">{{ menu.name }}</button>
+      <ul v-if="submenu === menu_id">
+        <li v-for="(kid, kid_id) in menu.kids" :key="kid_id">
+          <a :href="kid.url">{{kid.name}}</a>
+        </li>
+      </ul>
+    </li>
   </ul>
   <div class="c-notice c-subscribe">
-  <p>Want to see rides using your computer or phone's calendar app?</p>
-  <p><button type="button" class="c-subscribe__button" data-url="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar feed</button></p>
-  <p>If that doesn't open your calendar app, see <a href="/pages/calendar-faq/#subscribing-to-the-calendar">other ways to subscribe to the calendar</a>.</p>
+    <p>Want to see rides using your computer or phone's calendar app?</p>
+    <p><button type="button" class="c-subscribe__button" data-url="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar feed</button></p>
+    <p>If that doesn't open your calendar app, see <a href="/pages/calendar-faq/#subscribing-to-the-calendar">other ways to subscribe to the calendar</a>.</p>
+  </div>
 </div>
 </template>
 
 <style>
+/* see also c-tools__details 
+   fix? move menu to part of the toolbar?
+*/
+.c-menu {
+  margin: 1em;
+/*  padding: 1em;*/
+}
 /*  fix? currently using CalMain's c-notice; probably should create some vars for the colors and reuse those colors here. */
 .c-subscribe {
   margin: 1em;
