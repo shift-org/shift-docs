@@ -34,7 +34,7 @@ data() {
         // label: "Enter keywords: ",
         attrs: {
           type: "text",
-          placeholder: "Search for titles or descriptions",
+          placeholder: "Search for events...",
         },
         runTool() {
         }
