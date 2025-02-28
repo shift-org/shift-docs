@@ -55,7 +55,7 @@ function shiftRange(router, start, dir) {
 // for now, display the banner based on the requested start day
 // ( could also show it if *any* date is in there.
 function pickBanner(start) {
-  let banner = siteConfig.defaultPageInfo.banner; // default banner.
+  let banner = siteConfig.defaultListBanner; 
   const fest = siteConfig.getFestival(start);
   if (fest) {
     const festStart = dayjs(fest.startdate);

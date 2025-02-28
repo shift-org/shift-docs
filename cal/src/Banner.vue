@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <header class="c-banner">
+  <header class="c-banner" v-if="banner">
   <a class="c-banner__link" :href="banner.target">
     <template v-if="banner.image">
       <img :alt="banner.alt" :src="banner.image" class="c-banner__image">

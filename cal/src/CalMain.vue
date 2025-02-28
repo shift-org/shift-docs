@@ -3,6 +3,7 @@
 import dayjs from 'dayjs'
 // components:
 import Banner from './Banner.vue'
+import GenericError from './GenericError.vue'
 import Menu from './Menu.vue'
 import Meta from './Meta.vue'
 import QuickNav from './QuickNav.vue'
@@ -12,10 +13,11 @@ import Toolbar from './Toolbar.vue'
 import siteConfig from './siteConfig.js'
 
 export default {
-  components: { Banner, Menu, Meta, QuickNav, RouterView, Toolbar },
+  components: { Banner, GenericError, Menu, Meta, QuickNav, RouterView, Toolbar },
   mounted() {
+    // listen to all router changes
     this.$router.beforeEach((to, from) => {
-      // when the route changes, we are loading a new page
+      // when the route changes, we are loading a new (sub) page
       // tbd: but not when query parameters change?
       // fix: might want to block quick nav left/right.
       if (to.name !== from.name) {
@@ -47,6 +49,9 @@ export default {
     fullTitle() {
       return this.page.title || siteConfig.title;
     },
+    bannerImage() {
+      return this.page.banner?.image;
+    }
   },
   methods: {
     // custom event sent by the each of the subviews 
@@ -54,7 +59,10 @@ export default {
     pageLoaded(context, error) {
       this.loading = false; // stop displaying the spinning icon
       if (error) {
-        this.error = error; // if any; alt could redirect to 404 style page.
+        // alt: could redirect to 404 style page.
+        // ( the only problem would be how to parameterize the page with the error string
+        // ( could pass it as a query string? or is that too messy? )
+        this.error = error;
       } else {
         this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
@@ -75,7 +83,7 @@ export default {
   <Meta property="og:type" content="website" />
   <Meta property="og:title" :content="page.title" />
   <Meta property="og:description" :content="page.desc" />
-  <Meta property="og:image" :content="page.banner.image" />
+  <Meta property="og:image" :content="bannerImage" />
   <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
   sites can't pick between them based on size -->
   <!--  -->
@@ -86,17 +94,19 @@ export default {
   <Menu v-if="expanded.tool === 'menu'"/>
   <section class="c-cal-body">
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
-  <div v-else-if="error" class="c-cal-body__error">{{ error }}</div>
-  <div class="c-cal-body__content" v-show="!loading">
+  <GenericError v-else-if="error" class="c-cal-body__error" :error />
+  <div class="c-cal-body__content" v-show="!loading && !error">
     <RouterView @pageLoaded="pageLoaded"/>
   </div>
-  <div class="c-promo-banner">
-    <div>
-      <div>Support your community!</div> <div>See how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</div>
+  <div class="c-footer" v-show="!loading">
+    <div class="c-promo-banner">
+      <div>
+        <div>Support your community!</div> <div>See how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</div>
+      </div>
     </div>
-  </div>
-  <div class="c-disclaimer">
-    <p>SHIFT hosts this calendar as a public service. Rides and events are posted to the SHIFT calendar by community members, not by SHIFT. Rides and events posted to the SHIFT calendar are not sponsored by SHIFT or SHIFT’s fiscal sponsor Umbrella.</p>
+    <div class="c-disclaimer">
+      <p>SHIFT hosts this calendar as a public service. Rides and events are posted to the SHIFT calendar by community members, not by SHIFT. Rides and events posted to the SHIFT calendar are not sponsored by SHIFT or SHIFT’s fiscal sponsor Umbrella.</p>
+    </div>
   </div>
   </section>
   <QuickNav :shortcuts="shortcuts"></QuickNav>

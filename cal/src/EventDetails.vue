@@ -66,8 +66,10 @@ export default {
         });
       }
     }).catch((error) => {
-      console.error("event loading error:", error);
-      this.$emit("pageLoaded", null, error);
+      console.warn("event loading error:", error);
+      next(vm => {
+        vm.$emit("pageLoaded", null, error);
+      });
     });
   },
   // triggered when naving left/right through days
@@ -79,7 +81,7 @@ export default {
       this.evt = evt; 
       this.$emit("pageLoaded", page);
     }).catch((error) => {
-      console.error("event loading error:", error);
+      console.warn("event loading error:", error);
       this.$emit("pageLoaded", null, error);
     });
   },
