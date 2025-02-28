@@ -61,7 +61,8 @@ export default {
     return data;
   },
   // caldaily_id as a string
-  // returns a single event blob.
+  // returns a single event blob
+  // can throw an error.
   async getDaily(caldaily_id) {
     const cached = caldaily_map.get(caldaily_id);
     if (cached) {
@@ -71,7 +72,10 @@ export default {
       const url = endpoint + '?id=' + caldaily_id;
       const resp = await fetch(url);  // fetch is built-in browser api
       const data = await resp.json();  // a list of one [ event ]
-      const oneEvent = (data && data.events.length > 0) ? data.events[0] : false;
+      if (data.error) {
+        throw new Error(data.error.message || "unknown error");
+      } 
+      const oneEvent = (data && data.events?.length > 0) ? data.events[0] : null;
       if (oneEvent) {
         caldaily_map.set(caldaily_id, oneEvent);
       }
