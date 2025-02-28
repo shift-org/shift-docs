@@ -1,0 +1,116 @@
+# build settings for netlify
+
+# [build] and [build.environment] are defaults; will apply to all builds unless overridden in a context stanza below
+
+[build]
+  base = "site/"
+  # note: if you're using the netlify cli ( ie. "netlify dev" ) 
+  # this needs to be simply "public" ( otherwise it looks for "site/site/public" )
+  # tbd: is the global site config on netlify overriding this?
+  # could we switch this to be "public" always?
+  publish = "site/public/"
+
+[build.environment]
+  # see also package.json, and docker-compose.yml
+  HUGO_VERSION = "0.128.2"
+
+# we need to manually copy the 404 page over for now, in every environment
+# cf https://github.com/shift-org/shift-docs/issues/862
+
+[context.deploy-preview]
+  # this command additionally builds draft content for deploy previews (PR's)
+  # you'd set a page as draft in the frontmatter of the markdown.
+  # cf https://docs.netlify.com/site-deploys/deploy-previews/
+  command = 'hugo -D && cp public/404/index.html public/404.html'
+
+[context.branch-deploy]
+  # this command builds draft content for branches
+  # you'd set a page as draft in the frontmatter of the markdown.
+  command = 'hugo -D  && cp public/404/index.html public/404.html'
+
+[context.production]
+  # Note that there are two versions of the below command 
+  # drafts are excluded (no `-D` option to hugo) for prod build.  
+  # We also pull new backend code to the server for prod deploys
+
+  # see this guide about why we do this funky thing with ssh: 
+  # https://answers.netlify.com/t/support-guide-using-an-ssh-key-via-environment-variable-during-build/2457
+
+  # TL;DR comment out the next line if you are working on your own Netlify site!
+  command = 'hugo && cp public/404/index.html public/404.html && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && sudo ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
+
+  # uncomment the next line if you are working on your own Netlify site!
+  # command = 'hugo && cp public/404/index.html public/404.html'
+
+## need to support multiple domains?  
+## Use domain redirects to serve alternative domains.  
+## First, canonicalize secondarydomain.com to primarydomain.org
+## so that we can serve all content via the "best" hostname (NETLIFY DNS record)
+## such redirects must be first redirects in this file!
+
+[[redirects]]
+  from = "https://secondarydomain.com/*"
+  to = "https://www.primarydomain.org/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "https://www.secondarydomain.com/*"
+  to = "https://www.primarydomain.org/:splat"
+  status = 301
+  force = true
+
+## ---------------------------------------------------------------------------
+## dynamic back end + event images stored on the API server
+## which is api.primarydomain.org in these examples
+## Solves CORS problems to proxy via Netlify
+## cf https://docs.netlify.com/routing/redirects/rewrites-proxies/
+## ---------------------------------------------------------------------------
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.primarydomain.org/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/eventimages/*"
+  to = "https://api.primarydomain.org/eventimages/:splat"
+  status = 200
+
+## have a www path you want to serve via some path on the backend?  here's how:
+
+[[redirects]]
+  from = "/my/specialpath"
+  to = "https://api.primarydomain.org/api/pedalpalooza-calendar.php"
+  status = 200
+  force = true
+
+## the official "all events" feed.  
+## you'll probably want this somewhere on your ite!
+[[redirects]]
+  from = "/allevents"
+  to = "https://api.primarydomain.org/api/shift-calendar.php"
+  status = 200
+  force = true
+
+## remove trailing slashes via some magic.  
+## fool can't really believe this works;  it is likely fragile!
+## helps with prerendering: https://docs.netlify.com/site-deploys/post-processing/prerendering/
+
+[[redirects]]
+  from = "/addevent/*"
+  to = "/addevent"
+  status = 200
+[[redirects]]
+  from = "/calendar/*"
+  to = "/calendar/event"
+  status = 200
+
+## have a path you want to simplify vs its real location, all front-end?
+## note that this tells the client about the new location so the redirect
+## will be automatic & will be client side in the future!
+## here's how: 
+
+[[redirects]]
+  from = "/pedalpalooza"
+  to = "/pages/pedalpalooza"
+  status = 301

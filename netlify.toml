@@ -11,9 +11,12 @@
 [build.environment]
   # extra environment variables if needed.
 
+# we need to manually copy the 404 page over for now, in every environment
+# cf https://github.com/shift-org/shift-docs/issues/862
 [context.deploy-preview]
   # -D builds draft content for deploy previews
   # ( the doubledash is needed to pass the argument through to hugo )
+  # cf https://docs.netlify.com/site-deploys/deploy-previews/
   command = 'npm run deploy -- -D'
 
 [context.branch-deploy]
@@ -21,15 +24,21 @@
   command = 'npm run deploy -- -D'
 
 [context.production]
-  # NOTE: This pulls new code to the api server!
-  # drafts are excluded (no `-D` option) for prod build.  
-
+  # see this guide about why we do this funky thing with ssh: 
+  # https://answers.netlify.com/t/support-guide-using-an-ssh-key-via-environment-variable-during-build/2457
+  #
   # comment out the following command if you are using the Netlify cli locally
   # and replace with one of the 'npm run deploy' commands from above.
+  #
+  # NOTE: This pulls new code to the api server!
+  # drafts are excluded (no `-D` option) for prod build.  
+  #  
   command = 'npm run deploy && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && sudo ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
 
-## domain redirects to serve from the CDN and canonicalize
-## must be first redirects in this file!
+## ---------------------------------------------------------------------------
+## domain redirects to serve alternative domains.  First, we canonicalize
+## so that we can serve just the "best" version (NETLIFY DNS record)
+## such redirects must be first redirects in this file!
 
 [[redirects]]
   from = "https://shift2bikes.com/*"
@@ -42,16 +51,6 @@
   status = 301
   force = true
 [[redirects]]
-  from = "https://shifttobikes.com/*"
-  to = "https://www.shift2bikes.org/:splat"
-  status = 301
-  force = true
-[[redirects]]
-  from = "https://www.shifttobikes.com/*"
-  to = "https://www.shift2bikes.org/:splat"
-  status =  301
-  force = true
-[[redirects]]
   from = "https://shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
@@ -61,25 +60,13 @@
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
-[[redirects]]
-  from = "https://new.shift2bikes.org/*"
-  to = "https://www.shift2bikes.org/:splat"
-  status = 301
-  force = true
-[[redirects]]
-  from = "https://pedalpalooza.org/*"
-  to = "http://pedalpaloozamedia.wixsite.com/pedalpalooza"
-  status = 302
-  force = true
-[[redirects]]
-  from = "https://www.pedalpalooza.org/*"
-  to = "http://pedalpaloozamedia.wixsite.com/pedalpalooza"
-  status = 302
-  force = true
 
-#------------------------------------------------------------------------------------
-# dynamic back end + event images stored over here.  Solves CORS problems to proxy.
-#------------------------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+## dynamic back end + event images stored on our API server
+## Solves CORS problems to proxy via Netlify
+## cf https://docs.netlify.com/routing/redirects/rewrites-proxies/
+## ---------------------------------------------------------------------------
+
 [[redirects]]
   from = "/api/*"
   to = "https://api.shift2bikes.org/api/:splat"
@@ -90,70 +77,55 @@
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
 
-# legacy ical feed for pedalpalooza.  Can't get to /legacy/cal content via www.shift2bikes.org due to other redirects, so proxying secretly here.
+## legacy (people have been using it for years) ical feed for pedalpalooza.
+## Can't directly get to /legacy/cal content via www.shift2bikes.org
+## due to other redirects, so proxying secretly here.
+
 [[redirects]]
   from = "/cal/icalpp.php"
   to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
   status = 200
   force = true
 
-# the official pedalpalooza feed
+## the official pedalpalooza feed
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
   to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
   status = 200
   force = true
 
-# the official "all events" feed.
+## the official "all events" feed.
 [[redirects]]
   from = "/cal/shift-calendar.php"
   to = "https://api.shift2bikes.org/api/shift-calendar.php"
   status = 200
   force = true
 
-#------------------------------------------------------------------------------------
-# these two are needed for legacy "shareable links" from 2017-early 2019 era
-#------------------------------------------------------------------------------------
-[[redirects]]
-  from = "/fun/*"
-  to = "/calendar/:splat"
-  status = 301
-[[redirects]]
-  from = "/fun2/*"
-  to = "/calendar/:splat"
-  status = 301
 
-# we can't translate REALLY legacy links (<2017) - they used some odd format.  
-# But let's at least land on the calendar page.
+## we can't translate REALLY legacy links (<2017) - they used some odd format.  
+## But let's at least land on the calendar page in case someone clicks one.
 [[redirects]]
   from = "/cal/*"
   to = "/calendar/"
   status = 301
 
-# testing out a special redirect for a URL that someone made up
+## a special redirect for a URL that someone made up
 [[redirects]]
   from = "/calendar/pedalpalooza"
   to = "/pages/pedalpalooza"
   status = 301
 
-# old pedalpalooza page should link to new one
+## old pedalpalooza page should link to new one
 [[redirects]]
   from = "/pedalpalooza"
   to = "/pages/pedalpalooza"
   status = 301
 
-# old bike rack webpage linked from PBoT and other pages we can't fix
+## old bike rack webpage linked from PBoT and other offsite pages  we can't fix
 [[redirects]]
   from = "/wiki/shift-shop:rack-rental"
   to = "/pages/bike-racks/"
   status = 301
-  
-# redirect for BonB 20 year fundraiser 2022
-[[redirects]]
-  from = "/fillourcups"
-  to = "https://shop.ohmydollar.com/collections/breakfast-on-the-bridges-20th-year-collection"
-  status = 200
-  force = true
 
 #------------------------------------------------------------------------------------
 # handlers for the various "single page applications".
