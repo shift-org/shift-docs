@@ -4,8 +4,6 @@ Cal Single Page App Status
 ## Issues:
 
 * missing the "how to ical subscribe", where to add it? maybe to menu?
-* npm run preview is broken -- probably because of slug
-http://localhost:3080/events/20691/breakfast-on-the-bridges
 
 * TBD: add a pedalp button to the toolbar when pedalp is near?
 * try to NOT load the shift image if there's going to be an event image; that will save some good amount of data when hitting an event page. (* bug: there's a flash of the shift image when reloading an event page   http://localhost:3080/events/59/rock-with-you )
@@ -20,29 +18,27 @@ http://localhost:3080/events/20691/breakfast-on-the-bridges
 * "All Events" button doesnt look great
 * TBD: should whole summary be clickable ( safety would only be clickable on details then )
 * setup aria tags and info
+* tooltips or labels for the lower nav buttons?
+* TBD: where should the 'shift' logo link to?
 
 ## Future Tasks:
-* single event time context: should show "TODAY" above time if its today; 
+* event details context: show "TODAY" above time if its today; 
   some sort of "this event has passed" if its more than an hour ago
   "starting soon" if its near, or  "X days from now"
 
 * implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
 
-* add "reoccur" links for each event
+* review josh's url / query parameter ideas, and see if they can be used here.
+* add "reoccur" links for each event ( might need server data for this )
 * consider: a "featured events" page that shows the time / date / extra info that can include the menu's text, but also show when those events are.
 * reuse the app somehow for preview event?
 * consider redirecting existing urls to the single page app and trimming the old views.
 * timeout/error for data fetches?
-* consider block quick nav left/right while loading; possibly other stuff.
+* consider blocking quick nav (left/right), etc. while loading.
 * improve loading animation ( maybe don't hide the previous data while loading )
-* show loading indicator for singleEvent next/prev
-* server: linked lists for single events?
-* consider merging the "chrome" of calpage and single event, so just the center swaps out.
-* consider a smaller server "overview" endpoint; maybe with days grouped already.
-* move day sorting to server
-* instead of helpers.js, what about components?
+* server: consider linked lists for single events?
+* server: consider a more focused "overview" endpoint; maybe with days grouped already.
 * better communication if there is no next/prev event ( this would be a very rare edge case issue )
-* minor: tooltips or labels for the lower nav buttons?
 * todo: improve event details next/prev return point.
     currently you always return to the original week you came from
     shiftEvent could be smart, knowing when you've swapped weeks; updating calStart.
@@ -54,11 +50,8 @@ http://localhost:3080/events/20691/breakfast-on-the-bridges
 * bikefun: resources page with links to external sites 
 * bikefun: cal reminders 
 
-* review html tags ( article, section, etc. ) what's a good setup? (especially for date dividers and the like )
 * hand it around for beta testing?
-* review josh's url / query parameter ideas, and see if they can be used here.
 * add API_VERSION to data queries
-* TBD: where should the 'shift' logo link to?
 
 Benefits:
 ----

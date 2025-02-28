@@ -6,12 +6,12 @@
 //
 const express = require('express');
 const config = require("shift-docs/config");
-const { serveHugoContent } = require("shift-docs/facade");
+const { serveWebContent } = require("shift-docs/facade");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
 const app = express();
-serveHugoContent(app, config);
+serveWebContent(app, config);
 
 // https://github.com/chimurai/http-proxy-middleware
 app.use(createProxyMiddleware({

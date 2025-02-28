@@ -8,7 +8,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const facade = {
   // uses config for the source of the static files
   // you can use "hugo --watch" to rebuild changes on demand.
-  serveHugoContent(app, config) {
+  serveWebContent(app, config) {
     const { staticFiles } = config.site;
     if (!staticFiles) {
       throw new Error("missing static files path");
@@ -84,7 +84,7 @@ const facade = {
     // serve vite first so its events path will override any events folder in dist
     // ( ex. if previously built with npm run build )
     facade.serveVite(app, config);
-    facade.serveHugoContent(app, config);
+    facade.serveWebContent(app, config);
     facade.serveImages(app, config);
   }
 };
