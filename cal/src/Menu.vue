@@ -51,7 +51,7 @@ export default {
   </ul>
   <div class="c-notice c-subscribe">
     <p>Want to see rides using your computer or phone's calendar app?</p>
-    <p><button type="button" class="c-subscribe__button" data-url="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar feed</button></p>
+    <p><a class="c-subscribe__button" href="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar feed</a></p>
     <p>If that doesn't open your calendar app, see <a href="/pages/calendar-faq/#subscribing-to-the-calendar">other ways to subscribe to the calendar</a>.</p>
   </div>
 </div>
