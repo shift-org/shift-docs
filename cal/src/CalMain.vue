@@ -25,6 +25,7 @@ export default {
       if (to.name !== from.name) {
         console.log("loading...");
         this.loading = true;
+        this.error = null;
         this.expanded.tool = to.query.expanded || false;
       }
     });
