@@ -46,7 +46,7 @@ export default {
     timeRange() {
       const { evt, showDate } = this;
       const prefix = showDate ? dayjs(evt.date).format("dddd, MMMM D, YYYY. ") : "";
-      return prefix + helpers.getTimeRange(this.evt);
+      return prefix + helpers.getTimeRange(evt);
     },
     tags() {
       return calTags.buildEventTags(this.evt);

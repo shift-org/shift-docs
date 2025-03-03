@@ -8,7 +8,9 @@ import pedalp from 'extras/pedalDates.json'
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import customParseFormat from 'dayjs/plugin/customParseFormat'
-dayjs.extend(advancedFormat, customParseFormat);
+
+dayjs.extend(advancedFormat);
+dayjs.extend(customParseFormat);
 
 // the calendar part of the menu has links to the pages we are already on
 // so those are unneeded.
