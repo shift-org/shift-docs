@@ -26,8 +26,8 @@ export default {
         console.log("loading...");
         this.loading = true;
         this.error = null;
-        this.expanded.tool = to.query.expanded || false;
       }
+      this.expanded.tool = to.query.expanded || false;
     });
   },
   data() {
@@ -91,7 +91,6 @@ export default {
   <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
   sites can't pick between them based on size -->
   <!--  -->
-  
     <Banner :banner="page.banner" :loading/>
     <Toolbar :expanded="expanded">
         <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>

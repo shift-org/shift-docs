@@ -32,7 +32,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     // fetch the requested caldaily 
     const { caldaily_id, slug } = to.params;
-    console.log(`beforeRouteEnter id: ${caldaily_id} slug: ${slug}`);
+    console.log(`EventDetails beforeRouteEnter id: ${caldaily_id} slug: ${slug}`);
     return dataPool.getDaily(caldaily_id).then((evt) => {
       // validate/update the slug:
       const wantSlug = helpers.slugify(evt);
@@ -74,7 +74,7 @@ export default {
   },
   // triggered when naving left/right through days
   beforeRouteUpdate(to, from) { 
-    console.log(`beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
+    console.log(`EventDetails beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
     const { caldaily_id, slug } = to.params;
     return dataPool.getDaily(caldaily_id).then((evt) => {
       const page = buildPage(evt, this.calStart, to.fullPath);

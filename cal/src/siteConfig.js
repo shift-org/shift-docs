@@ -6,10 +6,9 @@ import menu from 'extras/siteMenu.json'
 import pedalp from 'extras/pedalDates.json'
 //
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
-dayjs.extend(customParseFormat);
-dayjs.extend(advancedFormat);  // for ordinal formatting ( 1st, 2nd )
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(advancedFormat, customParseFormat);
 
 // the calendar part of the menu has links to the pages we are already on
 // so those are unneeded.
@@ -51,11 +50,6 @@ export default {
   // hugo generated info on all pedalpalooza events
   // see buildPedalDates.html
   pedalp, 
-  // access to the backend.
-  // in production it proxies through netlify.
-  // using abspath makes it relative to localhost or to https://www.shift2bikes.org/
-  // depending how the pages are hosted
-  apiEndpoint: "/api/",
   title: "Shift",
   // dayjs date
   getFestival(date) {

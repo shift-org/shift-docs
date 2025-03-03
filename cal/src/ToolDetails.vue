@@ -34,7 +34,8 @@ export default {
       this.tool.runTool(this.inputText);
     },
     today() {
-      this.inputText = dayjs().format("YYYY-MM-DD");
+      const today = dayjs().format("YYYY-MM-DD");
+      this.tool.runTool();
     },
   },
   mounted() {
@@ -52,7 +53,11 @@ export default {
       ref="inputItem"
       v-model="inputText"
       v-bind="tool.attrs">
-    <button v-if="tool.attrs.type == 'date'" @click="today()">Today</button>
-    <button @click="submit()">Go</button>
+    <!-- 
+      note: prevents default to avoid form submission 
+      ( chrome issues a warning when the form disappears due to navigation. )
+    -->
+    <button v-if="tool.attrs.type == 'date'" @click.prevent="today()">Today</button>
+    <button @click.prevent="submit()">Go</button>
   </form>
 </template>

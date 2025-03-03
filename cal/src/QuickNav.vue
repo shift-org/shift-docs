@@ -90,8 +90,10 @@ export default {
   text-decoration: none;
   cursor: pointer;
   
-  &:hover {
-    background: darkgrey; 
+  @media (hover: hover) {
+    &:hover {
+      background: darkgrey; 
+    }
   }
   &:active {
     color: white;

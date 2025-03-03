@@ -4,9 +4,6 @@
  */
 import dayjs from 'dayjs'
 
-// TODO: add to queries
-const API_VERSION = '3';
-
 // a <= b
 function sameOrBefore(a, b) {
   return a.isSame(b) || a.isBefore(b);
@@ -23,12 +20,9 @@ function within(a, start, end) {
 const urlPattern = /^https*:\/\//;
 const emailPattern = /.+@.+[.].+/;
 
-
-
 function friendlyTime(time) {
   return dayjs(time, 'hh:mm:ss').format('h:mm A');
 }
-
 
 export default {
   sameOrBefore,

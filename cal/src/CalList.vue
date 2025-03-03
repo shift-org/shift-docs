@@ -21,7 +21,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     // remember where we came from ( so we can scroll it into view )
     const lastEvent = from.params.caldaily_id || null;
-    console.log(`beforeRouteEnter last event was ${lastEvent || "nothing"}`);
+    console.log(`CalList beforeRouteEnter last event was ${lastEvent || "nothing"}`);
     next(vm => {
       // access to component public instance via `vm`
       vm.lastEvent = lastEvent;
@@ -31,7 +31,7 @@ export default {
   // triggered when naving left/right through weeks.
   beforeRouteUpdate(to, from) { 
     if (to.query.start !== from.query.start) {
-      console.log(`beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
+      console.log(`CalList beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
       return this.updateRange(to.query.start);
     }
   },
@@ -111,8 +111,7 @@ export default {
     <EventSummary 
         v-for="evt in day.events" :key="evt.caldaily_id" 
         :evt="evt" 
-        :focused="lastEvent === evt.caldaily_id"
-        :startdate="startdate"/>
+        :focused="lastEvent === evt.caldaily_id"/>
     <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
       {{fest.title}} Ends
     </h2>

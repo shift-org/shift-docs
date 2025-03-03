@@ -12,13 +12,12 @@ import Term from './CalTerm.vue'
 // support:
 import calTags from './calTags.js'
 import helpers from './calHelpers.js'
-import icons from './icons.js'
 
 export default {
   props: {
     evt: Object,
-    startdate: String, // a date for returning to the same start date view.
-    focused: Boolean,
+    focused: Boolean, // true for a summary that should scrollIntoView.
+    showDate: Boolean // true if the summary should show the complete date.
   },
   mounted() {
     if (this.focused) {
@@ -28,11 +27,6 @@ export default {
     }
   },
   components: { CalTags, EventHeader, LocationLink, Term },
-  data() {
-    return {
-      icons,
-    }
-  },
   computed: {
     // the link uses the vue router to manipulate the url and history
     // without reloading the page.
@@ -44,13 +38,15 @@ export default {
         // the ':caldaily_id' in that route description
         // ( which becomes pieces of the url's path )
         params: {
-            caldaily_id: evt.caldaily_id,
-            slug: helpers.slugify(evt)
+          caldaily_id: evt.caldaily_id,
+          slug: helpers.slugify(evt)
         }
       };
     },
     timeRange() {
-      return helpers.getTimeRange(this.evt);
+      const { evt, showDate } = this;
+      const prefix = showDate ? dayjs(evt.date).format("dddd, MMMM D, YYYY. ") : "";
+      return prefix + helpers.getTimeRange(this.evt);
     },
     tags() {
       return calTags.buildEventTags(this.evt);

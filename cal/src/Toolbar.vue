@@ -31,12 +31,23 @@ data() {
       tools: [{
         name: "search",
         button: "Search",
-        // label: "Enter keywords: ",
         attrs: {
           type: "text",
           placeholder: "Search for events...",
         },
-        runTool() {
+        runTool(inputText) {
+          if (inputText) {
+            console.log(`searching for ${inputText}`);
+            // call toggle to collapse the bar before navigating away
+            self.toggle().then(() => {
+              self.$router.push({
+                name: 'search', query: { 
+                  q: inputText, 
+                  // expanded: 'search',
+                }
+              });
+            });
+          }
         }
       },{
         name: "jump",
@@ -55,13 +66,11 @@ data() {
           if (startDate.isValid()) {
             const start = startDate.format("YYYY-MM-DD");
             console.log("jump start date", start);
-            // alter the url bar; this will trigger calPage queryChanged()
-            // https://router.vuejs.org/guide/essentials/navigation.html
-            self.$router.replace({name: 'calendar', query: { start }});
-            // close the tool on a timeout otherwise chrome complains 
-            // ( about the form having disappeared )
-            setTimeout(() => {
-              self.expanded.tool = false;
+            // call toggle to collapse the bar before navigating away
+            self.toggle().then(() => {
+              const today = dayjs().format("YYYY-MM-DD");
+              const query = (today === start) ? {}  : { start };
+              self.$router.push({name: 'calendar', query});
             });
           }
         }
@@ -71,15 +80,15 @@ data() {
   methods: {
     toggle(name) {
       const q = { ...this.$route.query };
-      if (name === this.expanded.tool) {
+      if (!name || name === this.expanded.tool) {
         this.expanded.tool = false;
         q.expanded = undefined;
       } else {
         this.expanded.tool = name;
         q.expanded = name;
       }
-      this.$router.replace({query: q});
-    }
+      return this.$router.replace({query: q});
+    },
   }
 }
 </script>
@@ -119,10 +128,12 @@ data() {
   border-color: #ddd;
   background-color: white;
 }
+@media (hover: hover) {
  .c-tool:hover {
-  color: white;
-  background-color: #ff9819; /*var(--primary-accent);*/
-  cursor: pointer;
+    color: white;
+    background-color: #ff9819; /*var(--primary-accent);*/
+    cursor: pointer;
+  } 
 }
 .c-tool--active  {
   color: white;
