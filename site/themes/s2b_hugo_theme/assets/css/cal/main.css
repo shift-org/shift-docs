@@ -475,3 +475,8 @@ button.expand-details {
   display: flex;
   justify-content: space-between;
 }
+
+.error {
+  padding: 1rem;
+  text-align: center;
+}

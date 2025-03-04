@@ -3,8 +3,6 @@
   Mustache.tags = ["[[", "]]"];
 </script>
 
-{{ partial "cal/icons.html" . }}
-
 <script id="view-events-template" type="text/template">
   [[#dates]]
   <div data-date="[[yyyymmdd]]" class="date[[#preview]] preview[[/preview]]">
@@ -19,11 +17,20 @@
           [[#cancelled]]<del>[[/cancelled]]
 
           <p><time>[[displayStartTime]]</time></p>
+
           [[#audienceLabel]]
           <span class="audience-[[audience]]">[[audienceLabel]]</span>
           [[/audienceLabel]]
+
           [[#safetyplan]]
-          <p class="safety-plan"><a href="/pages/public-health/#safety-plan" target="_blank" title="opens in a new window"><svg class="icon" role="img" aria-hidden="true"><use href="#icon-safety" /></svg>COVID Safety plan</a></p>
+          <p class="safety-plan">
+            <a href="/pages/public-health/#safety-plan" target="_blank" title="opens in a new window">
+              <svg class="icon" role="img" aria-hidden="true">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-safety" }}"/>
+              </svg>
+              COVID Safety plan
+            </a>
+          </p>
           [[/safetyplan]]
 
           [[#cancelled]]</del>[[/cancelled]]
@@ -56,7 +63,7 @@
 
                     <button type="button" aria-expanded="[[^ expanded ]]false[[/ expanded ]][[# expanded ]]true[[/ expanded ]]" class="expand-details" data-toggle-target="#event-details-[[caldaily_id]]">
                       <svg class="icon expand" role="img" aria-hidden="true">
-                        <use href="#icon-arrow-down" />
+                        <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
                       </svg>
 
                       [[#cancelled]]<del>[[/cancelled]]
@@ -71,7 +78,15 @@
                   </h3>
 
                   [[#newsflash]]
-                  <ins><p class="newsflash" id="newsflash[[caldaily_id]]"><svg class="icon" role="img" aria-label="Update"><use href="#icon-newsflash" /><title>Update</title></svg> [[newsflash]]</p></ins>
+                  <ins>
+                    <p class="newsflash" id="newsflash[[caldaily_id]]">
+                      <svg class="icon" role="img">
+                        <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-newsflash" }}"/>
+                        <title>Update</title>
+                      </svg>
+                      [[newsflash]]
+                    </p>
+                  </ins>
                   [[/newsflash]]
 
                   [[#cancelled]]<del>[[/cancelled]]
@@ -79,7 +94,10 @@
                   <div class="location">
                     [[#areaLabel]]
                     <p class="area">
-                      <svg class="icon" role="img" aria-label="Area"><use href="#icon-map" /><title>Area</title></svg>
+                      <svg class="icon" role="img">
+                        <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-map" }}"/>
+                        <title>Area</title>
+                      </svg>
                       [[areaLabel]]
                     </p>
                     [[/areaLabel]]
@@ -87,7 +105,10 @@
                       [[#mapLink]]
                       <a href="[[mapLink]]" target="_blank" rel="noopener nofollow external"  title="Opens in a new window">
                       [[/mapLink]]
-                      <svg class="icon" role="img" aria-label="Location"><use href="#icon-location" /><title>Location</title></svg>
+                      <svg class="icon" role="img">
+                        <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-location" }}"/>
+                        <title>Location</title>
+                      </svg>
 
                       [[venue]][[#address]][[#venue]], [[/venue]][[address]][[/address]]
 
@@ -100,7 +121,13 @@
                     <p>[[locdetails]]</p>
                     [[/locdetails]]
                   </div>
-                  <p><svg class="icon" role="img" aria-label="Organizer"><use href="#icon-organizer" /><title>Organizer</title></svg> [[organizer]]</p>
+                  <p>
+                    <svg class="icon" role="img">
+                      <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-organizer" }}" />
+                      <title>Organizer</title>
+                    </svg>
+                    [[organizer]]
+                  </p>
 
                   [[#cancelled]]</del>[[/cancelled]]
 
@@ -123,43 +150,88 @@
           </div>
 
           <div>
-            <p><svg class="icon" role="img" aria-label="Time"><use href="#icon-time" /><title>Time</title></svg> [[displayDate]], [[displayStartTime]]</p>
+            <p>
+               <svg class="icon" role="img">
+                 <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-time" }}"/>
+                 <title>Time</title>
+               </svg>
+              [[displayDate]], [[displayStartTime]]
+            </p>
 
             [[#timedetails]]
-            <p><svg class="icon" role="img" aria-label="Time details"><use href="#icon-newsflash" /><title>Time details</title></svg> [[timedetails]]</p>
+            <p>
+               <svg class="icon" role="img">
+                 <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-newsflash" }}"/>
+                 <title>Time details</title>
+               </svg>
+              [[timedetails]]
+            </p>
             [[/timedetails]]
 
             [[#endtime]]
-            <p><svg class="icon" role="img" aria-label="End time"><use href="#icon-endtime" /><title>End time</title></svg> [[displayEndTime]]</p>
+            <p>
+               <svg class="icon" role="img">
+                 <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-endtime" }}"/>
+                 <title>End time</title>
+               </svg>
+              [[displayEndTime]]
+            </p>
             [[/endtime]]
 
             [[#loopride]]
-            <p><svg class="icon" role="img" aria-label="Loop"><use href="#icon-loop" /><title>Loop</title></svg> Ride is a loop</p>
+            <p>
+              <svg class="icon" role="img">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-loop" }}" />
+                <title>Loop</title>
+              </svg>
+              Ride is a loop
+            </p>
             [[/loopride]]
 
             [[#locend]]
-            <p><svg class="icon" role="img" aria-label="End location"><use href="#icon-endlocation" /><title>End location</title></svg> End location: [[locend]]</p>
+            <p>
+              <svg class="icon" role="img">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-endlocation" }}" />
+                <title>End location</title>
+              </svg>
+              End location: [[locend]]
+            </p>
             [[/locend]]
           </div>
 
           <p class="description">[[details]]</p>
 
           [[#email]]
-          <p class="contactInfo">
-            <a href="mailto:[[email]]"><svg class="icon" role="img" aria-label="Email"><use href="#icon-email" /><title>Email</title></svg> [[email]]</a>
+          <p>
+            <a href="mailto:[[email]]">
+              <svg class="icon" role="img">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-email" }}" />
+                <title>Email</title>
+              </svg>
+              [[email]]
+            </a>
           </p>
           [[/email]]
 
           [[#phone]]
           <p class="contactInfo">
-            <a href="tel:[[phone]]"><svg class="icon" role="img" aria-label="Phone"><use href="#icon-phone" /><title>Phone</title></svg> [[phone]]</a>
+            <a href="tel:[[phone]]">
+              <svg class="icon" role="img">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-phone" }}" />
+                <title>Phone</title>
+              </svg>
+              [[phone]]
+            </a>
           </p>
           [[/phone]]
 
           [[ #weburl ]]
           <p class="contactInfo">
             <a href="[[webLink]]" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
-              <svg class="icon" role="img" aria-label="Website"><use href="#icon-website" /><title>Website</title></svg>
+              <svg class="icon" role="img">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-website" }}" />
+                <title>Website</title>
+              </svg>
               [[#webname]][[webname]][[/webname]]
               [[^webname]][[weburl]][[/webname]]
             </a>
@@ -171,7 +243,10 @@
           [[#contactLink]]
           <p class="contactInfo">
             <a href="[[contactLink]]" target="_blank" rel="noopener nofollow external" title="Opens in a new window">
-              <svg class="icon" role="img" aria-label="Additional contact info"><use href="#icon-website" /><title>Additional contact info</title></svg>
+              <svg class="icon" role="img">
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-website" }}" />
+                <title>Additional contact info</title>
+              </svg>
               [[contact]]
             </a>
           </p>
@@ -194,7 +269,7 @@
               <li>
                 <a
                   [[^preview]]
-                      href="[[shareLink]]"
+                      href="[[shareable]]"
                   [[/preview]]
                   class="share-link"
                   rel="bookmark">
@@ -241,4 +316,8 @@
   <p class="no-events">No matching events</p>
   [[/dates]]
 
+</script>
+
+<script id="request-error" type="text/template">
+  <p class="error">Error: [[ error ]]</p>
 </script>

@@ -77,8 +77,9 @@ disableKinds = ["taxonomy", "term"]
     # it only works when running with --buildDrafts  ( aka -D )
     # forceCurrentTime =  "06-13-2024 19:00"
 
-    # copyright used by footer.html
-    copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"
+    # used by footer.html
+    about = "Shift is a project of <a href='https://www.umbrellapdx.org/' rel='external'>Umbrella</a>."
+    copyright = "Photo credit to Eric Thornburg | Insta <a href='https://www.instagram.com/no.lens.cap/' rel='external'>@no.lens.cap</a> | eric@kd5vmo.com"
 
     # Format dates with Go's time formatting ( used by layout/list )
     date_format = "January 2, 2006"
