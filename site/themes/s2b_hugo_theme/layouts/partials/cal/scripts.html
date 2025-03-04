@@ -1,4 +1,7 @@
 <!-- load on all cal pages -->
+{{ $jsCalConfig := resources.Get "js/cal/config.js" | minify }}
+<script src="{{ $jsCalConfig.Permalink }}"></script>
+
 <script type="text/javascript">
   function parseURL() {
     var urlParams = {};
