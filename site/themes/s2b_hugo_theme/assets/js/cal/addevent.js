@@ -249,7 +249,6 @@
                     }
                     // munge the "file" errors to be "image" errors
                     // so that the error message shows on proper line.
-                    // tbd: we also change this in manage_event.php
                     if (err.fields && err.fields.file && !err.fields.image) {
                       err.fields.image = err.fields.file;
                     }

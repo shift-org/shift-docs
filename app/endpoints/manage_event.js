@@ -5,7 +5,7 @@
  *
  *  You can use curl to post some json for testing. For example:
  *    curl -k -H 'Content-Type: application/json' -X POST --data-binary \
- *    "@manageEvent.json" https://localhost:4443/api/manage_event.php
+ *    "@manageEvent.json" https://localhost:4443/api/manage_event
  *
  *  On success, it will return a summary of the events and its times.
  *  If there is a problem, it returns a set of 'fieldErrors' ( see errors.js )

@@ -18,7 +18,7 @@ describe("crawl testing", () => {
   // test:
   it("handles a simple get", function(done) {
     chai.request( app )
-      .get('/api/crawl.php')
+      .get('/api/crawl.php') // 735-TODO: update tests and run specs
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);

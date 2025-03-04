@@ -3,11 +3,11 @@ const SITE_TITLE = "Shift";
 const API_VERSION = '3';
 
 const API_BASE_URL = window.location.origin;
-const API_EVENTS_URL = new URL('/api/events.php', API_BASE_URL);
-const API_ICS_URL = new URL('/api/ics.php', API_BASE_URL);
-const API_MANAGE_URL = new URL('/api/manage_event.php', API_BASE_URL);
-const API_RETRIEVE_URL = new URL('/api/retrieve_event.php', API_BASE_URL);
-const API_DELETE_URL = new URL('/api/delete_event.php', API_BASE_URL);
+const API_EVENTS_URL = new URL('/api/events', API_BASE_URL);
+const API_ICS_URL = new URL('/api/ics', API_BASE_URL);
+const API_MANAGE_URL = new URL('/api/manage_event', API_BASE_URL);
+const API_RETRIEVE_URL = new URL('/api/retrieve_event', API_BASE_URL);
+const API_DELETE_URL = new URL('/api/delete_event', API_BASE_URL);
 
 const API_HEADERS = {
   'Accept': 'application/json',
