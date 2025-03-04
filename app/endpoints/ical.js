@@ -112,9 +112,7 @@ function getEventData(cal, id, start, end, includeDeleted) {
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
 function respondWith(cal, res, filename, events) {
-  // note: the php sets includes utf8 in the content type but... // 735-TODO: does this comment make sense anymore?
-  // according to  https://en.wikipedia.org/wiki/ICalendar
-  // its default utf8, and mime type should be used for anything different.
+  // according to  https://en.wikipedia.org/wiki/ICalendar its default utf8, and mime type should be used for anything different.
   res.setHeader(config.api.header, config.api.version);
   if (!filename || filename === "none") {
     res.setHeader('content-type', `text/plain`);

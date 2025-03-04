@@ -10,8 +10,8 @@
  *      "secret": "example"
  *   }
  *
- * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" and a json error response (see errors.php) // 735-TODO: does this file still exist?
+ * If there was an error (for example, if the id was missing or the event wasn't found)
+ * returns http 400 "Bad Request" and a json error response (see errors.js)
  *
  */
 const config = require("../config");

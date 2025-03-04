@@ -46,8 +46,6 @@ const endpoints = [
   "retrieve_event"
 ];
 
-// TODO: check for hardcoded uses of .php across repo
-
 // host each of those endpoint files:
 // note: require() is synchronous.
 endpoints.forEach((ep) => {
