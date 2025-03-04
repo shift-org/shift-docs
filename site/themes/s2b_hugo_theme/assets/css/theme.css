@@ -1265,7 +1265,6 @@ fieldset[disabled] .btn-template-primary.active {
   transition: all 0.2s ease-out;
 }
 .customers .item img:hover {
-  max-width: auto;
   filter: none;
   -webkit-filter: none;
 }
@@ -2572,7 +2571,7 @@ fieldset[disabled] .btn-template-primary.active {
   overflow: hidden;
 }
 #footer .photostream div a {
-  border: solid 1 px #eeeeee;
+  border: solid 1px #eeeeee;
 }
 #footer .photostream div img {
   -webkit-transition: all 0.2s ease-out;
@@ -2679,7 +2678,7 @@ fieldset[disabled] .btn-template-primary.active {
 .breadcrumb {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
-  background-color: none;
+  background: none;
   letter-spacing: 0.08em;
 }
 /* nav */
