@@ -255,7 +255,7 @@ class CalDaily {
         .query('caldaily')
         .join('calevent', 'caldaily.id', 'calevent.id')
         .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
-        .whereLike('title', `%${term}%`)
+        .where('title', 'LIKE', `%${term}%`)
         // .whereRaw("title like '%??%'", [term])  // late binding xperiment
         .where(function(q) {
           if (true) {
