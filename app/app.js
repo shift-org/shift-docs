@@ -43,7 +43,8 @@ const endpoints = [
   "events",
   "ical",
   "manage_event",
-  "retrieve_event"
+  "retrieve_event",
+  "search"
 ];
 
 // host each of those endpoint files at a php-like url:
