@@ -60,10 +60,19 @@ All further commands executed as `ubuntu` user which is the default login we sha
 **This is where we stopped 18 Feb**
 
 - Review steps in https://github.com/shift-org/shift-docs/blob/main/docs/new-server-config-details.txt
+
 ```
 	sudo apt-get install certbot
 	sudo apt install docker-compose
-	cd /opt/shift-docs
-	./shift up
 ```
-- (...and debug from there.  Docker permissions at least are off from prod - see difference in running `docker ps` in both places as `ubuntu`)
+
+- add ubuntu user to docker group to allow it to run docker commands:
+	`adduser docker ubuntu`
+
+- add swap since 1G memory is not enough:  
+	dd if=/dev/zero of=/.swap bs=1M count=1500
+	# add this to /etc/fstab: /.swap                   swap            swap defaults 0 0
+	swapon -a
+- then you should be able to `./shift up`
+
+...and see that the node container is failing and debug from there.
