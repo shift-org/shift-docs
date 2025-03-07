@@ -1,25 +1,40 @@
 Cal Single Page App Status 
 ============
 
-## Issues:
+##  Tasks:
 
-* events earlier in the day than "now" are missing.
+* add a pedalp button to the toolbar when pedalp is near
+-- add some content to this, maybe from hugo if possible.
 
-* hook up search test
-* TBD: add a pedalp button to the toolbar when pedalp is near?
+* TDOO: styles for expanded menus. what should this look like? ( maybe it could be like tab pages. )
 * test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
+
 * include this change: https://github.com/shift-org/shift-docs/pull/866
+  ( Fallback error message if events request doesn't include JSON )
 
-## Style Tasks
-* TDOO: styles for expanded menus
+* are events earlier in the day than "now" are missing? ( seems to be working -- but could it scroll to "now" by default. )
 
+
+### Search
+* expand search with max / offset
+
+* TBD: search returns each caldaily; would it make more sense to have a new view that's a ride/series; and then on that page show all the times. ( and/ or group all the instances of that on the page )
+
+### Favorites
+1. refactor shortcuts:
+// if the buttons are always the same, maybe "buildPage" should only return what's different
+// ex. the next/prev functions; and if they are missing, then they appear disabled.
+
+
+### Styles 
 * too much space at top in chrome. http://localhost:3080/events/20691/breakfast-on-the-bridges
 * should have a max width or something for desktop on details page
 * "All Events" button doesnt look great
+  - maybe the row should be a non wrpping flex box, then the words can wrap in their box when needed.
+
 * TBD: should whole summary be clickable ( safety would only be clickable on details then )
 * setup aria tags and info
-* tooltips or labels for the lower nav buttons?
-* TBD: where should the 'shift' logo link to?
+* TBD: should the 'shift' logo link to anywhere? ( and what about when it shifts to pedalp )
 
 ## Future Tasks:
 * event details context: show "TODAY" above time if its today; 
@@ -28,7 +43,6 @@ Cal Single Page App Status
 
 * implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
 
-* review josh's url / query parameter ideas, and see if they can be used here.
 * add "reoccur" links for each event ( might need server data for this )
 * consider: a "featured events" page that shows the time / date / extra info that can include the menu's text, but also show when those events are.
 * reuse the app somehow for preview event?
@@ -103,7 +117,6 @@ Overview
 
   * QuickNav: switches on contents.
   
-
 Font Awesome 
 ------
 font awesome icons use svg and javascript to render. they have an adapter so they can be used as vue components.  https://docs.fontawesome.com/web/use-with/vue
