@@ -2,26 +2,6 @@
 {{ $jsCalConfig := resources.Get "js/cal/config.js" | minify }}
 <script src="{{ $jsCalConfig.Permalink }}"></script>
 
-<!-- only load on list, single ride, edit, and festival pages; not needed for grid view page -->
-{{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") }}
-  {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
-  <script src="{{ $jsCalHelpers.Permalink }}"></script>
-  {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
-  <script src="{{ $jsCalMain.Permalink }}"></script>
-
-  <script src="{{ absURL "lib/mustache/mustache.min.js" }}"></script>
-
-  {{ partial "cal/dayjs.html" . }}
-{{ end }}
-
-<!-- only load FullCal scripts on calendar grid and festival pages; not needed on list, single ride, or edit pages -->
-{{ if or (eq .Type "calgrid") (eq .Type "calfestival") (eq .Type "pp-theme-cal") }}
-  <script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
-  <script src="{{ absURL "lib/fullcalendar/daygrid/main.min.js" }}"></script>
-  <script src="{{ absURL "lib/fullcalendar/timegrid/main.min.js" }}"></script>
-{{ end }}
-
-<!-- load on all cal pages -->
 <script type="text/javascript">
   function parseURL() {
     var urlParams = {};
@@ -65,6 +45,55 @@
     return urlParams;
   }
 </script>
+
+<!-- load on list, single ride, edit, and festival pages; not needed for grid view page -->
+{{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") }}
+  {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
+  <script src="{{ $jsCalHelpers.Permalink }}"></script>
+  {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
+  <script src="{{ $jsCalMain.Permalink }}"></script>
+
+  <script src="{{ absURL "lib/mustache/mustache.min.js" }}"></script>
+
+  {{ partial "cal/dayjs.html" . }}
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var params = parseURL();
+
+      if ('eventId' in params) {
+        // view single event
+        viewEvent(params['eventId']);
+
+      } else if ('editId' in params) {
+        // edit specific event
+        var eventid = params["editId"];
+        var secret = params["editSecret"];
+        viewAddEventForm(eventid, secret);
+
+      } else if (window.cal_renderpage == "addevent") {
+        // show blank form to add new event
+        viewAddEventForm();
+      } else {
+        // view list of events
+        if ({{ .Param "pp" }}) {
+          params["pp"] = {{ .Param "pp" }};
+          params["startdate"] = {{ .Param "startdate" }};
+          params["enddate"] = {{ .Param "enddate" }};
+        }
+
+        viewEvents(params);
+      }
+    });
+  </script>
+{{ end }}
+
+<!-- load FullCal scripts on calendar grid and festival pages only; not needed on list, single ride, or edit pages -->
+{{ if or (eq .Type "calgrid") (eq .Type "calfestival") (eq .Type "pp-theme-cal") }}
+  <script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
+  <script src="{{ absURL "lib/fullcalendar/daygrid/main.min.js" }}"></script>
+  <script src="{{ absURL "lib/fullcalendar/timegrid/main.min.js" }}"></script>
+{{ end }}
 
 <!-- only render grid view for festival pages, 2008 or later -->
 {{ if and (eq .Type "calfestival") (ge .Params.year 2008) }}

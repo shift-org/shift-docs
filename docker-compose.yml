@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 
 volumes:
   # used by the db container to store mysql content
@@ -8,7 +8,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.26.2
+    image: nginx:1.26.3
     restart: always
     volumes:
       # DEV SITE:
