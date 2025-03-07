@@ -62,7 +62,7 @@ const config = {
     }, {
       // ex. http://localhost:3080/events/201
       // loads http://localhost:3080/events/index.html
-      url: "/events/:caldaily_id/:slug?",
+      url: "/events/:series_id/:caldaily_id/:slug?",
       filePath: path.posix.resolve(staticFiles, 'events', 'index.html')
     }],
   },

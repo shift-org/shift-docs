@@ -32,10 +32,10 @@ const router = createRouter({
     }, 
     { 
       name: 'EventDetails', 
-      // caldaily_id only match numbers
+      // series and caldaily can match numbers
       // ( this prevents conflicts with other sub-event pages )
       // slug is optional
-      path: '/events/:caldaily_id(\\d+)/:slug?', 
+      path: '/events/:series_id(\\d+)/:caldaily_id(\\d+)/:slug?', 
       component: EventDetails 
     },
   ],

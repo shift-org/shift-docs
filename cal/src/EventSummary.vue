@@ -38,6 +38,7 @@ export default {
         // the ':caldaily_id' in that route description
         // ( which becomes pieces of the url's path )
         params: {
+          series_id: evt.id,
           caldaily_id: evt.caldaily_id,
           slug: helpers.slugify(evt)
         }

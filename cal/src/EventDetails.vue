@@ -31,7 +31,7 @@ export default {
   // ( doesnt have access to `this` )
   beforeRouteEnter(to, from, next) {
     // fetch the requested caldaily 
-    const { caldaily_id, slug } = to.params;
+    const { series_id, caldaily_id, slug } = to.params;
     console.log(`EventDetails beforeRouteEnter id: ${caldaily_id} slug: ${slug}`);
     return dataPool.getDaily(caldaily_id).then((evt) => {
       // validate/update the slug:
@@ -42,6 +42,7 @@ export default {
         next({
           name: to.name,
           params: {
+            series_id,
             caldaily_id,
             slug: wantSlug,
           }
