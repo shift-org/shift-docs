@@ -20,21 +20,20 @@ export default {
     next(vm => {
       // access to component public instance via `vm`
       // vm.lastEvent = lastEvent;
-      vm.updateSearch();
+      vm.updateSearch(to.query);
     });
   },
   // triggered when naving left/right through weeks.
   beforeRouteUpdate(to, from) { 
-    if (to.query.start !== from.query.start) {
-      console.log(`CalSearch beforeRouteUpdate ${to.fullPath}, ${from.fullPath}`);
-      return this.updateSearch(to.query.start);
+    console.log(`CalSearch beforeRouteUpdate to:${to.fullPath}, from: ${from.fullPath}`);
+    if (to.query.q !== from.query.q) {
+      return this.updateSearch(to.query);
     }
   },
   data() {
     return { 
       // an array of search results ( joined calevent + caldaily records )
       events: [],
-      lastEvent: null,
     };
   },
   computed: {
@@ -47,8 +46,7 @@ export default {
   },
   methods: {
     // emits the 'pageLoaded' event when done.
-    updateSearch() {
-      const { q, offset } = this;
+    updateSearch({q, offset}) {
       return fetchSearch(q, offset).then((page) => {
         const { events } = page.data;
         this.events = events;
@@ -68,7 +66,6 @@ export default {
   <EventSummary 
       v-for="evt in events" :key="evt.caldaily_id" 
       :evt="evt" 
-      :focused="lastEvent === evt.caldaily_id" 
       :showDate="true"/>
 </template>
 <style>
