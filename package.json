@@ -4,28 +4,44 @@
   "type": "module",
   "dependencies": {
     "concurrently": "^8.2.2",
-    "hugo-installer": "^4.0.1",
     "env-cmd": "^10.1.0",
-    "exec-bin": "^1.0.0"
+    "exec-bin": "^1.0.0",
+    "hugo-installer": "^4.0.1"
   },
   "workspaces": [
     "app",
+    "cal",
     "tools"
   ],
   "scripts": {
     "start": "npm -w app start",
     "prestart": "npm i --omit dev --audit false --fund false --ignore-scripts",
+    
     "dev": "concurrently -k \"npm:dev-*\"",
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
-   	"dev-app": "env-cmd -f tools/dev.env npm start -w app",
+    "dev-app": "env-cmd -f tools/dev.env npm -w app start",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -e development -d ../bin/dist",
-    "build": "npm run build-hugo",
+    "dev-cal": "env-cmd -f tools/dev.env npm -w cal run dev",
+    
+    "build": "concurrently  --max-processes 1 -k \"npm:build-*\"",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
-    "postinstall": "hugo-installer --version 0.128.2",
-    "test": "npm run test -w app",
-    "preview": "concurrently -k \"npm:dev-*\"",
-    "preview-hugo": "npm run dev-hugo",
-    "preview-app": " npm -w tools run preview"
+    "build-vite": "npm -w cal run build",
 
+    "predeploy": "npm i --workspaces=false && npm i -w cal",
+    "deploy": "concurrently --max-processes 1 -P 'npm:deploy:hugo -- {@}' 'npm:deploy:vite' --",
+    "deploy:hugo": "exec-bin bin/hugo/hugo -s site",
+    "deploy:vite": "npm -w cal run deploy",
+    "postdeploy": "cp site/public/404/index.html site/public/404.html",
+    
+    "postinstall": "hugo-installer --version 0.128.2",
+    "test": "npm -w app run test",
+
+    "preview": "concurrently --kill-others-on-fail \"npm:preview-*\"",
+    "preview-hugo": "npm run dev-hugo",
+    "preview-cal": "npm -w cal run build",
+    "preview-app": " npm -w tools run preview"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^3.0.3"
   }
 }

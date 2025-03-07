@@ -2,37 +2,64 @@
 // ex. npm run -w tools preview
 const express = require('express');
 const path = require('path');
-
-// for these, javascript on the static page parses the url and sends backend requests.
-// ngnix does this remapping when running docker locally;
-// in production, its handled by netlify.
-function splat(app, url, filePath) {
-  app.get(url, function (req, res, next) {
-    const parts = JSON.stringify(req.params);
-    console.debug(`remapping ${url} with ${parts}`);
-    res.sendFile(filePath);
-  });
-}
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // fix? might be cool to make this express "middleware"
 const facade = {
   // uses config for the source of the static files
   // you can use "hugo --watch" to rebuild changes on demand.
-  serveFrontEnd(app, config) {
-    if (!config.site.staticFiles) {
+  serveWebContent(app, config) {
+    const { staticFiles } = config.site;
+    if (!staticFiles) {
       throw new Error("missing static files path");
     }
-    const staticFiles = path.resolve(config.appPath, config.site.staticFiles);
     console.log("serving static files from", staticFiles);
     app.use(express.static(staticFiles));
 
-    // ex. http://localhost:3080/addevent/edit-1-d00c888b0a1d4bab8107ba2fbe2beddf
-    splat(app,"/addevent/edit-:id-:secret",
-      path.posix.join(staticFiles, 'addevent', 'index.html'));
+    // remap any path under a url to a specific html pages. 
+    // in production, this is done by netlify.
+    // running locally with docker, this is done by nginx.
+    // this handles local node development via "npm run dev"
+    config.site.devEndpoints.forEach(item => {
+      const { url, filePath } = item;
+      // when someone gets the url
+      app.get(url, function (req, res, next) {
+        // log url parts for debugging
+        const parts = JSON.stringify(req.params);
+        console.debug(`remapping ${url} with ${parts} to ${filePath}`);
+        // and always return the specified file
+        res.sendFile(filePath);
+      });
+    });
+  },
 
-    // ex. http://localhost:3080/calendar/event-201
-    splat(app,"/calendar/event-:id",
-      path.posix.join(staticFiles, 'calendar/event', 'index.html'));
+  // in production, netlify uses vite to build the frontend app
+  // into a single set of files embedded into events/index.html
+  // in development, vite runs a server to watch for source code changes
+  // our webpage can only talk to one server, so we make it talk to node
+  // and have node -- here -- send "events" requests to vite.
+  serveVite(app, config) {
+    const events = createProxyMiddleware({
+      logger: console,
+      target: 'http://localhost:5173/events/',
+      changeOrigin: true,
+      ws: true 
+    });
+    app.use('/events', events);
+    const etc = createProxyMiddleware({
+      logger: console,
+      target: 'http://localhost:5173/',
+      pathFilter: [
+        '/@*/**', // ex. @vite/client
+        '/src/**', 
+        '/node_modules/**',
+        // the proxy code uses micromatch, https://www.npmjs.com/package/micromatch and it doesn't allow star (*) to match dot (.) 
+        '/node_modules/.*/**',
+       ],
+      changeOrigin: true,
+      ws: true 
+    });
+    app.use('/', etc);
   },
 
   // uses config for the image directory
@@ -54,8 +81,11 @@ const facade = {
   },
 
   makeFacade(app, config) {
-    facade.serveFrontEnd(app,config);
-    facade.serveImages(app,config);
+    // serve vite first so its events path will override any events folder in dist
+    // ( ex. if previously built with npm run build )
+    facade.serveVite(app, config);
+    facade.serveWebContent(app, config);
+    facade.serveImages(app, config);
   }
 };
 
