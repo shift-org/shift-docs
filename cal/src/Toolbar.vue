@@ -1,81 +1,40 @@
+<!-- 
+  Provides common user actions that appear at the top of each page
+ -->
 <script>
 //
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
-import ToolDetails from './ToolDetails.vue'
+import JumpTool from './tool/JumpTool.vue'
+import SearchTool from './tool/SearchTool.vue'
 //
-import dayjs from 'dayjs'
 import icons from './icons.js'
 
-// the toolbar contains search, jump to date, and maybe list/grid toggle
-// or a jump to old view.
-// note: <dialog> is cool -- but it overlays the contents rather than reflows.
 export default {
-components: { FontAwesomeIcon, ToolDetails },
-props: {
-  // a dict with a single member: 'tool',
-  // set to the name of the tool to show.
-  // ( this allow the expanded object to be shared
-  //   and the name of the tool to be poked into it; read elsewhere. )
-  expanded: Object,    
-},
-computed: {
-  menuIcon() {
-    return icons.menu;
-  }
-},
-data() {
-    const self = this; // pin our component for the tool callbacks
-    return {
-      // not expanded by default; can set to one of the tools for testing
-      // can set to one of the tools for testing, ex. "search"
-      tools: [{
-        name: "search",
-        button: "Search",
-        attrs: {
-          type: "text",
-          placeholder: "Search for events...",
-        },
-        runTool(inputText) {
-          if (inputText) {
-            console.log(`searching for ${inputText}`);
-            // call toggle to collapse the bar before navigating away
-            self.toggle().then(() => {
-              self.$router.push({
-                name: 'search', query: { 
-                  q: inputText, 
-                  // expanded: 'search',
-                }
-              });
-            });
-          }
-        }
-      },{
-        name: "jump",
-        button: "Jump to date",
-        label: "Enter date: ",
-        attrs: {
-          // browsers automatically provide calendar pickers for 'date' type input.
-          type: "date",
-          min: "2008-01-01",
-          // placeholder?
-        },
-        runTool(inputText) {
-          // if the user doesn't select anything the inputText is blank
-          // and the day invalid; take no action when that happens.
-          const startDate = dayjs(inputText);
-          if (startDate.isValid()) {
-            const start = startDate.format("YYYY-MM-DD");
-            console.log("jump start date", start);
-            // call toggle to collapse the bar before navigating away
-            self.toggle().then(() => {
-              const today = dayjs().format("YYYY-MM-DD");
-              const query = (today === start) ? {}  : { start };
-              self.$router.push({name: 'calendar', query});
-            });
-          }
-        }
-      }]
+  components: { FontAwesomeIcon, JumpTool, SearchTool },
+  props: {
+    // a dict with a single member: 'tool',
+    // set to the name of the tool to show.
+    // ( this allow the expanded object to be shared
+    //   and the name of the tool to be poked into it; read elsewhere. )
+    expanded: Object,    
+  },
+  computed: {
+    menuIcon() {
+      return icons.menu;
+    },
+    currentTool() {
+      return this.expanded.tool;
     }
+  },
+  data() {
+    return {
+      // name of tool and label
+      tools: {
+        search: "Search",
+        jump: "Jump To Date",
+        pedalp: "Pedalpalooza"
+      }
+    };
   },
   methods: {
     toggle(name) {
@@ -89,31 +48,37 @@ data() {
       }
       return this.$router.replace({query: q});
     },
+    changeRoute(target) {
+      // call toggle to collapse the bar before navigating away
+      this.toggle().then(() => {
+        this.$router.push(target);
+      });
+    }
   }
 }
 </script>
 
 <template>
   <div class="c-toolbar">
-  <slot></slot>
-    <button v-for="tool in tools" :key="tool.name" 
-      class="c-tool"
-     :class="{'c-tool--active': tool.name === expanded.tool}"
-      @click="toggle(tool.name)">{{tool.button}}</button>
+    <slot></slot>
+    <button v-for="(label, tool) in tools" :key="tool" 
+    class="c-tool"
+    :class="{'c-tool--active': tool === currentTool}"
+    @click="toggle(tool)">{{label}}</button>
     <button 
-      class="c-tool c-tool__menu" 
-     :class="{'c-tool--active': 'menu' === expanded.tool}"
+    class="c-tool c-tool__menu" 
+    :class="{'c-tool--active': 'menu' === currentTool}"
     @click="toggle('menu')">
     <FontAwesomeIcon class="c-toolbar__icon" :icon="menuIcon"/>
   </button>
-  </div>
-  <div class="c-button-details">
-  <template v-for="tool in tools" :key="tool.name">
-    <ToolDetails class="c-tool__details" :tool="tool" v-if="expanded.tool == tool.name"></ToolDetails>
-  </template>
-  </div>
+</div>
+<!--  -->
+<SearchTool class="c-tool__details" v-if="currentTool == 'search'"  @changeRoute="changeRoute" />
+<!--  -->
+<JumpTool class="c-tool__details" v-else-if="currentTool == 'jump'"  @changeRoute="changeRoute" />
+<!--  -->
+<template class="c-tool__details" v-else-if="currentTool == 'pedalp'" />
 </template>
-
 <style>
 .c-toolbar {
   display: flex;
@@ -147,9 +112,6 @@ data() {
   display: flex;
   justify-content: center;
   gap:  0.5em;
-  font-size: 16px;
-}
-#search-tool {
   font-size: 16px;
 }
 </style>
