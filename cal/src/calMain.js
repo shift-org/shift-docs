@@ -11,6 +11,7 @@ import CalMain from './CalMain.vue'
 // the sub pages ( display inside of CalMain )
 import CalList from './CalList.vue'
 import CalSearch from './CalSearch.vue'
+import CalFavorites from './CalFavorites.vue'
 import EventDetails from './EventDetails.vue'
 // import Empty from './Empty.vue'
 
@@ -29,6 +30,12 @@ const router = createRouter({
       name: "search",  
       path: "/events/search", 
       component: CalSearch,
+    }, 
+    { 
+      // search gets a query containing q="what to search"
+      name: "favorites",  
+      path: "/events/favorites", 
+      component: CalFavorites,
     }, 
     { 
       name: 'EventDetails', 

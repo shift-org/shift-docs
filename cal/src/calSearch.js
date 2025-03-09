@@ -2,7 +2,7 @@
  *  support functions for CalList.vue
  */
 import dayjs from 'dayjs'
-import dataPool from './dataPool.js'
+import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
 // FIX: handle errors?
@@ -38,35 +38,23 @@ function buildPage(q, offset, res) {
 // ---------------------------------------------------------------------
 // TODO: allow 'prev' / 'next' to be disabled based on offset/count
 function buildShortcuts() {
-  return [{
-    id: "prev",
-    label: "Earlier",
-    disabled: true,
-    nav(router) {
-      // shiftRange(router, start, -1);
+  function disabled() {
+    return {
+      enabled: false,
     }
-  },{
-    id: "next",
-    label: "Later",
-    disabled: true,
-    nav(router) {
-      // shiftRange(router, start, 1);
-    }
-  },{
-    id: "addevent",
-    label: "Add",
-    url:"/addevent/"
-  },{
-    id: "info",
-    label: "Info",
-    url: "/pages/mission_statement/"
-  },{
-    id: "donate",
-    label: "Donate",
-    url: "/pages/donate"
-  },{
-    id: "favorite",
-    label: "Favorites"
-    // TODO: router navigate
-  }]
+  }
+  return {
+    prev: disabled,
+    next: disabled,
+    addevent: "/addevent/",
+    info: "/pages/mission_statement/",
+    donate: "/pages/donate",
+    favorites(vm) {
+      return {
+        click() {
+          vm.$router.push({name: 'favorites'}); 
+        },
+      };
+    } 
+  };
 }

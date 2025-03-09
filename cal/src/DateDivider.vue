@@ -1,5 +1,6 @@
 <script>
 import dayjs from 'dayjs'
+import format from './support/format.js'
 
 export default {
   props: {
@@ -8,22 +9,7 @@ export default {
   computed: {
     // the 'date' in words
     longDate() {
-      const date = dayjs(this.date);
-      const now = dayjs();
-      let format;
-      if (date.year() !== now.year()) {
-        // Wed, January 22, 2025
-        format = 'MMMM D, YYYY (ddd)';
-      } else if (!date.isSame(now, 'month')) {
-        // Wed, January 22
-        format  = 'dddd, MMMM Do';
-      } else if (!date.isSame(now, 'day')) {
-        // Wed, Jan 22
-        format  = 'dddd, MMM Do';
-      } else {
-        format = '[Today] — ddd, MMM Do'
-      }
-      return date.format(format);
+      return format.longDate(dayjs(this.date));
     }
   }
 }

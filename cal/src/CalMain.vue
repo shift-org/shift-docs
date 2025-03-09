@@ -6,14 +6,14 @@ import Banner from './Banner.vue'
 import GenericError from './GenericError.vue'
 import Menu from './Menu.vue'
 import Meta from './Meta.vue'
-import QuickNav from './QuickNav.vue'
+import Shortcuts from './Shortcuts.vue'
 import { RouterLink, RouterView } from 'vue-router'
 import Toolbar from './Toolbar.vue'
 // support:
 import siteConfig from './siteConfig.js'
 
 export default {
-  components: { Banner, GenericError, Menu, Meta, QuickNav, RouterView, Toolbar },
+  components: { Banner, GenericError, Menu, Meta, Shortcuts, RouterView, Toolbar },
   mounted() {
     // listen to all router changes
     // because this.mounted() happens before the initial route is determined
@@ -53,8 +53,8 @@ export default {
     fullTitle() {
       return this.page.title || siteConfig.title;
     },
-    bannerImage() {
-      return this.page.banner?.image;
+    currentBanner() {
+      return !this.error ? this.page.banner : siteConfig.defaultListBanner;
     },
   },
   methods: {
@@ -87,11 +87,10 @@ export default {
   <Meta property="og:type" content="website" />
   <Meta property="og:title" :content="page.title" />
   <Meta property="og:description" :content="page.desc" />
-  <Meta property="og:image" :content="bannerImage" />
   <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
   sites can't pick between them based on size -->
   <!--  -->
-    <Banner :banner="page.banner" :loading/>
+    <Banner :banner="currentBanner" :loading/>
     <Toolbar :expanded="expanded">
         <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>
     </Toolbar>
@@ -114,7 +113,7 @@ export default {
     </div>
   </div>
   </section>
-  <QuickNav :shortcuts="shortcuts"></QuickNav>
+  <Shortcuts :shortcuts="shortcuts"></Shortcuts>
 </template>
 <!-- 
 -->

@@ -1,12 +1,35 @@
 Cal Single Page App Status 
 ============
 
+* Change "AllEvents into a button; show it on every page
+* reduce "Jump to Date" to "Jump" or "Goto"
+* try the date divider as a header "Favorites" and "Search" 
+* fix the menu display -- try as tabs
+* add pedalp info
+
+### Favorites
+
+[ ] sorting: time when favorited, event date;
+    maybe those could be new buttons under the top bar of buttons on a new row.
+[ ] filtering: show all, show future
+[ ] an empty page should provide information about favoriting
+[ ] pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
+[ ] a disclaimer about opening each one to see the latest information. * could maybe replace the current disclaimer? )
+[ ] TODO: some sort of animation / popup when when favorite status changes
+    -- maybe like some little ghost text that say "saved!" "removed!" and fades out -- hovers about the shortcut; but doesn't harm the layout --
+    position relative or something.
+
+[ ] handle errors on writing to local store; and simulate test it.
+[ ] show a count of favorites over the icon?
+[ ] show favored items on the cal list somehow?
+[ ] future: server helper to quick update favorite status
+
 ##  Tasks:
 
-* add a pedalp button to the toolbar when pedalp is near
--- add some content to this, maybe from hugo if possible.
+* try an on-press popup, maybe covering the full scrolling view, for shortcut buttons. 
+* export testing; maybe isn't working on the site? or in preview? or something?
+* record all todos, tbds,s fixmes, etc.
 
-* TDOO: styles for expanded menus. what should this look like? ( maybe it could be like tab pages. )
 * test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
 
 * include this change: https://github.com/shift-org/shift-docs/pull/866
@@ -14,24 +37,19 @@ Cal Single Page App Status
 
 * are events earlier in the day than "now" are missing? ( seems to be working -- but could it scroll to "now" by default. )
 
+* consider replacing "id" and "caldaily_id" with "seriesId" and "singleId" on fetch.
 
 ### Search
 * expand search with max / offset
 
 * TBD: search returns each caldaily; would it make more sense to have a new view that's a ride/series; and then on that page show all the times. ( and/ or group all the instances of that on the page )
 
-### Favorites
-1. refactor shortcuts:
-// if the buttons are always the same, maybe "buildPage" should only return what's different
-// ex. the next/prev functions; and if they are missing, then they appear disabled.
-
-
 ### Styles 
+* reduce the size of the shift logo ( ex. could it be a background image so that the gear can be behind/overlapping the button row )
+* tbd: better header to indicate which subview ( favorites, search, etc. )
 * too much space at top in chrome. http://localhost:3080/events/20691/breakfast-on-the-bridges
 * should have a max width or something for desktop on details page
-* "All Events" button doesnt look great
-  - maybe the row should be a non wrpping flex box, then the words can wrap in their box when needed.
-
+* how does it look if someone has their font size increased or decreased?
 * TBD: should whole summary be clickable ( safety would only be clickable on details then )
 * setup aria tags and info
 * TBD: should the 'shift' logo link to anywhere? ( and what about when it shifts to pedalp )

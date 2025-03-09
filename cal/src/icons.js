@@ -20,6 +20,7 @@ import {
   faMountain,
   faPersonBiking,
   faShare,
+  faStar as faStarSolid,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -27,7 +28,8 @@ import {
   faCalendarPlus,
   faClock,
   faComment,
-  faStar, 
+  faStar as faStarRegular,
+  faStarHalfStroke,
 } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -50,11 +52,13 @@ library.add(
   faMountain,
   faPersonBiking,
   faShare,
-  faStar, 
+  faStarHalfStroke,
+  faStarRegular,
+  faStarSolid, 
   faUser,
 );
 
-export default {
+const icons = {
   addevent: "fa-solid fa-person-biking",
   adultsOnly: "fa-solid fa-circle-plus",
   cancelled: "fa-solid fa-circle-xmark",
@@ -62,7 +66,9 @@ export default {
   export:  "fa-regular fa-calendar-plus",
   externalLink: "fa-solid fa-arrow-up-right-from-square",
   familyFriendly: "fa-solid fa-child-reaching",
-  favorite: "fa-regular fa-star",
+  favorites: "fa-regular fa-star-half-stroke",
+  favoriteYes: "fa-solid fa-star", // filled
+  favoriteNo: "fa-regular fa-star",  // unfilled
   info: "fa-solid fa-info",
   location: "fa-solid fa-location-dot",
   loop: "fa-solid fa-arrows-rotate",
@@ -76,4 +82,10 @@ export default {
   time: "fa-regular fa-clock",
   timedetails: "fa-regular fa-comment",
   westside: "fa-solid fa-mountain",
+}
+
+export default {
+  get(name) {
+    return icons[name]; // log if missing?
+  }
 }

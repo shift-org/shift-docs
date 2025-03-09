@@ -38,7 +38,7 @@ export default {
           target="_blank" rel="noopener nofollow external"
           ><FontAwesomeIcon 
             class="c-tag__link" 
-            :icon="icons.externalLink"
+            :icon="icons.get('externalLink')"
             /></a>
         </li>
     </template>

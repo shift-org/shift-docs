@@ -12,12 +12,13 @@ import Term from './CalTerm.vue'
 // support:
 import calTags from './calTags.js'
 import helpers from './calHelpers.js'
+import format from './support/format.js'
 
 export default {
   props: {
     evt: Object,
-    focused: Boolean, // true for a summary that should scrollIntoView.
-    showDate: Boolean // true if the summary should show the complete date.
+    focused: Boolean, // the summary should scrollIntoView.
+    showDate: Boolean // the summary should show the complete date.
   },
   mounted() {
     if (this.focused) {
@@ -45,9 +46,10 @@ export default {
       };
     },
     timeRange() {
-      const { evt, showDate } = this;
-      const prefix = showDate ? dayjs(evt.date).format("dddd, MMMM D, YYYY. ") : "";
-      return prefix + helpers.getTimeRange(evt);
+      return helpers.getTimeRange(this.evt);
+    },
+    longDate() {
+      return format.longDate(dayjs(this.evt.date));
     },
     tags() {
       return calTags.buildEventTags(this.evt);
@@ -66,7 +68,10 @@ export default {
     <RouterLink :to="eventDetailsLink">{{ evt.title }}</RouterLink>
   </EventHeader>
   <dl class="c-terms c-event__terms">
-    <Term id="time" label="Time" :text="timeRange"/>
+    <Term id="time" label="Time">
+       <span v-if="showDate">{{longDate}}</span>
+       <div :class="showDate? 'c-time__range--indent': 'c-time__range--inline'">{{timeRange}}</div>
+    </Term>
     <Term id="news" label="Newsflash"  :text="evt.newsflash"/>
     <Term id="location" label="Location">
       <LocationLink :evt="evt"></LocationLink>
@@ -100,4 +105,15 @@ export default {
     text-decoration: line-through;
   }
 }
+/** 
+ * handle indenting when there's a full date displayed, 
+ * or displaying inline when there's not
+ */
+.c-time__range--inline {
+  display: inline;
+}
+.c-time__range--indent {
+  margin-left: 28px;
+}
+
 </style>

@@ -2,9 +2,11 @@
  *  support functions for EventDetails.vue
  */
 import dayjs from 'dayjs'
-import dataPool from './dataPool.js'
+import dataPool from './support/dataPool.js'
 import helpers from './calHelpers.js'
+import icons from './icons.js';
 import siteConfig from './siteConfig.js'
+import favorites from './support/favorites.js'
 
 export function buildPage(evt, calStart, fullPath) {
   const title = `${(evt.tinytitle || evt.title)} - Calendar - ${siteConfig.title}`;
@@ -28,8 +30,59 @@ export function buildPage(evt, calStart, fullPath) {
   }; 
 }
 
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------
 // internal
+// --------------------------------------------------------------------
+
+// -----------------------------------------------------------------------
+// for the bottom click panel:
+function buildShortcuts(evt, fullPath) {
+  return {
+    prev(vm) {
+      return { 
+        click() {
+          shiftEvent(vm.$router, evt, -1)
+        }
+      };
+    },
+    next(vm) {
+      return { 
+        click() {
+          shiftEvent(vm.$router, evt, 1)
+        }
+      };
+    },
+    addevent: "/addevent/",
+    // TBD: shouldn't this be a single day export not all of them?
+    export: `/api/ics.php?id=${evt.id}`,
+    share: fullPath, 
+    favorite(vm) {
+      const whichIcon = {
+        true: icons.get('favoriteYes'), 
+        false: icons.get('favoriteNo')
+      };
+      // the default state;
+      let favored = favorites.favored(evt);
+      return {
+        // the default icon
+        icon: whichIcon[favored],
+        // when the user clicks:
+        click() {
+          // every click toggles:
+          favored = !favored;
+          if (favored) {
+            favorites.add(evt);
+          } else {
+            favorites.remove(evt);
+          }
+          // change the displayed icon
+          vm.icon = whichIcon[favored];
+        }
+      };
+    }
+  };
+}
+
 // -----------------------------------------------------------------------
 // shift today left (-1) or right (1) by a single day.
 // currently, this queries a week of data to figure out what's before/after.
@@ -98,49 +151,4 @@ function returnLink(calStart) {
       start,
     }
   };
-};
-
-// -----------------------------------------------------------------------
-// for the bottom nav panel:
-function buildShortcuts(evt, fullPath) {
-  return [{
-    id: "prev",
-    label: "Previous",
-    nav(router) {
-      shiftEvent(router, evt, -1);
-    }
-  },{
-    id: "next",
-    label: "Next",
-    nav(router) {
-      shiftEvent(router, evt, 1);
-    }
-  },{
-    id: "addevent",
-    label: "Add",
-    url:"/addevent/"
-  },{
-    id: "export",
-    label: "Export",
-    // FIX: neither this nor the calendar version works
-    // also... shouldn't this be a single day export not all of them?
-    url: `/api/ics.php?id=${evt.id}`
-  },{
-    // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share
-    // activate the sharing api?
-    // const shareData = {
-    //   title: "MDN",
-    //   text: "Learn web development on MDN!",
-    //   url: "https://developer.mozilla.org",
-    // };
-    id: "share",
-    label: "Share",
-    url: fullPath,
-    attrs: {
-      rel: "bookmark"
-    }
-  },{
-    id: "favorite",
-    label: "Favorites"
-  }];
 }

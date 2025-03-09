@@ -9,7 +9,7 @@ class Tag {
     this.key = key;
     this.text = text;
     this.desc = desc || text; // TODO: where does text appear
-    this.icon = icon || icons[text.toLowerCase()];
+    this.icon = icon || icons.get(text.toLowerCase());
   }
 }
 
@@ -47,12 +47,12 @@ const Audiences = arrayToObject(
   new Tag(
     'F', 'Family Friendly',
     'Adults bring children',
-    icons.familyFriendly
+    icons.get('familyFriendly')
   ),
   new Tag(
     'A', '21+ Only', 
     'Adults only',
-    icons.adultsOnly
+    icons.get('adultsOnly')
   )
 );
 
@@ -68,7 +68,7 @@ export default {
       tags.cancelled = {
         short: 'cancelled',
         text: 'Cancelled',
-        icon: icons.cancelled
+        icon: icons.get('cancelled')
       };
     } else {
       if (u.key !== DEFAULT_AUDIENCE) {
@@ -89,7 +89,7 @@ export default {
         tags.safety = {
           short: evt.safetyplan ? "yes" : "no",
           text: evt.safetyplan ? "Safety Plan" : "No COVID plan",
-          icon: icons.safetyPlan,
+          icon: icons.get('safetyPlan'),
           link: "/pages/public-health/#safety-plan"
         };
       }

@@ -2,10 +2,7 @@
  * the intention of data pool is to provide a cache to avoid multiple browser requests
  * but maybe the browser can handle that well enough itself
  */
-// globals:
 import dayjs from 'dayjs'
-// support:
-import siteConfig from './siteConfig.js'
 
 const API_VERSION = '3';
 const API_BASE_URL = window.location.origin;
@@ -38,11 +35,11 @@ export default {
   // caldaily_id as a string
   // returns a single event blob
   // can throw an error.
-  async getDaily(caldaily_id) {
+  async getDaily(caldaily_id, options = null) {
     const cached = caldaily_map.get(caldaily_id);
     if (cached) {
       return cached;
-    } else {
+    } else if (!options || options.fetch === false) {
       // grab one event:
       const url = buildUrl(API_EVENTS_URL, {id: caldaily_id});
       const resp = await fetch(url);  // fetch is built-in browser api
@@ -95,13 +92,13 @@ export default {
 // change dates into dayjs; and sort.
 function mungeEvents(events) {
   events.forEach((evt, i) => {
-        events[i].datetime = dayjs(`${evt.date}T${evt.time}`);
-        caldaily_map.set(evt.caldaily_id, evt);
+    events[i].datetime = dayjs(`${evt.date}T${evt.time}`);
+    caldaily_map.set(evt.caldaily_id, evt);
   });
   // ( FIX: order the times on the server )
   events.sort((a, b) => 
-      a.datetime.isBefore(b.datetime) ? -1 : 
-      a.datetime.isAfter(b.datetime) ? 1 : 0); 
+    a.datetime.isBefore(b.datetime) ? -1 : 
+    a.datetime.isAfter(b.datetime) ? 1 : 0); 
 }
 
 function buildUrl(endpoint, pairs) {

@@ -15,7 +15,7 @@ import Term from './CalTerm.vue'
 // helpers
 import { buildPage } from './eventDetails.js'
 import calTags from './calTags.js'
-import dataPool from './dataPool.js'
+import dataPool from './support/dataPool.js'
 import helpers from './calHelpers.js'
 
 function formatTime(t) {

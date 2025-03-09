@@ -2,7 +2,7 @@
  *  support functions for CalList.vue
  */
 import dayjs from 'dayjs'
-import dataPool from './dataPool.js'
+import dataPool from './support/dataPool.js'
 import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
@@ -70,38 +70,35 @@ function pickBanner(start) {
 
 // ---------------------------------------------------------------------
 function buildShortcuts(start) {
-  return [{
-    id: "prev",
-    label: "Earlier",
-    nav(router) {
-      // TBD: could maybe do a thing of evaluating the previous page
-      // and unwinding rather than pushing the history in case they're
-      // using navLeft as a back-button.
-      shiftRange(router, start, -1);
+  return {
+    prev(vm) {
+      return {
+        click() {
+          // TBD: could maybe do a thing of evaluating the previous page
+          // and unwinding rather than pushing the history in case they're
+          // using navLeft as a back-button.
+          vm.$router.shiftRange(router, start, -1);
+        }
+      };
+    },
+    next(vm) {
+      return {
+        click() {
+          vm.$router.shiftRange(router, start, 1);
+        }
+      };
+    },
+    addevent:  "/addevent/",
+    info: "/pages/mission_statement/",
+    donate: "/pages/donate",
+    favorites(vm) {
+      return {
+        click() {
+          vm.$router.push({name: 'favorites'});  
+        }
+      };
     }
-  },{
-    id: "next",
-    label: "Later",
-    nav(router) {
-      shiftRange(router, start, 1);
-    }
-  },{
-    id: "addevent",
-    label: "Add",
-    url:"/addevent/"
-  },{
-    id: "info",
-    label: "Info",
-    url: "/pages/mission_statement/"
-  },{
-    id: "donate",
-    label: "Donate",
-    url: "/pages/donate"
-  },{
-    id: "favorite",
-    label: "Favorites"
-    // TODO: router navigate
-  }]
+  };  
 }
 
 // ---------------------------------------------------------------------

@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     menuIcon() {
-      return icons.menu;
+      return icons.get('menu');
     },
     currentTool() {
       return this.expanded.tool;

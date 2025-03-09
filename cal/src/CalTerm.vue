@@ -18,7 +18,7 @@ export default {
       type: String, 
       // by default uses the id
       default(rawProps) {
-        return icons[rawProps.id];
+        return icons.get(rawProps.id);
       },
     }
   },
