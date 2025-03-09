@@ -39,21 +39,12 @@ export default  {
 </script>
 
 <template>
-  <!-- <span class="c-loc" v-if="mapLink"> -->
-    <ExternalLink v-if="mapLink" :href="mapLink" class="c-loc__link">{{mapText}}</ExternalLink>
-    <span v-else>{{mapText}}</span>
-    <div v-if="evt.locdetails" class="c-loc__details">{{ evt.locdetails }}</div>
-  <!-- </span> -->
+  <ExternalLink v-if="mapLink" :href="mapLink" class="c-loc__link">{{mapText}}</ExternalLink>
+  <span v-else>{{mapText}}</span>
+  <div v-if="evt.locdetails" class="c-loc__details">{{ evt.locdetails }}</div>
 </template>
 
 <style>
-.c-loc {
-  display: flex;
-  flex-flow: row wrap; 
-}
-.c-loc__link {
-  flex-grow: 1;
-}
 .c-loc__details {
   margin-left: 28px;
 }
