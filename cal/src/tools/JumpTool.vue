@@ -41,7 +41,7 @@ export default {
 </script>
 <template>
   <form method="dialog">
-  <InputText name="jump" label="Jump" :attrs :model />
+  <InputText name="jump" label="Jump to date" :attrs :model />
   <button @click.prevent="showToday()">Today</button>
   <button @click.prevent="jumpToDate()">Go</button>
   </form>
