@@ -20,7 +20,7 @@ export default {
   <div class="c-error">
   <div class="c-error__msg">{{errorMsg}}</div>
   <div class="c-error__home">
-    <RouterLink :to="{name:'events'}">Events Home</RouterLink>
+    <RouterLink :to="{name: 'events'}">Events Home</RouterLink>
   </div>
   </div>
 </template>
