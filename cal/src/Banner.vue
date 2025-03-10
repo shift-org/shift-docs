@@ -17,7 +17,7 @@ export default {
 <template>
   <header class="c-banner" v-if="banner">
   <Meta property="og:image" :content="banner.image" />
-  <RouterLink class="c-banner__link" :to="{name:'calendar'}">
+  <RouterLink class="c-banner__link" :to="{name:'events'}">
     <template v-if="banner.image">
       <img :alt="banner.alt" :src="banner.image" class="c-banner__image">
     </template>

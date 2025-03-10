@@ -33,7 +33,7 @@ export default {
         // call toggle to collapse the bar before navigating away
         const today = dayjs().format("YYYY-MM-DD");
         const query = (today === start) ? {}  : { start };
-        this.$emit("changeRoute",  {name: 'calendar', query});
+        this.$emit("changeRoute",  {name: 'events', query});
       }
     },
   }

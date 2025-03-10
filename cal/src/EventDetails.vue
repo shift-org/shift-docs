@@ -54,7 +54,7 @@ export default {
         next(vm => {
           // record the event data
           // and remember the calendar start
-          if (from.name === 'calendar') {
+          if (from.name === 'events') {
             const q = from.query;
             if (q.start) {
               vm.calStart = q.start;

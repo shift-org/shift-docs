@@ -140,7 +140,7 @@ function returnLink(calStart) {
   const start = calStart || undefined;
   return {
     // the named route in calMain.js
-    name: 'calendar', 
+    name: 'events', 
     // remove this page from history?
     replace: true,
     // the calendar doesn't have any params

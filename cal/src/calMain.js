@@ -21,7 +21,7 @@ const router = createRouter({
   routes: [
     // paths do url matching 
     { 
-      name: "calendar",  // names are used by the templates to jump from place to place
+      name: "events",  // names are used by the templates to jump from place to place
       path: "/events/", 
       component: CalList,
     }, 
