@@ -77,14 +77,14 @@ function buildShortcuts(start) {
           // TBD: could maybe do a thing of evaluating the previous page
           // and unwinding rather than pushing the history in case they're
           // using navLeft as a back-button.
-          vm.$router.shiftRange(router, start, -1);
+          shiftRange(vm.$router, start, -1);
         }
       };
     },
     next(vm) {
       return {
         click() {
-          vm.$router.shiftRange(router, start, 1);
+          shiftRange(vm.$router, start, 1);
         }
       };
     },
