@@ -4,7 +4,6 @@ import dayjs from 'dayjs'
 // components:
 import Banner from './Banner.vue'
 import GenericError from './GenericError.vue'
-import Menu from './Menu.vue'
 import Meta from './Meta.vue'
 import Shortcuts from './Shortcuts.vue'
 import { RouterLink, RouterView } from 'vue-router'
@@ -13,7 +12,7 @@ import Toolbar from './Toolbar.vue'
 import siteConfig from './siteConfig.js'
 
 export default {
-  components: { Banner, GenericError, Menu, Meta, Shortcuts, RouterView, Toolbar },
+  components: { Banner, GenericError, Meta, Shortcuts, RouterView, Toolbar },
   mounted() {
     // listen to all router changes
     // because this.mounted() happens before the initial route is determined
@@ -87,15 +86,9 @@ export default {
   <Meta property="og:type" content="website" />
   <Meta property="og:title" :content="page.title" />
   <Meta property="og:description" :content="page.desc" />
-  <!-- note: excludes og:image:width,height; we don't know them and since we aren't providing multiple
-  sites can't pick between them based on size -->
   <!--  -->
-    <Banner :banner="currentBanner" :loading/>
-    <Toolbar :expanded="expanded">
-        <RouterLink v-if="page.returnLink" :to="page.returnLink.target" class="c-toolbar__backlink">{{page.returnLink.label}}</RouterLink>
-    </Toolbar>
-    <Menu v-if="expanded.tool === 'menu'"/>
-  
+  <Banner :banner="currentBanner" :loading/>
+  <Toolbar :returnLink="page.returnLink"/>
   <section class="c-cal-body">
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error />

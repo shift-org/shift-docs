@@ -55,7 +55,6 @@ export default {
 .c-terms {
   margin-top: 0px;
 }
-
 .c-term__key {
   /* why have the term just to hide it? good question simon. */
   display: none;
@@ -71,11 +70,6 @@ export default {
     /* removes ul indentation */
     padding-inline-start: 0px;
   }
-}
-.c-toolbar__backlink {
-  position: absolute;
-  left: 1em;
-  font-size: small;
 }
 .c-term__icon {
   padding-right: 10px;

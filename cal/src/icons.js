@@ -14,6 +14,7 @@ import {
   faCircleDollarToSlot,
   faCirclePlus,
   faCircleXmark,
+  faHouse,
   faInfo,
   faLocationDot,
   faMaskFace, 
@@ -46,6 +47,7 @@ library.add(
   faCircleXmark,
   faClock,
   faComment,
+  faHouse,
   faInfo,
   faLocationDot,
   faMaskFace, 
@@ -69,6 +71,7 @@ const icons = {
   favorites: "fa-regular fa-star-half-stroke",
   favoriteYes: "fa-solid fa-star", // filled
   favoriteNo: "fa-regular fa-star",  // unfilled
+  home: "fa-solid fa-house",
   info: "fa-solid fa-info",
   location: "fa-solid fa-location-dot",
   loop: "fa-solid fa-arrows-rotate",

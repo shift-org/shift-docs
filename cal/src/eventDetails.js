@@ -20,10 +20,7 @@ export function buildPage(evt, calStart, fullPath) {
       title,
       desc,
       banner,
-      returnLink: {
-        label: `<< All Events`,
-        target: returnLink(calStart),
-      }
+      returnLink: returnLink(calStart),
     },
     evt,
     shortcuts: buildShortcuts(evt, fullPath),
