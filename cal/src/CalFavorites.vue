@@ -35,7 +35,7 @@ export default {
 }
 </script>
 <template> 
-  Favorites!
+  <h3 class="c-divder c-divder--center">Favorites</h3>
   <EventSummary 
       v-for="(entry, key) in store" :key 
       :evt="entry.data" 

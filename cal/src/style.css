@@ -25,3 +25,14 @@ a {
     text-decoration: underline;
   }
 }
+/* based on '.date h2' in main.css */
+.c-divder {
+  background-color: #fd6;
+  color: #630;
+  border: 1px solid transparent;
+  padding: 10px;
+  margin: 5px 0;
+}
+.c-divder--center {
+  text-align: center;
+}

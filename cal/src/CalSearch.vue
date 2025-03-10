@@ -60,9 +60,9 @@ export default {
 }
 </script>
 <template> 
-  <div class="c-search__summary">
+  <h3 class="c-divder c-divder--center">
     Found {{events.length}} events containing "{{q}}".
-  </div>
+  </h3>
   <EventSummary 
       v-for="evt in events" :key="evt.caldaily_id" 
       :evt="evt" 
