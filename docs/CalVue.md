@@ -1,9 +1,6 @@
 Cal Single Page App Status 
 ============
 
-* Change "AllEvents into a button; show it on every page
-* reduce "Jump to Date" to "Jump" or "Goto"
-* try the date divider as a header "Favorites" and "Search" 
 * fix the menu display -- try as tabs
 * add pedalp info
 
