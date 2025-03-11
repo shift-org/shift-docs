@@ -25,3 +25,4 @@ app/eventimages/*
 !app/eventimages/bike-bad.tiff
 bin/
 node_modules/
+/frontend/.vscode
