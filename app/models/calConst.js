@@ -46,5 +46,9 @@ const EventsRange = Object.freeze({
   MaxDays : 100,
 });
 
+const EventSearch = Object.freeze({
+  Limit : 25,
+});
+
 //
-module.exports = { Area, Audience, DatesType, EventStatus, Review, EventsRange };
+module.exports = { Area, Audience, DatesType, EventStatus, Review, EventsRange, EventSearch};
