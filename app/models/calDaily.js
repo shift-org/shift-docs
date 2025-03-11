@@ -1,7 +1,7 @@
 const knex = require("../knex");
 const config = require("../config");
 const dt = require("../util/dateTime");
-const { EventStatus, Review } = require("./calConst");
+const { EventStatus, Review, EventSearch } = require("./calConst");
 
 // helper to add methods to a returned database object.
 const methods =  {
@@ -250,7 +250,7 @@ class CalDaily {
   }
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
-  static getEventsBySearch(firstDay, lastDay, term, searchOldEvents=false) {
+  static getEventsBySearch(firstDay, term, offset = 0, searchOldEvents=false) {
     let query = knex
         .query('caldaily')
         .join('calevent', 'caldaily.id', 'calevent.id')
@@ -277,8 +277,10 @@ class CalDaily {
         })
         .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
         .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
-        .where('eventdate', '<=', knex.toDate(lastDay))
+        // .where('eventdate', '<=', knex.toDate(lastDay))  // Removing for testing all future events search
         .orderBy('eventdate')
+        .limit(EventSearch.Limit)  // Limit the query but
+        .offset(offset)            // accept the offset from the client
         .then(function(dailies) {
           return dailies.map(at => addMethods(at));
         });
