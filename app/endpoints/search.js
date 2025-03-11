@@ -33,15 +33,16 @@ const { EventsRange } = require("../models/calConst");
 
 // the search endpoint:
 exports.get = function(req, res, next) {
-  let term = req.query.q;
+  let term = req.query.q;    // The search term
+  let offset = req.query.o;  // ?o=25 e.g.
   const searchOldEvents = (req.query.qold === "true") || (req.query.qold === "1");  // Option to search historically (TBD)
 
   if (term) {
     // Search for the given search term, starting from today
     const startDate = convert(toYMDString( new Date() ));
-    const endDate = convert(toYMDString('2025-12-31'));  // hardcoded for now until behavior is decided toYMDString( new Date() );
+    const endDate = convert(toYMDString('2025-12-31'));  // No longer used in search, just set for pagination node
 
-    return CalDaily.getEventsBySearch(startDate, endDate, term, searchOldEvents).then((dailies) => {
+    return CalDaily.getEventsBySearch(startDate, term, offset, searchOldEvents).then((dailies) => {
         return getSummaries(dailies).then((events) => {
           const pagination = getPagination(startDate, endDate, events.length);
           res.set(config.api.header, config.api.version);
@@ -52,7 +53,7 @@ exports.get = function(req, res, next) {
         });
       }).catch(next);
   } else {
-    res.textError("no such time");
+    res.textError("getEventsBySearch: no such time");
   }
 }
 
