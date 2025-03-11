@@ -83,21 +83,42 @@
 
 [[redirects]]
   from = "/cal/icalpp.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar"
   status = 200
   force = true
 
 ## the official pedalpalooza feed
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar"
   status = 200
   force = true
 
 ## the official "all events" feed.
 [[redirects]]
   from = "/cal/shift-calendar.php"
-  to = "https://api.shift2bikes.org/api/shift-calendar.php"
+  to = "https://api.shift2bikes.org/api/shift-calendar"
+  status = 200
+  force = true
+
+## 735-TODO: these because app may try to reach these endpoints at www. instead of api. - can solve with regex combining with the above?
+[[redirects]]
+  from = "/cal/icalpp"
+  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar"
+  status = 200
+  force = true
+
+## the official pedalpalooza feed
+[[redirects]]
+  from = "/cal/pedalpalooza-calendar"
+  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar"
+  status = 200
+  force = true
+
+## the official "all events" feed.
+[[redirects]]
+  from = "/cal/shift-calendar"
+  to = "https://api.shift2bikes.org/api/shift-calendar"
   status = 200
   force = true
 
@@ -121,7 +142,7 @@
   to = "/pages/pedalpalooza"
   status = 301
 
-## old bike rack webpage linked from PBoT and other offsite pages  we can't fix
+## old bike rack webpage linked from PBoT and other offsite pages we can't fix
 [[redirects]]
   from = "/wiki/shift-shop:rack-rental"
   to = "/pages/bike-racks/"

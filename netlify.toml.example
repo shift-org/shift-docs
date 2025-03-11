@@ -80,7 +80,7 @@
 
 [[redirects]]
   from = "/my/specialpath"
-  to = "https://api.primarydomain.org/api/pedalpalooza-calendar.php"
+  to = "https://api.primarydomain.org/api/pedalpalooza-calendar"
   status = 200
   force = true
 
@@ -88,7 +88,7 @@
 ## you'll probably want this somewhere on your ite!
 [[redirects]]
   from = "/allevents"
-  to = "https://api.primarydomain.org/api/shift-calendar.php"
+  to = "https://api.primarydomain.org/api/shift-calendar"
   status = 200
   force = true
 

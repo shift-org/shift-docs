@@ -3,8 +3,8 @@
  * Used by web crawlers such as search engines.
  *
  * Expects an (optional) TIME id using url query parameter; ex:
- *    https://api.shift2bikes.org/api/crawl.php?id=15229
- *    https://localhost:3080/api/crawl.php?id=1893
+ *    https://api.shift2bikes.org/api/crawl?id=15229
+ *    https://localhost:3080/api/crawl?id=1893
  *
  * See also:
  *   https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#crawling-an-event

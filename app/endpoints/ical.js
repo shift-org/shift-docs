@@ -7,10 +7,10 @@
  * 'filename' customizes the name of the generated file ( the default name is in config.js. )
  * ( the special name of "none" will not generate an attachment )
  *
- *   https://localhost:4443/api/ical.php
- *   https://localhost:4443/api/ical.php?id=998
- *   https://localhost:4443/api/ical.php?startdate=2023-05-25&enddate=2023-06-25
- *   https://localhost:4443/api/ical.php?id=13&filename=triskaidekaphobia.ics
+ *   https://localhost:4443/api/ical
+ *   https://localhost:4443/api/ical?id=998
+ *   https://localhost:4443/api/ical?startdate=2023-05-25&enddate=2023-06-25
+ *   https://localhost:4443/api/ical?id=13&filename=triskaidekaphobia.ics
  *
  * See also:
  *   AllEvents.md
@@ -112,9 +112,7 @@ function getEventData(cal, id, start, end, includeDeleted) {
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
 function respondWith(cal, res, filename, events) {
-  // note: the php sets includes utf8 in the content type but...
-  // according to  https://en.wikipedia.org/wiki/ICalendar
-  // its default utf8, and mime type should be used for anything different.
+  // according to  https://en.wikipedia.org/wiki/ICalendar its default utf8, and mime type should be used for anything different.
   res.setHeader(config.api.header, config.api.version);
   if (!filename || filename === "none") {
     res.setHeader('content-type', `text/plain`);
