@@ -76,3 +76,11 @@ All further commands executed as `ubuntu` user which is the default login we sha
 - then you should be able to `./shift up`
 
 ...and see that the node container is failing and debug from there.
+seems like maybe npm i isn't running as a node_modules directory is pretty empty and that's the last error reported (couldn't find `debug/index.js`).  To debug next week w/Simon
+
+## Todo
+
+set up:
+- ESM 
+- OS autoupdates
+- backups
