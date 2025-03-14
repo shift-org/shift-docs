@@ -15,21 +15,22 @@ export async function fetchSearch(q, offset) {
 // internal functions
 // ---------------------------------------------------------------------
 function buildPage(q, offset, res) {
+  const pageNum = Math.round(0.5 + (offset / siteConfig.searchWidth));
   return {
     page: {
-      title: `${q} - searching ${siteConfig.title}`,
+      title: `${q} - Page ${pageNum} searching ${siteConfig.title}`,
       banner: siteConfig.defaultListBanner,
       // desc
     },
     data: {
-      q, 
-      offset,
       // the number of events is the "width"
       // if offset + width >= total; there's no more results.
       events: res.events, 
       // FIX: server should return this if possible
       // ( unless it can't and then the client can count by offset.
-      total: res.total || res.events.length,
+      // total: res.total || res.events.length,
+      // 
+      pageNum,
     },
     shortcuts: buildShortcuts(q, offset, res.events.length)
   }; 
@@ -45,20 +46,20 @@ function buildShortcuts(q, offset, count) {
   }
   function shift(vm, offset) {
     vm.$router.push({query: { 
-      q, offset,
+      q, offset: offset || undefined, // when zero, hide the offset.
     }});
   }
   return {
     prev: offset > 0 ? (vm) => {
-      const next = Math.max(0, offset - count);
+      const next = Math.max(0, offset - siteConfig.searchWidth);
       return { 
         click() {
           shift(vm, next);
         }
       };
     } : disabled,
-    next: count > 0 ? (vm) => {
-      const next = offset + count;
+    next: count == siteConfig.searchWidth ? (vm) => {
+      const next = offset + siteConfig.searchWidth;
       return { 
         click() {
           shift(vm, next);
