@@ -55,7 +55,7 @@ services:
 
   node:
     restart: always
-    image: node:20.18.0-slim
+    image: node:20.18.3-slim
     # use the local logging driver for log storage and rotation
     # WARNING: doesnt work on production, reports:
     #  no logs are available with the 'local' log driver
