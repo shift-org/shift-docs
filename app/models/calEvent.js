@@ -61,6 +61,7 @@ const methods =  {
       email: (this.hideemail == 0 || includePrivate) ? this.email : null,
       phone: (this.hidephone == 0 || includePrivate) ? this.phone : null,
       contact: (this.hidecontact == 0 || includePrivate) ? this.contact : null,
+      fullcount: this.fullcount,
 
       // note: the php code puts the end time after the daily status data
       // for now, therefore this is in CalDaily
