@@ -81,6 +81,9 @@ disableKinds = ["taxonomy", "term"]
     about = "Shift is a project of <a href='https://www.umbrellapdx.org/' rel='external'>Umbrella</a>."
     copyright = "Photo credit to Eric Thornburg | Insta <a href='https://www.instagram.com/no.lens.cap/' rel='external'>@no.lens.cap</a> | eric@kd5vmo.com"
 
+    # notice used by disclaimer.html
+    disclaimer = "Shift hosts this calendar as a public service. Rides and events are posted to the Shift calendar by community members, not by Shift. Rides and events posted to the Shift calendar are not sponsored by Shift or Shift’s fiscal sponsor Umbrella."
+
     # Format dates with Go's time formatting ( used by layout/list )
     date_format = "January 2, 2006"
 
@@ -109,9 +112,9 @@ disableKinds = ["taxonomy", "term"]
 
 # allows HTML in Markdown (e.g. Pedalpalooza archive pages from 2007 and earlier)
 [markup.goldmark.renderer]
-    unsafe= true
+    unsafe = true
 
 # the outputs that hugo builds.
 [outputs]
     # add "JSON" to enable lunr.js search functionality
-    home = [ "HTML", "RSS"]
+    home = [ "HTML", "RSS" ]
