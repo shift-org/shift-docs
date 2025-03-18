@@ -17,6 +17,9 @@ dayjs.extend(customParseFormat);
 if (menu.calendar) {
   menu.about.kids["calendar-faq"] = menu.calendar.kids["calendar-faq"];
   delete menu.calendar;
+  menu.subscribe = {  
+    name: "Subscribe",
+  }
 }
 
 export default {
