@@ -1,8 +1,18 @@
 Cal Single Page App Status 
 ============
 
+* pagination
+  - change offset = 0 to be no offset
+  - Found 25 events containing "ride". 
+  -> Page 1 of 25+ events containing "ride". 
+
 * fix the menu display -- try as tabs
 * add pedalp info
+* pedalp image should show whenever it appears in the week
+
+
+[ ] pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
+
 
 ### Favorites
 
@@ -10,7 +20,7 @@ Cal Single Page App Status
     maybe those could be new buttons under the top bar of buttons on a new row.
 [ ] filtering: show all, show future
 [ ] an empty page should provide information about favoriting
-[ ] pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
+
 [ ] a disclaimer about opening each one to see the latest information. * could maybe replace the current disclaimer? )
 [ ] TODO: some sort of animation / popup when when favorite status changes
     -- maybe like some little ghost text that say "saved!" "removed!" and fades out -- hovers about the shortcut; but doesn't harm the layout --
