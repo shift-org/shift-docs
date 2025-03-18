@@ -31,21 +31,40 @@ function buildPage(q, offset, res) {
       // ( unless it can't and then the client can count by offset.
       total: res.total || res.events.length,
     },
-    shortcuts: buildShortcuts()
+    shortcuts: buildShortcuts(q, offset, res.events.length)
   }; 
 }
 
 // ---------------------------------------------------------------------
 // TODO: allow 'prev' / 'next' to be disabled based on offset/count
-function buildShortcuts() {
+function buildShortcuts(q, offset, count) {
   function disabled() {
     return {
       enabled: false,
     }
   }
+  function shift(vm, offset) {
+    vm.$router.push({query: { 
+      q, offset,
+    }});
+  }
   return {
-    prev: disabled,
-    next: disabled,
+    prev: offset > 0 ? (vm) => {
+      const next = Math.max(0, offset - count);
+      return { 
+        click() {
+          shift(vm, next);
+        }
+      };
+    } : disabled,
+    next: count > 0 ? (vm) => {
+      const next = offset + count;
+      return { 
+        click() {
+          shift(vm, next);
+        }
+      };
+    } : disabled,
     addevent: "/addevent/",
     info: "/pages/mission_statement/",
     donate: "/pages/donate",

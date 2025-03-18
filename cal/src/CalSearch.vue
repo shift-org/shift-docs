@@ -26,9 +26,7 @@ export default {
   // triggered when naving left/right through weeks.
   beforeRouteUpdate(to, from) { 
     console.log(`CalSearch beforeRouteUpdate to:${to.fullPath}, from: ${from.fullPath}`);
-    if (to.query.q !== from.query.q) {
-      return this.updateSearch(to.query);
-    }
+    return this.updateSearch(to.query);
   },
   data() {
     return { 
@@ -47,7 +45,7 @@ export default {
   methods: {
     // emits the 'pageLoaded' event when done.
     updateSearch({q, offset}) {
-      return fetchSearch(q, offset).then((page) => {
+      return fetchSearch(q, parseInt(offset || 0)).then((page) => {
         const { events } = page.data;
         this.events = events;
         this.$emit("pageLoaded", page);
