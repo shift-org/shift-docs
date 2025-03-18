@@ -9,7 +9,7 @@ year: 2006
 startdate: 2006-06-08
 enddate: 2006-06-24
 daterange: June 8–24, 2006
-banner-image: "/images/pp/pp2006-banner.png"
+banner-image: "/images/pp/pp2006-banner.gif"
 poster-image: "/images/pp/pp2006.jpg"
 
 ---

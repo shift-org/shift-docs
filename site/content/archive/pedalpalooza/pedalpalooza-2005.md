@@ -9,7 +9,7 @@ year: 2005
 startdate: 2005-06-09
 enddate: 2005-06-25
 daterange: June 9–25, 2005
-banner-image: "/images/pp/pp2005-banner.png"
+banner-image: "/images/pp/pp2005-banner.jpg"
 poster-image: "/images/pp/pp2005.jpg"
 
 ---
