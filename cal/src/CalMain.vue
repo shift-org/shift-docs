@@ -26,7 +26,6 @@ export default {
         this.loading = true;
         this.error = null;
       }
-      this.expanded.tool = to.query.expanded || false;
     });
   },
   data() {
@@ -37,12 +36,6 @@ export default {
       loading: false,
       // critical errors, if any.
       error: null,
-      // given to the Toolbar.
-      // contains the name of the expanded tool or menu.
-      // defaults to false, and is set in beforeEach ( above )
-      expanded: {
-        tool: false,
-      },
       // for the bottom nav panel:
       shortcuts: [],
     }
@@ -55,6 +48,9 @@ export default {
     currentBanner() {
       return !this.error ? this.page.banner : siteConfig.defaultListBanner;
     },
+    menuVisible() {
+      return  this.$route.query.expanded === 'menu';
+    }
   },
   methods: {
     // custom event sent by the each of the subviews 
@@ -92,7 +88,7 @@ export default {
   <section class="c-cal-body">
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error />
-  <div class="c-cal-body__content" v-show="!loading && !error">
+  <div class="c-cal-body__content" v-show="!loading && !error && !menuVisible">
     <RouterView @pageLoaded="pageLoaded"/>
   </div>
   <div class="c-footer" v-show="!loading">

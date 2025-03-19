@@ -1,18 +1,9 @@
 Cal Single Page App Status 
 ============
 
-* pagination
-  - change offset = 0 to be no offset
-  - Found 25 events containing "ride". 
-  -> Page 1 of 25+ events containing "ride". 
-
-* fix the menu display -- try as tabs
-* add pedalp info
-* pedalp image should show whenever it appears in the week
-
-
-[ ] pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
-
+* add pedalp info to pedalp menu button
+* fix: pedalp image should show whenever it appears in the week; not just first day.
+* pull shift disclaimer from data
 
 ### Favorites
 
@@ -33,27 +24,21 @@ Cal Single Page App Status
 
 ##  Tasks:
 
-* try an on-press popup, maybe covering the full scrolling view, for shortcut buttons. 
+* for shortcut buttons, try an on-press tooltip ( maybe covering the full scrolling view? )
 * export testing; maybe isn't working on the site? or in preview? or something?
 * record all todos, tbds,s fixmes, etc.
-
 * test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
-
 * include this change: https://github.com/shift-org/shift-docs/pull/866
   ( Fallback error message if events request doesn't include JSON )
-
-* are events earlier in the day than "now" are missing? ( seems to be working -- but could it scroll to "now" by default. )
-
 * consider replacing "id" and "caldaily_id" with "seriesId" and "singleId" on fetch.
 
 ### Search
-* expand search with max / offset
+* [ ] real pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
 
 * TBD: search returns each caldaily; would it make more sense to have a new view that's a ride/series; and then on that page show all the times. ( and/ or group all the instances of that on the page )
 
 ### Styles 
 * reduce the size of the shift logo ( ex. could it be a background image so that the gear can be behind/overlapping the button row )
-* tbd: better header to indicate which subview ( favorites, search, etc. )
 * too much space at top in chrome. http://localhost:3080/events/20691/breakfast-on-the-bridges
 * should have a max width or something for desktop on details page
 * how does it look if someone has their font size increased or decreased?
