@@ -87,9 +87,10 @@ export default {
 .c-event {
   border: 1px solid;
   border-radius: 20px;
-  border-color: lightgray;
+  border-color: #FFDD66;
   margin: 10px 20px;
   padding: 0px 1em;
+/*  background: #FCFAF2;*/
 }
 .c-event--featured {
   background-color: #fcfaf2;

@@ -32,6 +32,8 @@ a {
   border: 1px solid transparent;
   padding: 10px;
   margin: 5px 0;
+  font-size: large;
+  font-weight: bold;
 }
 .c-divder--center {
   text-align: center;

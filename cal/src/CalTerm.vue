@@ -66,10 +66,6 @@ export default {
 .c-term__value--tags {
   margin: 0px;
   padding: 0px;
- .c-tags  {
-    /* removes ul indentation */
-    padding-inline-start: 0px;
-  }
 }
 .c-term__icon {
   padding-right: 10px;
