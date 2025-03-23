@@ -1,16 +1,13 @@
 {{ $map := dict }}
 {{ range where (.Site.RegularPages.ByParam "year") "Type" "calfestival" }}
-  {{ $entry := dict
-      "startdate" .Params.startdate 
-      "enddate" .Params.enddate
-      "image" ( .Param "banner-image" )
-      "target" .Permalink
-      "title" ( printf  "Pedalpalooza %v" .Params.year )
-      "alt" ( printf "Pedalpalooza logo for %v" .Params.year )
-  }}
-  {{ $year := print .Params.year }}
-  {{ $map = merge $map (dict $year $entry) }}
+  {{ $entry := partial "buildSingleFestival.html" . }}
+  {{ $map = merge $map $entry }}
 {{ end }}
+{{ with .Site.GetPage "pedalpalooza-calendar" }}
+  {{ $entry := partial "buildSingleFestival.html" . }}
+  {{ $map = merge $map $entry }}
+{{ end }}
+
 {{/* user can sort on keys to get the list of years */}}
 {{ return $map }}
 

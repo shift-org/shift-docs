@@ -30,8 +30,9 @@ export default {
   },
   data() {
     return {
-      // default, updated when views send pageLoaded events.
+      // default, updated when views emit pageLoaded events.
       page: siteConfig.defaultPageInfo,
+      disclaimer: siteConfig.disclaimer,
       // shows loading spinner
       loading: false,
       // critical errors, if any.
@@ -98,7 +99,7 @@ export default {
       </div>
     </div>
     <div class="c-disclaimer">
-      <p>SHIFT hosts this calendar as a public service. Rides and events are posted to the SHIFT calendar by community members, not by SHIFT. Rides and events posted to the SHIFT calendar are not sponsored by SHIFT or SHIFT’s fiscal sponsor Umbrella.</p>
+      <p>{{ disclaimer }}</p>
     </div>
   </div>
   </section>
