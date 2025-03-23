@@ -8,11 +8,13 @@ import icons from './icons.js'
 //
 import JumpTool from './tools/JumpTool.vue'
 import Menu from './Menu.vue'
+import PedalPanel from './PedalPanel.vue'
 import SearchTool from './tools/SearchTool.vue'
-
+//
+import pp from './pedalp.js'
 
 export default {
-  components: { FontAwesomeIcon, JumpTool, Menu, SearchTool },
+  components: { FontAwesomeIcon, JumpTool, Menu, PedalPanel, SearchTool },
   props: {
     returnLink: [Object, Boolean],
   },
@@ -23,7 +25,8 @@ export default {
     // in computed so it can change per path
     tools() {
       const route = this.$route; 
-      const hideHome = route.name === "events" && !route.query.start;
+      const hideHome = route.name === "events" && !route.query.start && !route.query.expanded;
+      // 
       return {
         home: { 
           icon: icons.get('home'), 
@@ -35,8 +38,8 @@ export default {
         jump: {
           label: "Jump"
         },
-        pedalp: {
-          label: "Pedalpalooza"
+        pedalp: !pp.show ? undefined : {
+          label: `Pedalpalooza ${pp.currentYear}`
         },
         menu: {
           icon: icons.get('menu')
@@ -72,6 +75,7 @@ export default {
   <template v-for="(tool, key) in tools" :key >
     <button
       class="c-tool"
+      v-if="tool" 
       :class="{
         [`c-tool__${key}`]: true,
         'c-tool--active': key === currentTool,
@@ -83,19 +87,17 @@ export default {
     </button>
   </template>
   </div>
-  <!-- the tool panels -->
+  <!-- panels for each tool when active-->
   <SearchTool class="c-tool__details" v-if="currentTool === 'search'"  @changeRoute="changeRoute" />
-  <!--  -->
   <JumpTool class="c-tool__details" v-else-if="currentTool === 'jump'"  @changeRoute="changeRoute" />
-  <!--  -->
-  <template class="c-tool__details" v-else-if="currentTool === 'pedalp'" />
+  <PedalPanel v-else-if="currentTool === 'pedalp'" />
   <Menu v-else-if="currentTool === 'menu'"/>
 </template>
 <style>
 .c-toolbar {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 3px;
 }
 .c-tool {
   height: 35px; 
@@ -121,16 +123,6 @@ export default {
 }
 .c-tool--disabled {
   opacity: 0.5;
-}
-.xc-tool__home {
-  position: absolute;
-  left: 1em;
-  font-size: small;
-}
-.xc-tool__menu {
-  position: absolute;
-  right: 1em;
-  font-size: small;
 }
 /* see also c-menu */
 .c-tool__details {

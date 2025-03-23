@@ -1,0 +1,15 @@
+{{/*used by buildPedalDates.html
+to generate json for a single pedalpalooza year
+returns a dictionary containing the year as key
+*/}}
+{{ $entry := dict
+      "startdate" .Params.startdate 
+      "enddate" .Params.enddate
+      "image" ( .Param "banner-image" )
+      "target" .Permalink
+      "title" ( printf  "Pedalpalooza %v" .Params.year )
+      "alt" ( printf "Pedalpalooza logo for %v" .Params.year )
+      "type" .Type
+  }}
+  {{ $year := print .Params.year }}
+  {{ return dict $year $entry }}
