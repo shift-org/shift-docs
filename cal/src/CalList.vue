@@ -119,14 +119,16 @@ export default {
 </template>
 <style>
   
+.c-day__division {
+  background-color: #ff9819;
+  color: #630;
+  text-align: center;
+  padding: 1em;
+}  
 .c-day__division--start {
   margin-top: 2em;
-  background-color: black;
-  color: white;
 }
 .c-day__division--end {
   margin-bottom: 2em;
-  background-color: black;
-  color: white;
 }
 </style>

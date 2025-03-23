@@ -28,7 +28,7 @@ function buildPage(start, end, days) {
   return {
     page: {
       title: `${siteConfig.title} - Calendar - ${start.format("YYYY-MM-DD")}`,
-      banner: pickBanner(start)
+      banner: pickBanner(start, end)
       // desc
     },
     range: {
@@ -52,16 +52,23 @@ function shiftRange(router, start, dir) {
 }
 
 // ---------------------------------------------------------------------
-// for now, display the banner based on the requested start day
-// ( could also show it if *any* date is in there.
-function pickBanner(start) {
+// display the banner based on the requested start and end days
+function pickBanner(start, end) {
   let banner = siteConfig.defaultListBanner; 
   const fest = siteConfig.getFestival(start);
   if (fest) {
     const festStart = dayjs(fest.startdate);
     const festEnd = dayjs(fest.enddate);
-    const startsWithin = helpers.within(start, festStart, festEnd);
-    if (startsWithin) {
+    const contains = 
+      // is the start of our visible range within the festival?
+      helpers.within(start, festStart, festEnd) ||
+      // is the start of the festival within the visible range?
+      helpers.within(festStart, start, end) ||
+      // is the end of the festival within the visible range?
+      helpers.within(festEnd, start, end) || 
+      // really now. is there some simpler contains?
+      helpers.within(end, festStart, festEnd);
+    if (contains) {
       banner = fest;
     }
   }

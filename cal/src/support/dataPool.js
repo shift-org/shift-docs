@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 
 const API_VERSION = '3';
 const API_BASE_URL = window.location.origin;
+// const API_BASE_URL = "https://api.shift2bikes.org";
 const API_EVENTS_URL = new URL(`/api/events.php`, API_BASE_URL);
 const API_SEARCH_URL = new URL(`/api/search.php`, API_BASE_URL);
 
