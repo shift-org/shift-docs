@@ -1,6 +1,5 @@
 <!-- 
  * Requests search results from the server, and displays them.
- * TODO: requests should limit to say 10-20 events; and next/prev navigate
  -->
 <script>
 import dayjs from 'dayjs'
@@ -15,9 +14,6 @@ export default {
   // ( doesnt have access to `this` )
   beforeRouteEnter(to, from, next) {
     console.log(`CalSearch beforeRouteEnter ${to.fullPath}, ${from.fullPath}`);
-    // TODO: remember where we came from?
-    // ex. could lastEvent or starting date, etc.
-    // ex. lastEvent for going to an event and back to search
     next(vm => {
       // access to component public instance via `vm`
       // vm.lastEvent = lastEvent;
@@ -96,9 +92,7 @@ export default {
       :showDate="true"/>
 </template>
 <style>
-/* margin/padding matches EventSummary -- 
-  fix: probably the container should handle that uniformly if it can.
- */
+/* note: margin/padding matches EventSummary */
 .c-search__summary {
   margin: 10px 20px;
   width: 1em auto;

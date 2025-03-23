@@ -1,6 +1,5 @@
 <!-- 
  * Requests favorites results from the server, and displays them.
- * TODO: requests should limit to say 10-20 events; and next/prev navigate
  -->
 <script>
 import dayjs from 'dayjs'

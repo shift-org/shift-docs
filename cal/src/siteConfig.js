@@ -28,7 +28,6 @@ export default {
   defaultRideBanner: {
     alt: "Default image for a community organized ride.",
     image: "/img/banner_bikes_city.jpg",
-    // TBD: target? or if some of them aren't clickable, maybe none should be.
   },
   // in a strange coincidence, banner matches the format of the pedalp.js data
   // ( see: generated site/buildPedalDates.html )   

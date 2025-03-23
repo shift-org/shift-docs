@@ -38,8 +38,7 @@ export default {
     // this callback gets all of the route request including the very first one.
     this.$router.beforeEach((to, from) => {
       // when the route changes, we are loading a new (sub) page
-      // tbd: but not when query parameters change?
-      // fix: might want to block quick nav left/right.
+      // ( this doesn't happen when naving left and right and the query params change )
       if (to.name !== from.name) {
         console.log("loading...");
         this.loading = true;

@@ -10,12 +10,6 @@ const API_BASE_URL = window.location.origin;
 const API_EVENTS_URL = new URL(`/api/events.php`, API_BASE_URL);
 const API_SEARCH_URL = new URL(`/api/search.php`, API_BASE_URL);
 
-// TODO:
-// const API_HEADERS = {
-//   'Accept': 'application/json',
-//   'Api-Version': API_VERSION
-// };
-
 // cache the most recent range.
 // useful for front-end development where browser caching is disable.
 let _lastRange = {
@@ -57,7 +51,6 @@ export default {
   },
   // expects two valid dayjs objects; returns json.
   // if its not json, this exceptions
-  // TODO: timeout?
   async getRange(start, end) {
     if (!start || !end || !start.isValid() || !end.isValid() || end.isBefore(start)) {
       throw new Error(`requesting invalid date range: ${start} to ${end}`);
@@ -70,7 +63,6 @@ export default {
       data = _lastRange.data;
     } else {
       const url = buildUrl(API_EVENTS_URL, { startdate, enddate });
-      // TODO: timeout?
       console.log(`fetching ${url}`);
       const resp = await fetch(url);  // fetch is built-in browser api
       data = await resp.json(); // data => { events: [], pagination: {} }
@@ -96,7 +88,6 @@ function mungeEvents(events) {
     events[i].datetime = dayjs(`${evt.date}T${evt.time}`);
     caldaily_map.set(evt.caldaily_id, evt);
   });
-  // ( FIX: order the times on the server )
   events.sort((a, b) => 
     a.datetime.isBefore(b.datetime) ? -1 : 
     a.datetime.isAfter(b.datetime) ? 1 : 0); 

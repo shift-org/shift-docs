@@ -50,7 +50,6 @@ function buildShortcuts(evt, fullPath) {
       };
     },
     addevent: "/addevent/",
-    // TBD: shouldn't this be a single day export not all of them?
     export: `/api/ics.php?id=${evt.id}`,
     share: fullPath, 
     favorite(vm) {
@@ -83,7 +82,6 @@ function buildShortcuts(evt, fullPath) {
 // -----------------------------------------------------------------------
 // shift today left (-1) or right (1) by a single day.
 // currently, this queries a week of data to figure out what's before/after.
-// TODO: make the server always return prev/next ids as part of pagination for a single event?
 function shiftEvent(router, evt, dir) {
   if (!evt.date) {
     // to-do: disable buttons until the current event's data has loaded.

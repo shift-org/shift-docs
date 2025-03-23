@@ -8,7 +8,7 @@ class Tag {
   constructor(key, text, desc, icon) {
     this.key = key;
     this.text = text;
-    this.desc = desc || text; // TODO: where does text appear
+    this.desc = desc || text;
     this.icon = icon || icons.get(text.toLowerCase());
   }
 }

@@ -1,7 +1,6 @@
 <script>
 import InputText from './InputText.vue'
 
-// todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms
 export default {
   emits: ["changeRoute"],
   components: { InputText },

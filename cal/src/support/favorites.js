@@ -58,13 +58,11 @@ function hasFavorite(evt) {
   return !!storage.getItem(key); 
 }
 
-// 
 async function removeFavorite(evt) {
   const key = getKeyForDaily(evt);
   storage.removeItem(key);
 }
 
-// FIX: update (even in listing) can throw errors if out of spacwe.
 async function addFavorite(evt) {
   const key = getKeyForDaily(evt);
   return updateStorage(key, evt);

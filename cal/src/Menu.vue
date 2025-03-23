@@ -134,7 +134,6 @@ export default {
   border-bottom: solid 1px #eee;
   width: 100%;
 } 
-/*  fix? currently using CalMain's c-notice; probably should create some vars for the colors and reuse those colors here. */
 .c-subscribe {
   width: 90%;
   text-align: center;
