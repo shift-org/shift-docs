@@ -5,65 +5,32 @@
 //
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 import icons from './icons.js'
-//
-import JumpTool from './tools/JumpTool.vue'
-import Menu from './Menu.vue'
-import PedalPanel from './PedalPanel.vue'
-import SearchTool from './tools/SearchTool.vue'
-//
-import pp from './pedalp.js'
 
 export default {
-  components: { FontAwesomeIcon, JumpTool, Menu, PedalPanel, SearchTool },
+  components: { FontAwesomeIcon },
   props: {
     returnLink: [Object, Boolean],
+    tools: Object
   },
   computed: {
-    currentTool() {
+    expanded() {
       return this.$route.query.expanded;
     },
-    // in computed so it can change per path
-    tools() {
-      const route = this.$route; 
-      const hideHome = route.name === "events" && !route.query.start && !route.query.expanded;
-      // 
-      return {
-        home: { 
-          icon: icons.get('home'), 
-          disabled: hideHome,
-        },
-        search: {
-          label: "Search",
-        },
-        jump: {
-          label: "Jump"
-        },
-        pedalp: !pp.show ? undefined : {
-          label: `Pedalpalooza ${pp.currentYear}`
-        },
-        menu: {
-          icon: icons.get('menu')
-        },
-      };
-    }
   },
   methods: {
     toggle(name) {
       let next;
       if (name === 'home') {
-        const next= this.returnLink || {name: "events"};
+        const next = this.returnLink || {name: "events"};
         return this.$router.push(next);
       } else {
         const q = { ...this.$route.query };
-        q.expanded = this.currentTool != name ?  name : undefined;
-        return this.$router.replace( {query: q})
+        q.expanded = this.expanded != name ? name : undefined;
+        return this.$router.replace({query: q})
       }
     },
-    changeRoute(target) {
-      // call toggle to collapse the bar before navigating away
-      this.toggle().then(() => {
-        this.$router.push(target);
-      });
+    icon(key) {
+      return icons.get(key);
     }
   }
 }
@@ -78,20 +45,15 @@ export default {
       v-if="tool" 
       :class="{
         [`c-tool__${key}`]: true,
-        'c-tool--active': key === currentTool,
+        'c-tool--active': key === expanded,
         'c-tool--enabled': !tool.disabled,
         'c-tool--disabled': tool.disabled,
       }"
       @click="toggle(key)"><span v-if="tool.label">{{tool.label}}</span>
-      <FontAwesomeIcon v-if="tool.icon" class="c-toolbar__icon" :icon="tool.icon"/>
+      <FontAwesomeIcon v-if="icon(key)" class="c-toolbar__icon" :icon="icon(key)"/>
     </button>
   </template>
   </div>
-  <!-- panels for each tool when active-->
-  <SearchTool class="c-tool__details" v-if="currentTool === 'search'"  @changeRoute="changeRoute" />
-  <JumpTool class="c-tool__details" v-else-if="currentTool === 'jump'"  @changeRoute="changeRoute" />
-  <PedalPanel v-else-if="currentTool === 'pedalp'" />
-  <Menu v-else-if="currentTool === 'menu'"/>
 </template>
 <style>
 .c-toolbar {
@@ -107,13 +69,13 @@ export default {
   border-color: #ddd;
   background-color: white;
   &.c-tool--enabled {
-      cursor: pointer;
-      @media (hover: hover) {
-          &:hover {
-          color: black;
-          background-color: #ffc14d; /*    --navbar-focus:  */
-        } 
-      }
+    cursor: pointer;
+    @media (hover: hover) {
+        &:hover {
+        color: black;
+        background-color: #ffc14d; /*    --navbar-focus:  */
+      } 
+    }
   }
 }
 .c-tool--active  {

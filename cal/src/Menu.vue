@@ -73,7 +73,7 @@ export default {
           <div class="c-subscribe">
             <p>Want to see rides using your device's calendar?</p>
             <p><a class="c-subscribe__button" href="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar</a></p>
-            <p>If subscribe link doesn't open your calendar app,<br/>see other ways to <a href="/pages/calendar-faq/#subscribing-to-the-calendar">subscribe.</a>.</p>
+            <p>If the subscribe link doesn't automatically open your calendar app, see other ways to <a href="/pages/calendar-faq/#subscribing-to-the-calendar">subscribe.</a>.</p>
           </div>
         </div>
       </template>
@@ -136,10 +136,11 @@ export default {
 } 
 /*  fix? currently using CalMain's c-notice; probably should create some vars for the colors and reuse those colors here. */
 .c-subscribe {
-  width: 100%;
+  width: 90%;
   text-align: center;
   background: #FCFAF2;
   padding: 1em;
+  margin: 1em auto;
 }
 .c-subscribe__button {
   color: #37b;
