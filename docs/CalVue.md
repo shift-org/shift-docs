@@ -1,10 +1,6 @@
 Cal Single Page App Status 
 ============
 
-* add pedalp info to pedalp menu button
-* fix: pedalp image should show whenever it appears in the week; not just first day.
-* pull shift disclaimer from data
-
 ### Favorites
 
 [ ] sorting: time when favorited, event date;
@@ -12,7 +8,7 @@ Cal Single Page App Status
 [ ] filtering: show all, show future
 [ ] an empty page should provide information about favoriting
 
-[ ] a disclaimer about opening each one to see the latest information. * could maybe replace the current disclaimer? )
+[ ] a disclaimer about opening each favorite to see the latest information. ( could maybe replace the current disclaimer? )
 [ ] TODO: some sort of animation / popup when when favorite status changes
     -- maybe like some little ghost text that say "saved!" "removed!" and fades out -- hovers about the shortcut; but doesn't harm the layout --
     position relative or something.
@@ -25,7 +21,6 @@ Cal Single Page App Status
 ##  Tasks:
 
 * for shortcut buttons, try an on-press tooltip ( maybe covering the full scrolling view? )
-* export testing; maybe isn't working on the site? or in preview? or something?
 * record all todos, tbds,s fixmes, etc.
 * test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
 * include this change: https://github.com/shift-org/shift-docs/pull/866
@@ -38,20 +33,18 @@ Cal Single Page App Status
 * TBD: search returns each caldaily; would it make more sense to have a new view that's a ride/series; and then on that page show all the times. ( and/ or group all the instances of that on the page )
 
 ### Styles 
+* setup aria tags and info
 * reduce the size of the shift logo ( ex. could it be a background image so that the gear can be behind/overlapping the button row )
 * too much space at top in chrome. http://localhost:3080/events/20691/breakfast-on-the-bridges
 * should have a max width or something for desktop on details page
 * how does it look if someone has their font size increased or decreased?
 * TBD: should whole summary be clickable ( safety would only be clickable on details then )
-* setup aria tags and info
 * TBD: should the 'shift' logo link to anywhere? ( and what about when it shifts to pedalp )
 
 ## Future Tasks:
 * event details context: show "TODAY" above time if its today; 
   some sort of "this event has passed" if its more than an hour ago
   "starting soon" if its near, or  "X days from now"
-
-* implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
 
 * add "reoccur" links for each event ( might need server data for this )
 * consider: a "featured events" page that shows the time / date / extra info that can include the menu's text, but also show when those events are.
