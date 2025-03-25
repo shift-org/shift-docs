@@ -112,6 +112,7 @@ const methods =  {
       // either way, its not info we want to show.
       newsflash: this.getNewsFlash(),
       status: this.eventstatus,
+      fullcount: this.fullcount, // Full count of results for pagination
     };
     // see notes in CalEvent.getJSON()
     if (endtime !== undefined) {
@@ -252,7 +253,7 @@ class CalDaily {
   // Days are datejs objects.
   static getEventsBySearch(firstDay, term, offset = 0, searchOldEvents=false) {
     let query = knex.query('caldaily')
-        .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))
+        .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .join('calevent', 'caldaily.id', 'calevent.id')
         .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
         .where('title', 'LIKE', `%${term}%`)
