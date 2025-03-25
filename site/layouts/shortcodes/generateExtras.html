@@ -1,16 +1,9 @@
 {{/* 
-  site menu, generated from hugo.toml.
-  outputs to a json file, that we can include.
+  misc site info
+  outputs to a json file
+  for the single page app to consume.
 */}}
-{{ $menu := partial "buildMenu.html" site.Menus.main }}
-{{ $json := ( $menu | jsonify (dict "prefix" " " "indent" "  "))}}
-{{ $r := resources.FromString "extras/siteMenu.json" $json }}
-{{ $r.Publish }}
-
-{{/*
-  pedalp dates
-*/}}
-{{ $pedal := partial "buildPedalDates.html" . }}
-{{ $pjson := ( $pedal | jsonify (dict "prefix" " " "indent" "  "))}}
-{{ $pr := resources.FromString "extras/pedalDates.json" $pjson }}
-{{ $pr.Publish }}
+{{ $siteInfo := partial "buildSiteInfo.html" . }}
+{{ $json := ( $siteInfo | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $out := resources.FromString "extras/siteInfo.json" $json }}
+{{ $out.Publish }}

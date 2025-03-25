@@ -56,6 +56,7 @@ export default {
   /* on safari empty tags collapse, on chrome they take up space.
   this helps keep things consistent  */
   margin: 1em 0;
+  padding-inline-start: 0px;
 }
 .c-tag {
   display: flex;

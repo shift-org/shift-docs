@@ -1,0 +1,10 @@
+{{/*  site menu ( from hugo.toml ) */}}
+{{ $menu := partial "buildMenu.html" site.Menus.main }}
+{{/* pedalp dates ( from individual pedalpalooza pages ) */}}
+{{ $pedal := partial "buildPedalDates.html" . }}
+{{/*  helper to generate site menu resource */}}
+{{ return dict 
+ "menu"   $menu
+ "pedal"  $pedal  
+ "disclaimer" site.Params.disclaimer 
+}}
