@@ -24,31 +24,26 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
  *  # TODO add block for search
  */
+const dayjs = require("dayjs");
 const config = require("../config");
-const { fromYMDString, to24HourString, toYMDString, convert } = require("../util/dateTime");
-const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-const { EventsRange } = require("../models/calConst");
-
+const { EventSearch } = require("../models/calConst");
+const { getSummaries } = require("./events.js");
 
 // the search endpoint:
 exports.get = function(req, res, next) {
-  let term = req.query.q;    // The search term
-  var offset = req.query.o;  // ?o=25 e.g.
-  const searchOldEvents = (req.query.qold === "true") || (req.query.qold === "1");  // Option to search historically (TBD)
+  const term = req.query.q;    // The search term
+  const offset = req.query.o;  // ?o=25
+  const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // Option to search historically (TBD)
 
   if (term) {
     // Search for the given search term, starting from today
-    const startDate = convert(toYMDString( new Date() ));
-    const endDate = convert(toYMDString('2025-12-31'));  // No longer used in search, just set for pagination node
-
+    const startDate = dayjs().startOf('day');
     return CalDaily.getEventsBySearch(startDate, term, offset, searchOldEvents).then((dailies) => {
         return getSummaries(dailies).then((events) => {
-          fullcount = 0;
-          if (events.length > 0) {
-            fullcount = events[0].fullcount;
-          }
-          const pagination = getPaginationSearch(fullcount);
+          // fullcount appears in every
+          const fullcount = events.length ? events[0].fullcount : 0;
+          const pagination = getPaginationSearch(fullcount, offset);
           res.set(config.api.header, config.api.version);
           res.json({
             events,
@@ -61,77 +56,10 @@ exports.get = function(req, res, next) {
   }
 }
 
-// promise an array containing json-friendly summaries of all the passed CalDaily(s)
-// see also: buildEntries()
-function getSummaries(dailies) {
-  // a cache because multiple dailies may have the same event.
-  const events = new Map();
-  // for all dailies:
-  return Promise.all( dailies.map((at) => {
-    // if this is the first time we've seen the event id:
-    if (!events.has(at.id)) {
-      // go create the event and end time summary pair.
-      events.set(at.id, CalEvent.getByID(at.id).then(specialSummary));
-    }
-    // wait till the event summary is complete then merge it with the daily:
-    return events.get(at.id).then((specialSum) => {
-      const [ evtJson, endTime ] = specialSum;
-      return Object.assign( {}, evtJson, at.getJSON(endTime) );
-    });
-  }));
-}
-
-// the php version had each daily query for its event
-// and then tacked the end time to the end of the daily json
-// relying on flourish to ( presumably ) filter out the redundant event queries.
-// this pools the events to avoid multiple queries:
-// so to keep the endtime after each daily, we have to tack it on manually.
-function specialSummary(evt) {
-  // an invalid duration generates a null here; just like the php.
-  const endTime = to24HourString(evt.getEndTime());
-  return [ evt.getJSON(), endTime ];
-}
-
-// expects days are dayjs objects
-// and count is the number of events between the two
-function getPagination(firstDay, lastDay, count) {
-  // add 1 so days in range is inclusive
-  const range = lastDay.diff(firstDay, 'day') + 1;
-
-  // const prevRangeStart = firstDay.subtract(range, 'day');
-  // const prevRangeEnd = lastDay.subtract(range, 'day');
-  // const prev = getEventRangeUrl(prevRangeStart, prevRangeEnd);
-
-  // const nextRangeStart = firstDay.add(range, 'day');
-  // const nextRangeEnd = lastDay.add(range, 'day');
-  // const next = getEventRangeUrl(nextRangeStart, nextRangeEnd);
-
+function getPaginationSearch(count, offset) {
   return {
-    start: toYMDString(firstDay),
-    end: toYMDString(lastDay),
-    range, // tbd: do we need to send this? can client determine from start, end?
-    events: count
-    // prev,
-    // next,
-  };
-}
-
-function getPaginationSearch(count, offset = 0) {
-  // determine current page and next/prev page(offset val? or page num?)
-
-  return {
-    // limit: limit,
-    // offset: offset,
+    offset: offset,
+    limit: EventSearch.Limit,
     fullcount: count,
   };
 }
-
-// return a url endpoint which requests the events
-// between the passed start and end dayjs values
-// function getEventRangeUrl(start, end) {
-  // const start = toYMDString( end );
-  // the start and end, filtered through date formatting
-  // should be safe to use as is, otherwise see: encodeURIComponent()
-  // return config.site.url("api",
-  //   `events.php?startdate=${start}&enddate=${end}`);
-// }
