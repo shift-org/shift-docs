@@ -1,6 +1,5 @@
 <!-- 
  * Requests search results from the server, and displays them.
- * TODO: requests should limit to say 10-20 events; and next/prev navigate
  -->
 <script>
 import dayjs from 'dayjs'
@@ -34,6 +33,8 @@ export default {
       // an array of search results ( joined calevent + caldaily records )
       events: [],
       pageNum: 1,
+      fullCount: 0,
+      searchWidth: 0,
     };
   },
   computed: {
@@ -46,29 +47,20 @@ export default {
     itemCount() {
       return this.events.length;
     },
-    multiplePages() {
-      return this.offset > 0 || (this.itemCount == siteConfig.searchWidth);
+    totalPages() {
+      return Math.trunc(0.5 + this.fullCount / this.searchWidth);
     },
-    isLastPage() {
-      return this.itemCount < siteConfig.searchWidth;
+    multiplePages() {
+      return this.totalPages > 0;
     },
     isFirstPage() {
-      return this.pageNum == 1;
+      return !this.offset;
+    },
+    hasMore() {
+      return (this.offset + this.itemCount) < this.fullCount;
     },
     pageText() {
-      // if (this.isLastPage) {
-      //   return "Last Page" ;
-      // } else if (this.isFirstPage) {
-      //   return "First Page";
-      // } else {
-      return  `Page ${this.pageNum}`;
-    },
-    foundText() {
-      const count = this.itemCount;
-      const hasMore = count == siteConfig.searchWidth;
-      return count.toString() 
-            + (hasMore ? '+' : '') 
-            + (this.offset > 0 ? " more" : '');
+      return ;
     },
   },
   methods: {
@@ -77,6 +69,8 @@ export default {
       return fetchSearch(q, parseInt(offset || 0)).then((page) => {
         this.events = page.data.events;
         this.pageNum = page.data.pageNum;
+        this.fullCount = page.data.fullCount; 
+        this.searchWidth = page.data.searchWidth;
         this.$emit("pageLoaded", page);
       }).catch((error) => {
         console.error("updateSearch error:", error);
@@ -88,7 +82,8 @@ export default {
 </script>
 <template> 
   <h3 class="c-divder c-divder--center">
-    <div v-if="multiplePages">{{pageText}}</div><div>Found {{foundText}} events containing "{{q}}".</div>
+    <div>Found {{fullCount}} events containing "{{q}}".</div>
+    <div v-if="multiplePages">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>
   <EventSummary 
       v-for="evt in events" :key="evt.caldaily_id" 

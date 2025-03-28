@@ -53,8 +53,6 @@ export default {
   // see buildPedalDates.html
   pedalp, 
   title: "Shift",
-  // for now pagination is a fixed size.
-  searchWidth: 25,
   // dayjs date
   getFestival(date) {
     const year = date.year().toString();
