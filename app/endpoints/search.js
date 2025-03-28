@@ -34,7 +34,7 @@ const { EventsRange } = require("../models/calConst");
 // the search endpoint:
 exports.get = function(req, res, next) {
   let term = req.query.q;    // The search term
-  let offset = req.query.o;  // ?o=25 e.g.
+  var offset = req.query.o;  // ?o=25 e.g.
   const searchOldEvents = (req.query.qold === "true") || (req.query.qold === "1");  // Option to search historically (TBD)
 
   if (term) {
@@ -44,7 +44,11 @@ exports.get = function(req, res, next) {
 
     return CalDaily.getEventsBySearch(startDate, term, offset, searchOldEvents).then((dailies) => {
         return getSummaries(dailies).then((events) => {
-          const pagination = getPagination(startDate, endDate, events.length);
+          fullcount = 0;
+          if (events.length > 0) {
+            fullcount = events[0].fullcount;
+          }
+          const pagination = getPaginationSearch(fullcount);
           res.set(config.api.header, config.api.version);
           res.json({
             events,
@@ -109,6 +113,16 @@ function getPagination(firstDay, lastDay, count) {
     events: count
     // prev,
     // next,
+  };
+}
+
+function getPaginationSearch(count, offset = 0) {
+  // determine current page and next/prev page(offset val? or page num?)
+
+  return {
+    // limit: limit,
+    // offset: offset,
+    fullcount: count,
   };
 }
 

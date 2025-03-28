@@ -47,7 +47,7 @@ const EventsRange = Object.freeze({
 });
 
 const EventSearch = Object.freeze({
-  Limit : 25,
+  Limit : 1,
 });
 
 //
