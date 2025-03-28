@@ -48,19 +48,10 @@ export default {
       return this.events.length;
     },
     totalPages() {
-      return Math.trunc(0.5 + this.fullCount / this.searchWidth);
-    },
-    multiplePages() {
-      return this.totalPages > 0;
+      return this.searchWidth > 0 ? Math.ceil(this.fullCount / this.searchWidth) : 0;
     },
     isFirstPage() {
       return !this.offset;
-    },
-    hasMore() {
-      return (this.offset + this.itemCount) < this.fullCount;
-    },
-    pageText() {
-      return ;
     },
   },
   methods: {
@@ -82,8 +73,8 @@ export default {
 </script>
 <template> 
   <h3 class="c-divder c-divder--center">
-    <div>Found {{fullCount}} events containing "{{q}}".</div>
-    <div v-if="multiplePages">Showing page {{pageNum}} of {{totalPages}}</div>
+    <div>Found {{fullCount}} events containing "{{q}}"</div>
+    <div v-if="totalPages > 1">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>
   <EventSummary 
       v-for="evt in events" :key="evt.caldaily_id" 

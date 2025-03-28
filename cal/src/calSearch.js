@@ -18,7 +18,7 @@ function buildPage(q, offset, res) {
   //
   const { events } = res;
   const { limit, fullcount } = res.pagination;
-  const pageNum = Math.round(0.5 + (offset / limit));
+  const pageNum = 1 + Math.ceil(offset / limit);
   const multiplePages = offset || (events.length < fullcount);
   return {
     page: {
