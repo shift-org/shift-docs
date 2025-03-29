@@ -6,8 +6,8 @@ import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
 // FIX: handle errors?
-export async function fetchSearch(q, offset) {
-  const result = await dataPool.getSearch(q, offset);
+export async function fetchSearch(q, offset, searchAll) {
+  const result = await dataPool.getSearch(q, offset, searchAll);
   return buildPage(q, offset, result);
 }
 

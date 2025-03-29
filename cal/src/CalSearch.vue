@@ -59,8 +59,8 @@ export default {
   },
   methods: {
     // emits the 'pageLoaded' event when done.
-    updateSearch({q, offset}) {
-      return fetchSearch(q, parseInt(offset || 0)).then((page) => {
+    updateSearch({q, offset, all: searchAll}) {
+      return fetchSearch(q, parseInt(offset || 0), searchAll).then((page) => {
         this.events = page.data.events;
         this.pageNum = page.data.pageNum;
         this.fullCount = page.data.fullCount; 

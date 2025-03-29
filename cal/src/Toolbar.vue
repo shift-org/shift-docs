@@ -134,8 +134,8 @@ export default {
 }
 /* see also c-menu */
 .c-tool__details {
-  margin: 1em;
-  padding: 1em;
+  margin: 0.5em;
+  padding-top: 0.5em;
   display: flex;
   justify-content: center;
   gap:  0.5em;
