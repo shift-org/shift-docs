@@ -33,7 +33,7 @@
     "deploy:vite": "npm -w cal run deploy",
     "postdeploy": "cp site/public/404/index.html site/public/404.html",
     
-    "postinstall": "hugo-installer --version 0.128.2",
+    "postinstall": "hugo-installer --version 0.144.2",
     "test": "npm -w app run test",
 
     "preview": "concurrently --kill-others-on-fail \"npm:preview-*\"",

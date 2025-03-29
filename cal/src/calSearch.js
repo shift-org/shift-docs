@@ -5,7 +5,6 @@ import dayjs from 'dayjs'
 import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
-// FIX: handle errors?
 export async function fetchSearch(q, offset, searchAll) {
   const result = await dataPool.getSearch(q, offset, searchAll);
   return buildPage(q, offset, result);
@@ -39,7 +38,6 @@ function buildPage(q, offset, res) {
 }
 
 // ---------------------------------------------------------------------
-// TODO: allow 'prev' / 'next' to be disabled based on offset/count
 function buildShortcuts(q, offset, limit, count, total) {
   function disabled() {
     return {

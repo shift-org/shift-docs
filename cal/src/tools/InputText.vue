@@ -2,7 +2,6 @@
   Displays a simple input box and a button for use with the toolbar.
  -->
 <script>
-// todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms
 export default {
   props: {
     name: { 

@@ -1,73 +1,51 @@
 Cal Single Page App Status 
 ============
+##  Tasks:
 
-* pagination
-  - change offset = 0 to be no offset
-  - Found 25 events containing "ride". 
-  -> Page 1 of 25+ events containing "ride". 
-
-* fix the menu display -- try as tabs
-* add pedalp info
-* pedalp image should show whenever it appears in the week
-
-
-[ ] pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
+* test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
+* include this change: https://github.com/shift-org/shift-docs/pull/866
+  ( Fallback error message if events request doesn't include JSON )
+* consider replacing "id" and "caldaily_id" with "seriesId" and "singleId" on fetch.
 
 
 ### Favorites
-
+[ ] favorites need pagination.
 [ ] sorting: time when favorited, event date;
     maybe those could be new buttons under the top bar of buttons on a new row.
 [ ] filtering: show all, show future
 [ ] an empty page should provide information about favoriting
 
-[ ] a disclaimer about opening each one to see the latest information. * could maybe replace the current disclaimer? )
+[ ] a disclaimer about opening each favorite to see the latest information. ( could maybe replace the current disclaimer? )
 [ ] TODO: some sort of animation / popup when when favorite status changes
     -- maybe like some little ghost text that say "saved!" "removed!" and fades out -- hovers about the shortcut; but doesn't harm the layout --
     position relative or something.
 
-[ ] handle errors on writing to local store; and simulate test it.
+[ ] handle errors on updateStorage  local store; and simulate test it.
 [ ] show a count of favorites over the icon?
 [ ] show favored items on the cal list somehow?
 [ ] future: server helper to quick update favorite status
 
-##  Tasks:
-
-* try an on-press popup, maybe covering the full scrolling view, for shortcut buttons. 
-* export testing; maybe isn't working on the site? or in preview? or something?
-* record all todos, tbds,s fixmes, etc.
-
-* test the full event `contact` field. todo: find some real events that use it ( makeFake never sets it. )
-
-* include this change: https://github.com/shift-org/shift-docs/pull/866
-  ( Fallback error message if events request doesn't include JSON )
-
-* are events earlier in the day than "now" are missing? ( seems to be working -- but could it scroll to "now" by default. )
-
-* consider replacing "id" and "caldaily_id" with "seriesId" and "singleId" on fetch.
-
 ### Search
-* expand search with max / offset
-
-* TBD: search returns each caldaily; would it make more sense to have a new view that's a ride/series; and then on that page show all the times. ( and/ or group all the instances of that on the page )
+* real pagination: 10 or 20 per page.  - i wonder if pagination might be able to be generic (re: search): ex. give page a count, and let shortcuts handle it. ( or a shared function )
+* fetchSearch should handle / raise errors in some way
 
 ### Styles 
+* setup aria tags and info; // todo: read https://vuejs.org/guide/best-practices/accessibility#semantic-forms
+
 * reduce the size of the shift logo ( ex. could it be a background image so that the gear can be behind/overlapping the button row )
-* tbd: better header to indicate which subview ( favorites, search, etc. )
 * too much space at top in chrome. http://localhost:3080/events/20691/breakfast-on-the-bridges
 * should have a max width or something for desktop on details page
 * how does it look if someone has their font size increased or decreased?
 * TBD: should whole summary be clickable ( safety would only be clickable on details then )
-* setup aria tags and info
 * TBD: should the 'shift' logo link to anywhere? ( and what about when it shifts to pedalp )
+* TBD: reuse color style/names/variables from main app
 
 ## Future Tasks:
+
 * event details context: show "TODAY" above time if its today; 
   some sort of "this event has passed" if its more than an hour ago
   "starting soon" if its near, or  "X days from now"
-
-* implement favorites: button on list page shows your favorites; button on item page adds/removes to favorites. ( maybe you could use local storage for both queries and favorites )
-
+* for shortcut buttons, try an on-press tooltip ( maybe covering the full scrolling view? )
 * add "reoccur" links for each event ( might need server data for this )
 * consider: a "featured events" page that shows the time / date / extra info that can include the menu's text, but also show when those events are.
 * reuse the app somehow for preview event?
@@ -75,8 +53,10 @@ Cal Single Page App Status
 * timeout/error for data fetches?
 * consider blocking quick nav (left/right), etc. while loading.
 * improve loading animation ( maybe don't hide the previous data while loading )
-* server: consider linked lists for single events?
+* server: consider linked lists for single events? ( ex. always return prev/next ids as part of pagination for a single event? )
 * server: consider a more focused "overview" endpoint; maybe with days grouped already.
+* server: consider sorting the dayjs events, and remove the client side sorting
+* server + eventDetails: export should be a single day, not all of them for the entire series.
 * better communication if there is no next/prev event ( this would be a very rare edge case issue )
 * todo: improve event details next/prev return point.
     currently you always return to the original week you came from
@@ -91,6 +71,20 @@ Cal Single Page App Status
 
 * hand it around for beta testing?
 * add API_VERSION to data queries
+in dataPool
+// const API_HEADERS = {
+//   'Accept': 'application/json',
+//   'Api-Version': API_VERSION
+// };
+
+* TODO: timeout for loading new data?
+* TODO: loading indicator for paging through events? ( right now it only happens if the view changes -- maybe something that floats so the whole page layout doesnt jump around )
+
+* TBD: search returns each caldaily; would it make more sense to have a new view that's a ride/series; and then on that page show all the times. ( and/ or group all the instances of that on the page )
+
+* TBD: how does navigation to/from searches feel? ( ex. lastEvent )
+* TBD: when using the shortcut button to nav left ( ex. shiftRange -1 ) consider evaluating and unwinding history instead of directly reloading
+
 
 Benefits:
 ----

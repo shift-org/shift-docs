@@ -2,8 +2,7 @@
  * global constants
  * ( we might want some of this customizable )
  */
-import menu from 'extras/siteMenu.json'
-import pedalp from 'extras/pedalDates.json'
+import siteInfo from 'extras/siteInfo.json'
 //
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
@@ -14,9 +13,13 @@ dayjs.extend(customParseFormat);
 
 // the calendar part of the menu has links to the pages we are already on
 // so those are unneeded.
+const menu = { ...siteInfo.menu }; // *copy* in case we want the original
 if (menu.calendar) {
   menu.about.kids["calendar-faq"] = menu.calendar.kids["calendar-faq"];
   delete menu.calendar;
+  menu.subscribe = {  
+    name: "Subscribe",
+  }
 }
 
 export default {
@@ -25,7 +28,6 @@ export default {
   defaultRideBanner: {
     alt: "Default image for a community organized ride.",
     image: "/img/banner_bikes_city.jpg",
-    // TBD: target? or if some of them aren't clickable, maybe none should be.
   },
   // in a strange coincidence, banner matches the format of the pedalp.js data
   // ( see: generated site/buildPedalDates.html )   
@@ -51,11 +53,12 @@ export default {
   menu: menu,
   // hugo generated info on all pedalpalooza events
   // see buildPedalDates.html
-  pedalp, 
+  pedalp: siteInfo.pedal,
+  disclaimer: siteInfo.disclaimer,  
   title: "Shift",
   // dayjs date
   getFestival(date) {
     const year = date.year().toString();
-    return pedalp[year];
+    return siteInfo.pedal[year];
   },
 };

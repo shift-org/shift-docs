@@ -34,5 +34,7 @@ export default {
   gap: 10px;
   border-top: solid;
   border-color: lightgray;
+  margin-top: auto; /* push this to the bottom of the page 
+  https://stackoverflow.com/questions/33924655/position-last-flex-item-at-the-end-of-container */
 }
 </style>
