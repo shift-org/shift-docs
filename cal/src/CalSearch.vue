@@ -53,6 +53,9 @@ export default {
     isFirstPage() {
       return !this.offset;
     },
+    pluralized() {
+      return  'event' + (this.fullCount !== 1 ? 's' :'');
+    }
   },
   methods: {
     // emits the 'pageLoaded' event when done.
@@ -73,7 +76,7 @@ export default {
 </script>
 <template> 
   <h3 class="c-divder c-divder--center">
-    <div>Found {{fullCount}} events containing "{{q}}"</div>
+    <div>Found {{fullCount}} {{pluralized}} containing "{{q}}"</div>
     <div v-if="totalPages > 1">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>
   <EventSummary 
