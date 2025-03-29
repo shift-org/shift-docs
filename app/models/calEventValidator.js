@@ -218,7 +218,6 @@ function validateEvent(input) {
     printweburl: v.optionalFlag('printweburl'),
     printcontact: v.optionalFlag('printcontact'),
     safetyplan: v.optionalFlag('safetyplan'),
-    fullcount: v.nullString('fullcount'),
   };
   const statusList = v.validateStatus(input.datestatuses);
   return {
