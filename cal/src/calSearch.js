@@ -5,8 +5,8 @@ import dayjs from 'dayjs'
 import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
-export async function fetchSearch(q, offset) {
-  const result = await dataPool.getSearch(q, offset);
+export async function fetchSearch(q, offset, searchAll) {
+  const result = await dataPool.getSearch(q, offset, searchAll);
   return buildPage(q, offset, result);
 }
 
@@ -14,25 +14,31 @@ export async function fetchSearch(q, offset) {
 // internal functions
 // ---------------------------------------------------------------------
 function buildPage(q, offset, res) {
-  const pageNum = Math.round(0.5 + (offset / siteConfig.searchWidth));
+  //
+  const { events } = res;
+  const { limit, fullcount } = res.pagination;
+  const pageNum = 1 + Math.ceil(offset / limit);
+  const multiplePages = offset || (events.length < fullcount);
   return {
     page: {
-      title: `${q} - Page ${pageNum} searching ${siteConfig.title}`,
+      title: multiplePages ? 
+              `${q} - Page ${pageNum} - searching ${siteConfig.title}` : 
+              `${q} - searching ${siteConfig.title}`,
       banner: siteConfig.defaultListBanner,
-      // desc
     },
     data: {
-      // the number of events is the "width"
-      // if offset + width >= total; there's no more results.
-      events: res.events, 
+      events, 
+      offset,
+      searchWidth: limit,
+      fullCount: fullcount,
       pageNum,
     },
-    shortcuts: buildShortcuts(q, offset, res.events.length)
+    shortcuts: buildShortcuts(q, offset, limit, events.length, fullcount)
   }; 
 }
 
 // ---------------------------------------------------------------------
-function buildShortcuts(q, offset, count) {
+function buildShortcuts(q, offset, limit, count, total) {
   function disabled() {
     return {
       enabled: false,
@@ -45,15 +51,15 @@ function buildShortcuts(q, offset, count) {
   }
   return {
     prev: offset > 0 ? (vm) => {
-      const next = Math.max(0, offset - siteConfig.searchWidth);
+      const next = Math.max(0, offset - limit);
       return { 
         click() {
           shift(vm, next);
         }
       };
     } : disabled,
-    next: count == siteConfig.searchWidth ? (vm) => {
-      const next = offset + siteConfig.searchWidth;
+    next: (offset + count) < total ? (vm) => {
+      const next = offset + count;
       return { 
         click() {
           shift(vm, next);

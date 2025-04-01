@@ -112,6 +112,7 @@ const methods =  {
       // either way, its not info we want to show.
       newsflash: this.getNewsFlash(),
       status: this.eventstatus,
+      fullcount: this.fullcount, // Full count of results for pagination
     };
     // see notes in CalEvent.getJSON()
     if (endtime !== undefined) {
@@ -250,42 +251,34 @@ class CalDaily {
   }
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
-  static getEventsBySearch(firstDay, term, offset = 0, searchOldEvents=false) {
-    let query = knex
-        .query('caldaily')
+  static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
+    let query = knex.query('caldaily')
+        .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .join('calevent', 'caldaily.id', 'calevent.id')
-        .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
+        .whereRaw('not coalesce(hidden, 0)')
+        // TBD: can we use whereLike()?
+        // .whereLike('title', `%${term}%`)
         .where('title', 'LIKE', `%${term}%`)
         // .whereRaw("title like '%??%'", [term])  // late binding xperiment
         .where(function(q) {
-          if (true) {
-            // calevent: a legacy code; reused for soft-delete
-            q.whereNot('review', Review.Excluded)
-            // caldaily: for deselected days; soft-deleted days are also deselected.
-            q.whereNot('eventstatus', EventStatus.Delisted)
-          }
-          // the normal behavior is to not show "delisted days":
-          // those are days deselected by an organizer on the calendar widget
-          // but not explicitly canceled.
-          //
-          // enabling this block hides "delisted days" when includingDeleted events
-          // commenting out this block shows "delisted days" when includingDeleted events.
-          // else {
-          // q.whereNot('eventstatus', EventStatus.Delisted)
-          //  .orWhere('eventstatus', EventStatus.Delisted)
-          //  .andWhere('review', Review.Excluded)
+          q.whereNot('review', Review.Excluded)
+          q.whereNot('eventstatus', EventStatus.Delisted)
         })
-        .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
-        .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
-        // .where('eventdate', '<=', knex.toDate(lastDay))  // Removing for testing all future events search
+        .whereNot('eventstatus', EventStatus.Skipped)
+        .where(function(q) {
+          if (!searchOldEvents) {
+            q.where('eventdate', '>=', knex.toDate(firstDay))  
+            // Removing for testing all future events search
+            // .where('eventdate', '<=', knex.toDate(lastDay)) 
+          }
+        })
         .orderBy('eventdate')
-        .limit(EventSearch.Limit)  // Limit the query but
-        .offset(offset)            // accept the offset from the client
-        .then(function(dailies) {
-          return dailies.map(at => addMethods(at));
-        });
-    // console.log(query.toString());
-    return query;
+        .limit(limit)  // Limit the query but
+        .offset(offset);           // accept the offset from the client
+    // console.log(query.toSQL().toNative());
+    return query.then(function(rows) {
+      return rows.map(at => addMethods(at));
+    });
   }
   /**
    * Add, cancel, and update occurrences of a particular event.

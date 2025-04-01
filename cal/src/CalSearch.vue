@@ -30,6 +30,8 @@ export default {
       // an array of search results ( joined calevent + caldaily records )
       events: [],
       pageNum: 1,
+      fullCount: 0,
+      searchWidth: 0,
     };
   },
   computed: {
@@ -42,37 +44,24 @@ export default {
     itemCount() {
       return this.events.length;
     },
-    multiplePages() {
-      return this.offset > 0 || (this.itemCount == siteConfig.searchWidth);
-    },
-    isLastPage() {
-      return this.itemCount < siteConfig.searchWidth;
+    totalPages() {
+      return this.searchWidth > 0 ? Math.ceil(this.fullCount / this.searchWidth) : 0;
     },
     isFirstPage() {
-      return this.pageNum == 1;
+      return !this.offset;
     },
-    pageText() {
-      // if (this.isLastPage) {
-      //   return "Last Page" ;
-      // } else if (this.isFirstPage) {
-      //   return "First Page";
-      // } else {
-      return  `Page ${this.pageNum}`;
-    },
-    foundText() {
-      const count = this.itemCount;
-      const hasMore = count == siteConfig.searchWidth;
-      return count.toString() 
-            + (hasMore ? '+' : '') 
-            + (this.offset > 0 ? " more" : '');
-    },
+    pluralized() {
+      return  'event' + (this.fullCount !== 1 ? 's' :'');
+    }
   },
   methods: {
     // emits the 'pageLoaded' event when done.
-    updateSearch({q, offset}) {
-      return fetchSearch(q, parseInt(offset || 0)).then((page) => {
+    updateSearch({q, offset, all: searchAll}) {
+      return fetchSearch(q, parseInt(offset || 0), searchAll).then((page) => {
         this.events = page.data.events;
         this.pageNum = page.data.pageNum;
+        this.fullCount = page.data.fullCount; 
+        this.searchWidth = page.data.searchWidth;
         this.$emit("pageLoaded", page);
       }).catch((error) => {
         console.error("updateSearch error:", error);
@@ -84,7 +73,8 @@ export default {
 </script>
 <template> 
   <h3 class="c-divder c-divder--center">
-    <div v-if="multiplePages">{{pageText}}</div><div>Found {{foundText}} events containing "{{q}}".</div>
+    <div>Found {{fullCount}} {{pluralized}} containing "{{q}}"</div>
+    <div v-if="totalPages > 1">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>
   <EventSummary 
       v-for="evt in events" :key="evt.caldaily_id" 

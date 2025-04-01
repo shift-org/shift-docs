@@ -30,7 +30,6 @@ const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/calConst");
 
-
 // the events endpoint:
 exports.get = function(req, res, next) {
   let id = req.query.id;
@@ -102,6 +101,7 @@ function getSummaries(dailies) {
     });
   }));
 }
+exports.getSummaries = getSummaries;
 
 // the php version had each daily query for its event
 // and then tacked the end time to the end of the daily json

@@ -8,11 +8,13 @@ export default {
     return {
      attrs: {
         type: "text",
-        placeholder: "Search for events...",
+        placeholder: "Search event titles...",
       },
       model: {
-        inputText: "",
-      }
+        inputText: this.$route.query.q,
+      },
+      selectText: !!this.$route.query.q,
+      all: this.$route.query.all,
     }
   },
   methods: {
@@ -21,7 +23,8 @@ export default {
       if (inputText) {
         console.log(`searching for ${inputText}`);
         this.$emit("changeRoute", { name: 'search', query: { 
-          q: inputText, 
+          q: inputText,
+          all: this.all || undefined,
         }});
       }
     },
@@ -29,18 +32,37 @@ export default {
 }
 </script>
 <template>
-<form method="dialog">
+<form class="c-search" method="dialog">
   <!--  -->
-  <InputText name="search" label="Search" :attrs :model/>
-    <!-- 
+  <div class="c-search__controls">
+    <InputText name="search" label="Search" :attrs :model :selectText/>
+    <span class="c-search__past">
+      <label for="all">Include past events </label>
+      <input type="checkbox" id="all" v-model="all"/>
+    </span>
+  </div>
+  <!-- 
     note: prevents default to avoid form submission 
     ( chrome issues a warning when the form disappears due to navigation. )
   -->
-  <button @click.prevent="goSearch()">Go</button>
+  <button class="c-search__go" @click.prevent="goSearch()">Go</button>
 </form>
 </template>
 <style>
 #search-tool {
   font-size: 16px;
+}
+.c-search__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+.c-search__past {
+  font-size: 14px;
+  align-self: center;
+  white-space: pre;
+}
+.c-search__go {
+  height: 2em; /* hrm... otherwise it fills the wohle form. */
 }
 </style>

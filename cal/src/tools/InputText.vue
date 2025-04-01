@@ -11,6 +11,7 @@ export default {
     label: String,
     attrs: Object,
     model: Object,  // containing "inputText"
+    selectText: Boolean
   },
   computed: {
     id() {
@@ -21,14 +22,23 @@ export default {
   mounted() {
     // console.log("mounted", this.$refs.inputItem);
     this.$refs.inputItem.focus();
+    if (this.selectText) {
+      this.$refs.inputItem.select();
+    }
   },
 }
 </script>
 <template>
-  <label :for="id">{{label}}</label>
-  <input :name="name" 
-    :id="id" 
-    ref="inputItem"
-    v-model="model.inputText"
-    v-bind="attrs">
+  <span class="c-input_text">
+    <label :for="id">{{label}}</label> <input :name="name" 
+      :id="id" 
+      ref="inputItem"
+      v-model="model.inputText"
+      v-bind="attrs">
+  </span>
 </template>
+<style>
+.c-input_text {
+  white-space: pre;
+}
+</style>

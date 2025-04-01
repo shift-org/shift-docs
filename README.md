@@ -135,3 +135,13 @@ As an alternative to `npm run dev`, you can preview a local frontend with the ac
 Before executing `npm run dev`, you can configure email debugging using `npm run -w tools new-ethereal-cfg`. It will generate a `shift-email.cfg` file in your `bin` directory which will be used when adding new events. Use the username and password listed in that file to check for emails here: https://ethereal.email/login.
 
 No actual emails are sent when running this way.
+
+### Search info
+
+When developing the local server, here is the interface to test search locallt:
+- run `npm run -w tools make-fake-events` to create events
+- Sample event query: http://localhost:3080/api/search.php?q=Move&l=5&o=3&all=true
+- ?q = `term` to search for (req'd)
+- &l = `limit`, number of items per page (optional)
+- &o = `offset`, where to start the page in the resultset (optional)
+- &old=true, search all events, not just events from now forward. (optional)
