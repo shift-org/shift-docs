@@ -33,21 +33,22 @@ function buildPage(q, offset, res) {
       fullCount: fullcount,
       pageNum,
     },
-    shortcuts: buildShortcuts(q, offset, limit, events.length, fullcount)
+    shortcuts: buildShortcuts(offset, limit, events.length, fullcount)
   }; 
 }
 
 // ---------------------------------------------------------------------
-function buildShortcuts(q, offset, limit, count, total) {
+function buildShortcuts(offset, limit, count, total) {
   function disabled() {
     return {
       enabled: false,
     }
   }
+  // note: vm is actually the next or prev button, not CalSearch.
   function shift(vm, offset) {
-    vm.$router.push({query: { 
-      q, offset: offset || undefined, // when zero, hide the offset.
-    }});
+    const query = { ...vm.$route.query };
+    query.offset = offset || undefined;
+    vm.$router.push({query});
   }
   return {
     prev: offset > 0 ? (vm) => {
