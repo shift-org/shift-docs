@@ -35,7 +35,7 @@ exports.get = function(req, res, next) {
   const term = req.query.q;    // ?q=term   The search term
   const offset = parseInt(req.query.o, 10) || 0;  // &o=25
   const limit = parseInt(req.query.l, 10) || EventSearch.Limit; // &l=50
-  const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // &old=1|true  Option to search historically (TBD)
+  const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // &all=1|true  Option to search historically (TBD)
 
   if (term) {
     // Search for the given search term, starting from today
