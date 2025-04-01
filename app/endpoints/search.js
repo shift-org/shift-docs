@@ -32,18 +32,19 @@ const { getSummaries } = require("./events.js");
 
 // the search endpoint:
 exports.get = function(req, res, next) {
-  const term = req.query.q;    // The search term
-  const offset = req.query.o;  // ?o=25
-  const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // Option to search historically (TBD)
+  const term = req.query.q;    // ?q=term   The search term
+  const offset = parseInt(req.query.o, 10) || 0;  // &o=25
+  const limit = parseInt(req.query.l, 10) || EventSearch.Limit; // &l=50
+  const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // &old=1|true  Option to search historically (TBD)
 
   if (term) {
     // Search for the given search term, starting from today
     const startDate = dayjs().startOf('day');
-    return CalDaily.getEventsBySearch(startDate, term, offset, searchOldEvents).then((dailies) => {
+    return CalDaily.getEventsBySearch(startDate, term, limit, offset, searchOldEvents).then((dailies) => {
         return getSummaries(dailies).then((events) => {
           // fullcount appears in every
           const fullcount = events.length ? events[0].fullcount : 0;
-          const pagination = getPaginationSearch(fullcount, offset);
+          const pagination = getPaginationSearch(fullcount, limit, offset);
           res.set(config.api.header, config.api.version);
           res.json({
             events,
@@ -56,10 +57,10 @@ exports.get = function(req, res, next) {
   }
 }
 
-function getPaginationSearch(count, offset) {
+function getPaginationSearch(count, limit, offset) {
   return {
     offset: offset,
-    limit: EventSearch.Limit,
+    limit: limit,
     fullcount: count,
   };
 }

@@ -251,7 +251,7 @@ class CalDaily {
   }
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
-  static getEventsBySearch(firstDay, term, offset = 0, searchOldEvents=false) {
+  static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
     let query = knex.query('caldaily')
         .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .join('calevent', 'caldaily.id', 'calevent.id')
@@ -273,7 +273,7 @@ class CalDaily {
           }
         })
         .orderBy('eventdate')
-        .limit(EventSearch.Limit)  // Limit the query but
+        .limit(limit)  // Limit the query but
         .offset(offset);           // accept the offset from the client
     // console.log(query.toSQL().toNative());
     return query.then(function(rows) {
