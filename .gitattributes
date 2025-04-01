@@ -1,0 +1,5 @@
+# always force line-endings to linux style
+# all modern editors can handle this and its a crime 
+# that, without something like this, git changes line endings 
+# depending on what os you are using.
+text eol=lf
