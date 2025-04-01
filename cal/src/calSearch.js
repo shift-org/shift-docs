@@ -5,15 +5,15 @@ import dayjs from 'dayjs'
 import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
-export async function fetchSearch(q, offset, searchAll) {
-  const result = await dataPool.getSearch(q, offset, searchAll);
-  return buildPage(q, offset, result);
+export async function fetchSearch(searchStr, offset, searchAll) {
+  const result = await dataPool.getSearch(searchStr, offset, searchAll);
+  return buildPage(searchStr, offset, result);
 }
 
 // ---------------------------------------------------------------------
 // internal functions
 // ---------------------------------------------------------------------
-function buildPage(q, offset, res) {
+function buildPage(searchStr, offset, res) {
   //
   const { events } = res;
   const { limit, fullcount } = res.pagination;
@@ -22,8 +22,8 @@ function buildPage(q, offset, res) {
   return {
     page: {
       title: multiplePages ? 
-              `${q} - Page ${pageNum} - searching ${siteConfig.title}` : 
-              `${q} - searching ${siteConfig.title}`,
+              `${searchStr} - Page ${pageNum} - searching ${siteConfig.title}` : 
+              `${searchStr} - searching ${siteConfig.title}`,
       banner: siteConfig.defaultListBanner,
     },
     data: {
