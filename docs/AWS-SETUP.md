@@ -51,10 +51,17 @@ All further commands executed as `ubuntu` user which is the default login we sha
 	
 	apt update / upgrade to pull in all latest security fixes
 	reboot
+	# need this group setup for our hugo container
+	sudo groupadd -g 1234 hugo -U ubuntu
 	mkdir /opt/shift-docs
 	chown ubuntu /opt/shift-docs
 	cd /opt
 	git clone git@github.com:shift-org/shift-docs.git
+	# prepping permissions for hugo container
+	mkdir /opt/shift-docs/site/public
+	touch /opt/shift-docs/site/.hugo_build.lock
+	chgrp hugo /opt/shift-docs/site/public /opt/shift-docs/site/.hugo_build.lock
+	chmod g+w /opt/shift-docs/site/public /opt/shift-docs/site/.hugo_build.lock
 
 
 **This is where we stopped 18 Feb**
@@ -75,8 +82,15 @@ All further commands executed as `ubuntu` user which is the default login we sha
 	swapon -a
 - then you should be able to `./shift up`
 
+
+# add --agree-tos and --email bikecal@shift2bikes.org to certbot script
+# run certbot script
+
+
 ...and see that the node container is failing and debug from there.
 seems like maybe npm i isn't running as a node_modules directory is pretty empty and that's the last error reported (couldn't find `debug/index.js`).  To debug next week w/Simon
+
+
 
 ## Todo
 
