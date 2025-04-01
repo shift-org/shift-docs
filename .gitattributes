@@ -3,3 +3,4 @@
 # that, without something like this, git changes line endings 
 # depending on what os you are using.
 text eol=lf
+*.ics text eol=crlf
