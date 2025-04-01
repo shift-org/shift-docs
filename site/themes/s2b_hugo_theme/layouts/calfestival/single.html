@@ -34,7 +34,7 @@
                 <div id="fullcalendar"></div>
 
                 <!-- only display on current year -->
-                {{ if eq (.Param "year") 2024 }}
+                {{ if eq (.Param "year") 2025 }}
                   {{ partial "cal/pp-feed.html" . }}
                 {{ end }}
 
@@ -44,7 +44,7 @@
                 {{ end }}
 
                 <!-- only display on current year -->
-                {{ if eq (.Param "year") 2024 }}
+                {{ if eq (.Param "year") 2025 }}
                   {{ partial "cal/promo-banner-main-cal.html" . }}
 
                   {{ partial "alert_banner.html" . }}
