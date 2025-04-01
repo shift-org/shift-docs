@@ -3,7 +3,7 @@ title: "Pedalpalooza calendar"
 description: "Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
-type: pp-landing
+type: calfestival
 pp: true
 year: 2025
 startdate: 2025-06-01
