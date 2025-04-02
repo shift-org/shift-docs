@@ -33,7 +33,7 @@ export default {
     <label :for="id">{{label}}</label> <input :name="name" 
       :id="id" 
       ref="inputItem"
-      v-model="model.inputText"
+      v-model.trim="model.inputText"
       v-bind="attrs">
   </span>
 </template>
