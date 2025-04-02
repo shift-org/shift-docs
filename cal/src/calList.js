@@ -45,10 +45,10 @@ function buildPage(start, end, days) {
 // ( given calList.updateRange: if today is a monday
 // we see monday-sunday; and then shift to the next/previous monday. )
 function shiftRange(router, start, dir) {
-  const q = { ...router.currentRoute.query }; // *copy* the query object.
+  const query = { ...router.currentRoute.query }; // *copy* the query object.
   const next = start.add(dir, 'week');
-  q.start = next.format("YYYY-MM-DD"); // add/replace the start.
-  router.push({query: q});
+  query.start = next.format("YYYY-MM-DD"); // add/replace the start.
+  router.push({query});
 }
 
 // ---------------------------------------------------------------------

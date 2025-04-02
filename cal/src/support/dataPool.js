@@ -72,8 +72,8 @@ export default {
     return data;
   },
   // searching
-  async getSearch(q, offset, searchAll) {
-    const url = buildUrl(API_SEARCH_URL, { q, o: offset, all: searchAll });
+  async getSearch(searchStr, offset, searchAll) {
+    const url = buildUrl(API_SEARCH_URL, { q: searchStr, o: offset, all: searchAll });
     console.log(`fetching ${url}`);
     const resp = await fetch(url); 
     const data = await resp.json(); // data => { events: [], pagination: {} }

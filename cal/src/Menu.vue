@@ -23,8 +23,7 @@ export default {
   },
   computed: {
     activeMenu() {
-      const q = this.$route.query;
-      return q.menu;  
+      return this.$route.query.menu;
     },
     activeKids() {
       return this.menu[this.activeMenu].kids;
@@ -32,13 +31,13 @@ export default {
   },
   methods: {
     activate(name) {
-      const q = { ...this.$route.query };
-      if (q.menu === name) {
-        delete q.menu;
+      const query = { ...this.$route.query };
+      if (query.menu === name) {
+        delete query.menu;
       } else {
-        q.menu = name;
+        query.menu = name;
       }
-      this.$router.replace({query: q});
+      this.$router.replace({query});
     },
     caretFor(name) {
       const icon = name === this.activeMenu ? 'caretDown' : 'caretRight';

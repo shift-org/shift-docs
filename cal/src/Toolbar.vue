@@ -24,9 +24,9 @@ export default {
         const next = this.returnLink || {name: "events"};
         return this.$router.push(next);
       } else {
-        const q = { ...this.$route.query };
-        q.expanded = this.expanded != name ? name : undefined;
-        return this.$router.replace({query: q})
+        const query = { ...this.$route.query };
+        query.expanded = this.expanded != name ? name : undefined;
+        return this.$router.replace({query});
       }
     },
     icon(key) {

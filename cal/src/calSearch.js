@@ -5,15 +5,15 @@ import dayjs from 'dayjs'
 import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
-export async function fetchSearch(q, offset, searchAll) {
-  const result = await dataPool.getSearch(q, offset, searchAll);
-  return buildPage(q, offset, result);
+export async function fetchSearch(searchStr, offset, searchAll) {
+  const result = await dataPool.getSearch(searchStr, offset, searchAll);
+  return buildPage(searchStr, offset, result);
 }
 
 // ---------------------------------------------------------------------
 // internal functions
 // ---------------------------------------------------------------------
-function buildPage(q, offset, res) {
+function buildPage(searchStr, offset, res) {
   //
   const { events } = res;
   const { limit, fullcount } = res.pagination;
@@ -22,8 +22,8 @@ function buildPage(q, offset, res) {
   return {
     page: {
       title: multiplePages ? 
-              `${q} - Page ${pageNum} - searching ${siteConfig.title}` : 
-              `${q} - searching ${siteConfig.title}`,
+              `${searchStr} - Page ${pageNum} - searching ${siteConfig.title}` : 
+              `${searchStr} - searching ${siteConfig.title}`,
       banner: siteConfig.defaultListBanner,
     },
     data: {
@@ -33,21 +33,22 @@ function buildPage(q, offset, res) {
       fullCount: fullcount,
       pageNum,
     },
-    shortcuts: buildShortcuts(q, offset, limit, events.length, fullcount)
+    shortcuts: buildShortcuts(offset, limit, events.length, fullcount)
   }; 
 }
 
 // ---------------------------------------------------------------------
-function buildShortcuts(q, offset, limit, count, total) {
+function buildShortcuts(offset, limit, count, total) {
   function disabled() {
     return {
       enabled: false,
     }
   }
+  // note: vm is actually the next or prev button, not CalSearch.
   function shift(vm, offset) {
-    vm.$router.push({query: { 
-      q, offset: offset || undefined, // when zero, hide the offset.
-    }});
+    const query = { ...vm.$route.query };
+    query.offset = offset || undefined;
+    vm.$router.push({query});
   }
   return {
     prev: offset > 0 ? (vm) => {

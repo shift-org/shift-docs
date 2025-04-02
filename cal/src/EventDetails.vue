@@ -55,9 +55,9 @@ export default {
           // record the event data
           // and remember the calendar start
           if (from.name === 'events') {
-            const q = from.query;
-            if (q.start) {
-              vm.calStart = q.start;
+            const { start } = from.query;
+            if (start) {
+              vm.calStart = start;
             }
           }
           // done loading.
