@@ -2,14 +2,34 @@
 
 export default {
   props: {
+    id: {
+      type: String, // caldaily_id
+      required: true,
+    },
     featured: Boolean,
+    hasNews: Boolean,
     time: String,
   },
+  computed: {
+    describedBy() {
+      let res = "";
+      if (this.featured) {
+        res += `featured-${this.id}`;
+      }
+      if (this.hasNews) {
+        res += `news-${this.id}`;
+      }
+      return res || undefined;
+    },
+  }
 };
 </script>
 <template>
-  <header class="c-header" :class="{'c-header--featured': featured}">
-    <h3 class="c-header__marquee" v-if="featured">
+  <header class="c-header" 
+  :class="{'c-header--featured': featured}"
+  :aria-describedby="describedBy">
+    <h3 class="c-header__marquee" v-if="featured"
+      :id="`featured-${id}`">
       Featured Event
     </h3>
     <h3 class="c-header__title">
