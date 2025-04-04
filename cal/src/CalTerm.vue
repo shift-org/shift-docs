@@ -11,9 +11,17 @@ import icons from './icons.js'
 export default {
   components: { FontAwesomeIcon },
   props: {
-    id: String,    // suffix for the css class
-    label: String, // the name of the term
+    // short identifier for the term
+    // ex. news, time, etc.
+    id: String,      
+    // optional, added to the id to create a true html id
+    context: String, 
+    // the displayed name
+    // ( usually hidden, but there for screen readers )
+    label: String, 
+    // definition displayed
     text: [ String, Boolean ],
+    // icon override...
     icon: {
       type: String, 
       // by default uses the id
@@ -26,6 +34,9 @@ export default {
     exists() {
       return this.text || this.$slots.default;
     },
+    customId() {
+      return this.context && `${this.id}-${this.context}`;
+    }
   },
   methods: {
     cls(which) {
@@ -43,7 +54,7 @@ export default {
     <dt :class="cls('key')">
       <span class="c-term__label" >{{label}}</span>
     </dt>
-    <dd :class="cls('value')">
+    <dd :class="cls('value')" :id="customId">
       <FontAwesomeIcon class="c-term__icon" v-if="icon" :icon="icon" fixed-width/>
       <slot>{{text}}</slot></dd>
   </template>

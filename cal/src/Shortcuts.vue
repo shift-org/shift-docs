@@ -18,7 +18,9 @@ export default {
 </script>
 
 <template>
-  <div class="c-shortcuts">
+  <div class="c-shortcuts"
+  role="toolbar"
+  aria-label="Shortcuts">
     <ShortcutButton 
       v-for="(shortcut, name) in shortcuts" :key="name"
       :name :shortcut/>
