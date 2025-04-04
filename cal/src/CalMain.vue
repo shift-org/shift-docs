@@ -12,6 +12,7 @@ import Meta from './Meta.vue'
 import PedalPanel from './PedalPanel.vue'
 import SearchTool from './tools/SearchTool.vue'
 import Shortcuts from './Shortcuts.vue'
+import ToolPanel from './tools/ToolPanel.vue'
 import Toolbar from './Toolbar.vue'
 import { RouterLink, RouterView } from 'vue-router'
 // support:
@@ -30,7 +31,8 @@ export default {
     JumpTool, 
     Menu, 
     PedalPanel, 
-    SearchTool  
+    SearchTool,
+    ToolPanel
   },
   mounted() {
     // listen to all router changes
@@ -141,10 +143,22 @@ export default {
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
   <div v-show="!loading && !error" class="c-cal-body__content">
-    <SearchTool class="c-tool__details" v-if="expanded === 'search'" @changeRoute="changeRoute"/>
-    <JumpTool class="c-tool__details" v-else-if="expanded === 'jump'" @changeRoute="changeRoute"/>
-    <PedalPanel v-else-if="expanded === 'pedalp'"/>
-    <Menu v-else-if="expanded === 'menu'"/>
+    <ToolPanel name="search" :expanded>
+      <SearchTool @changeRoute="changeRoute"
+    />
+    </ToolPanel>
+    <ToolPanel name="jump" :expanded>
+      <JumpTool @changeRoute="changeRoute"/>
+    </ToolPanel>
+    <ToolPanel name="pedalp" :expanded>
+      <PedalPanel/>
+    </ToolPanel>
+    <ToolPanel name="menu" :expanded>
+      <Menu/>
+    </ToolPanel>
+     <!-- if no panel is open, we show the remaining page content:
+        the list of events, the favorites, the search results, event details, etc.
+      --> 
     <div v-show="!expanded">
       <RouterView @pageLoaded="pageLoaded"/>
     </div>
@@ -161,6 +175,12 @@ export default {
 }
 .c-cal-body__content {
   overflow-y: auto;
+  /* 
+    hide the vertical scrollbar --
+    this is mainly because when the site submenus open
+    the text shifts left as it attempts to stay centered.
+  */
+  scrollbar-width: none; 
 }
 .c-cal-body__loading::before {
   content: "⚙";
