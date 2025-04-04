@@ -12,14 +12,14 @@ export default {
   },
   computed: {
     describedBy() {
-      let res = "";
+      let res = [];
       if (this.featured) {
-        res += `featured-${this.id}`;
+        res.push(`featured-${this.id}`);
       }
       if (this.hasNews) {
-        res += `news-${this.id}`;
+        res.push(`news-${this.id}`);
       }
-      return res || undefined;
+      return res.length ?  res.join(" ") : undefined;
     },
   }
 };
