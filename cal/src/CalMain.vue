@@ -183,7 +183,8 @@ export default {
   scrollbar-width: none; 
 }
 .c-cal-body__loading::before {
-  content: "⚙";
+  /* alt text for screen readers? */
+  content: "⚙" / "";
   position: absolute;
   font-size: 50px;
   animation: spin 4s linear infinite;

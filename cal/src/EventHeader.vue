@@ -30,10 +30,12 @@ export default {
     color: #630;
     text-transform: uppercase;
     &::before {
-      content: "★ ";
+      /*  alt text for the content can be specified after the slash;
+      having empty alt text should hide from screen readers */
+      content: "★ " / "";
     }
     &::after {
-      content: " ★";
+      content: " ★" / "";
     } 
   }
 }
