@@ -49,8 +49,9 @@ export default {
 </script>
 <template>  
 <div class="c-menu">
-  <ul class="c-menu__items">
+  <ul class="c-menu__items" role="menu" id="sitemenu" aria-label="Site Menu">
     <li v-for="(menu, menu_id) in menu" :key="menu_id"
+    role="presentation"
     class="c-menu-item" 
      @click="toggle(menu_id)"
     :class="{
@@ -58,24 +59,32 @@ export default {
       'c-menu-item--active': menu_id === activeMenu,
       'c-menu-item--inactive': menu_id !== activeMenu,
     }">
-      <button class="c-menu-item__button" role="button" aria-haspopup="true" :aria-expanded="menu_id === activeMenu">{{ menu.name }}
+      <button 
+          class="c-menu-item__button" 
+          role="menuitem" 
+          aria-haspopup="true" 
+          :aria-expanded="menu_id === activeMenu"
+          >{{ menu.name }}
         <FontAwesomeIcon 
-          class="c-menu-item__caret" :icon="caretFor(menu_id)" 
-          />
+          class="c-menu-item__caret" 
+          :icon="caretFor(menu_id)"/>
           </button>
       <template v-if="menu_id === activeMenu">
         <!-- menu content comes from json, except for 'subscribe' which is custom. -->
-        <ul v-if="activeMenu !== 'subscribe'" class="c-menu-item__kids">
+        <ul v-if="activeMenu !== 'subscribe'" 
+            class="c-menu-item__kids"
+            role="menu">
           <li v-for="(kid, kid_id) in activeKids" :key="kid_id"
-          class="c-menu-kid" :class="`c-menu-kid--${kid_id}`">
-            <a :href="kid.url" class="c-menu-kid__link">{{kid.name}}</a>
+          class="c-menu-kid" :class="`c-menu-kid--${kid_id}`"
+          role="presentation">
+            <a :href="kid.url" role="menuitem" class="c-menu-kid__link">{{kid.name}}</a>
           </li>
         </ul>
-        <div v-else class="c-menu-item_kids">
-          <div class="c-subscribe">
+        <div v-else class="c-menu-item_kids" role="presentation">
+          <div class="c-subscribe" role="menuitem">
             <p>Want to see rides using your device's calendar?</p>
             <p><a class="c-subscribe__button" href="webcal://www.shift2bikes.org/cal/shift-calendar.php">Subscribe to the Shift calendar</a></p>
-            <p>If the subscribe link doesn't automatically open your calendar app, see other ways to <a href="/pages/calendar-faq/#subscribing-to-the-calendar">subscribe.</a>.</p>
+            <p>If the subscribe link doesn't automatically open your calendar app, see other ways to <a href="/pages/calendar-faq/#subscribing-to-the-calendar">subscribe.</a></p>
           </div>
         </div>
       </template>
@@ -127,8 +136,6 @@ export default {
   color: white;
 }
 .c-menu-item__kids {
-  display: flex;
-  flex-direction: column;
   list-style-type: none;
   padding-inline: 0;
   margin-inline: 0;
@@ -144,11 +151,10 @@ export default {
   padding: 0.25em;
 } 
 .c-subscribe {
-  width: 90%;
   text-align: center;
   background: #FCFAF2;
   padding: 1em;
-  margin: 1em auto;
+  margin: 0 auto;
 }
 .c-subscribe__button {
   color: #37b;
