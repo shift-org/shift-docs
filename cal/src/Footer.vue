@@ -38,5 +38,6 @@ export default {
   margin: 0 auto;
   text-align: center;
   max-width: 50em;
+  padding: 0 1em;
 } 
 </style>

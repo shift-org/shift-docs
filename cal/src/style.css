@@ -10,8 +10,8 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
-
-  /* prevents scroll bounce */
+  /* prevents scroll bounce 
+  bounce doesn't look great with sticky elements */
   overscroll-behavior-y: none;
 }
 a {
@@ -45,5 +45,7 @@ a {
 .c-app {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  /* ensure even with a small amount of content,
+  the app view is "full screen" */
+  min-height: 100vh;
 }

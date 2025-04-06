@@ -156,6 +156,9 @@ export default {
 .c-cal-body, .c-single {
   padding: 0px 1em;
 }
+.c-cal-body__content {
+  flex-grow: 1; /* take the remaining space */
+}
 .c-cal-body__loading::before {
   content: "⚙";
   position: absolute;
