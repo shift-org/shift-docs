@@ -17,6 +17,7 @@ import { RouterLink, RouterView } from 'vue-router'
 // support:
 import siteConfig from './siteConfig.js'
 import pp from './pedalp.js'
+import scrollPos from './scrollPos.js';
 
 export default {
   components: {
@@ -38,21 +39,17 @@ export default {
     // this callback gets all of the route request including the very first one.
     this.$router.beforeEach((to, from) => {
       // when the route changes, we are loading a new (sub) page
-      // ( this doesn't happen when naving left and right and the query params change )
       if (to.name !== from.name) {
-        console.log("loading...");
+        console.log(`loading ${to.name}...`);
         this.loading = true;
         this.error = null;
+
+        const { scrollZone } = this.$refs;
+        if (from.name === "events") {
+          scrollPos.savePos(scrollZone, from);
+        }
       }
     });
-  },
-
-  beforeRouteLeave(to, from) {
-    console.log("beforeRouteLeave???");
-    // called when the route that renders this component is about to be navigated away from.
-    // As with `beforeRouteUpdate`, it has access to `this` component instance.
-    delete to.query.expaned;
-    return to;
   },
   data() {
     return {
@@ -112,6 +109,7 @@ export default {
       } else {
         this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
+        scrollPos.restorePos(this.$refs.scrollZone, this.$route);
       }
     },
     // removes the "expanded" tool before jumping away
@@ -140,7 +138,7 @@ export default {
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
-  <div v-show="!loading && !error" class="c-cal-body__content">
+  <div v-show="!loading && !error" class="c-cal-body__content" ref="scrollZone">
     <SearchTool class="c-tool__details" v-if="expanded === 'search'" @changeRoute="changeRoute"/>
     <JumpTool class="c-tool__details" v-else-if="expanded === 'jump'" @changeRoute="changeRoute"/>
     <PedalPanel v-else-if="expanded === 'pedalp'"/>

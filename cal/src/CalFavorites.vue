@@ -14,7 +14,7 @@ export default {
   // ( doesnt have access to `this` )
   beforeRouteEnter(to, from, next) {
     console.log(`CalFavorites beforeRouteEnter ${to.fullPath}, ${from.fullPath}`);
-    favorites.fetch().then((store) => {
+    return favorites.fetch().then((store) => {
       next(vm => {
         vm.store = store;
         const page = buildPage();

@@ -16,7 +16,6 @@ export default {
     console.log(`CalSearch beforeRouteEnter ${to.fullPath}, ${from.fullPath}`);
     next(vm => {
       // access to component public instance via `vm`
-      // vm.lastEvent = lastEvent;
       vm.updateSearch(to.query);
     });
   },
