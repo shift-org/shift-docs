@@ -32,9 +32,10 @@ export default {
   /* space-evenly is nicer than gap; but not sure how to cap the maximum area on desktop */
   justify-content: center;
   gap: 10px;
-  border-top: solid;
-  border-color: lightgray;
-  margin-top: auto; /* push this to the bottom of the page 
-  https://stackoverflow.com/questions/33924655/position-last-flex-item-at-the-end-of-container */
+  border-top: solid lightgray;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background: white;
 }
 </style>

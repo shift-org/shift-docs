@@ -60,6 +60,13 @@ export default {
   display: flex;
   justify-content: center;
   gap: 3px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: white;
+  padding: 0.5em 0;
+  border-bottom: solid lightgray;
+/*  box-shadow: 0 10px 0 0 rgba(1, 1, 1, 0.2); */
 }
 .c-tool {
   height: 35px; 

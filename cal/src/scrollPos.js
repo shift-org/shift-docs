@@ -16,12 +16,14 @@ function scrollKey(route) {
 }
 
 export default {
-  savePos(el, route) {
+  savePos(route, el) {
+    el = el || document.documentElement;
     const key = scrollKey(route);
     // console.log(`saving ${key} ${el.scrollTop}`);
     scrollMap.set(key, el.scrollTop);
   },
-  restorePos(el, route) {
+  restorePos(route, el) {
+    el = el || document.documentElement;
     const key = scrollKey(route);
     const pos = scrollMap.get(key) || 0;
     // console.log(`restoring ${key} ${pos}`);

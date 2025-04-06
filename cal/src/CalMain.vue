@@ -44,9 +44,8 @@ export default {
         this.loading = true;
         this.error = null;
 
-        const { scrollZone } = this.$refs;
         if (from.name === "events") {
-          scrollPos.savePos(scrollZone, from);
+          scrollPos.savePos(from);
         }
       }
     });
@@ -109,7 +108,7 @@ export default {
       } else {
         this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
-        scrollPos.restorePos(this.$refs.scrollZone, this.$route);
+        scrollPos.restorePos(this.$route);
       }
     },
     // removes the "expanded" tool before jumping away
@@ -138,7 +137,7 @@ export default {
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
-  <div v-show="!loading && !error" class="c-cal-body__content" ref="scrollZone">
+  <div v-show="!loading && !error" class="c-cal-body__content">
     <SearchTool class="c-tool__details" v-if="expanded === 'search'" @changeRoute="changeRoute"/>
     <JumpTool class="c-tool__details" v-else-if="expanded === 'jump'" @changeRoute="changeRoute"/>
     <PedalPanel v-else-if="expanded === 'pedalp'"/>
@@ -156,9 +155,6 @@ export default {
 <style>
 .c-cal-body, .c-single {
   padding: 0px 1em;
-}
-.c-cal-body__content {
-  overflow-y: auto;
 }
 .c-cal-body__loading::before {
   content: "⚙";

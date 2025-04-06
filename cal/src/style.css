@@ -1,18 +1,18 @@
 html, body {
-  height: 100%;
-  margin: 0px;
+  /* allow dividers to cover the whole screen width */
+  margin: 0px; 
 }
-.c-app {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+html {
+  scrollbar-width: none;
 }
-
 body {
   font-family: roboto, Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
   color: #555555;
+
+  /* prevents scroll bounce */
+  overscroll-behavior-y: none;
 }
 a {
   color: #337ab7;
@@ -25,7 +25,11 @@ a {
     text-decoration: underline;
   }
 }
-/* based on '.date h2' in main.css */
+/*
+  the divider style appears on several different sub-pages
+  so shared here. 
+  based on '.date h2' in main.css 
+*/
 .c-divder {
   background-color: #fd6;
   color: #630;
@@ -37,4 +41,9 @@ a {
 }
 .c-divder--center {
   text-align: center;
+}
+.c-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
