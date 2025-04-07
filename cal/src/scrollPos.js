@@ -9,6 +9,7 @@
 // so: we store the old position when leaving the events page
 // and on every page attempt to reset the position to zero, or whatever we remembered.
 const scrollMap = new Map();
+const log = false;
 
 function scrollKey(route) {
   // a way to store which page / params we are on.
@@ -19,14 +20,14 @@ export default {
   savePos(route, el) {
     el = el || document.documentElement;
     const key = scrollKey(route);
-    // console.log(`saving ${key} ${el.scrollTop}`);
+    log && console.log(`saving ${key} ${el.scrollTop}`);
     scrollMap.set(key, el.scrollTop);
   },
   restorePos(route, el) {
     el = el || document.documentElement;
     const key = scrollKey(route);
     const pos = scrollMap.get(key) || 0;
-    // console.log(`restoring ${key} ${pos}`);
+    log && console.log(`restoring ${key} ${pos}`);
     setTimeout(() => el.scrollTop = pos);
   }
 }

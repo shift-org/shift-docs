@@ -32,10 +32,5 @@ export default {
   /* space-evenly is nicer than gap; but not sure how to cap the maximum area on desktop */
   justify-content: center;
   gap: 10px;
-  border-top: solid lightgray;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  background: white;
 }
 </style>

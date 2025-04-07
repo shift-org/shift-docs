@@ -56,24 +56,19 @@ export default {
   </div>
 </template>
 <style>
+
 .c-toolbar {
   display: flex;
   justify-content: center;
   gap: 3px;
-  position: sticky;
-  top: 0;
   width: 100%;
-  background: white;
-  padding: 0.5em 0;
-  border-bottom: solid lightgray;
-/*  box-shadow: 0 10px 0 0 rgba(1, 1, 1, 0.2); */
+  padding: 0.5rem 0;
 }
 .c-tool {
+  font-size: medium;
   height: 35px; 
   min-width: 50px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #ddd;
+  border: solid thin #ddd;
   background-color: white;
   &.c-tool--enabled {
     cursor: pointer;
