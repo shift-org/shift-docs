@@ -133,17 +133,20 @@ Now, create an SSH key that we'll use to pull the public repo...
 		cd /opt/shift-docs ; sudo ./services/nginx/certbot.sh
 
 - restoring event data:
-	# on oldserver:
-	`./shift mysqldump > backup.mysql`
-	# edit the output to remove the top line and also the line with the error about PROCESS
-	# on new server, copy file over
-	`cat backup.mysql | ./shift mysql-pipe`
+
+		# on oldserver:
+		`./shift mysqldump > backup.mysql`
+		# edit the output to remove the top line and also the line with the error about PROCESS
+		# on new server, copy file over
+		`cat backup.mysql | ./shift mysql-pipe`
+
 - restoring image data:
-	# on oldserver:
-	`cd /opt/shift-docs/backend/eventimages ; tar czf ~/images.tgz`
-	# on new server, copy file over, and then...
-	`sudo chown ubuntu:hugo /opt/shift-docs/backend/eventimages`
-	`cd /opt/shift-docs/backend/eventimages ; tar xzf ~/images.tgz`
+
+		# on oldserver:
+		`cd /opt/shift-docs/backend/eventimages ; tar czf ~/images.tgz`
+		# on new server, copy file over, and then...
+		`sudo chown ubuntu:hugo /opt/shift-docs/backend/eventimages`
+		`cd /opt/shift-docs/backend/eventimages ; tar xzf ~/images.tgz`
 
 - then you should be able to visit the new site directly!
 
