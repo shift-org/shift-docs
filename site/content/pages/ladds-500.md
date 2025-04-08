@@ -19,7 +19,7 @@ The Ladd's 500 is a free, one day, bicycle-themed public picnic and non-competit
 
 > It's spring, let's do something stupid.
 
-The Ladd's 500 is annual event. It takes place each April, the day after that month's [Midnight Mystery Ride](/pages/mmr/). Check the [calendar](/calendar/) to find details on the latest event!
+The Ladd's 500 is annual event. It takes place on the Saturday after the second Friday in April (i.e. the day after the April [Midnight Mystery Ride](/pages/mmr/)). Check the [calendar](/calendar/) to find details on the latest event!
 
 ## Contact
 
