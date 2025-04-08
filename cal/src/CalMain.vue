@@ -18,6 +18,7 @@ import { RouterLink, RouterView } from 'vue-router'
 // support:
 import siteConfig from './siteConfig.js'
 import pp from './pedalp.js'
+import scrollPos from './scrollPos.js';
 
 export default {
   components: {
@@ -40,21 +41,15 @@ export default {
     // this callback gets all of the route request including the very first one.
     this.$router.beforeEach((to, from) => {
       // when the route changes, we are loading a new (sub) page
-      // ( this doesn't happen when naving left and right and the query params change )
       if (to.name !== from.name) {
-        console.log("loading...");
+        console.log(`loading ${to.name}...`);
         this.loading = true;
         this.error = null;
+        if (to.name === 'EventDetails') {
+          scrollPos.savePos(from);
+        }
       }
     });
-  },
-
-  beforeRouteLeave(to, from) {
-    console.log("beforeRouteLeave???");
-    // called when the route that renders this component is about to be navigated away from.
-    // As with `beforeRouteUpdate`, it has access to `this` component instance.
-    delete to.query.expaned;
-    return to;
   },
   data() {
     return {
@@ -114,6 +109,7 @@ export default {
       } else {
         this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
+        scrollPos.restorePos(this.$route);
       }
     },
     // removes the "expanded" tool before jumping away
@@ -137,15 +133,11 @@ export default {
   <Meta property="og:title" :content="page.title" />
   <Meta property="og:description" :content="page.desc" />
   <!--  -->
-  <Banner :banner="currentBanner" :loading/>
+<div class="c-top">
   <Toolbar :tools="tools" :returnLink="page.returnLink"/>
-  <div v-if="loading" class="c-cal-body__loading">Loading...</div>
-  <GenericError v-else-if="error" class="c-cal-body__error" :error/>
-  <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
-  <div v-show="!loading && !error" class="c-cal-body__content">
+  <div class="c-panels" v-show="!!expanded">
     <ToolPanel name="search" :expanded>
-      <SearchTool @changeRoute="changeRoute"
-    />
+      <SearchTool @changeRoute="changeRoute"/>
     </ToolPanel>
     <ToolPanel name="jump" :expanded>
       <JumpTool @changeRoute="changeRoute"/>
@@ -156,31 +148,66 @@ export default {
     <ToolPanel name="menu" :expanded>
       <Menu/>
     </ToolPanel>
-     <!-- if no panel is open, we show the remaining page content:
-        the list of events, the favorites, the search results, event details, etc.
-      --> 
-    <div v-show="!expanded">
-      <RouterView @pageLoaded="pageLoaded"/>
-    </div>
+  </div>
+</div>
+<div class="c-mid">
+  <Banner :banner="currentBanner" :loading/>
+  <div v-if="loading" class="c-cal-body__loading">Loading...</div>
+  <GenericError v-else-if="error" class="c-cal-body__error" :error/>
+  <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
+  <div v-show="!loading && !error" class="c-cal-body__content">
+    <RouterView @pageLoaded="pageLoaded"/>
     <Footer v-show="!loading" />
   </div>
-  <!--  -->
+</div>
+<div class="c-bottom">
   <Shortcuts :shortcuts="shortcuts"></Shortcuts>
+</div> 
 </template>
-<!-- 
--->
+
 <style>
+.c-top {
+  position: fixed;
+  top: 0;
+  min-height: 3.25rem;
+  z-index: 250;
+  width: 100%;
+  border-bottom: solid lightgray thin;
+  background: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.c-panels {
+  overflow: auto;
+  height: calc(100vh - 7.75rem);
+  border-top: solid lightgray thin;
+}
+.c-divder {
+  position: sticky;
+  top: 3.25rem;
+}
+.c-mid {
+  padding-top: 3.25rem;
+  padding-bottom: 4rem;
+  box-sizing: border-box;
+  width: 100%;
+  border-top: solid lightgray thin;
+}
+.c-bottom {
+  box-sizing: border-box;
+  border-top: solid lightgray thin;
+  position: fixed;
+  bottom: 1px; /* so that the mid and bottom borders overlap */
+  width: 100%;
+  background: white;
+  width: 100%;
+}
 .c-cal-body, .c-single {
   padding: 0px 1em;
 }
 .c-cal-body__content {
-  overflow-y: auto;
-  /* 
-    hide the vertical scrollbar --
-    this is mainly because when the site submenus open
-    the text shifts left as it attempts to stay centered.
-  */
-  scrollbar-width: none; 
+  flex-grow: 1; /* take the remaining space */
 }
 .c-cal-body__loading::before {
   /* alt text for screen readers? */

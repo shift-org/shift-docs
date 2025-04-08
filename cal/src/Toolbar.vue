@@ -47,9 +47,45 @@ export default {
   </div>
 </template>
 <style>
+
 .c-toolbar {
   display: flex;
   justify-content: center;
   gap: 3px;
+  width: 100%;
+  padding: 0.5rem 0;
+}
+.c-tool {
+  font-size: medium;
+  height: 35px; 
+  min-width: 50px;
+  border: solid thin #ddd;
+  background-color: white;
+  &.c-tool--enabled {
+    cursor: pointer;
+    @media (hover: hover) {
+        &:hover {
+        color: black;
+        background-color: #ffc14d; /*    --navbar-focus:  */
+      } 
+    }
+  }
+}
+.c-tool--active  {
+  color: white;
+  background-color: #ff9819; /* orange: primary-accent */
+  border-color: #555;
+}
+.c-tool--disabled {
+  opacity: 0.5;
+}
+/* see also c-menu */
+.c-tool__details {
+  margin: 0.5em;
+  padding-top: 0.5em;
+  display: flex;
+  justify-content: center;
+  gap:  0.5em;
+  font-size: 16px;
 }
 </style>

@@ -19,12 +19,8 @@ export default {
   // called before the component is fully created
   // ( doesnt have access to `this` )
   beforeRouteEnter(to, from, next) {
-    // remember where we came from ( so we can scroll it into view )
-    const lastEvent = from.params.caldaily_id || null;
-    console.log(`CalList beforeRouteEnter last event was ${lastEvent || "nothing"}`);
     next(vm => {
-      // access to component public instance via `vm`
-      vm.lastEvent = lastEvent;
+      // access to component instance via `vm`
       vm.updateRange(to.query.start);
     });
   },
@@ -40,9 +36,6 @@ export default {
       // defaults to now; overridden by query parameters
       // ( via beforeRoute* )
       start: dayjs(),
-      // set during beforeRouteEnter()
-      // provides a way to scroll to the specified event
-      lastEvent: null,
       // an array of days
       // each day containing an array of event instances ( a joined calevent + caldaily )
       days: [],
@@ -110,8 +103,7 @@ export default {
     <DateDivider :date="day.date" />
     <EventSummary 
         v-for="evt in day.events" :key="evt.caldaily_id" 
-        :evt="evt" 
-        :focused="lastEvent === evt.caldaily_id"/>
+        :evt="evt" />
     <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
       {{fest.title}} Ends
     </h2>

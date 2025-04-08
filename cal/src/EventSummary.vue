@@ -17,15 +17,7 @@ import format from './support/format.js'
 export default {
   props: {
     evt: Object,
-    focused: Boolean, // the summary should scrollIntoView.
     showDate: Boolean // the summary should show the complete date.
-  },
-  mounted() {
-    if (this.focused) {
-      // at least in chrome, this doesn't work consistently without the timeout.
-      // ( possibly because mounted() gets called directly after changing the dom. )
-      setTimeout(() => this.$refs.article.scrollIntoView());
-    }
   },
   components: { CalTags, EventHeader, LocationLink, Term },
   computed: {
