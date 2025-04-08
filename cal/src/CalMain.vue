@@ -156,12 +156,7 @@ export default {
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
   <div v-show="!loading && !error" class="c-cal-body__content">
-     <!-- if no panel is open, we show the remaining page content:
-        the list of events, the favorites, the search results, event details, etc.
-      --> 
-    <div v-show="!expanded">
-      <RouterView @pageLoaded="pageLoaded"/>
-    </div>
+    <RouterView @pageLoaded="pageLoaded"/>
     <Footer v-show="!loading" />
   </div>
 </div>

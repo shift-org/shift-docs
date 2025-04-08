@@ -31,11 +31,11 @@ export default {
   },
   methods: {
     toggle(id) {
-      const q = { ...this.$route.query };
-      if (q.menu === id) {
-        delete q.menu;
+      const query = this.$route.query;
+      if (query.menu === id) {
+        delete query.menu;
       } else {
-        q.menu = id;
+        query.menu = id;
       }
       this.$router.replace({query});
     },
@@ -52,7 +52,7 @@ export default {
     <li v-for="(menu, menu_id) in menu" :key="menu_id"
     role="presentation"
     class="c-menu-item" 
-     @click="toggle(menu_id)"
+    @click="toggle(menu_id)"
     :class="{
       [`c-menu-item--${menu_id}`]: true, 
       'c-menu-item--active': menu_id === activeMenu,
