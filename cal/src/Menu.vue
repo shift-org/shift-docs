@@ -23,8 +23,7 @@ export default {
   },
   computed: {
     activeMenu() {
-      const q = this.$route.query;
-      return q.menu;  
+      return this.$route.query.menu;
     },
     activeKids() {
       return this.menu[this.activeMenu].kids;
@@ -38,7 +37,7 @@ export default {
       } else {
         q.menu = id;
       }
-      this.$router.replace({query: q});
+      this.$router.replace({query});
     },
     caretFor(id) {
       const icon = id === this.activeMenu ? 'caretDown' : 'caretRight';

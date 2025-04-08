@@ -11,10 +11,13 @@ export default {
         placeholder: "Search event titles...",
       },
       model: {
+        // the text in the input box should be filled with the query search string.
         inputText: this.$route.query.q,
       },
-      selectText: !!this.$route.query.q,
-      all: this.$route.query.all,
+      // if there is an existing inputText, select it.
+      shouldSelect: !!this.$route.query.q,
+      // the v-model attribute (below) keeps this in sync with the checkbox state
+      searchAll: this.$route.query.all,
     }
   },
   methods: {
@@ -24,7 +27,9 @@ export default {
         console.log(`searching for ${inputText}`);
         this.$emit("changeRoute", { name: 'search', query: { 
           q: inputText,
-          all: this.all || undefined,
+          // if the checkbox is 'false' report 'undefined'
+          // that makes the url query string be blank instead of "all=false"
+          all: this.searchAll || undefined,
         }});
       }
     },
@@ -35,10 +40,10 @@ export default {
 <form class="c-search" method="dialog">
   <!--  -->
   <div class="c-search__controls">
-    <InputText name="search" label="Search" :attrs :model :selectText/>
+    <InputText name="search" label="Search" :attrs :model :shouldSelect/>
     <span class="c-search__past">
       <label for="all">Include past events </label>
-      <input type="checkbox" id="all" v-model="all"/>
+      <input type="checkbox" id="all" v-model="searchAll"/>
     </span>
   </div>
   <!-- 

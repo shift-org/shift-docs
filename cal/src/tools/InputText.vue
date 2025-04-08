@@ -11,7 +11,7 @@ export default {
     label: String,
     attrs: Object,
     model: Object,  // containing "inputText"
-    selectText: Boolean
+    shouldSelect: Boolean
   },
   computed: {
     id() {
@@ -22,7 +22,7 @@ export default {
   mounted() {
     // console.log("mounted", this.$refs.inputItem);
     this.$refs.inputItem.focus();
-    if (this.selectText) {
+    if (this.shouldSelect) {
       this.$refs.inputItem.select();
     }
   },
@@ -33,7 +33,7 @@ export default {
     <label :for="id">{{label}}</label> <input :name="name" 
       :id="id" 
       ref="inputItem"
-      v-model="model.inputText"
+      v-model.trim="model.inputText"
       v-bind="attrs">
   </span>
 </template>
