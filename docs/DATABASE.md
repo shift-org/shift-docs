@@ -30,7 +30,7 @@ If you're standing up the site for the first time, add database tables with the 
 
 With the application running, go to [https://localhost:4443/addevent/](https://localhost:4443/addevent/) and use the Add Event form to create events.
 
-In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to `services/php/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log.
+In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the Node logs. For local development, we don't actually send the email, so get the confirmation link from the log (`./shift logs node`).
 
 
 ## Migrations
@@ -52,6 +52,13 @@ After you've applied your migration, run this command to dump the database struc
 Then:
 * Comment out each `DROP TABLE` line, e.g. `` -- DROP TABLE IF EXISTS `tablename` ``
 * Add `IF NOT EXISTS` to each `CREATE TABLE` statement, e.g. `` CREATE TABLE IF NOT EXISTS `tablename` ``
+
+
+## Exporting data
+
+You can export the database to a file, e.g. as a backup. The file can be placed anywhere or named whatever you like, but the `services/db/tmp/` directory is a good choice. The following command will name the file with the current date & time, e.g. `export-202504071802.sql`: 
+
+```./shift mysqldump > services/db/tmp/export-$(date +"%Y%m%d%H%M").sql```
 
 
 ## Resetting tables
