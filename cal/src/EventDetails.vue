@@ -55,9 +55,9 @@ export default {
           // record the event data
           // and remember the calendar start
           if (from.name === 'events') {
-            const q = from.query;
-            if (q.start) {
-              vm.calStart = q.start;
+            const { start } = from.query;
+            if (start) {
+              vm.calStart = start;
             }
           }
           // done loading.
@@ -87,9 +87,14 @@ export default {
     });
   },
   data() {
+    // at page load, we don't know much other than
+    // series, daily, and maybe the slug
+    const { caldaily_id } = this.$route.params;
     return {
       // placeholder empty event data
-      evt: {},
+      evt: {
+        caldaily_id,
+      },
       // the week we came from
       calStart: null,
     };
@@ -107,18 +112,6 @@ export default {
     loopText() {
       return this.evt.loopride && 'Ride is a loop';
     }
-    // an example of generating :aria-describedby with "newflash" and "featured"
-    // describedBy() {
-    //   const { caldaily_id } = this;
-    //   // list of event properties to check
-    //   const members = [ "featured", "newsflash" ];
-    //   // filter out that are empty in the event data
-    //   // and convert the remaining ones to the member name + id.
-    //   const out = members.filter(n => this.evt[n])
-    //                      .map(n => n + caldaily_id);
-    //   // returning undefined hides the html attr
-    //   return out.length ? out.join(" ") : undefined;
-    // },
   },
   methods: {
     webLink(evt) {
@@ -135,10 +128,11 @@ export default {
   <DateDivider :date="evt.date"></DateDivider>
   <article 
     :data-event-id="evt.caldaily_id"
+    :id="`cal-${evt.caldaily_id}`" 
     class="c-detail"
     :class="{ 'c-detail--cancelled': evt.cancelled, 
               'c-detail--featured': evt.featured }">
-    <EventHeader class="c-detail__header" :featured="evt.featured" :time="startTime">
+    <EventHeader class="c-detail__header" :id="evt.caldaily_id" :featured="evt.featured" :time="startTime" :hasNews="!!evt.newsflash">
       {{evt.title}}
     </EventHeader>
     <dl class="c-terms c-detail__terms">
@@ -162,7 +156,7 @@ export default {
             class="c-organizer__phone"
           >(<a :href="'tel:' + evt.phone">{{evt.phone}}</a>)</span>
       </Term>
-      <Term id="news"       label= "Newsflash"    :text="evt.newsflash"/>
+      <Term id="news" :context="evt.caldaily_id" label= "Newsflash" :text="evt.newsflash"/>
       <Term id="time"       label= "Start Time"   :text="timeRange"/>
       <Term id="timedetails"label= "Time Details" :text="evt.timedetails"/>
       <Term id="locend"     label= "End Location" :text="evt.locend"/>

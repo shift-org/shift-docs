@@ -67,9 +67,14 @@ export default {
     'c-shortcut--disabled': !enabled 
   }">
     <a v-if="href" :href :rel class="c-shortcut__link"
+    :aria-label="name"
+    :aria-disabled="enabled ? undefined : false"
+    role="button"
     ><FontAwesomeIcon class="c-shortcut__icon" 
     :icon fixed-width/></a>
     <button v-else class="c-shortcut__button" 
+      :aria-label="name"
+      :aria-disabled="enabled ? undefined : false"
       @click="click()"
     ><FontAwesomeIcon class="c-shortcut__icon" 
     :icon fixed-width/></button>
@@ -109,7 +114,6 @@ export default {
   text-align: center;
   background: lightgray;
   text-decoration: none;
-  
   &:visited {
     color: darkslategray
   }

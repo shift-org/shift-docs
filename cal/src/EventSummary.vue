@@ -52,11 +52,12 @@ export default {
   <template>
   <article 
     ref="article"
+    :id="`cal-${evt.caldaily_id}`"
     :data-event-id="evt.caldaily_id"
     class="c-event"
     :class="{ 'c-event--cancelled': evt.cancelled, 
               'c-event--featured': evt.featured }">
-  <EventHeader :featured="evt.featured">
+  <EventHeader :id="evt.caldaily_id" :featured="evt.featured" :hasNews="!!evt.newsflash">
     <RouterLink :to="eventDetailsLink">{{ evt.title }}</RouterLink>
   </EventHeader>
   <dl class="c-terms c-event__terms">
@@ -64,7 +65,7 @@ export default {
        <span v-if="showDate">{{longDate}}</span>
        <div :class="showDate? 'c-time__range--indent': 'c-time__range--inline'">{{timeRange}}</div>
     </Term>
-    <Term id="news" label="Newsflash"  :text="evt.newsflash"/>
+    <Term id="news" :context="evt.caldaily_id" label="Newsflash" :text="evt.newsflash"/>
     <Term id="location" label="Location">
       <LocationLink :evt="evt"></LocationLink>
     </Term>

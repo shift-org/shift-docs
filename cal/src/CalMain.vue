@@ -12,6 +12,7 @@ import Meta from './Meta.vue'
 import PedalPanel from './PedalPanel.vue'
 import SearchTool from './tools/SearchTool.vue'
 import Shortcuts from './Shortcuts.vue'
+import ToolPanel from './tools/ToolPanel.vue'
 import Toolbar from './Toolbar.vue'
 import { RouterLink, RouterView } from 'vue-router'
 // support:
@@ -31,7 +32,8 @@ export default {
     JumpTool, 
     Menu, 
     PedalPanel, 
-    SearchTool  
+    SearchTool,
+    ToolPanel
   },
   mounted() {
     // listen to all router changes
@@ -134,10 +136,18 @@ export default {
 <div class="c-top">
   <Toolbar :tools="tools" :returnLink="page.returnLink"/>
   <div class="c-panels" v-show="!!expanded">
-   <SearchTool class="c-tool__details" v-if="expanded === 'search'" @changeRoute="changeRoute"/>
-    <JumpTool class="c-tool__details" v-else-if="expanded === 'jump'" @changeRoute="changeRoute"/>
-    <PedalPanel v-else-if="expanded === 'pedalp'"/>
-    <Menu v-else-if="expanded === 'menu'"/>
+    <ToolPanel name="search" :expanded>
+      <SearchTool @changeRoute="changeRoute"/>
+    </ToolPanel>
+    <ToolPanel name="jump" :expanded>
+      <JumpTool @changeRoute="changeRoute"/>
+    </ToolPanel>
+    <ToolPanel name="pedalp" :expanded>
+      <PedalPanel/>
+    </ToolPanel>
+    <ToolPanel name="menu" :expanded>
+      <Menu/>
+    </ToolPanel>
   </div>
 </div>
 <div class="c-mid">
@@ -146,7 +156,10 @@ export default {
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
   <div v-show="!loading && !error" class="c-cal-body__content">
-    <div class="c-cal-view">
+     <!-- if no panel is open, we show the remaining page content:
+        the list of events, the favorites, the search results, event details, etc.
+      --> 
+    <div v-show="!expanded">
       <RouterView @pageLoaded="pageLoaded"/>
     </div>
     <Footer v-show="!loading" />
@@ -202,7 +215,8 @@ export default {
   flex-grow: 1; /* take the remaining space */
 }
 .c-cal-body__loading::before {
-  content: "⚙";
+  /* alt text for screen readers? */
+  content: "⚙" / "";
   position: absolute;
   font-size: 50px;
   animation: spin 4s linear infinite;

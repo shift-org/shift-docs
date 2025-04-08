@@ -34,11 +34,16 @@ export default {
     };
   },
   computed: {
-    q() {
+    searchStr() {
       return this.$route.query.q;  
     },
     offset() {
       return this.$route.query.offset || 0;
+    },
+    searchAll() {
+      // return undefined if the 'all' parameter doesnt exist 
+      // so we don't wind up with all=false in the browser bar.
+      return this.$route.query.all || undefined;
     },
     itemCount() {
       return this.events.length;
@@ -54,9 +59,12 @@ export default {
     }
   },
   methods: {
+    // expects the query object as a parameter.
     // emits the 'pageLoaded' event when done.
-    updateSearch({q, offset, all: searchAll}) {
-      return fetchSearch(q, parseInt(offset || 0), searchAll).then((page) => {
+    updateSearch(urlQuery) {
+      // unpack the desired query parameter:
+      const {q: searchStr, offset, all: searchAll} = urlQuery;
+      return fetchSearch(searchStr, parseInt(offset || 0), searchAll).then((page) => {
         this.events = page.data.events;
         this.pageNum = page.data.pageNum;
         this.fullCount = page.data.fullCount; 
@@ -72,7 +80,7 @@ export default {
 </script>
 <template> 
   <h3 class="c-divder c-divder--center">
-    <div>Found {{fullCount}} {{pluralized}} containing "{{q}}"</div>
+    <div>Found {{fullCount}} {{pluralized}} containing "{{searchStr}}"</div>
     <div v-if="totalPages > 1">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>
   <EventSummary 

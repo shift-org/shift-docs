@@ -2,12 +2,10 @@
   Provides common user actions that appear at the top of each page
  -->
 <script>
-//
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
-import icons from './icons.js'
+import ToolButton from './tools/ToolButton.vue'
 
 export default {
-  components: { FontAwesomeIcon },
+  components: { ToolButton },
   props: {
     returnLink: [Object, Boolean],
     tools: Object
@@ -24,34 +22,27 @@ export default {
         const next = this.returnLink || {name: "events"};
         return this.$router.push(next);
       } else {
-        const q = { ...this.$route.query };
-        q.expanded = this.expanded != name ? name : undefined;
-        return this.$router.replace({query: q})
+        const query = { ...this.$route.query };
+        query.expanded = this.expanded != name ? name : undefined;
+        return this.$router.replace({query});
       }
     },
-    icon(key) {
-      return icons.get(key);
-    }
   }
 }
 </script>
 
 <template>
-  <!-- the toolbar buttons -->
+  <!-- the strip of toolbar buttons.
+      https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tab_role#example
+  -->
   <div class="c-toolbar">
-  <template v-for="(tool, key) in tools" :key >
-    <button
-      class="c-tool"
-      v-if="tool" 
-      :class="{
-        [`c-tool__${key}`]: true,
-        'c-tool--active': key === expanded,
-        'c-tool--enabled': !tool.disabled,
-        'c-tool--disabled': tool.disabled,
-      }"
-      @click="toggle(key)"><span v-if="tool.label">{{tool.label}}</span>
-      <FontAwesomeIcon v-if="icon(key)" class="c-toolbar__icon" :icon="icon(key)"/>
-    </button>
+  <template v-for="(tool, name) in tools" :key="name" role="tablist" area-label="Site Tools">
+    <ToolButton
+      :name 
+      :tool 
+      :expanded="
+      name===expanded"
+      @toggle="toggle"/>
   </template>
   </div>
 </template>
