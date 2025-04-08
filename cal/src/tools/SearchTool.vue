@@ -54,8 +54,10 @@ export default {
 </form>
 </template>
 <style>
-#search-tool {
-  font-size: 16px;
+.c-search {
+  display: flex;
+  justify-content: center;
+  gap:  0.5em;
 }
 .c-search__controls {
   display: flex;
