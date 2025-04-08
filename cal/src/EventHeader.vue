@@ -2,14 +2,34 @@
 
 export default {
   props: {
+    id: {
+      type: String, // caldaily_id
+      required: true,
+    },
     featured: Boolean,
+    hasNews: Boolean,
     time: String,
   },
+  computed: {
+    describedBy() {
+      let res = [];
+      if (this.featured) {
+        res.push(`featured-${this.id}`);
+      }
+      if (this.hasNews) {
+        res.push(`news-${this.id}`);
+      }
+      return res.length ?  res.join(" ") : undefined;
+    },
+  }
 };
 </script>
 <template>
-  <header class="c-header" :class="{'c-header--featured': featured}">
-    <h3 class="c-header__marquee" v-if="featured">
+  <header class="c-header" 
+  :class="{'c-header--featured': featured}"
+  :aria-describedby="describedBy">
+    <h3 class="c-header__marquee" v-if="featured"
+      :id="`featured-${id}`">
       Featured Event
     </h3>
     <h3 class="c-header__title">
@@ -30,10 +50,12 @@ export default {
     color: #630;
     text-transform: uppercase;
     &::before {
-      content: "★ ";
+      /*  alt text for the content can be specified after the slash;
+      having empty alt text should hide from screen readers */
+      content: "★ " / "";
     }
     &::after {
-      content: " ★";
+      content: " ★" / "";
     } 
   }
 }
