@@ -22,8 +22,8 @@ export default {
     }
   },
   computed: {
-    activeMenu() {
-      return this.$route.query.menu;
+    activeMenu() { 
+      return this.$route.query.menu; 
     },
     activeKids() {
       return this.menu[this.activeMenu].kids;
@@ -31,13 +31,13 @@ export default {
   },
   methods: {
     toggle(id) {
-      const query = this.$route.query;
+      const query  = { ...this.$route.query };
       if (query.menu === id) {
         delete query.menu;
       } else {
         query.menu = id;
       }
-      this.$router.replace({query});
+      this.$router.replace({ query });
     },
     caretFor(id) {
       const icon = id === this.activeMenu ? 'caretDown' : 'caretRight';
@@ -52,7 +52,6 @@ export default {
     <li v-for="(menu, menu_id) in menu" :key="menu_id"
     role="presentation"
     class="c-menu-item" 
-    @click="toggle(menu_id)"
     :class="{
       [`c-menu-item--${menu_id}`]: true, 
       'c-menu-item--active': menu_id === activeMenu,
@@ -63,6 +62,7 @@ export default {
           role="menuitem" 
           aria-haspopup="true" 
           :aria-expanded="menu_id === activeMenu"
+          @click="toggle(menu_id)"
           >{{ menu.name }}
         <FontAwesomeIcon 
           class="c-menu-item__caret" 
