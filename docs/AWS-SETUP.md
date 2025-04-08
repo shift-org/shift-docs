@@ -124,13 +124,13 @@ Now, create an SSH key that we'll use to pull the public repo...
 - need to add the overrides file as default: `cd /opt/shift-docs ; ln -s shift.overrides.production shift.overrides`
 - now you can run the site, but can't visit it yet; you should be able to set up SSL now though:
 
-	sudo apt-get install certbot
-	# if you aren't doing this with the prod hostname, you'll need to change the certbot.sh script to have the temporary hostname
-	# no matter what, you need to add --agree-tos and --email bikecal@shift2bikes.org to line 23 of certbot script 
-	# please don't use our email address if you aren't us :)
-	# TODO update the master copy in the repo once this is new prod
-	# run certbot script
-	cd /opt/shift-docs ; sudo ./services/nginx/certbot.sh
+		sudo apt-get install certbot
+		# if you aren't doing this with the prod hostname, you'll need to change the certbot.sh script to have the temporary hostname
+		# no matter what, you need to add --agree-tos and --email bikecal@shift2bikes.org to line 23 of certbot script 
+		# please don't use our email address if you aren't us :)
+		# TODO update the master copy in the repo once this is new prod
+		# run certbot script
+		cd /opt/shift-docs ; sudo ./services/nginx/certbot.sh
 
 - restoring event data:
 	# on oldserver:
