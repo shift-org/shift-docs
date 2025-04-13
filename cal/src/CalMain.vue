@@ -59,7 +59,7 @@ export default {
       loading: false,
       // critical errors, if any.
       error: null,
-      // for the bottom nav panel:
+      // used for the bottom button bar.
       shortcuts: [],
     }
   },
@@ -74,7 +74,8 @@ export default {
     expanded() {
       return this.$route.query.expanded;
     }, 
-    // in computed so it can change per path
+    // buttons for the top toolbar.
+    // ( a computed property so it can change when the route/url changes. )
     tools() {
       const route = this.$route; 
       const hideHome = route.name === "events" && !route.query.start && !route.query.expanded;
@@ -182,6 +183,10 @@ export default {
   overflow: auto;
   height: calc(100vh - 7.75rem);
   border-top: solid lightgray thin;
+  /* stops the cal list from scroll chaining
+  https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior
+  */
+  overscroll-behavior-y: contain;
 }
 .c-divder {
   position: sticky;
