@@ -26,7 +26,6 @@ export default {
   <button
       v-if="tool" 
       class="c-tool"
-      role="tab"
       :id="`tool-button-${name}`"
       :tabindex="expanded ? 0 : -1"
       :aria-selected="expanded"

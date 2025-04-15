@@ -133,7 +133,7 @@ export default {
   <Meta property="og:title" :content="page.title" />
   <Meta property="og:description" :content="page.desc" />
   <!--  -->
-<div class="c-top">
+<header class="c-header">
   <Toolbar :tools="tools" :returnLink="page.returnLink"/>
   <div class="c-panels" v-show="!!expanded">
     <ToolPanel name="search" :expanded>
@@ -149,8 +149,8 @@ export default {
       <Menu/>
     </ToolPanel>
   </div>
-</div>
-<div class="c-mid">
+</header>
+<main class="c-main">
   <Banner :banner="currentBanner" :loading/>
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
@@ -159,14 +159,14 @@ export default {
     <RouterView @pageLoaded="pageLoaded"/>
     <Footer v-show="!loading" />
   </div>
-</div>
-<div class="c-bottom">
+</main>
+<footer class="c-footer">
   <Shortcuts :shortcuts="shortcuts"></Shortcuts>
-</div> 
+</footer> 
 </template>
 
 <style>
-.c-top {
+.c-header {
   position: fixed;
   top: 0;
   min-height: 3.25rem;
@@ -187,14 +187,14 @@ export default {
   position: sticky;
   top: 3.25rem;
 }
-.c-mid {
+.c-main {
   padding-top: 3.25rem;
   padding-bottom: 4rem;
   box-sizing: border-box;
   width: 100%;
   border-top: solid lightgray thin;
 }
-.c-bottom {
+.c-footer {
   box-sizing: border-box;
   border-top: solid lightgray thin;
   position: fixed;

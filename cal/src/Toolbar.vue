@@ -36,7 +36,7 @@ export default {
       https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/tab_role#example
   -->
   <div class="c-toolbar">
-  <template v-for="(tool, name) in tools" :key="name" role="tablist" area-label="Site Tools">
+  <template v-for="(tool, name) in tools" :key="name" area-label="Site Tools">
     <ToolButton
       :name 
       :tool 
