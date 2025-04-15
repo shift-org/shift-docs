@@ -33,7 +33,7 @@
   # NOTE: This pulls new code to the api server!
   # drafts are excluded (no `-D` option) for prod build.  
   #  
-  command = 'npm run deploy && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && sudo ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
+  command = 'npm run deploy && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
 
 ## ---------------------------------------------------------------------------
 ## domain redirects to serve alternative domains.  First, we canonicalize
