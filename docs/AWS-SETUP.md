@@ -143,15 +143,19 @@ Now, create an SSH key that we'll use to pull the public repo...
 - restoring image data:
 
 		# on oldserver:
-		`cd /opt/shift-docs/backend/eventimages ; tar czf ~/images.tgz`
+		`cd /opt/shift-docs/backend/eventimages ; tar czf ~/images.tgz .`
 		# on new server, copy file over, and then...
 		`sudo chown ubuntu:hugo /opt/shift-docs/backend/eventimages`
 		`cd /opt/shift-docs/backend/eventimages ; tar xzf ~/images.tgz`
 
 - then you should be able to visit the new site directly!
 
-TODO:
-	
-- OS autoupdates
-- backups
-- adding cron job for certbot
+### wrap up details
+
+We have a backup script that uses the AWS CLI, so:
+		snap install aws-cli --classic
+...and we use a few tools we'd like to be there:
+		apt-get install vim tmux
+Don't forget to add the cron job for certbot!
+
+We also set up snapshots in AWS for the server
