@@ -174,7 +174,7 @@ export default {
   width: 100%;
   max-width: var(--max-width);
   border: var(--page-border);
-  margin: -1px;
+  margin: 0 -1px;
   background-color: var(--page-background);
   display: flex;
   flex-direction: column;
@@ -200,7 +200,7 @@ export default {
   bottom: 0;
   width: 100%;
   max-width: var(--max-width);
-  margin: -1px;
+  margin: 0 -1px;
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;
