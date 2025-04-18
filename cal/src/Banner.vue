@@ -44,7 +44,7 @@ export default {
   font-style: bold;
 }
 .c-banner__image {
-  max-height: 200px;
+  height: 200px;
   width: auto;
   object-fit: contain;
   margin: 10px;

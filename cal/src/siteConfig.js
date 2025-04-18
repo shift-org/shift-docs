@@ -22,8 +22,10 @@ if (menu.calendar) {
   }
 }
 
+const logo = "/img/cal/logos/shift-logo.svg#shift-logo";
+
 export default {
-  logo: "/img/cal/logos/shift-logo.svg#shift-logo",
+  logo,
   // for a ride when no image has been specified.
   defaultRideBanner: {
     alt: "Default image for a community organized ride.",
@@ -33,7 +35,7 @@ export default {
   // ( see: generated site/buildPedalDates.html )   
   defaultListBanner: {
       alt: "The shift to bikes logo",
-      image: "/images/shiftlogo.jpg",
+      image: logo,
       title: "Ride Calendar",
       // prevent it from being clickable for now.
       // target: "/pages/mission_statement/",
