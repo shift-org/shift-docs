@@ -40,5 +40,3 @@ export default {
       :evt="entry.data" 
       :showDate="true"/>
 </template>
-<style>
-</style>

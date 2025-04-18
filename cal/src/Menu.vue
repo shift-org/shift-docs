@@ -151,7 +151,7 @@ export default {
 } 
 .c-subscribe {
   text-align: center;
-  background: #FCFAF2;
+  background: #fcfaf2;
   padding: 1em;
   margin: 0 auto;
 }

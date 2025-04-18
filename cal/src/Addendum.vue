@@ -28,8 +28,8 @@ export default {
 .c-notice {
   text-align: center;
   color: #663300;
-  background: #FCFAF2;
-  border: 1px solid #FFDD66;
+  background: var(--feature-bg);
+  border: 1px solid var(--feature-border);
   padding: 0.5em;
 }
 .c-disclaimer {

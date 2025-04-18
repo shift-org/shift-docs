@@ -1,3 +1,8 @@
+:root {
+  --feature-bg: #fcfaf2;
+  --feature-border: #fd6;
+}
+
 html, body {
   /* allow dividers to cover the whole screen width */
   margin: 0px; 
@@ -28,7 +33,7 @@ a {
   based on '.date h2' in main.css 
 */
 .c-divder {
-  background-color: #fd6;
+  background-color: var(--feature-border);
   color: #630;
   border: 1px solid transparent;
   padding: 10px;

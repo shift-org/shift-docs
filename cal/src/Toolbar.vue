@@ -73,7 +73,7 @@ export default {
 }
 .c-tool--active  {
   color: white;
-  background-color: #ff9819; /* orange: primary-accent */
+  background-color: #ff9819;
   border-color: #555;
 }
 .c-tool--disabled {

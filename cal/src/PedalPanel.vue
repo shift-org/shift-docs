@@ -39,9 +39,9 @@ export default {
   align-items: center;
   width: 90%; /* a little space around the edges */
   margin: 1em auto;
-  border: 1px solid #fd6;
+  border: 1px solid var(--feature-border);
   color: #630;
-  background: #fcfaf2;
+  background: var(--feature-bg);
 }
 .c-pp__img {
   width: 100%;

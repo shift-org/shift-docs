@@ -83,11 +83,10 @@ export default {
   border-color: #FFDD66;
   margin: 10px 20px;
   padding: 0px 1em;
-/*  background: #FCFAF2;*/
 }
 .c-event--featured {
-  background-color: #fcfaf2;
-  border: 1px solid #fd6;
+  background-color: var(--featured-bg);
+  border: 1px solid var(--featured-border);
   padding: 0px 1em;
 }
 .c-event--cancelled {

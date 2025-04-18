@@ -19,5 +19,3 @@ export default {
     {{longDate}}
 </h3>  
 </template>
-<style>
-</style>

@@ -181,8 +181,8 @@ export default {
   flex-wrap: nowrap;
 } 
 .c-detail--featured {
-  background-color: #fcfaf2;
-  border: 1px solid #fd6;
+  background-color: var(--feature-bg);
+  border: 1px solid var(--feature-border);
   padding: 0px 1em;
 }
 .c-detail--cancelled {
