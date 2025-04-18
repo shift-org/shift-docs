@@ -119,8 +119,8 @@ export default {
 .c-menu-item__button {
   padding: 0.5em 0;
   margin: 0;
-  color: #555;
-  background-color: transparent;
+  background-color: var(--page-bg);
+  color: var(--page-text);
   border: none;
   cursor: pointer;
   font-size: large;
@@ -152,14 +152,20 @@ export default {
 .c-subscribe {
   text-align: center;
   background: var(--feature-bg);
+  color: var(--feature-text);
   padding: 1em;
   margin: 0 auto;
 }
 .c-subscribe__button {
-  color: #37b;
   font-weight: bold;
   text-transform: uppercase;
   padding: 1em;
-  border-style: none;
+  border: var(--page-border-accent);
+  &:hover {
+    /* matches the menu links */
+    color: var(--active-bg);
+    /* hrm... a random accent */
+    background-color: var(--fixed-bg);
+  }
 }
 </style>

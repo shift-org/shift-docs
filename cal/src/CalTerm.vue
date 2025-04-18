@@ -79,6 +79,6 @@ export default {
 }
 .c-term__icon {
   padding-right: 10px;
-  color: goldenrod;
+  color: var(--icon-color);
 }
 </style>

@@ -1,19 +1,26 @@
 :root {
   --max-width: 680px; /* for desktop */
+  
   --yellowy:  #fff1b0;
   --orangey: #ffdd66;
+  --darkend: goldenrod;
+  --brightend: #ff9819;
 
+  --body-bg: #fafafa;
   --page-bg: white;
   --page-text: #555555;
+  --fixed-bg:  var(--yellowy); /* for the header and footer */
+
   --page-border: solid thin #ddd;
   --page-border-accent: solid thin darkgrey;
   --page-border-light: solid thin #eee;
-  --event-border: solid thin #FFDD66;
+  --event-border: solid thin var(--orangey);
  
   --hover-bg: #ffc14d;
   --hover-text: #555;
+  --link-text: #337ab7;
   
-  --bar-bg:  var(--yellowy);
+  --icon-color: var(--darkend); /* for the cal event newflash, organizer  */
  
   --divider-bg:  var(--orangey);
   --divider-text: #630;
@@ -22,9 +29,15 @@
   --feature-border: solid thin var(--orangey);
   --feature-text: #630;
  
-  --active-bg: #ff9819;
+  --active-bg: var(--brightend);
   --active-text: white;
   --disabled-text: lightgray;
+  /* 
+    note: each CalTag (audience,etc.) has an individualized color set 
+    see CalTags.vue
+  */
+  --tag-bg: white; 
+  --tag-text: black;
 }
 
 html, body {
@@ -39,10 +52,10 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: var(--page-text);
-  background: #fafafa;
+  background: var(--body-bg);
 }
 a {
-  color: #337ab7;
+  color: var(--link-text);
   text-decoration: none;
 }
 @media (hover: hover) {

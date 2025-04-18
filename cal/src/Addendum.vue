@@ -34,7 +34,6 @@ export default {
 }
 .c-disclaimer {
   font-size: small;
-  color: #707070;
   margin: 0 auto;
   text-align: center;
   max-width: 50em;
