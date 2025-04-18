@@ -61,7 +61,6 @@ export default {
 </template>
 
 <style> 
-
 /* cheating a bit by putting this here */
 .c-terms {
   margin-top: 0px;

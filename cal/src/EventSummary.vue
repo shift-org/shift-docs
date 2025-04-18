@@ -85,8 +85,8 @@ export default {
   padding: 0px 1em;
 }
 .c-event--featured {
-  background-color: var(--featured-bg);
-  border: 1px solid var(--featured-border);
+  background-color: var(--feature-bg);
+  border: 1px solid var(--feature-border);
   padding: 0px 1em;
 }
 .c-event--cancelled {
