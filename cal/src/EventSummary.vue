@@ -91,7 +91,7 @@ export default {
   padding: 0px 1em;
 }
 .c-event--cancelled {
-  .c-header {
+  .c-event-header {
     text-decoration: line-through;
   }
   /* strike through the values of things, except for the news and the tags */

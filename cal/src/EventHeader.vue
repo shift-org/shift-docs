@@ -25,26 +25,26 @@ export default {
 };
 </script>
 <template>
-  <header class="c-header" 
-  :class="{'c-header--featured': featured}"
+  <header class="c-event-header" 
+  :class="{'c-event-header--featured': featured}"
   :aria-describedby="describedBy">
-    <h3 class="c-header__marquee" v-if="featured"
+    <h3 class="c-event-header__marquee" v-if="featured"
       :id="`featured-${id}`">
       Featured Event
     </h3>
-    <h3 class="c-header__title">
-      <div class="c-header__time" v-if="time">{{time}}</div>
-      <div class="c-header__text"><slot /></div>
+    <h3 class="c-event-header__title">
+      <div class="c-event-header__time" v-if="time">{{time}}</div>
+      <div class="c-event-header__text"><slot /></div>
     </h3>
   </header>
 </template>
 <style>
-.c-header__title {
+.c-event-header__title {
   display: flex;
   align-items: center;
 }
-.c-header--featured {
-  .c-header__marquee {
+.c-event-header--featured {
+  .c-event-header__marquee {
     text-align: center;
     font-weight: bold;
     color: #630;
@@ -59,7 +59,7 @@ export default {
     } 
   }
 }
-.c-header__time {
+.c-event-header__time {
   box-shadow: 2px 2px 1px 1px black;
   border: solid black thin;
   background: white;
