@@ -79,7 +79,7 @@ export default {
 }
 </script>
 <template> 
-  <h3 class="c-divder c-divder--center">
+  <h3 class="c-divider c-divider--center">
     <div>Found {{fullCount}} {{pluralized}} containing "{{searchStr}}"</div>
     <div v-if="totalPages > 1">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>

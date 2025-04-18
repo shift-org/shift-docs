@@ -21,7 +21,6 @@ export default {
 <template>
 <div class="c-tool__panel"  
     :id="id" 
-    role="tabpanel"
     tabindex="0"
     :aria-labeledby="toolButton"
     v-show="!hidden"

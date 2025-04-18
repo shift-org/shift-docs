@@ -68,7 +68,6 @@ function buildShortcuts(offset, limit, count, total) {
       };
     } : disabled,
     addevent: "/addevent/",
-    info: "/pages/mission_statement/",
     donate: "/pages/donate",
     favorites(vm) {
       return {

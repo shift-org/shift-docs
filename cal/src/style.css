@@ -1,3 +1,45 @@
+:root {
+  --max-width: 680px; /* for desktop */
+  
+  --yellowy:  #fff1b0;
+  --orangey: #ffdd66;
+  --darkend: goldenrod;
+  --brightend: #ff9819;
+
+  --body-bg: #fafafa;
+  --page-bg: white;
+  --page-text: #555555;
+  --fixed-bg:  var(--yellowy); /* for the header and footer */
+
+  --page-border: solid thin #ddd;
+  --page-border-accent: solid thin darkgrey;
+  --page-border-light: solid thin #eee;
+  --event-border: solid thin var(--orangey);
+ 
+  --hover-bg: #ffc14d;
+  --hover-text: #555;
+  --link-text: #337ab7;
+  
+  --icon-color: var(--darkend); /* for the cal event newflash, organizer  */
+ 
+  --divider-bg:  var(--orangey);
+  --divider-text: #630;
+ 
+  --feature-bg: #fcfaf2;
+  --feature-border: solid thin var(--orangey);
+  --feature-text: #630;
+ 
+  --active-bg: var(--brightend);
+  --active-text: white;
+  --disabled-text: lightgray;
+  /* 
+    note: each CalTag (audience,etc.) has an individualized color set 
+    see CalTags.vue
+  */
+  --tag-bg: white; 
+  --tag-text: black;
+}
+
 html, body {
   /* allow dividers to cover the whole screen width */
   margin: 0px; 
@@ -9,16 +51,20 @@ body {
   font-family: roboto, Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #555555;
+  color: var(--page-text);
+  background: var(--body-bg);
 }
 a {
-  color: #337ab7;
+  color: var(--link-text);
   text-decoration: none;
 }
 @media (hover: hover) {
   a:hover,
   a:focus {
-    color: #e57e00;
+    /* a little weird; but the regular link color
+    needs good contrast against the page background,
+    and so does the active, divider background */
+    color: var(--active-bg);
     text-decoration: underline;
   }
 }
@@ -27,16 +73,16 @@ a {
   so shared here. 
   based on '.date h2' in main.css 
 */
-.c-divder {
-  background-color: #fd6;
-  color: #630;
+.c-divider {
+  background-color: var(--divider-bg);
+  color: var(--divider-text);
   border: 1px solid transparent;
   padding: 10px;
   margin: 5px 0;
   font-size: large;
   font-weight: bold;
 }
-.c-divder--center {
+.c-divider--center {
   text-align: center;
 }
 .c-app {
@@ -45,4 +91,8 @@ a {
   /* ensure even with a small amount of content,
   the app view is "full screen" */
   min-height: 100vh;
+  /* to center on desktop */
+  max-width: var(--max-width);
+  margin: auto;
+  background-color: var(--page-bg);
 }

@@ -26,9 +26,6 @@ export default {
 </template>
 <style>
 .c-error {
-  /*display: flex;
-  align-items: center;
-  flex-direction: column;*/
   margin: 5em auto;
   text-align: center;
 }
