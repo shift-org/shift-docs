@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 // components:
 //
 import Banner from './Banner.vue'
-import Footer from './Footer.vue'
+import Addendum from './Addendum.vue'
 import GenericError from './GenericError.vue'
 import JumpTool from './tools/JumpTool.vue'
 import Menu from './Menu.vue'
@@ -22,7 +22,7 @@ import scrollPos from './scrollPos.js';
 
 export default {
   components: {
-    Footer,
+    Addendum,
     GenericError, 
     Meta, 
     RouterView, 
@@ -157,7 +157,7 @@ export default {
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
   <div v-show="!loading && !error" class="c-cal-body__content">
     <RouterView @pageLoaded="pageLoaded"/>
-    <Footer v-show="!loading" />
+    <Addendum v-show="!loading" />
   </div>
 </main>
 <footer class="c-footer">
@@ -198,8 +198,7 @@ export default {
   box-sizing: border-box;
   border-top: solid lightgray thin;
   position: fixed;
-  bottom: 1px; /* so that the mid and bottom borders overlap */
-  width: 100%;
+  bottom: 0;
   background: white;
   width: 100%;
 }
