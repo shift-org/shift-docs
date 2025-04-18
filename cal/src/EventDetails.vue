@@ -183,7 +183,7 @@ export default {
 .c-detail--featured {
   background-color: var(--feature-bg);
   border: var(--feature-border);
-  padding: 0px 1em;
+  padding: 1em;
 }
 .c-detail--cancelled {
   .c-event-header {

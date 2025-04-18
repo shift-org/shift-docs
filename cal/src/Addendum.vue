@@ -27,7 +27,7 @@ export default {
 /** tweaked from main.css */
 .c-notice {
   text-align: center;
-  color: #663300;
+  color: var(--feature-text);
   background: var(--feature-bg);
   border: var(--feature-border);
   padding: 0.5em;

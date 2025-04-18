@@ -173,8 +173,8 @@ export default {
   z-index: 250;
   width: 100%;
   max-width: var(--max-width);
-  background-color: var(--page-bg);
-  border-bottom: var(--page-border-accent);
+  background-color: var(--bar-bg);
+  border-bottom: var(--page-border);
   display: flex;
   flex-direction: column;
 }
@@ -182,8 +182,9 @@ export default {
   overflow: auto;
   height: calc(100vh - 7.75rem);
   border-top: var(--page-border);
+  background-color: var(--page-bg);
 }
-.c-divder {
+.c-divider {
   position: sticky;
   top: 3.25rem;
 }
@@ -193,12 +194,12 @@ export default {
   width: 100%;
 }
 .c-footer {
-  background-color: lightgray;
+  background-color: var(--bar-bg);
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: var(--max-width);
-  border-top: var(--page-border-accent);
+  border-top: var(--page-border);
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;

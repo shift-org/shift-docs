@@ -1,17 +1,30 @@
 :root {
-  --feature-bg: #fcfaf2;
-  --feature-border: solid thin #fd6;
+  --max-width: 680px; /* for desktop */
+  --yellowy:  #fff1b0;
+  --orangey: #ffdd66;
+
   --page-bg: white;
   --page-text: #555555;
   --page-border: solid thin #ddd;
   --page-border-accent: solid thin darkgrey;
-  --max-width: 680px;
-  --divider-bg:  #fd6;
-  --divider-color: #630;
-  --hover-color: #555;
+  --page-border-light: solid thin #eee;
+  --event-border: solid thin #FFDD66;
+ 
   --hover-bg: #ffc14d;
+  --hover-text: #555;
+  
+  --bar-bg:  var(--yellowy);
+ 
+  --divider-bg:  var(--orangey);
+  --divider-text: #630;
+ 
+  --feature-bg: #fcfaf2;
+  --feature-border: solid thin var(--orangey);
+  --feature-text: #630;
+ 
   --active-bg: #ff9819;
-  --active-color: white;
+  --active-text: white;
+  --disabled-text: lightgray;
 }
 
 html, body {
@@ -35,7 +48,10 @@ a {
 @media (hover: hover) {
   a:hover,
   a:focus {
-    color: #e57e00;
+    /* a little weird; but the regular link color
+    needs good contrast against the page background,
+    and so does the active, divider background */
+    color: var(--active-bg);
     text-decoration: underline;
   }
 }
@@ -44,16 +60,16 @@ a {
   so shared here. 
   based on '.date h2' in main.css 
 */
-.c-divder {
+.c-divider {
   background-color: var(--divider-bg);
-  color: var(--divider-color);
+  color: var(--divider-text);
   border: 1px solid transparent;
   padding: 10px;
   margin: 5px 0;
   font-size: large;
   font-weight: bold;
 }
-.c-divder--center {
+.c-divider--center {
   text-align: center;
 }
 .c-app {

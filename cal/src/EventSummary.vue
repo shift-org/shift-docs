@@ -78,9 +78,8 @@ export default {
 </template>
 <style>
 .c-event {
-  border: 1px solid;
+  border: var(--event-border);
   border-radius: 20px;
-  border-color: #FFDD66;
   margin: 10px 20px;
   padding: 0px 1em;
 }

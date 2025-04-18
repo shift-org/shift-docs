@@ -47,7 +47,7 @@ export default {
   .c-event-header__marquee {
     text-align: center;
     font-weight: bold;
-    color: #630;
+    color: var(--feature-text);
     text-transform: uppercase;
     &::before {
       /*  alt text for the content can be specified after the slash;

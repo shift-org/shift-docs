@@ -97,30 +97,31 @@ export default {
     v-for="(day, index) in days" :key="day.date.format('YYYY-MM-DD')" 
     class="c-day"
     :data-date="day.date">
-    <h2 v-if="divides(day, index, -1)" class="c-day__division c-day__division--start">
+    <h2 v-if="divides(day, index, -1)" class="c-day__festival c-day__festival--start">
       {{fest.title}} Starts
     </h2>
     <DateDivider :date="day.date" />
     <EventSummary 
         v-for="evt in day.events" :key="evt.caldaily_id" 
         :evt="evt" />
-    <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
+    <h2 v-if="divides(day, index, 1)" class="c-day__festival c-day__festival--end">
       {{fest.title}} Ends
     </h2>
   </article>
 </template>
 <style>
   
-.c-day__division {
-  background-color: #ff9819;
-  color: #630;
+/** the pedalp start/end divider */
+.c-day__festival {
+  background-color: var(--active-bg);
+  color: var(--divider-text);
   text-align: center;
   padding: 1em;
 }  
-.c-day__division--start {
+.c-day__festival--start {
   margin-top: 2em;
 }
-.c-day__division--end {
+.c-day__festival--end {
   margin-bottom: 2em;
 }
 </style>

@@ -15,7 +15,7 @@ export default {
 }
 </script>
 <template>
-<h3 class="c-divder">
+<h3 class="c-divider">
     {{longDate}}
 </h3>  
 </template>

@@ -40,7 +40,7 @@ export default {
   width: 90%; /* a little space around the edges */
   margin: 1em auto;
   border: var(--feature-border);
-  color: #630;
+  color: var(--feature-text);
   background: var(--feature-bg);
 }
 .c-pp__img {

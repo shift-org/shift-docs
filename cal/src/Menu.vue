@@ -126,13 +126,13 @@ export default {
   font-size: large;
   font-weight: bold;
   &:hover {
-    color: var(--hover-color);
+    color: var(--hover-text);
     background-color: var(--hover-bg);
   }
 }
 .c-menu-item--active .c-menu-item__button {
   background-color: var(--active-bg);
-  color: var(--active-color);
+  color: var(--active-text);
 }
 .c-menu-item__kids {
   list-style-type: none;
@@ -140,7 +140,7 @@ export default {
   margin-inline: 0;
 }
 .c-menu-kid {
-  border-bottom: solid 1px #eee;
+  border-bottom: var(--page-border-light);
   line-height: 2em;
   width: 100%;
 }

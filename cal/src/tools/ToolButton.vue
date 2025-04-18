@@ -53,7 +53,7 @@ export default {
     cursor: pointer;
     @media (hover: hover) {
       &:hover {
-        color: var(--hover-color);
+        color: var(--hover-text);
         background-color: var(--hover-bg);
       } 
     }
@@ -61,11 +61,11 @@ export default {
 }
 .c-tool--active  {
   background-color: var(--active-bg);
-  color: var(--active-color);
-  border-color: #ddd;
+  color: var(--active-text);
+  border: var(--page-border-accent);
 }
 .c-tool--disabled {
-  opacity: 0.5;
+  color: var(--disabled-text);
 }
 
 /*.c-tool__details {

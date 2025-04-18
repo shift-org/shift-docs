@@ -95,26 +95,25 @@ export default {
   cursor: pointer;
   @media (hover: hover) {
     &:hover {
-        background: darkgrey; 
-        color: var(--divider-color);
+        background: var(--hover-bg);
+        color: var(--hover-text);
       }
   }  
   &:active {
-    color: white;
+    color: var(--page-bg);
   }
 }
 .c-shortcut__link, .c-shortcut__button {
   font-size: x-large;
+  border: var(--page-border-accent);
   /* make a circle */
   border-radius: 25px;
-  border-width: 1px;
-  border: none;
   width: 50px;
   height:50px;
   line-height: 50px;
   text-align: center;
   padding: 0; /*  https://stackoverflow.com/questions/44941161/safari-on-ios-cant-render-button-text-center-aligned*/
-  background-color: var(--page-bg);;
+  background-color: var(--page-bg);
   text-decoration: none;
   &:visited {
     color: var(--page-text);
