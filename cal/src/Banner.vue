@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <header class="c-banner" v-if="banner">
+  <div class="c-banner" v-if="banner">
   <!-- note: excludes og:image:width,height;  so far as i understand, 
   they exist to allow providers to pick images based on size.
   we aren't providing multiple sizes, so we don't need them.
@@ -29,7 +29,7 @@ export default {
       <span class="c-banner__title">{{ banner.title }}</span>
     </template>
   </RouterLink>
-  </header>
+  </div>
 </template>
 
 <style>
