@@ -112,6 +112,7 @@ export default {
   height:50px;
   line-height: 50px;
   text-align: center;
+  padding: 0; /*  https://stackoverflow.com/questions/44941161/safari-on-ios-cant-render-button-text-center-aligned*/
   background: lightgray;
   text-decoration: none;
   &:visited {

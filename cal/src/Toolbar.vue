@@ -59,8 +59,10 @@ export default {
   font-size: medium;
   height: 35px; 
   min-width: 50px;
-  border: solid thin #ddd;
-  background-color: white;
+  border: var(--page-border);
+  background-color: var(--page-background);
+  color: var(--page-text);
+  padding: 0.5em;
   &.c-tool--enabled {
     cursor: pointer;
     @media (hover: hover) {

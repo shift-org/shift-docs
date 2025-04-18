@@ -1,6 +1,9 @@
 :root {
   --feature-bg: #fcfaf2;
   --feature-border: #fd6;
+  --page-background: white;
+  --page-text: black;
+  --page-border: solid thin #ddd;
 }
 
 html, body {

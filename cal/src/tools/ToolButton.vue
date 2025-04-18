@@ -45,10 +45,8 @@ export default {
 .c-tool {
   height: 35px; 
   min-width: 50px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #ddd;
-  background-color: white;
+  border: var(--page-border);
+  background-color: var(--page-background);
   &.c-tool--enabled {
     cursor: pointer;
     @media (hover: hover) {

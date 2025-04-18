@@ -172,8 +172,8 @@ export default {
   min-height: 3.25rem;
   z-index: 250;
   width: 100%;
-  border-bottom: solid lightgray thin;
-  background: white;
+  border-bottom: var(--page-border);
+  background: var(--page-background);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -181,7 +181,7 @@ export default {
 .c-panels {
   overflow: auto;
   height: calc(100vh - 7.75rem);
-  border-top: solid lightgray thin;
+  border-top: var(--page-border);
 }
 .c-divder {
   position: sticky;
@@ -192,14 +192,14 @@ export default {
   padding-bottom: 4rem;
   box-sizing: border-box;
   width: 100%;
-  border-top: solid lightgray thin;
+  border-top: var(--page-border);
 }
 .c-footer {
   box-sizing: border-box;
-  border-top: solid lightgray thin;
+  border-top: var(--page-border);
+  background: var(--page-background);
   position: fixed;
   bottom: 0;
-  background: white;
   width: 100%;
 }
 .c-cal-body, .c-single {
