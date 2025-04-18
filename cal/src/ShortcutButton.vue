@@ -96,6 +96,7 @@ export default {
   @media (hover: hover) {
     &:hover {
         background: darkgrey; 
+        color: var(--divider-color);
       }
   }  
   &:active {
@@ -113,11 +114,11 @@ export default {
   line-height: 50px;
   text-align: center;
   padding: 0; /*  https://stackoverflow.com/questions/44941161/safari-on-ios-cant-render-button-text-center-aligned*/
-  background: lightgray;
+  background-color: var(--page-bg);;
   text-decoration: none;
   &:visited {
-    color: darkslategray
+    color: var(--page-text);
   }
-  color: darkslategray;
+  color: var(--page-text);
 }
  </style>

@@ -4,9 +4,14 @@
   --page-bg: white;
   --page-text: #555555;
   --page-border: solid thin #ddd;
+  --page-border-accent: solid thin darkgrey;
   --max-width: 680px;
   --divider-bg:  #fd6;
   --divider-color: #630;
+  --hover-color: #555;
+  --hover-bg: #ffc14d;
+  --active-bg: #ff9819;
+  --active-color: white;
 }
 
 html, body {

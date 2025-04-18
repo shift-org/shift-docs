@@ -126,13 +126,13 @@ export default {
   font-size: large;
   font-weight: bold;
   &:hover {
-    color: #555;
-    background-color: #ffc14d;
+    color: var(--hover-color);
+    background-color: var(--hover-bg);
   }
 }
 .c-menu-item--active .c-menu-item__button {
-  background-color: #ff9819;
-  color: white;
+  background-color: var(--active-bg);
+  color: var(--active-color);
 }
 .c-menu-item__kids {
   list-style-type: none;

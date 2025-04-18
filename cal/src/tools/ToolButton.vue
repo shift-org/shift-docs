@@ -41,28 +41,39 @@ export default {
     </button>
 </template>
 <style>
- 
+
 .c-tool {
-  height: 35px; 
+  height: auto; 
   min-width: 50px;
   border: var(--page-border);
   background-color: var(--page-bg);
+  color: var(--page-text);
+  padding: 0.5em;
   &.c-tool--enabled {
     cursor: pointer;
     @media (hover: hover) {
-        &:hover {
-        color: black;
-        background-color: #ffc14d; /*    --navbar-focus:  */
+      &:hover {
+        color: var(--hover-color);
+        background-color: var(--hover-bg);
       } 
     }
   }
 }
 .c-tool--active  {
-  color: white;
-  background-color: #ff9819; /* orange: primary-accent */
-  border-color: #555;
+  background-color: var(--active-bg);
+  color: var(--active-color);
+  border-color: #ddd;
 }
 .c-tool--disabled {
   opacity: 0.5;
 }
+
+/*.c-tool__details {
+  margin: 0.5em;
+  padding-top: 0.5em;
+  display: flex;
+  justify-content: center;
+  gap:  0.5em;
+  font-size: 16px;
+}*/
 </style>
