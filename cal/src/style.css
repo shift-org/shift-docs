@@ -4,6 +4,7 @@
   --page-background: white;
   --page-text: black;
   --page-border: solid thin #ddd;
+  --max-width: 680px;
 }
 
 html, body {
@@ -53,4 +54,8 @@ a {
   /* ensure even with a small amount of content,
   the app view is "full screen" */
   min-height: 100vh;
+  /* to center on desktop */
+  max-width: var(--max-width);
+  margin: auto;
+  background-color: var(--page-background);
 }

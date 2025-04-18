@@ -56,8 +56,7 @@ export default {
   padding: 0.5rem 0;
 }
 .c-tool {
-  font-size: medium;
-  height: 35px; 
+  height: auto; 
   min-width: 50px;
   border: var(--page-border);
   background-color: var(--page-background);

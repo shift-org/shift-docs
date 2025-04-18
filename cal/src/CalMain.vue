@@ -172,8 +172,9 @@ export default {
   min-height: 3.25rem;
   z-index: 250;
   width: 100%;
-  border-bottom: var(--page-border);
-  background: var(--page-background);
+  max-width: var(--max-width);
+  border: var(--page-border);
+  background-color: var(--page-background);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -192,15 +193,17 @@ export default {
   padding-bottom: 4rem;
   box-sizing: border-box;
   width: 100%;
-  border-top: var(--page-border);
+  border-left: var(--page-border);
+  border-right: var(--page-border);
 }
 .c-footer {
   box-sizing: border-box;
-  border-top: var(--page-border);
-  background: var(--page-background);
+  border: var(--page-border);
+  background-color: var(--page-background);
   position: fixed;
   bottom: 0;
   width: 100%;
+  max-width: var(--max-width);
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;
