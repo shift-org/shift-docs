@@ -35,7 +35,7 @@ export default {
       alt: "The shift to bikes logo",
       image: "/images/shiftlogo.jpg",
       title: "Ride Calendar",
-      // prevent it from being clickable fo now.
+      // prevent it from being clickable for now.
       // target: "/pages/mission_statement/",
   },
   // default page data when not provided by a particular view.
