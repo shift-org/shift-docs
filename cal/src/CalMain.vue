@@ -173,9 +173,7 @@ export default {
   z-index: 250;
   width: 100%;
   max-width: var(--max-width);
-  border: var(--page-border);
-  margin: 0 -1px;
-  background-color: var(--page-background);
+  background-color: var(--page-bg);
   display: flex;
   flex-direction: column;
 }
@@ -194,13 +192,11 @@ export default {
   width: 100%;
 }
 .c-footer {
-  border: var(--page-border);
-  background-color: var(--page-background);
+  background-color: var(--page-bg);
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: var(--max-width);
-  margin: 0 -1px;
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;

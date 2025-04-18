@@ -59,7 +59,7 @@ export default {
   height: auto; 
   min-width: 50px;
   border: var(--page-border);
-  background-color: var(--page-background);
+  background-color: var(--page-bg);
   color: var(--page-text);
   padding: 0.5em;
   &.c-tool--enabled {

@@ -29,7 +29,7 @@ export default {
   text-align: center;
   color: #663300;
   background: var(--feature-bg);
-  border: 1px solid var(--feature-border);
+  border: var(--feature-border);
   padding: 0.5em;
 }
 .c-disclaimer {

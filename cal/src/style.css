@@ -1,10 +1,12 @@
 :root {
   --feature-bg: #fcfaf2;
-  --feature-border: #fd6;
-  --page-background: white;
-  --page-text: black;
+  --feature-border: solid thin #fd6;
+  --page-bg: white;
+  --page-text: #555555;
   --page-border: solid thin #ddd;
   --max-width: 680px;
+  --divider-bg:  #fd6;
+  --divider-color: #630;
 }
 
 html, body {
@@ -18,7 +20,8 @@ body {
   font-family: roboto, Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #555555;
+  color: var(--page-text);
+  background: #fafafa;
 }
 a {
   color: #337ab7;
@@ -37,8 +40,8 @@ a {
   based on '.date h2' in main.css 
 */
 .c-divder {
-  background-color: var(--feature-border);
-  color: #630;
+  background-color: var(--divider-bg);
+  color: var(--divider-color);
   border: 1px solid transparent;
   padding: 10px;
   margin: 5px 0;
@@ -57,6 +60,5 @@ a {
   /* to center on desktop */
   max-width: var(--max-width);
   margin: auto;
-  background-color: var(--page-background);
-  border: var(--page-border);
+  background-color: var(--page-bg);
 }

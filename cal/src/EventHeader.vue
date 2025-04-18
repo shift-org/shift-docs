@@ -62,7 +62,7 @@ export default {
 .c-event-header__time {
   box-shadow: 2px 2px 1px 1px black;
   border: solid black thin;
-  background: var(--page-background);
+  background: var(--page-bg);
   padding: 0.5em;
   margin: 0.5em;
   white-space: nowrap;

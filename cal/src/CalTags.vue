@@ -65,7 +65,7 @@ export default {
   padding: 3px 5px;
   align-items: center;
   gap: 5px;
-  background-color: var(--page-background);
+  background-color: var(--page-bg);
 }
 .c-tag__label {
   color: black;

@@ -39,7 +39,7 @@ export default {
   align-items: center;
   width: 90%; /* a little space around the edges */
   margin: 1em auto;
-  border: 1px solid var(--feature-border);
+  border: var(--feature-border);
   color: #630;
   background: var(--feature-bg);
 }
