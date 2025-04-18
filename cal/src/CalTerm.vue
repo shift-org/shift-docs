@@ -19,6 +19,8 @@ export default {
     // the displayed name
     // ( usually hidden, but there for screen readers )
     label: String, 
+    // displayed before the text
+    pretext: String,
     // definition displayed
     text: [ String, Boolean ],
     // icon override...
@@ -28,7 +30,7 @@ export default {
       default(rawProps) {
         return icons.get(rawProps.id);
       },
-    }
+    },
   },
   computed: {
     exists() {
@@ -56,7 +58,7 @@ export default {
     </dt>
     <dd :class="cls('value')" :id="customId">
       <FontAwesomeIcon class="c-term__icon" v-if="icon" :icon="icon" fixed-width/>
-      <slot>{{text}}</slot></dd>
+      <slot>{{pretext}}{{text}}</slot></dd>
   </template>
 </template>
 

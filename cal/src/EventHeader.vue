@@ -41,7 +41,7 @@ export default {
 <style>
 .c-event-header__title {
   display: flex;
-  align-items: center;
+  gap: 10px;
 }
 .c-event-header--featured {
   .c-event-header__marquee {
@@ -64,7 +64,9 @@ export default {
   border: solid black thin;
   background: var(--page-bg);
   padding: 0.5em;
-  margin: 0.5em;
+  margin: 0 0.5em;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
 }
 </style>
