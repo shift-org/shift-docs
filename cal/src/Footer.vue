@@ -10,7 +10,7 @@ export default {
 } 
 </script>
 <template>
-  <div class="c-footer">
+  <div class="c-addendum">
     <div class="c-notice">
       <div>
         <div>Support your community!</div> <div>See how you can <a href="/pages/public-health/">help make bike fun safe for all</a>.</div>
