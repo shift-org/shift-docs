@@ -174,8 +174,8 @@ export default {
   width: 100%;
   max-width: var(--max-width);
   border: var(--page-border);
+  margin: -1px;
   background-color: var(--page-background);
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
@@ -191,19 +191,16 @@ export default {
 .c-main {
   padding-top: 3.25rem;
   padding-bottom: 4rem;
-  box-sizing: border-box;
   width: 100%;
-  border-left: var(--page-border);
-  border-right: var(--page-border);
 }
 .c-footer {
-  box-sizing: border-box;
   border: var(--page-border);
   background-color: var(--page-background);
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: var(--max-width);
+  margin: -1px;
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;

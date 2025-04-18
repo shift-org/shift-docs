@@ -58,4 +58,5 @@ a {
   max-width: var(--max-width);
   margin: auto;
   background-color: var(--page-background);
+  border: var(--page-border);
 }
