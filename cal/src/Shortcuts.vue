@@ -30,7 +30,7 @@ export default {
 .c-shortcuts {
   display: flex;
   padding: 10px 0;
-  /* space-evenly is nicer than gap; but not sure how to cap the maximum area on desktop */
+  align-items: center;
   justify-content: center;
   gap: 10px;
 }
