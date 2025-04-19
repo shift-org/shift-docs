@@ -196,6 +196,8 @@ export default {
 .c-divider {
   position: sticky;
   top: 3.25rem;
+  border-top: var(--brightend-border);
+  border-bottom: var(--brightend-border);
 }
 .c-main {
   padding-top: 3.25rem;

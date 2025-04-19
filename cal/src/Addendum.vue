@@ -27,7 +27,8 @@ export default {
 /** tweaked from main.css */
 .c-notice {
   text-align: center;
-  border: var(--event-border);
+  background-color: var(--divider-bg);
+  border: var(--brightend-border);
   border-radius: 20px;
   margin: 10px 20px;
   padding: 1em;

@@ -15,6 +15,7 @@
   --page-border-accent: solid thin darkgrey;
   --page-border-light: solid thin #eee;
   --event-border: solid thin var(--orangey);
+  --brightend-border: solid thin var(--brightend);
  
   --hover-bg: #ffc14d;
   --hover-text: #555;
