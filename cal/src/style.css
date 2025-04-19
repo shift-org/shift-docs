@@ -9,7 +9,7 @@
   --body-bg: #fafafa;
   --page-bg: white;
   --page-text: #555555;
-  --fixed-bg:  var(--yellowy); /* for the header and footer */
+  --fixed-bg: #fcfaf2; /* for the header and footer */
 
   --page-border: solid thin #ddd;
   --page-border-accent: solid thin darkgrey;
