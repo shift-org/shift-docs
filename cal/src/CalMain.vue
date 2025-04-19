@@ -167,17 +167,21 @@ export default {
 </template>
 
 <style>
-.c-header {
+.c-header, .c-footer {
   position: fixed;
-  top: 0;
-  min-height: 3.25rem;
-  z-index: 250;
   width: 100%;
   max-width: var(--max-width);
   background-color: var(--fixed-bg);
+  z-index: 250; /* to draw over the page view when expanded */
+}
+.c-header {
+  top: 0;
   border-bottom: var(--page-border);
-  display: flex;
-  flex-direction: column;
+  height: 3.25rem; /* matches the c-divider sticky position */
+} 
+.c-footer {
+  bottom: 0;
+  border-top: var(--page-border);
 }
 .c-panels {
   overflow: auto;
@@ -197,14 +201,6 @@ export default {
   padding-top: 3.25rem;
   padding-bottom: 4rem;
   width: 100%;
-}
-.c-footer {
-  background-color: var(--fixed-bg);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: var(--max-width);
-  border-top: var(--page-border);
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;

@@ -50,9 +50,10 @@ export default {
 
 .c-toolbar {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: 3px;
   width: 100%;
-  padding: 0.5rem 0;
+  height: 100%; /* fill the parent header */
 }
 </style>
