@@ -57,7 +57,7 @@ export default {
         color: var(--page-bg);
         background-color: var(--hover-bg);
         &:active {
-          color: var(--hover-text);
+          color: var(--page-text);
         }
       }
     }

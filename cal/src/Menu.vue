@@ -126,7 +126,7 @@ export default {
   font-size: large;
   font-weight: bold;
   &:hover {
-    color: var(--hover-text);
+    color: var(--page-text);
     background-color: var(--hover-bg);
   }
 }

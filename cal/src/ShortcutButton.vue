@@ -96,7 +96,7 @@ export default {
   @media (hover: hover) {
     &:hover {
       background: var(--hover-bg);
-      color: var(--hover-text);
+      color: var(--page-text);
       &:active {
         color: var(--page-bg);
       }

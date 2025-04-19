@@ -183,7 +183,7 @@ export default {
 } 
 .c-detail--featured {
   background-color: var(--feature-bg);
-  border: var(--feature-border);
+  border: var(--orangey-border);
   padding: 1em;
 }
 .c-detail--cancelled {
@@ -201,7 +201,7 @@ export default {
 }
 .c-description {
   white-space: pre-line;
-  border-top: var(--event-border);
+  border-top: var(--orangey-border);
   margin-top: 1em;
   padding-top: 1em;
 }
