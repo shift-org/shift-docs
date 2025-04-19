@@ -27,10 +27,10 @@ export default {
 /** tweaked from main.css */
 .c-notice {
   text-align: center;
-  color: var(--feature-text);
-  background: var(--feature-bg);
-  border: var(--feature-border);
-  padding: 0.5em;
+  border: var(--event-border);
+  border-radius: 20px;
+  margin: 10px 20px;
+  padding: 1em;
 }
 .c-disclaimer {
   font-size: small;
