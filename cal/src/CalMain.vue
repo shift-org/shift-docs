@@ -170,7 +170,6 @@ export default {
 .c-header, .c-footer {
   position: fixed;
   width: 100%;
-  max-width: var(--max-width);
   background-color: var(--fixed-bg);
   z-index: 250; /* to draw over the page view when expanded */
 }
@@ -203,6 +202,7 @@ export default {
   padding-top: 3.25rem;
   padding-bottom: 4rem;
   width: 100%;
+  max-width: var(--max-width);    /* to center on desktop */
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;
