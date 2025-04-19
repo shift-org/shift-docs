@@ -68,4 +68,7 @@ export default {
   display: flex;
   align-items: center;
 }
+.c-event-header__text {
+  align-self: center; /* vertically center text */
+}
 </style>
