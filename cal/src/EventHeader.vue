@@ -64,7 +64,6 @@ export default {
   border: solid black thin;
   background: var(--page-bg);
   padding: 0.5em;
-  margin: 0 0.5em;
   white-space: nowrap;
   display: flex;
   align-items: center;

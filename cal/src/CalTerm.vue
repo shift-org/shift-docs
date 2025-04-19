@@ -63,10 +63,6 @@ export default {
 </template>
 
 <style> 
-/* cheating a bit by putting this here */
-.c-terms {
-  margin-top: 0px;
-}
 .c-term__key {
   /* why have the term just to hide it? good question simon. */
   display: none;

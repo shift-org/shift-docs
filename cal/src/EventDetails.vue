@@ -180,7 +180,6 @@ export default {
   flex-direction: column;
   flex-wrap: nowrap;
   margin: 5px 10px;
-  padding: 0px 1em;
 } 
 .c-detail--featured {
   background-color: var(--feature-bg);
@@ -198,6 +197,7 @@ export default {
 }
 .c-terms {
   margin: 0px;
+  padding: 0px 1em;
 }
 .c-description {
   white-space: pre-line;
