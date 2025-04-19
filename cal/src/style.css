@@ -18,7 +18,7 @@
   --brightend-border: solid thin var(--brightend);
  
   --hover-bg: #ffc14d;
-  --hover-text: #555;
+  --hover-text: #555555;
   --link-text: #337ab7;
   
   --icon-color: var(--darkend); /* for the cal event newflash, organizer  */

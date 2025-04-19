@@ -49,13 +49,17 @@ export default {
   background-color: var(--page-bg);
   color: var(--page-text);
   padding: 0.5em;
+  
   &.c-tool--enabled {
     cursor: pointer;
     @media (hover: hover) {
       &:hover {
-        color: var(--hover-text);
+        color: var(--page-bg);
         background-color: var(--hover-bg);
-      } 
+        &:active {
+          color: var(--hover-text);
+        }
+      }
     }
   }
 }
