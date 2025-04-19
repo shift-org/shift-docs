@@ -78,14 +78,14 @@ export default {
 </template>
 <style>
 .c-event {
-  border: var(--event-border);
+  border: var(--orangey-border);
   border-radius: 20px;
   margin: 10px 20px;
   padding: 0px 1em;
 }
 .c-event--featured {
   background-color: var(--feature-bg);
-  border: var(--feature-border);
+  border: var(--orangey-border);
   padding: 0px 1em;
 }
 .c-event--cancelled {

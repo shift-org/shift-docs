@@ -1,44 +1,43 @@
 :root {
   --max-width: 680px; /* for desktop */
   
-  --yellowy:  #fff1b0;
   --orangey: #ffdd66;
-  --darkend: goldenrod;
   --brightend: #ff9819;
+  --middleish: #ffc14d;
+  --darkend: goldenrod;
+  --offwhite: #fcfaf2;
 
-  --body-bg: #fcfaf2;
   --page-bg: white;
   --page-text: #555555;
-  --fixed-bg: #fcfaf2; /* for the header and footer */
+  --accent-text: #630;
 
+  --fixed-bg:  var(--offwhite); /* for the header and footer */
   --page-border: solid thin #ddd;
   --page-border-accent: solid thin darkgrey;
   --page-border-light: solid thin #eee;
-  --event-border: solid thin var(--orangey);
+
+  --orangey-border: solid thin var(--orangey);
   --brightend-border: solid thin var(--brightend);
  
-  --hover-bg: #ffc14d;
-  --hover-text: #555555;
+  --hover-bg: var(--middleish);
   --link-text: #337ab7;
-  
-  --icon-color: var(--darkend); /* for the cal event newflash, organizer  */
+  --icon-color: var(--darkend); /* newflash, organizer, etc.  */
  
   --divider-bg:  var(--orangey);
-  --divider-text: #630;
+  --divider-text: var(--accent-text);
  
-  --feature-bg: #fcfaf2;
-  --feature-border: solid thin var(--orangey);
-  --feature-text: #630;
+  --feature-bg: var(--offwhite);
+  --feature-text: var(--accent-text);
  
   --active-bg: var(--brightend);
-  --active-text: white;
+  --active-text: white;                 /* menu/tool buttons */
   --disabled-text: lightgray;
   /* 
     note: each CalTag (audience,etc.) has an individualized color set 
     see CalTags.vue
   */
-  --tag-bg: white; 
-  --tag-text: black;
+  --tag-bg: var(--page-bg); 
+  --tag-text: var(--page-text);
 }
 
 html, body {
@@ -53,7 +52,6 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: var(--page-text);
-/*  background: var(--body-bg);*/
   background-color: var(--page-bg);
 }
 a {
