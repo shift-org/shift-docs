@@ -16,11 +16,10 @@ menu:
 ## Unaffiliated but related in bike fun
 
 * **[Velopalooza](https://velopalooza.ca/about-velopalooza/)** is a summer bike fun festival in Vancouver, BC, Canada similar to Pedalpalooza.
-<!-- * **[Portland Urban Bike](https://www.facebook.com/PortlandUrbanBike/)** runs a weekly ride (Thursday Night Ride) since 2015! -->
 * **[Corvidae Bicycle Club](https://www.facebook.com/corvidaeBC/)** is an inclusive fun crew that leads a monthly 2nd Sunday social ride from Peninsula Park at 2pm
 * **[BikePOC PNW](https://msha.ke/bikepocpnw/)** actively creates space for BIPOC folks to ride bikes, build community, forge life-long friendships, and challenge the status quo. [Instagram](https://www.instagram.com/bikepocpnw/)
 * **[Ride Westside](http://ridewestside.org/)** organizes social bike rides in Beaverton, Tigard, Hillsboro, and Washington County. [Instagram](https://instagram.com/ride_westside), [Facebook](https://www.facebook.com/profile.php?id=100094262499529), [Bluesky](https://bsky.app/profile/ridewestside.bsky.social)
-* **[Cycle Vancouver](https://www.cyclevancouver.bike/)** is a community cycling group in Vancouver, WA, who host monthly rides,  and advocate for better mobility. [Instagram](https://www.instagram.com/cyclevancouverwa/)
+* **[Cycle Vancouver](https://www.cyclevancouver.bike/)** is a community cycling group in Vancouver, WA, who host monthly rides and advocate for better mobility. [Instagram](https://www.instagram.com/cyclevancouverwa/)
 * **[Puddlecycle](https://puddlecycle.com/)** is a group that focuses on winter bike fun events in Portland.  Their website talks more about their mission and how to participate.
 * **[Portland Autonomous Zone](https://pazpdx.wordpress.com/about/)** is a local DIY/tinkering community with a focus on bikes and is a frequent booster of and participant in Shift events.
 
