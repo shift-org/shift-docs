@@ -15,7 +15,6 @@ export function buildPage() {
       prev: disabled,
       next: disabled,
       addevent: "/addevent/",
-      info: "/pages/mission_statement/",
       donate: "/pages/donate",
     } 
   }; 

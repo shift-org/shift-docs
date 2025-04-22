@@ -65,10 +65,10 @@ export default {
   padding: 3px 5px;
   align-items: center;
   gap: 5px;
-  background-color: white;
+  background-color: var(--tag-bg);
 }
 .c-tag__label {
-  color: black;
+  color: var(--tag-text);
 }
 .c-tag__audience-a {
   color: red;

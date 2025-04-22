@@ -93,7 +93,6 @@ function buildShortcuts(start) {
       };
     },
     addevent:  "/addevent/",
-    info: "/pages/mission_statement/",
     donate: "/pages/donate",
     favorites(vm) {
       return {

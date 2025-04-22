@@ -1,3 +1,45 @@
+:root {
+  --max-width: 680px; /* for desktop */
+  
+  --orangey: #ffdd66;
+  --brightend: #ff9819;
+  --middleish: #ffc14d;
+  --darkend: goldenrod;
+  --offwhite: #fcfaf2;
+
+  --page-bg: white;
+  --page-text: #555555;
+  --accent-text: #630;
+
+  --fixed-bg:  var(--offwhite); /* for the header and footer */
+  --page-border: solid thin #ddd;
+  --page-border-accent: solid thin darkgrey;
+  --page-border-light: solid thin #eee;
+
+  --orangey-border: solid thin var(--orangey);
+  --brightend-border: solid thin var(--brightend);
+ 
+  --hover-bg: var(--middleish);
+  --link-text: #337ab7;
+  --icon-color: var(--darkend); /* newflash, organizer, etc.  */
+ 
+  --divider-bg:  var(--orangey);
+  --divider-text: var(--accent-text);
+ 
+  --feature-bg: var(--offwhite);
+  --feature-text: var(--accent-text);
+ 
+  --active-bg: var(--brightend);
+  --active-text: white;                 /* menu/tool buttons */
+  --disabled-text: lightgray;
+  /* 
+    note: each CalTag (audience,etc.) has an individualized color set 
+    see CalTags.vue
+  */
+  --tag-bg: var(--page-bg); 
+  --tag-text: var(--page-text);
+}
+
 html, body {
   /* allow dividers to cover the whole screen width */
   margin: 0px; 
@@ -9,16 +51,20 @@ body {
   font-family: roboto, Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #555555;
+  color: var(--page-text);
+  background-color: var(--page-bg);
 }
 a {
-  color: #337ab7;
+  color: var(--link-text);
   text-decoration: none;
 }
 @media (hover: hover) {
   a:hover,
   a:focus {
-    color: #e57e00;
+    /* a little weird; but the regular link color
+    needs good contrast against the page background,
+    and so does the active, divider background */
+    color: var(--active-bg);
     text-decoration: underline;
   }
 }
@@ -27,22 +73,25 @@ a {
   so shared here. 
   based on '.date h2' in main.css 
 */
-.c-divder {
-  background-color: #fd6;
-  color: #630;
+.c-divider {
+  background-color: var(--divider-bg);
+  color: var(--divider-text);
   border: 1px solid transparent;
   padding: 10px;
   margin: 5px 0;
   font-size: large;
   font-weight: bold;
 }
-.c-divder--center {
+.c-divider--center {
   text-align: center;
 }
 .c-app {
   display: flex;
   flex-direction: column;
+  align-items: center;
   /* ensure even with a small amount of content,
   the app view is "full screen" */
   min-height: 100vh;
+  margin: auto;
+  
 }

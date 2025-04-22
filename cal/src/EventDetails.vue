@@ -159,17 +159,17 @@ export default {
       <Term id="news" :context="evt.caldaily_id" label= "Newsflash" :text="evt.newsflash"/>
       <Term id="time"       label= "Start Time"   :text="timeRange"/>
       <Term id="timedetails"label= "Time Details" :text="evt.timedetails"/>
-      <Term id="locend"     label= "End Location" :text="evt.locend"/>
+      <Term id="locend"     label= "End Location" pretext="Ending at " :text="evt.locend"/>
       <Term id="loop"       label= "Loop"         :text="loopText"/>
-    </dl>
-    <dl class="c-terms c-detail__footer">
-      <Term id="desc" label= "Description" :text="evt.details"/>
       <Term v-if="evt.weburl" label="More Info">
         <ExternalLink :href="webLink(evt)">
           {{evt.webname || evt.weburl}}
         </ExternalLink>
       </Term> 
     </dl>
+    <p class="c-description">
+      {{evt.details}}
+    </p>
   </article>
 </template>
 
@@ -179,14 +179,15 @@ export default {
   justify-content: center;
   flex-direction: column;
   flex-wrap: nowrap;
+  margin: 5px 10px;
 } 
 .c-detail--featured {
-  background-color: #fcfaf2;
-  border: 1px solid #fd6;
-  padding: 0px 1em;
+  background-color: var(--feature-bg);
+  border: var(--orangey-border);
+  padding: 1em;
 }
 .c-detail--cancelled {
-  .c-header {
+  .c-event-header {
     text-decoration: line-through;
   }
   /* strike through the values of things, except for the news and the tags */
@@ -196,9 +197,12 @@ export default {
 }
 .c-terms {
   margin: 0px;
+  padding: 0px 1em;
 }
-.c-term__value--desc {
-  margin: 1em;
+.c-description {
   white-space: pre-line;
+  border-top: var(--orangey-border);
+  margin-top: 1em;
+  padding-top: 1em;
 }
 </style>

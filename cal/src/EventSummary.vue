@@ -78,20 +78,18 @@ export default {
 </template>
 <style>
 .c-event {
-  border: 1px solid;
+  border: var(--orangey-border);
   border-radius: 20px;
-  border-color: #FFDD66;
   margin: 10px 20px;
   padding: 0px 1em;
-/*  background: #FCFAF2;*/
 }
 .c-event--featured {
-  background-color: #fcfaf2;
-  border: 1px solid #fd6;
+  background-color: var(--feature-bg);
+  border: var(--orangey-border);
   padding: 0px 1em;
 }
 .c-event--cancelled {
-  .c-header {
+  .c-event-header {
     text-decoration: line-through;
   }
   /* strike through the values of things, except for the news and the tags */
