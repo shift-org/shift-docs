@@ -72,7 +72,7 @@ MAX_TRIES=5
 function nodeIsReady() {
   # todo: need a new docker version to use --since
   # use --since 1 minute to try to filter out old log messages
-  docker-compose logs node | grep "SHIFT to Bikes listening"
+  sub_compose logs node | grep "SHIFT to Bikes listening"
 }
 
 function waitUntilServiceIsReady() {
@@ -88,7 +88,7 @@ function waitUntilServiceIsReady() {
   done
 
   if [ $attempt -gt $MAX_TRIES ]; then
-    echo "Error: $2 not responding, cancelling set up"
+    echo "Error: $2 never found successful log message. You may need to debug."
     exit 1
   fi
 }
@@ -104,7 +104,7 @@ sub_help() { #                    - Show this text
 
 sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
-	mkdir $LETSENCRYPT_WEBROOT
+  mkdir $LETSENCRYPT_WEBROOT
     fi 
     sub_compose up --force-recreate -d
 
@@ -168,17 +168,12 @@ sub_attach() { # <service>        - Run bash on a running service
 }
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
-    OS=`uname`
-    OSAlt=`uname -o`
-    if [ "$OS" == "Darwin" ] ; then
-	    docker compose $@
-    elif [ "$OS" == "Linux" ] ; then
-	    docker-compose $@
-    elif [ "$OSAlt" == "Msys" ] ; then
-      docker-compose $@
-    else
-	    echo "if docker compose isn't working, please email bikecal@shift2bikes.org to let us know"
-	    exit 255
+    if hash docker-compose 2>/dev/null; then
+        docker-compose $@
+    elif hash docker 2>/dev/null; then
+        docker compose $@
+    else 
+       echo >&2 "Can't find docker. Aborting."; exit 1;
     fi
 }
 
