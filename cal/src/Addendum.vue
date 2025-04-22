@@ -28,6 +28,7 @@ export default {
 .c-notice {
   text-align: center;
   background-color: var(--divider-bg);
+  color: var(--divider-text);
   border: var(--brightend-border);
   border-radius: 20px;
   margin: 10px 20px;

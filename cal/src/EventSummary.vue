@@ -84,6 +84,7 @@ export default {
   padding: 0px 1em;
 }
 .c-event--featured {
+  color: var(--feature-text);
   background-color: var(--feature-bg);
   border: var(--orangey-border);
   padding: 0px 1em;
