@@ -115,13 +115,25 @@
   to = "/pages/pedalpalooza"
   status = 301
 
-## old pedalpalooza page should link to new one
+## old Pedalpalooza page should link to new one
 [[redirects]]
   from = "/pedalpalooza"
-  to = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
   status = 301
 
-## old bike rack webpage linked from PBoT and other offsite pages  we can't fix
+## old Pedalpalooza page should link to newer Bike Summer one
+[[redirects]]
+  from = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
+  status = 301
+
+## Older Pedalpalooza calendar should link to newer Bike Summer one
+[[redirects]]
+  from = "/pedalpalooza-calendar"
+  to = "/bike-summer-calendar"
+  status = 301
+
+## old bike rack webpage linked from PBoT and other offsite pages we can't fix
 [[redirects]]
   from = "/wiki/shift-shop:rack-rental"
   to = "/pages/bike-racks/"

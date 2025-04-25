@@ -1,7 +1,7 @@
 ---
-title: "Pedalpalooza calendar"
-description: "Pedalpalooza calendar"
-keywords: ["pedalpalooza"]
+title: "Bike SUmmer calendar"
+description: "Bike Summer calendar"
+keywords: ["pedalpalooza", "bike summer"]
 id: pedalpalooza-calendar
 type: calfestival
 pp: true

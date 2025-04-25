@@ -7,7 +7,7 @@ menu:
 ---
 ## Shift spinoff projects
 
-* **[Pedalpalooza](/pages/pedalpalooza/)** is an annual summer festival with hundreds of volunteer-organized free bike events.
+* **[Bike Summer (aka Pedalpalooza)](/pages/bike-summer/)** is an annual summer festival with hundreds of volunteer-organized free bike events.
 * **[Breakfast on the Bridges](/pages/bonb/)** serves breakfast to Portland bike commuters around once a month on several bridges near downtown. [Facebook](https://www.facebook.com/bonbpdx/)
 * **[PDX World Naked Bike Ride](/pages/wnbr/)** is still loosely affiliated with Shift but spun off into its own organization. Leading one of the largest rides in the state year after year!
 * **[The Multnomah County Bike Fair](/pages/mcbf/)** is a recurring fair that happens almost every year during Pedalpalooza.
