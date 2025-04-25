@@ -1,5 +1,5 @@
 ---
-title: "Bike SUmmer calendar"
+title: "Bike Summer calendar"
 description: "Bike Summer calendar"
 keywords: ["pedalpalooza", "bike summer"]
 id: pedalpalooza-calendar
