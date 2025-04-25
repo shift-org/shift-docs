@@ -30,7 +30,7 @@ export default {
     image: "/img/banner_bikes_city.jpg",
   },
   // in a strange coincidence, banner matches the format of the pedalp.js data
-  // ( see: generated site/buildPedalDates.html )   
+  // ( see: generated site/buildFestivalDates.html )   
   defaultListBanner: {
       alt: "The shift to bikes logo",
       image: "/images/shiftlogo.jpg",
@@ -52,7 +52,7 @@ export default {
   // see buildMenu.html
   menu: menu,
   // hugo generated info on all pedalpalooza events
-  // see buildPedalDates.html
+  // see buildFestivalDates.html
   pedalp: siteInfo.pedal,
   disclaimer: siteInfo.disclaimer,  
   title: "Shift",
