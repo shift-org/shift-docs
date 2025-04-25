@@ -41,8 +41,8 @@ disableKinds = ["taxonomy", "term"]
 
  # Child of Calendar
  [[menu.main]]
-    name = "Pedalpalooza calendar"
-    url  = "/pedalpalooza-calendar/"
+    name = "Bike Summer (Pedalpalooza) calendar"
+    url  = "/bike-summer-calendar/"
     weight = 3
     identifier = ""
     parent = "Calendar"
@@ -64,7 +64,6 @@ disableKinds = ["taxonomy", "term"]
     url  = "/about/"
     weight = 6
     identifier = "aboutmenu"
-
 
 # -------------------------------------
 # Site parameters, available to layouts via `{{ .Site.Params.<something> }}`

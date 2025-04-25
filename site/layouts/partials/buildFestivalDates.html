@@ -3,7 +3,7 @@
   {{ $entry := partial "buildSingleFestival.html" . }}
   {{ $map = merge $map $entry }}
 {{ end }}
-{{ with .Site.GetPage "pedalpalooza-calendar" }}
+{{ with .Site.GetPage "bike-summer-calendar" }}
   {{ $entry := partial "buildSingleFestival.html" . }}
   {{ $map = merge $map $entry }}
 {{ end }}
