@@ -7,11 +7,12 @@ import vue from '@vitejs/plugin-vue'
 const isNetlify = !!process.env.NETLIFY;
 
 // the files in the extras directory are built by hugo.
-// ( for example: json for the menus, or pedalpalooza festival dates )
+// ( for example: json for the menus, etc. )
 // 'npm dev' tells hugo to output to the bin/dist directory;
 // while netlify always uses the site/public directory.
-const localExtras = "../bin/dist/extras/"
-const netlifyExtras = "../site/public/extras/"
+const localPath = "../bin/dist/";
+const netlifyPath = "../site/public/";
+const content = isNetlify? netlifyPath: localPath;
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -21,7 +22,9 @@ export default defineConfig({
   resolve: {
     alias: {
       // the extras are used by siteConfig.js
-      extras: path.resolve(__dirname, isNetlify? netlifyExtras: localExtras),
+      "extras": path.resolve(__dirname, content, "extras" ),
+      // this is how images are referenced in festivalHeader:
+      "/images": path.resolve(__dirname, content, "images" ),
     },
   }
 })
