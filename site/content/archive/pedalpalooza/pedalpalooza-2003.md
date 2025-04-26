@@ -4,6 +4,7 @@ description: "2003 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: calfestival
+festival.name: "Mini Bike Summer"
 pp: true
 year: 2003
 startdate: 2003-06-13

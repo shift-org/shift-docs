@@ -4,6 +4,7 @@ description: "2005 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: calfestival
+festival.name: "Pedalpalooza"
 pp: true
 year: 2005
 startdate: 2005-06-09
