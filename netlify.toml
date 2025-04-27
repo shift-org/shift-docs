@@ -39,22 +39,26 @@
 ## domain redirects to serve alternative domains.  First, we canonicalize
 ## so that we can serve just the "best" version (NETLIFY DNS record)
 ## such redirects must be first redirects in this file!
+## ---------------------------------------------------------------------------
 
 [[redirects]]
   from = "https://shift2bikes.com/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
+
 [[redirects]]
   from = "https://www.shift2bikes.com/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
+
 [[redirects]]
   from = "https://shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
+
 [[redirects]]
   from = "https://www.shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
@@ -62,7 +66,7 @@
   force = true
 
 ## ---------------------------------------------------------------------------
-## dynamic back end + event images stored on our API server
+## dynamic backend + event images stored on our API server
 ## Solves CORS problems to proxy via Netlify
 ## cf https://docs.netlify.com/routing/redirects/rewrites-proxies/
 ## ---------------------------------------------------------------------------
@@ -77,10 +81,11 @@
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
 
-## legacy (people have been using it for years) ical feed for pedalpalooza.
-## Can't directly get to /legacy/cal content via www.shift2bikes.org
-## due to other redirects, so proxying secretly here.
+## ---------------------------------------------------------------------------
+## ical feeds
+## ---------------------------------------------------------------------------
 
+## legacy (people have been using it for years) ical feed for pedalpalooza.
 [[redirects]]
   from = "/cal/icalpp.php"
   to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
@@ -101,6 +106,9 @@
   status = 200
   force = true
 
+## ---------------------------------------------------------------------------
+## legacy links
+## ---------------------------------------------------------------------------
 
 ## we can't translate REALLY legacy links (<2017) - they used some odd format.  
 ## But let's at least land on the calendar page in case someone clicks one.
@@ -165,4 +173,14 @@
 [[redirects]]
   from = "/events/*"
   to = "/events"
+  status = 200
+
+# ---------------------------------------------------------------------------
+# android progressive web app helper
+# https://developers.google.com/digital-asset-links/v1/getting-started
+# ---------------------------------------------------------------------------
+
+[[redirects]]
+  from = "/.well-known/assetlinks.json"
+  to = "/events/assetlinks.json"
   status = 200
