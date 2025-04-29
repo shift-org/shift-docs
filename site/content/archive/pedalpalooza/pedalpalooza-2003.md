@@ -1,6 +1,6 @@
 ---
-title: "2003 Pedalpalooza calendar"
-description: "2003 Pedalpalooza calendar"
+title: "2003 Mini Bike Summer calendar"
+description: "2003 Mini Bike Summer calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: calfestival
