@@ -21,7 +21,7 @@ S﻿hift is an entirely volunteer-run organization.  As of December 2024, it is 
 
 Reach out to the ride organizers using the contact information on their ride posting. Some prominent event organizers are listed here: 
 
-* [Pedalpalooza](mailto:pedalpalooza@gmail.com)
+* [Bike Summer (aka Pedalpalooza)](mailto:bikesummerPDX@gmail.com)
 * [Breakfast on the Bridges](mailto:bonb@lists.riseup.net)
 * [Portland World Naked Bike Ride (PDX WNBR)](mailto:pdxwnbr@gmail.com)
 * [Move by Bike](https://www.facebook.com/groups/movebybike)

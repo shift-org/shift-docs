@@ -20,5 +20,5 @@ Shift welcomes all respectful participants. There are a lot of ways to get invol
 * **Donate!**  The PayPal button at the bottom of the page here lets you give a tax deductible donation to Shift via our fiscal sponsor Umbrella.  You can see how we use this money on our [expenses page](/pages/budget-finance-stuff/).
 
 <div class="donate">
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate</span></a>
+  <a href="{{% param "donationsURL" %}}" target="_blank">Donate</a>
 </div>

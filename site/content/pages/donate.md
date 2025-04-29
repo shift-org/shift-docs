@@ -17,9 +17,8 @@ Donations to Shift are tax-deductible via our fiscal sponsor, [Umbrella](https:/
 You can donate via PayPal with the Donate button below:
 
 <div class="donate">
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate</span></a>
+  <a href="{{% param "donationsURL" %}}" target="_blank">Donate</a>
 </div>
-
 
 Donations can also be made by mailing a check to Umbrella:
 

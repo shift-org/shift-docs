@@ -4,6 +4,7 @@ description: "2020 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: pp-theme-cal
+festival.name: "Pedalpalooza"
 pp: true
 year: 2020
 startdate: 2020-06-01
