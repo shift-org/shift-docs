@@ -34,7 +34,7 @@ disableKinds = ["taxonomy", "term"]
 # Child of Calendar
  [[menu.main]]
     name = "Events (Beta)"
-    url  = "/events/"
+    url  = "/events/beta/"
     weight = 1
     identifier = ""
     parent = "Calendar"

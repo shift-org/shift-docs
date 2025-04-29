@@ -107,7 +107,7 @@ export default {
         // ( the only problem would be how to parameterize the page with the error string
         // ( could pass it as a query string? or is that too messy? )
         this.error = error;
-      } else {
+      } else if (context) {
         this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
         scrollPos.restorePos(this.$route);
