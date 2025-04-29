@@ -13,6 +13,7 @@ import CalList from './CalList.vue'
 import CalSearch from './CalSearch.vue'
 import CalFavorites from './CalFavorites.vue'
 import EventDetails from './EventDetails.vue'
+import CalBeta from './CalBeta.vue'
 // import Empty from './Empty.vue'
 
 // the router reads and writes the user's address bar
@@ -45,6 +46,11 @@ const router = createRouter({
       path: '/events/:series_id(\\d+)/:caldaily_id(\\d+)/:slug?', 
       component: EventDetails 
     },
+    { 
+      name: "beta",  
+      path: "/events/beta", 
+      component: CalBeta,
+    }, 
   ],
 })
 
