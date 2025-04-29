@@ -92,6 +92,15 @@ disableKinds = ["taxonomy", "term"]
     # mastodon verification
     verificationURL = "https://pdx.social/@shift2bikes"
 
+    # link for accepting donations
+    donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=BNL2NY7U8GH3Q"
+
+# Festival details
+[params.festival]
+    name = "Bike Summer"
+    active = true # set to true when festival is happening soon or now
+    donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
+
 # Main page image carousel
 [params.carousel]
     enable = true

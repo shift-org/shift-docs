@@ -1,7 +1,7 @@
 ---
-title: "2023 Pedalpalooza calendar"
-description: "2023 Pedalpalooza calendar"
-keywords: ["pedalpalooza"]
+title: "2023 Bike Summer calendar"
+description: "2023 Bike Summer calendar"
+keywords: ["pedalpalooza", "bike summer"]
 id: pedalpalooza-calendar
 type: calfestival
 pp: true

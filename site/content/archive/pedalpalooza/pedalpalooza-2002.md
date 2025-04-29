@@ -1,5 +1,5 @@
 ---
-title: 2002 Pedalpalooza calendar
+title: 2002 Bike Summer calendar
 weight: 2
 id: pedalpalooza-calendar
 type: calfestival
