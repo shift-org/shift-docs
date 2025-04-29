@@ -1,9 +1,12 @@
 {
+  "id": "Shift2Bikes",
   "name": "Shift2Bikes",
+  "short_name": "Shift2Bikes",
   "description": "Ride calendar",
   "start_url": "./",
   "display": "standalone",
   "theme_color": "#fcfaf2",
+  "background_color": "#ffffff",
   "scope": "/events/",
   "icons": [
     {
