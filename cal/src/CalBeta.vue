@@ -1,13 +1,10 @@
-<!-- 
- * display list of events:
- * equivalent of viewEvents()
- -->
+<!-- display a page describing the calendar beta -->
 <script>
-
 export default {
   emits: [ 'pageLoaded' ],
   mounted() {
-    this.$emit("pageLoaded", false); // no special data
+    // have to tell CalMain that we finished loading okay
+    this.$emit("pageLoaded", false); // pass false meaning no special data
   },
 }
 </script>
