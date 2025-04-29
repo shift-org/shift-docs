@@ -12,7 +12,7 @@ export default {
   <article class="c-beta">
     <b>Welcome to the new Shift Calendar!</b>
     <p>We're trying out a new version of the Shift Calendar optimized for phones. It shows one week at a time, letting you navigate week to week. You can search rides, and even save your favorite rides.</p>
-    <p>We consider it a beta -- where "beta" is a classy software term for "might have bugs".</p><p>
+    <p>We consider it a beta -- where "beta" is a classy software term for "might have bugs". 
       Try it out, and <a href="mailto:bikecal@shift2bikes.org">let us know</a> what you think: the good, the bad, and the "hey, it sort of works!"</p>
     <a class="c-beta__button" href="/events">Yes! Try it out!</a>
     <a class="c-beta__button" href="/calendar">No, get me out of here!</a>
