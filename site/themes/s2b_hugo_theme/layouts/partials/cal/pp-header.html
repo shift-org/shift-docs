@@ -13,7 +13,7 @@
   <div id="pp-description">
       <p><a href="/pages/bike-summer/">Bike Summer</a> (aka Pedalpalooza) is a festival of bikey fun. Hundreds of different events are organized by people like you. Most rides are free and all are open to the public to join.</p>
 
-      {{ if eq (.Param "festival.latest") (.Param "year") }}
+      {{ if eq (now.Year) (.Param "year") }}
       <p>{{ .Param "festival.name" }} is <strong>three whole months</strong> of fun on two wheels. 
 
       {{ if eq (.Param "festival.active") true }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a> Seeking inspiration? {{ end }}

@@ -98,7 +98,6 @@ disableKinds = ["taxonomy", "term"]
 # Festival details
 [params.festival]
     name = "Bike Summer"
-    latest = 2025
     active = true # set to true when festival is happening soon or now
     donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
