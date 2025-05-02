@@ -4,7 +4,7 @@ weight: 1
 menu:
   main:
     parent: featuredevents
-    name: "Bike Summer (Pedalpalooza)"
+    name: Bike Summer (Pedalpalooza)
 ---
 ## About
 
@@ -27,6 +27,7 @@ Check out the [archives of previous years](/archive/pedal-palooza-archives/) for
 * Website: [Bike-Summer.org](https://www.bike-summer.org/)
 * Instagram: [@pedalpaloozapdx](https://www.instagram.com/pedalpaloozapdx/)
 * Facebook: [pedalpalooza](https://www.facebook.com/pedalpalooza)
+* Bluesky: [@bike-summer.org](https://bsky.app/profile/bike-summer.org)
 * Email: [bikesummerPDX@gmail.com](mailto:bikesummerPDX@gmail.com)
 
 ## Support
