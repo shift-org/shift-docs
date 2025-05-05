@@ -5,11 +5,17 @@
 
 import Meta from './Meta.vue'
 import { RouterLink } from 'vue-router'
+import siteConfig from './siteConfig.js'
 
 export default {
   components: { Meta, RouterLink },
   props: {
     banner: Object, // { image, alt, title }
+  },
+  computed: {
+    isDefault() {
+      return siteConfig.logo === this.banner.image;
+    }
   }
 }
 </script>
@@ -22,7 +28,12 @@ export default {
   ( and i don't think we know the true size anyway ) -->
   <Meta property="og:image" :content="banner.image" />
   <RouterLink class="c-banner__link" :to="{name: 'events'}">
-    <template v-if="banner.image">
+    <template v-if="isDefault">
+      <svg class="c-banner__image c-banner__image--default" role="img" aria-hidden="true" viewBox="0 0 206 112">
+        <use :href="banner.image"/>
+      </svg>
+    </template>
+    <template v-else-if="banner.image">
       <img :alt="banner.alt" :src="banner.image" class="c-banner__image">
     </template>
     <template v-else-if="banner.title">
@@ -48,5 +59,8 @@ export default {
   width: auto;
   object-fit: contain;
   margin: 10px;
+}
+.c-banner__image--default {
+  color: var(--logo-color);
 }
 </style>
