@@ -88,14 +88,14 @@
 ## legacy (people have been using it for years) ical feed for pedalpalooza.
 [[redirects]]
   from = "/cal/icalpp.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  to = "https://api.shift2bikes.org/api/shift-calendar.php"
   status = 200
   force = true
 
 ## the official pedalpalooza feed
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  to = "https://api.shift2bikes.org/api/shift-calendar.php"
   status = 200
   force = true
 
