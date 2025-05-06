@@ -99,15 +99,11 @@ Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help
 
 ## Subscribing to the calendar
 
-You can use the following steps to see bike events on your phone or computer's built-in calendar app. As new rides are created, they will show up on your calendar automatically (usually within 24 hours of the ride being posted by the organizer). This is a convenient way to stay up to date, but remember these are community led events: you will see all sorts of rides intended for all different riders.
+You can see events using your phone or computer's built-in calendar app. As new rides are created, they will show up on your calendar automatically (usually within 24 hours of the ride being posted by the organizer). Keep in mind, events are posted to the Shift calendar by community members, not by Shift; you will see all sorts of rides.
 
-There are are two calendars you can subscribe to:
+[webcal://www.shift2bikes.org/cal/shift-calendar.php](webcal://www.shift2bikes.org/cal/shift-calendar.php)
 
-* **The Pedalpalooza calendar**: This will show only the events happening during the official Pedalpalooza summer festival. [webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php](webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php)
-
-* **The Community calendar**: This will show all Pedalpalooza events, but also any other bike rides that might happen over the course of year. [webcal://www.shift2bikes.org/cal/shift-calendar.php](webcal://www.shift2bikes.org/cal/shift-calendar.php)
-
-On many devices, clicking on either of those links will open your calendar app automatically. Your app will then guide you through the steps to subscribe. For Android devices (or for Google Calendar on iOS devices) you will need to follow these instructions.
+On many devices, clicking the above link will open your calendar app automatically. It should then guide you through the steps to subscribe. If that doesn't work, you will need to follow these instructions:
 
 ### Android and Google Calendar:
 
