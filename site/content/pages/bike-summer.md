@@ -32,5 +32,4 @@ Check out the [archives of previous years](/archive/pedal-palooza-archives/) for
 
 ## Support
 
-Help make Bike Summer happen! [Donate to support Bike Summer.](https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ)
-
+Help make Bike Summer happen! [Donate to support Bike Summer.]({{% param "festival.donationsURL" %}})
