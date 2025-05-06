@@ -6,7 +6,7 @@ draft: false
 weight: 2
 ---
 
-[comment]: <> (aka, That Fun Thing We Do Every June)
+[comment]: <> (aka, That Fun Thing We Do Every Summer)
 
 In 2002, Portland hosted [Bike Summer](https://criticalmass.wikia.com/wiki/Bike_Summer!), and it was great! So every summer since then, we've had a summer bike festival. From 2004 it was called <dfn>Pedalpalooza</dfn>, and in 2022 it returned to its roots with the original name Bike Summer. Choose one of the following years to see its calendar of events.
 
