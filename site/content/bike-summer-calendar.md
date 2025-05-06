@@ -13,3 +13,4 @@ banner-image: "/images/pp/pp2025-banner.png"
 poster-image: "/images/pp/pp2025.png"
 
 ---
+{{< generateFestivalHeader >}}

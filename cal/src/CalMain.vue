@@ -9,7 +9,7 @@ import GenericError from './GenericError.vue'
 import JumpTool from './tools/JumpTool.vue'
 import Menu from './Menu.vue'
 import Meta from './Meta.vue'
-import PedalPanel from './PedalPanel.vue'
+import FestivalInfo from './FestivalInfo.vue'
 import SearchTool from './tools/SearchTool.vue'
 import Shortcuts from './Shortcuts.vue'
 import ToolPanel from './tools/ToolPanel.vue'
@@ -31,7 +31,7 @@ export default {
     Banner,
     JumpTool, 
     Menu, 
-    PedalPanel, 
+    FestivalInfo, 
     SearchTool,
     ToolPanel
   },
@@ -144,7 +144,7 @@ export default {
       <JumpTool @changeRoute="changeRoute"/>
     </ToolPanel>
     <ToolPanel name="pedalp" :expanded>
-      <PedalPanel/>
+      <FestivalInfo/>
     </ToolPanel>
     <ToolPanel name="menu" :expanded>
       <Menu/>
