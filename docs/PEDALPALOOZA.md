@@ -10,7 +10,6 @@ approx. January–March
 
 * Change `/site/content/bike-summer-calendar.md` page type from `calfestival` to `pp-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
 * Un-comment the contents of `/site/data/carousel/bike-summer.yaml`. Change the year, and temporarily set the evergreen image (`images/carousel/pedalpalooza-general.png`). Leave it at its current carousel position for now.
-* Update the Pedalpalooza ical feed dates in `/services/nginx/conf.d/shift.conf` ( specifies start and end dates, and exported filename. )
 
 
 ### Ramping up
