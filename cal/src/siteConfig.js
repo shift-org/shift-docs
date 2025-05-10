@@ -53,14 +53,7 @@ export default {
   // a json version of what's in hugo.toml
   // see buildMenu.html
   menu: menu,
-  // hugo generated info on all pedalpalooza events
-  // see buildFestivalDates.html
-  pedalp: siteInfo.pedal,
   disclaimer: siteInfo.disclaimer,  
+  socialapi: "/socialapi/",
   title: "Shift",
-  // dayjs date
-  getFestival(date) {
-    const year = date.year().toString();
-    return siteInfo.pedal[year];
-  },
 };

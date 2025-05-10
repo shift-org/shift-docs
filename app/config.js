@@ -64,6 +64,9 @@ const config = {
       // loads http://localhost:3080/events/index.html
       url: "/events/:series_id/:caldaily_id/:slug?",
       filePath: path.posix.resolve(staticFiles, 'events', 'index.html')
+    },{
+      url: "/socialapi",
+      remoteUrl: "https://pdx.social/@shift2bikes.rss",
     }],
   },
   // various useful email addresses

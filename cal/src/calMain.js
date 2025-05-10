@@ -16,6 +16,14 @@ import EventDetails from './EventDetails.vue'
 import CalBeta from './CalBeta.vue'
 // import Empty from './Empty.vue'
 
+// the source of records displayed by CalList.
+import sourcePool from './sources/sourcePool.js' 
+import socialSource from './sources/socialSource.js'
+import eventSource from './sources/eventSource.js'
+import festivalSource from './sources/festivalSource.js'
+
+sourcePool.register(socialSource, eventSource, festivalSource);
+
 // the router reads and writes the user's address bar
 const router = createRouter({
   history: createWebHistory(),
