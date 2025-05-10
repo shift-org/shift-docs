@@ -2,7 +2,6 @@
  * Requests favorites results from the server, and displays them.
  -->
 <script>
-import dayjs from 'dayjs'
 import EventSummary from './EventSummary.vue'
 import favorites from './support/favorites.js'
 import { buildPage } from './calFavorites.js'

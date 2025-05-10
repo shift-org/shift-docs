@@ -2,7 +2,6 @@
  * Requests search results from the server, and displays them.
  -->
 <script>
-import dayjs from 'dayjs'
 import EventSummary from './EventSummary.vue'
 import { fetchSearch } from './calSearch.js'
 import siteConfig from './siteConfig.js'

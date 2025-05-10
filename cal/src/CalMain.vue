@@ -1,8 +1,5 @@
 <script>
-// globals:
-import dayjs from 'dayjs'
 // components:
-//
 import Banner from './Banner.vue'
 import Addendum from './Addendum.vue'
 import GenericError from './GenericError.vue'
