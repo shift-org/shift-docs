@@ -81,6 +81,7 @@ export default {
       <EventSummary v-else-if="rec.type == 'caldaily'" :evt="rec" />
       <template v-else-if="rec.type == 'social'">
         <p>Social</p>
+        <img v-if="rec.image" :alt="rec.image.alt" :src="rec.image.url">
         <div v-html="rec.description"></div>
         <span>via: <a :href="rec.link">pdx social</a></span>
       </template>
