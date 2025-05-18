@@ -22,7 +22,7 @@ import socialSource from './sources/socialSource.js'
 import eventSource from './sources/eventSource.js'
 import festivalSource from './sources/festivalSource.js'
 
-sourcePool.register(socialSource, eventSource, festivalSource);
+sourcePool.register(/*socialSource, */eventSource, festivalSource);
 
 // the router reads and writes the user's address bar
 const router = createRouter({
