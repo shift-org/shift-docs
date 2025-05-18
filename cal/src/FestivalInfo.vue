@@ -31,6 +31,7 @@
     align-items: center;
     a {
       text-align: center;
+      color: var(--link-alt);
       background-color: var(--divider-bg);
       border: var(--brightend-border);
       border-radius: 12px;
@@ -48,6 +49,7 @@
     text-align: justify;
     max-width: 90%;
     margin: 0 auto;
+    color: var(--page-text);
   }
 }
 .c-pp p {

@@ -60,8 +60,8 @@ export default {
   }
 }
 .c-event-header__time {
-  box-shadow: 2px 2px 1px 1px black;
-  border: solid black thin;
+  box-shadow: 2px 2px 1px 1px var(--logo-color);
+  border: solid thin var(--logo-color);
   background: var(--page-bg);
   padding: 0.5em;
   white-space: nowrap;

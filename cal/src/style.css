@@ -3,13 +3,14 @@
   
   --orangey: #ffdd66;
   --brightend: #ff9819;
-  --middleish: #ffc14d;
+  --middleish: #ffc14d; /* can provide an accent to brightend */
   --darkend: goldenrod;
   --offwhite: #fcfaf2;
 
   --page-bg: white;
   --page-text: #555555;
   --accent-text: #630;
+  --logo-color: black;
 
   --fixed-bg:  var(--offwhite); /* for the header and footer */
   --page-border: solid thin #ddd;
@@ -17,10 +18,11 @@
   --page-border-light: solid thin #eee;
 
   --orangey-border: solid thin var(--orangey);
-  --brightend-border: solid thin var(--brightend);
+  --brightend-border: solid thin var(--middleish);
  
   --hover-bg: var(--middleish);
   --link-text: #337ab7;
+  --link-alt:#337ab7;
   --icon-color: var(--darkend); /* newflash, organizer, etc.  */
  
   --divider-bg:  var(--orangey);
@@ -38,6 +40,25 @@
   */
   --tag-bg: var(--page-bg); 
   --tag-text: var(--page-text);
+}
+
+
+/* if dark mode is detected, change the definitions to dark mode colors */
+@media(prefers-color-scheme: dark) {
+  :root {
+    --page-bg: #232A33;
+    --logo-color: var(--offwhite);
+    --page-text: lightgray;
+    --fixed-bg:   #202F38;
+
+    --feature-bg: var(--page-bg);
+    --feature-text: var(--brightend);
+    
+    --tag-bg: var(--fixed-bg); 
+    --tag-text: var(--page-text);
+    --link-text: rgb(73, 182, 224);
+    --link-alt: #337ab7;
+  }
 }
 
 html, body {
