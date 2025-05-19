@@ -49,6 +49,7 @@ export default {
   background-color: var(--page-bg);
   color: var(--page-text);
   padding: 0.5em;
+  font-size: medium;
   
   &.c-tool--enabled {
     cursor: pointer;
