@@ -54,6 +54,6 @@ export default {
   justify-content: center;
   gap: 3px;
   width: 100%;
-  height: 100%; /* fill the parent header */
+  height: 3.25rem; /* matches the c-divider sticky position */
 }
 </style>

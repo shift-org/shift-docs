@@ -172,17 +172,21 @@ export default {
   width: 100%;
   background-color: var(--fixed-bg);
   z-index: 250; /* to draw over the page view when expanded */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .c-header {
   top: 0;
   border-bottom: var(--page-border);
-  height: 3.25rem; /* matches the c-divider sticky position */
 } 
 .c-footer {
   bottom: 0;
   border-top: var(--page-border);
 }
 .c-panels {
+  width: 100%;
+  max-width: var(--max-width);    /* to center on desktop */
   overflow: auto;
   height: calc(100vh - 7.75rem);
   border-top: var(--page-border);
@@ -191,6 +195,7 @@ export default {
   https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior
   */
   overscroll-behavior-y: contain;
+
 }
 .c-divider {
   position: sticky;
