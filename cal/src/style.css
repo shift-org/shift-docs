@@ -113,6 +113,5 @@ a {
   /* ensure even with a small amount of content,
   the app view is "full screen" */
   min-height: 100vh;
-  margin: auto;
-  
+  margin: auto;  
 }
