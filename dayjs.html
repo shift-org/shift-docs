@@ -1,0 +1,31 @@
+{{/*
+  helper for including dayjs, and -- optionally -- forcing the current time of day. 
+*/}}
+<script src="/lib/dayjs/dayjs.min.js"></script>
+<script src="/lib/dayjs/plugin/utc.js"></script>
+<script src="/lib/dayjs/plugin/customParseFormat.js"></script>
+<script src="/lib/dayjs/plugin/duration.js"></script>
+<script src="/lib/dayjs/plugin/js"></script>
+
+<script type="text/javascript">
+  dayjs.extend(window.dayjs_plugin_utc)
+  dayjs.extend(window.dayjs_plugin_customParseFormat)
+  dayjs.extend(window.dayjs_plugin_duration)
+</script>
+
+{{- if and .Site.BuildDrafts .Site.Params.forceCurrentTime }}
+<script type="text/javascript">
+function wrapDayjs(mockTime) {
+  const realDayJs = dayjs;
+  let wrapper = function dayjsMock() {
+    return (mockTime && (arguments[0] === undefined)) ?
+      mockTime :
+      realDayJs.apply(this, arguments);
+  }
+  // copy .extends, .utc, etc.
+  return Object.assign(wrapper, realDayJs);
+}
+// explicitly re-assign the global
+window.dayjs = wrapDayjs(dayjs("{{ .Site.Params.forceCurrentTime }}", "MM-DD-YYYY HH:mm"));
+</script>
+{{ end }}
