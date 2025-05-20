@@ -1,7 +1,6 @@
 /**
  *  support functions for CalList.vue
  */
-import dayjs from 'dayjs'
 import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 

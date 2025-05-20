@@ -1,12 +1,13 @@
 import dayjs from 'dayjs'
-import siteConfig from './siteConfig.js'
+import siteInfo from 'extras/siteInfo.json'
 
 // assume the user refreshes the page at least once a year.
 const now = dayjs().year();
 
-const ppYear = Object.keys(siteConfig.pedalp).pop();
+// get the most recent year
+const ppYear = Object.keys(siteInfo.pedal).pop();
 const ppShow = ppYear == now; // double equal to test string vs. int
-const ppInfo = siteConfig.pedalp[ppYear];
+const ppInfo = siteInfo.pedal[ppYear];
 
 export default {
   currentYear : ppYear,

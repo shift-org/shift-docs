@@ -20,12 +20,6 @@ let _lastRange = {
 // object containing daily id -> event data.
 const caldaily_map = new Map();
 
-function sortTimes() {
-  `${date}T${time}`
-}
-
-const debugFormat = "dddd YYYY-MM-DD";
-
 export default {
   // caldaily_id as a string
   // returns a single event blob
@@ -84,13 +78,13 @@ export default {
 
 // change dates into dayjs; and sort.
 function mungeEvents(events) {
-  events.forEach((evt, i) => {
-    events[i].datetime = dayjs(`${evt.date}T${evt.time}`);
+  events.forEach(evt => {
+    evt.moment = dayjs(`${evt.date}T${evt.time}`);
     caldaily_map.set(evt.caldaily_id, evt);
   });
   events.sort((a, b) => 
-    a.datetime.isBefore(b.datetime) ? -1 : 
-    a.datetime.isAfter(b.datetime) ? 1 : 0); 
+    a.moment.isBefore(b.moment) ? -1 : 
+    a.moment.isAfter(b.moment) ? 1 : 0); 
 }
 
 function buildUrl(endpoint, pairs) {

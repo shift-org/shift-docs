@@ -81,6 +81,11 @@
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
 
+[[redirects]]
+  from = "/socialapi/"
+  to = "https://pdx.social/@shift2bikes.rss"
+  status = 200
+
 ## ---------------------------------------------------------------------------
 ## ical feeds
 ## ---------------------------------------------------------------------------
