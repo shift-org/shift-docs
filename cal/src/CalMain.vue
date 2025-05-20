@@ -14,7 +14,7 @@ import Toolbar from './Toolbar.vue'
 import { RouterLink, RouterView } from 'vue-router'
 // support:
 import siteConfig from './siteConfig.js'
-import pp from './pedalp.js'
+import festInfo from './pedalp.js'
 import scrollPos from './scrollPos.js';
 
 export default {
@@ -87,8 +87,8 @@ export default {
         jump: {
           label: "Jump"
         },
-        pedalp: !pp.show ? undefined : {
-          label: `Pedalpalooza ${pp.currentYear}`
+        bikefest: !festInfo.show ? undefined : {
+          label: `Bike Summer`
         },
         menu: {},
       };
@@ -140,7 +140,7 @@ export default {
     <ToolPanel name="jump" :expanded>
       <JumpTool @changeRoute="changeRoute"/>
     </ToolPanel>
-    <ToolPanel name="pedalp" :expanded>
+    <ToolPanel name="bikefest" :expanded>
       <FestivalInfo/>
     </ToolPanel>
     <ToolPanel name="menu" :expanded>
@@ -169,25 +169,34 @@ export default {
   width: 100%;
   background-color: var(--fixed-bg);
   z-index: 250; /* to draw over the page view when expanded */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .c-header {
   top: 0;
   border-bottom: var(--page-border);
-  height: 3.25rem; /* matches the c-divider sticky position */
 } 
 .c-footer {
   bottom: 0;
   border-top: var(--page-border);
 }
 .c-panels {
+  width: 100%;
+  max-width: var(--max-width);    /* to center on desktop */
   overflow: auto;
-  height: calc(100vh - 7.75rem);
+  /** 
+   * grow the panels to the full height minus the bottom bar
+   * uses dynamic view height to account for ios safari bottom url bar
+   */
+  height: calc(100dvh - 7.75rem);
   border-top: var(--page-border);
   background-color: var(--page-bg);
   /* stops the cal list from scroll chaining
   https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior
   */
   overscroll-behavior-y: contain;
+
 }
 .c-divider {
   position: sticky;

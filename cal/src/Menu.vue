@@ -152,7 +152,6 @@ export default {
 .c-subscribe {
   text-align: center;
   background: var(--feature-bg);
-  color: var(--feature-text);
   padding: 1em;
   margin: 0 auto;
 }

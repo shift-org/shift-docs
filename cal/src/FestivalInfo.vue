@@ -26,21 +26,17 @@
   }
    /* see also c-notice */
   .donate {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    text-align: center;
     a {
-      text-align: center;
+      color: var(--link-alt);
       background-color: var(--divider-bg);
       border: var(--brightend-border);
       border-radius: 12px;
       padding: .25em 1em;
+      display: block;
     }
     p {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      align-items: center;
+      display: inline-block;
       margin: 0.25em;
     }
   }
