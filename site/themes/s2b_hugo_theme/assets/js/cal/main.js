@@ -77,7 +77,7 @@ $(document).ready(function() {
                       action: "TEMPLATE",
                       text: `shift2Bikes: ${value.title}`,
                       location: value.address,
-                      details: value.details,
+                      details: `${value.details}\n\n${value.shareable}`,
                       dates: calendarDates,
                       sf: true, // ??
                       output: 'xml'
