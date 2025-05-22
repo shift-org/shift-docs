@@ -71,6 +71,35 @@
         }
     };
 
+    $.fn.getAddToGoogleLink = function(event) {
+        const googleCalUrl = new URL('https://www.google.com/calendar/render');
+
+        const startDate = dayjs(`${event.date} ${event.time}`).toISOString();
+        const duration = event.duration ?? 60; // Google requires a duration and defaults to 60 minutes anyway
+        const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration })).toISOString();
+        /**
+         * Matches anything that is not a word or whitespace
+         * @example
+         * "2025-05-21T16:30:00.000Z".replace(regex, '') // 20250521T163000000Z
+        */
+        const regex = /[^\w\s]/gi;
+
+        // Remove colons and periods for Google Calendar URL (2025-05-21T16:30:00.000Z => 20250521T163000000Z)
+        const calendarDates = `${startDate.replace(regex, '')}/${endDate.replace(regex, '')}`;
+
+        googleCalUrl.search = new URLSearchParams({
+          action: "TEMPLATE",
+          text: `shift2Bikes: ${event.title}`,
+          location: event.address,
+          details: `${event.details}\n\n${event.shareable}`,
+          dates: calendarDates,
+          sf: true, // ??
+          output: 'xml'
+        });
+
+        return googleCalUrl;
+    };
+
     $.fn.compareTimes = function ( event1, event2 ) {
         if ( event1.time < event2.time ) {
             return -1;
