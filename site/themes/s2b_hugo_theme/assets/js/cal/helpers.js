@@ -97,7 +97,7 @@
           output: 'xml'
         });
 
-        return googleCalUrl;
+        return googleCalUrl.toString();
     };
 
     $.fn.compareTimes = function ( event1, event2 ) {
