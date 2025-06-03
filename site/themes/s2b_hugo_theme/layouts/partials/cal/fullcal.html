@@ -6,7 +6,7 @@
   */}}
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('fullcalendar');
-    var params = parseURL();
+    var params = calHelpers.parseURL(window.location.pathname);
 
     var default_view = 'timeGridWeek';
     switch (params['view']) {

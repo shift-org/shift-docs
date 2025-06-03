@@ -1,6 +1,6 @@
 /**
  * icon related code
- * ported from the jquery helpers.js
+ * todo: share with calConst.js
  */
 import icons from './icons.js';
 
@@ -9,6 +9,8 @@ class Tag {
     this.key = key;
     this.text = text;
     this.desc = desc || text;
+    // fix: to share this with the calendar code
+    // maybe make icon just a name, and not a get here.
     this.icon = icon || icons.get(text.toLowerCase());
   }
 }

@@ -1,8 +1,8 @@
 /**
  * code used on one or more pages
- * ported from the jquery helpers.js
  */
 import dayjs from 'dayjs'
+import calHelpers from 'shared/js/calHelpers.js'
 
 // a <= b
 function sameOrBefore(a, b) {
@@ -17,9 +17,6 @@ function within(a, start, end) {
   return sameOrAfter(a, start) && sameOrBefore(a, end);
 }
 
-const urlPattern = /^https*:\/\//;
-const emailPattern = /.+@.+[.].+/;
-
 function friendlyTime(time) {
   return dayjs(time, 'hh:mm:ss').format('h:mm A');
 }
@@ -29,23 +26,8 @@ export default {
   sameOrAfter,
   within,
 
-  // format an event '.weburl'
-  // if url already starts with http/s, return it as-is
-  // otherwise prepend http.
-  getWebLink(url) {
-    return url.match(urlPattern) ? url : ('http://' + url);
-  },
-  // format an event '.contact'
-  getContactLink(contact) {
-      if (contact && contact.match(urlPattern)) {
-          // if add'l contact info is an http/s link, return it as-is
-          return contact;
-      } else if (contact&& contact.match(emailPattern)) {
-          // if add'l contact info is an email address, return a mailto link
-          return 'mailto:' + contact;
-      } 
-      // if it's not a link, return nothing
-  },
+  getWebLink: calHelpers.getWebLink,
+  getContactLink: calHelpers.getContactLink,
 
   //7:00 AM to 9:00 AM
   getTimeRange(evt) {

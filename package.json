@@ -20,28 +20,33 @@
     "dev": "concurrently -k \"npm:dev-*\"",
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
     "dev-app": "env-cmd -f tools/dev.env npm -w app start",
+    "dev-shared": "esbuild ./shared/js/*.js --watch --sourcemap --minify --outdir=./bin/dist/shared/js",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -e development -d ../bin/dist",
     "dev-cal": "env-cmd -f tools/dev.env npm -w cal run dev",
     
     "build": "concurrently  --max-processes 1 -k \"npm:build-*\"",
+    "build-shared": "esbuild ./shared/js/*.js --sourcemap --minify --outdir=./bin/dist/shared/js",
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
     "build-vite": "npm -w cal run build",
-
+    
     "predeploy": "npm i --workspaces=false && npm i -w cal",
-    "deploy": "concurrently --max-processes 1 -P 'npm:deploy:hugo -- {@}' 'npm:deploy:vite' --",
+    "deploy": "concurrently --max-processes 1 -P 'npm:deploy:shared' 'npm:deploy:hugo -- {@}' 'npm:deploy:vite' --",
     "deploy:hugo": "exec-bin bin/hugo/hugo -s site",
+    "deploy:shared": "esbuild ./shared/js/*.js --minify --outdir=./site/public/shared/js",
     "deploy:vite": "npm -w cal run deploy",
     "postdeploy": "cp site/public/404/index.html site/public/404.html",
-    
     "postinstall": "hugo-installer --version 0.144.2",
+    
     "test": "npm -w app run test",
-
+    
     "preview": "concurrently --kill-others-on-fail \"npm:preview-*\"",
+    "preview-shared": "npm run dev-shared",
     "preview-hugo": "npm run dev-hugo",
     "preview-cal": "npm -w cal run build",
     "preview-app": " npm -w tools run preview"
   },
   "devDependencies": {
+    "esbuild": "0.25.2",
     "http-proxy-middleware": "^3.0.3"
   }
 }

@@ -1,4 +1,4 @@
-// uses CONSTANTS from config.js
+// relies upon scripts.html loading some files as globals
 
 (function($) {
 
@@ -11,14 +11,11 @@
     $.fn.getAddEventForm = function(id, secret, callback) {
         // TODO: loading spinner
         if (id && secret) {
-            let url = new URL(API_RETRIEVE_URL);
-            url.searchParams.set('id', id);
-            url.searchParams.set('secret', secret);
-
-            let opts = {
+            const url = calApi.Retrieve.Build({id, secret});
+            const opts = {
                 type: 'GET',
-                url: url.toString(),
-                headers: API_HEADERS,
+                url,
+                headers: calApi.HEADERS,
                 success: function(data) {
                     data.secret = secret;
                     data.readComic = true;
@@ -120,24 +117,24 @@
         var template, rendered;
 
         if (!shiftEvent.time) {
-            shiftEvent.time = DEFAULT_TIME;
+            shiftEvent.time = calConst.STARTING.TIME;
         }
         shiftEvent.timeOptions = populateTimeOptions(shiftEvent.time);
 
         if (!shiftEvent.audience) {
-            shiftEvent.audience = DEFAULT_AUDIENCE;
+            shiftEvent.audience = calConst.STARTING.AUDIENCE;
         }
-        shiftEvent.audienceOptions = populateMenuOptions(AUDIENCE_DESCRIPTION, shiftEvent.audience);
+        shiftEvent.audienceOptions = populateMenuOptions(calConst.AUDIENCE_DESCRIPTION, shiftEvent.audience);
 
         if (!shiftEvent.area) {
-            shiftEvent.area = DEFAULT_AREA;
+            shiftEvent.area = calConst.STARTING.AREA;
         }
-        shiftEvent.areaOptions = populateMenuOptions(AREA, shiftEvent.area);
+        shiftEvent.areaOptions = populateMenuOptions(calConst.AREA, shiftEvent.area);
 
         if (!shiftEvent.length) {
-            shiftEvent.length = DEFAULT_LENGTH;
+            shiftEvent.length = calConst.STARTING.LENGTH;
         }
-        shiftEvent.lengthOptions = populateMenuOptions(LENGTH, shiftEvent.length);
+        shiftEvent.lengthOptions = populateMenuOptions(calConst.LENGTH, shiftEvent.length);
 
         template = $('#mustache-edit').html();
         rendered = Mustache.render(template, shiftEvent);
@@ -191,11 +188,11 @@
                 data.append('file', file);
             });
             data.append('json', JSON.stringify(postVars));
-            let url = new URL(API_MANAGE_URL);
+            const url = calApi.Manage.Build();
             let opts = {
                 type: 'POST',
-                url: url.toString(),
-                headers: API_HEADERS,
+                url,
+                headers: calApi.HEADERS,
                 contentType: false,
                 processData: false,
                 cache: false,
@@ -344,11 +341,11 @@
             previewEvent[`${field}`] = $(`#hide${field}`).is(":checked") ? null : $(`#${field}`).val();
         });
 
-        previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
+        previewEvent['audienceLabel'] = calHelpers.getAudienceLabel(previewEvent['audience']);
         previewEvent['length'] += ' miles';
-        previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
-        previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
-        previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
+        previewEvent['mapLink'] = calHelpers.getMapLink(previewEvent['address']);
+        previewEvent['webLink'] = calHelpers.getWebLink(previewEvent['weburl']);
+        previewEvent['contactLink'] = calHelpers.getContactLink(previewEvent['contact']);
 
         $form.hide();
         mustacheData = {
@@ -392,11 +389,11 @@
             id: id,
             secret: secret
         }));
-        let url = new URL(API_DELETE_URL);
+        const url = caltApi.DeleteEvent.Build();
         let opts = {
             type: 'POST',
-            url: url.toString(),
-            headers: { 'Api-Version': API_VERSION },
+            url,
+            headers: { 'Api-Version': calApi.VERSION },
             contentType: false,
             processData: false,
             cache: false,

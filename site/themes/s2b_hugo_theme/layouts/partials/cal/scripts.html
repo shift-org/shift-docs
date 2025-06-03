@@ -1,55 +1,20 @@
-<!-- load on all cal pages -->
-{{ $jsCalConfig := resources.Get "js/cal/config.js" | minify }}
-<script src="{{ $jsCalConfig.Permalink }}"></script>
+<!-- define shared modules -->
+<script type='module' src="/shared/js/calApi.js"></script>
+<script type='module' src="/shared/js/calConst.js"></script>
+ <script type='module' src="/shared/js/calHelpers.js"></script>
 
-<script type="text/javascript">
-  function parseURL() {
-    var urlParams = {};
-    var path = window.location.pathname.split('/');
-    var lastPart = path[path.length-1];
-
-    var singleEventRe = /event-([0-9]+)/g;
-    var singleEvent = singleEventRe.exec(lastPart);
-    if (singleEvent && singleEvent.length === 2) {
-      urlParams['eventId'] = parseInt(singleEvent[1]);
-    }
-
-    var editEventRe = /edit-([0-9]+)-([0-9a-zA-Z]*)/g;
-    var editEvent = editEventRe.exec(lastPart);
-    if (editEvent && editEvent.length === 3) {
-      urlParams['editId'] = parseInt(editEvent[1]);
-      urlParams['editSecret'] = editEvent[2];
-    }
-
-    // IE doesn't support URLSearchParams, so IE will
-    // skip this block and ignore all URL params
-    if (typeof URLSearchParams === "function") {
-      var query = new URLSearchParams(location.search);
-
-      if (query.has('startdate')) {
-        urlParams['startdate'] = query.get('startdate');
-      }
-      if (query.has('enddate')) {
-        urlParams['enddate'] = query.get('enddate');
-      }
-      if (query.has('show_details')) {
-        urlParams['show_details'] = true;
-      }
-      if (query.has('view')) {
-        if (['day', 'week', 'month'].includes(query.get('view'))) {
-          urlParams['view'] = query.get('view');
-        }
-      }
-    }
-
-    return urlParams;
-  }
+<!-- assign modules to globals for backwards compat -->
+<script type='module'>
+  import calApi from "/shared/js/calApi.js"
+  import calConst from "/shared/js/calConst.js"
+  import calHelpers from "/shared/js/calHelpers.js"
+  Object.assign(window, { calApi });
+  Object.assign(window, { calConst });
+  Object.assign(window, { calHelpers });
 </script>
-
 <!-- load on list, single ride, edit, and festival pages; not needed for grid view page -->
 {{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") }}
-  {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
-  <script src="{{ $jsCalHelpers.Permalink }}"></script>
+  
   {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
   <script src="{{ $jsCalMain.Permalink }}"></script>
 
@@ -59,7 +24,7 @@
 
   <script type="text/javascript">
     $(document).ready(function() {
-      var params = parseURL();
+      var params = calHelpers.parseURL(window.location.pathname);
 
       if ('eventId' in params) {
         // view single event

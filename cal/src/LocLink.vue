@@ -1,8 +1,6 @@
 <script>
 import ExternalLink from './ExternalLink.vue'
-
-const urlPattern = /^https*:\/\//;
-
+import calHelpers from 'shared/js/calHelpers.js'
 
 export default  {
   components: { ExternalLink },
@@ -11,21 +9,8 @@ export default  {
     class: String,
   },
   computed: {
-    // ported from helpers.js getMapLink
     mapLink() {
-      const { address } = this.evt;
-      if (!address || address == 'TBA' || address == 'TBD') {
-        // if address is null or not available yet, don't try to map it
-        return null;
-      } else if (address.match(urlPattern)) {
-        // if address is a URL rather than a street address, return it as-is
-        return address;
-      } else {
-        // otherwise, map it with Google Maps
-        return 'https://maps.google.com/' +
-            '?bounds=45.389771,-122.829208|45.659647,-122.404175&q=' +
-            encodeURIComponent(address);
-      }
+      return calHelpers.getMapLink(this.evt.address);
     },
     mapText() {
       const { address, venue } = this.evt;

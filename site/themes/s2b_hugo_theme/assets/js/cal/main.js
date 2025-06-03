@@ -1,25 +1,25 @@
-// uses CONSTANTS from config.js
+// relies upon scripts.html loading some files as globals
 
 $(document).ready(function() {
 
-    var container = $('#mustache-html');
-
     function getEventHTML(options, callback) {
-        let url = new URL(API_EVENTS_URL);
+        let url;
         if (options.id) {
-            url.searchParams.set('id', options.id);
+            url = calApi.Events.Build({id: options.id});
         } else if (options.startdate && options.enddate) {
             // options.startdate and .enddate are dayjs objects
-            url.searchParams.set('startdate', options.startdate.format("YYYY-MM-DD"));
-            url.searchParams.set('enddate', options.enddate.format("YYYY-MM-DD"));
+            url = calApi.Events.Build({
+              startdate: options.startdate.format("YYYY-MM-DD"),
+              enddate: options.enddate.format("YYYY-MM-DD")
+            });
         } else {
             throw Error("requires id or range");
         }
 
         var opts = {
             type: 'GET',
-            url: url.toString(),
-            headers: API_HEADERS,
+            url,
+            headers: calApi.HEADERS,
             success: function(data) {
                 var groupedByDate = [];
 
@@ -42,53 +42,25 @@ $(document).ready(function() {
                       value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
                     }
 
-                    value.audienceLabel = container.getAudienceLabel(value.audience);
-                    value.areaLabel = container.getAreaLabel(value.area);
-                    value.mapLink = container.getMapLink(value.address);
+                    value.audienceLabel = calHelpers.getAudienceLabel(value.audience);
+                    value.areaLabel = calHelpers.getAreaLabel(value.area);
+                    value.mapLink = calHelpers.getMapLink(value.address);
 
                     if (options.show_details) {
                         value.expanded = true;
                     }
-                    value.webLink = container.getWebLink(value.weburl);
-                    value.contactLink = container.getContactLink(value.contact);
+                    value.webLink = calHelpers.getWebLink(value.weburl);
+                    value.contactLink = calHelpers.getContactLink(value.contact);
 
-                    let exportURL = new URL(API_ICS_URL);
-                    exportURL.searchParams.set('id', value.id);
-                    value.exportlink = exportURL.toString();
+                    value.exportlink = calApi.Ics.Build({id: value.id});
 
-                    /**
-                     * Add To Google Calendar
-                     */
-                    const googleCalUrl = new URL('https://www.google.com/calendar/render')
-                    const startDate = dayjs(`${value.date} ${value.time}`).toISOString()
-                    const duration = value.duration ?? 60 // Google requires a duration and defaults to 60 minutes anyway
-                    const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration })).toISOString()
-                    /**
-                     * Matches anything that is not a word or whitespace
-                     * @example
-                     * "2025-05-21T16:30:00.000Z".replace(regex, '') // 20250521T163000000Z
-                    */
-                    const regex = /[^\w\s]/gi
-
-                    // Remove colons and periods for Google Calendar URL (2025-05-21T16:30:00.000Z => 20250521T163000000Z)
-                    const calendarDates = `${startDate.replace(regex, '')}/${endDate.replace(regex, '')}`
-
-                    googleCalUrl.search = new URLSearchParams({
-                      action: "TEMPLATE",
-                      text: `shift2Bikes: ${value.title}`,
-                      location: value.address,
-                      details: `${value.details}\n\n${value.shareable}`,
-                      dates: calendarDates,
-                      sf: true, // ??
-                      output: 'xml'
-                    })
-                    value.addToGoogleLink = googleCalUrl.toString()
+                    value.addToGoogleLink = calHelpers.getAddToGoogleLink(value);
 
                     groupedByDate[date].events.push(value);
                 });
 
                 for ( var date in groupedByDate )  {
-                    groupedByDate[date].events.sort(container.compareTimes);
+                    groupedByDate[date].events.sort(calHelpers.compareTimes);
                 }
                 var template = $('#view-events-template').html();
                 var info = Mustache.render(template, mustacheData);
@@ -106,7 +78,7 @@ $(document).ready(function() {
                         }
                         $('meta[property="og:description"]')[0].setAttribute("content", descr);
                     }
-                    document.title = event.title + " - Calendar - " + SITE_TITLE;
+                    document.title = event.title + " - Calendar - " + calConst.SITE_TITLE;
                 }
                 callback(info);
             },
@@ -142,7 +114,7 @@ $(document).ready(function() {
           startdate: from,
           // if there was an enddate, use it; otherwise use a fixed number of days.
           // subtract 1 so range is inclusive
-          enddate: options.enddate ? end : from.add( (DEFAULT_DAYS_TO_FETCH - 1), 'day'),
+          enddate: options.enddate ? end : from.add( (calConst.STARTING.DAYS_TO_FETCH - 1), 'day'),
           // pass this on to the events listing.
           show_details: options.show_details,
         };
@@ -155,6 +127,8 @@ $(document).ready(function() {
     // options is from parseURL() and includes
     // pp, and startdate, enddate from markdown if on a "pp" page.
     function viewEvents(options){
+        const container = $('#mustache-html');
+
         const view = getInitialView(options);
         // container is $('#mustache-html'); empty it out.
         container.empty();
@@ -166,12 +140,12 @@ $(document).ready(function() {
         // range is inclusive -- all rides on end date are included, even if they start at 11:59pm
         getEventHTML(view, function (eventHTML) {
              container.append(eventHTML);
-             lazyLoadEventImages();
+             calHelpers.lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
                       // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
                       // otherwise, use the default range
-                      range = options.enddate ? (view.enddate.diff(view.startdate, 'day') + 1) : DEFAULT_DAYS_TO_FETCH;
+                      range = options.enddate ? (view.enddate.diff(view.startdate, 'day') + 1) : calConst.STARTING.DAYS_TO_FETCH;
 
                       // the next day to view is one day after the previous last
                       view.startdate = view.enddate.add(1, 'day');
@@ -179,7 +153,7 @@ $(document).ready(function() {
                       // add new events to the end of those we've already added.
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
-                          lazyLoadEventImages();
+                          calHelpers.lazyLoadEventImages();
                       });
                       return false;
                  });
@@ -187,16 +161,18 @@ $(document).ready(function() {
     }
 
     function viewEvent(id) {
+        const container = $('#mustache-html');
         getEventHTML({
             id: id,
             show_details: true // always expand details for a single event
         }, function (eventHTML) {
             container.append(eventHTML);
-            lazyLoadEventImages();
+            calHelpers.lazyLoadEventImages();
         });
     }
 
     function viewAddEventForm(id, secret) {
+        const container = $('#mustache-html');
         container.getAddEventForm( id, secret, function(eventHTML) {
             container.empty().append(eventHTML);
         });
@@ -271,30 +247,7 @@ $(document).ready(function() {
           return false;
       });
     };
-
-    // lightly adapted from
-    // https://developers.google.com/web/fundamentals/performance/lazy-loading-guidance/images-and-video/
-    function lazyLoadEventImages() {
-      var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-
-      if ("IntersectionObserver" in window) {
-        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              let lazyImage = entry.target;
-              lazyImage.src = lazyImage.dataset.src;
-              lazyImage.classList.remove("lazy");
-              lazyImageObserver.unobserve(lazyImage);
-            }
-          });
-        });
-
-        lazyImages.forEach(function(lazyImage) {
-          lazyImageObserver.observe(lazyImage);
-        });
-      }
-    }
-
+  
     window.viewAddEventForm = viewAddEventForm;
     window.viewEvents = viewEvents;
     window.viewEvent = viewEvent;

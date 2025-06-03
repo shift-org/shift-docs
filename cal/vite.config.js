@@ -12,7 +12,7 @@ const isNetlify = !!process.env.NETLIFY;
 // while netlify always uses the site/public directory.
 const localPath = "../bin/dist/";
 const netlifyPath = "../site/public/";
-const content = isNetlify? netlifyPath: localPath;
+const content = isNetlify ? netlifyPath: localPath;
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -22,8 +22,12 @@ export default defineConfig({
   resolve: {
     alias: {
       // the extras are used by siteConfig.js
+      // they are derived from hugo content and built by hugo
       "extras": path.resolve(__dirname, content, "extras" ),
-      // this is how images are referenced in festivalHeader:
+      // scripts shared between hugo and vite;
+      // built with esbuild via npm run build
+      "shared": path.resolve(__dirname, content, "shared" ),
+      // images in festivalHeader start with a slash
       "/images": path.resolve(__dirname, content, "images" ),
     },
   }
