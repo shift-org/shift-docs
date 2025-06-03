@@ -50,7 +50,6 @@ function buildShortcuts(evt, fullPath) {
       };
     },
     addevent: "/addevent/",
-    export: `/api/ics.php?id=${evt.id}`,
     // hide share till its ready
     // see also the ShortcutButton
     // this might depend on platform or sussing out capabilities.
