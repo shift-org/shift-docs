@@ -79,7 +79,8 @@ export default {
   // make an endpoints file of some sort that dataPool uses.
   // ( and then have callers of this use that file directly )
   getExportURL(id) {
-    return buildUrl(API_ICS_URL, {id});
+    // TEST HACK
+    return "webcal://www.shift2bikes.org/api/ics.php?id=12788";
   },
 }
 
