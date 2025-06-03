@@ -64,8 +64,8 @@ But if someone is using a high contrast display mode, the border will appear.
 }
 
 svg.icon {
-  width: 22px;
-  height: 22px;
+  width: 1.375rem;
+  height: 1.375rem;
   margin-right: 4px;
   vertical-align: middle;
   fill: currentColor;
@@ -138,7 +138,7 @@ svg.icon {
     width: 100%;
     text-align: left;
     padding: 0;
-    font-size: 1.75rem;
+    font-size: 1.1rem;
     font-weight: 500;
 }
 
@@ -337,6 +337,7 @@ h3 {
 .btn {
     color: #37b;
     background: #efefef;
+    font-size: 0.8125rem;
 }
 
 .btn:focus {
@@ -402,7 +403,7 @@ button.expand-details {
 .pp-banner .pp-headline,
 .promo-banner .pp-headline {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 1.5rem;
     color: #663300;
 }
 
