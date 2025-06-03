@@ -9,6 +9,7 @@ const API_BASE_URL = window.location.origin;
 // const API_BASE_URL = "https://api.shift2bikes.org";
 const API_EVENTS_URL = new URL(`/api/events.php`, API_BASE_URL);
 const API_SEARCH_URL = new URL(`/api/search.php`, API_BASE_URL);
+const API_ICS_URL    = new URL('/api/ics.php', API_BASE_URL);
 
 // cache the most recent range.
 // useful for front-end development where browser caching is disable.
@@ -73,7 +74,13 @@ export default {
     const data = await resp.json(); // data => { events: [], pagination: {} }
     mungeEvents(data.events);
     return data;
-  }
+  },
+  // fix: this isn't nice as a method of data pool
+  // make an endpoints file of some sort that dataPool uses.
+  // ( and then have callers of this use that file directly )
+  getExportURL(id) {
+    return buildUrl(API_ICS_URL, {id});
+  },
 }
 
 // change dates into dayjs; and sort.
