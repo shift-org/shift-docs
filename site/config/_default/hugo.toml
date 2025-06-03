@@ -100,8 +100,10 @@ disableKinds = ["taxonomy", "term"]
     # mastodon verification
     verificationURL = "https://pdx.social/@shift2bikes"
 
-    # link for accepting donations
-    donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=BNL2NY7U8GH3Q"
+# links for accepting donations
+[params.donations]
+    primaryURL = "https://www.zeffy.com/donation-form/donate-to-shift"
+    secondaryURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=BNL2NY7U8GH3Q"
 
 # Festival details
 [params.festival]

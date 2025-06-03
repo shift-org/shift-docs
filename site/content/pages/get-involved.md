@@ -17,8 +17,8 @@ Shift welcomes all respectful participants. There are a lot of ways to get invol
   * Help improve the functionality of the calendar — see the [calendar readme page](https://github.com/shift-org/shift-docs) for some more details.
   * Help facilitate events like [Pedalpalooza](/pages/pedalpalooza/). Join the [Shift volunteers mailing list](https://groups.google.com/forum/#!forum/shift-volunteers) and let us know what dreams and/or skills you've got.  We need folks to help edit the calendar, encourage folks to create events, create memorabilia, lead rides, etc.
   * Help Shift operate by joining the board — see the [board of directors application](https://docs.google.com/forms/d/12epys19NqGw3jr2PeyhXp6kbFLpz22eeff7OyIRC5bk/edit). 
-* **Donate!**  The PayPal button at the bottom of the page here lets you give a tax deductible donation to Shift via our fiscal sponsor Umbrella.  You can see how we use this money on our [expenses page](/pages/budget-finance-stuff/).
+* **Donate!**  The Donate button at the bottom of the page here lets you give a tax deductible donation to Shift via our fiscal sponsor Umbrella.  You can see how we use this money on our [expenses page](/pages/budget-finance-stuff/).
 
 <div class="donate">
-  <a href="{{% param "donationsURL" %}}" target="_blank">Donate</a>
+  <a href="/pages/donate/">Donate</a>
 </div>

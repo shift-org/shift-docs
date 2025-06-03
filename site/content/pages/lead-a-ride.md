@@ -1,6 +1,6 @@
 ---
 title: Leading a Social Ride
-weight: 7
+weight: "5"
 menu:
     main:
         parent: communitynav

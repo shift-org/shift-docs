@@ -1,6 +1,6 @@
 ---
 title: Groups
-weight: "5"
+weight: "3"
 menu:
   main:
     parent: communitynav
