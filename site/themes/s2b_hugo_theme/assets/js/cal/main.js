@@ -53,7 +53,6 @@ $(document).ready(function() {
                     value.contactLink = calHelpers.getContactLink(value.contact);
 
                     value.exportlink = calApi.Ics.Build({id: value.id});
-
                     value.addToGoogleLink = calHelpers.getAddToGoogleLink(value);
 
                     groupedByDate[date].events.push(value);
