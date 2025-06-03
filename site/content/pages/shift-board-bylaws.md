@@ -1,9 +1,9 @@
 ---
 title: Shift Board Bylaws
-weight: 10
+weight: 3
 menu:
     main:
-        parent: communitynav
+        parent: aboutmenu
 ---
 These bylaws are in no way intended to be legally binding, or even permanent. They are proposed to provide structure for the formation and operations of the Shift Board of Directors.
 

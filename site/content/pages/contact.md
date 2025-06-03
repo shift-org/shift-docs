@@ -1,6 +1,6 @@
 ---
 title: Contact
-weight: 3
+weight: 5
 menu:
   main:
     parent: aboutmenu

@@ -152,6 +152,12 @@
   to = "/pages/bike-racks/"
   status = 301
 
+## moved playbooks content onto meeting notes page
+[[redirects]]
+  from = "/pages/playbooks"
+  to = "/pages/meeting-notes"
+  status = 301
+
 #------------------------------------------------------------------------------------
 # handlers for the various "single page applications".
 #
