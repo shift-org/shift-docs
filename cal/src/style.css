@@ -70,7 +70,7 @@ html {
 }
 body {
   font-family: roboto, Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 1rem;
   line-height: 1.42857143;
   color: var(--page-text);
   background-color: var(--page-bg);

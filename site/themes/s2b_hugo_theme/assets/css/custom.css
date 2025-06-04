@@ -8,6 +8,24 @@
   --carousel-bg-img: url('../img/S2B_photo_grid_2094x796.jpg') center center repeat;
 }
 
+html,
+body {
+  font-size: 1rem;
+}
+
+h1,
+#heading-breadcrumbs h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
 .box-image-text .image {
   min-height: 200px;
   max-height: 200px;
@@ -62,8 +80,29 @@ header {
 }
 
 .navbar ul.dropdown-menu li a {
+  font-size: 0.75rem;
   color: #555555;
 }
+
+.navbar-nav .open .dropdown-menu > li > a {
+  line-height: 1.25;
+}
+
+.caret {
+  /* override Bootstrap caret styles */
+  border: 0;
+  width: auto;
+  height: auto;
+}
+
+.dropdown-toggle .caret::after {
+  content: "▾" / ""
+}
+
+.dropdown-toggle[aria-expanded="true"] .caret {
+  transform: rotate(180deg);
+}
+
 
 .header-dark-mask {
   background: var(--primary-accent);
@@ -93,7 +132,7 @@ main .donate a {
   color: #630;
   border-radius: 12px;
   padding: 0.25em 1em;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .affix {
