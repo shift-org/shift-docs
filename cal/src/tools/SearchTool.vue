@@ -65,7 +65,7 @@ export default {
   gap: 0.5em;
 }
 .c-search__past {
-  font-size: 14px;
+  font-size: 1rem;
   align-self: center;
   white-space: pre;
 }

@@ -79,6 +79,6 @@ export default {
   display: flex;
   justify-content: center;
   gap:  0.5em;
-  font-size: 16px;
+  font-size: 1rem;
 }*/
 </style>
