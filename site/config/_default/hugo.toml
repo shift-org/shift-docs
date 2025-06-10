@@ -109,6 +109,7 @@ disableKinds = ["taxonomy", "term"]
 [params.festival]
     name = "Bike Summer"
     active = true # set to true when festival is happening soon or now
+    merchSaleActive = false # set to true when merch sales are open
     donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
 # Main page image carousel
