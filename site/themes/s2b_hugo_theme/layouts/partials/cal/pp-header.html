@@ -16,7 +16,7 @@
       {{ if eq (now.Year) (.Param "year") }}
       <p>{{ .Param "festival.name" }} is <strong>three whole months</strong> of fun on two wheels. 
 
-      {{ if eq (.Param "festival.active") true }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a> Seeking inspiration? {{ end }}
+      {{ if .Site.Params.festival.active }}<a href="/addevent/"><strong>Add your events for June, July, and August {{ .Param "year" }} now!</strong></a> Seeking inspiration? {{ end }}
 
       View the <a href="/archive/pedal-palooza-archives/">archives</a> of past festivals. If you need help creating or editing an event, check out the <a href="/pages/calendar-faq/">calendar FAQ</a> or <a href="mailto:bikecal@shift2bikes.org">contact the calendar crew</a>.</p>
 
@@ -33,7 +33,7 @@
         </p>
       </div>
 
-      {{ if eq (.Param "festival.merchSaleActive") true }}{{ partial "cal/pp-merch.html" . }}{{ end }}
+      {{ if .Site.Params.festival.merchSaleActive }}{{ partial "cal/pp-merch.html" . }}{{ end }}
 
       {{ end }}
 

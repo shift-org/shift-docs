@@ -7,5 +7,5 @@
     </div>
   </div>
 
-  {{ if eq (.Param "festival.merchSaleActive") true }}{{ partial "cal/pp-merch.html" . }}{{ end }}
+  {{ if .Site.Params.festival.merchSaleActive }}{{ partial "cal/pp-merch.html" . }}{{ end }}
 </div>

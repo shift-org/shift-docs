@@ -3,7 +3,7 @@
 
                 <div>
                   <!-- when PP is coming soon or happening now, display smaller banner that links to PP cal page -->
-                  {{ if eq (.Param "festival.active") true }}
+                  {{ if .Site.Params.festival.active }}
                     {{ partial "cal/pp-promo-banner.html" . }}
                   {{ end }}
 
