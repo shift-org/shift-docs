@@ -10,7 +10,7 @@ export default {
     // eventData includes { pagination: {}, events: [] }
     const eventData = await dataPool.getRange(start, end);
     return eventData.events.map(evt => Object.assign(evt, {
-      uid: `caldaily-${evt.id}`,
+      uid: evt.id,
       // moment --> added by the event munge already
       type: 'caldaily',
     }));
