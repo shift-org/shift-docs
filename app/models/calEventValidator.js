@@ -204,6 +204,7 @@ function validateEvent(input) {
     locdetails: v.nullString('locdetails'),
     loopride: v.optionalFlag('loopride'),
     locend: v.nullString('locend'),
+    ridelength: v.nullString('ridelength'),
     eventduration: v.zeroInt('eventduration'),
     weburl: v.nullString('weburl'), // fix? validate this is a url>
     webname: v.nullString('webname'),
