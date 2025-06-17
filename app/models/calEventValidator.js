@@ -45,7 +45,7 @@ function makeValidator(input, errors) {
     },
     // the real valid email spec is 320; 
     // our db only supports 255
-    requireEmail(field, msg, maxLen = 255) {
+    requireEmail(field, maxLen = 255) {
       const str = getString(field);
       if (validator.isEmpty(str)) {
         errors.addError('email', "Email missing");
