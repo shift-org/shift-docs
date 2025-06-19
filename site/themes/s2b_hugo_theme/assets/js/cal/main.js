@@ -49,9 +49,23 @@ $(document).ready(function() {
                 var groupedByDate = [];
 
                 var mustacheData = { dates: [] };
-                $.each(data.events, function( index, value ) {
+                const summary = new Summary("Bike Summer 2025");
 
-                    var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
+                $.each(data.events, function( index, value ) {
+                    // summarize:
+                    if (!value.cancelled) {
+                      summary.addEvent(value);
+                    }
+                    // check if we want to see this date in detail:
+                    const dayOfEvent = dayjs(value.date);
+                    const shouldView = viewFrom.isSame(dayOfEvent, 'day') || 
+                                       viewFrom.isBefore(dayOfEvent, 'day');
+                    if (!shouldView) {
+                      return;
+                    }
+
+                    // add the date in detail:
+                    const date = dayOfEvent.format('dddd, MMMM D, YYYY');
                     if (groupedByDate[date] === undefined) {
                         groupedByDate[date] = {
                             yyyymmdd: value.date,
@@ -89,6 +103,13 @@ $(document).ready(function() {
                 for ( var date in groupedByDate )  {
                     groupedByDate[date].events.sort(container.compareTimes);
                 }
+
+                if (options.pp) {
+                  const summaryTemplate = $('#summary-template').html()
+                  const summaryHTML  = Mustache.render(summaryTemplate, {summary});
+                  $('#summary-html').replaceWith(summaryHTML);
+                }
+
                 var template = $('#view-events-template').html();
                 var info = Mustache.render(template, mustacheData);
                 if (options.id) {
@@ -131,14 +152,9 @@ $(document).ready(function() {
         const start = options.startdate ? dayjs(options.startdate) : dayjs(today);
         const end = options.enddate ? dayjs(options.enddate) : dayjs(today);
 
-        const inRange = today >= start && today <= end;
-        const from = (inRange && options.pp) ? today : start;
-
         return {
-          // since this year's PP will be in range
-          // ( as will the normal calendar events page )
-          // 'from' is today; for other PP pages it's options startdate.
-          startdate: from,
+          today, 
+          pp: options.pp,
           startdate: start,
           // if there was an enddate, use it; otherwise use a fixed number of days.
           // subtract 1 so range is inclusive
