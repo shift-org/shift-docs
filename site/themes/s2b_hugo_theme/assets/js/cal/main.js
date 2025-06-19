@@ -1,5 +1,24 @@
 // uses CONSTANTS from config.js
 
+class Summary {
+  constructor(title) {
+    this.title = title;
+    this.before = 0;
+    this.after = 0;
+    this.now = dayjs();
+    this.total = 0;
+  }
+  addEvent(evt) {
+    const fullTime = dayjs(`${evt.date}T${evt.time}`);
+    if (fullTime.isBefore(this.now)) {
+      ++this.before;
+    } else {
+      ++this.after;
+    }
+    ++this.total;
+  }
+};
+
 $(document).ready(function() {
 
     var container = $('#mustache-html');
@@ -15,6 +34,12 @@ $(document).ready(function() {
         } else {
             throw Error("requires id or range");
         }
+
+        const today = options.today;
+        const start = options.startdate;
+        const end = options.enddate;
+        const inRange = today >= start && today <= end;
+        const viewFrom = (options.pp) ? today : start;
 
         var opts = {
             type: 'GET',
@@ -114,9 +139,10 @@ $(document).ready(function() {
           // ( as will the normal calendar events page )
           // 'from' is today; for other PP pages it's options startdate.
           startdate: from,
+          startdate: start,
           // if there was an enddate, use it; otherwise use a fixed number of days.
           // subtract 1 so range is inclusive
-          enddate: options.enddate ? end : from.add( (DEFAULT_DAYS_TO_FETCH - 1), 'day'),
+          enddate: options.enddate ? end : start.add( (DEFAULT_DAYS_TO_FETCH - 1), 'day'),
           // pass this on to the events listing.
           show_details: options.show_details,
         };
