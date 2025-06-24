@@ -221,6 +221,7 @@ function validateEvent(input) {
     locdetails: v.nullString('locdetails'),
     loopride: v.optionalFlag('loopride'),
     locend: v.nullString('locend'),
+    ridelength: v.nullString('ridelength'),
     eventduration: v.zeroInt('eventduration'),
     weburl: v.nullString('weburl', 512), // fix? validate this is url-like?
     webname: v.nullString('webname'),
