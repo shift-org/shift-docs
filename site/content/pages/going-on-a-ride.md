@@ -2,8 +2,8 @@
 title: Going on a ride
 weight: "4"
 menu:
-    main:
-        parent: communitynav
+  main:
+    parent: communitynav
 ---
 
 **Please read our [Public health](/pages/public-health/) page** for info on riding safely during the pandemic and beyond.
@@ -21,6 +21,7 @@ Want to know what to expect on a group ride? Check out our Social Rides 101 vide
 
 <img src="/images/ride_riding_comic.png" alt="Ride riding comic, described below" height=800>
 
+Comic by [Shawn Granton](https://urbanadventureleague.bigcartel.com/about)
 
 ### Know your ride.
 
