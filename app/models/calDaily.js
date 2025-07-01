@@ -256,9 +256,11 @@ class CalDaily {
         .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .join('calevent', 'caldaily.id', 'calevent.id')
         .whereRaw('not coalesce(hidden, 0)')
-        // TBD: can we use whereLike()?
-        // .whereLike('title', `%${term}%`)
-        .where('title', 'LIKE', `%${term}%`)
+        .where(function(q) {
+          q.where('title', 'LIKE', `%${term}%`)
+              .orWhere('descr', 'LIKE', `%${term}%`)
+              .orWhere('name', 'LIKE', `%${term}%`);
+        })
         // .whereRaw("title like '%??%'", [term])  // late binding xperiment
         .where(function(q) {
           q.whereNot('review', Review.Excluded)
