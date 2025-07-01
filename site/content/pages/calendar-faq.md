@@ -135,6 +135,7 @@ Here are some acronyms and phrases that might be used in a ride listing:
 * S2B: [Shift2Bikes](/pages/mission_statement/) :)
 * BP: [BikePortland](https://bikeportland.org/)
 * LNT: [Leave no trace](https://en.wikipedia.org/wiki/Leave_No_Trace)
+* VKS: [Vera Katz Statue](https://en.wikipedia.org/wiki/Statue_of_Vera_Katz), on the Eastbank Esplanade; often used as a ride start location
 * R2R: "ride to the ride"; a ride specifically for arriving at another ride
 * corkers, corking: riders who block traffic from side roads at an intersection so that the rest of the ride can freely proceed through without interruption
 * no-drop: a ride where no one gets left behind — the ride waits for all riders in the event of mechanical difficulties, slower riders, etc; contrast with a drop ride, which isn't expected to wait for everyone
