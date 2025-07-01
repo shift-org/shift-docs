@@ -12,7 +12,7 @@ menu:
 
 ## Social Rides 101
 
-Want to know what to expect on a group ride? Check out our Social Rides 101 video, created in collaboration with [Bike Stuff PDX](https://www.youtube.com/@BikeStuffPDX)!
+Want to know what to expect on a [group ride](/calendar/)? Check out our Social Rides 101 video, created in collaboration with [Bike Stuff PDX](https://www.youtube.com/@BikeStuffPDX)!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/TAPTfIItyBE?si=TSsI11DwqhZbCGpQ" title="Social Rides 101 — YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
