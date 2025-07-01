@@ -282,6 +282,27 @@ class CalDaily {
       return rows.map(at => addMethods(at));
     });
   }
+  // Promises all occurrences of any scheduled CalDaily within the specified date range.
+  // Days are datejs objects.
+  static getEventsCount(todayDate, startDate, endDate) {
+    let query = knex.query('caldaily')
+        .column(knex.query.raw('COUNT(*) as ridecount'))  // COUNT OVER is our pagination hack
+        .join('calevent', 'caldaily.id', 'calevent.id')
+        .whereRaw('not coalesce(hidden, 0)')
+        .where(function(q) {
+          q.whereNot('review', Review.Excluded)
+          q.whereNot('eventstatus', EventStatus.Delisted)
+          q.whereNot('eventstatus', EventStatus.Skipped)
+        })
+        .where(function(q) {
+          q.where('eventdate', '>=', knex.toDate(startDate))
+          q.where('eventdate', '<=', knex.toDate(endDate))
+        });
+    // console.log(query.toSQL().toNative());
+    return query.then(function(rows) {
+      return rows.map(at => addMethods(at));
+    });
+  }
   /**
    * Add, cancel, and update occurrences of a particular event.
    *
