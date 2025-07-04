@@ -194,10 +194,6 @@ svg.icon {
 {
     text-decoration: none;
 }
-.event.cancelled h3 ins
-{
-    font-size: 1.4rem;
-}
 
 #fullcalendar .fc-event.cancelled {
     background-color: white;
