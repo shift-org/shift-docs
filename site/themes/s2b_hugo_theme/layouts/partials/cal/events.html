@@ -3,6 +3,13 @@
   Mustache.tags = ["[[", "]]"];
 </script>
 
+<script id="summary-template" type="text/template">
+  [[# summary ]]
+  <div class="a-counter">
+    <span class="a-counter--total">[[summary.total]]</span> rides and growing. <span class="a-counter--total">[[summary.before]]</span> rides so far, <span class="a-counter--total">[[summary.after]]</span> rides to go.
+  [[/ summary ]]
+</script>
+
 <script id="view-events-template" type="text/template">
   [[#dates]]
   <div data-date="[[yyyymmdd]]" class="date[[#preview]] preview[[/preview]]">
