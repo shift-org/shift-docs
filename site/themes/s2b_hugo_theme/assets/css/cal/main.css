@@ -196,7 +196,7 @@ svg.icon {
 }
 .event.cancelled h3 ins
 {
-    font-size: 1.4rem;
+    font-size: 1em;
 }
 
 #fullcalendar .fc-event.cancelled {
