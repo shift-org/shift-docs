@@ -77,7 +77,7 @@ We struggled to get this working well, so there is probably dark magic here.  Cr
    1. `app/config.js`: reply email address, ical guid(s), etc.
    2. `app/endpoints/ical.js` (and `test/ical_test.js`): more ical guid generation
    3. `site/content/404.md`, `addevent.md`,` site/themes/s2b_hugo_theme/layouts/partials/cal/edit.html`, `pp-header.html`: support emails
-   4. `site/themes/s2b_hugo_theme/layouts/partials/cal/shift-feed.html`, `pp-feed.html`: ical subscription links
+   4. `site/themes/s2b_hugo_theme/layouts/partials/cal/shift-feed.html`: ical subscription link
    5. probably some content pages ( ex. for documentation, links, or email: but nothing that would directly affect functionality )
   
    

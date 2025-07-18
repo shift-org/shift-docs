@@ -107,7 +107,7 @@ On many devices, clicking the above link will open your calendar app automatical
 
 ### Android and Google Calendar:
 
-1. Copy one of the calendar links above. (On Android, by pressing and holding the link until the "Copy link address" menu appears, and then selecting that option.)
+1. Copy the calendar link above. (On Android, by pressing and holding the link until the "Copy link address" menu appears, and then selecting that option.)
 2. Visit [Google Calendar](https://calendar.google.com/calendar/u/0/r/settings/addbyurl) and if asked log into your Google account.
 3. On that Google Calendar page, paste the link you copied into the "URL of Calendar" box (press on that box and hold until the "Paste" menu appears, then choose that option).
 4. Finally, click the "Add calendar" button.
