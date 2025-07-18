@@ -73,11 +73,7 @@ $(document).ready(function() {
                     if (event.printdescr) {
                         $('meta[property="og:description"]')[0].setAttribute("content", event.printdescr);
                     } else {
-                        var descr = event.details.substring(0,250);
-                        if (event.details.length > 250) {
-                          // replace the last character with an ellipsis
-                          descr = descr.slice(0, -1) + "…";
-                        }
+                        let descr = container.truncateString(event.details, 250);
                         $('meta[property="og:description"]')[0].setAttribute("content", descr);
                     }
                     document.title = event.title + " - Calendar - " + SITE_TITLE;

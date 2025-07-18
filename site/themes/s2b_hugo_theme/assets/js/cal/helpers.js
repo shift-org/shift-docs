@@ -87,17 +87,28 @@
         // Remove colons and periods for Google Calendar URL (2025-05-21T16:30:00.000Z => 20250521T163000000Z)
         const calendarDates = `${startDate.replace(regex, '')}/${endDate.replace(regex, '')}`;
 
+        const descr = $.fn.truncateString(event.details, 500) + `\n\n${event.shareable}`;
+
         googleCalUrl.search = new URLSearchParams({
           action: "TEMPLATE",
           text: `shift2Bikes: ${event.title}`,
           location: event.address,
-          details: `${event.details}\n\n${event.shareable}`,
+          details: descr,
           dates: calendarDates,
           sf: true, // ??
           output: 'xml'
         });
 
         return googleCalUrl.toString();
+    };
+
+    $.fn.truncateString = function ( str, maxLength=250 ) {
+        let text = str.substring(0,maxLength);
+        if (str.length > maxLength) {
+          // replace the last character with an ellipsis
+          text = text.slice(0, -1) + "…";
+        }
+        return text;
     };
 
     $.fn.compareTimes = function ( event1, event2 ) {
