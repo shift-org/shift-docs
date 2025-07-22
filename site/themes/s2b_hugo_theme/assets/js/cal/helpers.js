@@ -77,10 +77,10 @@
         const googleCalUrl = new URL('https://calendar.google.com/calendar/render');
 
         const startDate = dayjs(`${event.date} ${event.time}`);
-        const duration = event.duration ?? 60; // Google requires a duration
+        const duration = event.eventduration ?? 60; // Google requires a duration
         const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration }));
         
-        const googleFormat = 'YYYYMMDDTHHmmssZ'; // on simon's phone, millsecs creates an all day event
+        const googleFormat = 'YYYYMMDDTHHmmss[Z]'; // on simon's phone, millsecs creates an all day event
         const startString = startDate.format(googleFormat);
         const endString = endDate.format(googleFormat);
         const calendarDates = `${startString}/${endString}`;
