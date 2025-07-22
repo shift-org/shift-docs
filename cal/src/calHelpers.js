@@ -56,20 +56,16 @@ export default {
 
   // duplicated from calendars helpers
   getAddToGoogleLink(event) {
-      const googleCalUrl = new URL('https://www.google.com/calendar/render');
+      const googleCalUrl = new URL('https://calendar.google.com/calendar/render');
 
-      const startDate = dayjs(`${event.date} ${event.time}`).toISOString();
-      const duration = event.duration ?? 60; // Google requires a duration and defaults to 60 minutes anyway
-      const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration })).toISOString();
-      /**
-       * Matches anything that is not a word or whitespace
-       * @example
-       * "2025-05-21T16:30:00.000Z".replace(regex, '') // 20250521T163000000Z
-      */
-      const regex = /[^\w\s]/gi;
-
-      // Remove colons and periods for Google Calendar URL (2025-05-21T16:30:00.000Z => 20250521T163000000Z)
-      const calendarDates = `${startDate.replace(regex, '')}/${endDate.replace(regex, '')}`;
+      const startDate = dayjs(`${event.date} ${event.time}`);
+      const duration = event.duration ?? 60; // Google requires a duration
+      const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration }));
+      
+      const googleFormat = 'YYYYMMDDTHHmmssZ'; // on simon's phone, millsecs creates an all day event
+      const startString = startDate.format(googleFormat);
+      const endString = endDate.format(googleFormat);
+      const calendarDates = `${startString}/${endString}`;
 
       googleCalUrl.search = new URLSearchParams({
         action: "TEMPLATE",
@@ -77,8 +73,8 @@ export default {
         location: event.address,
         details: `${event.details}\n\n${event.shareable}`,
         dates: calendarDates,
-        sf: true, // ??
-        output: 'xml'
+        // FIX: this seems better than timezoneless but probably should be configurable.
+        ctz: `America/Los_Angeles`
       });
 
       return googleCalUrl.toString();
