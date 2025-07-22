@@ -47,6 +47,10 @@
     outline-offset: 1px;
 }
 
+.form-control {
+  font-size: 1rem;
+}
+
 /* date picker */
 
 #date-select-container {
