@@ -8,7 +8,7 @@ export default {
     return {
      attrs: {
         type: "text",
-        placeholder: "Search event titles...",
+        placeholder: "enter keywords",
       },
       model: {
         // the text in the input box should be filled with the query search string.
