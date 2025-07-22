@@ -80,7 +80,7 @@
         const duration = event.eventduration ?? 60; // Google requires a duration
         const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration }));
         
-        const googleFormat = 'YYYYMMDDTHHmmss[Z]'; // on simon's phone, millsecs creates an all day event
+        const googleFormat = 'YYYYMMDDTHHmmss'; // on simon's phone, millsecs creates an all day event
         const startString = startDate.format(googleFormat);
         const endString = endDate.format(googleFormat);
         const calendarDates = `${startString}/${endString}`;
