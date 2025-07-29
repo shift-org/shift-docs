@@ -616,3 +616,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.55.0: (2024-08-30) Added year-round calendar iCal feed (at `/api/shift-calendar.php`), in addition to Pedalpalooza-specific one
 * 3.55.1: (2024-12-09) Terms fields (`code_of_conduct`, `ride_comic`) are now only validated on initial submission
 * 3.56.0: (2024-12-13) Max day range is now set in config; `prev` URL added to `pagination` object; pagination `range` now reports an inclusive number of days (e.g. single day range now returns `range: 1` instead of `0`)
+* 3.57.0: (2025-06-23) Altered weburl field to allow 512 characters (up from 255)
