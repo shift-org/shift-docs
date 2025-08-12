@@ -45,7 +45,6 @@ exports.get = function(req, res, next) {
           // fullcount appears in every
           const fullcount = events.length ? events[0].fullcount : 0;
           const pagination = getPaginationSearch(fullcount, limit, offset);
-          res.set(config.api.header, config.api.version);
           res.json({
             events,
             pagination,
