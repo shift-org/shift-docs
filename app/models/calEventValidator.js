@@ -1,6 +1,6 @@
 const dt = require("../util/dateTime");
 const validator = require('validator');
-const { Area, Audience, DatesType } = require("./calConst");
+const { Area, Audience, DatesType, RideLength } = require("./calConst");
 
 class ErrorCollector {
   constructor() {
@@ -189,6 +189,11 @@ function makeValidator(input, errors) {
       }
       return validStatus;
     },
+
+    validateRideLength(rideLength) {
+      value = getString(rideLength);
+      return (value in RideLength) ? value : null;
+    },
   };
 }
 
@@ -221,6 +226,7 @@ function validateEvent(input) {
     locdetails: v.nullString('locdetails'),
     loopride: v.optionalFlag('loopride'),
     locend: v.nullString('locend'),
+    ridelength: v.validateRideLength('ridelength'),
     eventduration: v.zeroInt('eventduration'),
     weburl: v.nullString('weburl', 512), // fix? validate this is url-like?
     webname: v.nullString('webname'),
