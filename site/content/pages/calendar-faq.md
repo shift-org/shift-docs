@@ -9,8 +9,9 @@ menu:
   .toc-box {
     float: right;
     width: 280px;
-    background: #444444;
-    border: 1px solid #ddd;
+    background: #f0f4f8;
+    border: 1px solid #cbd5e1
+;
     padding: 12px 16px;
     margin: 0 0 16px 16px;
     border-radius: 6px;
