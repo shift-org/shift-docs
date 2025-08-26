@@ -36,7 +36,7 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 [BikeLoud PDX](https://bikeloudpdx.org/) is a grassroots organization working towards safer streets for biking in the Portland area.
 
-[Oregon Driver & Traffic Safety Education Association](https://odtsea.org/) ODTSEA works for safer driving through education.
+<!-- [Oregon Driver & Traffic Safety Education Association](https://odtsea.org/) ODTSEA works for safer driving through education. -->
 
 [Victoria Transport Policy Institute](https://vtpi.org/) An excellent collection of research papers on transportation issues
 
@@ -45,9 +45,10 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 [Oregon Bicyclist Manual](https://www.oregon.gov/odot/DMV/Pages/Online_Bicycle_Manual/Table_Of_Contents.aspx) Another great resource by ODOT.
 
-[Traffic safety and maintenance contacts](http://bta4bikes.org/resources/BTARoadMaintenanceContacts.php) for safety issues such as potholes, debris, dangerous construction, etc.
+[Traffic safety and maintenance contacts](https://www.portland.gov/transportation/maintenance) for safety issues such as potholes, debris, dangerous construction, etc.
 
-[Legal resources for cyclists](http://bta4bikes.org/resources/legal.php) What you can do if you are hit, harassed, or witness a dangerous driver.
+[Some legal resources for cyclists](https://www.tcnf.legal/app/uploads/2016/10/pedal-power.pdf).  See especially page 159 for a "what to do if you are hit" step by step.
+
 
 ### Statutes
 
