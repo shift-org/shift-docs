@@ -34,7 +34,7 @@ menu:
 
 <div class="toc-box">
 <strong>Table of Contents</strong><br/>
-Going to events
+<p>Going to events</p>
   <ul>
     <li><a href="#who-organizes-these-events">Who organizes events?</a></li>
     <li><a href="#are-rides-free">Are rides free?</a></li>
@@ -43,7 +43,7 @@ Going to events
     <li><a href="#a-ride-leader-didnt-post-any-contact-info-how-can-i-contact-them">Contacting ride leaders</a></li>
   </ul>
 </li>
-Posting events
+<p>Posting events</p>
   <ul>
     <li><a href="#who-can-post-events-to-the-calendar">Who can post events?</a></li>
     <li><a href="#what-info-do-i-need-to-provide-about-my-event">Event Info</a></li>
@@ -58,7 +58,7 @@ Posting events
     <li><a href="#can-i-post-bike-related-events-that-arent-bike-rides">Non-ride events</a></li>
     <li><a href="#im-having-trouble-posting-a-ride-or-making-changes-who-do-i-contact"Trouble editing rides</a></li>
   </ul>
-Subscribing to the calendar
+<p>Subscribing to the calendar</p>
   <ul>
     <li><a href="#android-and-google-calendar">Android and Google Calendar</a></li>
     <li><a href="#other-common-cases">Other common cases</a></li>
