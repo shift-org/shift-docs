@@ -10,6 +10,10 @@ weight: 2
 
 In 2002, Portland hosted [Bike Summer](https://criticalmass.wikia.com/wiki/Bike_Summer!), and it was great! So every summer since then, we've had a summer bike festival. From 2004 it was called <dfn>Pedalpalooza</dfn>, and in 2022 it returned to its roots with the original name Bike Summer. Choose one of the following years to see its calendar of events.
 
+*   [Bike Summer 2025](/archive/pedalpalooza/pedalpalooza-2025/)
+
+    TBD! Probably over 1000 events!
+
 *   [Bike Summer 2024](/archive/pedalpalooza/pedalpalooza-2024/)
 
     Started on a Saturday and ended Labor Day weekend, with oodles of rides large and small, every day! 875 events!
