@@ -33,41 +33,37 @@ menu:
 </style>
 
 <div class="toc-box">
-  <strong>On this page</strong>
+<strong>Table of Contents</strong><br/>
+Going to events
   <ul>
-    <li><a href="#going-to-events">Going to events</a>
-      <ul>
-        <li><a href="#who-organizes-these-events">Who organizes events?</a></li>
-        <li><a href="#are-rides-free">Are rides free?</a></li>
-        <li><a href="#do-rides-return-to-the-start-location">Are rides a loop?</a></li>
-        <li><a href="#i-have-questions-about-a-specific-ride-how-can-i-find-out-more-info">Asking about a specific ride</a></li>
-        <li><a href="#a-ride-leader-didnt-post-any-contact-info-how-can-i-contact-them">Contacting ride leaders</a></li>
-      </ul>
-    </li>
-    <li><a href="#posting-events">Posting events</a>
-      <ul>
-        <li><a href="#who-can-post-events-to-the-calendar">Who can post events?</a></li>
-        <li><a href="#what-info-do-i-need-to-provide-about-my-event">Event Info</a></li>
-        <li><a href="#do-i-have-to-use-my-real-name">Real Name?</a></li>
-        <li><a href="#what-if-i-dont-have-all-of-the-details-ready-yet">What if I don't know all the details?</a></li>
-        <li><a href="#can-i-post-events-that-have-fees">Can I post events that have fees?</a></li>
-        <li><a href="#is-my-contact-info-public">Is my contact info public?</a></li>
-        <li><a href="#do-i-have-to-provide-my-email">Do I have to provide my email?</a></li>
-        <li><a href="#what-do-the-different-audience-types-mean">Audience types</a></li>
-        <li><a href="#how-do-i-edit-my-event">Editing events</a></li>
-        <li><a href="#how-do-i-reschedule-or-cancel-my-event">Rescheduling or cancelling</a></li>
-        <li><a href="#can-i-post-bike-related-events-that-arent-bike-rides">Non-ride events</a></li>
-        <li><a href="#im-having-trouble-posting-a-ride-or-making-changes-who-do-i-contact"Trouble editing rides</a></li>
-      </ul>
-    </li>
-    <li><a href="#subscribing-to-the-calendar">Subscribing to the calendar</a>
-      <ul>
-        <li><a href="#android-and-google-calendar">Android and Google Calendar</a></li>
-        <li><a href="#other-common-cases">Other common cases</a></li>
-      </ul>
-    </li>
-    <li><a href="#glossary">Glossary</a></li>
+    <li><a href="#who-organizes-these-events">Who organizes events?</a></li>
+    <li><a href="#are-rides-free">Are rides free?</a></li>
+    <li><a href="#do-rides-return-to-the-start-location">Are rides a loop?</a></li>
+    <li><a href="#i-have-questions-about-a-specific-ride-how-can-i-find-out-more-info">Asking about a specific ride</a></li>
+    <li><a href="#a-ride-leader-didnt-post-any-contact-info-how-can-i-contact-them">Contacting ride leaders</a></li>
   </ul>
+</li>
+Posting events
+  <ul>
+    <li><a href="#who-can-post-events-to-the-calendar">Who can post events?</a></li>
+    <li><a href="#what-info-do-i-need-to-provide-about-my-event">Event Info</a></li>
+    <li><a href="#do-i-have-to-use-my-real-name">Real Name?</a></li>
+    <li><a href="#what-if-i-dont-have-all-of-the-details-ready-yet">What if I don't know all the details?</a></li>
+    <li><a href="#can-i-post-events-that-have-fees">Can I post events that have fees?</a></li>
+    <li><a href="#is-my-contact-info-public">Is my contact info public?</a></li>
+    <li><a href="#do-i-have-to-provide-my-email">Do I have to provide my email?</a></li>
+    <li><a href="#what-do-the-different-audience-types-mean">Audience types</a></li>
+    <li><a href="#how-do-i-edit-my-event">Editing events</a></li>
+    <li><a href="#how-do-i-reschedule-or-cancel-my-event">Rescheduling or cancelling</a></li>
+    <li><a href="#can-i-post-bike-related-events-that-arent-bike-rides">Non-ride events</a></li>
+    <li><a href="#im-having-trouble-posting-a-ride-or-making-changes-who-do-i-contact"Trouble editing rides</a></li>
+  </ul>
+Subscribing to the calendar
+  <ul>
+    <li><a href="#android-and-google-calendar">Android and Google Calendar</a></li>
+    <li><a href="#other-common-cases">Other common cases</a></li>
+  </ul>
+<a href="#glossary">Glossary</a>
 </div>
 
 
