@@ -11,6 +11,7 @@ approx. January–March
 * Change `/site/content/bike-summer-calendar.md` page type from `calfestival` to `pp-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
 * Enable the "early" carousel item (`/site/data/carousel/bike-summer-early.yaml`) by setting `disabled: false`. 
 
+
 ### Ramping up
 
 approx. April–early May
@@ -20,7 +21,7 @@ approx. April–early May
 * Disable the "early" carousel item
 * Enable the regular carousel item; update the year and image
 * Update the image in the `pp-header` banner
-
+* Uncomment the promo blurb on `/site/content/pages/bike-summer.md`
 
 
 ### Closer to the start
@@ -47,3 +48,4 @@ September or later
 * Add the just-finished festival to the Pedalpalooza Archives page; get the total count of published, uncanceled rides
 * Set `params.festival.active` to `false` in `hugo.toml`
 * Disable the carousel item (`/site/data/carousel/bike-summer.yaml`) by setting `disabled: true`
+* Comment out the promo blurb on `/site/content/pages/bike-summer.md`
