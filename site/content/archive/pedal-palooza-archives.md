@@ -12,7 +12,7 @@ In 2002, Portland hosted [Bike Summer](https://criticalmass.wikia.com/wiki/Bike_
 
 *   [Bike Summer 2025](/archive/pedalpalooza/pedalpalooza-2025/)
 
-    TBD! Probably over 1000 events!
+    Just over 1000 events!! Big rides, small rides, and everything in between! Something for everyone, spread all across Portland and beyond.
 
 *   [Bike Summer 2024](/archive/pedalpalooza/pedalpalooza-2024/)
 
