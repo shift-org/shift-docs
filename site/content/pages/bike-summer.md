@@ -22,7 +22,7 @@ The tradition of a summer bike fun festival in Portland started in summer of 200
 
 ## Past Festivals
 
-Check out the [archives of previous years](/archive/pedal-palooza-archives/) for hundreds of bike fun events from years past.
+Check out the [archives of previous years](/archive/pedal-palooza-archives/) for thousands of bike fun events from years past.
 
 ## Contact
 
