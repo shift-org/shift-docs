@@ -31,7 +31,7 @@ const methods =  {
       hideemail   : this.hideemail != 0,       // true if never set
       hidephone   : this.hidephone != 0,       // true if never set
       hidecontact : this.hidecontact != 0,     // true if never set
-      length      : null,
+      ridelength  : this.ridelength,
       timedetails : this.timedetails,
       locdetails  : this.locdetails,
       loopride    : !!this.loopride,    // false if never set ( null )
