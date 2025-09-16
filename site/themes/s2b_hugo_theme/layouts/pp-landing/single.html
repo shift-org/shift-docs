@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-        {{ partial "breadcrumbs.html" . }}
-
-        <div id="content">
-          <div class="container">
-
-            <div class="row">
-
+{{ define "page_body" }}
               <div class="col-md-12">
 
                 <div>
@@ -32,43 +10,12 @@
                       <!-- <span class="pp-daterange">{{ .Param "daterange" }}</span> -->
                     </div>
 
-                  {{ .Content }}
+                    <p>Stay tuned for more information on the next <a href="/pages/pedalpalooza/">Pedalpalooza</a>! Be sure to follow <a href="https://www.bike-summer.org">Bike-Summer.org</a> and <a href="https://www.instagram.com/pedalpaloozapdx/">Pedalpalooza on Instagram</a> for updates!</p>
+
+                    <p>Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">Pedalpalooza archives</a> for past bicycle fun events. Looking for current events? Check out the current <a href="/calendar/">ride calendar</a>.</p>
                   
                   </div> <!-- end pp_heading -->
                   
                 </div>
-
-                <!-- 
-                {{ partial "alert_banner.html" . }}
-
-                {{ partial "cal/view-options.html" . }}
-                {{ partial "cal/fullcal.html" . }} 
-
-                <div id="fullcalendar"></div>
-
-                {{ partial "disclaimer.html" . }}
-                -->
-
               </div>
-
-            </div>
-            <!-- /.row -->
-
-          </div>
-          <!-- /.container -->
-        </div>
-        <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
-  </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
-
-</body>
-
-</html>
+{{ end }}

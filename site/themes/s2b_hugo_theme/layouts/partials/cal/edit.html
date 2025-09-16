@@ -96,7 +96,7 @@
             <a role="button" data-toggle="collapse" href="#general-fields" aria-expanded="true">
               Event Description
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -171,7 +171,7 @@
             <a role="button" data-toggle="collapse" href="#dateandtime-fields" aria-expanded="true">
               Date and Time
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -179,11 +179,11 @@
         <div id="dateandtime-fields" class="panel-collapse collapse in">
           <div class="panel-body">
 
-            <!--
+            {{ if .Site.Params.festival.active }}
             <div class="pp-banner">
-              <a href="/pages/pedalpalooza/" target="_blank" title="opens in a new window">Pedalpalooza 2024</a> is on! Bike summer returns for all of June, July, and August!
+              <a href="/pages/bike-summer/" target="_blank" title="opens in a new window">Bike Summer</a> (aka Pedalpalooza) returns for all of June, July, and August! Add your events now!
             </div>
-            -->
+            {{ end }}
 
             <div class="form-group">
               <label class="control-label req-label" for="datestring">Date</label>
@@ -251,7 +251,7 @@
             <a role="button" data-toggle="collapse" href="#location-fields" aria-expanded="true">
               Location
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -318,7 +318,7 @@
             <a role="button" data-toggle="collapse" href="#contact-fields" aria-expanded="true">
               Contact Info
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -332,9 +332,9 @@
 
             <div class="form-group">
               <label class="control-label req-label" for="email">Email</label>
-              <input type="text" class="form-control" name="email" id="email" value="[[email]]" autocomplete="email" aria-describedby="email-help" required="true" aria-invalid="false" />
+              <input type="text" class="form-control" name="email" id="email" value="[[email]]" autocomplete="email" aria-describedby="email-help email-suggestion" required="true" aria-invalid="false" />
               <p class="input-help" id="email-help">This must be a valid email address where we can reach you. A confirmation message will be mailed to this address.</p>
-              <div id="email-suggestion"></div>
+              <div id="email-suggestion" aria-live="polite"></div>
 
               <div>
                 <label class="control-label" for="hideemail">
@@ -388,7 +388,7 @@
             <a role="button" data-toggle="collapse" href="#print-fields" aria-expanded="true">
               Print Calendar Info
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -451,7 +451,7 @@
             <a role="button" data-toggle="collapse" href="#terms-fields" aria-expanded="true">
               Terms
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -485,7 +485,7 @@
             <a role="button" data-toggle="collapse" href="#delete-event-fields" aria-expanded="true">
               Delete Event
               <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="#icon-arrow-down" />
+                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
               </svg>
             </a>
           </h2>
@@ -554,6 +554,6 @@
 </script>
 
 <script id="email-suggestion-template" type="text/template">
-  Did you mean <span class="correction">[[ suggestion ]]</span>?
-  <sup><span class="glyphicon glyphicon-remove"></span></sup>
+  <button type="button" data-js-correction>Did you mean <span class="email-address">[[ suggestion ]]</span>?</button>
+  <button type="button" data-js-dismiss><span class="glyphicon glyphicon-remove" role="img" aria-label="Dismiss"></span></button>
 </script>

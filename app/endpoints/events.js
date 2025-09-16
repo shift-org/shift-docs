@@ -28,6 +28,7 @@ const config = require("../config");
 const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
+const { EventsRange } = require("../models/calConst");
 
 // the events endpoint:
 exports.get = function(req, res, next) {
@@ -58,11 +59,13 @@ exports.get = function(req, res, next) {
     if (!start.isValid() || !end.isValid()) {
       res.textError("need valid start and end times");
     } else {
-      const range = end.diff(start, 'day');
-      if (range < 0) {
-        res.textError("start date should be before end date");
-      } else if (range > 100) {
-        res.textError(`event range too large: ${range} days requested; max 100 days`);
+      // add 1 so days in range is inclusive
+      // e.g. (2025-06-10 - 2025-06-01 = 9 days difference) + 1 day = 10 day range
+      const range = end.diff(start, 'day') + 1;
+      if (range < 1) {
+        res.textError("end date cannot be before start date");
+      } else if (range > EventsRange.MaxDays) {
+        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
       } else {
         return CalDaily.getRangeVisible(start, end, includeAllEvents).then((dailies) => {
           return getSummaries(dailies).then((events) => {
@@ -98,6 +101,7 @@ function getSummaries(dailies) {
     });
   }));
 }
+exports.getSummaries = getSummaries;
 
 // the php version had each daily query for its event
 // and then tacked the end time to the end of the daily json
@@ -113,9 +117,15 @@ function specialSummary(evt) {
 // expects days are dayjs objects
 // and count is the number of events between the two
 function getPagination(firstDay, lastDay, count) {
-  const range = lastDay.diff(firstDay, 'day');
-  const nextRangeStart = firstDay.add(range + 1, 'day');
-  const nextRangeEnd = lastDay.add(range + 1, 'day');
+  // add 1 so days in range is inclusive
+  const range = lastDay.diff(firstDay, 'day') + 1;
+
+  const prevRangeStart = firstDay.subtract(range, 'day');
+  const prevRangeEnd = lastDay.subtract(range, 'day');
+  const prev = getEventRangeUrl(prevRangeStart, prevRangeEnd);
+
+  const nextRangeStart = firstDay.add(range, 'day');
+  const nextRangeEnd = lastDay.add(range, 'day');
   const next = getEventRangeUrl(nextRangeStart, nextRangeEnd);
 
   return {
@@ -123,6 +133,7 @@ function getPagination(firstDay, lastDay, count) {
     end: toYMDString(lastDay),
     range, // tbd: do we need to send this? can client determine from start, end?
     events: count,
+    prev,
     next,
   };
 }

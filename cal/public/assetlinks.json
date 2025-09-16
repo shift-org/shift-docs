@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "org.shift2bikes.twa",
+        "sha256_cert_fingerprints": ["36:6E:19:F2:70:DF:E5:6C:43:CA:99:00:29:BE:10:DF:92:8F:6E:E9:5E:47:4A:52:74:2B:00:A5:7C:5D:47:2B"]
+      }
+    }]

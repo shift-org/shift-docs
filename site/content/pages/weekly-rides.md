@@ -102,9 +102,11 @@ More info: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.co
 * Every Saturday
 * Starting location: multiple in Southeast (SE Clinton St & 41st Ave; SE Clinton St & 26 Ave; east end of Tilikum Bridge, at PDX Opera)
 
-An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/) to help support local farmers, bakers, and makers of all kinds. Build community in a relaxed, informal setting. A post-ride adventure that is only loosely planned beforehand often follows. Check the #PDXMarketRides hashtag for the occasional ride in the same spirit to different markets on different days.
+An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/), started and sustained by [Hami Ramani](https://instagram.com/hamiramani) and now led by community members like [Chris Smith](https://bsky.app/profile/chrissmithus.bsky.social) and others. This ride helps support local farmers, bakers, and makers of all kinds and builds community in a relaxed, informal setting.
 
-More info: [@HamiRamani on Instagram](https://instagram.com/hamiramani), [@HamiRamani on Twitter](https://twitter.com/hamiramani), [#PDXMarketRides on Twitter](https://twitter.com/hashtag/PDXMarketRides?f=live)
+Once a month, there's also a similar ride from Northwest Portland (meeting at NW Raleigh St & 26th Ave and then NW Pettygrove St & 13th Ave), led by [Strong Towns PDX](https://www.strongtownspdx.org/). Check the [calendar](https://www.shift2bikes.org/calendar/) for details! Also, follow the #PDXMarketRides hashtag across social media for other rides in the same spirit to different markets on different days.
+
+More info: #PDXMarketRides
 
 ### Dead Baby Bike Club Monthly Ride
 * 1st Saturday every month
@@ -124,15 +126,15 @@ Second Sunday Funday ride every month — each month is led by a different Corvi
 
 More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
 
-<!--
-### Say Hi Sundays
-* 1st, 3rd, and 5th Sunday of every month
-* Starting location: Buckman Elementary School, by the covered basketball court
+### Overlook Ride
+* 2nd Sunday every month
+* Starting location: Stacks Coffeehouse (N Killingsworth St & N Campbell Ave)
 
-For those who want an excuse to talk to strangers — introduce yourself to at least one new person! Ride itself will be a social pace, and under 10 miles. End locations will have a covered area so the group can hang out and get to know each other, even during the inevitable rain.
+Meet at Stacks Coffeehouse for coffee and conversation, then ride; loops back to the coffee shop.
 
-More info: [@sabspalooza (Sabrina) on Instagram](http://instagram.com/sabspalooza/)
--->
+Led by the transportation chair for the Overlook Neighborhood Association; feedback and ideas from folks about transportation-related issues are welcome!
+
+More info: [Overlook Neighborhood Association](https://overlookneighborhood.org/)
 
 ### Zoo Bomb
 * Every Sunday

@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 
 volumes:
   # used by the db container to store mysql content
@@ -8,7 +8,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.26.2
+    image: nginx:1.28.0
     restart: always
     volumes:
       # DEV SITE:
@@ -30,7 +30,7 @@ services:
 
   db:
     restart: always
-    image: mysql:8.4
+    image: mysql:8.4.4
     command: mysqld  --mysql-native-password=ON
     environment:
       - MYSQL_ROOT_PASSWORD
@@ -47,7 +47,7 @@ services:
     # note: this container is only needed for local development.
     # for production, netlify serves the hugo content instead.
     # see also: ./shift watch ( sub_watch() )
-    image: floryn90/hugo:0.128.2-busybox
+    image: floryn90/hugo:0.144.2-busybox
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/
@@ -55,7 +55,7 @@ services:
 
   node:
     restart: always
-    image: node:20.18.0-slim
+    image: node:20.18.3-slim
     # use the local logging driver for log storage and rotation
     # WARNING: doesnt work on production, reports:
     #  no logs are available with the 'local' log driver

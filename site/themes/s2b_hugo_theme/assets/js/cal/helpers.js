@@ -1,40 +1,3 @@
-const AREA = Object.freeze({
-    'P' : 'Portland',
-    'V' : 'Vancouver',
-    'W' : 'Westside',
-    'E' : 'East Portland',
-    'C' : 'Clackamas',
-});
-
-const AUDIENCE = Object.freeze({
-    'G' : 'General',
-    'F' : 'Family Friendly',
-    'A' : '21+ Only',
-});
-
-const AUDIENCE_DESCRIPTION = Object.freeze({
-    'G' : 'General — For adults, but kids welcome',
-    'F' : 'Family Friendly — Adults bring children',
-    'A' : '21+ Only — Adults only',
-});
-
-const LENGTH = Object.freeze({
-    '--'   : '--',
-    '0-3'  : '0-3 miles',
-    '3-8'  : '3-8 miles',
-    '8-15' : '8-15 miles',
-    '15+'  : '15+ miles',
-});
-
-const DEFAULT_TIME = '17:00:00';
-const DEFAULT_AREA = 'P';
-const DEFAULT_AUDIENCE = 'G';
-const DEFAULT_LENGTH = '--';
-
-const SITE_TITLE = "Shift";
-
-const API_VERSION = '3';
-
 (function($) {
 
     $.fn.getAudienceLabel = function(audience) {
@@ -106,6 +69,33 @@ const API_VERSION = '3';
             // if it's not a link, return nothing
             return;
         }
+    };
+
+    // ex. https://calendarlinkgenerator.com/google-calendar-link-generator
+    // duplicated in calHelpers.js
+    $.fn.getAddToGoogleLink = function(event) {
+        const googleCalUrl = new URL('https://calendar.google.com/calendar/render');
+
+        const startDate = dayjs(`${event.date} ${event.time}`);
+        const duration = event.eventduration ?? 60; // Google requires a duration
+        const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration }));
+        
+        const googleFormat = 'YYYYMMDDTHHmmss'; // on simon's phone, millsecs creates an all day event
+        const startString = startDate.format(googleFormat);
+        const endString = endDate.format(googleFormat);
+        const calendarDates = `${startString}/${endString}`;
+        
+        googleCalUrl.search = new URLSearchParams({
+          action: "TEMPLATE",
+          text: `shift2Bikes: ${event.title}`,
+          location: event.address,
+          details: `${event.details}\n\n${event.shareable}`,
+          dates: calendarDates,
+          // FIX: this seems better than timezoneless but probably should be configurable.
+          ctz: `America/Los_Angeles`
+        });
+
+        return googleCalUrl.toString();
     };
 
     $.fn.compareTimes = function ( event1, event2 ) {

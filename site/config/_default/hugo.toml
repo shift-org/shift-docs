@@ -31,6 +31,14 @@ disableKinds = ["taxonomy", "term"]
     identifier = ""
     parent = "Calendar"
 
+# Child of Calendar
+ [[menu.main]]
+    name = "Events (Beta)"
+    url  = "/events/beta/"
+    weight = 1
+    identifier = ""
+    parent = "Calendar"
+
  # Child of Calendar
  [[menu.main]]
     name = "Add Event"
@@ -41,8 +49,8 @@ disableKinds = ["taxonomy", "term"]
 
  # Child of Calendar
  [[menu.main]]
-    name = "Pedalpalooza calendar"
-    url  = "/pedalpalooza-calendar/"
+    name = "Bike Summer (Pedalpalooza) calendar"
+    url  = "/bike-summer-calendar/"
     weight = 3
     identifier = ""
     parent = "Calendar"
@@ -65,7 +73,6 @@ disableKinds = ["taxonomy", "term"]
     weight = 6
     identifier = "aboutmenu"
 
-
 # -------------------------------------
 # Site parameters, available to layouts via `{{ .Site.Params.<something> }}`
 # if a layout uses `{{ .Param.<something> }}` ( note the singular usage )
@@ -77,8 +84,12 @@ disableKinds = ["taxonomy", "term"]
     # it only works when running with --buildDrafts  ( aka -D )
     # forceCurrentTime =  "06-13-2024 19:00"
 
-    # copyright used by footer.html
-    copyright = "Photo credit to Eric Thornburg | Insta @no.lens.cap | eric@kd5vmo.com"
+    # used by footer.html
+    about = "Shift is a project of <a href='https://www.umbrellapdx.org/' rel='external'>Umbrella</a>."
+    copyright = "Photo credit to Eric Thornburg | Insta <a href='https://www.instagram.com/no.lens.cap/' rel='external'>@no.lens.cap</a> | eric@kd5vmo.com"
+
+    # notice used by disclaimer.html
+    disclaimer = "Shift hosts this calendar as a public service. Rides and events are posted to the Shift calendar by community members, not by Shift. Rides and events posted to the Shift calendar are not sponsored by Shift or Shift’s fiscal sponsor Umbrella."
 
     # Format dates with Go's time formatting ( used by layout/list )
     date_format = "January 2, 2006"
@@ -88,6 +99,18 @@ disableKinds = ["taxonomy", "term"]
 
     # mastodon verification
     verificationURL = "https://pdx.social/@shift2bikes"
+
+# links for accepting donations
+[params.donations]
+    primaryURL = "https://www.zeffy.com/donation-form/donate-to-shift"
+    secondaryURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=BNL2NY7U8GH3Q"
+
+# Festival details
+[params.festival]
+    name = "Bike Summer"
+    active = false # set to true when festival is happening soon or now
+    merchSaleActive = false # set to true when merch sales are open
+    donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
 # Main page image carousel
 [params.carousel]
@@ -108,9 +131,9 @@ disableKinds = ["taxonomy", "term"]
 
 # allows HTML in Markdown (e.g. Pedalpalooza archive pages from 2007 and earlier)
 [markup.goldmark.renderer]
-    unsafe= true
+    unsafe = true
 
 # the outputs that hugo builds.
 [outputs]
     # add "JSON" to enable lunr.js search functionality
-    home = [ "HTML", "RSS"]
+    home = [ "HTML", "RSS" ]

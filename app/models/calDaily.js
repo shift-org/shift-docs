@@ -1,7 +1,7 @@
 const knex = require("../knex");
 const config = require("../config");
 const dt = require("../util/dateTime");
-const { EventStatus, Review } = require("./calConst");
+const { EventStatus, Review, EventSearch } = require("./calConst");
 
 // helper to add methods to a returned database object.
 const methods =  {
@@ -112,6 +112,7 @@ const methods =  {
       // either way, its not info we want to show.
       newsflash: this.getNewsFlash(),
       status: this.eventstatus,
+      fullcount: this.fullcount, // Full count of results for pagination
     };
     // see notes in CalEvent.getJSON()
     if (endtime !== undefined) {
@@ -160,6 +161,7 @@ class CalDaily {
         return at? addMethods(at): null;
       });
   }
+
 
   // promises one CalDaily but only for published Events.
   // yields null if not found or not published.
@@ -246,6 +248,63 @@ class CalDaily {
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
       });
+  }
+  // Promises all occurrences of any scheduled CalDaily within the specified date range.
+  // Days are datejs objects.
+  static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
+    let query = knex.query('caldaily')
+        .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
+        .join('calevent', 'caldaily.id', 'calevent.id')
+        .whereRaw('not coalesce(hidden, 0)')
+        .where(function(q) {
+          q.where('title', 'LIKE', `%${term}%`)
+              .orWhere('descr', 'LIKE', `%${term}%`)
+              .orWhere('name', 'LIKE', `%${term}%`);
+        })
+        // .whereRaw("title like '%??%'", [term])  // late binding xperiment
+        .where(function(q) {
+          q.whereNot('review', Review.Excluded)
+          q.whereNot('eventstatus', EventStatus.Delisted)
+        })
+        .whereNot('eventstatus', EventStatus.Skipped)
+        .where(function(q) {
+          if (!searchOldEvents) {
+            q.where('eventdate', '>=', knex.toDate(firstDay))  
+            // Removing for testing all future events search
+            // .where('eventdate', '<=', knex.toDate(lastDay)) 
+          }
+        })
+        .orderBy('eventdate')
+        .limit(limit)  // Limit the query but
+        .offset(offset);           // accept the offset from the client
+    // console.log(query.toSQL().toNative());
+    return query.then(function(rows) {
+      return rows.map(at => addMethods(at));
+    });
+  }
+  // Promises all occurrences of any scheduled CalDaily within the specified date range.
+  // Days are datejs objects.
+  static getEventsCount(todayDate, startDate, endDate) {
+    let query = knex.query('caldaily')
+        .column(knex.query.raw('COUNT(*) as total'))
+        .column(knex.query.raw('COUNT(CASE WHEN eventdate < CURDATE() THEN 1 END) AS past'))
+        .column(knex.query.raw('COUNT(CASE WHEN eventdate >= CURDATE() THEN 1 END) AS upcoming'))
+        .join('calevent', 'caldaily.id', 'calevent.id')
+        .whereRaw('not coalesce(hidden, 0)')
+        .where(function(q) {
+          q.whereNot('review', Review.Excluded)
+          q.whereNot('eventstatus', EventStatus.Delisted)
+          q.whereNot('eventstatus', EventStatus.Skipped)
+          q.whereNot('eventstatus', EventStatus.Cancelled)
+        })
+        .where(function(q) {
+          q.where('eventdate', '>=', knex.toDate(startDate))
+          q.where('eventdate', '<=', knex.toDate(endDate))
+        });
+    // console.log(query.toSQL().toNative());
+    return query.then(function(rows) {
+      return rows.map(at => addMethods(at));
+    });
   }
   /**
    * Add, cancel, and update occurrences of a particular event.

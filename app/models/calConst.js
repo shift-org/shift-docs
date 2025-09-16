@@ -42,5 +42,13 @@ const Review = Object.freeze({
   Revised   : 'R',
 });
 
+const EventsRange = Object.freeze({
+  MaxDays : 100,
+});
+
+const EventSearch = Object.freeze({
+  Limit : 25,
+});
+
 //
-module.exports = { Area, Audience, DatesType, EventStatus, Review };
+module.exports = { Area, Audience, DatesType, EventStatus, Review, EventsRange, EventSearch};

@@ -1,0 +1,23 @@
+{
+  "id": "Shift2Bikes",
+  "name": "Shift2Bikes",
+  "short_name": "Shift2Bikes",
+  "description": "Ride calendar",
+  "start_url": "https://shift2bikes.org/events/",
+  "display": "standalone",
+  "theme_color": "#fcfaf2",
+  "background_color": "#ffffff",
+  "scope": "/events/",
+  "icons": [
+    {
+      "src": "/events/icons/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/events/icons/192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

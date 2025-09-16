@@ -47,11 +47,6 @@ The docker configuration also supports running your own frontend and backend ser
 2. Download source code: `git clone https://github.com/shift-org/shift-docs.git`
 3. Start shift site: `cd shift-docs ; ./shift up`  
   a. If you are running windows, you may need to use a WSL extension in order to execute code in a unix (bash) terminal.  
-  b. You may recieve an error in the nginx container: `...bash\r: command not found`. This is because the docker container is trying to execute the script using dos formatting, instead of unix formatting. To fix this, you will need to reformat `services/nginx/entrypoint.sh` using the `dos2unix` tool:
-    ```
-    $ dos2unix services/nginx/entrypoint.sh
-    ```  
-    (you may need to download the `dos2unix` tool if it is not already on your local machine)
 4. If you're standing up the site for the first time, add database tables with the setup script: `./shift mysql-pipe < services/db/seed/setup.sql`.
 5. Visit `https://localhost:4443/` . If this leads to an SSL error in chrome, you may try flipping this flag:  chrome://flags/#allow-insecure-localhost
 
@@ -135,3 +130,13 @@ As an alternative to `npm run dev`, you can preview a local frontend with the ac
 Before executing `npm run dev`, you can configure email debugging using `npm run -w tools new-ethereal-cfg`. It will generate a `shift-email.cfg` file in your `bin` directory which will be used when adding new events. Use the username and password listed in that file to check for emails here: https://ethereal.email/login.
 
 No actual emails are sent when running this way.
+
+### Search info
+
+When developing the local server, here is the interface to test search locallt:
+- run `npm run -w tools make-fake-events` to create events
+- Sample event query: http://localhost:3080/api/search.php?q=Move&l=5&o=3&all=true
+- ?q = `term` to search for (req'd)
+- &l = `limit`, number of items per page (optional)
+- &o = `offset`, where to start the page in the resultset (optional)
+- &old=true, search all events, not just events from now forward. (optional)

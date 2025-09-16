@@ -1,0 +1,29 @@
+{{ $map := dict }}
+{{ range where (.Site.RegularPages.ByParam "year") "Type" "calfestival" }}
+  {{ $entry := partial "buildSingleFestival.html" . }}
+  {{ $map = merge $map $entry }}
+{{ end }}
+{{ with .Site.GetPage "bike-summer-calendar" }}
+  {{ $entry := partial "buildSingleFestival.html" . }}
+  {{ $map = merge $map $entry }}
+{{ end }}
+
+{{/* user can sort on keys to get the list of years */}}
+{{ return $map }}
+
+{{/* 
+The front matter of a typical pedalp.md page:
+
+  title: "2003 Pedalpalooza calendar"
+  description: "2003 Pedalpalooza calendar"
+  keywords: ["pedalpalooza"]
+  id: pedalpalooza-calendar
+  type: calfestival
+  pp: true
+  year: 2003
+  startdate: 2003-06-13
+  enddate: 2003-06-29
+  daterange: June 13–29, 2003
+  banner-image: "/images/pp/pp2003-banner.png"
+  poster-image: "/images/pp/pp2003.jpg"
+*/}}

@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode }}">
-
-<head>
-  {{ partial "head.html" . }}
-  {{ partial "cal/head.html" . }}
-</head>
-
-<body>
-
-  <div id="all">
-
-    <header>
-      {{ partial "nav.html" . }}
-    </header>
-
-    <main>
-      {{ partial "breadcrumbs.html" . }}
-
-      <div id="content">
-        <div class="container">
-
-          <div class="row">
-
+{{ define "page_body" }}
             <div class="col-md-12">
 
               <div>
@@ -29,7 +6,9 @@
               </div>
 
               <!-- only display when PP is coming soon or happening now -->
-              <!-- {{ partial "cal/pp-promo-banner.html" . }} -->
+              {{ if .Site.Params.festival.active }}
+                {{ partial "cal/pp-promo-banner.html" . }}
+              {{ end }}
 
               <!-- only display during Steptember -->
               <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->
@@ -44,27 +23,8 @@
               {{ partial "disclaimer.html" . }}
 
             </div>
-
-          </div>
-          <!-- /.row -->
-
-        </div>
-        <!-- /.container -->
-      </div>
-      <!-- /#content -->
-    </main>
-
-    <footer>
-      {{ partial "footer.html" . }}
-    </footer>
-
-  </div>
-  <!-- /#all -->
-
-  {{ partial "scripts.html" . }}
+{{ end }}
+{{ define "postscript" }}
   {{ partial "cal/scripts.html" . }}
   {{ partial "cal/fullcal.html" . }}
-
-</body>
-
-</html>
+{{ end }}

@@ -1,0 +1,9 @@
+{{/* 
+  misc site info
+  outputs to a json file
+  for the single page app to consume.
+*/}}
+{{ $siteInfo := partial "buildSiteInfo.html" . }}
+{{ $json := ( $siteInfo | jsonify (dict "prefix" " " "indent" "  "))}}
+{{ $out := resources.FromString "extras/siteInfo.json" $json }}
+{{ $out.Publish }}

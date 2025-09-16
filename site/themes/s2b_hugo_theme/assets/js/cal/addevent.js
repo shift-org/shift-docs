@@ -1,6 +1,6 @@
-(function($) {
+// uses CONSTANTS from config.js
 
-    // uses CONSTANTS from helpers.js
+(function($) {
 
     var _isFormDirty = false;
 
@@ -9,12 +9,16 @@
     }
 
     $.fn.getAddEventForm = function(id, secret, callback) {
+        // TODO: loading spinner
         if (id && secret) {
-            // TODO: loading spinner
-            $.ajax({
-                url: '/api/retrieve_event.php?id=' + id + "&secret=" + secret,
-                headers: { 'Api-Version': API_VERSION },
+            let url = new URL(API_RETRIEVE_URL);
+            url.searchParams.set('id', id);
+            url.searchParams.set('secret', secret);
+
+            let opts = {
                 type: 'GET',
+                url: url.toString(),
+                headers: API_HEADERS,
                 success: function(data) {
                     data.secret = secret;
                     data.readComic = true;
@@ -22,9 +26,16 @@
                     populateEditForm( data, callback );
                 },
                 error: function(data) {
-                    callback( data.responseJSON.error.message );
+                    let msg = data.responseJSON?.error?.message;
+                    if (!msg) {
+                        msg = `${data.status} ${data.statusText}`;
+                    }
+                    template = $('#request-error').html();
+                    rendered = Mustache.render(template, { "error": msg } );
+                    callback(rendered);
                 }
-            });
+            };
+            $.ajax(opts);
         } else {
             populateEditForm({ datestatuses: [] }, callback);
         }
@@ -165,7 +176,7 @@
         }
 
         $('.save-button, .publish-button').click(function() {
-            var postVars,
+            let postVars,
                 isNew = !shiftEvent.id;
             $('.form-group').removeClass('has-error');
             $('[aria-invalid="true"]').attr('aria-invalid', false);
@@ -175,15 +186,16 @@
             if (!isNew) {
                 postVars['id'] = shiftEvent.id;
             }
-            var data = new FormData();
+            let data = new FormData();
             $.each($('#image')[0].files, function(i, file) {
                 data.append('file', file);
             });
             data.append('json', JSON.stringify(postVars));
-            var opts = {
+            let url = new URL(API_MANAGE_URL);
+            let opts = {
                 type: 'POST',
-                url: '/api/manage_event.php',
-                headers: { 'Api-Version': API_VERSION },
+                url: url.toString(),
+                headers: API_HEADERS,
                 contentType: false,
                 processData: false,
                 cache: false,
@@ -375,14 +387,15 @@
     }
 
     function deleteEvent(id, secret) {
-        var data = new FormData();
+        let data = new FormData();
         data.append('json', JSON.stringify({
             id: id,
             secret: secret
         }));
-        var opts = {
+        let url = new URL(API_DELETE_URL);
+        let opts = {
             type: 'POST',
-            url: '/api/delete_event.php',
+            url: url.toString(),
             headers: { 'Api-Version': API_VERSION },
             contentType: false,
             processData: false,
@@ -410,31 +423,28 @@
     $(document).on( 'blur', '#email', function () {
         $( this ).mailcheck( {
             suggested: function ( element, suggestion ) {
-                var template = $( '#email-suggestion-template' ).html(),
-                    data = { suggestion: suggestion.full },
-                    message = Mustache.render( template, data );
-                $( '#email-suggestion' )
-                    .html( message )
-                    .show();
+                const template = $( '#email-suggestion-template' ).html(),
+                      data = { suggestion: suggestion.full },
+                      message = Mustache.render( template, data );
+                $( '#email-suggestion' ).html( message );
             },
             empty: function ( element ) {
-                $( '#emailMsg' )
-                    .hide();
+                $( '#email-suggestion' ).empty();
             }
         } );
     } );
 
-    $(document).on('click', '#email-suggestion .correction', function () {
-        $('#email').val( $( this ).text() );
-        $('#email-suggestion')
-            .hide();
+    $(document).on('click', '#email-suggestion [data-js-correction]', function () {
+        $('#email').val( $( '#email-suggestion .email-address' ).text() );
+        $('#email').focus();
+        $('#email-suggestion').empty();
     } );
 
-    $(document).on('click', '#email-suggestion .glyphicon-remove', function () {
-        $('#email-suggestion')
-            .hide();
+    $(document).on('click', '#email-suggestion [data-js-dismiss]', function () {
         // They clicked the X button, turn mailcheck off
         // TODO: Remember unwanted corrections in local storage, don't offer again
+        $('#email-suggestion').empty();
+        $('#email').next('input').focus();
         $(document).off('blur', '#email');
     } );
 

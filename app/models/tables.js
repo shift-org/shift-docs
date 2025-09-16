@@ -51,7 +51,7 @@ function createCalEvent(table) {
   table.varchar('phone');
   table.flag('hidephone');
   table.flag('printphone');
-  table.varchar('weburl');
+  table.varchar('weburl', 512);
   table.varchar('webname');
   table.flag('printweburl');
   table.varchar('contact');       // arbitrary organizer contact information

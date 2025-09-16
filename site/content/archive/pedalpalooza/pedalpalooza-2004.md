@@ -4,12 +4,13 @@ description: "2004 Pedalpalooza calendar"
 keywords: ["pedalpalooza"]
 id: pedalpalooza-calendar
 type: calfestival
+festival.name: "Pedalpalooza"
 pp: true
 year: 2004
 startdate: 2004-06-10
 enddate: 2004-06-26
 daterange: June 10–26, 2004
-banner-image: "/images/pp/pp2004-banner.png"
+banner-image: "/images/pp/pp2004-banner.jpg"
 poster-image: "/images/pp/pp2004.jpg"
 
 ---

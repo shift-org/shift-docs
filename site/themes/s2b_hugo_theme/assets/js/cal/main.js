@@ -1,23 +1,25 @@
+// uses CONSTANTS from config.js
+
 $(document).ready(function() {
 
     var container = $('#mustache-html');
 
     function getEventHTML(options, callback) {
-        var url = '/api/events.php?';
+        let url = new URL(API_EVENTS_URL);
         if (options.id) {
-            url += 'id=' + options.id;
+            url.searchParams.set('id', options.id);
         } else if (options.startdate && options.enddate) {
-            // these are dayjs objects.
-            url += 'startdate=' + options.startdate.format("YYYY-MM-DD") +
-                   '&enddate=' + options.enddate.format("YYYY-MM-DD");
+            // options.startdate and .enddate are dayjs objects
+            url.searchParams.set('startdate', options.startdate.format("YYYY-MM-DD"));
+            url.searchParams.set('enddate', options.enddate.format("YYYY-MM-DD"));
         } else {
             throw Error("requires id or range");
         }
 
-        $.ajax({
-            url: url,
-            headers: { 'Api-Version': API_VERSION },
+        var opts = {
             type: 'GET',
+            url: url.toString(),
+            headers: API_HEADERS,
             success: function(data) {
                 var groupedByDate = [];
 
@@ -50,8 +52,11 @@ $(document).ready(function() {
                     value.webLink = container.getWebLink(value.weburl);
                     value.contactLink = container.getContactLink(value.contact);
 
-                    value.shareLink = '/calendar/event-' + value.caldaily_id;
-                    value.exportlink = '/api/ics.php?id=' + value.id;
+                    let exportURL = new URL(API_ICS_URL);
+                    exportURL.searchParams.set('id', value.id);
+                    value.exportlink = exportURL.toString();
+
+                    value.addToGoogleLink = container.getAddToGoogleLink(value);
 
                     groupedByDate[date].events.push(value);
                 });
@@ -78,12 +83,19 @@ $(document).ready(function() {
                     document.title = event.title + " - Calendar - " + SITE_TITLE;
                 }
                 callback(info);
+            },
+            error: function(data) {
+                let msg = data.responseJSON?.error?.message;
+                if (!msg) {
+                    msg = `${data.status} ${data.statusText}`;
+                }
+                template = $('#request-error').html();
+                rendered = Mustache.render(template, { "error": msg } );
+                callback(rendered);
             }
-        });
+        };
+        $.ajax(opts);
     }
-
-    // default range of days to show.
-    const dayRange = 10;
 
     // compute range and details settings from the url options.
     // the returned object gets passed to getEventHTML().
@@ -103,7 +115,8 @@ $(document).ready(function() {
           // 'from' is today; for other PP pages it's options startdate.
           startdate: from,
           // if there was an enddate, use it; otherwise use a fixed number of days.
-          enddate: options.enddate ? end : from.add(dayRange, 'day'),
+          // subtract 1 so range is inclusive
+          enddate: options.enddate ? end : from.add( (DEFAULT_DAYS_TO_FETCH - 1), 'day'),
           // pass this on to the events listing.
           show_details: options.show_details,
         };
@@ -130,9 +143,13 @@ $(document).ready(function() {
              lazyLoadEventImages();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
+                      // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
+                      // otherwise, use the default range
+                      range = options.enddate ? (view.enddate.diff(view.startdate, 'day') + 1) : DEFAULT_DAYS_TO_FETCH;
+
                       // the next day to view is one day after the previous last
                       view.startdate = view.enddate.add(1, 'day');
-                      view.enddate = view.startdate.add(dayRange, 'day');
+                      view.enddate = view.startdate.add(range - 1, 'day');
                       // add new events to the end of those we've already added.
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);

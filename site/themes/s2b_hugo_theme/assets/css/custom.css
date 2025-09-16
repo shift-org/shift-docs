@@ -1,4 +1,30 @@
 /* your styles go here */
+:root {
+  --primary-accent: #ff9819;
+  --navbar-focus: #ffc14d;
+  --navbar-border-top: #ffaf4d;
+  --link-focus: #e57e00;
+  --heading-bg-img: url('../img/banner_bikes_city-bw.webp') center center repeat;
+  --carousel-bg-img: url('../img/S2B_photo_grid_2094x796.jpg') center center repeat;
+}
+
+html,
+body {
+  font-size: 1rem;
+}
+
+h1,
+#heading-breadcrumbs h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
 
 .box-image-text .image {
   min-height: 200px;
@@ -15,6 +41,17 @@ footer {
 
 footer #footer-ul a {
   color: #ccc;
+}
+
+#footer-ul li {
+  padding-left: 10px;
+  padding-right:10px;
+  text-transform: uppercase;
+  display: inline;
+}
+
+footer #footer-ul a:hover {
+  color: #38a7bb;
 }
 
 footer a {
@@ -42,6 +79,39 @@ header {
   text-decoration: none;
 }
 
+.navbar ul.dropdown-menu li a {
+  font-size: 0.75rem;
+  color: #555555;
+}
+
+.navbar-nav .open .dropdown-menu > li > a {
+  line-height: 1.25;
+}
+
+.caret {
+  /* override Bootstrap caret styles */
+  border: 0;
+  width: auto;
+  height: auto;
+}
+
+.dropdown-toggle .caret::after {
+  content: "▾" / ""
+}
+
+.dropdown-toggle[aria-expanded="true"] .caret {
+  transform: rotate(180deg);
+}
+
+
+.header-dark-mask {
+  background: var(--primary-accent);
+  opacity: 0.8;
+  padding: 20px 0;
+  margin-bottom: 40px;
+  z-index: 1;
+}
+
 main a {
   color: #337AB7;
   text-decoration: underline;
@@ -62,15 +132,29 @@ main .donate a {
   color: #630;
   border-radius: 12px;
   padding: 0.25em 1em;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .affix {
-    position: fixed;
-    top: 0;
-    background: #fff;
-    z-index: 1;
-    border-bottom: 1px solid transparent;
+  position: fixed;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+  border-bottom: 1px solid transparent;
+}
+
+#heading-breadcrumbs {
+  padding: 0;
+  margin-bottom: 0;
+  z-index: -1;
+}
+
+#heading-breadcrumbs h1 {
+  text-align: center;
+}
+
+.home-carousel {
+  background-size: cover;
 }
 
 @media (max-width: 991px) {
@@ -90,9 +174,22 @@ main .donate a {
 }
 
 .customers .item a:focus img {
-  max-width: auto;
   filter: none;
   -webkit-filter: none;
+}
+
+section,
+div.section {
+  margin-bottom: 0;
+}
+
+.icon {
+  color: currentColor;
+}
+
+a i.fa,
+button i.fa {
+  margin: 0 5px;
 }
 
 /* see https://github.com/shift-org/shift-docs/issues/326 */

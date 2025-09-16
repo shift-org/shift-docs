@@ -37,6 +37,20 @@
     margin-bottom: 2em;
 }
 
+.btn-add-event {
+    color: #630;
+    background: #f90;
+}
+
+.btn-add-event:focus {
+    outline: 2px solid #630;
+    outline-offset: 1px;
+}
+
+.form-control {
+  font-size: 1rem;
+}
+
 /* date picker */
 
 #date-select-container {
@@ -193,23 +207,27 @@ form#event-entry .date-select-container-style {
 }
 
 #email-suggestion {
-    display:none;
-    color: red;
+    color: #d00000;
     font-style: italic;
     margin-top: 5px;
 }
 
-#email-suggestion .correction {
+#email-suggestion .email-address {
     color: blue;
-    cursor: pointer;
+    text-decoration: underline;
+}
+
+#email-suggestion button {
+    background: none;
+    border: none;
 }
 
 #email-suggestion .glyphicon {
     color: grey;
-    cursor: pointer;
     margin-left: 3px;
     border: 1px solid lightgray;
     border-radius: 3px;
+    font-style: normal;
 }
 
 #event-fields .image-form {
@@ -245,4 +263,8 @@ form#event-entry .date-select-container-style {
 .comic-thumbnail {
     float: left;
     margin-right: 10px;
+}
+
+.preview .eventlink {
+  visibility: hidden;
 }

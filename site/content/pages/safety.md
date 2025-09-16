@@ -1,11 +1,14 @@
 ---
 title: Safety
 description: Tips to stay safe
-keywords: ["safety", "tips", "safe"]	
-weight: '8'
-menu:	
-    main:	
-        parent: communitynav
+keywords:
+  - safety
+  - tips
+  - safe
+weight: "8"
+menu:
+  main:
+    parent: communitynav
 ---
 
 ## Public Health
@@ -27,13 +30,13 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 ## Traffic safety organizations
 
-[Oregon Walks](http://oregonwalks.org/) is dedicated to promoting walking and improving the safety and attractiveness of walking in the greater Portland area.
+[Oregon Walks](https://oregonwalks.org/) is dedicated to promoting walking and improving the safety and attractiveness of walking in the greater Portland area.
 
-[The Street Trust](https://www.thestreettrust.org/) works to promote bicycle use and improve conditions for cyclists throughout Oregon.
+[The Street Trust](https://www.thestreettrust.org/) (fka the Bicycle Transportation Alliance) works to promote bicycle use and improve conditions for cyclists throughout Oregon.
 
 [BikeLoud PDX](https://bikeloudpdx.org/) is a grassroots organization working towards safer streets for biking in the Portland area.
 
-[Oregon Driver & Traffic Safety Education Association](https://odtsea.org/) ODTSEA works for safer driving through education.
+<!-- [Oregon Driver & Traffic Safety Education Association](https://odtsea.org/) ODTSEA works for safer driving through education. -->
 
 [Victoria Transport Policy Institute](https://vtpi.org/) An excellent collection of research papers on transportation issues
 
@@ -42,15 +45,16 @@ Portland's **Vision Zero Policy** is an everybody involved effort to make Portla
 
 [Oregon Bicyclist Manual](https://www.oregon.gov/odot/DMV/Pages/Online_Bicycle_Manual/Table_Of_Contents.aspx) Another great resource by ODOT.
 
-[Traffic safety and maintenance contacts](http://bta4bikes.org/resources/BTARoadMaintenanceContacts.php) for safety issues such as potholes, debris, dangerous construction, etc.
+[Traffic safety and maintenance contacts](https://www.portland.gov/transportation/maintenance) for safety issues such as potholes, debris, dangerous construction, etc.
 
-[Legal resources for cyclists](http://bta4bikes.org/resources/legal.php) What you can do if you are hit, harassed, or witness a dangerous driver.
+[Some legal resources for cyclists](https://www.tcnf.legal/app/uploads/2016/10/pedal-power.pdf).  See especially page 159 for a "what to do if you are hit" step by step.
+
 
 ### Statutes
 
-[ODOT Cyclist / Pedestrian statutes summary](http://www.oregon.gov/ODOT/HWY/BIKEPED/laws_regs.shtml) where you can find a document that puts the statutes related to cyclists and pedestrians in one place as well as recent updates to Oregon law.
+[ODOT Pedestrian and Bicycle Program](https://www.oregon.gov/odot/programs/pages/bikeped.aspx) is a hub for bike & pedestrian programs in Oregon state. Check out the [ODOT Cyclist / Pedestrian statutes summary (PDF, 2.4 MB)](https://www.oregon.gov/odot/Safety/Documents/OregonBikePedDriverRules.pdf) for a document that puts the statutes related to cyclists and pedestrians in one place.
 
-[Statutes for Oregon](http://www.leg.state.or.us/ors/) Use an Internet search engine rather than the one on this site to find specific statutes, since the 'search' feature apparently doesn't function.
+[Statutes for Oregon](https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx) can be used to find specific statutes.
 
 
 ## Tips for the Motorists
@@ -85,4 +89,4 @@ Excerpt from abcnews.com, [10 Ways to Beat High Gas Prices](https://abcnews.go.c
 
 ## Feedback
 
-**Comments, suggestions, or questions?** [Get in touch!](/pages/contact/)
+Comments, suggestions, or questions? [Get in touch!](/pages/contact/)
