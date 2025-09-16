@@ -130,7 +130,7 @@
   force = true
 
 [[redirects]]
-  from = "/cal/*"
+  from = "/calendar/*"
   to = "/pages/maintenance"
   status = 307
   force = true
