@@ -1,21 +1,34 @@
 {{/*
-	This layout is used for all of the "static" content 
-  ( about, faq, /playbooks, /pages, etc. ).
-  and whenever no specific 'type:' has been set by a .md file. 
+	This layout is used for all of the "static" content 
+  ( about, faq, /playbooks, /pages, etc. ).
+  and whenever no specific 'type:' has been set by a .md file. 
 */}}
 {{ define "html_header" }}
-  {{ partial "head.html" . }}
+  {{ partial "head.html" . }}
 {{ end }}
 {{ define "page_body" }}
 
-            <div class="col-md-9" id="blog-post">
+            <div class="col-md-9" id="blog-post">
 
-              <div id="post-content">
-              {{ .Content }}
-              </div>
-            </div>
+              {{/* --- START: BANNER CODE --- */}}
+              {{ if .Params.endDate }}
+                {{ $endDate := time .Params.endDate }}
+                {{ if now.After $endDate }}
+                  <div class="post-event-banner" style="background-color: #eef; border: 1px solid #ccd; padding: 1rem; margin: 1rem 0; text-align: center;">
+                    <h3>Thanks for a fantastic Bike Summer!</h3>
+                    <p>Events happen all year. Be sure to check the main calendar for more bike fun.</p>
+                    <a href="/calendar" class="btn btn-primary">View Main Calendar</a>
+                  </div>
+                {{ end }}
+              {{ end }}
+              {{/* --- END: BANNER CODE --- */}}
 
-            <div class="col-md-3">
+              <div id="post-content">
+              {{ .Content }}
+              </div>
+            </div>
 
-            </div>
+            <div class="col-md-3">
+
+            </div>
 {{ end }}
