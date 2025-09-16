@@ -135,6 +135,12 @@
   status = 307
   force = true
 
+[[redirects]]
+  from = "/app/bike-summer-calendar/*"
+  to = "/pages/maintenance"
+  status = 307
+  force = true
+
 ## old Pedalpalooza page should link to new one
 [[redirects]]
   from = "/pedalpalooza"
