@@ -3,61 +3,61 @@ const config = require("../config");
 const dt = require("../util/dateTime");
 const { EventStatus, Review, EventSearch } = require("./calConst");
 
-// helper to add methods to a returned database object.
-const methods =  {
+class CalDaily {
+
   // was this record read from the database?
-  exists() {
-    return !!this.pkid;
-  },
+  static exists(self) {
+    return !!self.pkid;
+  }
 
   // store to the db if force is true.
   // promises this object when done.
-  _store(force= true) {
-    return force ? knex.store('caldaily', 'pkid', this) : Promise.resolve(this);
-  },
+  static _store(self, force= true) {
+    return force ? knex.store('caldaily', 'pkid', self) : Promise.resolve(self);
+  }
 
   // Remove this record from the db.
   // promises this object when done.
   // WARNING: should really only call this for unpublished events
   // otherwise the ical clients might not see the change in the event.
-  eraseOccurrence() {
-    return knex.del('caldaily', 'pkid', this);
-  },
+  static eraseOccurrence(self) {
+    return knex.del('caldaily', 'pkid', self);
+  }
 
   // Mark the day as having been removed from the calendar, and update the db.
   // Promises "this" after storing the change.
-  delistOccurrence() {
+  static delistOccurrence(self) {
     let changed = false;
-    if (this.eventstatus !== EventStatus.Delisted) {
-      this.eventstatus = EventStatus.Delisted;
+    if (self.eventstatus !== EventStatus.Delisted) {
+      self.eventstatus = EventStatus.Delisted;
       changed = true;
     }
-    return this._store(changed).then(_ => this);
-  },
+    return _store(self, changed).then(_ => self);
+  }
 
   // store the status and newflash if they changed.
   // promises this after storing the change.
   // note: flourish stored empty strings as null; so we do the same.
-  _updateStatus(dateStatus) {
+  static _updateStatus(self, dateStatus) {
     let changed = false;
     const newStatus = dateStatus.status || null;
-    if (this.eventstatus !== newStatus) {
-      this.eventstatus = newStatus;
+    if (self.eventstatus !== newStatus) {
+      self.eventstatus = newStatus;
       changed = true;
     }
     const newsFlash = dateStatus.newsflash || null;
-    if (this.newsflash !== newsFlash) {
-      this.newsflash = newsFlash;
+    if (self.newsflash !== newsFlash) {
+      self.newsflash = newsFlash;
       changed = true;
     }
-    return this._store(changed).then(_ => this);
- },
+    return _store(self, changed).then(_ => self);
+ }
 
   // returns a date in YYYY-MM-DD format ( ex. 2006-01-02 )
-  getFormattedDate() {
+  static getFormattedDate(self) {
     // note: dates are returned by the mysql2 driver as a json Date.
-    return dt.toYMDString( this.eventdate );
-  },
+    return dt.toYMDString(self.eventdate);
+  }
 
   // return an object containing: {
   //   id:   CalDaily primary key.
@@ -66,53 +66,53 @@ const methods =  {
   //   newsflash: a special bit of text from the user, typically for canceled or rescheduled events.
   // }
   // note: used by the "manage" and "retrieve" endpoints.
-  getStatus() {
+  static getStatus(self) {
     return {
-      id : this.pkid.toString(),
-      date : this.getFormattedDate(),
-      status : this.eventstatus,
-      newsflash : this.newsflash
+      id : self.pkid.toString(),
+      date : getFormattedDate(self),
+      status : self.eventstatus,
+      newsflash : self.newsflash
     };
-  },
+  }
 
   // return a url which provides a view of this particular occurrence.
   // ex. https://localhost:4443/calendar/event-13662
-  getShareable() {
-    return config.site.url("calendar", `event-${this.pkid}`);
-  },
+  static getShareable(self) {
+    return config.site.url("calendar", `event-${self.pkid}`);
+  }
 
   // return true if the occurrence has been removed from the calendar; false otherwise.
   // ( differentiates between explicitly canceled, and no longer scheduled. )
-  isDelisted() {
-    return this.eventstatus == EventStatus.Delisted;
-  },
+  static isDelisted(self) {
+    return self.eventstatus == EventStatus.Delisted;
+  }
 
   // return true if the occurrence has been cancelled or delisted;
   // false if confirmed.
   // fix: an isConfirmed() would make more sense.
-  isUnscheduled() {
-    return (this.eventstatus == EventStatus.Cancelled) ||
-           (this.eventstatus == EventStatus.Delisted);
-  },
+  static isUnscheduled(self) {
+    return (self.eventstatus == EventStatus.Cancelled) ||
+           (self.eventstatus == EventStatus.Delisted);
+  }
 
-  getNewsFlash() {
-    return !this.isDelisted() ? this.newsflash : null
-  },
+  static getNewsFlash(self) {
+    return !isDelisted(self) ? self.newsflash : null
+  }
 
   // return a summary of this occurrence for the "events" endpoint.
   // backcompat: include the endtime if specified.
-  getJSON(endtime) {
+  static getJSON(self, endtime) {
     let data = {
-      date: this.getFormattedDate(),
-      caldaily_id: this.pkid.toString(),
-      shareable: this.getShareable(),
-      cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
+      date: getFormattedDate(self),
+      caldaily_id: self.pkid.toString(),
+      shareable: getShareable(self),
+      cancelled: isUnscheduled(self), // better would have been "scheduled:true"
       // don't send newsflash when delisted:
       // it's not scheduled and may be deleted
       // either way, its not info we want to show.
-      newsflash: this.getNewsFlash(),
-      status: this.eventstatus,
-      fullcount: this.fullcount, // Full count of results for pagination
+      newsflash: getNewsFlash(self),
+      status: self.eventstatus,
+      fullcount: self.fullcount, // Full count of results for pagination
     };
     // see notes in CalEvent.getJSON()
     if (endtime !== undefined) {
@@ -120,13 +120,7 @@ const methods =  {
     }
     return data;
   }
-};
 
-function addMethods(res) {
-  return Object.assign(res, methods);
-}
-
-class CalDaily {
   // promise a new occurrence of an existing event in the database.
   // dateStatus['date'] is YYYY-MM-DD
   static createNewEventDaily(evt, dateStatus) {
@@ -137,7 +131,8 @@ class CalDaily {
     if (!eventdate.isValid()) {
       throw new Error("daily requires a valid YMD string");
     }
-    const at = addMethods({
+    // store the new daily.
+    return _store({
       id: evt.id,
       // for the sake of the sqlite driver, convert to a javascript date manually
       // the mysql driver does this automatically.
@@ -147,8 +142,6 @@ class CalDaily {
       eventstatus: dateStatus.status || EventStatus.Active,
       newsflash: dateStatus.newsflash || null,
     });
-    // store the new daily.
-    return at._store();
   }
 
   // promises one CalDaily from the db only for tests.
@@ -162,7 +155,6 @@ class CalDaily {
       });
   }
 
-
   // promises one CalDaily but only for published Events.
   // yields null if not found or not published.
   // ( this is the php EventTime::getByID )
@@ -175,7 +167,7 @@ class CalDaily {
       .whereNot('eventstatus', EventStatus.Delisted)
       .first()
       .then(function(at) {
-        return at? addMethods(at): null;
+        return at;
       });
   }
 
@@ -184,10 +176,7 @@ class CalDaily {
   static getByEventID(id) {
     return knex
       .query('caldaily')
-      .where('id', id)
-      .then(function(dailies) {
-        return dailies.map(at => addMethods(at));
-      });
+      .where('id', id);
   }
 
   // promise an array of cal daily statuses
@@ -196,7 +185,7 @@ class CalDaily {
     return CalDaily.getByEventID(id).then((dailies) => {
       // fix: rather than filtering here, add a filter to getByEventId
       // trying to keep it somewhat like the php right now.
-      return dailies.filter(at=> !at.isDelisted()).map(at => at.getStatus());
+      return dailies.filter(at=> !isDelisted(at)).map(at => getStatus(at));
     });
   }
 
@@ -210,10 +199,7 @@ class CalDaily {
       .whereRaw('not coalesce(hidden, 0)')         // zero when published; null for legacy events.
       .where('eventdate', '>=', knex.toDate(firstDay))
       .where('eventdate', '<=', knex.toDate(lastDay))
-      .orderBy('eventdate')
-      .then(function(dailies) {
-        return dailies.map(at => addMethods(at));
-      });
+      .orderBy('eventdate');
   }
 
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
@@ -244,15 +230,13 @@ class CalDaily {
       .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
       .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
       .where('eventdate', '<=', knex.toDate(lastDay))
-      .orderBy('eventdate')
-      .then(function(dailies) {
-        return dailies.map(at => addMethods(at));
-      });
+      .orderBy('eventdate');
   }
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
-    let query = knex.query('caldaily')
+    // console.log(query.toSQL().toNative());
+    return knex.query('caldaily')
         .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .join('calevent', 'caldaily.id', 'calevent.id')
         .whereRaw('not coalesce(hidden, 0)')
@@ -277,15 +261,11 @@ class CalDaily {
         .orderBy('eventdate')
         .limit(limit)  // Limit the query but
         .offset(offset);           // accept the offset from the client
-    // console.log(query.toSQL().toNative());
-    return query.then(function(rows) {
-      return rows.map(at => addMethods(at));
-    });
   }
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsCount(todayDate, startDate, endDate) {
-    let query = knex.query('caldaily')
+    return query = knex.query('caldaily')
         .column(knex.query.raw('COUNT(*) as total'))
         .column(knex.query.raw('COUNT(CASE WHEN eventdate < CURDATE() THEN 1 END) AS past'))
         .column(knex.query.raw('COUNT(CASE WHEN eventdate >= CURDATE() THEN 1 END) AS upcoming'))
@@ -301,10 +281,6 @@ class CalDaily {
           q.where('eventdate', '>=', knex.toDate(startDate))
           q.where('eventdate', '<=', knex.toDate(endDate))
         });
-    // console.log(query.toSQL().toNative());
-    return query.then(function(rows) {
-      return rows.map(at => addMethods(at));
-    });
   }
   /**
    * Add, cancel, and update occurrences of a particular event.
@@ -321,21 +297,21 @@ class CalDaily {
       const skips = [];    // promises we wait on, but dont return.
       dailies.forEach((at)=> {
         // the map is keyed by date string:
-        const date = at.getFormattedDate();
+        const date = getFormattedDate(at);
         const status = statusMap.get(date);
         // if our event time is still desired by the organizer:
         // update the status with whatever the organizer provided.
         // otherwise: the organizer wants to remove the occurrence.
         // so cancel or delete the time depending on whether the event is published.
         if (status) {
-          const after = at._updateStatus(status);  // automatically calls store()
+          const after = _updateStatus(at, status);  // automatically calls store()
           promises.push( after );
           statusMap.delete( date );            // remove from map, so we dont create it (below)
         } else if (softDelete) {
-          const after = at.delistOccurrence(); // automatically calls store()
+          const after = delistOccurrence(at); // automatically calls store()
           skips.push( after );                 // not in the map, so dont have to remove.
         } else {
-          const after = at.eraseOccurrence();  // also not in the map, ...
+          const after = eraseOccurrence(at);  // also not in the map, ...
           skips.push( after );
         }
       });
@@ -351,12 +327,6 @@ class CalDaily {
       });
     });
   }
-
-  // for testing:
-  static wrap(res) {
-    return addMethods(res);
-  }
-  static methods = methods;
 };
 
 // export!

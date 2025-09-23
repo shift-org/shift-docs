@@ -32,9 +32,9 @@ module.exports = {
       return dt.fromYMDString('2002-08-05');
     });
 
-    const dailyStore = sinon.spy(CalDaily.methods, '_store')
-    const eventStore = sinon.spy(CalEvent.methods, '_store')
-    const eventErasures = sinon.spy(CalEvent.methods, 'eraseEvent');
+    const dailyStore = sinon.spy(CalDaily, '_store')
+    const eventStore = sinon.spy(CalEvent, '_store')
+    const eventErasures = sinon.spy(CalEvent, 'eraseEvent');
 
     return {
       dailyStore,
