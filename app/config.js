@@ -24,7 +24,7 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.58.1",
+    version: "3.59.0",
   },
   db: {
     host: env_default('MYSQL_HOST', 'db'),
