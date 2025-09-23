@@ -82,6 +82,12 @@ function randomDayCount() {
   return faker.helpers.arrayElement(pick);
 }
 
+function randomRideLength() {
+  // some dumb weighted random
+  const pick = ['0-3', '3-8', '8-15', '15+'];
+  return faker.helpers.arrayElement(pick);
+}
+
 // days is the range of possible days in the future
 // returns javascript date
 function nextDay(days, refDate) {
@@ -158,6 +164,7 @@ function makeCalEvent(title) {
                    faker.company.catchPhrase();
   const locend = faker.datatype.boolean(0.50) ? null :
                      faker.location.streetAddress();
+  const ridelength = randomRideLength();
 
   // constants:
   const changes = 1;
@@ -197,6 +204,7 @@ function makeCalEvent(title) {
     locdetails,
     locend,
     loopride,
+    ridelength,
     area,
     highlight,
     hidden,
