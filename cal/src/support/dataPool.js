@@ -89,9 +89,6 @@ function mungeEvents(events) {
     evt.moment = dayjs(`${evt.date}T${evt.time}`);
     caldaily_map.set(evt.caldaily_id, evt);
   });
-  events.sort((a, b) => 
-    a.moment.isBefore(b.moment) ? -1 : 
-    a.moment.isAfter(b.moment) ? 1 : 0); 
 }
 
 function buildUrl(endpoint, pairs) {

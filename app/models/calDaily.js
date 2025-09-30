@@ -268,13 +268,13 @@ class CalDaily {
         })
         .whereNot('eventstatus', EventStatus.Skipped)
         .where(function(q) {
+        // If we're not searching for old events, aka future search, look today and greater.
           if (!searchOldEvents) {
-            q.where('eventdate', '>=', knex.toDate(firstDay))  
-            // Removing for testing all future events search
-            // .where('eventdate', '<=', knex.toDate(lastDay)) 
+            q.where('eventdate', '>=', knex.toDate(firstDay))
           }
         })
-        .orderBy('eventdate')
+        // If we are searching old events, eventdata claus never occurs and we add a desc to the ordering.
+        .orderBy('eventdate', searchOldEvents? 'desc' : 'asc')
         .limit(limit)  // Limit the query but
         .offset(offset);           // accept the offset from the client
     // console.log(query.toSQL().toNative());
