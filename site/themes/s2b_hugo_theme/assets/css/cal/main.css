@@ -355,7 +355,21 @@ h3 {
 
 button.expand-details {
     user-select: text;
+    display: flex;
 }
+
+button.expand-details  span:nth-child(2)
+{
+    overflow-wrap: anywhere; 
+}
+
+button.expand-details svg {
+    min-width: 22px;
+    min-height: 22px;
+}
+
+
+
 
 .eventImg img {
     float: right;
