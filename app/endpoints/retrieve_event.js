@@ -19,8 +19,8 @@ const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 
 exports.get = function get(req, res, next) {
-  let id = req.query.id;
-  let secret = req.query.secret;
+  const id = req.query.id;
+  const secret = req.query.secret;
 
   if (!id) {
     res.textError("Request incomplete, please pass an id in the url");
@@ -28,19 +28,19 @@ exports.get = function get(req, res, next) {
     return CalEvent.getByID(id).then((evt) => {
       if (!evt) {
         res.textError("Event not found");
-      } else if (evt.isDeleted()) {
+      } else if (CalEvent.isDeleted(evt)) {
         res.textError("Event was deleted");
       } else {
         // the php version didnt error on invalid secret;
         // so this doesnt either ( private data is only returned with a valid secret )
-        const includePrivate = evt.isSecretValid(secret);
-        if (!evt.isPublished() && !includePrivate) {
+        const includePrivate = CalEvent.isSecretValid(evt, secret);
+        if (!CalEvent.isPublished(evt) && !includePrivate) {
           // act exactly as if unpublished events don't exist
           // ( unless you know the secret )
           res.textError("Event not found");
         } else {
           const statuses = CalDaily.getStatusesByEventId(evt.id);
-          evt.getDetails(statuses, {includePrivate}).then(details => {
+          return CalEvent.getDetails(evt, statuses, {includePrivate}).then(details => {
             res.set(config.api.header, config.api.version);
             res.json(details);
           });

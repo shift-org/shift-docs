@@ -165,8 +165,8 @@ function buildRange(start, end, includeDeleted) {
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
-    const q = includeDeleted?
-              CalDaily.getFullRange:
+    const q = includeDeleted ?
+              CalDaily.getFullRange :
               CalDaily.getRangeVisible;
     return q(start,end).then((dailies)=>{
       return buildEntries(dailies);
@@ -202,22 +202,22 @@ function buildEntries(dailies) {
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
 function buildCalEntry(evt, at) {
-  let startAt = evt.getStartTime(at.eventdate);
+  let startAt = CalEvent.getStartTime(evt, at.eventdate);
   if (!startAt.isValid()) {
     // provide a fallback if the start time was invalid
     // i dont know if this is a real issue, or just test data
     // php handles this just fine.
     startAt = dt.combineDateAndTime(at.eventdate, dt.from12HourString("12:00 PM"));
   }
-  const endAt = evt.addDuration(startAt);
-  const url = at.getShareable();
+  const endAt = CalEvent.addDuration(evt, startAt);
+  const url = CalDaily.getShareable(at);
   let title = evt.title;
   // google calendar doesn't indicated canceled events well;
   // so force it to.
-  if (at.isUnscheduled()) {
+  if (CalDaily.isUnscheduled(at)) {
     title = "CANCELLED: " + title;
   }
-  let news = at.getNewsFlash();
+  let news = CalDaily.getSafeNews(at);
   if (!news) {
     news = "";  // no news is null news; we want an empty string.
   } else {
@@ -231,13 +231,13 @@ function buildCalEntry(evt, at) {
     description: [
       news,
       evt.descr, evt.timedetails,
-      evt.locend? "Ends at "+ evt.locend: null,
+      evt.locend ? ("Ends at "+ evt.locend) : null,
       url
     ],
     location: [
       evt.locname, evt.address, evt.locdetails
     ],
-    status:  at.isUnscheduled() ? "CANCELLED": "CONFIRMED",
+    status:  CalDaily.isUnscheduled(at) ? "CANCELLED": "CONFIRMED",
     start:    startAt,
     end:      endAt,
     created:  evt.created,

@@ -46,14 +46,11 @@ function handleRequest(req, res, next) {
     }
 
     // validate the password.
-    if (!evt.isSecretValid(data.secret)) {
+    if (!CalEvent.isSecretValid(evt, data.secret)) {
       return res.textError('Invalid secret, use link from email');
     }
 
-    // if the event was never published, we can delete it completely;
-    // otherwise, soft delete it.
-    let q = !evt.isPublished() ? evt.eraseEvent() : evt.softDelete();
-    q.then((_) => {
+    CalEvent.removeEvent(evt).then(() => {
       // note: the frontend currently doesn't use this json;
       // instead it looks for request success ( http 200 )
       res.set(config.api.header, config.api.version);

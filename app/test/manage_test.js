@@ -140,7 +140,7 @@ describe("managing events", () => {
   it("publishes an event", function() {
     // id three is unpublished
     return CalEvent.getByID(3).then(evt => {
-      expect(evt.isPublished()).to.be.false;
+      expect(CalEvent.isPublished(evt)).to.be.false;
       return chai.request( app )
         .post(manage_api)
         // by adding the id and posting to it, we should be able to publish it.
@@ -153,7 +153,7 @@ describe("managing events", () => {
           expect(data.eventStore.callCount, "event stores")
             .to.equal(1);
           const evt = await CalEvent.getByID(3);
-          expect(evt.isPublished()).to.be.true;
+          expect(CalEvent.isPublished(evt)).to.be.true;
         });
     });
   });
@@ -191,7 +191,7 @@ describe("managing events", () => {
         // implicitly cancel the second;
         // add a third.
         { "date": "2002-08-03", status: 'A' }
-      ]}, evt.getJSON({includePrivate:true}));
+      ]}, CalEvent.getJSON(evt, {includePrivate:true}));
 
       return chai.request( app )
         .post(manage_api)
@@ -208,9 +208,9 @@ describe("managing events", () => {
           // three dailies for our event are in the db:
           const dailies = await CalDaily.getByEventID(2);
           expect(dailies).to.have.lengthOf(3);
-          expect(dailies[0].isUnscheduled()).to.be.false;
-          expect(dailies[1].isUnscheduled()).to.be.true;
-          expect(dailies[2].isUnscheduled()).to.be.false;
+          expect(CalDaily.isUnscheduled(dailies[0])).to.be.false;
+          expect(CalDaily.isUnscheduled(dailies[1])).to.be.true;
+          expect(CalDaily.isUnscheduled(dailies[2])).to.be.false;
           // only two should be in the returned data
           // ( the second one is delisted; filtered by reconcile )
           // fix: should add a test for an explicitly canceled day.
@@ -239,7 +239,7 @@ describe("managing events", () => {
       // and is posting it back up again, along with the new image.
       return CalEvent.getByID(3).then(evt => {
         const statuses = CalDaily.getStatusesByEventId(evt.id);
-        return evt.getDetails(statuses, {includePrivate:true}).then(eventData => {
+        return CalEvent.getDetails(evt, statuses, {includePrivate:true}).then(eventData => {
           const post = Object.assign( {
             secret: testData.secret,
             code_of_conduct: "1",

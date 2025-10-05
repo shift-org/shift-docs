@@ -139,10 +139,10 @@ describe("ical feed", () => {
       // that had caused a bad feed at one point; its fixed but still good to test.
       // evt.eventtime = null;
       // evt.eventduration = 0;
-      evt._store().then(_ => {
+      CalEvent._store(evt).then(_ => {
         CalDaily.getForTesting(201).then(d => {
           d.eventstatus = EventStatus.Cancelled;
-          d._store().then(_ => {
+          CalDaily._store(d).then(_ => {
             chai.request( app )
               .get('/api/ical.php')
               .query({

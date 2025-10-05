@@ -97,7 +97,7 @@ function getSummaries(dailies) {
     // wait till the event summary is complete then merge it with the daily:
     return events.get(at.id).then((specialSum) => {
       const [ evtJson, endTime ] = specialSum;
-      return Object.assign( {}, evtJson, at.getJSON(endTime) );
+      return Object.assign( {}, evtJson, CalDaily.getJSON(at, endTime) );
     });
   }));
 }
@@ -110,8 +110,8 @@ exports.getSummaries = getSummaries;
 // so to keep the endtime after each daily, we have to tack it on manually.
 function specialSummary(evt) {
   // an invalid duration generates a null here; just like the php.
-  const endTime = to24HourString(evt.getEndTime());
-  return [ evt.getJSON(), endTime ];
+  const endTime = to24HourString(CalEvent.getEndTime(evt));
+  return [ CalEvent.getJSON(evt), endTime ];
 }
 
 // expects days are dayjs objects

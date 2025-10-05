@@ -34,7 +34,7 @@ module.exports = {
 
     const dailyStore = sinon.spy(CalDaily, '_store')
     const eventStore = sinon.spy(CalEvent, '_store')
-    const eventErasures = sinon.spy(CalEvent, 'eraseEvent');
+    const eventErasures = sinon.spy(CalEvent, '_eraseEvent');
 
     return {
       dailyStore,

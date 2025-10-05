@@ -88,7 +88,7 @@ const knex = {
     const q = knex.query(table);
     // get everything from that isn't a function()
     let cleanData = pickBy(rec, isSafe);
-    if (rec.exists()) {
+    if (idField in rec) {
       // fix: manually set modified for sqlite?
       // cleanData.modified = dt.toTimestamp();
       return q.update(cleanData)

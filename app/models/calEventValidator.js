@@ -192,7 +192,6 @@ function makeValidator(input, errors) {
   };
 }
 
-
 // fix? required only from March to June, during Pedalpalooza
 // tinytitle', 'printdescr'
 function validateEvent(input) {

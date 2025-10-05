@@ -70,7 +70,7 @@ function handleRequest(req, res, next) {
           // the image name gets stored in the db as "id-sequence.ext"
           // the sequence number needs to be different for each new image.
           // ( shift.conf strips off the sequence when the file is requested; see cache_busting.md )
-          const sequence = evt.nextChange();
+          const sequence = CalEvent.nextChange(evt);
           evt.image = `${f.name}-${sequence}${f.ext}`;
         });
       // if the save succeeded, update the event.
@@ -93,7 +93,7 @@ function getOrCreateEvent(id, secret) {
     return Promise.resolve(CalEvent.newEvent());
   } else {
     return CalEvent.getByID(id).then(evt => {
-      return (evt && evt.isSecretValid(secret)) ? evt : null;
+      return (evt && CalEvent.isSecretValid(evt, secret)) ? evt : null;
     });
   }
 }
@@ -103,30 +103,30 @@ function updateEvent(evt, values, statusList) {
   // if the user is saving an existing event,
   // we assume they are publishing it.
   // ( the secret has been validated in handleRequest. )
-  const existed = evt.exists();
-  const previouslyPublished = evt.isPublished();
+  const existed = !!evt.id;
+  const previouslyPublished = CalEvent.isPublished(evt);
 
   // NOTE: overwrites (most) fields in the event with the user's input.
-  evt.updateFromJSON(values);
+  CalEvent.updateFromJSON(evt, values);
   if (existed) {
-    evt.setPublished();
+    CalEvent.setPublished(evt);
   }
   // we dont know whether something significant changed or not:
   // so we always have to store.
   // ( this creates the event if it didnt exist. )
-  return evt.storeChange().then(() =>{
+  return CalEvent.storeChange(evt).then(() =>{
     // now that the event has been stored, and it has an id: add/remove times.
     const statusMap = new Map(statusList.map(status => [status.date, status]));
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
       // email the organizer about new events.
       // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
       let q = !existed ? sendConfirmationEmail(evt) : Promise.resolve();
-      const statuses = dailies.map(at => at.getStatus());
+      const statuses = dailies.map(CalDaily.getStatus);
       return q.then(_ => {
         // finally, return a summary of the CalEvent and its CalDaily(s).
         // includes private contact info ( like email, etc. )
         // ( because this is the organizer saving their event )
-        return evt.getDetails(statuses, {includePrivate:true});
+        return CalEvent.getDetails(evt, statuses, {includePrivate:true});
       });
     });
   });
