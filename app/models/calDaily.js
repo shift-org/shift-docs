@@ -252,7 +252,7 @@ class CalDaily {
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsCount(todayDate, startDate, endDate) {
-    return query = knex.query('caldaily')
+    return knex.query('caldaily')
         .column(knex.query.raw('COUNT(*) as total'))
         .column(knex.query.raw('COUNT(CASE WHEN eventdate < CURDATE() THEN 1 END) AS past'))
         .column(knex.query.raw('COUNT(CASE WHEN eventdate >= CURDATE() THEN 1 END) AS upcoming'))
