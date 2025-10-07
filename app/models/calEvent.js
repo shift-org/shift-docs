@@ -5,15 +5,15 @@ const { Review } = require("./calConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
-class CalEvent {
+const CalEvent = {
   // store to the db if force is true.
   // promises this object when done.
-  static _store(evt, force= true) {
+  _store(evt, force= true) {
     return force ? knex.store('calevent', 'id', evt) : Promise.resolve(evt);
-  }
+  },
 
   // aka Event::toArray in php
-  static getJSON(evt, {includePrivate}= {}) {
+  getSummary(evt, {includePrivate}= {}) {
     let duration = evt.eventduration;
     if (duration <= 0) {
       duration = null;
@@ -70,10 +70,10 @@ class CalEvent {
       // for now, therefore this is in CalDaily
       // endtime: getEndTime()
     };
-  }
+  },
 
   // similar to "fromArray" in php
-  static updateFromJSON(evt, data) {
+  updateFromJSON(evt, data) {
     // ugly: assumes the data is validated and adjusted already.
     Object.assign(evt, data);
 
@@ -81,29 +81,29 @@ class CalEvent {
     // fix: add a default to mysql? could there be db entries with null in there already
     // and why is this happening in "updateFromJSON"?
     evt.highlight = evt.highlight ?? 0;
-  }
+  },
   
   // returns null if there's no image set
-  static getImageUrl(evt) {
+  getImageUrl(evt) {
     // event.image is _usually_ "id.ext", but not always.
     // sometimes, it has a custom name. ex: "scienceFrictionRomanianBikeSmut.jpg"
     // it is never stored with a path.
     return evt.image ? config.image.url(evt.image) : null;
-  }
+  },
 
   // return the starting time as a dayjs object;
   // ( returns an !isValid object for an invalid time )
   // pass an optional dayjs day to compute the time relative to a specific date.
-  static getStartTime(evt, fromDay = null) {
+  getStartTime(evt, fromDay = null) {
     const t = dt.from24HourString(evt.eventtime);
     return fromDay ? dt.combineDateAndTime(fromDay, t) : t;
-  }
+  },
 
   // return the ending time as a dayjs object; or null.
   // pass an optional dayjs day to compute the time relative to a specific date.
   // FIX? just like the php version, if the duration is null the end time is null.
   // this seems wrong to me -- it should probably use the minimum 1 hour duration.
-  static getEndTime(evt, fromDay = null) {
+  getEndTime(evt, fromDay = null) {
     let endTime = null;
     const len = evt.eventduration;
     if (len > 0) {
@@ -113,109 +113,109 @@ class CalEvent {
       }
     }
     return endTime;
-  }
+  },
 
   // assumes start is a valid dayjs object.
   // generates a 1 hour duration if none was specified.
-  static addDuration(evt, start) {
+  addDuration(evt, start) {
     const len = evt.eventduration;
     return (len > 0) ? start.add(len, 'minute') : start.add(1, 'hour');
-  }
+  },
 
   // remove this record and any associated caldaily(s) from the database.
   // promises the total number of erased items when done.
   // NOTE: prefer softDelete() so ical subscribers can see that something has changed.
-  static _eraseEvent(evt) {
+  _eraseEvent(evt) {
     return knex.del('calevent', 'id', evt).then((acnt) => {
         return knex.del('caldaily', 'id', evt).then((bcnt) => {
           return acnt + bcnt;
         });
     });
-  }
+  },
 
   // cancel all occurrences of this event, and make it inaccessible to the organizer.
-  static _softDelete(evt) {
+  _softDelete(evt) {
     return CalDaily.getByEventID(evt.id).then((dailies) => {
       return Promise.all( dailies.map(CalDaily.delistOccurrence) ).then(()=> {
-        evt.review = Review.Excluded; // excludes from getRangeVisible
+        evt.review = Review.Excluded; // mark as deleted
         evt.password = "";            // hides it from future editing
         return CalEvent.storeChange(evt);
       });
     });
-  }
+  },
 
   // if the event was never published, we can delete it completely;
   // otherwise, soft delete it.  
-  static removeEvent(evt) {
+  removeEvent(evt) {
     return !CalEvent.isPublished(evt) ? CalEvent._eraseEvent(evt) : CalEvent._softDelete(evt);
-  }
+  },
 
   // promise a summary of the CalEvent and all its CalDaily(s)
   // in the php version, the statuses are optional; it's cleaner here to require them.
-  static getDetails(evt, statuses, {includePrivate} = {}) {
+  getDetails(evt, statuses, {includePrivate} = {}) {
     // we either have actual times or promises of them:
     return Promise.resolve(statuses).then((statuses) => {
-      const details = CalEvent.getJSON(evt, {includePrivate});
+      const details = CalEvent.getSummary(evt, {includePrivate});
       details['datestatuses']= statuses;
       return details;
     });
-  }
+  },
 
   // if the secret is valid and matches the password of this CalEvent.
    // ( the password of the event is set at creation time, and cleared when 'deleted' )
-  static isSecretValid(evt, secret) {
+  isSecretValid(evt, secret) {
     return secret && (secret === evt.password);
-  }
+  },
 
   // can people looking for rides see this event?
- static isPublished(evt) {
+ isPublished(evt) {
     // note: legacy events have null for the hidden field
     // zero and null are considered published.
     return !evt.hidden;
-  }
+  },
 
   // make this event visible to all
   // requires a call to storeChange()
-  static setPublished(evt) {
+  setPublished(evt) {
     evt.hidden = 0;
-  }
+  },
 
   // soft deleted events are marked as 'E'
   // that makes them inaccessible to the front-end
   // while still showing them on the ical feed ( as canceled. )
-  static isDeleted(evt) {
+  isDeleted(evt) {
     return evt.review == Review.Excluded;
-  }
+  },
 
   // store to the db, updating the change counter.
   // the counter helps subscribers to the ical feed detect changes.
   // promises to return this record with a valid id.
-  static storeChange(evt) {
+  storeChange(evt) {
     // update the change counter
     evt.changes = CalEvent.nextChange(evt);
     return CalEvent._store(evt);
-  }
+  },
 
   // return the change counter of the next call to store()
-  static nextChange(evt) { // watch out for if it never existed.
+  nextChange(evt) { // watch out for if it never existed.
     return 1 + (evt.changes || 0);
-  }
+  },
   
   // promises one CalEvent ( null if not found. )
   // tbd: could also fail on not found, but the code seems to read better this way.
-  static getByID(id) {
+  getByID(id) {
     return knex.query('calevent').where('id', id).first();
-  }
+  },
   
   // returns one event.
-  static newEvent() {
+  newEvent() {
     // uuid4 is 36 chars including hyphens 123e4567-e89b-12d3-a456-426614174000
     // the secret format has been 32 chars no hyphens.
     const password = crypto.randomUUID().replaceAll("-","")
     const hidden = 1; // fix: change sql default?
     return { password, hidden };
-  }
+  },
 };
 
-// exports methods for testing
+// export!
 module.exports = { CalEvent };

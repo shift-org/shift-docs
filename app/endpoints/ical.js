@@ -53,14 +53,27 @@ function readDate(d) {
   return d && dt.fromYMDString(d);
 }
 
-// the endpoint handler for all ical feeds.
+// Endpoint handler for all ical feeds.
+// the query can include:
+//   - id: a series id: returns all days in that series.
+//   - start, end: a YYYY-MM-DD formatted range.
+//   - includeDeleted: show rides that organizers have removed.
+//   - filename: ics filename. has some magic:
+//     - the string "none", will not generate a file but show the results as plain-text.
+//     - any string starting with "pedalp" uses the Pedalpalooza feed header.  
+// NOTE: if both id an range are missing: it provides a default range of events.
+//
+// TODO:
+// - includeDeleted, and the "pedalp" filename option is legacy, and should probably be removed.
+// - filename = none isn't satisfying, though rarely it can be helpful.
+// 
 function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = readDate(req.query.startdate);
   const end = readDate(req.query.enddate);
   const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
-  const pedalp = customName.startsWith("pedalp");
+  const pedalp = customName.startsWith("pedalp");  // for manufactured closing event
   const cal = Object.assign({}, config.cal.base, pedalp? config.cal.pedalp: config.cal.shift);
 
   return getEventData(cal, id, start, end, includeDeleted).then(data => {

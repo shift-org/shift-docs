@@ -15,16 +15,17 @@ const { CalDaily } = require("../models/calDaily");
 const { to12HourString, from24HourString, friendlyDate } = require("../util/dateTime");
 
 exports.get = function(req, res, next) {
-  let id = req.query.id;
-  const p = {
+  const id = req.query.id;
+  const page = {
     title: config.crawl.title,
     description : config.crawl.description,
     url : config.site.url(),
+    image: config.crawl.image,
     siteName: config.site.name,
     type: "website",
   };
   if (!id) {
-    res.render('crawl.html', p);
+    res.render('crawl.html', page);
   } else {
     return CalDaily.getByDailyID(id).then((at) => {
       if (!at) {
@@ -34,10 +35,10 @@ exports.get = function(req, res, next) {
           if (!evt) {
             res.sendStatus(404); // returns not found
           } else {
-            res.render('crawl.html',Object.assign(p, {
+            res.render('crawl.html',Object.assign(page, {
               title: evt.title,
               url: CalDaily.getShareable(at),
-              image: CalEvent.getImageUrl(evt) || config.crawl.image,
+              image: CalEvent.getImageUrl(evt) || page.image,
               type: "article", //FIXME: Does FB support 'event' yet?
               description: evt.descr,
               address: evt.address,

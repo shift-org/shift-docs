@@ -35,7 +35,7 @@ exports.get = function(req, res, next) {
   let id = req.query.id;
   let start = req.query.startdate;
   let end = req.query.enddate;
-  const includeAllEvents = (req.query.all === "true") || (req.query.all === "1");
+  const includeDeleted = (req.query.all === "true") || (req.query.all === "1");
   if (id && start && end) {
     res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
   } else if (id) {
@@ -67,7 +67,7 @@ exports.get = function(req, res, next) {
       } else if (range > EventsRange.MaxDays) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
       } else {
-        return CalDaily.getRangeVisible(start, end, includeAllEvents).then((dailies) => {
+        return CalDaily.getRangeVisible(start, end, includeDeleted).then((dailies) => {
           return getSummaries(dailies).then((events) => {
             const pagination = getPagination(start, end, events.length);
             res.set(config.api.header, config.api.version);
@@ -97,7 +97,7 @@ function getSummaries(dailies) {
     // wait till the event summary is complete then merge it with the daily:
     return events.get(at.id).then((specialSum) => {
       const [ evtJson, endTime ] = specialSum;
-      return Object.assign( {}, evtJson, CalDaily.getJSON(at, endTime) );
+      return Object.assign( {}, evtJson, CalDaily.getSummary(at, endTime) );
     });
   }));
 }
@@ -111,7 +111,7 @@ exports.getSummaries = getSummaries;
 function specialSummary(evt) {
   // an invalid duration generates a null here; just like the php.
   const endTime = to24HourString(CalEvent.getEndTime(evt));
-  return [ CalEvent.getJSON(evt), endTime ];
+  return [ CalEvent.getSummary(evt), endTime ];
 }
 
 // expects days are dayjs objects

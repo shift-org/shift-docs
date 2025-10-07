@@ -191,7 +191,7 @@ describe("managing events", () => {
         // implicitly cancel the second;
         // add a third.
         { "date": "2002-08-03", status: 'A' }
-      ]}, CalEvent.getJSON(evt, {includePrivate:true}));
+      ]}, CalEvent.getSummary(evt, {includePrivate:true}));
 
       return chai.request( app )
         .post(manage_api)

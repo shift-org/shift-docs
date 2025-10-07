@@ -36,10 +36,9 @@ exports.get = function(req, res, next) {
 
   if (start && end) {
     // Search for the given search term, starting from today
-    const todayDate = dayjs().startOf('day');
     const startDate = dayjs(start, "YYYY-MM-DD");
     const endDate = dayjs(end, "YYYY-MM-DD");
-    return CalDaily.getEventsCount(todayDate, startDate, endDate).then((ride_count) => {
+    return CalDaily.getEventsCount(startDate, endDate).then((ride_count) => {
       res.json({
         ride_count
       });
