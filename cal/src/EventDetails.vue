@@ -115,6 +115,11 @@ export default {
     loopText() {
       return this.evt.loopride && 'Ride is a loop';
     },
+    rideLength() {
+      if (this.evt.ridelength) {
+        return `${this.evt.ridelength} miles`;
+      }
+    },
     shareableLink() {
       return this.evt.shareable;
     },
@@ -176,6 +181,7 @@ export default {
       <Term id="timedetails"label= "Time Details" :text="evt.timedetails"/>
       <Term id="locend"     label= "End Location" pretext="Ending at " :text="evt.locend"/>
       <Term id="loop"       label= "Loop"         :text="loopText"/>
+      <Term id="ridelength" label= "Length"       :text="rideLength"/>
       <Term v-if="evt.weburl" label="More Info">
         <ExternalLink :href="webLink">
           {{evt.webname || evt.weburl}}

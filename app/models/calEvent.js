@@ -35,7 +35,7 @@ class CalEvent {
       hideemail   : evt.hideemail != 0,       // true if never set
       hidephone   : evt.hidephone != 0,       // true if never set
       hidecontact : evt.hidecontact != 0,     // true if never set
-      length      : null,
+      ridelength  : evt.ridelength,
       timedetails : evt.timedetails,
       locdetails  : evt.locdetails,
       loopride    : !!evt.loopride,    // false if never set ( null )
@@ -193,13 +193,12 @@ class CalEvent {
     return 1 + (evt.changes || 0);
   }
   
-  // ----- 
-
   // promises one CalEvent ( null if not found. )
   // tbd: could also fail on not found, but the code seems to read better this way.
   static getByID(id) {
     return knex.query('calevent').where('id', id).first();
   }
+  
   // returns one event.
   static newEvent() {
     // uuid4 is 36 chars including hyphens 123e4567-e89b-12d3-a456-426614174000
