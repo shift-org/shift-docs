@@ -75,7 +75,7 @@ function fakeCalEvent(eventId) {
     audience: Audience.General,
     descr,
     printdescr: descr,
-    image: `/eventimages/${eventId}.png`,
+    image: `${eventId}.png`,
     datestype: DatesType.OneDay,
     eventtime: "19:00:00",
     eventduration: 60,

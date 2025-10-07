@@ -48,7 +48,7 @@ class CalEvent {
       // and not doing it here can only affect legacy events
       // which havent been viewed in recent years...
       // and that seems okay.
-      image       : config.image.url(evt.image),
+      image       : CalEvent.getImageUrl(evt),
       audience    : evt.audience,
       tinytitle   : evt.tinytitle,
       printdescr  : evt.printdescr,
@@ -81,6 +81,14 @@ class CalEvent {
     // fix: add a default to mysql? could there be db entries with null in there already
     // and why is this happening in "updateFromJSON"?
     evt.highlight = evt.highlight ?? 0;
+  }
+  
+  // returns null if there's no image set
+  static getImageUrl(evt) {
+    // event.image is _usually_ "id.ext", but not always.
+    // sometimes, it has a custom name. ex: "scienceFrictionRomanianBikeSmut.jpg"
+    // it is never stored with a path.
+    return evt.image ? config.image.url(evt.image) : null;
   }
 
   // return the starting time as a dayjs object;

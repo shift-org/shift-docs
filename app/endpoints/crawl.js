@@ -20,7 +20,6 @@ exports.get = function(req, res, next) {
     title: config.crawl.title,
     description : config.crawl.description,
     url : config.site.url(),
-    image: config.crawl.image,
     siteName: config.site.name,
     type: "website",
   };
@@ -37,10 +36,10 @@ exports.get = function(req, res, next) {
           } else {
             res.render('crawl.html',Object.assign(p, {
               title: evt.title,
-              url: config.site.url("calendar", "event-${at.id}"),
-              image: evt.image || p.image,
+              url: CalDaily.getShareable(at),
+              image: CalEvent.getImageUrl(evt) || config.crawl.image,
               type: "article", //FIXME: Does FB support 'event' yet?
-              description: evt.desc,
+              description: evt.descr,
               address: evt.address,
               when : {
                 // ex. "Mon, Aug 8th"
