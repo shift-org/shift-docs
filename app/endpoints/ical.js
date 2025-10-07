@@ -20,6 +20,7 @@ const wordwrap = require('wordwrapjs');
 const nunjucks = require("../nunjucks");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
+const summarize = require("../models/summarize");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
@@ -53,14 +54,27 @@ function readDate(d) {
   return d && dt.fromYMDString(d);
 }
 
-// the endpoint handler for all ical feeds.
+// Endpoint handler for all ical feeds.
+// the query can include:
+//   - id: a series id: returns all days in that series.
+//   - start, end: a YYYY-MM-DD formatted range.
+//   - includeDeleted: show rides that organizers have removed.
+//   - filename: ics filename. has some magic:
+//     - the string "none", will not generate a file but show the results as plain-text.
+//     - any string starting with "pedalp" uses the Pedalpalooza feed header.  
+// NOTE: if both id an range are missing: it provides a default range of events.
+//
+// TODO:
+// - includeDeleted, and the "pedalp" filename option is legacy, and should probably be removed.
+// - filename = none isn't satisfying, though rarely it can be helpful.
+// 
 function get(req, res, next) {
   const id = req.query.id; // a cal event id
   const start = readDate(req.query.startdate);
   const end = readDate(req.query.enddate);
   const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
-  const pedalp = customName.startsWith("pedalp");
+  const pedalp = customName.startsWith("pedalp");  // for manufactured closing event
   const cal = Object.assign({}, config.cal.base, pedalp? config.cal.pedalp: config.cal.shift);
 
   return getEventData(cal, id, start, end, includeDeleted).then(data => {
@@ -102,7 +116,7 @@ function getEventData(cal, id, start, end, includeDeleted) {
   } else {
     // ex. shift-calendar.ics
     filename = cal.filename + cal.ext;
-    buildEvents = buildCurrent();
+    buildEvents = buildCurrent(includeDeleted);
   }
   return buildEvents.then(events => { return {filename, events} });
 }
@@ -116,6 +130,9 @@ function respondWith(cal, res, filename, events) {
   // according to  https://en.wikipedia.org/wiki/ICalendar
   // its default utf8, and mime type should be used for anything different.
   res.setHeader(config.api.header, config.api.version);
+  
+  // no filename, or the filename 'none' is a helper which returns the feed in plain text
+  // that allows it to display in the browser without generating a downloaded file.
   if (!filename || filename === "none") {
     res.setHeader('content-type', `text/plain`);
   } else {
@@ -133,25 +150,32 @@ function respondWith(cal, res, filename, events) {
 // these build "calendar entries":
 // javascript objects that represent each v-event.
 // ---------------------------------
+function fromJoinedData(evtDay) {
+  return buildCalEntry(evtDay, evtDay);
+}
 
 // Promise all of the occurrences of a single event in ical format as a string.
 // id is a calevent id.
 function buildOne(id) {
-  return CalDaily.getByEventID(id).then((dailies) => {
-    if (!dailies.length) {
-      return Promise.reject("no such events");
-    }
-    return buildEntries(dailies);
+  return summarize.events({
+      seriesId: id, 
+      customSummary: fromJoinedData
+  }).then(events => {
+        return (events && events.length) ?
+          events: Promise.reject("no such events");
   });
 }
 
 // Promise some good range of past and future events in ical format as a string.
-function buildCurrent() {
+function buildCurrent(includeDeleted) {
   const now = dt.getNow();
-  const started = now.subtract(1, 'month');
-  const ended = now.add(6, 'month');
-  return CalDaily.getFullRange(started, ended).then((dailies)=>{
-    return buildEntries(dailies);
+  const firstDay = now.subtract(1, 'month');
+  const lastDay = now.add(6, 'month');
+  return summarize.events({
+    firstDay,
+    lastDay,
+    includeDeleted, 
+    customSummary: fromJoinedData,
   });
 }
 
@@ -165,11 +189,12 @@ function buildRange(start, end, includeDeleted) {
     if ((range < 0) || (range > 100)) {
       return Promise.reject("bad date range");
     }
-    const q = includeDeleted ?
-              CalDaily.getFullRange :
-              CalDaily.getRangeVisible;
-    return q(start,end).then((dailies)=>{
-      return buildEntries(dailies);
+    // evtDay includes both the event and daily data; so pass it as both parameters.
+    return summarize.events({
+      firstDay: start,
+      lastDay: end, 
+      includeDeleted, 
+      customSummary: fromJoinedData,
     });
   }
 }
@@ -177,22 +202,6 @@ function buildRange(start, end, includeDeleted) {
 // ---------------------------------
 // ical formatting:
 // ---------------------------------
-
-// promise an array of cal entries, one per daily.
-// see also: getSummaries()
-function buildEntries(dailies) {
-  // a cache because multiple dailies may have the same event.
-  const events = new Map();
-  // generate the array of promises:
-  return Promise.all( dailies.map((at) => {
-    // make a promise for this event ( if we've never see the event before )
-    if (!events.has(at.id)) {
-      events.set(at.id, CalEvent.getByID(at.id));
-    }
-    // promise the entry after the event is available:
-    return events.get(at.id).then(evt => buildCalEntry(evt, at));
-  }));
-}
 
 /**
  * Turn an EventTime record into a single ical v-event.

@@ -26,30 +26,27 @@
  */
 const config = require("../config");
 const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/calConst");
+const summarize = require("../models/summarize");
 
 // the events endpoint:
 exports.get = function(req, res, next) {
   let id = req.query.id;
   let start = req.query.startdate;
   let end = req.query.enddate;
-  const includeAllEvents = (req.query.all === "true") || (req.query.all === "1");
+  // includeDeleted exposes "soft-deleted" and "deselected" days.
+  const includeDeleted = (req.query.all === "true") || (req.query.all === "1");
   if (id && start && end) {
     res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
   } else if (id) {
     // return the summary of a particular daily event:
-    return CalDaily.getByDailyID(id).then((daily) => {
-      if (!daily) {
-        res.textError("no such time");
+    return summarize.events({dayId: id}).then(events => {
+      if (events.length == 0) {
+        res.textError("no such day");
       } else  {
-        return getSummaries([daily]).then((events) => {
+          // the caller always wants an array; and we have an array.
           res.set(config.api.header, config.api.version);
-          res.json({
-            events
-          });
-        });
+          res.json({events});
       }
     }).catch(next);
   } else {
@@ -67,51 +64,21 @@ exports.get = function(req, res, next) {
       } else if (range > EventsRange.MaxDays) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
       } else {
-        return CalDaily.getRangeVisible(start, end, includeAllEvents).then((dailies) => {
-          return getSummaries(dailies).then((events) => {
+        return summarize.events({
+          firstDay: start, 
+          lastDay: end, 
+          includeDeleted
+        }).then(events => {
             const pagination = getPagination(start, end, events.length);
             res.set(config.api.header, config.api.version);
             res.json({
               events,
               pagination,
-            });
           });
         }).catch(next);
       }
     }
   }
-}
-
-// promise an array containing json-friendly summaries of all the passed CalDaily(s)
-// see also: buildEntries()
-function getSummaries(dailies) {
-  // a cache because multiple dailies may have the same event.
-  const events = new Map();
-  // for all dailies:
-  return Promise.all( dailies.map((at) => {
-    // if this is the first time we've seen the event id:
-    if (!events.has(at.id)) {
-      // go create the event and end time summary pair.
-      events.set(at.id, CalEvent.getByID(at.id).then(specialSummary));
-    }
-    // wait till the event summary is complete then merge it with the daily:
-    return events.get(at.id).then((specialSum) => {
-      const [ evtJson, endTime ] = specialSum;
-      return Object.assign( {}, evtJson, CalDaily.getJSON(at, endTime) );
-    });
-  }));
-}
-exports.getSummaries = getSummaries;
-
-// the php version had each daily query for its event
-// and then tacked the end time to the end of the daily json
-// relying on flourish to ( presumably ) filter out the redundant event queries.
-// this pools the events to avoid multiple queries:
-// so to keep the endtime after each daily, we have to tack it on manually.
-function specialSummary(evt) {
-  // an invalid duration generates a null here; just like the php.
-  const endTime = to24HourString(CalEvent.getEndTime(evt));
-  return [ CalEvent.getJSON(evt), endTime ];
 }
 
 // expects days are dayjs objects

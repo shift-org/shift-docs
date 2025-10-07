@@ -28,7 +28,7 @@ const dayjs = require("dayjs");
 const config = require("../config");
 const { CalDaily } = require("../models/calDaily");
 const { EventSearch } = require("../models/calConst");
-const { getSummaries } = require("./events.js");
+const summarize = require("../models/summarize");
 
 // the search endpoint:
 exports.get = function(req, res, next) {
@@ -39,16 +39,21 @@ exports.get = function(req, res, next) {
 
   if (term) {
     // Search for the given search term, starting from today
-    const startDate = dayjs().startOf('day');
-    return CalDaily.getEventsBySearch(startDate, term, limit, offset, searchOldEvents).then((dailies) => {
-        return getSummaries(dailies).then((events) => {
-          // fullcount appears in every
-          const fullcount = events.length ? events[0].fullcount : 0;
-          const pagination = getPaginationSearch(fullcount, limit, offset);
-          res.json({
-            events,
-            pagination,
-          });
+    const firstDay = dayjs().startOf('day');
+    const options = {
+      // if search old is true, we don't limit the events.
+      firstDay: searchOldEvents ? false : firstDay,
+      limit,
+      options, 
+    };
+    return summarize.search(term, options)
+      .then(events => {
+        // fullcount appears in every search result; its the same in every entry.
+        const fullcount = events.length ? events[0].fullcount : 0;
+        const pagination = getPaginationSearch(fullcount, limit, offset);
+        res.json({
+          events,
+          pagination,
         });
       }).catch(next);
   } else {

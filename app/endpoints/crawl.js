@@ -13,31 +13,34 @@ const config = require("../config");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { to12HourString, from24HourString, friendlyDate } = require("../util/dateTime");
+const summarize = require("../models/summarize");
 
 exports.get = function(req, res, next) {
-  let id = req.query.id;
-  const p = {
+  const id = req.query.id;
+  const page = {
     title: config.crawl.title,
     description : config.crawl.description,
     url : config.site.url(),
+    image: config.crawl.image,
     siteName: config.site.name,
     type: "website",
   };
   if (!id) {
-    res.render('crawl.html', p);
+    res.render('crawl.html', page);
   } else {
-    return CalDaily.getByDailyID(id).then((at) => {
-      if (!at) {
+    return summarize.events({dayId: id}).then(events => {
+      if (!events.length) {
         res.sendStatus(404); // returns not found
       } else {
-        return CalEvent.getByID(at.id).then((evt) => {
-          if (!evt) {
-            res.sendStatus(404); // returns not found
-          } else {
-            res.render('crawl.html',Object.assign(p, {
+        // since we are specifying a specific day, 
+        // we expect at most one event.
+        const evtDay = events[0];
+        const evt = evtDay;
+        const at = evtDay;
+        res.render('crawl.html', Object.assign(page, {
               title: evt.title,
               url: CalDaily.getShareable(at),
-              image: CalEvent.getImageUrl(evt) || config.crawl.image,
+              image: CalEvent.getImageUrl(evt) || page.image,
               type: "article", //FIXME: Does FB support 'event' yet?
               description: evt.descr,
               address: evt.address,
@@ -50,9 +53,7 @@ exports.get = function(req, res, next) {
                 // if the eventtime is invalid, the value here is 'null'
                 time: to12HourString( from24HourString(evt.eventtime) ),
               },
-            }));
-          }
-        });
+        }));
       }
     }).catch(next);
   }
