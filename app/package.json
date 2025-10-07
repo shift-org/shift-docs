@@ -12,7 +12,7 @@
     "lodash": "^4.17.21",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.9.8",
-    "nodemailer": "^6.9.1",
+    "nodemailer": "^7.0.7",
     "nunjucks": "^3.2.3",
     "sqlite3": "^5.1.6",
     "validator": "^13.9.0",
