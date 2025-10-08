@@ -23,6 +23,7 @@
     "test": "mocha --exit"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
     "lorem-ipsum": "^2.0.8",
