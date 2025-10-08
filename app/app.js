@@ -66,8 +66,8 @@ endpoints.forEach((ep) => {
 });
 
 app.use(function(err, req, res, next) {
-  res.sendStatus(500);
   console.error(err.stack);
+  res.sendStatus(500);
 });
 
 const verifyMail = initMail().then(hostName=> {
