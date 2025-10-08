@@ -75,6 +75,11 @@ const knex = {
     return !useSqlite ? date.toDate() : dt.toYMDString(date);
   },
 
+  // sqlite and mysql differ on the keyword.
+  currentDateString() {
+    return !useSqlite ? `CURDATE()` : `DATE()`;
+  },
+
   /**
    * update or insert into the database.
    * @param table string table name.

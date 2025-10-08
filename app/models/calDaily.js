@@ -252,10 +252,11 @@ const CalDaily = {
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   getEventsCount(startDate, endDate) {
+    const currDate = knex.currentDateString()
     return knex.query('caldaily')
         .column(knex.query.raw('COUNT(*) as total'))
-        .column(knex.query.raw('COUNT(CASE WHEN eventdate < CURDATE() THEN 1 END) AS past'))
-        .column(knex.query.raw('COUNT(CASE WHEN eventdate >= CURDATE() THEN 1 END) AS upcoming'))
+        .column(knex.query.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
+        .column(knex.query.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
         .join('calevent', 'caldaily.id', 'calevent.id')
         .whereRaw('not coalesce(hidden, 0)')
         .where(function(q) {
@@ -267,7 +268,7 @@ const CalDaily = {
         .where(function(q) {
           q.where('eventdate', '>=', knex.toDate(startDate))
           q.where('eventdate', '<=', knex.toDate(endDate))
-        });
+        }).first();
   },
 
   /**
