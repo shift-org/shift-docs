@@ -6,7 +6,7 @@ const testdb = require("./testdb");
 chai.use(require('chai-http'));
 const expect = chai.expect;
 
-describe.only("ride count testing", () => {
+describe("searching for events", () => {
   // runs before the first test in this block.
   before(function() {
     return testdb.setupWithFakeData();
