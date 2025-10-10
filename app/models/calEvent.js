@@ -13,11 +13,12 @@ const CalEvent = {
   },
 
   // aka Event::toArray in php
-  getSummary(evt, {includePrivate}= {}) {
+  getSummary(evt, options = {includePrivate: false}) {
     let duration = evt.eventduration;
     if (duration <= 0) {
       duration = null;
     }
+    const { includePrivate } = options;
     return CalEvent.isDeleted(evt) ? {
       id        : evt.id.toString(),
       deleted   : true,

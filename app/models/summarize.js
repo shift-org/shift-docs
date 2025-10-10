@@ -9,7 +9,6 @@ const { CalDaily } = require("./calDaily");
 
 // helper to generate a json summary of a caldaily, calevent joined pair.
 // WARNING: conflicting fields ( like modified ) may not be reliable.
-function defaultSummarize(evtDay) {
   // an invalid duration generates a null endTime; just like the php.
   const endtime = dt.to24HourString(CalEvent.getEndTime(evtDay));
   const evtJson = CalEvent.getSummary(evtDay);
@@ -38,6 +37,7 @@ function getDefaultOptions(overrideOptions) {
 // returns the promise of an array events
 function queryEvents(opt) {
   return knex
+  const q = knex
     .query('caldaily')
     .join('calevent', 'caldaily.id', 'calevent.id')
      // zero when published; null for legacy events.
@@ -67,21 +67,23 @@ function queryEvents(opt) {
       if (opt.excludeCancelled) {
         q.whereNot('eventstatus', EventStatus.Cancelled);
       }
-      if (!opt.unsorted) {
-        q.orderBy('eventdate');
-      }
-      if (opt.limit) {
-        q.limit(opt.limit)
-      }
-      if (opt.offset || opt.offset === 0) {
-        q.offset(opt.offset);
-      }
     })
+    if (opt.limit) {
+      q.limit(opt.limit)
+    }
+    if (opt.offset) {
+      q.offset(opt.offset);
+    }
+    if (!opt.unsorted) {
+      q.orderBy('eventdate');
+    }
+    return q;
 }
 
+// call the summary function specified in options on every returned row
 function handleSummary(q, options) {
   // console.log(q.toSQL().toNative());
-  return q.then(evtDays => evtDays.map(options.customSummary));
+  return q.then(evtDays => evtDays.map(evtDay => options.customSummary(evtDay, options)));
 }
 
 const summarize = {
@@ -98,10 +100,12 @@ const summarize = {
   // any summary function is ignored.
   count(options) {
     const combinedOptions = Object.assign(getDefaultOptions({excludeCancelled: true}), options);
+    const currDate = knex.currentDateString();
     return queryEvents(combinedOptions)
-        .column(knex.query.raw('COUNT(*) as total'))
-        .column(knex.query.raw('COUNT(CASE WHEN eventdate < CURDATE() THEN 1 END) AS past'))
-        .column(knex.query.raw('COUNT(CASE WHEN eventdate >= CURDATE() THEN 1 END) AS upcoming'));
+        .column(knex.query.raw(`COUNT(*) as total`))
+        .column(knex.query.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
+        .column(knex.query.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
+        .first();
   },
 
   // Promises an array of published events which match the search term.

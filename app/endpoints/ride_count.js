@@ -23,6 +23,7 @@
  *  }
  */
 const dayjs = require("dayjs");
+const config = require("../config");
 const summarize = require("../models/summarize");
 
 // the endpoint:

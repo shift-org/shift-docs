@@ -46,7 +46,7 @@ exports.get = function(req, res, next) {
     const startDate = dayjs().startOf('day');
     const options = {
       // when searching all events, don't specify a starting day
-      firstDay: searchOldEvents && startDate,
+      firstDay: !searchOldEvents && startDate,
       limit,
       offset, 
     };
