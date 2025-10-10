@@ -144,18 +144,6 @@ const CalDaily = {
       .where('id', id);
   },
 
-  // promise an array of cal daily statuses
-  // ( similar to the php getEventDateStatuses() )
-  getStatusesByEventId(id) {
-    return CalDaily.getByEventID(id).then((dailies) => {
-      // fix: rather than filtering here, add a filter to getByEventId
-      // trying to keep it somewhat like the php right now.
-      return dailies.
-          filter(at => !CalDaily.isDelisted(at)).
-          map(at => CalDaily.getStatus(at));
-    });
-  },
-  
   /**
    * Add, cancel, and update occurrences of a particular event.
    *
