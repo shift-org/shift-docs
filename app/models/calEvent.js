@@ -153,10 +153,10 @@ const CalEvent = {
 
   // promise a summary of the CalEvent and all its CalDaily(s)
   // in the php version, the statuses are optional; it's cleaner here to require them.
-  getDetails(evt, statuses, {includePrivate} = {}) {
+  getDetails(evt, statuses, options = {includePrivate}) {
     // we either have actual times or promises of them:
     return Promise.resolve(statuses).then((statuses) => {
-      const details = CalEvent.getSummary(evt, {includePrivate});
+      const details = CalEvent.getSummary(evt, options);
       details['datestatuses']= statuses;
       return details;
     });

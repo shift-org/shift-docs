@@ -9,9 +9,10 @@ const { CalDaily } = require("./calDaily");
 
 // helper to generate a json summary of a caldaily, calevent joined pair.
 // WARNING: conflicting fields ( like modified ) may not be reliable.
+function defaultSummarize(evtDay, options) {
   // an invalid duration generates a null endTime; just like the php.
   const endtime = dt.to24HourString(CalEvent.getEndTime(evtDay));
-  const evtJson = CalEvent.getSummary(evtDay);
+  const evtJson = CalEvent.getSummary(evtDay, options);
   const dailyJson = CalDaily.getSummary(evtDay);
   // the php tacks the endtime to the ... end. so do we.
   return Object.assign( evtJson, dailyJson, {endtime} );
@@ -36,7 +37,6 @@ function getDefaultOptions(overrideOptions) {
 // shared query which uses the options defined by getDefaultOptions() to join events and days together.
 // returns the promise of an array events
 function queryEvents(opt) {
-  return knex
   const q = knex
     .query('caldaily')
     .join('calevent', 'caldaily.id', 'calevent.id')
