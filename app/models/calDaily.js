@@ -253,7 +253,7 @@ const CalDaily = {
   // Days are datejs objects.
   getEventsCount(startDate, endDate) {
     const currDate = knex.currentDateString()
-    return knex.query('caldaily')
+    const query = knex.query('caldaily')
         .column(knex.query.raw('COUNT(*) as total'))
         .column(knex.query.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
         .column(knex.query.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
@@ -269,6 +269,8 @@ const CalDaily = {
           q.where('eventdate', '>=', knex.toDate(startDate))
           q.where('eventdate', '<=', knex.toDate(endDate))
         }).first();
+    // console.log(query.toSQL().toNative());
+    return query;
   },
 
   /**
