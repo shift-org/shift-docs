@@ -2,6 +2,7 @@ const chai = require('chai');
 const sinon = require('sinon');
 const app = require("../app");
 const testdb = require("./testdb");
+const { EventSearch } = require("../models/calConst");
 
 chai.use(require('chai-http'));
 const expect = chai.expect;
@@ -37,6 +38,26 @@ describe("searching for events", () => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res.body).to.have.nested.property('pagination.fullcount', 8);
+        expect(res.body).property('events').lengthOf(8);
+        done();
+      });
+  });
+  it("caps large limits", function(done) {
+    chai.request( app )
+      .get('/api/search.php')
+      .query({
+          q: "go", 
+          l: 1000000,
+          all: true
+        })
+      .end(function (err, res) {
+        expect(err).to.be.null;
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        // we've been capped to the internal limits
+        expect(res.body).to.have.nested.property('pagination.limit', EventSearch.Limit);
+        expect(res.body).to.have.nested.property('pagination.fullcount', 8);
+        expect(res.body).to.have.nested.property('pagination.offset', 0);
         expect(res.body).property('events').lengthOf(8);
         done();
       });
