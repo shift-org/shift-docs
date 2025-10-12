@@ -158,6 +158,12 @@
   to = "/pages/meeting-notes"
   status = 301
 
+## sample redirect for a campaign (e.g. QR code or other link you want to track specific usage of)
+[[redirects]]
+  from = "/campaign1"
+  to = "/"
+  status = 301
+
 #------------------------------------------------------------------------------------
 # handlers for the various "single page applications".
 #
