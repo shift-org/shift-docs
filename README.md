@@ -120,7 +120,7 @@ If you are writing javascript code in the node backend, you can test everything 
 
 ### Local previews using production data
 
-As an alternative to `npm run dev`, you can preview a local frontend with the actual production backend by using: `npm run -w tools preview`.  
+As an alternative to `npm run dev`, you can preview a local frontend with the actual production backend by using: `npm run preview`.  
 
 **NOTE:** any events you create while previewing this way *will* be seen by the world!
 
