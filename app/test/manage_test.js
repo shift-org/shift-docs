@@ -29,10 +29,10 @@ const expect = chai.expect;
 const manage_api = '/api/manage_event.php';
 
 describe("managing events", () => {
-  let data;
+  let spy;
   // reset after each one.
   beforeEach(function() {
-    data = testData.stubData(sinon);
+    spy = testData.stubData(sinon);
     return testdb.setup();
   });
   afterEach(function () {
@@ -58,10 +58,11 @@ describe("managing events", () => {
       .send(eventData)
       .then(async function (res) {
         expect(res).to.have.status(200);
-        expect(data.eventStore.callCount, "event stores")
+        expect(spy.eventStore.callCount, "event stores")
           .to.equal(1);
-        expect(data.dailyStore.callCount, "daily store")
+        expect(spy.dailyStore.callCount, "daily store")
           .to.equal(2);
+        spy.resetHistory();
 
         const id = res.body.id;
         const evt = await CalEvent.getByID(id);
@@ -150,8 +151,9 @@ describe("managing events", () => {
         }, eventData))
         .then(async function (res) {
           expect(res).to.have.status(200);
-          expect(data.eventStore.callCount, "event stores")
+          expect(spy.eventStore.callCount, "event stores")
             .to.equal(1);
+          spy.resetHistory();
           const evt = await CalEvent.getByID(3);
           expect(evt.isPublished()).to.be.true;
         });
@@ -201,10 +203,11 @@ describe("managing events", () => {
         })
         .then(async function (res) {
           expect(res).to.have.status(200);
-          expect(data.eventStore.callCount, "event stores")
+          expect(spy.eventStore.callCount, "event stores")
             .to.equal(1);
-          expect(data.dailyStore.callCount, "daily store")
+          expect(spy.dailyStore.callCount, "daily store")
             .to.equal(3);
+          spy.resetHistory();
           // three dailies for our event are in the db:
           const dailies = await CalDaily.getByEventID(2);
           expect(dailies).to.have.lengthOf(3);
