@@ -49,16 +49,15 @@ exports.get = function(req, res, next) {
       limit,
       offset, 
     };
-    return summarize.search(term, options)
-      .then(events => {
-        // fullcount appears in every search result; its the same in every entry.
-        const fullcount = events.length ? events[0].fullcount : 0;
-        res.set(config.api.header, config.api.version);
-        res.json({
-          events,
-          pagination: { 
-              offset, limit, fullcount 
-          }
+    return summarize.search(term, options).then(events => {
+          // fullcount appears in every returned row; the same in every row.
+          const fullcount = events.length ? events[0].fullcount : 0;
+          res.set(config.api.header, config.api.version);
+          res.json({
+            events,
+            pagination: { 
+                offset, limit, fullcount 
+            }
         });
       }).catch(next);
   }

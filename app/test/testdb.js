@@ -34,13 +34,13 @@ module.exports = {
 }
 
 async function createData(q) {
-  await q.table('calevent').insert(fakeCalEvent(1));
-  await q.table('calevent').insert(fakeCalEvent(2));
-  await q.table('calevent').insert(fakeCalEvent(3));
+  await q('calevent').insert(fakeCalEvent(1));
+  await q('calevent').insert(fakeCalEvent(2));
+  await q('calevent').insert(fakeCalEvent(3));
   //
-  await q.table('caldaily').insert(fakeCalDaily(1, 2));
-  await q.table('caldaily').insert(fakeCalDaily(2, 2));
-}
+  await q('caldaily').insert(fakeCalDaily(1, 2));
+  await q('caldaily').insert(fakeCalDaily(2, 2));
+};
 
 // arbitrary created and modified times.
 const created = new Date(1993, 6, 28, 14, 39);

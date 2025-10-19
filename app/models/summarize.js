@@ -9,7 +9,7 @@ const CalDaily = require("./calDaily");
 
 // helper to generate a json summary of a caldaily, calevent joined pair.
 function fullSummary(row, options, index) {
-  const overview = CalEvent.getOverview(row, options);
+  const overview = CalEvent.getSummary(row, options);
   const summary = CalDaily.getSummary(row);
   const endtime = dt.to24HourString(CalEvent.getEndTime(row));
   // the php tacks the endtime to the ... end. so do we.

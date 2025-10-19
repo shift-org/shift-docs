@@ -1,7 +1,5 @@
 const chai = require('chai');
-const sinon = require('sinon');
 const app = require("../app");
-const db = require("../knex");
 const testdb = require("./testdb");
 const testData = require("./testData");
 
@@ -11,15 +9,15 @@ const delete_api = '/api/delete_event.php';
 
 describe("deleting using a form", () => {
   // runs before the first test in this block.
-  before(function() {
+  before(() => {
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     return testdb.destroy();
   });
   // test:
-  it("fails on an invalid id", function() {
+  it("fails on an invalid id", () => {
     return chai.request( app )
       .post(delete_api)
       .type('form')
@@ -32,7 +30,7 @@ describe("deleting using a form", () => {
         testData.expectError(expect, res);
       });
   });
-  it("fails on an incorrect password", function() {
+  it("fails on an incorrect password", () => {
     return chai.request( app )
       .post(delete_api)
       .type('form')
@@ -53,11 +51,12 @@ describe("deleting using a form", () => {
         expect(d2.eventstatus).to.equal('A');
       });
   });
-  it("delists a published event", async () => {
+  it("deletes with a valid id and secret", async () => {
     // verify the original data in the db
     const events = await testdb.findSeries(2);
     expect(events).to.have.lengthOf(2);
     const [d1, d2] = events;
+    expect(d1.password).not.to.be.empty;
     expect(d1.hidden).to.equal(0);
     expect(d1.eventstatus).to.equal('A');
     expect(d2.eventstatus).to.equal('A');
@@ -81,6 +80,7 @@ describe("deleting using a form", () => {
         const events = await testdb.findSeries(2);
         expect(events).to.have.lengthOf(2);
         const [ d1, d2 ] = events;
+        expect(d1.password).to.be.empty;
         expect(d1.eventdate).to.equal("2002-08-01");
         expect(d1.eventstatus).to.equal('D');
         expect(d2.eventdate).to.equal("2002-08-02");
@@ -91,11 +91,10 @@ describe("deleting using a form", () => {
 
 // do the same things again,but post json ( ala curl )
 describe("deleting using json", () => {
-  before(function() {
+  before(() => {
     return testdb.setup();
   });
-  after(function () {
-    sinon.restore();
+  after(() => {
     return testdb.destroy();
   });
   it("delists a published event", async () => {
@@ -103,6 +102,8 @@ describe("deleting using json", () => {
     expect(events).to.have.lengthOf(2);
     const [ d1, d2 ] = events;
     expect(d1.hidden).to.equal(0);
+
+    expect(d1.password).to.not.be.empty;
     expect(d1.eventstatus).to.equal('A');
     expect(d2.eventstatus).to.equal('A');
 
@@ -117,12 +118,13 @@ describe("deleting using json", () => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res).to.have.header('Api-Version');
-        
+
         // the days of deleted events are marked with D
         // to distinguish them from individually canceled events.
         const events = await testdb.findSeries(2);
         expect(events).to.have.lengthOf(2);
         const [d1, d2] = events;
+        expect(d1.password).to.be.empty;
         expect(d1.eventstatus).to.equal('D');
         expect(d2.eventstatus).to.equal('D');
       });

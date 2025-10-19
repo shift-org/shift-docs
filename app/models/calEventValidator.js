@@ -14,7 +14,6 @@ class ErrorCollector {
   getErrors() {
     return this.errors;
   }
-
 }
 
 // a single valid character.

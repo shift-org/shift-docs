@@ -6,7 +6,7 @@ const CalEvent = {
 
   // aka Event::toArray in php
   // WARNING: if includePrivate is valid, assumes the secret is valid
-  getOverview(evt, options = {includePrivate: false}) {
+  getSummary(evt, options = {includePrivate: false}) {
     let duration = evt.eventduration;
     if (duration <= 0) {
       duration = null;

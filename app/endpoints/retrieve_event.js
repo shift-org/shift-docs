@@ -35,7 +35,7 @@ exports.get = function get(req, res, next) {
       if (!rows.length) {
         res.textError("Event not found");
       } else {
-        const out = CalEvent.getOverview(rows[0], {
+        const out = CalEvent.getSummary(rows[0], {
           includePrivate: !!secret
         });
         // when left-joining; the status info can be missing

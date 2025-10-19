@@ -1,5 +1,4 @@
 const chai = require('chai');
-const sinon = require('sinon');
 const app = require("../app");
 const testData = require("./testData");
 const testdb = require("./testdb");

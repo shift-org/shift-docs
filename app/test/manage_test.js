@@ -17,29 +17,23 @@ const path = require('node:path');
 //
 const app = require("../app");
 const config = require("../config");
-const db = require("../knex");
 const testdb = require("./testdb");
 const testData = require("./testData");
 //
 const CalEvent = require("../models/calEvent");
 const { EventStatus } = require("../models/calConst");
-
+//
 const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 const manage_api = '/api/manage_event.php';
-
-// used for getting private data from the db
-const privateOptions = {
-  includePrivate: testData.secret,
-};
 
 describe("managing events", () => {
   // reset after each one.
   beforeEach(() => {
     return testdb.setup();
   });
-  afterEach(function () {
+  afterEach(() => {
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {
@@ -51,7 +45,7 @@ describe("managing events", () => {
           id: 999,
         })
       })
-      .then(function(res) {
+      .then(res => {
         testData.expectError(expect, res);
       });
   });
@@ -70,7 +64,8 @@ describe("managing events", () => {
         expect(evt.hidden).to.equal(1, "should be hidden by default");
       });
   });
-  it("fail creation when missing required fields", function(){
+
+  it("fail creation when missing required fields", () => {
     // each time substitute a field value that should fail
     const pairs = [
       "title", "",
@@ -91,11 +86,11 @@ describe("managing events", () => {
       const value = pairs[i+1];
       const post = Object.assign({}, eventData);
       post[key] = value;
-      seq = seq.then(_ => {
+      seq = seq.then(() => {
         return chai.request( app )
         .post(manage_api)
         .send(post)
-        .then(function (res) {
+        .then(res => {
           expect(res, `expected failure for '${key}'`).to.have.status(400);
           expect(res.body.error.fields).to.have.key(key);
         });
@@ -104,7 +99,7 @@ describe("managing events", () => {
     return seq;
   });
 
-  it("fails creation when fields have invalid values", function(){
+  it("fails creation when fields have invalid values", () => {
     const pairs = [
       "eventduration", "i am not a number, i am a man!",
       // converting directly toInt will ignore trailing text
@@ -124,11 +119,11 @@ describe("managing events", () => {
       const value = pairs[i+1];
       const post = Object.assign({}, eventData);
       post[key] = value;
-      seq = seq.then(_ => {
+      seq = seq.then(() => {
         return chai.request( app )
         .post(manage_api)
         .send(post)
-        .then(function (res) {
+        .then(res => {
           expect(res, `expected failure for '${key}'`).to.have.status(400);
           expect(res.body.error.fields).to.have.key(key);
         });
@@ -141,8 +136,8 @@ describe("managing events", () => {
       const evt = events[0];
       // id 3 starts unpublished
       expect(evt.hidden, 1);
-       // by posting some valid event data
-      // we should be able to publich it
+      // by posting some valid event data
+      // we should be able to publish it
       return chai.request( app )
         .post(manage_api)
         .send(Object.assign({
@@ -151,9 +146,11 @@ describe("managing events", () => {
         }, eventData))
         .then(async (res) => {
           expect(res).to.have.status(200);
+          // first, validate the response
           // because the client sends it, it shouldn't need this id back
           // but... currently... the client does require it.
-          expect(res.body).property('id', 3);
+          // note: the ids are sent back as strings!?
+          expect(res.body).property('id', '3');
           // we also don't really have to send this
           // a simple http 200 would be enough. future work maybe.
           expect(res.body).property('published', true);
@@ -175,33 +172,33 @@ describe("managing events", () => {
         });
     });
   });
-  it("fails to use an empty secret", function(){
+  it("fails to use an empty secret", () => {
     return chai.request( app )
       .post(manage_api)
       .send(Object.assign({
         id: 3,
         // not sending any secret
       }, eventData))
-      .then(function(res) {
+      .then(res => {
         testData.expectError(expect, res);
       });
   });
-  it("fails to use an invalid secret", function(){
+  it("fails to use an invalid secret", () => {
     return chai.request( app )
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
         secret: testData.secret.split("").reverse().join(""),
       }, eventData))
-      .then(function(res) {
+      .then(res => {
         testData.expectError(expect, res);
       });
   });
-  it("adds one date and removes another", function(){
+  it("adds one date and removes another", ()=> {
     return testdb.findSeries(2).then(events => {
       expect(events).to.have.lengthOf(2);
       const evt = events[0];
-      const post = Object.assign( {
+      const post = Object.assign({
         secret: testData.secret,
         code_of_conduct: "1",
         read_comic: "1",
@@ -211,7 +208,7 @@ describe("managing events", () => {
         // implicitly cancel the second;
         // add a third.
         { "date": "2002-08-03", status: 'A' }
-      ]}, CalEvent.getOverview(evt, privateOptions));
+      ]}, CalEvent.getSummary(evt, {includePrivate: true}));
 
       return chai.request( app )
         .post(manage_api)
@@ -225,14 +222,16 @@ describe("managing events", () => {
           const events = await testdb.findSeries(2);
           expect(events).to.have.lengthOf(3);
           const [ d0, d1, d2 ] = events;
+
           expect(d0.eventdate).to.equal("2002-08-01");
           expect(d0.eventstatus).to.equal(EventStatus.Active);
-          
+
           expect(d1.eventdate).to.equal("2002-08-02");
           expect(d1.eventstatus).to.equal(EventStatus.Delisted);
 
           expect(d2.eventdate).to.equal("2002-08-03");
           expect(d2.eventstatus).to.equal(EventStatus.Active);
+          // fix: should add a test for an explicitly canceled day.
         });
     });
   });
@@ -241,7 +240,7 @@ describe("managing events", () => {
   };
   function postImage(id, imageSource, imageTarget) {
     // remove any image from earlier tests:
-    return fsp.rm(imageTarget, {force:true}).then(_ => {
+    return fsp.rm(imageTarget, {force:true}).then(() => {
       // act as if we are a client who just created an event
       // and is posting it back up again, along with the new image.
       return testdb.findSeries(3).then(events => {
@@ -250,7 +249,7 @@ describe("managing events", () => {
           secret: testData.secret,
           code_of_conduct: "1",
           read_comic: "1",
-        }, CalEvent.getOverview(evt, {includePrivate: true}));
+        }, CalEvent.getSummary(evt, {includePrivate: true}));
         return chai.request( app )
           .post(manage_api)
           .type('form')
@@ -263,10 +262,10 @@ describe("managing events", () => {
       });
     });
   }
-  it("attaches an image", function(){
+  it("attaches an image", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(function (res) {
+    return postImage(3, imageSource, imageTarget).then(res => {
       expect(res).to.have.status(200);
       //
       testdb.findSeries(3).then(events => {
@@ -282,13 +281,13 @@ describe("managing events", () => {
       });
     });
   });
-  it("fails too large", function(){
+  it("fails too large", () => {
     const imageSource = path.join( config.image.dir, "bike-big.png" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(function (res) {
+    return postImage(3, imageSource, imageTarget).then(res => {
       testData.expectError(expect, res, 'image');
       return fsp.stat(imageTarget)
-        .then(_ => {
+        .then(() => {
           chai.assert(false, `didn't expect ${imageTarget} to exists`);
         })
         .catch(_ => {
@@ -296,13 +295,13 @@ describe("managing events", () => {
         });
     });
   });
-  it("fails bad format", function(){
+  it("fails bad format", () => {
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(function (res) {
+    return postImage(3, imageSource, imageTarget).then(res => {
       testData.expectError(expect, res, 'image');
       return fsp.stat(imageTarget)
-        .then(_ => {
+        .then(() => {
           chai.assert(false, `didn't expect ${imageTarget} to exists`);
         })
         .catch(_ => {
@@ -310,7 +309,7 @@ describe("managing events", () => {
         });
     });
   });
-  it("prevents image upload on new events", function(){
+  it("prevents image upload on new events", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
@@ -321,7 +320,7 @@ describe("managing events", () => {
         json: JSON.stringify(eventData)
       })
       .attach('file', fs.readFileSync(imageSource), path.basename(imageSource))
-      .then(async function (res) {
+      .then(async (res) => {
         expect(res).to.have.status(400);
         expect(res.body.error.fields).to.have.key('image');
       });

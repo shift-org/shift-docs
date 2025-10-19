@@ -4,7 +4,7 @@ const app = require("../app");
 const db = require("../knex");
 const testData = require("./testData");
 const testdb = require("./testdb");
-
+//
 const { EventStatus } = require("../models/calConst");
 
 chai.use(require('chai-http'));
@@ -17,12 +17,12 @@ describe("ical feed", () => {
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     sinon.restore();
     return testdb.destroy();
   });
   const expectsServerError = function(q) {
-    return function(done) {
+    return (done) => {
       chai.request( app )
         .get('/api/ical.php')
         .query(q)
@@ -57,7 +57,7 @@ describe("ical feed", () => {
       startdate: "2002-08-01",
       enddate  : "2002-08-02",
     }));
-  it("supports an 'all events' feed", function(done) {
+  it("supports an 'all events' feed", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .end(function (err, res) {
@@ -73,7 +73,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("provides the days of a single event", function(done) {
+  it("provides the days of a single event", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -87,7 +87,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("provides a range of days", function(done) {
+  it("provides a range of days", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -101,7 +101,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("can return an empty range", function(done) {
+  it("can return an empty range", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -116,7 +116,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("has a special pedalpalooza feed", function(done) {
+  it("has a special pedalpalooza feed", (done) => {
      chai.request( app )
       .get('/api/ical.php')
       .query({

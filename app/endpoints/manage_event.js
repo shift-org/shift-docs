@@ -9,7 +9,7 @@
  *
  *  On failure, it returns a set of 'fieldErrors' ( see errors.js )
  *  On success, it returns: { 
- *     id: seriesId 
+ *     id: seriesId ( as a string! )
  *     published: if the event is visible this is true, otherwise omitted.
  *     image: if the image changed this is the full url, otherwise omitted.
  *  }
@@ -94,7 +94,7 @@ async function handleCreate(vals) {
   });
   await sendConfirmationEmail(tgt.id, tgt.password, vals.event);
   // don't return secret; that should only go through the email.
-  return { id: tgt.seriesId };
+  return { id: tgt.seriesId.toString() };
 }
 
 // promises an object with { id, published: true, image }
@@ -115,7 +115,7 @@ async function handleUpdate(tgt, req, vals) {
     await Reconcile.updateDays(tx, tgt.seriesId, vals.status, removeDays);
     //
     const out = {
-      id: tgt.seriesId,
+      id: tgt.seriesId.toString(),
       published: true,
     };
     if (newImage) {
