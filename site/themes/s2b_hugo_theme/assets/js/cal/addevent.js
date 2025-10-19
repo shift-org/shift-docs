@@ -201,6 +201,8 @@
                 cache: false,
                 data: data,
                 success: function(returnVal) {
+                    // NOTE: if the event already existed, published is true.
+                    // it's only false the first time.
                     if (returnVal.published) {
                         $('.unpublished-event').remove();
                         $('.published-save-button').show();
@@ -211,9 +213,11 @@
                       $('#success-message').text('Your event has been updated!');
                       $('#success-modal').modal('show');
                       // update the image in case it was changed.
-                      let imgDisplay = $('div.image-display').find('a');
-                      imgDisplay.attr("href", returnVal.image);
-                      imgDisplay.find("img").attr("src", returnVal.image);
+                      if (returnVal.image) {
+                        let imgDisplay = $('div.image-display').find('a');
+                        imgDisplay.attr("href", returnVal.image);
+                        imgDisplay.find("img").attr("src", returnVal.image);
+                      }
                     } else {
                         let newUrl = 'event-submitted';
                         history.pushState({}, newUrl, newUrl);
