@@ -15,36 +15,41 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
  */
 const config = require("../config");
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
+const dt = require("../util/dateTime");
+const CalEvent = require("../models/calEvent");
+const CalDaily = require("../models/calDaily");
+const { summarize } = require("../models/summarize");
 
 exports.get = function get(req, res, next) {
-  const id = req.query.id;
-  const secret = req.query.secret;
-
+  const { id, secret } = req.query;
   if (!id) {
     res.textError("Request incomplete, please pass an id in the url");
   } else {
-    return CalEvent.getByID(id).then((evt) => {
-      if (!evt) {
+    return summarize.events({
+      seriesId: id,
+      // pass the secret if given:
+      includePrivate: secret,
+      // request the raw row data:
+      summary: false,
+    }).then(rows => {
+      if (!rows.length) {
         res.textError("Event not found");
-      } else if (CalEvent.isDeleted(evt)) {
-        res.textError("Event was deleted");
       } else {
-        // the php version didnt error on invalid secret;
-        // so this doesnt either ( private data is only returned with a valid secret )
-        const includePrivate = CalEvent.isSecretValid(evt, secret);
-        if (!CalEvent.isPublished(evt) && !includePrivate) {
-          // act exactly as if unpublished events don't exist
-          // ( unless you know the secret )
-          res.textError("Event not found");
-        } else {
-          const statuses = CalDaily.getStatusesByEventId(evt.id);
-          return CalEvent.getDetails(evt, statuses, {includePrivate}).then(details => {
-            res.set(config.api.header, config.api.version);
-            res.json(details);
-          });
+        const out = CalEvent.getOverview(rows[0], {
+          includePrivate: !!secret
+        });
+        // when left-joining; the status info can be missing
+        // if there were no days added.
+        if (rows[0].pkid !== null) { 
+          out.datestatuses = rows.map(row => ({
+            id: row.pkid.toString(),
+            date: dt.toYMDString(row.eventdate),
+            status: row.eventstatus,
+            newsflash: CalDaily.getSafeNews(row),
+          }));
         }
+        res.set(config.api.header, config.api.version);
+        res.json(out);
       }
     }).catch(next);
   }

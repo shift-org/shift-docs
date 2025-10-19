@@ -24,7 +24,7 @@
  */
 const dayjs = require("dayjs");
 const config = require("../config");
-const summarize = require("../models/summarize");
+const { summarize } = require("../models/summarize");
 
 // the endpoint:
 exports.get = function(req, res, next) {

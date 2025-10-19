@@ -18,9 +18,9 @@
 const dayjs = require ('dayjs');
 const wordwrap = require('wordwrapjs');
 const nunjucks = require("../nunjucks");
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
-const summarize = require("../models/summarize");
+const CalEvent = require("../models/calEvent");
+const CalDaily = require("../models/calDaily");
+const { summarize } = require("../models/summarize");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
@@ -118,7 +118,7 @@ function getEventData(cal, id, start, end, includeDeleted) {
     filename = cal.filename + cal.ext;
     buildEvents = buildCurrent(includeDeleted);
   }
-  return buildEvents.then(events => { return {filename, events} });
+  return buildEvents.then(events => ({filename, events}));
 }
 
 /**
@@ -159,7 +159,7 @@ function fromJoinedData(evtDay) {
 function buildOne(id) {
   return summarize.events({
       seriesId: id, 
-      customSummary: fromJoinedData
+      summary: fromJoinedData
   }).then(events => {
         return (events && events.length) ?
           events: Promise.reject("no such events");
@@ -175,7 +175,7 @@ function buildCurrent(includeDeleted) {
     firstDay,
     lastDay,
     includeDeleted, 
-    customSummary: fromJoinedData,
+    summary: fromJoinedData,
   });
 }
 
@@ -194,7 +194,7 @@ function buildRange(start, end, includeDeleted) {
       firstDay: start,
       lastDay: end, 
       includeDeleted, 
-      customSummary: fromJoinedData,
+      summary: fromJoinedData,
     });
   }
 }

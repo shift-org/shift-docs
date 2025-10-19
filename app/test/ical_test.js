@@ -1,11 +1,10 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const app = require("../app");
+const db = require("../knex");
 const testData = require("./testData");
 const testdb = require("./testdb");
 
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
 const { EventStatus } = require("../models/calConst");
 
 chai.use(require('chai-http'));
@@ -14,7 +13,7 @@ const expect = chai.expect;
 describe("ical feed", () => {
   // runs before the evt test in this block.
   before(function() {
-    testData.stubData(sinon);
+    testData.fakeNow(sinon);
     return testdb.setup();
   });
   // runs once after the last test in this block
@@ -133,31 +132,25 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("can handle a canceled event", function(done) {
-    CalEvent.getByID(2).then(evt => {
-      // todo: create a separate test where these values are nil and zero.
-      // that had caused a bad feed at one point; its fixed but still good to test.
-      // evt.eventtime = null;
-      // evt.eventduration = 0;
-      CalEvent._store(evt).then(_ => {
-        CalDaily.getForTesting(201).then(d => {
-          d.eventstatus = EventStatus.Cancelled;
-          CalDaily._store(d).then(_ => {
-            chai.request( app )
-              .get('/api/ical.php')
-              .query({
-                 id: 2, // an event id
-               })
-              .end(function (err, res) {
-                expect(err).to.be.null;
-                expect(res).to.have.status(200);
-                expect(res.text).to.equal(cancelledDay);
-                done();
-              });
-          });
-        });
+  it("can handle a canceled event", async () => {
+    const seriesId = 2;
+    const dayToCancel = '2002-08-01';
+    await db.query.table('caldaily')
+      .update('eventstatus', EventStatus.Cancelled)
+      .where('eventdate', dayToCancel);
+    // todo: create a separate test where these values are nil and zero.
+    // that had caused a bad feed at one point; it's fixed but still good to test.
+    // evt.eventtime = null;
+    // evt.eventduration = 0;  
+    return chai.request( app )
+      .get('/api/ical.php')
+      .query({
+         id: seriesId,
+       })
+      .then(res => {
+        expect(res).to.have.status(200);
+        expect(res.text).to.equal(cancelledDay);
       });
-    });
   });
 });
 

@@ -14,32 +14,35 @@
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('node:path');
-const sinon = require('sinon');
+//
 const app = require("../app");
 const config = require("../config");
+const db = require("../knex");
 const testdb = require("./testdb");
 const testData = require("./testData");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
+//
+const CalEvent = require("../models/calEvent");
+const { EventStatus } = require("../models/calConst");
 
 const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
 const manage_api = '/api/manage_event.php';
 
+// used for getting private data from the db
+const privateOptions = {
+  includePrivate: testData.secret,
+};
+
 describe("managing events", () => {
-  let data;
   // reset after each one.
-  beforeEach(function() {
-    data = testData.stubData(sinon);
+  beforeEach(() => {
     return testdb.setup();
   });
   afterEach(function () {
-    sinon.restore();
     return testdb.destroy();
   });
-  it("errors on an invalid id", function() {
+  it("errors on an invalid id", () => {
     return chai.request( app )
       .post(manage_api)
       .type('form')
@@ -52,25 +55,21 @@ describe("managing events", () => {
         testData.expectError(expect, res);
       });
   });
-  it("creates a new event, using raw json", function(){
+  it("creates a new event, using raw json", () => {
     return chai.request( app )
       .post(manage_api)
       .send(eventData)
-      .then(async function (res) {
+      .then(async (res) => {
         expect(res).to.have.status(200);
-        expect(data.eventStore.callCount, "event stores")
-          .to.equal(1);
-        expect(data.dailyStore.callCount, "daily store")
-          .to.equal(2);
-
+        //
         const id = res.body.id;
-        const evt = await CalEvent.getByID(id);
-        expect(evt.hidden, "the initial event should be hidden by default")
-          .to.equal(1);
-        // console.log(res.body);
+        const events = await testdb.findSeries(id);
+        // there are 2 days in the posted data
+        expect(events).to.have.lengthOf(2);
+        const [ evt ] = events;
+        expect(evt.hidden).to.equal(1, "should be hidden by default");
       });
   });
-
   it("fail creation when missing required fields", function(){
     // each time substitute a field value that should fail
     const pairs = [
@@ -137,23 +136,42 @@ describe("managing events", () => {
     }
     return seq;
   });
-  it("publishes an event", function() {
-    // id three is unpublished
-    return CalEvent.getByID(3).then(evt => {
-      expect(CalEvent.isPublished(evt)).to.be.false;
+  it("publishes an event", () => {
+    return testdb.findSeries(3).then(events => {
+      const evt = events[0];
+      // id 3 starts unpublished
+      expect(evt.hidden, 1);
+       // by posting some valid event data
+      // we should be able to publich it
       return chai.request( app )
         .post(manage_api)
-        // by adding the id and posting to it, we should be able to publish it.
         .send(Object.assign({
           id: 3,
           secret: testData.secret,
         }, eventData))
-        .then(async function (res) {
+        .then(async (res) => {
           expect(res).to.have.status(200);
-          expect(data.eventStore.callCount, "event stores")
-            .to.equal(1);
-          const evt = await CalEvent.getByID(3);
-          expect(CalEvent.isPublished(evt)).to.be.true;
+          // because the client sends it, it shouldn't need this id back
+          // but... currently... the client does require it.
+          expect(res.body).property('id', 3);
+          // we also don't really have to send this
+          // a simple http 200 would be enough. future work maybe.
+          expect(res.body).property('published', true);
+          // 
+          const events = await testdb.findSeries(3);
+          const evt = events[0];
+          expect(evt.hidden).to.equal(0, "the event should be published");
+          expect(events.length).to.equal(2, "should have published two days");
+          // look over the days we requested
+          // to validate what wound up in the db.
+          statusData.forEach((requested, i) => {
+            const evt = events[i]; // raw db data
+            // one of our requested newsflashes is missing;
+            // that should result in a null database value.
+            expect(evt.newsflash).to.equal(requested.newsflash || null, `news mismatch ${i}`);
+            expect(evt.eventdate).to.equal(requested.date, `date mismatch ${i}`);
+            expect(evt.eventstatus).to.equal(requested.status, `status mismatch ${i}`);
+          });
         });
     });
   });
@@ -180,7 +198,9 @@ describe("managing events", () => {
       });
   });
   it("adds one date and removes another", function(){
-    return CalEvent.getByID(2).then(evt => {
+    return testdb.findSeries(2).then(events => {
+      expect(events).to.have.lengthOf(2);
+      const evt = events[0];
       const post = Object.assign( {
         secret: testData.secret,
         code_of_conduct: "1",
@@ -191,7 +211,7 @@ describe("managing events", () => {
         // implicitly cancel the second;
         // add a third.
         { "date": "2002-08-03", status: 'A' }
-      ]}, CalEvent.getSummary(evt, {includePrivate:true}));
+      ]}, CalEvent.getOverview(evt, privateOptions));
 
       return chai.request( app )
         .post(manage_api)
@@ -199,33 +219,20 @@ describe("managing events", () => {
         .send({
           json: JSON.stringify(post)
         })
-        .then(async function (res) {
+        .then(async (res) => {
           expect(res).to.have.status(200);
-          expect(data.eventStore.callCount, "event stores")
-            .to.equal(1);
-          expect(data.dailyStore.callCount, "daily store")
-            .to.equal(3);
           // three dailies for our event are in the db:
-          const dailies = await CalDaily.getByEventID(2);
-          expect(dailies).to.have.lengthOf(3);
-          expect(CalDaily.isUnscheduled(dailies[0])).to.be.false;
-          expect(CalDaily.isUnscheduled(dailies[1])).to.be.true;
-          expect(CalDaily.isUnscheduled(dailies[2])).to.be.false;
-          // only two should be in the returned data
-          // ( the second one is delisted; filtered by reconcile )
-          // fix: should add a test for an explicitly canceled day.
-          expect(res.body.datestatuses).to.deep.equal([{
-              "id": "201",
-              "date": "2002-08-01",
-              "status": "A",
-              "newsflash": null,
-            }, {
-              "id": "203", // the new id is one after the last one
-              "date": "2002-08-03",
-              "status": "A",
-              "newsflash": null,
-            }
-          ]);
+          const events = await testdb.findSeries(2);
+          expect(events).to.have.lengthOf(3);
+          const [ d0, d1, d2 ] = events;
+          expect(d0.eventdate).to.equal("2002-08-01");
+          expect(d0.eventstatus).to.equal(EventStatus.Active);
+          
+          expect(d1.eventdate).to.equal("2002-08-02");
+          expect(d1.eventstatus).to.equal(EventStatus.Delisted);
+
+          expect(d2.eventdate).to.equal("2002-08-03");
+          expect(d2.eventstatus).to.equal(EventStatus.Active);
         });
     });
   });
@@ -237,24 +244,22 @@ describe("managing events", () => {
     return fsp.rm(imageTarget, {force:true}).then(_ => {
       // act as if we are a client who just created an event
       // and is posting it back up again, along with the new image.
-      return CalEvent.getByID(3).then(evt => {
-        const statuses = CalDaily.getStatusesByEventId(evt.id);
-        return CalEvent.getDetails(evt, statuses, {includePrivate:true}).then(eventData => {
-          const post = Object.assign( {
-            secret: testData.secret,
-            code_of_conduct: "1",
-            read_comic: "1",
-            }, eventData);
-          return chai.request( app )
-            .post(manage_api)
-            .type('form')
-            .field({
-              json: JSON.stringify(post)
-            })
-            // the tests originally based a filepath here
-            // but that started generating EPIPE errors for reasons.
-            .attach('file', fs.readFileSync(imageSource), path.basename(imageSource));
-        });
+      return testdb.findSeries(3).then(events => {
+        const evt = events[0];
+        const post = Object.assign({
+          secret: testData.secret,
+          code_of_conduct: "1",
+          read_comic: "1",
+        }, CalEvent.getOverview(evt, {includePrivate: true}));
+        return chai.request( app )
+          .post(manage_api)
+          .type('form')
+          .field({
+            json: JSON.stringify(post)
+          })
+          // the tests originally based a filepath here
+          // but that started generating EPIPE errors for reasons.
+          .attach('file', fs.readFileSync(imageSource), path.basename(imageSource));
       });
     });
   }
@@ -264,7 +269,8 @@ describe("managing events", () => {
     return postImage(3, imageSource, imageTarget).then(function (res) {
       expect(res).to.have.status(200);
       //
-      CalEvent.getByID(3).then(evt => {
+      testdb.findSeries(3).then(events => {
+        const evt = events[0];
         // event creation is change 1,
         // the image post is change 2,
         // the event id is 3.
@@ -322,6 +328,16 @@ describe("managing events", () => {
   });
 });
 
+// some days to request
+const statusData = [{
+  date: "2023-05-24",
+  status: EventStatus.Active,
+},{
+  date: "2023-05-26",
+  status: EventStatus.Cancelled,
+  newsflash: "not the news",
+}];
+
 // minimal json for pushing a new event
 const eventData = {
   "title": "new event",
@@ -335,11 +351,5 @@ const eventData = {
   "time": "3:15 PM", // time is sent with meridian for some reason.
   // currently, these aren't actually needed...
   // tbd: maybe it should require at least one when creating an event?
-  "datestatuses": [{
-    "date": "2023-05-24",
-  },{
-    "date": "2023-05-26",
-    "newsflash": "not the news",
-  }]
-}
-
+  "datestatuses": statusData
+};

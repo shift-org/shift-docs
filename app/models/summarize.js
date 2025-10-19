@@ -1,89 +1,100 @@
 // -----------------------------------------------------------
 // Generate json summaries of specific events on particular days.
 // -----------------------------------------------------------
-const knex = require("../knex");
+const db = require("../knex");
 const dt = require("../util/dateTime");
 const { EventStatus, Review } = require("./calConst");
-const { CalEvent } = require("./calEvent");
-const { CalDaily } = require("./calDaily");
+const CalEvent = require("./calEvent");
+const CalDaily = require("./calDaily");
 
 // helper to generate a json summary of a caldaily, calevent joined pair.
-// WARNING: conflicting fields ( like modified ) may not be reliable.
-function defaultSummarize(evtDay, options) {
-  // an invalid duration generates a null endTime; just like the php.
-  const endtime = dt.to24HourString(CalEvent.getEndTime(evtDay));
-  const evtJson = CalEvent.getSummary(evtDay, options);
-  const dailyJson = CalDaily.getSummary(evtDay);
+function fullSummary(row, options, index) {
+  const overview = CalEvent.getOverview(row, options);
+  const summary = CalDaily.getSummary(row);
+  const endtime = dt.to24HourString(CalEvent.getEndTime(row));
   // the php tacks the endtime to the ... end. so do we.
-  return Object.assign( evtJson, dailyJson, {endtime} );
+  const out = Object.assign(overview, summary, {endtime});
+  // for search: Full count of results for pagination
+  // tbd: maybe give it its own summary function
+  // ( which calls fullSummary and then adds the fullcount )
+  if (!index && row.fullcount !== undefined) {
+    out.fullcount = row.fullcount;
+  }
+  return out;
 }
 
 function getDefaultOptions(overrideOptions) {
   const defaultOptions = {
-    dayId: false,             // optional: ask for a specific instance of an event.
-    seriesId: false,          // optional: ask for all the instances of a specific event.
-    unsorted: false,          // by default, sorted.
+    dayId: false,             // ask for a specific instance of an event.
+    seriesId: false,          // ask for all the instances of a specific event.
+    includePrivate: false,    // requires the secret sent to the organizer
+    includeDeleted: false,    // for testing, 
     excludeCancelled: false,  // by default, include cancelled rides.
-    includeDeleted: false,    // by default, no soft-deleted events
-    includeDelisted: false,   // by default, no days that were deselected on the calendar.
-    includeSkipped: false,    // legacy, here for completeness and backwards compat.
-    customSummary: defaultSummarize,
+    summary: fullSummary,
     limit: false,
     offset: false,
    };
-   return Object.assign({}, defaultOptions, overrideOptions);
+   return Object.assign(defaultOptions, overrideOptions);
 }
 
-// shared query which uses the options defined by getDefaultOptions() to join events and days together.
-// returns the promise of an array events
+// promise an array of events and days joined together.
+// WARNING: conflicting fields ( like modified ) may not be reliable.
 function queryEvents(opt) {
-  const q = knex
-    .query('caldaily')
-    .join('calevent', 'caldaily.id', 'calevent.id')
-     // zero when published; null for legacy events.
-    .whereRaw('not coalesce(hidden, 0)')
-    .where(function(q) {
-      if (opt.firstDay) {
-        q.where('eventdate', '>=', knex.toDate(opt.firstDay));
-      }
-      if (opt.lastDay) {
-        q.where('eventdate', '<=', knex.toDate(opt.lastDay));
-      }
-      if (opt.seriesId) {
-        q.where('calevent.id', opt.seriesId);
-      }
-      if (opt.dayId) {
-        q.where('pkid', opt.dayId);
-      }
-      if (!opt.includeDeleted) {
-        q.whereNot('review', Review.Excluded);
-      }
-      if (!opt.includeDelisted) {
-        q.whereNot('eventstatus', EventStatus.Delisted);
-      }
-      if (!opt.includeSkipped) {
-        q.whereNot('eventstatus', EventStatus.Skipped);
-      }
-      if (opt.excludeCancelled) {
-        q.whereNot('eventstatus', EventStatus.Cancelled);
-      }
-    })
-    if (opt.limit) {
-      q.limit(opt.limit)
+  const q = db.query('calevent')
+  // left join to account for a lack of days
+  // both myaql and sqlite allow 'using' to collapse the shared id field.
+  // ( which is needed to avoid null ids when there are no days )
+  q.joinRaw('left join caldaily using(id)');
+  q.where(q => {
+    if (opt.includePrivate) {
+      q.where('password', opt.includePrivate);
+    } else {
+      // when the secret is missing;
+      // only show published rides.
+      // zero and null are considered published.
+      q.whereRaw('not coalesce(hidden, 0)')
     }
-    if (opt.offset) {
-      q.offset(opt.offset);
+    if (opt.firstDay) {
+      q.where('eventdate', '>=', db.toDate(opt.firstDay));
     }
-    if (!opt.unsorted) {
-      q.orderBy('eventdate');
+    if (opt.lastDay) {
+      q.where('eventdate', '<=', db.toDate(opt.lastDay));
     }
-    return q;
+    if (opt.seriesId) {
+      q.where('calevent.id', opt.seriesId);
+    }
+    if (opt.dayId) {
+      q.where('pkid', opt.dayId);
+    }
+    // to handle left join, allow a null status to act as a blank
+    const eventStatus = db.raw(`coalesce(eventstatus, '_')`);
+    if (!opt.includeDeleted) {
+      q.whereNot('review', Review.Excluded);
+      // skipped is legacy, here for completeness and backwards compat.
+      q.whereNotIn(eventStatus, [EventStatus.Delisted, EventStatus.Skipped]);
+    }
+    if (opt.excludeCancelled) {
+      q.whereNot(eventStatus, EventStatus.Cancelled);
+    }
+  });
+  // 
+  if (opt.limit) {
+    q.limit(opt.limit)
+  }
+  if (opt.offset) {
+    q.offset(opt.offset);
+  }
+  return q.orderBy('eventdate');
 }
 
 // call the summary function specified in options on every returned row
-function handleSummary(q, options) {
-  // console.log(q.toSQL().toNative());
-  return q.then(evtDays => evtDays.map(evtDay => options.customSummary(evtDay, options)));
+function handleSummary(q, opt) {
+  opt.log && console.log(q.toSQL().toNative());
+  return q.then(rows => rows.map((row, index) => {
+    // for every returned row, call the summary function:
+    // pass the options and the index of the data 
+    return opt.summary(row, opt, index);
+  }));
 }
 
 const summarize = {
@@ -93,18 +104,18 @@ const summarize = {
   events(options) {
     const combinedOptions = Object.assign(getDefaultOptions(), options);
     const q = queryEvents(combinedOptions);
-    return handleSummary(q, combinedOptions);
+    return !combinedOptions.summary ? q : handleSummary(q, combinedOptions);
   },
 
   // Promises an object containing "total, past, upcoming" counts of uncancelled events.
   // any summary function is ignored.
   count(options) {
     const combinedOptions = Object.assign(getDefaultOptions({excludeCancelled: true}), options);
-    const currDate = knex.currentDateString();
+    const currDate = db.currentDateString();
     return queryEvents(combinedOptions)
-        .column(knex.query.raw(`COUNT(*) as total`))
-        .column(knex.query.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
-        .column(knex.query.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
+        .column(db.raw(`COUNT(*) as total`))
+        .column(db.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
+        .column(db.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
         .first();
   },
 
@@ -112,15 +123,15 @@ const summarize = {
   search(term, options) {
     const combinedOptions = Object.assign(getDefaultOptions(), options);
     const q = queryEvents(combinedOptions)
-        .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
+        .column(db.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .where(function(q) {
           q.where('title', 'LIKE', `%${term}%`)
               .orWhere('descr', 'LIKE', `%${term}%`)
               .orWhere('name', 'LIKE', `%${term}%`);
         })
-        // .whereRaw("title like '%??%'", [term])  // late binding xperiment
+        // .whereRaw("title like '%??%'", [term])  // late binding experiment
     return handleSummary(q, combinedOptions);
   }
 };
 
-module.exports = summarize;
+module.exports = { summarize };

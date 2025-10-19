@@ -14,18 +14,26 @@ class ErrorCollector {
   getErrors() {
     return this.errors;
   }
+
+}
+
+// a single valid character.
+const validChar = /^[A-Z]$/;
+
+// the validator package requires strings and only strings
+// the various functions below convert strings to the desired output types.  
+function asString(value) {
+  // coalecese nulls and undefined into a blank string
+  // ensure all numbers and booleans are strings
+  // trim all strings
+  return ((value ?? '') + '').trim();
 }
 
 // ensure the email, title, etc. submitted by the organizer seem valid.
 // input is json, errors is of type ErrorCollector
 function makeValidator(input, errors) {
-  // the validator package requires strings and only strings
-  // the various functions below convert strings to the desired output types.
   function getString(field) {
-    // coalecese nulls and undefined into a blank string
-    // ensure all numbers and booleans are strings
-    // trim all strings
-    return ((input[field] ?? '') + '').trim();
+    return asString(input[field]);
   }
   function smallerThan(str, field, maxLen) {
     const okay = validator.isByteLength(str, { min: 0, max: maxLen });
@@ -70,17 +78,11 @@ function makeValidator(input, errors) {
         }
       }
     },
-    // validate the event time
-    // the php doesnt do this, but it feels like a good idea.
-    // ( and CalEvent.updateFromJSON() relies on it. )
+    // validate and transform the event time
+    // input is in AM/PM style
+    // mysql wants a 'hh:mm:ss' with no meridian
+    // https://dev.mysql.com/doc/refman/8.0/en/time.html
     requiredTime(field) {
-      // interestingly: the upload is in AM/PM style
-      // but the server stores and reports in 24 hour style.
-      // and flourish stores communicates 'time' fields as an fTime
-      // while mysql stores as a 'hh:mm:ss' with no meridian
-      // so flourish must automatically transform to 24 time.
-      // https://dev.mysql.com/doc/refman/8.0/en/time.html
-      // https://flourishlib.com/docs/fTime.html
       const str = getString(field);
       if (validator.isEmpty(str)) {
         errors.addError('time');
@@ -144,7 +146,7 @@ function makeValidator(input, errors) {
       const str = getString(field);
       if (validator.isEmpty(str)) {
         return defaultVal;
-      } else if (!validator.matches(str, /^[A-Z]$/)) {
+      } else if (!validator.matches(str, validChar)) {
         errors.addError(field);
       } else {
         return str;
@@ -163,8 +165,13 @@ function makeValidator(input, errors) {
      * Ensures that the 'datestatuses' in 'data' (if any) are valid.
      * Allows an empty list ( which cancels all existing occurrences. )
      *
-     * @param statusList:A list of data status objects sent by the organizer.
+     * @param statusList: A list of data status objects sent by the organizer.
      *        [{ id, date, status, newsflash }, ...]
+     * @out an array of validated [{ date, state, news }]
+     * 
+     * dates in and out are : YYYY-MM-DD format
+     * 
+     * WARNING: 'news' isn't safe from sql injection!
      */
     validateStatus(statusList) {
       const invalidDateStrings = [];
@@ -174,11 +181,22 @@ function makeValidator(input, errors) {
           invalidDateStrings.push("expected an array");
         } else {
           statusList.forEach(status => {
-            const validDate = status.date && dt.fromYMDString(status.date).isValid();
-            if (!validDate) {
+            const validDate = dt.fromYMDString(status.date);
+            if (!validDate.isValid()) {
               invalidDateStrings.push(status.date);
             } else {
-              validStatus.push(status);
+              const state = asString(status.status);
+              const news = asString(status.newsflash);
+              if (!validator.matches(state, validChar)) {
+                invalidDateStrings.push(status.date);
+              } else {
+                validStatus.push({
+                  date: dt.toYMDString(validDate),
+                  state,
+                  // the original code stored null for empty news
+                  news: news || null,
+                });
+              }
             }
           });
         }
@@ -197,8 +215,8 @@ function makeValidator(input, errors) {
   };
 }
 
-// fix? required only from March to June, during Pedalpalooza
-// tinytitle', 'printdescr'
+// validate the input, transforming from client field names into db column names.
+// fix? tinytitle', 'printdescr' are required only during Pedalpalooza.
 function validateEvent(input) {
   const errors = new ErrorCollector();
   const v = makeValidator(input, errors);
@@ -208,7 +226,7 @@ function validateEvent(input) {
     v.requireTrue('read_comic', "You must have read the Ride Leading Comic");
   }
   const title = v.requireString('title', 'Title missing');
-  let values = {
+  const event = {
     title: title,
     locname: v.requireString('venue', 'Venue missing'),
     address: v.requireString('address', 'Address missing'),
@@ -241,12 +259,18 @@ function validateEvent(input) {
     printcontact: v.optionalFlag('printcontact'),
     safetyplan: v.optionalFlag('safetyplan'),
   };
-  const statusList = v.validateStatus(input.datestatuses);
+  const seriesId = v.zeroInt('id');
+  const password = v.nullString('secret');
+  const status = v.validateStatus(input.datestatuses);
   return {
-    id: input.id,
-    secret: input.secret,
-    values,
-    statusList,
+    target: {
+      seriesId,
+      password
+    },
+    values: {
+      event,
+      status
+    },
     errors,
   };
 }

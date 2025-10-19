@@ -37,16 +37,12 @@ describe("retrieving event data for editing", () => {
        })
       .end(function (err, res) {
         expect(err).to.be.null;
-        expect(res).to.have.status(200);
+        // MOD-stravis: previously the incorrect secret would return the event
+        // sans its private data; now it errors.
+        expect(res).to.have.status(400);
         expect(res).to.be.json;
         expect(res).to.have.header('Api-Version');
-        expect(res.body.id).to.equal('2');
-        expect(res.body.email, "email should be private")
-          .to.be.null;
-        expect(res.body.phone, "phone should be private")
-          .to.be.null;
-        expect(res.body.contact, "contact should be private")
-          .to.be.null;
+        expect(res.body).property('error').to.exist;
         done();
       });
   });

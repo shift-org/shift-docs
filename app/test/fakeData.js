@@ -1,4 +1,4 @@
-const knex = require("shift-docs/knex");
+const db = require("shift-docs/knex");
 const { faker } = require('@faker-js/faker');
 const config = require("shift-docs/config");
 const dt = require("shift-docs/util/dateTime");
@@ -26,8 +26,8 @@ function makeFakeData(firstDay, lastDay, numEvents, seed) {
         }));
     const title = faker.music.songName();
     const pendingEvt =
-      knex.query('calevent')
-      .insert(makeCalEvent(title)).then(row=> {
+      db.query('calevent')
+      .insert(makeCalEvent(title)).then(row => {
         const id = row[0]; // the magic to get the event id.
         const numDays = randomDayCount();
         const list = makeCalDailies(id, start, numDays);
@@ -37,7 +37,7 @@ function makeFakeData(firstDay, lastDay, numEvents, seed) {
           console.log(`created "${title}" with ${list.length} days starting on ${start}\n ${url}`);
         }
         let promisedDays = list.map(at => {
-          return knex.query('caldaily').insert(at);
+          return db.query('caldaily').insert(at);
          });
         return Promise.all(promisedDays);
       });
@@ -84,7 +84,7 @@ function makeCalDailies(eventId, start, numDays) {
     }
     out.push({
       id          : eventId,
-      eventdate   : knex.toDate(start),
+      eventdate   : db.toDate(start),
       eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
       newsflash   : msg,
     });

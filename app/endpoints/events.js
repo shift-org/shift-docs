@@ -27,7 +27,7 @@
 const config = require("../config");
 const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
 const { EventsRange } = require("../models/calConst");
-const summarize = require("../models/summarize");
+const { summarize } = require("../models/summarize");
 
 // the events endpoint:
 exports.get = function(req, res, next) {

@@ -27,9 +27,8 @@
  */
 const dayjs = require("dayjs");
 const config = require("../config");
-const { CalDaily } = require("../models/calDaily");
 const { EventSearch } = require("../models/calConst");
-const summarize = require("../models/summarize");
+const { summarize } = require("../models/summarize");
 const validator = require('validator');
 
 // the search endpoint:

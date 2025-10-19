@@ -10,11 +10,10 @@
  *   https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#crawling-an-event
  */
 const config = require("../config");
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
 const { to12HourString, from24HourString, friendlyDate } = require("../util/dateTime");
-const summarize = require("../models/summarize");
+const { summarize } = require("../models/summarize");
 
+// TODO: nothing really uses this endpoint; remove?
 exports.get = function(req, res, next) {
   const id = req.query.id;
   const page = {
@@ -32,26 +31,23 @@ exports.get = function(req, res, next) {
       if (!events.length) {
         res.sendStatus(404); // returns not found
       } else {
-        // since we are specifying a specific day, 
-        // we expect at most one event.
-        const evtDay = events[0];
-        const evt = evtDay;
-        const at = evtDay;
+        // since we are requesting a specific day, 
+        // we expect at most one event summary.
+        const evt = events[0];
         res.render('crawl.html', Object.assign(page, {
               title: evt.title,
-              url: CalDaily.getShareable(at),
-              image: CalEvent.getImageUrl(evt) || page.image,
-              type: "article", //FIXME: Does FB support 'event' yet?
-              description: evt.descr,
+              url: evt.shareable,
+              image: evt.image || page.image,
+              type: "article",
+              description: evt.details,
               address: evt.address,
               when : {
                 // ex. "Mon, Aug 8th"
-                // if the eventdate is invalid, the value here is 'null'
-                date: friendlyDate( at.eventdate ),
+                date: friendlyDate(evt.date),
                 // note: the event time is stored as "19:00:00"
                 // and we want to report it as "7:00 PM"
                 // if the eventtime is invalid, the value here is 'null'
-                time: to12HourString( from24HourString(evt.eventtime) ),
+                time: to12HourString( from24HourString(evt.time) ),
               },
         }));
       }

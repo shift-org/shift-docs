@@ -3,7 +3,7 @@ const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
 const { initMail } = require("./emailer");
-const knex = require("./knex");  // initialize on startup
+const db = require("./knex");  // initialize on startup
 const app = express();
 
 // shift.conf for nginx sets the x-forward header
@@ -70,14 +70,14 @@ app.use(function(err, req, res, next) {
   res.sendStatus(500);
 });
 
-const verifyMail = initMail().then(hostName=> {
+const verifyMail = initMail().then(hostName => {
   console.log("okay: verified email host", hostName);
-}).catch(e=> {
+}).catch(e => {
   console.error("failed smtp verification:", e.toString());
 }).finally(_ => {
   console.log("and emails will log to", config.email.logfile || "console");
 });
-Promise.all([knex.initialize(), verifyMail]).then(_ => {
+Promise.all([db.initialize(), verifyMail]).then(_ => {
   const port = config.site.listen;
   app.listen(port, _ => {
     // NOTE: the ./shift script listens for this message!

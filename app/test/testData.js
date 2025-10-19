@@ -1,8 +1,4 @@
 const dt = require("../util/dateTime");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
-
 const secret = "12e1c433836d6c92431ac71f1ff6dd97";
 const email ="email@example.com";
 
@@ -26,20 +22,12 @@ module.exports = {
     }
   },
   // create a fake database of cal events and dailies:
-  stubData(sinon) {
+  fakeNow(sinon) {
     // fake now to be 5th day of august 2002
     sinon.stub(dt, 'getNow').callsFake(function() {
       return dt.fromYMDString('2002-08-05');
     });
-
-    const dailyStore = sinon.spy(CalDaily, '_store')
-    const eventStore = sinon.spy(CalEvent, '_store')
-    const eventErasures = sinon.spy(CalEvent, '_eraseEvent');
-
-    return {
-      dailyStore,
-      eventStore,
-      eventErasures
-    }
   },
 };
+
+

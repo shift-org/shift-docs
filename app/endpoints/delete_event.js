@@ -15,9 +15,10 @@
  *
  */
 const config = require("../config");
+const db = require("../knex");
 const express = require('express');
 const textError = require("../util/errors");
-const { CalEvent } = require("../models/calEvent");
+const Reconcile = require("../models/reconcile")
 const { uploader } = require("../uploader");
 
 // the front end sends a multi-part form post
@@ -32,36 +33,28 @@ function handleRequest(req, res, next) {
     data = safeParse(data.json);
   }
   if (!data) {
-    return res.textError('JSON could not be decoded');
+    res.textError('Bad request');
+  } else if (!data.id) {
+    res.textError('Missing id');
+  } else if (!data.secret) {
+    res.textError('Missing secret');
+  } else {
+    const seriesId = '' + data.id; // normalize int into a string
+    return db.query.transaction(tx => {
+      return Reconcile.removeEntireSeries(tx, seriesId, data.secret)
+    }).then(count => {
+      if (!count) {
+        res.textError('Event not found');
+      } else {
+        res.set(config.api.header, config.api.version);
+        // note: the frontend currently doesn't use this json;
+        // instead it looks for request success ( http 200 )
+        res.json({
+          success: true
+        });
+      }
+    }).catch(next);
   }
-  if (!data.id) {
-    return res.textError('Missing id');
-  }
-  // get the event: delete seems to send an int, where manage is a string.
-  // normalize it to a string for consistency ( tbd: is that good, or even needed? )
-  return CalEvent.getByID(''+data.id).then((evt) => {
-    // verify the event exists.
-    if (!evt) {
-      return res.textError('Event not found');
-    }
-
-    // validate the password.
-    if (!CalEvent.isSecretValid(evt, data.secret)) {
-      return res.textError('Invalid secret, use link from email');
-    }
-
-    CalEvent.removeEvent(evt).then(() => {
-      // note: the frontend currently doesn't use this json;
-      // instead it looks for request success ( http 200 )
-      res.set(config.api.header, config.api.version);
-      res.json({
-        success: true
-      })
-    }).catch((e) => {
-      console.error("error trying to cancel an event", e);
-      return res.textError('Server error');
-    });
-  }).catch(next);
 }
 
 // read json into a javascript object.
