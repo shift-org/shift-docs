@@ -11,6 +11,7 @@
 // x add / cancel dates from a published event
 // x raw json ( curl ) vs body json ( forms )
 // x multi-part form ( attach image )
+const chai = require('chai');
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('node:path');
@@ -23,17 +24,23 @@ const testData = require("./testData");
 const CalEvent = require("../models/calEvent");
 const { EventStatus } = require("../models/calConst");
 //
-const chai = require('chai');
 chai.use(require('chai-http'));
 const expect = chai.expect;
+const sandbox = require('sinon').createSandbox();
 const manage_api = '/api/manage_event.php';
 
 describe("managing events", () => {
   // reset after each one.
   beforeEach(() => {
+    // the current working directory for tests is "app"
+    // since docker explicitly sets IMAGE_DIR
+    // but tests need the directory under app
+    // we replace it for tests in a way that works for docker.
+    testData.setupImageDir(sandbox, "./eventimages");
     return testdb.setup();
   });
   afterEach(() => {
+    sandbox.restore();
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {

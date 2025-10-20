@@ -56,6 +56,13 @@ Promises should probably be preferred, but the code does use both ways.
       });
 ```
 
+# Docker and MySQL
+
+If you change the `command` in node `docker-compose.yml` to `command: sleep 9999`you can get a command line terminal that you can run tests on.
+
+WARNING: the tests drop the tables(!)
+
+TODO: determine the right steps for running a mysql server outside of docker for testing.
 
 ## Test Data
 

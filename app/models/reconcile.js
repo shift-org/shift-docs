@@ -82,6 +82,7 @@ function addMissingDays(tx, seriesId, newDates) {
     throw new Error(`Invalid id ${seriesId}`);
   }
   return tx.raw(`
+  insert into caldaily(id, eventdate) 
   with dates(id, eventdate) as (${
     // generate parameter placeholders
     newDates.map((at, index) => {
@@ -89,7 +90,6 @@ function addMissingDays(tx, seriesId, newDates) {
         "select ?, ?"
       }).join("\n")
   })
-  insert into caldaily(id, eventdate) 
   select * from dates
   where not exists ( 
     select 1 from caldaily 
@@ -147,10 +147,12 @@ function updateDailyStatus(tx, seriesId, newStatus) {
         "SELECT ?, ?, ?"
       }).join("\n")
   })
-  update caldaily set
+  update caldaily 
+  ${!db.usingSqlite ? `join status`: ""}
+  set
     eventstatus = status.state,
     newsflash = status.news 
-  from status
+  ${db.usingSqlite ? `from status`: ""}
   where caldaily.id = ${seriesId}
   and eventdate = status.at`, 
     // fill in all the ? parameters with the values from newStatus

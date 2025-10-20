@@ -5,11 +5,19 @@ const testData = require("./testData");
 const db = require("../knex");
 const { makeFakeData } = require("./fakeData");
 
+// arbitrary created and modified times.
+const created = new Date(1993, 6, 28, 14, 39);
+const modified = new Date(1993, 7, 28, 2, 7);
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 module.exports = {
+  times: {
+    created,
+    modified,
+  },
   setup: async function() {
     await db.recreate();
     return createData(db.query);
@@ -29,7 +37,16 @@ module.exports = {
     return db
       .query('calevent')
       .joinRaw('left join caldaily using(id)')
-      .where('id', seriesId);
+      .where('id', seriesId)
+      .then(events =>  {
+        // warning: with sqlite, dates are strings
+        // with the mysql2 driver, they are native Date objects.
+        // in both cases they are YMD format in the db.
+        events.forEach(evt => {
+          evt.eventdate = dt.toYMDString(evt.eventdate);
+        });
+        return events;
+      });
   }
 }
 
@@ -41,10 +58,6 @@ async function createData(q) {
   await q('caldaily').insert(fakeCalDaily(1, 2));
   await q('caldaily').insert(fakeCalDaily(2, 2));
 };
-
-// arbitrary created and modified times.
-const created = new Date(1993, 6, 28, 14, 39);
-const modified = new Date(1993, 7, 28, 2, 7);
 
 function fakeCalDaily(order, eventId) {
   if (!eventId) { throw new Error("expects a valid id"); }
@@ -84,7 +97,7 @@ function fakeCalEvent(eventId) {
     printphone: 0,
     weburl: contacturl,
     webname: "example.com",
-    printweburl: contacturl,
+    printweburl: 1,
     contact: organizer,
     hidecontact : 1,
     printcontact : 1,

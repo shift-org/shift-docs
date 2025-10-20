@@ -1,5 +1,4 @@
 const chai = require('chai');
-const sinon = require('sinon');
 const app = require("../app");
 const db = require("../knex");
 const testData = require("./testData");
@@ -9,16 +8,18 @@ const { EventStatus } = require("../models/calConst");
 
 chai.use(require('chai-http'));
 const expect = chai.expect;
+const sandbox = require('sinon').createSandbox();
 
 describe("ical feed", () => {
   // runs before the evt test in this block.
   before(function() {
-    testData.fakeNow(sinon);
+    testData.fakeNow(sandbox);
+    testData.fakeSiteUrl(sandbox, "https://shift2bikes.org");
     return testdb.setup();
   });
   // runs once after the last test in this block
   after(() => {
-    sinon.restore();
+    sandbox.restore();
     return testdb.destroy();
   });
   const expectsServerError = function(q) {
@@ -136,7 +137,13 @@ describe("ical feed", () => {
     const seriesId = 2;
     const dayToCancel = '2002-08-01';
     await db.query.table('caldaily')
-      .update('eventstatus', EventStatus.Cancelled)
+      .update({
+        eventstatus: EventStatus.Cancelled,
+        // when running under mysql, force a specific modified time
+        // otherwise, with this absent, the time will be now
+        // ( and the resulting feed wont match the expected data )
+        modified: testdb.times.modified,
+      })
       .where('eventdate', dayToCancel);
     // todo: create a separate test where these values are nil and zero.
     // that had caused a bad feed at one point; it's fixed but still good to test.
@@ -179,7 +186,7 @@ String.raw`SUMMARY:ride 2 title`,
 String.raw`CONTACT:organizer`,
 String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
 String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-201`,
+String.raw` end.\nhttps://shift2bikes.org/calendar/event-201`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CONFIRMED`,
 String.raw`DTSTART:20020802T020000Z`,
@@ -187,7 +194,7 @@ String.raw`DTEND:20020802T030000Z`,
 String.raw`CREATED:19930728T213900Z`,
 String.raw`DTSTAMP:19930828T090700Z`,
 String.raw`SEQUENCE:2`,
-String.raw`URL:http://localhost:3080/calendar/event-201`,
+String.raw`URL:https://shift2bikes.org/calendar/event-201`,
 String.raw`END:VEVENT`,
 ];
 const event2 = [
@@ -197,7 +204,7 @@ String.raw`SUMMARY:ride 2 title`,
 String.raw`CONTACT:organizer`,
 String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
 String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-202`,
+String.raw` end.\nhttps://shift2bikes.org/calendar/event-202`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CONFIRMED`,
 String.raw`DTSTART:20020803T020000Z`,
@@ -205,7 +212,7 @@ String.raw`DTEND:20020803T030000Z`,
 String.raw`CREATED:19930728T213900Z`,
 String.raw`DTSTAMP:19930828T090700Z`,
 String.raw`SEQUENCE:2`,
-String.raw`URL:http://localhost:3080/calendar/event-202`,
+String.raw`URL:https://shift2bikes.org/calendar/event-202`,
 String.raw`END:VEVENT`,
 ];
 
@@ -233,7 +240,7 @@ String.raw`SUMMARY:CANCELLED: ride 2 title`,
 String.raw`CONTACT:organizer`,
 String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
 String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-201`,
+String.raw` end.\nhttps://shift2bikes.org/calendar/event-201`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CANCELLED`,
 String.raw`DTSTART:20020802T020000Z`,
@@ -241,7 +248,7 @@ String.raw`DTEND:20020802T030000Z`,
 String.raw`CREATED:19930728T213900Z`,
 String.raw`DTSTAMP:19930828T090700Z`,
 String.raw`SEQUENCE:2`,
-String.raw`URL:http://localhost:3080/calendar/event-201`,
+String.raw`URL:https://shift2bikes.org/calendar/event-201`,
 String.raw`END:VEVENT`,
 ];
 

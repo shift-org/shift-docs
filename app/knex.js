@@ -28,20 +28,17 @@ const sqliteCfg = {
   useNullAsDefault: true,
 };
 
-// use sqlite when running `npm test`
-let useSqlite = process.env.npm_lifecycle_event === 'test';
-
-// hack: change mysql to sqlite if the environment variable
-// MYSQL_DATABASE was set to "sqlite"
+// use sqlite if MYSQL_DATABASE was set to "sqlite"
 // also: can specify a filename for the db "sqlite:somefile.db"
-if (!useSqlite && config.db.name.startsWith('sqlite')) {
+const useSqlite = shift.client.startsWith('sqlite');
+
+if (useSqlite) {
   const parts = config.db.name.split(':');
   if (parts && parts.length === 2) {
     const fn = parts[1];
     sqliteCfg.connection = path.resolve(config.appPath, fn);
   }
   console.log("using sqlite", sqliteCfg.connection);
-  useSqlite = true;
 }
 
 const dbConfig = Object.freeze( useSqlite ? sqliteCfg : shift );
@@ -57,8 +54,10 @@ const db = {
   },
 
   // for tests to be able to reset the database.
-  recreate() {
+  async recreate() {
     db.query = knex(dbConfig);
+    await db.query.schema.dropTableIfExists('calevent');
+    await db.query.schema.dropTableIfExists('caldaily');
     return db.initialize();
   },
 
@@ -66,6 +65,8 @@ const db = {
   raw(...args) {
     return db.query.raw(...args);
   },
+
+  usingSqlite: useSqlite,
 
   // convert a dayjs object to a 'date' column.
   //
