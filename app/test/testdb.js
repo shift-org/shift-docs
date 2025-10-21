@@ -3,15 +3,24 @@ const dt = require("../util/dateTime");
 const loremIpsum = require("lorem-ipsum").loremIpsum;
 const testData = require("./testData");
 const knex = require("../knex");
+const { makeFakeData } = require("./fakeData");
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 module.exports = {
-  setup : async function() {
+  setup: async function() {
     await knex.recreate();
     return createData(knex.query);
+  },
+  setupWithFakeData: async function() {
+    await knex.recreate();
+    const firstDay = dt.fromYMDString("2002-08-01");
+    const lastDay  = dt.fromYMDString("2002-08-31");
+    const numEvents = 46;
+    const arbitraryNumber = 23204; // keeps the generated data stable.
+    return makeFakeData(firstDay, lastDay, numEvents, arbitraryNumber);
   },
   destroy: function() {
     return knex.query.destroy();
@@ -75,7 +84,7 @@ function fakeCalEvent(eventId) {
     audience: Audience.General,
     descr,
     printdescr: descr,
-    image: `/eventimages/${eventId}.png`,
+    image: `${eventId}.png`,
     datestype: DatesType.OneDay,
     eventtime: "19:00:00",
     eventduration: 60,

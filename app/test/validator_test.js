@@ -48,5 +48,4 @@ describe('event field validation', () => {
     expect(msg.key).to.exist;
     expect(msg.key).to.equal(`Please enter a value for <span class="field-name">key</span>`);
   });
-
 });
