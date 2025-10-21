@@ -8,6 +8,7 @@ const expect = chai.expect;
 const delete_api = '/api/delete_event.php';
 
 describe("deleting using a form", () => {
+
   // runs before the first test in this block.
   before(() => {
     return testdb.setup();
