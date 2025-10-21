@@ -23,8 +23,8 @@
  *  }
  */
 const dayjs = require("dayjs");
-const { CalDaily } = require("../models/calDaily");
 const config = require("../config");
+const { summarize } = require("../models/summarize");
 
 // the endpoint:
 exports.get = function(req, res, next) {
@@ -34,7 +34,10 @@ exports.get = function(req, res, next) {
   if (!startDate.isValid() || !endDate.isValid()) {
     res.textError(`start date was ${startDate} and end date was ${endDate}.`);
   } else {
-    return CalDaily.getEventsCount(startDate, endDate).then((ride_count) => {
+    return summarize.count({
+        firstDay: startDate, 
+        lastDay: endDate,
+    }).then((ride_count) => {
       res.set(config.api.header, config.api.version);
       res.json(ride_count);
     }).catch(next);

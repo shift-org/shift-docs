@@ -23,7 +23,6 @@ function textError(res, message="unknown error", status_code=400) {
     }});
 }
 
-
 /**
  * Triggers a 400 response, and formats the passed key,value array into json messages for the client.
  *  {

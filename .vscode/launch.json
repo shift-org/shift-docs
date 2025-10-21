@@ -22,7 +22,9 @@
             "request": "launch",
             "runtimeArgs": [
                 "run-script",
-                "test"
+                "test",
+                "--", 
+                "--timeout 0"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [

@@ -79,6 +79,7 @@ services:
     # by default the node image will run "node"
     # https://github.com/nodejs/docker-node/blob/main/docker-entrypoint.sh
     # override to run npm start; which auto installs from package-lock.json
+    # this can be changed to `sleep 9999` to do nothing at all.
     command: npm start
     working_dir: /shift
     volumes:

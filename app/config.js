@@ -20,6 +20,14 @@ const bytesPerMeg = 1024*1024;
 
 const staticFiles = env_default('SHIFT_STATIC_FILES');
 
+// during testing, we will use sqlite unless MYSQL_DATABASE 
+// (below) is manually specified.
+const isTesting = process.env.npm_lifecycle_event === 'test';
+const dbDefault = isTesting ? 'sqlite' : 'shift';
+const dbName = env_default('MYSQL_DATABASE', dbDefault);
+const mysqlDriver = 'mysql2'; // name of driver, installed by npm
+const driverType = dbName.startsWith('sqlite')  ? 'sqlite' : mysqlDriver;
+
 const config = {
   appPath,
   api: {
@@ -31,8 +39,8 @@ const config = {
     port: 3306, // standard mysql port.
     user: env_default('MYSQL_USER', 'shift'),
     pass: env_default('MYSQL_PASSWORD', 'ok124'),
-    name: env_default('MYSQL_DATABASE', 'shift'),
-    type: "mysql2", // name of driver, installed by npm
+    name: dbName,
+    type: driverType, 
   },
   // a nodemailer friendly config, or false if smtp is not configured.
   smtp: getSmtpSettings(),
