@@ -33,6 +33,7 @@ function getDefaultOptions(overrideOptions) {
     summary: fullSummary,
     limit: false,
     offset: false,
+    newestFirst: false,       // by default, oldest dates are shown first; with newest last.
    };
    return Object.assign(defaultOptions, overrideOptions);
 }
@@ -84,7 +85,7 @@ function queryEvents(opt) {
   if (opt.offset) {
     q.offset(opt.offset);
   }
-  return q.orderBy('eventdate');
+  return q.orderBy('eventdate', opt.newestFirst ? 'desc' : 'asc' );
 }
 
 // call the summary function specified in options on every returned row

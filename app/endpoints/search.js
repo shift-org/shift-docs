@@ -46,6 +46,10 @@ exports.get = function(req, res, next) {
     const options = {
       // when searching all events, don't specify a starting day
       firstDay: !searchOldEvents && startDate,
+      // If we are searching all events, start with newest dates
+      // because the user likely wants to see the events which happened recently
+      // so they can achieve the most fomo.
+      newestFirst: !!searchOldEvents,
       limit,
       offset, 
     };
