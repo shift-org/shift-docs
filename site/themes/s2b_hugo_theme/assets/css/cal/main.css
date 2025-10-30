@@ -356,10 +356,6 @@ h3 {
 button.expand-details {
     user-select: text;
     display: flex;
-}
-
-button.expand-details  span:nth-child(2)
-{
     overflow-wrap: anywhere; 
 }
 
