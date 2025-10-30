@@ -356,7 +356,7 @@ h3 {
 button.expand-details {
     user-select: text;
     display: flex;
-    overflow-wrap: anywhere; 
+    overflow-wrap: anywhere;
 }
 
 button.expand-details svg {
