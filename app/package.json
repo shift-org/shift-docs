@@ -15,7 +15,7 @@
     "nodemailer": "^6.9.1",
     "nunjucks": "^3.2.3",
     "sqlite3": "^5.1.6",
-    "validator": "^13.9.0",
+    "validator": "^13.15.20",
     "wordwrapjs": "^5.1.0"
   },
   "scripts": {
