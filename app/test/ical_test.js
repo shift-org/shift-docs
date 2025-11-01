@@ -1,29 +1,29 @@
 const chai = require('chai');
-const sinon = require('sinon');
 const app = require("../app");
+const db = require("../knex");
 const testData = require("./testData");
 const testdb = require("./testdb");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
+//
 const { EventStatus } = require("../models/calConst");
 
 chai.use(require('chai-http'));
 const expect = chai.expect;
+const sandbox = require('sinon').createSandbox();
 
 describe("ical feed", () => {
   // runs before the evt test in this block.
   before(function() {
-    testData.stubData(sinon);
+    testData.fakeNow(sandbox);
+    testData.fakeSiteUrl(sandbox, "https://shift2bikes.org");
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function () {
-    sinon.restore();
+  after(() => {
+    sandbox.restore();
     return testdb.destroy();
   });
   const expectsServerError = function(q) {
-    return function(done) {
+    return (done) => {
       chai.request( app )
         .get('/api/ical.php')
         .query(q)
@@ -58,7 +58,7 @@ describe("ical feed", () => {
       startdate: "2002-08-01",
       enddate  : "2002-08-02",
     }));
-  it("supports an 'all events' feed", function(done) {
+  it("supports an 'all events' feed", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .end(function (err, res) {
@@ -74,7 +74,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("provides the days of a single event", function(done) {
+  it("provides the days of a single event", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -88,7 +88,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("provides a range of days", function(done) {
+  it("provides a range of days", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -102,7 +102,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("can return an empty range", function(done) {
+  it("can return an empty range", (done) => {
     chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -117,7 +117,7 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("has a special pedalpalooza feed", function(done) {
+  it("has a special pedalpalooza feed", (done) => {
      chai.request( app )
       .get('/api/ical.php')
       .query({
@@ -133,31 +133,31 @@ describe("ical feed", () => {
         done();
       });
   });
-  it("can handle a canceled event", function(done) {
-    CalEvent.getByID(2).then(evt => {
-      // todo: create a separate test where these values are nil and zero.
-      // that had caused a bad feed at one point; its fixed but still good to test.
-      // evt.eventtime = null;
-      // evt.eventduration = 0;
-      evt._store().then(_ => {
-        CalDaily.getForTesting(201).then(d => {
-          d.eventstatus = EventStatus.Cancelled;
-          d._store().then(_ => {
-            chai.request( app )
-              .get('/api/ical.php')
-              .query({
-                 id: 2, // an event id
-               })
-              .end(function (err, res) {
-                expect(err).to.be.null;
-                expect(res).to.have.status(200);
-                expect(res.text).to.equal(cancelledDay);
-                done();
-              });
-          });
-        });
+  it("can handle a canceled event", async () => {
+    const seriesId = 2;
+    const dayToCancel = '2002-08-01';
+    await db.query.table('caldaily')
+      .update({
+        eventstatus: EventStatus.Cancelled,
+        // when running under mysql, force a specific modified time
+        // otherwise, with this absent, the time will be now
+        // ( and the resulting feed wont match the expected data )
+        modified: testdb.times.modified,
+      })
+      .where('eventdate', dayToCancel);
+    // todo: create a separate test where these values are nil and zero.
+    // that had caused a bad feed at one point; it's fixed but still good to test.
+    // evt.eventtime = null;
+    // evt.eventduration = 0;  
+    return chai.request( app )
+      .get('/api/ical.php')
+      .query({
+         id: seriesId,
+       })
+      .then(res => {
+        expect(res).to.have.status(200);
+        expect(res.text).to.equal(cancelledDay);
       });
-    });
   });
 });
 
@@ -186,7 +186,7 @@ String.raw`SUMMARY:ride 2 title`,
 String.raw`CONTACT:organizer`,
 String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
 String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-201`,
+String.raw` end.\nhttps://shift2bikes.org/calendar/event-201`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CONFIRMED`,
 String.raw`DTSTART:20020802T020000Z`,
@@ -194,7 +194,7 @@ String.raw`DTEND:20020802T030000Z`,
 String.raw`CREATED:19930728T213900Z`,
 String.raw`DTSTAMP:19930828T090700Z`,
 String.raw`SEQUENCE:2`,
-String.raw`URL:http://localhost:3080/calendar/event-201`,
+String.raw`URL:https://shift2bikes.org/calendar/event-201`,
 String.raw`END:VEVENT`,
 ];
 const event2 = [
@@ -204,7 +204,7 @@ String.raw`SUMMARY:ride 2 title`,
 String.raw`CONTACT:organizer`,
 String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
 String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-202`,
+String.raw` end.\nhttps://shift2bikes.org/calendar/event-202`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CONFIRMED`,
 String.raw`DTSTART:20020803T020000Z`,
@@ -212,7 +212,7 @@ String.raw`DTEND:20020803T030000Z`,
 String.raw`CREATED:19930728T213900Z`,
 String.raw`DTSTAMP:19930828T090700Z`,
 String.raw`SEQUENCE:2`,
-String.raw`URL:http://localhost:3080/calendar/event-202`,
+String.raw`URL:https://shift2bikes.org/calendar/event-202`,
 String.raw`END:VEVENT`,
 ];
 
@@ -240,7 +240,7 @@ String.raw`SUMMARY:CANCELLED: ride 2 title`,
 String.raw`CONTACT:organizer`,
 String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
 String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-201`,
+String.raw` end.\nhttps://shift2bikes.org/calendar/event-201`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CANCELLED`,
 String.raw`DTSTART:20020802T020000Z`,
@@ -248,7 +248,7 @@ String.raw`DTEND:20020802T030000Z`,
 String.raw`CREATED:19930728T213900Z`,
 String.raw`DTSTAMP:19930828T090700Z`,
 String.raw`SEQUENCE:2`,
-String.raw`URL:http://localhost:3080/calendar/event-201`,
+String.raw`URL:https://shift2bikes.org/calendar/event-201`,
 String.raw`END:VEVENT`,
 ];
 

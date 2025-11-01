@@ -1,7 +1,5 @@
 const dt = require("../util/dateTime");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
+const config = require("../config");
 
 const secret = "12e1c433836d6c92431ac71f1ff6dd97";
 const email ="email@example.com";
@@ -26,25 +24,19 @@ module.exports = {
     }
   },
   // create a fake database of cal events and dailies:
-  stubData(sinon) {
+  fakeNow(sinon) {
     // fake now to be 5th day of august 2002
-    sinon.stub(dt, 'getNow').callsFake(function() {
+    sinon.stub(dt, 'getNow').callsFake(() => {
       return dt.fromYMDString('2002-08-05');
     });
-
-    const dailyStore = sinon.spy(CalDaily.methods, '_store')
-    const eventStore = sinon.spy(CalEvent.methods, '_store')
-    const eventErasures = sinon.spy(CalEvent.methods, 'eraseEvent');
-
-    return {
-      dailyStore,
-      eventStore,
-      eventErasures,
-      resetHistory() {
-        dailyStore.resetHistory();
-        eventStore.resetHistory();
-        eventErasures.resetHistory();
-      }
-    }
   },
+  // changes how absolute urls are generated
+  fakeSiteUrl(sinon, path) {
+    sinon.stub(config.site, 'url').callsFake((...parts) => {
+      return [path, ...parts].join("/");
+    });  
+  },
+  setupImageDir(sinon, path) {
+    sinon.replace(config.image, 'dir', path);
+  }
 };

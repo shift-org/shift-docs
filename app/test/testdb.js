@@ -2,20 +2,28 @@ const { Area, Audience, DatesType, EventStatus, Review } = require("../models/ca
 const dt = require("../util/dateTime");
 const loremIpsum = require("lorem-ipsum").loremIpsum;
 const testData = require("./testData");
-const knex = require("../knex");
+const db = require("../knex");
 const { makeFakeData } = require("./fakeData");
+
+// arbitrary created and modified times.
+const created = new Date(1993, 6, 28, 14, 39);
+const modified = new Date(1993, 7, 28, 2, 7);
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
 module.exports = {
+  times: {
+    created,
+    modified,
+  },
   setup: async function() {
-    await knex.recreate();
-    return createData(knex.query);
+    await db.recreate();
+    return createData(db.query);
   },
   setupWithFakeData: async function() {
-    await knex.recreate();
+    await db.recreate();
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;
@@ -23,17 +31,32 @@ module.exports = {
     return makeFakeData(firstDay, lastDay, numEvents, arbitraryNumber);
   },
   destroy: function() {
-    return knex.query.destroy();
+    return db.query.destroy();
+  },
+  findSeries(seriesId) {
+    return db
+      .query('calevent')
+      .joinRaw('left join caldaily using(id)')
+      .where('id', seriesId)
+      .then(events =>  {
+        // warning: with sqlite, dates are strings
+        // with the mysql2 driver, they are native Date objects.
+        // in both cases they are YMD format in the db.
+        events.forEach(evt => {
+          evt.eventdate = dt.toYMDString(evt.eventdate);
+        });
+        return events;
+      });
   }
 }
 
-async function createData(knex) {
-  await knex.table('calevent').insert(fakeCalEvent(1));
-  await knex.table('calevent').insert(fakeCalEvent(2));
-  await knex.table('calevent').insert(fakeCalEvent(3));
+async function createData(q) {
+  await q('calevent').insert(fakeCalEvent(1));
+  await q('calevent').insert(fakeCalEvent(2));
+  await q('calevent').insert(fakeCalEvent(3));
   //
-  await knex.table('caldaily').insert(fakeCalDaily(1, 2));
-  await knex.table('caldaily').insert(fakeCalDaily(2, 2));
+  await q('caldaily').insert(fakeCalDaily(1, 2));
+  await q('caldaily').insert(fakeCalDaily(2, 2));
 };
 
 function fakeCalDaily(order, eventId) {
@@ -41,9 +64,11 @@ function fakeCalDaily(order, eventId) {
   const pkid = order + (eventId * 100);
   const ymd = "2002-08-" + order.toString().padStart(2, "0");
   return {
+    // caldaily doesn't use created times
+    modified,
     id          : eventId,
     pkid        : pkid,
-    eventdate   : knex.toDate(dt.fromYMDString(ymd)),
+    eventdate   : db.toDate(dt.fromYMDString(ymd)),
     eventstatus : EventStatus.Active,
     newsflash   : "news flash",
   };
@@ -51,9 +76,6 @@ function fakeCalDaily(order, eventId) {
 
 function fakeCalEvent(eventId) {
   if (!eventId) { throw new Error("expects a valid id"); }
-  // an arbitrary created, modified time.
-  const created = new Date(1993, 6, 28, 14, 39);
-  const modified = new Date(1993, 7, 28, 2, 7);
   const contacturl = "http://example.com";
   const title = `ride ${eventId} title`;
   const organizer = "organizer";
@@ -75,7 +97,7 @@ function fakeCalEvent(eventId) {
     printphone: 0,
     weburl: contacturl,
     webname: "example.com",
-    printweburl: contacturl,
+    printweburl: 1,
     contact: organizer,
     hidecontact : 1,
     printcontact : 1,
@@ -113,7 +135,9 @@ function hidden(eventId) {
   case 2:
     return 0;
   case 1:
-    return null; // use a legacy hidden code.
+    // use a legacy hidden code.
+    // zero and null are considered published.
+    return null; 
   default:
     throw new Error("unexpected event id", eventId);
   }
