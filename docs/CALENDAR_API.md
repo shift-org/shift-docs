@@ -622,3 +622,7 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.57.0: (2025-06-23) Altered weburl field to allow 512 characters (up from 255)
 * 3.58.0: (2025-08-11) Added experimental `ride_count` endpoint: provides the number of events in a given time frame, excluding cancelled events. Syntax & usage may not be stable yet.
 * 3.58.1: (2025-09-15) Updated dependencies: nginx
+* 3.59.0: (2025-09-23) Fixed ride length field
+* 3.59.1: (2025-09-29) Updated MySQL patch version
+* 3.59.2: (2025-10-20) Fixed some backend tests
+* 3.59.3: (2025-11-03) Adjusted search results order when searching past events
