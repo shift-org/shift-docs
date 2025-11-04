@@ -268,9 +268,16 @@ class CalDaily {
         })
         .whereNot('eventstatus', EventStatus.Skipped)
         .where(function(q) {
-        // If we're not searching for old events, aka future search, look today and greater.
+          // If we're NOT searching for old events, aka future search, look today and greater.
           if (!searchOldEvents) {
             q.where('eventdate', '>=', knex.toDate(firstDay))
+          }
+        })
+        .where(function(q) {
+          // If we ARE searching for old events, only show old events, including today's events.  [#1004]
+          // Decision stardate 2025-11-03 by JP; AK
+          if (searchOldEvents) {
+            q.where('eventdate', '<=', knex.toDate(firstDay))
           }
         })
         // If we are searching old events, eventdata claus never occurs and we add a desc to the ordering.
