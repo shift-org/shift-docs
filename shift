@@ -148,11 +148,7 @@ sub_start() { # <service>, ..     - Alias for up
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)
-    sub_compose stop $@ -t=8
-}
-
-sub_kill() { # <service>, ...     - Kill service(s)
-    sub_compose kill $@
+    sub_compose stop $@
 }
 
 sub_restart() { # <service>, ...  - Trigger entrypoint.sh, required after modifying anything in borzoi
