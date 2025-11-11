@@ -123,7 +123,7 @@ sub_watch() { #                   - Watch the site directory for changes and reb
 }
 
 sub_down() { #                    - Stop and remove services
-    sub_compose down
+    sub_compose down $@
 }
 
 sub_ps() { #                      - Print service information
@@ -140,11 +140,11 @@ sub_pull() { #                    - Update the codebase to HEAD of currently dep
 
 sub_reload() { # <service>, ...   - Trigger a code/conf reload
     echo Reloading $@
-    sub_compose stop -s SIGHUP $@
+    sub_compose kill -s SIGHUP $@
 }
 
 sub_start() { # <service>, ..     - Alias for up
-    sub_up
+    sub_up $@
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)
