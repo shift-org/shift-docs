@@ -106,7 +106,8 @@ sub_up() { #                      - Bring all services up
     if [ ! -d $LETSENCRYPT_WEBROOT ] ; then
 	mkdir $LETSENCRYPT_WEBROOT
     fi 
-    sub_compose up --force-recreate -d
+    # 
+    sub_compose up --force-recreate -d -t=8
 
     # wait for node to be ready
     # tbd: for staging, could also check for "mysqld: ready for connections."
@@ -122,7 +123,7 @@ sub_watch() { #                   - Watch the site directory for changes and reb
 }
 
 sub_down() { #                    - Stop and remove services
-    sub_compose down
+    sub_compose down $@
 }
 
 sub_ps() { #                      - Print service information
@@ -142,12 +143,12 @@ sub_reload() { # <service>, ...   - Trigger a code/conf reload
     sub_compose kill -s SIGHUP $@
 }
 
-sub_start() { # <service>, ..     - Start service(s)
-    sub_compose up --force-recreate -d $@
+sub_start() { # <service>, ..     - Alias for up
+    sub_up $@
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)
-    sub_compose kill $@
+    sub_compose stop $@
 }
 
 sub_restart() { # <service>, ...  - Trigger entrypoint.sh, required after modifying anything in borzoi
@@ -168,13 +169,7 @@ sub_attach() { # <service>        - Run bash on a running service
 }
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
-    if hash docker-compose 2>/dev/null; then
-        docker-compose $@
-    elif hash docker 2>/dev/null; then
-        docker compose $@
-    else 
-       echo >&2 "Can't find docker. Aborting."; exit 1;
-    fi
+    docker compose $@
 }
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
