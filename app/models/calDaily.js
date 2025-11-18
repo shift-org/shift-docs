@@ -282,7 +282,9 @@ class CalDaily {
         })
         // If we are searching old events, eventdata claus never occurs and we add a desc to the ordering.
         .orderBy('eventdate', searchOldEvents? 'desc' : 'asc')
-        .limit(limit)  // Limit the query but
+        .orderBy('eventtime', searchOldEvents? 'desc' : 'asc')
+        .orderBy('title', 'asc')
+        .limit(limit)              // Limit the query but
         .offset(offset);           // accept the offset from the client
     // console.log(query.toSQL().toNative());
     return query.then(function(rows) {
