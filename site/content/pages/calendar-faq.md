@@ -5,6 +5,68 @@ menu:
   main:
     parent: Calendar
 ---
+<style>
+  .toc-box {
+    float: right;
+    width: 280px;
+    background: #f0f4f8;
+    border: 1px solid #cbd5e1;
+    padding: 12px 16px;
+    margin: 0 0 16px 16px;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .toc-box ul {
+      margin: 8px 0 0 0.2em;
+      padding-left: 0.2em;
+      list-style-position: inside;
+  }
+  .toc-box li {
+    margin: 2px 0;
+  }
+  @media (max-width: 900px) {
+    .toc-box {
+      float: none;
+      width: auto;
+      margin: 0 0 16px 0;
+    }
+  }
+</style>
+
+<div class="toc-box">
+<strong>Table of Contents</strong><br/>
+<p>Going to events</p>
+<ul>
+<li><a href="#who-organizes-these-events">Who organizes events?</a></li>
+<li><a href="#are-rides-free">Are rides free?</a></li>
+<li><a href="#do-rides-return-to-the-start-location">Are rides a loop?</a></li>
+<li><a href="#i-have-questions-about-a-specific-ride-how-can-i-find-out-more-info">Asking about a specific ride</a></li>
+<li><a href="#a-ride-leader-didnt-post-any-contact-info-how-can-i-contact-them">Contacting ride leaders</a></li>
+</ul>
+<p>Posting events</p>
+<ul>
+<li><a href="#who-can-post-events-to-the-calendar">Who can post events?</a></li>
+<li><a href="#what-info-do-i-need-to-provide-about-my-event">Event Info</a></li>
+<li><a href="#do-i-have-to-use-my-real-name">Real Name?</a></li>
+<li><a href="#what-if-i-dont-have-all-of-the-details-ready-yet">What if I don't know all the details?</a></li>
+<li><a href="#can-i-post-events-that-have-fees">Can I post events that have fees?</a></li>
+<li><a href="#is-my-contact-info-public">Is my contact info public?</a></li>
+<li><a href="#do-i-have-to-provide-my-email">Do I have to provide my email?</a></li>
+<li><a href="#what-do-the-different-audience-types-mean">Audience types</a></li>
+<li><a href="#how-do-i-edit-my-event">Editing events</a></li>
+<li><a href="#how-do-i-reschedule-or-cancel-my-event">Rescheduling or cancelling</a></li>
+<li><a href="#can-i-post-bike-related-events-that-arent-bike-rides">Non-ride events</a></li>
+<li><a href="#im-having-trouble-posting-a-ride-or-making-changes-who-do-i-contact">Trouble editing rides</a></li>
+</ul>
+<p>Subscribing to the calendar</p>
+<ul>
+<li><a href="#android-and-google-calendar">Android and Google Calendar</a></li>
+<li><a href="#other-common-cases">Other common cases</a></li>
+</ul>
+<p><a href="#glossary">Glossary</a></p>
+</div>
+
+
 ## Going to events
 
 ### Who organizes these events?
@@ -99,19 +161,15 @@ Email the [Shift calendar crew](mailto:bikecal@shift2bikes.org) if you need help
 
 ## Subscribing to the calendar
 
-You can use the following steps to see bike events on your phone or computer's built-in calendar app. As new rides are created, they will show up on your calendar automatically (usually within 24 hours of the ride being posted by the organizer). This is a convenient way to stay up to date, but remember these are community led events: you will see all sorts of rides intended for all different riders.
+You can see events using your phone or computer's built-in calendar app. As new rides are created, they will show up on your calendar automatically (usually within 24 hours of the ride being posted by the organizer). Keep in mind, events are posted to the Shift calendar by community members, not by Shift; you will see all sorts of rides.
 
-There are are two calendars you can subscribe to:
+[webcal://www.shift2bikes.org/cal/shift-calendar.php](webcal://www.shift2bikes.org/cal/shift-calendar.php)
 
-* **The Pedalpalooza calendar**: This will show only the events happening during the official Pedalpalooza summer festival. [webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php](webcal://www.shift2bikes.org/cal/pedalpalooza-calendar.php)
-
-* **The Community calendar**: This will show all Pedalpalooza events, but also any other bike rides that might happen over the course of year. [webcal://www.shift2bikes.org/cal/shift-calendar.php](webcal://www.shift2bikes.org/cal/shift-calendar.php)
-
-On many devices, clicking on either of those links will open your calendar app automatically. Your app will then guide you through the steps to subscribe. For Android devices (or for Google Calendar on iOS devices) you will need to follow these instructions.
+On many devices, clicking the above link will open your calendar app automatically. It should then guide you through the steps to subscribe. If that doesn't work, you will need to follow these instructions:
 
 ### Android and Google Calendar:
 
-1. Copy one of the calendar links above. (On Android, by pressing and holding the link until the "Copy link address" menu appears, and then selecting that option.)
+1. Copy the calendar link above. (On Android, by pressing and holding the link until the "Copy link address" menu appears, and then selecting that option.)
 2. Visit [Google Calendar](https://calendar.google.com/calendar/u/0/r/settings/addbyurl) and if asked log into your Google account.
 3. On that Google Calendar page, paste the link you copied into the "URL of Calendar" box (press on that box and hold until the "Paste" menu appears, then choose that option).
 4. Finally, click the "Add calendar" button.
@@ -139,6 +197,7 @@ Here are some acronyms and phrases that might be used in a ride listing:
 * S2B: [Shift2Bikes](/pages/mission_statement/) :)
 * BP: [BikePortland](https://bikeportland.org/)
 * LNT: [Leave no trace](https://en.wikipedia.org/wiki/Leave_No_Trace)
+* VKS: [Vera Katz Statue](https://en.wikipedia.org/wiki/Statue_of_Vera_Katz), on the Eastbank Esplanade; often used as a ride start location
 * R2R: "ride to the ride"; a ride specifically for arriving at another ride
 * corkers, corking: riders who block traffic from side roads at an intersection so that the rest of the ride can freely proceed through without interruption
 * no-drop: a ride where no one gets left behind — the ride waits for all riders in the event of mechanical difficulties, slower riders, etc; contrast with a drop ride, which isn't expected to wait for everyone

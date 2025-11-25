@@ -39,33 +39,35 @@ The primary netlify config is all in [`netlify.toml`](https://github.com/shift-o
 1. redirects and connecting our public URL's (shift2bikes.org, www.shift2bikes.org, www.shift2bikes.com, etc) to our backend (api.shift2bikes.org)
 2. and also building the frontend (with every commit) and the pushing backend content to our API server (with production commits)
 
-If you were to rip netlify out, you'd not need most of that stuff but would need to manage SSL certificates and handle building your site for yourself; TL;DR the backend can run standalone and serve all content!
+If you were to rip netlify out, you'd not need most of that stuff but would need to manage SSL certificates and handle building your site for yourself.  If you were doing this, you could start from [these build commands](https://github.com/shift-org/shift-docs/blob/main/package.json#L31-L34) for inspiration.
+
+**TL;DR the backend can run standalone and serve all content without any other service involved!**
 
 ## Misc Production Details
 
-Currently running Ubuntu 20.04.6 LTS with a planned upgrade this year.
+Currently running Ubuntu 24.04.2 LTS.
 
 ### cron
-we have two cron jobs, one that updates our certbot certificate and one that does a mysql backup
+we have two cron jobs, one that updates our [Lets Encrypt](https://letsencrypt.org/) TLS certificate, and one that does a mysql and image (all user data the server stores) backup.
 
 ### certbot
-there is dark magic? the cron uses this script to renew the cert on a regular basis: https://github.com/shift-org/shift-docs/blob/main/services/nginx/certbot.sh  
+We struggled to get this working well, so there is probably dark magic here.  Cron uses this script to renew the cert on a regular basis: https://github.com/shift-org/shift-docs/blob/main/services/nginx/certbot.sh  
 
 ---- 
 # FAQ:
 
-1. Q: docker-compose is no longer supported; but the shift script uses it?
+1. Q: `docker-compose` is no longer supported; but the `shift` script uses it?
    
-   A: we need to update production to the latest version of Ubuntu, which will have the needed version of docker for the "docker" space "compose" command. The `docker-compose.yml` will need some updates ( tho maybe just "version is obsolete " ) which, unfortunately, docker has no smooth migration for. ( possibly we could have two different docker compose files one for each version; and have the shift script sniff out the OS version to use the right commands and compose. But, probably we'll let things break for a moment and fix them during the upgrade. )
+   A: The script will only use it if it is present, e.g. in an older version of ubuntu.  In production, we use the `docker compose` version of the command as shown [in this code](https://github.com/shift-org/shift-docs/blob/main/shift#L173-L174).  Depending on what version of docker you use, you may need to mess with this To Some Degree.
     
 2.  Q: What setup is needed for the ec2 server that will be running the database? Do I just need to change the db passwords and the domain in shift script?
 
     A: See 1, but also there are two files to setup: the `secrets` ( for email ) and the `shift.overrides` ( for the domain ) -- see https://github.com/shift-org/shift-docs/blob/hosting-docs/docs/PRODUCTION_CONFIGURATION.md for more info on those.
 
-3.  Q: Where do I need to repoint/change the api.shift2bikes.org? 
+3.  Q: Where do I need to repoint/change the `api.shift2bikes.org`? 
 
     1. `netlify.toml`: various places: for api access, uploaded user image access, ical feeds. 
-    2. the secrets file: for smtp 
+    2. the `secret`s file: for smtp 
     3. `shift.overrides`: for generating links to events in returned responses 
     4. `certbot.sh`: so the backend can be accessed with https 
     5. minor: `tools/preview.js`: for testing local content with the production backend
@@ -75,7 +77,7 @@ there is dark magic? the cron uses this script to renew the cert on a regular ba
    1. `app/config.js`: reply email address, ical guid(s), etc.
    2. `app/endpoints/ical.js` (and `test/ical_test.js`): more ical guid generation
    3. `site/content/404.md`, `addevent.md`,` site/themes/s2b_hugo_theme/layouts/partials/cal/edit.html`, `pp-header.html`: support emails
-   4. `site/themes/s2b_hugo_theme/layouts/partials/cal/shift-feed.html`, `pp-feed.html`: ical subscription links
+   4. `site/themes/s2b_hugo_theme/layouts/partials/cal/shift-feed.html`: ical subscription link
    5. probably some content pages ( ex. for documentation, links, or email: but nothing that would directly affect functionality )
   
    

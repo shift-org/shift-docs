@@ -21,7 +21,6 @@ export default {
 <template>
 <div class="c-tool__panel"  
     :id="id" 
-    role="tabpanel"
     tabindex="0"
     :aria-labeledby="toolButton"
     v-show="!hidden"
@@ -38,6 +37,6 @@ export default {
   display: flex;
   justify-content: center;
   gap:  0.5em;
-  font-size: 16px;
+  font-size: 1rem;
 }
 </style>

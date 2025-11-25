@@ -63,6 +63,8 @@ export default {
           // done loading.
           const page = buildPage(evt, vm.calStart, to.fullPath);
           vm.evt = evt; 
+          // override the server's shareable with the spa's current page.
+          evt.shareable = window.location;
           vm.$emit("pageLoaded", page);
         });
       }
@@ -92,6 +94,7 @@ export default {
     const { caldaily_id } = this.$route.params;
     return {
       // placeholder empty event data
+      // 'id' will become valid when loading is finished
       evt: {
         caldaily_id,
       },
@@ -111,15 +114,32 @@ export default {
     },
     loopText() {
       return this.evt.loopride && 'Ride is a loop';
+    },
+    rideLength() {
+      if (this.evt.ridelength) {
+        return `${this.evt.ridelength} miles`;
+      }
+    },
+    shareableLink() {
+      return this.evt.shareable;
+    },
+    exportLink()  {
+      // FIX: this matches the calendar but should be a single day.
+      const { series_id } = this.$route.params;
+      return dataPool.getExportURL(series_id);
+    },
+    addToGoogleLink() {
+      const { evt } = this;
+      return evt.id && helpers.getAddToGoogleLink(evt);
+    },
+    webLink() {
+      const { evt } = this;
+      return evt.id && helpers.getWebLink(evt.weburl);
+    },
+    contactLink() {
+      const { evt } = this;
+      return evt.id && helpers.getContactLink(evt.contact);
     }
-  },
-  methods: {
-    webLink(evt) {
-      return helpers.getWebLink(evt.weburl);
-    },
-    contactLink(evt) {
-      return helpers.getContactLink(evt.contact);
-    },
   }
 }
 </script>
@@ -143,8 +163,8 @@ export default {
         <LocationLink :evt="evt"></LocationLink>
       </Term>
       <Term id="organizer"  label= "Organizer">
-          <span class="c-organizer__name c-organizer__name--link" v-if="contactLink(evt)">
-            <ExternalLink :href="contactLink(evt)">{{evt.organizer}}</ExternalLink>
+          <span class="c-organizer__name c-organizer__name--link" v-if="contactLink">
+            <ExternalLink :href="contactLink">{{evt.organizer}}</ExternalLink>
           </span>
           <span v-else class="c-organizer__name c-organizer__name--text">
             {{ evt.organizer }}
@@ -159,17 +179,23 @@ export default {
       <Term id="news" :context="evt.caldaily_id" label= "Newsflash" :text="evt.newsflash"/>
       <Term id="time"       label= "Start Time"   :text="timeRange"/>
       <Term id="timedetails"label= "Time Details" :text="evt.timedetails"/>
-      <Term id="locend"     label= "End Location" :text="evt.locend"/>
+      <Term id="locend"     label= "End Location" pretext="Ending at " :text="evt.locend"/>
       <Term id="loop"       label= "Loop"         :text="loopText"/>
-    </dl>
-    <dl class="c-terms c-detail__footer">
-      <Term id="desc" label= "Description" :text="evt.details"/>
+      <Term id="ridelength" label= "Length"       :text="rideLength"/>
       <Term v-if="evt.weburl" label="More Info">
-        <ExternalLink :href="webLink(evt)">
+        <ExternalLink :href="webLink">
           {{evt.webname || evt.weburl}}
         </ExternalLink>
       </Term> 
     </dl>
+    <p class="c-description">
+      {{evt.details}}
+    </p>
+    <ul class="c-detail-links" v-if="evt.id">
+      <li><a :href="shareableLink" class="c-links__share" rel="bookmark">Sharable link</a></li>
+      <li><a :href="exportLink" class="c-links__export">Export to calendar</a></li>
+      <li><a :href="addToGoogleLink" class="c-links__google" target="_blank">Add to Google Calendar</a></li>
+    </ul>
   </article>
 </template>
 
@@ -179,14 +205,15 @@ export default {
   justify-content: center;
   flex-direction: column;
   flex-wrap: nowrap;
+  margin: 5px 10px;
 } 
 .c-detail--featured {
-  background-color: #fcfaf2;
-  border: 1px solid #fd6;
-  padding: 0px 1em;
+  background-color: var(--feature-bg);
+  border: var(--orangey-border);
+  padding: 1em;
 }
 .c-detail--cancelled {
-  .c-header {
+  .c-event-header {
     text-decoration: line-through;
   }
   /* strike through the values of things, except for the news and the tags */
@@ -196,9 +223,34 @@ export default {
 }
 .c-terms {
   margin: 0px;
+  padding: 0px 1em;
 }
-.c-term__value--desc {
-  margin: 1em;
+.c-description {
   white-space: pre-line;
+  border-top: var(--orangey-border);
+  margin-top: 1em;
+  padding-top: 1em;
 }
+.c-detail-links {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex-flow: row wrap; 
+  list-style-type: none;
+  gap: 5px;
+  /* on safari empty tags collapse, on chrome they take up space.
+  this helps keep things consistent  */
+  margin: 1em 0;
+  padding-inline-start: 0px;
+
+  /* copied from main.css eventlink */
+  li {
+      border-right: 1px solid var(--page-text);
+      padding-right: 5px;
+      &:last-child {
+        border-right: none;
+      }
+    }
+}
+
 </style>

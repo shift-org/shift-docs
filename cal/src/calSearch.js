@@ -1,7 +1,6 @@
 /**
  *  support functions for CalList.vue
  */
-import dayjs from 'dayjs'
 import dataPool from './support/dataPool.js'
 import siteConfig from './siteConfig.js'
 
@@ -68,7 +67,6 @@ function buildShortcuts(offset, limit, count, total) {
       };
     } : disabled,
     addevent: "/addevent/",
-    info: "/pages/mission_statement/",
     donate: "/pages/donate",
     favorites(vm) {
       return {

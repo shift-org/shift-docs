@@ -1,6 +1,6 @@
 const dt = require("../util/dateTime");
 const validator = require('validator');
-const { Area, DatesType } = require("./calConst");
+const { Area, Audience, DatesType, RideLength } = require("./calConst");
 
 class ErrorCollector {
   constructor() {
@@ -27,21 +27,34 @@ function makeValidator(input, errors) {
     // trim all strings
     return ((input[field] ?? '') + '').trim();
   }
+  function smallerThan(str, field, maxLen) {
+    const okay = validator.isByteLength(str, { min: 0, max: maxLen });
+    if (!okay) {
+      errors.addError(field, "Field is too long");
+    }
+    return okay;
+  }
   return {
-    requireString(field, msg) {
+    requireString(field, msg, maxLen = 255) {
       const str = getString(field);
       if (validator.isEmpty(str)) {
         errors.addError(field, msg);
-      } else {
+      } else if (smallerThan(str, field, maxLen)) {
         return str;
       }
     },
-    requireEmail(field, msg) {
+    // the real valid email spec is 320; 
+    // our db only supports 255
+    requireEmail(field, maxLen = 255) {
       const str = getString(field);
-      if (!validator.isEmail(str)) {
-        errors.addError('email', msg);
+      if (validator.isEmpty(str)) {
+        errors.addError('email', "Email missing");
+      } else if (!smallerThan(str, field, maxLen)) {
+        // already set errors 
+      } else if (!validator.isEmail(str)) {
+        errors.addError('email', "Email is invalid");
       } else {
-        return str; // write the trimmed value.
+       return str; // write the trimmed value.
       }
     },
     // only checks the value; doesnt return anything
@@ -85,9 +98,13 @@ function makeValidator(input, errors) {
     },
     // to mimic php/flourish empty strings are converted to null.
     // https://flourishlib.com/docs/fActiveRecord.html#ColumnOperations
-    nullString(field) {
+    nullString(field, maxLen = 255) {
       const str = getString(field);
-      return validator.isEmpty(str) ? null : str;
+      if (validator.isEmpty(str)) {
+        return null; 
+      } else if (smallerThan(str, field, maxLen)) {
+        return str; 
+      }
     },
     // if not specified, returns 0
     // otherwise expects 0, 1, true, or false
@@ -172,6 +189,11 @@ function makeValidator(input, errors) {
       }
       return validStatus;
     },
+
+    validateRideLength(rideLength) {
+      value = getString(rideLength);
+      return (value in RideLength) ? value : null;
+    },
   };
 }
 
@@ -192,24 +214,25 @@ function validateEvent(input) {
     locname: v.requireString('venue', 'Venue missing'),
     address: v.requireString('address', 'Address missing'),
     name: v.requireString('organizer', 'Organizer missing'),
-    email: v.requireEmail('email', 'Email missing'),
+    email: v.requireEmail('email'),
     hideemail: v.optionalFlag('hideemail'),
     phone: v.nullString('phone'),
     hidephone: v.optionalFlag('hidephone'),
     contact: v.nullString('contact'),
     hidecontact: v.optionalFlag('hidecontact'),
-    descr: v.requireString('details', 'Details missing'),
+    descr: v.requireString('details', 'Details missing', 16*1024),
     eventtime: v.requiredTime('time'),
     timedetails: v.nullString('timedetails'),
     locdetails: v.nullString('locdetails'),
     loopride: v.optionalFlag('loopride'),
     locend: v.nullString('locend'),
+    ridelength: v.validateRideLength('ridelength'),
     eventduration: v.zeroInt('eventduration'),
-    weburl: v.nullString('weburl'), // fix? validate this is a url>
+    weburl: v.nullString('weburl', 512), // fix? validate this is url-like?
     webname: v.nullString('webname'),
-    audience: v.nullString('audience'),
+    audience: v.optionalChar('audience', Audience.General),
     tinytitle: v.mungeTinyTitle(title),
-    printdescr: v.nullString('printdescr'),
+    printdescr: v.nullString('printdescr', 1024),
     dates: v.nullString('datestring'), // string field 'dates' needed for legacy admin calendar
     datestype: v.optionalChar('datestype', DatesType.OneDay),
     area: v.optionalChar('area', Area.Portland),

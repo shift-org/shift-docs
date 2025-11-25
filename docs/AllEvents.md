@@ -18,7 +18,7 @@ I've been able to import single events ( and update them ) into MacOS Calendar.a
 
 1. **New endpoints**
 
-    It's intended to be able to support `/cal/icalpp.php`, `/cal/pedalpalooza-calendar.php`,  and `/api/ics.php` -- might want to reroute old paths to the new ones? but that's maybe some ngnix configuration work i'm not entirely sure about.
+    It's intended to be able to support `/cal/icalpp.php`, `/cal/shift-calendar.php`,  and `/api/ics.php` -- might want to reroute old paths to the new ones? but that's maybe some ngnix configuration work i'm not entirely sure about.
     
     Alt: could have the php files in those locations include and call the new php code?
 

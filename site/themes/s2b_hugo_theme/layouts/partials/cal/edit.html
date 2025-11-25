@@ -179,11 +179,11 @@
         <div id="dateandtime-fields" class="panel-collapse collapse in">
           <div class="panel-body">
 
-            <!--
+            {{ if .Site.Params.festival.active }}
             <div class="pp-banner">
-              <a href="/pages/pedalpalooza/" target="_blank" title="opens in a new window">Pedalpalooza 2024</a> is on! Bike summer returns for all of June, July, and August!
+              <a href="/pages/bike-summer/" target="_blank" title="opens in a new window">Bike Summer</a> (aka Pedalpalooza) returns for all of June, July, and August! Add your events now!
             </div>
-            -->
+            {{ end }}
 
             <div class="form-group">
               <label class="control-label req-label" for="datestring">Date</label>
@@ -301,10 +301,10 @@
 
             <div class="form-group">
               <label class="control-label optional-label" for="length">Length of route</label>
-              <select name="length" class="form-control" id="length">
-                [[# lengthOptions ]]
+              <select name="ridelength" class="form-control" id="ridelength">
+                [[# rideLengthOptions ]]
                 <option value="[[code]]" [[# isSelected ]]selected[[/ isSelected ]]>[[text]]</option>
-                [[/ lengthOptions ]]
+                [[/ rideLengthOptions ]]
               </select>
             </div>
 

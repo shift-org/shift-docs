@@ -119,20 +119,20 @@ export default {
 .c-menu-item__button {
   padding: 0.5em 0;
   margin: 0;
-  color: #555;
-  background-color: transparent;
+  background-color: var(--page-bg);
+  color: var(--page-text);
   border: none;
   cursor: pointer;
   font-size: large;
   font-weight: bold;
   &:hover {
-    color: #555;
-    background-color: #ffc14d;
+    color: var(--page-text);
+    background-color: var(--hover-bg);
   }
 }
 .c-menu-item--active .c-menu-item__button {
-  background-color: #ff9819;
-  color: white;
+  background-color: var(--active-bg);
+  color: var(--active-text);
 }
 .c-menu-item__kids {
   list-style-type: none;
@@ -140,7 +140,7 @@ export default {
   margin-inline: 0;
 }
 .c-menu-kid {
-  border-bottom: solid 1px #eee;
+  border-bottom: var(--page-border-light);
   line-height: 2em;
   width: 100%;
 }
@@ -151,15 +151,20 @@ export default {
 } 
 .c-subscribe {
   text-align: center;
-  background: #FCFAF2;
+  background: var(--feature-bg);
   padding: 1em;
   margin: 0 auto;
 }
 .c-subscribe__button {
-  color: #37b;
   font-weight: bold;
   text-transform: uppercase;
   padding: 1em;
-  border-style: none;
+  border: var(--page-border-accent);
+  &:hover {
+    /* matches the menu links */
+    color: var(--active-bg);
+    /* hrm... a random accent */
+    background-color: var(--fixed-bg);
+  }
 }
 </style>

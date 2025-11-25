@@ -2,7 +2,6 @@
  * Requests favorites results from the server, and displays them.
  -->
 <script>
-import dayjs from 'dayjs'
 import EventSummary from './EventSummary.vue'
 import favorites from './support/favorites.js'
 import { buildPage } from './calFavorites.js'
@@ -34,11 +33,9 @@ export default {
 }
 </script>
 <template> 
-  <h3 class="c-divder c-divder--center">Favorites</h3>
+  <h3 class="c-divider c-divider--center">Favorites</h3>
   <EventSummary 
       v-for="(entry, key) in store" :key 
       :evt="entry.data" 
       :showDate="true"/>
 </template>
-<style>
-</style>

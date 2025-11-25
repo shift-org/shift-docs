@@ -2,7 +2,6 @@
  * Requests search results from the server, and displays them.
  -->
 <script>
-import dayjs from 'dayjs'
 import EventSummary from './EventSummary.vue'
 import { fetchSearch } from './calSearch.js'
 import siteConfig from './siteConfig.js'
@@ -79,7 +78,7 @@ export default {
 }
 </script>
 <template> 
-  <h3 class="c-divder c-divder--center">
+  <h3 class="c-divider c-divider--center">
     <div>Found {{fullCount}} {{pluralized}} containing "{{searchStr}}"</div>
     <div v-if="totalPages > 1">Showing page {{pageNum}} of {{totalPages}}</div>
   </h3>

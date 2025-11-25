@@ -17,7 +17,7 @@
     };
 
     $.fn.getMapLink = function(address) {
-        if (!address || address == 'TBA' || address == 'TBD') {
+        if (!address || /^(tba|tbd)\b/i.test(address)) {
             // if address is null or not available yet, don't try to map it
             return null;
         }
@@ -69,6 +69,33 @@
             // if it's not a link, return nothing
             return;
         }
+    };
+
+    // ex. https://calendarlinkgenerator.com/google-calendar-link-generator
+    // duplicated in calHelpers.js
+    $.fn.getAddToGoogleLink = function(event) {
+        const googleCalUrl = new URL('https://calendar.google.com/calendar/render');
+
+        const startDate = dayjs(`${event.date} ${event.time}`);
+        const duration = event.eventduration ?? 60; // Google requires a duration
+        const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration }));
+        
+        const googleFormat = 'YYYYMMDDTHHmmss'; // on simon's phone, millsecs creates an all day event
+        const startString = startDate.format(googleFormat);
+        const endString = endDate.format(googleFormat);
+        const calendarDates = `${startString}/${endString}`;
+        
+        googleCalUrl.search = new URLSearchParams({
+          action: "TEMPLATE",
+          text: `shift2Bikes: ${event.title}`,
+          location: event.address,
+          details: `${event.details}\n\n${event.shareable}`,
+          dates: calendarDates,
+          // FIX: this seems better than timezoneless but probably should be configurable.
+          ctz: `America/Los_Angeles`
+        });
+
+        return googleCalUrl.toString();
     };
 
     $.fn.compareTimes = function ( event1, event2 ) {

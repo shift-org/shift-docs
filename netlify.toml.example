@@ -80,7 +80,7 @@
 
 [[redirects]]
   from = "/my/specialpath"
-  to = "https://api.primarydomain.org/api/pedalpalooza-calendar.php"
+  to = "https://api.primarydomain.org/api/special-back-end-path"
   status = 200
   force = true
 

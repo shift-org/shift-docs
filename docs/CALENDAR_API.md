@@ -616,3 +616,13 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.55.0: (2024-08-30) Added year-round calendar iCal feed (at `/api/shift-calendar.php`), in addition to Pedalpalooza-specific one
 * 3.55.1: (2024-12-09) Terms fields (`code_of_conduct`, `ride_comic`) are now only validated on initial submission
 * 3.56.0: (2024-12-13) Max day range is now set in config; `prev` URL added to `pagination` object; pagination `range` now reports an inclusive number of days (e.g. single day range now returns `range: 1` instead of `0`)
+* 3.56.1: (2025-03-03) Updated dependencies: nginx (patch)
+* 3.56.2: (2025-03-24) Updated dependencies: Node.js (patch) plus 1 of its dependencies
+* 3.56.3: (2025-04-07) Updated dependencies: MySQL (patch)
+* 3.57.0: (2025-06-23) Altered weburl field to allow 512 characters (up from 255)
+* 3.58.0: (2025-08-11) Added experimental `ride_count` endpoint: provides the number of events in a given time frame, excluding cancelled events. Syntax & usage may not be stable yet.
+* 3.58.1: (2025-09-15) Updated dependencies: nginx
+* 3.59.0: (2025-09-23) Fixed issue with ride length field; now saves, retrieves, and displays correctly
+* 3.59.1: (2025-09-29) Updated MySQL patch version
+* 3.59.2: (2025-10-20) Fixed some backend tests
+* 3.59.3: (2025-11-03) Adjusted search results order when searching past events

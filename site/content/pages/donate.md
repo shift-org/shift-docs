@@ -1,6 +1,6 @@
 ---
 title: Donate
-weight: 4
+weight: 6
 menu:
   main:
     parent: aboutmenu
@@ -14,12 +14,17 @@ Want to help make bike fun happen? Shift is an all-volunteer organization and we
 
 Donations to Shift are tax-deductible via our fiscal sponsor, [Umbrella](https://www.umbrellapdx.org/). You can see how we use this money on our [expenses](/pages/budget-finance-stuff/) page.
 
-You can donate via PayPal with the Donate button below:
+Donate to Shift using Zeffy with the Donate button below. When possible we prefer Zeffy since they don't take a cut as PayPal does!
 
 <div class="donate">
-  <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" target="_blank" data-content="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=BNL2NY7U8GH3Q" data-type="external" role="button" id="comp-j2nmjo3ulink" class="style-j2nmcorulink"><span id="comp-j2nmjo3ulabel" class="style-j2nmcorulabel">Donate</span></a>
+  <a href="{{% param "donations.primaryURL" %}}" target="_blank">Donate with Zeffy</a>
 </div>
 
+We also accept donations via PayPal:
+
+<div class="donate">
+  <a href="{{% param "donations.secondaryURL" %}}" target="_blank">Donate with PayPal</a>
+</div>
 
 Donations can also be made by mailing a check to Umbrella:
 

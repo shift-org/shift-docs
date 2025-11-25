@@ -8,7 +8,7 @@ export default {
     return {
      attrs: {
         type: "text",
-        placeholder: "Search event titles...",
+        placeholder: "enter keywords",
       },
       model: {
         // the text in the input box should be filled with the query search string.
@@ -42,7 +42,7 @@ export default {
   <div class="c-search__controls">
     <InputText name="search" label="Search" :attrs :model :shouldSelect/>
     <span class="c-search__past">
-      <label for="all">Include past events </label>
+      <label for="all">Only look at past events</label>
       <input type="checkbox" id="all" v-model="searchAll"/>
     </span>
   </div>
@@ -65,7 +65,7 @@ export default {
   gap: 0.5em;
 }
 .c-search__past {
-  font-size: 14px;
+  font-size: 1rem;
   align-self: center;
   white-space: pre;
 }

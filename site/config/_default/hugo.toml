@@ -31,6 +31,14 @@ disableKinds = ["taxonomy", "term"]
     identifier = ""
     parent = "Calendar"
 
+# Child of Calendar
+ [[menu.main]]
+    name = "Events (Beta)"
+    url  = "/events/beta/"
+    weight = 1
+    identifier = ""
+    parent = "Calendar"
+
  # Child of Calendar
  [[menu.main]]
     name = "Add Event"
@@ -41,8 +49,8 @@ disableKinds = ["taxonomy", "term"]
 
  # Child of Calendar
  [[menu.main]]
-    name = "Pedalpalooza calendar"
-    url  = "/pedalpalooza-calendar/"
+    name = "Bike Summer (Pedalpalooza) calendar"
+    url  = "/bike-summer-calendar/"
     weight = 3
     identifier = ""
     parent = "Calendar"
@@ -64,7 +72,6 @@ disableKinds = ["taxonomy", "term"]
     url  = "/about/"
     weight = 6
     identifier = "aboutmenu"
-
 
 # -------------------------------------
 # Site parameters, available to layouts via `{{ .Site.Params.<something> }}`
@@ -92,6 +99,18 @@ disableKinds = ["taxonomy", "term"]
 
     # mastodon verification
     verificationURL = "https://pdx.social/@shift2bikes"
+
+# links for accepting donations
+[params.donations]
+    primaryURL = "https://www.zeffy.com/donation-form/donate-to-shift"
+    secondaryURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=BNL2NY7U8GH3Q"
+
+# Festival details
+[params.festival]
+    name = "Bike Summer"
+    active = false # set to true when festival is happening soon or now
+    merchSaleActive = false # set to true when merch sales are open
+    donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
 # Main page image carousel
 [params.carousel]

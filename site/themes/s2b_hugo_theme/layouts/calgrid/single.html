@@ -6,7 +6,9 @@
               </div>
 
               <!-- only display when PP is coming soon or happening now -->
-              <!-- {{ partial "cal/pp-promo-banner.html" . }} -->
+              {{ if .Site.Params.festival.active }}
+                {{ partial "cal/pp-promo-banner.html" . }}
+              {{ end }}
 
               <!-- only display during Steptember -->
               <!-- {{ partial "cal/promo-banner-steptember.html" . }} -->

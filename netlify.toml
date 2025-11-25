@@ -39,22 +39,26 @@
 ## domain redirects to serve alternative domains.  First, we canonicalize
 ## so that we can serve just the "best" version (NETLIFY DNS record)
 ## such redirects must be first redirects in this file!
+## ---------------------------------------------------------------------------
 
 [[redirects]]
   from = "https://shift2bikes.com/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
+
 [[redirects]]
   from = "https://www.shift2bikes.com/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
+
 [[redirects]]
   from = "https://shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
   status = 301
   force = true
+
 [[redirects]]
   from = "https://www.shifttobikes.org/*"
   to = "https://www.shift2bikes.org/:splat"
@@ -62,7 +66,7 @@
   force = true
 
 ## ---------------------------------------------------------------------------
-## dynamic back end + event images stored on our API server
+## dynamic backend + event images stored on our API server
 ## Solves CORS problems to proxy via Netlify
 ## cf https://docs.netlify.com/routing/redirects/rewrites-proxies/
 ## ---------------------------------------------------------------------------
@@ -77,20 +81,26 @@
   to = "https://api.shift2bikes.org/eventimages/:splat"
   status = 200
 
-## legacy (people have been using it for years) ical feed for pedalpalooza.
-## Can't directly get to /legacy/cal content via www.shift2bikes.org
-## due to other redirects, so proxying secretly here.
+[[redirects]]
+  from = "/socialapi/"
+  to = "https://pdx.social/@shift2bikes.rss"
+  status = 200
 
+## ---------------------------------------------------------------------------
+## ical feeds
+## ---------------------------------------------------------------------------
+
+## legacy (people have been using it for years) ical feed for pedalpalooza.
 [[redirects]]
   from = "/cal/icalpp.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  to = "https://api.shift2bikes.org/api/shift-calendar.php"
   status = 200
   force = true
 
 ## the official pedalpalooza feed
 [[redirects]]
   from = "/cal/pedalpalooza-calendar.php"
-  to = "https://api.shift2bikes.org/api/pedalpalooza-calendar.php"
+  to = "https://api.shift2bikes.org/api/shift-calendar.php"
   status = 200
   force = true
 
@@ -101,6 +111,9 @@
   status = 200
   force = true
 
+## ---------------------------------------------------------------------------
+## legacy links
+## ---------------------------------------------------------------------------
 
 ## we can't translate REALLY legacy links (<2017) - they used some odd format.  
 ## But let's at least land on the calendar page in case someone clicks one.
@@ -115,16 +128,40 @@
   to = "/pages/pedalpalooza"
   status = 301
 
-## old pedalpalooza page should link to new one
+## old Pedalpalooza page should link to new one
 [[redirects]]
   from = "/pedalpalooza"
-  to = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
   status = 301
 
-## old bike rack webpage linked from PBoT and other offsite pages  we can't fix
+## old Pedalpalooza page should link to newer Bike Summer one
+[[redirects]]
+  from = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
+  status = 301
+
+## Older Pedalpalooza calendar should link to newer Bike Summer one
+[[redirects]]
+  from = "/pedalpalooza-calendar"
+  to = "/bike-summer-calendar"
+  status = 301
+
+## old bike rack webpage linked from PBoT and other offsite pages we can't fix
 [[redirects]]
   from = "/wiki/shift-shop:rack-rental"
   to = "/pages/bike-racks/"
+  status = 301
+
+## moved playbooks content onto meeting notes page
+[[redirects]]
+  from = "/pages/playbooks"
+  to = "/pages/meeting-notes"
+  status = 301
+
+## sample redirect for a campaign (e.g. QR code or other link you want to track specific usage of)
+[[redirects]]
+  from = "/campaign1"
+  to = "/"
   status = 301
 
 #------------------------------------------------------------------------------------
@@ -153,4 +190,14 @@
 [[redirects]]
   from = "/events/*"
   to = "/events"
+  status = 200
+
+# ---------------------------------------------------------------------------
+# android progressive web app helper
+# https://developers.google.com/digital-asset-links/v1/getting-started
+# ---------------------------------------------------------------------------
+
+[[redirects]]
+  from = "/.well-known/assetlinks.json"
+  to = "/events/assetlinks.json"
   status = 200

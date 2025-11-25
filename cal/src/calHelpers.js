@@ -54,6 +54,32 @@ export default {
     return friendlyTime(time) + suffix;
   },
 
+  // duplicated from calendars helpers
+  getAddToGoogleLink(event) {
+      const googleCalUrl = new URL('https://calendar.google.com/calendar/render');
+
+      const startDate = dayjs(`${event.date} ${event.time}`);
+      const duration = event.eventduration ?? 60; // Google requires a duration
+      const endDate = dayjs(startDate).add(dayjs.duration({ 'minute': duration }));
+      
+      const googleFormat = 'YYYYMMDDTHHmmss'; // on simon's phone, millsecs creates an all day event
+      const startString = startDate.format(googleFormat);
+      const endString = endDate.format(googleFormat);
+      const calendarDates = `${startString}/${endString}`;
+
+      googleCalUrl.search = new URLSearchParams({
+        action: "TEMPLATE",
+        text: `shift2Bikes: ${event.title}`,
+        location: event.address,
+        details: `${event.details}\n\n${event.shareable}`,
+        dates: calendarDates,
+        // FIX: this seems better than timezoneless but probably should be configurable.
+        ctz: `America/Los_Angeles`
+      });
+
+      return googleCalUrl.toString();
+  },
+
   // https://jasonwatmore.com/vanilla-js-slugify-a-string-in-javascript
   // might want the server to do this; but fine for now.
   slugify(evt) {

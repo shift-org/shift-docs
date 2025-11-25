@@ -1,8 +1,8 @@
 /**
- *  support functions for CalList.vue
+ * support functions for CalList.vue
  */
 import dayjs from 'dayjs'
-import dataPool from './support/dataPool.js'
+import sources from './sources/sourcePool.js'
 import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
@@ -15,20 +15,25 @@ export async function fetchRange(startDate) {
   // fetch happens in background, over time.
   // it sets this.loading, which triggers an animation
   const end = start.add(6, 'day');
-  const data = await dataPool.getRange(start, end);
-  const days = groupByDay(start, end, data.events);
-  return buildPage(start, end, days);
+  const records = await sources.getRange(start, end, siteConfig.socialapi);
+  return buildPage(start, end, records);
 }
 
 // ---------------------------------------------------------------------
 // internal functions
 // ---------------------------------------------------------------------
 
-function buildPage(start, end, days) {
+function buildPage(start, end, records) {
+  const days = groupByDay(start, end, records);
+  // search for the first item of type 'calfestival'
+  // and use its value as the banner.
+  // the format of it and the banner are (intentionally) the same.
+  const banner = records.find(rec => rec.type === 'calfestival')
+                  || siteConfig.defaultListBanner;
   return {
     page: {
       title: `${siteConfig.title} - Calendar - ${start.format("YYYY-MM-DD")}`,
-      banner: pickBanner(start, end)
+      banner,
       // desc
     },
     range: {
@@ -52,30 +57,6 @@ function shiftRange(router, start, dir) {
 }
 
 // ---------------------------------------------------------------------
-// display the banner based on the requested start and end days
-function pickBanner(start, end) {
-  let banner = siteConfig.defaultListBanner; 
-  const fest = siteConfig.getFestival(start);
-  if (fest) {
-    const festStart = dayjs(fest.startdate);
-    const festEnd = dayjs(fest.enddate);
-    const contains = 
-      // is the start of our visible range within the festival?
-      helpers.within(start, festStart, festEnd) ||
-      // is the start of the festival within the visible range?
-      helpers.within(festStart, start, end) ||
-      // is the end of the festival within the visible range?
-      helpers.within(festEnd, start, end) || 
-      // really now. is there some simpler contains?
-      helpers.within(end, festStart, festEnd);
-    if (contains) {
-      banner = fest;
-    }
-  }
-  return banner;
-}
-
-// ---------------------------------------------------------------------
 function buildShortcuts(start) {
   return {
     prev(vm) {
@@ -93,7 +74,6 @@ function buildShortcuts(start) {
       };
     },
     addevent:  "/addevent/",
-    info: "/pages/mission_statement/",
     donate: "/pages/donate",
     favorites(vm) {
       return {
@@ -106,27 +86,27 @@ function buildShortcuts(start) {
 }
 
 // ---------------------------------------------------------------------
-// given api data returned by the server, generate a contiguous array of days.
-// each day contains the dayjs date, and an array of events for that day.
-// [ { date, events: [] }, ... ]
+// generate a contiguous array of days.
+// each day contains the 'moment', and an array of records for that day.
+// [ { date, records: [] }, ... ]
 // this helps calList show every day of the week, including days with no events.
 //
-// NOTE: assumes that the incoming eventData is sorted.
+// NOTE: assumes that the incoming records are sorted.
 //       assumes start, end are .startOf('day')
-function groupByDay(start, end, eventData) {
+function groupByDay(start, end, records) {
   // create entries for every day between start and end ( inclusive )
   const length = end.diff(start, 'day') + 1;
   const allDays = Array.from({length}, (_, idx) => {
     return {
       date: start.add(idx,'day'),
-      events: []
+      records: []
     };
   });
-  eventData.forEach((evt,j) => {
-    const date = dayjs(evt.date);
+  records.forEach((rec, j) => {
+    const date = dayjs(rec.moment);
     const idx = date.diff(start, 'day');
     const currDay = allDays[idx]; // a reference to the entry; not a copy.
-    currDay.events.push(evt);
+    currDay.records.push(rec);
   });
   // console.log(JSON.stringify(allDays));
   return allDays;

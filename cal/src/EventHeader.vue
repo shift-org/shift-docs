@@ -25,29 +25,29 @@ export default {
 };
 </script>
 <template>
-  <header class="c-header" 
-  :class="{'c-header--featured': featured}"
+  <header class="c-event-header" 
+  :class="{'c-event-header--featured': featured}"
   :aria-describedby="describedBy">
-    <h3 class="c-header__marquee" v-if="featured"
+    <h3 class="c-event-header__marquee" v-if="featured"
       :id="`featured-${id}`">
       Featured Event
     </h3>
-    <h3 class="c-header__title">
-      <div class="c-header__time" v-if="time">{{time}}</div>
-      <div class="c-header__text"><slot /></div>
+    <h3 class="c-event-header__title">
+      <div class="c-event-header__time" v-if="time">{{time}}</div>
+      <div class="c-event-header__text"><slot /></div>
     </h3>
   </header>
 </template>
 <style>
-.c-header__title {
+.c-event-header__title {
   display: flex;
-  align-items: center;
+  gap: 10px;
 }
-.c-header--featured {
-  .c-header__marquee {
+.c-event-header--featured {
+  .c-event-header__marquee {
     text-align: center;
     font-weight: bold;
-    color: #630;
+    color: var(--feature-text);
     text-transform: uppercase;
     &::before {
       /*  alt text for the content can be specified after the slash;
@@ -59,12 +59,16 @@ export default {
     } 
   }
 }
-.c-header__time {
-  box-shadow: 2px 2px 1px 1px black;
-  border: solid black thin;
-  background: white;
+.c-event-header__time {
+  box-shadow: 2px 2px 1px 1px var(--logo-color);
+  border: solid thin var(--logo-color);
+  background: var(--page-bg);
   padding: 0.5em;
-  margin: 0.5em;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+.c-event-header__text {
+  align-self: center; /* vertically center text */
 }
 </style>

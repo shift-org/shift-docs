@@ -20,7 +20,7 @@ echo "Making webroot"
 mkdir -p "${WEBROOT}/.well-known/acme-challenge/"
 
 echo "Running certbot"
-certbot certonly -n --webroot --webroot-path "${WEBROOT}" -d "${DOMAIN}"
+certbot certonly -n --agree-tos --email bikecal@shift2bikes.org --webroot --webroot-path "${WEBROOT}" -d "${DOMAIN}"
 
 echo "Copying files"
 cp "${CRTSRC}" "${CRTDST}"

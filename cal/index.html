@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="robots" content="all,follow">
     <meta name="googlebot" content="index,follow,snippet,archive">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>Calendar - Shift</title>
     <meta name="keywords" content="calendar, rides">
     <meta name="description" content="Rides calendar">
     <link rel="icon" href="/img/favicon.ico">
     <link rel="icon" href="/img/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <!-- 
+    the manifest and its icons are in the app's "public" directory.
+    they get copied as-is into vite's output directory.
+    https://vite.dev/guide/assets#the-public-directory
+     -->
+    <link rel="manifest" href="manifest.json">
     <!-- Verification metadata for Mastodon -->
     <link href="https://pdx.social/@shift2bikes" rel="me">
   </head>

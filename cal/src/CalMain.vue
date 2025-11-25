@@ -1,15 +1,12 @@
 <script>
-// globals:
-import dayjs from 'dayjs'
 // components:
-//
 import Banner from './Banner.vue'
-import Footer from './Footer.vue'
+import Addendum from './Addendum.vue'
 import GenericError from './GenericError.vue'
 import JumpTool from './tools/JumpTool.vue'
 import Menu from './Menu.vue'
 import Meta from './Meta.vue'
-import PedalPanel from './PedalPanel.vue'
+import FestivalInfo from './FestivalInfo.vue'
 import SearchTool from './tools/SearchTool.vue'
 import Shortcuts from './Shortcuts.vue'
 import ToolPanel from './tools/ToolPanel.vue'
@@ -17,12 +14,12 @@ import Toolbar from './Toolbar.vue'
 import { RouterLink, RouterView } from 'vue-router'
 // support:
 import siteConfig from './siteConfig.js'
-import pp from './pedalp.js'
+import festInfo from './pedalp.js'
 import scrollPos from './scrollPos.js';
 
 export default {
   components: {
-    Footer,
+    Addendum,
     GenericError, 
     Meta, 
     RouterView, 
@@ -31,7 +28,7 @@ export default {
     Banner,
     JumpTool, 
     Menu, 
-    PedalPanel, 
+    FestivalInfo, 
     SearchTool,
     ToolPanel
   },
@@ -90,8 +87,8 @@ export default {
         jump: {
           label: "Jump"
         },
-        pedalp: !pp.show ? undefined : {
-          label: `Pedalpalooza ${pp.currentYear}`
+        bikefest: !festInfo.show ? undefined : {
+          label: `Bike Summer`
         },
         menu: {},
       };
@@ -107,7 +104,7 @@ export default {
         // ( the only problem would be how to parameterize the page with the error string
         // ( could pass it as a query string? or is that too messy? )
         this.error = error;
-      } else {
+      } else if (context) {
         this.page = context.page; // matches the format of siteConfig.defaultPageInfo
         this.shortcuts = context.shortcuts;
         scrollPos.restorePos(this.$route);
@@ -134,7 +131,7 @@ export default {
   <Meta property="og:title" :content="page.title" />
   <Meta property="og:description" :content="page.desc" />
   <!--  -->
-<div class="c-top">
+<header class="c-header">
   <Toolbar :tools="tools" :returnLink="page.returnLink"/>
   <div class="c-panels" v-show="!!expanded">
     <ToolPanel name="search" :expanded>
@@ -143,70 +140,75 @@ export default {
     <ToolPanel name="jump" :expanded>
       <JumpTool @changeRoute="changeRoute"/>
     </ToolPanel>
-    <ToolPanel name="pedalp" :expanded>
-      <PedalPanel/>
+    <ToolPanel name="bikefest" :expanded>
+      <FestivalInfo/>
     </ToolPanel>
     <ToolPanel name="menu" :expanded>
       <Menu/>
     </ToolPanel>
   </div>
-</div>
-<div class="c-mid">
+</header>
+<main class="c-main">
   <Banner :banner="currentBanner" :loading/>
   <div v-if="loading" class="c-cal-body__loading">Loading...</div>
   <GenericError v-else-if="error" class="c-cal-body__error" :error/>
   <!-- note: this uses 'v-show' not 'v-if': the view needs to exist to perform the loading. -->
   <div v-show="!loading && !error" class="c-cal-body__content">
     <RouterView @pageLoaded="pageLoaded"/>
-    <Footer v-show="!loading" />
+    <Addendum v-show="!loading" />
   </div>
-</div>
-<div class="c-bottom">
+</main>
+<footer class="c-footer">
   <Shortcuts :shortcuts="shortcuts"></Shortcuts>
-</div> 
+</footer> 
 </template>
 
 <style>
-.c-top {
+.c-header, .c-footer {
   position: fixed;
-  top: 0;
-  min-height: 3.25rem;
-  z-index: 250;
   width: 100%;
-  border-bottom: solid lightgray thin;
-  background: white;
-  box-sizing: border-box;
+  background-color: var(--fixed-bg);
+  z-index: 250; /* to draw over the page view when expanded */
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+.c-header {
+  top: 0;
+  border-bottom: var(--page-border);
+} 
+.c-footer {
+  bottom: 0;
+  border-top: var(--page-border);
 }
 .c-panels {
+  width: 100%;
+  max-width: var(--max-width);    /* to center on desktop */
   overflow: auto;
-  height: calc(100vh - 7.75rem);
-  border-top: solid lightgray thin;
+  /** 
+   * grow the panels to the full height minus the bottom bar
+   * uses dynamic view height to account for ios safari bottom url bar
+   */
+  height: calc(100dvh - 7.75rem);
+  border-top: var(--page-border);
+  background-color: var(--page-bg);
   /* stops the cal list from scroll chaining
   https://developer.mozilla.org/en-US/docs/Web/CSS/overscroll-behavior
   */
   overscroll-behavior-y: contain;
+
 }
-.c-divder {
+.c-divider {
   position: sticky;
   top: 3.25rem;
+  border-top: var(--brightend-border);
+  border-bottom: var(--brightend-border);
 }
-.c-mid {
+.c-main {
   padding-top: 3.25rem;
   padding-bottom: 4rem;
-  box-sizing: border-box;
   width: 100%;
-  border-top: solid lightgray thin;
-}
-.c-bottom {
-  box-sizing: border-box;
-  border-top: solid lightgray thin;
-  position: fixed;
-  bottom: 1px; /* so that the mid and bottom borders overlap */
-  width: 100%;
-  background: white;
-  width: 100%;
+  max-width: var(--max-width);    /* to center on desktop */
 }
 .c-cal-body, .c-single {
   padding: 0px 1em;

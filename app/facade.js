@@ -46,6 +46,7 @@ const facade = {
       ws: true 
     });
     app.use('/events', events);
+    // 
     const etc = createProxyMiddleware({
       logger: console,
       target: 'http://localhost:5173/',
@@ -60,6 +61,14 @@ const facade = {
       ws: true 
     });
     app.use('/', etc);
+    // 
+    const social = createProxyMiddleware({
+      logger: console,
+      target: "https://pdx.social/@shift2bikes.rss",
+      changeOrigin: true,
+      ws: true 
+    });
+    app.use('/socialapi', social);
   },
 
   // uses config for the image directory

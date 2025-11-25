@@ -9,6 +9,7 @@ const API_BASE_URL = window.location.origin;
 // const API_BASE_URL = "https://api.shift2bikes.org";
 const API_EVENTS_URL = new URL(`/api/events.php`, API_BASE_URL);
 const API_SEARCH_URL = new URL(`/api/search.php`, API_BASE_URL);
+const API_ICS_URL    = new URL('/api/ics.php', API_BASE_URL);
 
 // cache the most recent range.
 // useful for front-end development where browser caching is disable.
@@ -19,12 +20,6 @@ let _lastRange = {
 
 // object containing daily id -> event data.
 const caldaily_map = new Map();
-
-function sortTimes() {
-  `${date}T${time}`
-}
-
-const debugFormat = "dddd YYYY-MM-DD";
 
 export default {
   // caldaily_id as a string
@@ -79,18 +74,21 @@ export default {
     const data = await resp.json(); // data => { events: [], pagination: {} }
     mungeEvents(data.events);
     return data;
-  }
+  },
+  // fix: this isn't nice as a method of data pool
+  // make an endpoints file of some sort that dataPool uses.
+  // ( and then have callers of this use that file directly )
+  getExportURL(id) {
+    return buildUrl(API_ICS_URL, {id});
+  },
 }
 
 // change dates into dayjs; and sort.
 function mungeEvents(events) {
-  events.forEach((evt, i) => {
-    events[i].datetime = dayjs(`${evt.date}T${evt.time}`);
+  events.forEach(evt => {
+    evt.moment = dayjs(`${evt.date}T${evt.time}`);
     caldaily_map.set(evt.caldaily_id, evt);
   });
-  events.sort((a, b) => 
-    a.datetime.isBefore(b.datetime) ? -1 : 
-    a.datetime.isAfter(b.datetime) ? 1 : 0); 
 }
 
 function buildUrl(endpoint, pairs) {

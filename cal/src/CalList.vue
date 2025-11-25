@@ -1,5 +1,5 @@
 <!-- 
- * display list of events:
+ * display a list of events:
  * equivalent of viewEvents()
  -->
 <script>
@@ -36,8 +36,8 @@ export default {
       // defaults to now; overridden by query parameters
       // ( via beforeRoute* )
       start: dayjs(),
-      // an array of days
-      // each day containing an array of event instances ( a joined calevent + caldaily )
+      // array of days:
+      // each day containing an array of source records.
       days: [],
     };
   },
@@ -46,37 +46,9 @@ export default {
     startdate() {
       return this.start.format("YYYY-MM-DD");
     },
-    // festival of the current year
-    // if there's a winter fest that goes over the year boundary:
-    // well... you'll have to code that.
-    fest() {
-      return siteConfig.getFestival(this.start);
-    },
   },
   methods: {
-    // return true if there should be a dividing line 
-    // before ( when dir < 0 ) or after ( when dir > 0 )
-    divides(day, index, dir) {
-      let okay = false;
-      // don't ever put a dividing line before the first element
-      if (index > 0) {
-        const fest = this.fest;
-        if (fest) {
-          const festStart = dayjs(fest.startdate);
-          const festEnd = dayjs(fest.enddate);
-
-          const curr = dayjs(day.date);
-          const other = curr.add(dir, 'day');
-          const cin = helpers.within(curr, festStart, festEnd);
-          const oin = helpers.within(other, festStart, festEnd);
-
-          // current day is within the festival; the other is outside.
-          return cin && !oin;
-        }
-      }
-      return okay
-    },
-    // promise six days of events including 'start'.
+    // promise six days of records including 'start'.
     // 'start' should be a valid dayjs date.
     // emits the 'pageLoaded' event when done.
     updateRange(start) {
@@ -97,30 +69,41 @@ export default {
     v-for="(day, index) in days" :key="day.date.format('YYYY-MM-DD')" 
     class="c-day"
     :data-date="day.date">
-    <h2 v-if="divides(day, index, -1)" class="c-day__division c-day__division--start">
-      {{fest.title}} Starts
-    </h2>
     <DateDivider :date="day.date" />
-    <EventSummary 
-        v-for="evt in day.events" :key="evt.caldaily_id" 
-        :evt="evt" />
-    <h2 v-if="divides(day, index, 1)" class="c-day__division c-day__division--end">
-      {{fest.title}} Ends
-    </h2>
+    <template v-for="rec in day.records" :key="rec.uid">
+      <h2 v-if="rec.type == 'calfestival'"
+      class="c-day__festival" :class="{
+         'c-day__festival--start': rec.start,
+         'c-day__festival--end': rec.end,
+      }">
+        {{rec.title}} {{rec.start ? "Starts": "Ends"}}
+      </h2>
+      <EventSummary v-else-if="rec.type == 'caldaily'" :evt="rec" />
+      <template v-else-if="rec.type == 'social'">
+        <p>Social</p>
+        <img v-if="rec.image" :alt="rec.image.alt" :src="rec.image.url">
+        <div v-html="rec.description"></div>
+        <span>via: <a :href="rec.link">pdx social</a></span>
+      </template>
+      <template>
+        <!-- unknown record type '{{rec.type}}' -->
+      </template>
+    </template>
   </article>
 </template>
 <style>
   
-.c-day__division {
-  background-color: #ff9819;
-  color: #630;
+/** the pedalp start/end divider */
+.c-day__festival {
+  background-color: var(--active-bg);
+  color: var(--divider-text);
   text-align: center;
   padding: 1em;
 }  
-.c-day__division--start {
+.c-day__festival--start {
   margin-top: 2em;
 }
-.c-day__division--end {
+.c-day__festival--end {
   margin-bottom: 2em;
 }
 </style>

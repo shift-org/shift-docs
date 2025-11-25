@@ -56,6 +56,8 @@ $(document).ready(function() {
                     exportURL.searchParams.set('id', value.id);
                     value.exportlink = exportURL.toString();
 
+                    value.addToGoogleLink = container.getAddToGoogleLink(value);
+
                     groupedByDate[date].events.push(value);
                 });
 

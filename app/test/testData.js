@@ -39,7 +39,12 @@ module.exports = {
     return {
       dailyStore,
       eventStore,
-      eventErasures
+      eventErasures,
+      resetHistory() {
+        dailyStore.resetHistory();
+        eventStore.resetHistory();
+        eventErasures.resetHistory();
+      }
     }
   },
 };

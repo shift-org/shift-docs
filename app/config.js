@@ -24,7 +24,7 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.56.0",
+    version: "3.59.3",
   },
   db: {
     host: env_default('MYSQL_HOST', 'db'),
@@ -64,6 +64,9 @@ const config = {
       // loads http://localhost:3080/events/index.html
       url: "/events/:series_id/:caldaily_id/:slug?",
       filePath: path.posix.resolve(staticFiles, 'events', 'index.html')
+    },{
+      url: "/socialapi",
+      remoteUrl: "https://pdx.social/@shift2bikes.rss",
     }],
   },
   // various useful email addresses

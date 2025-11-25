@@ -26,7 +26,6 @@ export default {
   <button
       v-if="tool" 
       class="c-tool"
-      role="tab"
       :id="`tool-button-${name}`"
       :tabindex="expanded ? 0 : -1"
       :aria-selected="expanded"
@@ -42,30 +41,44 @@ export default {
     </button>
 </template>
 <style>
- 
+
 .c-tool {
-  height: 35px; 
+  height: auto; 
   min-width: 50px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #ddd;
-  background-color: white;
+  border: var(--page-border);
+  background-color: var(--page-bg);
+  color: var(--page-text);
+  padding: 0.5em;
+  font-size: medium;
+  
   &.c-tool--enabled {
     cursor: pointer;
     @media (hover: hover) {
-        &:hover {
-        color: black;
-        background-color: #ffc14d; /*    --navbar-focus:  */
-      } 
+      &:hover {
+        color: var(--page-bg);
+        background-color: var(--hover-bg);
+        &:active {
+          color: var(--page-text);
+        }
+      }
     }
   }
 }
 .c-tool--active  {
-  color: white;
-  background-color: #ff9819; /* orange: primary-accent */
-  border-color: #555;
+  background-color: var(--active-bg);
+  color: var(--active-text);
+  border: var(--page-border-accent);
 }
 .c-tool--disabled {
-  opacity: 0.5;
+  color: var(--disabled-text);
 }
+
+/*.c-tool__details {
+  margin: 0.5em;
+  padding-top: 0.5em;
+  display: flex;
+  justify-content: center;
+  gap:  0.5em;
+  font-size: 1rem;
+}*/
 </style>

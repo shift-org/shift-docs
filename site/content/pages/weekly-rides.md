@@ -53,7 +53,9 @@ More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/wests
 
 ### Bike Happy Hour
 * Every Wednesday
-* Starting location: Migration Brewing, N Williams Ave (between N Failing St & N Shaver St)
+* Starting location: 
+  * in summer: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road) 
+  * in winter: Migration Brewing, N Williams Ave (between N Failing St & N Shaver St)
 
 Not a ride itself, but a great place to hang out with other bike-y folks. Come by 3pm to 6pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Name tags are encouraged as well; see Jonathan Maus or another Happy Hour Ambassador if you need one. Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun!
 
@@ -70,15 +72,15 @@ A weekly ride led by Ride Safe PDX, a group aiming to make Portland rides safer 
 
 More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
 
-<!--
 ### Thursday Night Ride (TNR)
 * Every Thursday
 * Starting location: Salmon Street Fountain
 
-Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace.
+Thursday Night Ride (TNR) is Portland's longest-running weekly social ride, riding every Thursday night since 2015!
 
-More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
--->
+Routes and ride leaders change weekly, but expect an energetic party-paced "rolling dive bar" of a ride for newcomers and regulars alike. Most rides will feature park and store stops, but come prepared to have fun and celebrate cycling together — other wheeled guests should respect the pace and space of cyclists.
+
+More info: [ThursdayNightRide.com](https://thursdaynightride.com/)
 
 ## Friday
 
@@ -102,7 +104,7 @@ More info: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.co
 * Every Saturday
 * Starting location: multiple in Southeast (SE Clinton St & 41st Ave; SE Clinton St & 26 Ave; east end of Tilikum Bridge, at PDX Opera)
 
-An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/), started and sustained by [Hami Ramani](https://instagram.com/hamiramani) and now led by community members like [Chris Smith](https://bsky.app/profile/chrissmithus.bsky.social) and others. This ride helps support local farmers, bakers, and makers of all kinds and builds community in a relaxed, informal setting.
+An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/), started and sustained by [Hami Ramani](https://instagram.com/hamiramani) and now led by community members like [Chris Smith](https://bsky.app/profile/chrissmith.us) and others. This ride helps support local farmers, bakers, and makers of all kinds and builds community in a relaxed, informal setting.
 
 Once a month, there's also a similar ride from Northwest Portland (meeting at NW Raleigh St & 26th Ave and then NW Pettygrove St & 13th Ave), led by [Strong Towns PDX](https://www.strongtownspdx.org/). Check the [calendar](https://www.shift2bikes.org/calendar/) for details! Also, follow the #PDXMarketRides hashtag across social media for other rides in the same spirit to different markets on different days.
 
@@ -115,6 +117,14 @@ More info: #PDXMarketRides
 Meet up around 7:30pm and ride at 9:00pm. Route under 9-miles with refreshment stops midway. All are welcome, freak bikes encouraged. 
 
 More info: [Dead Baby Bikes Portland on Facebook](https://www.facebook.com/groups/426657747988717/events/), [@DeadBabyBikes_PDX on Instagram](https://www.instagram.com/deadbabybikes_pdx/)
+
+### Bike Milwaukie Monthly Ride
+* 3rd Saturday every month; day sometimes varies, check the [calendar](https://www.shift2bikes.org/calendar/)
+* Starting location: varies, check the calendar
+
+Bike Milwaukie rides are easy paced with no drops and great for cyclists of all ages, starting in or riding around Portland's southern neighbor! If a monthly ride is more challenging, the ride listing will say so.
+
+More info: [Past Bike Milwaukie rides on Shift](https://www.shift2bikes.org/events/search?q=bike+milwaukie&all=true)
 
 ## Sunday
 
@@ -134,7 +144,7 @@ Meet at Stacks Coffeehouse for coffee and conversation, then ride; loops back to
 
 Led by the transportation chair for the Overlook Neighborhood Association; feedback and ideas from folks about transportation-related issues are welcome!
 
-More info: [Overlook Neighborhood Association](https://overlookneighborhood.org/)
+More info: [OverlookNeighborhood.org](https://overlookneighborhood.org/)
 
 ### Zoo Bomb
 * Every Sunday

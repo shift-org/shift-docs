@@ -1,0 +1,8 @@
+{{/* 
+shortcode docs: https://gohugo.io/methods/shortcode/page/
+its .Page is the same sort of page passed to templates.
+so we can pass that to a partial and it can render the page for us.
+*/}}
+{{ $ppHeader := partial "cal/pp-header.html" .Page }}
+{{ $out := resources.FromString "extras/festivalHeader.html" $ppHeader }}
+{{ $out.Publish }}
