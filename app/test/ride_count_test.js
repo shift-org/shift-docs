@@ -1,69 +1,56 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appSetup");
 const testdb = require("./testdb");
-
-chai.use(require('chai-http'));
-const expect = chai.expect;
+//
+const { describe, it, before, after } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
 
 describe("ride count testing", () => {
   // runs before the first test in this block.
-  before(function() {
+  before(() => {
     return testdb.setupWithFakeData();
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     return testdb.destroy();
   });
   // test:
-  it("handles an all encompassing range", function(done) {
-    chai.request( app )
+  it("handles an all encompassing range", () => {
+    return request(app)
       .get('/api/ride_count.php')
       .query({s: "1900-01-01", e: "2012-12-21"})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
         // past and upcoming are based on today's date
         // all the test dates are earlier
         // TODO? set a global fake date, or fake some events in the future?
-        expect(res.body).property('total').equal(66);
-        expect(res.body).property('past').equal(66);
-        expect(res.body).property('upcoming').equal(0);
-        done();
+        assert.equal(res.body?.total, 75);
+        assert.equal(res.body?.past, 75);
+        assert.equal(res.body?.upcoming, 0);
       });
   });
-  it("handles a slice of time", function(done) {
-    chai.request( app )
+  it("handles a slice of time", () => {
+    return request(app)
       .get('/api/ride_count.php')
-      .query({s: "2002-08-11", e: "2002-08-11"})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res.body).property('total').equal(4);
-        done();
+      .query({s: "2002-08-10", e: "2002-08-11"})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        assert.equal(res.body?.total, 4);
       });
   });
-  it("errors on a missing time", function(done) {
-    chai.request( app )
+  it("errors on a missing time", () => {
+    return request(app)
       .get('/api/ride_count.php')
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(400);
-        expect(res).to.be.json;
-        done();
-      });
+      .expect(400)
+      .expect('Content-Type', /json/);
   });
-  it("errors on an invalid time", function(done) {
-    chai.request( app )
+  it("errors on an invalid time", () => {
+    return request(app)
       .get('/api/ride_count.php')
       .query({s: "yesterday", e: "tomorrow"})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(400);
-        expect(res).to.be.json;
-        done();
-      });
+      .expect(400)
+      .expect('Content-Type', /json/);
   });
 });

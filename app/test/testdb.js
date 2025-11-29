@@ -1,6 +1,6 @@
 const { Area, Audience, DatesType, EventStatus, Review } = require("../models/calConst");
 const dt = require("../util/dateTime");
-const loremIpsum = require("lorem-ipsum").loremIpsum;
+const { faker } = require('@faker-js/faker');
 const testData = require("./testData");
 const knex = require("../knex");
 const { makeFakeData } = require("./fakeData");
@@ -10,19 +10,20 @@ const { makeFakeData } = require("./fakeData");
  * @returns { Promise<void> } 
  */
 module.exports = {
-  setup: async function() {
+  setup: async () => {
     await knex.recreate();
+    faker.seed(23204); // keeps the generated data stable.
     return createData(knex.query);
   },
-  setupWithFakeData: async function() {
+  setupWithFakeData: async () => {
     await knex.recreate();
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;
-    const arbitraryNumber = 23204; // keeps the generated data stable.
-    return makeFakeData(firstDay, lastDay, numEvents, arbitraryNumber);
+    faker.seed(23204); // keeps the generated data stable.
+    return makeFakeData(firstDay, lastDay, numEvents);
   },
-  destroy: function() {
+  destroy: async () => {
     return knex.query.destroy();
   }
 }
@@ -57,10 +58,7 @@ function fakeCalEvent(eventId) {
   const contacturl = "http://example.com";
   const title = `ride ${eventId} title`;
   const organizer = "organizer";
-  // generate some consistent, arbitrary text:
-  const descr = loremIpsum({
-    random: mulberry32(eventId),
-  });
+  const descr = faker.lorem.text();
   return {
     created,
     modified,
@@ -116,15 +114,5 @@ function hidden(eventId) {
     return null; // use a legacy hidden code.
   default:
     throw new Error("unexpected event id", eventId);
-  }
-}
-
-// https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
-function mulberry32(a) {
-  return function() {
-    var t = a += 0x6D2B79F5;
-    t = Math.imul(t ^ t >>> 15, t | 1);
-    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
   }
 }

@@ -1,158 +1,155 @@
-const chai = require('chai');
 const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appSetup");
 const testData = require("./testData");
 const testdb = require("./testdb");
 
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventStatus } = require("../models/calConst");
+//
+const { describe, it, before, after } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
 
-chai.use(require('chai-http'));
-const expect = chai.expect;
+const CalendarType = /^text\/calendar/;
 
 describe("ical feed", () => {
   // runs before the evt test in this block.
-  before(function() {
+  before(() => {
     testData.stubData(sinon);
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     sinon.restore();
     return testdb.destroy();
   });
-  const expectsServerError = function(q) {
-    return function(done) {
-      chai.request( app )
-        .get('/api/ical.php')
-        .query(q)
-        .end(function (err, res) {
-          expect(err).to.be.null;
-          expect(res).to.have.status(400);
-          done();
-        });
-    };
-  };
-  it("errors on an invalid id", expectsServerError({
-      id: 999
-    }));
-  it("errors on an invalid date", expectsServerError({
-      // date time formats have been loosened ( #ff5ae63 )
-      // clearly invalid dates are still rejected.
-      startdate: "apple",
-      enddate  : "sauce",
-      // startdate: "2002/05/06",
-      // enddate  : "2002/05/06",
-    }));
-  it("errors on too large a range", expectsServerError({
-      startdate: "2002-01-01",
-      enddate  : "2003-01-01",
-    }));
-  it("errors on a negative range", expectsServerError({
-      startdate: "2003-01-01",
-      enddate  : "2002-01-01",
-    }));
-  it("errors too many parameters", expectsServerError({
-      id: 2,
-      startdate: "2002-08-01",
-      enddate  : "2002-08-02",
-    }));
-  it("supports an 'all events' feed", function(done) {
-    chai.request( app )
+  it("errors on an invalid id", () => {
+    return request(app)
       .get('/api/ical.php')
-      .end(function (err, res) {
-        // now() is set by testData to 2002-08-05
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        // test that it also has an api version
-        // that exists everywhere, but only tested here.
-        expect(res).to.have.header('Api-Version');
-        // not quite sure the proper way to test this.
-        // expect(res).to.have.header('content-type', 'text/calendar');
-        expect(res.text).to.equal(allEvents);
-        done();
-      });
+      .query({
+        id: 999
+      })
+      .expect(400);
   });
-  it("provides the days of a single event", function(done) {
-    chai.request( app )
+  it("errors on an invalid date",  () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        // date time formats have been loosened ( #ff5ae63 )
+        // clearly invalid dates are still rejected.
+        startdate: "apple",
+        enddate  : "sauce",
+        // startdate: "2002/05/06",
+        // enddate  : "2002/05/06",
+      })
+      .expect(400);
+  });
+  it("errors on too large a range",  () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        startdate: "2002-01-01",
+        enddate  : "2003-01-01",
+      })
+      .expect(400);
+  });
+  it("errors on a negative range",  () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        startdate: "2003-01-01",
+        enddate  : "2002-01-01",
+      })
+      .expect(400);
+  });
+  it("errors too many parameters",  () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        id: 2,
+        startdate: "2002-08-01",
+        enddate  : "2002-08-02",
+      })
+      .expect(400);
+  });
+  it("supports an 'all events' feed", () => {
+    return request(app)
+      .get('/api/ical.php')
+      // test that it also has an api version
+      // that exists everywhere, but only tested here.
+      .expect('Api-Version', /^3\./)
+      .expect(200)
+      .expect('content-type', CalendarType);
+  });
+  it("provides the days of a single event", () => {
+    return request(app)
       .get('/api/ical.php')
       .query({
          id: 2, // an event id
        })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        // expect(res).to.have.header('content-type', 'text/calendar');
-        expect(res.text).to.equal(allEvents);
-        done();
+      .expect(200)
+      .expect('content-type', CalendarType)
+      .then(res => {
+        assert.equal(res.text, allEvents);
       });
   });
-  it("provides a range of days", function(done) {
-    chai.request( app )
+  it("provides a range of days", () => {
+    return request(app)
       .get('/api/ical.php')
       .query({
          startdate: "2002-08-01",
          enddate  : "2002-08-02",
        })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        // expect(res).to.have.header('content-type', 'text/calendar');
-        done();
-      });
+      .expect(200)
+      .expect('content-type', CalendarType);
   });
-  it("can return an empty range", function(done) {
-    chai.request( app )
+  it("can return an empty range", () => {
+    return request(app)
       .get('/api/ical.php')
       .query({
          startdate: "2002-01-01",
          enddate  : "2002-01-02",
        })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        // expect(res).to.have.header('content-type', 'text/calendar');
-        expect(res.text).to.equal(emptyRange);
-        done();
+      .expect(200)
+      .expect('content-type', CalendarType)
+      .then(res => {
+        assert.equal(res.text, emptyRange);
       });
   });
-  it("has a special pedalpalooza feed", function(done) {
-     chai.request( app )
+  it("has a special pedalpalooza feed", () => {
+     return request(app)
       .get('/api/ical.php')
       .query({
          startdate: "2002-08-01",
          enddate  : "2002-08-02",
          filename : "pedalpalooza-2024.ics",
        })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        // expect(res).to.have.header('content-type', 'text/calendar');
-        expect(res.text).to.equal(pedalpaloozaFeed);
-        done();
+      .expect(200)
+      .expect('content-type', CalendarType)
+      .then(res => {
+        assert.equal(res.text, pedalpaloozaFeed);
       });
   });
-  it("can handle a canceled event", function(done) {
-    CalEvent.getByID(2).then(evt => {
+  it("can handle a canceled event", () => {
+    return CalEvent.getByID(2).then(evt => {
       // todo: create a separate test where these values are nil and zero.
       // that had caused a bad feed at one point; its fixed but still good to test.
       // evt.eventtime = null;
       // evt.eventduration = 0;
-      evt._store().then(_ => {
-        CalDaily.getForTesting(201).then(d => {
+      return evt._store().then(() => {
+        return CalDaily.getForTesting(201).then(d => {
           d.eventstatus = EventStatus.Cancelled;
-          d._store().then(_ => {
-            chai.request( app )
+          return d._store().then(_ => {
+            return request(app)
               .get('/api/ical.php')
               .query({
                  id: 2, // an event id
                })
-              .end(function (err, res) {
-                expect(err).to.be.null;
-                expect(res).to.have.status(200);
-                expect(res.text).to.equal(cancelledDay);
-                done();
+              .expect(200)
+              .expect('content-type', CalendarType)
+              .then(res => {
+                assert.equal(res.text, cancelledDay);
               });
           });
         });
@@ -184,9 +181,9 @@ String.raw`BEGIN:VEVENT`,
 String.raw`UID:event-201@shift2bikes.org`,
 String.raw`SUMMARY:ride 2 title`,
 String.raw`CONTACT:organizer`,
-String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
-String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-201`,
+String.raw`DESCRIPTION:news flash\nPeior amicitia texo. Delectus sequi qui temporibus`,
+String.raw`  clibanus. Creber creo adamo aedificium creta bardus aegre.\ntime `,
+String.raw` details\nEnds at location\; end.\nhttp://localhost:3080/calendar/event-201`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CONFIRMED`,
 String.raw`DTSTART:20020802T020000Z`,
@@ -202,9 +199,9 @@ String.raw`BEGIN:VEVENT`,
 String.raw`UID:event-202@shift2bikes.org`,
 String.raw`SUMMARY:ride 2 title`,
 String.raw`CONTACT:organizer`,
-String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
-String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-202`,
+String.raw`DESCRIPTION:news flash\nPeior amicitia texo. Delectus sequi qui temporibus`,
+String.raw`  clibanus. Creber creo adamo aedificium creta bardus aegre.\ntime `,
+String.raw` details\nEnds at location\; end.\nhttp://localhost:3080/calendar/event-202`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CONFIRMED`,
 String.raw`DTSTART:20020803T020000Z`,
@@ -238,9 +235,9 @@ String.raw`BEGIN:VEVENT`,
 String.raw`UID:event-201@shift2bikes.org`,
 String.raw`SUMMARY:CANCELLED: ride 2 title`,
 String.raw`CONTACT:organizer`,
-String.raw`DESCRIPTION:news flash\nQuis ex cupidatat pariatur cillum pariatur esse id`,
-String.raw`  magna sit ipsum duis elit.\ntime details\nEnds at location\; `,
-String.raw` end.\nhttp://localhost:3080/calendar/event-201`,
+String.raw`DESCRIPTION:news flash\nPeior amicitia texo. Delectus sequi qui temporibus`,
+String.raw`  clibanus. Creber creo adamo aedificium creta bardus aegre.\ntime `,
+String.raw` details\nEnds at location\; end.\nhttp://localhost:3080/calendar/event-201`,
 String.raw`LOCATION:location\, name.\n<address>\nlocation && details`,
 String.raw`STATUS:CANCELLED`,
 String.raw`DTSTART:20020802T020000Z`,

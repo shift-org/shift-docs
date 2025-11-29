@@ -2,20 +2,51 @@ const knex = require("shift-docs/knex");
 const { faker } = require('@faker-js/faker');
 const config = require("shift-docs/config");
 const dt = require("shift-docs/util/dateTime");
-const { Area, Audience, DatesType, EventStatus } = require('shift-docs/models/calConst');
+const { Area, Audience, DatesType, EventStatus, RideLength } = require('shift-docs/models/calConst');
 
 // password shared for all fake events
 const password = "supersecret";
 // number of days within which to create fake events
 const fakeRange = 7;
 
+const isTesting = process.env.npm_lifecycle_event === 'test';
+
 // promise an array of events
 //  - firstDay is a dt day
 //  - numEvents: a number of events to create
 //  - seed: an optional random seed
-function makeFakeData(firstDay, lastDay, numEvents, seed) {
-  faker.seed(seed);
-  const promisedEvents = [];
+function makeFakeData(firstDay, lastDay, numEvents) {
+  const fakeData = generateFakeData(firstDay, lastDay, numEvents);
+  const promisedEvents = fakeData.map(data => {
+    return knex.query('calevent')
+      .insert(data.event).then(row => {
+        const id = row[0]; // the magic to get the event id.
+        // when passing a seed (ex. for tests); silence the output.
+        if (!isTesting) {
+          logData(id, data);
+        }
+        const promisedDays = data.days.map(at => {
+          at.id = id; // assign the id before adding to the db
+          return knex.query('caldaily').insert(at);
+         });
+        return Promise.all(promisedDays);
+      });
+  });
+  // wait on all the days to finish.
+  return Promise.all(promisedEvents);
+}
+
+//
+function logData(id, data) {
+  const url = config.site.url("addevent", `edit-${id}-${password}`);
+  const start = data.days[0].eventdate;
+  console.log(`created "${data.event.title}" with ${data.days.length} days starting on ${start}\n ${url}`);
+}
+
+// build the data before inserting into the db
+// this avoids race conditions influencing the data generated.
+function generateFakeData(firstDay, lastDay, numEvents) {
+  const out = [];
   for (let i = 0; i< numEvents; i++) {
     // always have one event on the day specified;
     // on subsequent events, pick from a range of days.
@@ -25,26 +56,15 @@ function makeFakeData(firstDay, lastDay, numEvents, seed) {
           to: lastDay.toDate(),
         }));
     const title = faker.music.songName();
-    const pendingEvt =
-      knex.query('calevent')
-      .insert(makeCalEvent(title)).then(row=> {
-        const id = row[0]; // the magic to get the event id.
-        const numDays = randomDayCount();
-        const list = makeCalDailies(id, start, numDays);
-        const url = config.site.url("addevent", `edit-${id}-${password}`);
-        // when passing a seed (ex. for tests); silence the output.
-        if (!seed) {
-          console.log(`created "${title}" with ${list.length} days starting on ${start}\n ${url}`);
-        }
-        let promisedDays = list.map(at => {
-          return knex.query('caldaily').insert(at);
-         });
-        return Promise.all(promisedDays);
-      });
-    promisedEvents.push(pendingEvt);
-  };
-  // wait on all the days to finish.
-  return Promise.all(promisedEvents);   
+    const event = makeCalEvent(title);
+    const numDays = randomDayCount();
+    const days = makeCalDailies(start, numDays);
+    out.push({
+      event,
+      days,
+    });
+  }
+  return out;
 }
 
 // export!
@@ -57,8 +77,7 @@ function randomDayCount() {
 }
 
 function randomRideLength() {
-  // some dumb weighted random
-  const pick = ['0-3', '3-8', '8-15', '15+'];
+  const pick = Object.keys(RideLength);
   return faker.helpers.arrayElement(pick);
 }
 
@@ -71,11 +90,11 @@ function nextDay(days, refDate) {
   });
 }
 
-function makeCalDailies(eventId, start, numDays) {
-  let out = [];
-  let active = faker.datatype.boolean(0.8);
-  let flash = faker.datatype.boolean(!active? 0.8: 0.3);
-  let msg = flash ? (active? faker.vehicle.bicycle() :
+function makeCalDailies(start, numDays) {
+  const out = [];
+  const active = faker.datatype.boolean(0.8);
+  const flash = faker.datatype.boolean(!active? 0.8: 0.3);
+  const msg = flash ? (active? faker.vehicle.bicycle() :
     faker.word.adverb() + " cancelled"): null;
   for (let i=0; i<numDays; i++) {
     if (i>0) {
@@ -83,7 +102,6 @@ function makeCalDailies(eventId, start, numDays) {
       start = start.add(1 + faker.number.int(3), 'days');
     }
     out.push({
-      id          : eventId,
       eventdate   : knex.toDate(start),
       eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
       newsflash   : msg,

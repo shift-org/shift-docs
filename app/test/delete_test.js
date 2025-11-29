@@ -1,32 +1,33 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appSetup");
 const testdb = require("./testdb");
 const testData = require("./testData");
 
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-
-chai.use(require('chai-http'));
-const expect = chai.expect;
+//
+const sinon = require('sinon');
+const { describe, it, before, after } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
+//
 const delete_api = '/api/delete_event.php';
 
 describe("deleting using a form", () => {
   // spies on data storage:
   let spy;
   // runs before the first test in this block.
-  before(function() {
+  before(() => {
     spy = testData.stubData(sinon);
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function() {
+  after(() => {
     sinon.restore();
     return testdb.destroy();
   });
   // test:
-  it("fails on an invalid id", function(done) {
-    chai.request( app )
+  it("fails on an invalid id", () => {
+    return request(app)
       .post(delete_api)
       .type('form')
       .send({
@@ -34,14 +35,10 @@ describe("deleting using a form", () => {
           id: 999,
         })
       })
-      .end(function(err, res) {
-        expect(err).to.be.null;
-        testData.expectError(expect, res);
-        done();
-      });
+      .then(testData.expectError);
   });
-  it("fails on an incorrect password", function(done) {
-    chai.request( app )
+  it("fails on an incorrect password", () => {
+    return request(app)
       .post(delete_api)
       .type('form')
       .send({
@@ -50,23 +47,19 @@ describe("deleting using a form", () => {
           secret: "to life, etc.",
         })
       })
-      .end(function(err, res) {
-        expect(err).to.be.null;
-        testData.expectError(expect, res);
-        done();
-      });
+      .then(testData.expectError);
   });
-  it("delists a published event", async function() {
+  it("delists a published event", async () => {
     const e0 = await CalEvent.getByID(2);
     const d1 = await CalDaily.getForTesting(201);
     const d2 = await CalDaily.getForTesting(202);
 
-    expect(e0.review).to.not.equal('E'); // anything is fine other than excluded
-    expect(e0.password).to.not.be.empty;
-    expect(d1.eventstatus).to.equal('A');
-    expect(d2.eventstatus).to.equal('A');
+    assert.notEqual(e0.review, 'E'); // anything is fine other than excluded
+    assert.ok(e0.password);
+    assert.equal(d1.eventstatus, 'A');
+    assert.equal(d2.eventstatus, 'A');
 
-    return chai.request( app )
+    return request(app)
       .post(delete_api)
       .type('form')
       .send({
@@ -75,12 +68,12 @@ describe("deleting using a form", () => {
           secret: testData.secret,
         })
       })
-      .then(async function(res) {
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res).to.have.header('Api-Version');
-        expect(spy.eventStore.callCount).to.equal(1);
-        expect(spy.dailyStore.callCount).to.equal(2);
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(async (res) => {
+        assert.equal(spy.eventStore.callCount, 1);
+        assert.equal(spy.dailyStore.callCount, 2);
         spy.resetHistory();
 
         const e0 = await CalEvent.getByID(2);
@@ -89,10 +82,10 @@ describe("deleting using a form", () => {
 
         // the days of deleted events are marked with D
         // to distinguish them from individually canceled events.
-        expect(e0.review).to.equal('E');
-        expect(e0.password).to.be.empty;
-        expect(d1.eventstatus).to.equal('D');
-        expect(d2.eventstatus).to.equal('D');
+        assert.equal(e0.review, 'E');
+        assert.ok(!e0.password);
+        assert.equal(d1.eventstatus, 'D');
+        assert.equal(d2.eventstatus, 'D');
       });
   });
 });
@@ -100,38 +93,38 @@ describe("deleting using a form", () => {
 // do the same things again,but post json ( ala curl )
 describe("deleting using json", () => {
   let spy;
-  before(function() {
+  before(() => {
     spy = testData.stubData(sinon);
     return testdb.setup();
   });
-  after(function() {
+  after(() => {
     sinon.restore();
     return testdb.destroy();
   });
-  it("delists a published event", async function() {
+  it("delists a published event", async () => {
     const e0 = await CalEvent.getByID(2);
     const d1 = await CalDaily.getForTesting(201);
     const d2 = await CalDaily.getForTesting(202);
 
-    expect(e0.review).to.not.equal('E');
-    expect(e0.password).to.not.be.empty;
-    expect(d1.eventstatus).to.equal('A');
-    expect(d2.eventstatus).to.equal('A');
+    assert.notEqual(e0.review, 'E');
+    assert.ok(e0.password);
+    assert.equal(d1.eventstatus, 'A');
+    assert.equal(d2.eventstatus, 'A');
 
-    return chai.request( app )
+    return request(app)
       .post(delete_api)
       // .type('form') ... intentionally send not as a form
       .send({
         id: 2,
         secret: testData.secret,
       })
-      .then(async function(res) {
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res).to.have.header('Api-Version');
-        expect(spy.eventStore.callCount).to.equal(1);
-        expect(spy.dailyStore.callCount).to.equal(2);
-        expect(spy.eventErasures.callCount).to.equal(0);
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(async (res) => {
+        assert.equal(spy.eventStore.callCount, 1);
+        assert.equal(spy.dailyStore.callCount, 2);
+        assert.equal(spy.eventErasures.callCount, 0);
         spy.resetHistory();
 
         const e0 = await CalEvent.getByID(2);
@@ -140,52 +133,48 @@ describe("deleting using json", () => {
 
         // the days of deleted events are marked with D
         // to distinguish them from individually canceled events.
-        expect(e0.review).to.equal('E');
-        expect(e0.password).to.be.empty;
-        expect(d1.eventstatus).to.equal('D');
-        expect(d2.eventstatus).to.equal('D');
+        assert.equal(e0.review, 'E');
+        assert.ok(!e0.password);
+        assert.equal(d1.eventstatus, 'D');
+        assert.equal(d2.eventstatus, 'D');
       });
   });
 
-  it("deletes unpublished events", function(done) {
-    chai.request( app )
+  it("deletes unpublished events", () => {
+    return request(app)
       .post(delete_api)
       .send({
         id: 3,
         secret: testData.secret,
       })
-      .end(function(err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res).to.have.header('Api-Version');
-        expect(spy.eventErasures.callCount).to.equal(1);
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(res => {
+        assert.equal(spy.eventErasures.callCount, 1);
         spy.resetHistory();
-        done();
       });
-  }); 
-
-  it("deletes a legacy event", async function() {
+  });
+  it("deletes a legacy event", async () => {
     const e0 = await CalEvent.getByID(1);
-    expect(e0.review).to.not.equal('E');
-    expect(e0.password).to.not.be.empty;
+    assert.notEqual(e0.review, 'E');
+    assert.ok(e0.password);
     //
-    return chai.request( app )
+    return request(app)
       .post(delete_api)
       .send({
         id: 1, // id 1 is hidden null
         secret: testData.secret,
       })
-      .then(async function(res) {
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res).to.have.header('Api-Version');
-        expect(spy.eventErasures.callCount).to.equal(0);
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(async (res) => {
+        assert.equal(spy.eventErasures.callCount, 0);
         spy.resetHistory();
-        
         const e0 = await CalEvent.getByID(1);
-        expect(e0.review).to.equal('E');
-        expect(e0.password).to.be.empty;
+        assert.equal(e0.review, 'E');
+        assert.ok(!e0.password);
       });
   });
 });

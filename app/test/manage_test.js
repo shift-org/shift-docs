@@ -15,32 +15,33 @@ const fs = require('fs');
 const fsp = fs.promises;
 const path = require('node:path');
 const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appSetup");
 const config = require("../config");
 const testdb = require("./testdb");
 const testData = require("./testData");
 
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-
-const chai = require('chai');
-chai.use(require('chai-http'));
-const expect = chai.expect;
+//
+const { describe, it, beforeEach, afterEach } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
+//
 const manage_api = '/api/manage_event.php';
 
 describe("managing events", () => {
   let spy;
   // reset after each one.
-  beforeEach(function() {
+  beforeEach(() => {
     spy = testData.stubData(sinon);
     return testdb.setup();
   });
-  afterEach(function () {
+  afterEach(() => {
     sinon.restore();
     return testdb.destroy();
   });
-  it("errors on an invalid id", function() {
-    return chai.request( app )
+  it("errors on an invalid id", () => {
+    return request(app)
       .post(manage_api)
       .type('form')
       .send({
@@ -48,31 +49,27 @@ describe("managing events", () => {
           id: 999,
         })
       })
-      .then(function(res) {
-        testData.expectError(expect, res);
-      });
+      .then(testData.expectError);
   });
-  it("creates a new event, using raw json", function(){
-    return chai.request( app )
+  it("creates a new event, using raw json", () => {
+    return request(app)
       .post(manage_api)
       .send(eventData)
-      .then(async function (res) {
-        expect(res).to.have.status(200);
-        expect(spy.eventStore.callCount, "event stores")
-          .to.equal(1);
-        expect(spy.dailyStore.callCount, "daily store")
-          .to.equal(2);
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(async (res) => {
+        assert.equal(spy.eventStore.callCount, 1, "event stores");
+        assert.equal(spy.dailyStore.callCount, 2, "daily store");
         spy.resetHistory();
 
         const id = res.body.id;
         const evt = await CalEvent.getByID(id);
-        expect(evt.hidden, "the initial event should be hidden by default")
-          .to.equal(1);
+        assert.equal(evt.hidden, 1, "the initial event should be hidden by default");
         // console.log(res.body);
       });
   });
-
-  it("fail creation when missing required fields", function(){
+  it("fail creation when missing required fields", () => {
     // each time substitute a field value that should fail
     const pairs = [
       "title", "",
@@ -94,19 +91,18 @@ describe("managing events", () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return chai.request( app )
+        return request(app)
         .post(manage_api)
         .send(post)
-        .then(function (res) {
-          expect(res, `expected failure for '${key}'`).to.have.status(400);
-          expect(res.body.error.fields).to.have.key(key);
+        .expect(400)
+        .then(res => {
+          assert.ok(res.body.error.fields[key]);
         });
       })
     }
     return seq;
   });
-
-  it("fails creation when fields have invalid values", function(){
+  it("fails creation when fields have invalid values", () => {
     const pairs = [
       "eventduration", "i am not a number, i am a man!",
       // converting directly toInt will ignore trailing text
@@ -127,62 +123,58 @@ describe("managing events", () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return chai.request( app )
+        return request(app)
         .post(manage_api)
         .send(post)
-        .then(function (res) {
-          expect(res, `expected failure for '${key}'`).to.have.status(400);
-          expect(res.body.error.fields).to.have.key(key);
+        .expect(400)
+        .then(res => {
+          assert.ok(res.body.error.fields[key]);
         });
       })
     }
     return seq;
   });
-  it("publishes an event", function() {
+  it("publishes an event", () => {
     // id three is unpublished
     return CalEvent.getByID(3).then(evt => {
-      expect(evt.isPublished()).to.be.false;
-      return chai.request( app )
+      assert.equal(evt.isPublished(), false);
+      return request(app)
         .post(manage_api)
         // by adding the id and posting to it, we should be able to publish it.
         .send(Object.assign({
           id: 3,
           secret: testData.secret,
         }, eventData))
-        .then(async function (res) {
-          expect(res).to.have.status(200);
-          expect(spy.eventStore.callCount, "event stores")
-            .to.equal(1);
+        .expect(200)
+        .then(async  (res) => {
+          assert.equal(spy.eventStore.callCount, 1, "event stores");
           spy.resetHistory();
           const evt = await CalEvent.getByID(3);
-          expect(evt.isPublished()).to.be.true;
+          assert.equal(evt.isPublished(), true);
         });
     });
   });
-  it("fails to use an empty secret", function(){
-    return chai.request( app )
+  it("fails to use an empty secret", () => {
+    return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3,
         // not sending any secret
       }, eventData))
-      .then(function(res) {
-        testData.expectError(expect, res);
-      });
+      .then(testData.expectError);
   });
-  it("fails to use an invalid secret", function(){
-    return chai.request( app )
+  it("fails to use an invalid secret", () => {
+    return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
         secret: testData.secret.split("").reverse().join(""),
       }, eventData))
-      .then(function(res) {
-        testData.expectError(expect, res);
-      });
+      .then(testData.expectError);
   });
-  it("adds one date and removes another", function(){
+  it("adds one date and removes another", () => {
     return CalEvent.getByID(2).then(evt => {
+      //
       const post = Object.assign( {
         secret: testData.secret,
         code_of_conduct: "1",
@@ -194,30 +186,28 @@ describe("managing events", () => {
         // add a third.
         { "date": "2002-08-03", status: 'A' }
       ]}, evt.getJSON({includePrivate:true}));
-
-      return chai.request( app )
+      //
+      return request(app)
         .post(manage_api)
         .type('form')
         .send({
           json: JSON.stringify(post)
         })
-        .then(async function (res) {
-          expect(res).to.have.status(200);
-          expect(spy.eventStore.callCount, "event stores")
-            .to.equal(1);
-          expect(spy.dailyStore.callCount, "daily store")
-            .to.equal(3);
+        .expect(200)
+        .then(async (res) => {
+          assert.equal(spy.eventStore.callCount, 1, "event stores");
+          assert.equal(spy.dailyStore.callCount, 3, "daily store");
           spy.resetHistory();
           // three dailies for our event are in the db:
           const dailies = await CalDaily.getByEventID(2);
-          expect(dailies).to.have.lengthOf(3);
-          expect(dailies[0].isUnscheduled()).to.be.false;
-          expect(dailies[1].isUnscheduled()).to.be.true;
-          expect(dailies[2].isUnscheduled()).to.be.false;
+          assert.equal(dailies.length, 3);
+          assert.equal(dailies[0].isUnscheduled(), false);
+          assert.equal(dailies[1].isUnscheduled(), true);
+          assert.equal(dailies[2].isUnscheduled(), false);
           // only two should be in the returned data
           // ( the second one is delisted; filtered by reconcile )
           // fix: should add a test for an explicitly canceled day.
-          expect(res.body.datestatuses).to.deep.equal([{
+          assert.deepEqual(res.body.datestatuses, [{
               "id": "201",
               "date": "2002-08-01",
               "status": "A",
@@ -248,7 +238,7 @@ describe("managing events", () => {
             code_of_conduct: "1",
             read_comic: "1",
             }, eventData);
-          return chai.request( app )
+          return request(app)
             .post(manage_api)
             .type('form')
             .field({
@@ -261,66 +251,65 @@ describe("managing events", () => {
       });
     });
   }
-  it("attaches an image", function(){
+  it("attaches an image", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(function (res) {
-      expect(res).to.have.status(200);
-      //
-      CalEvent.getByID(3).then(evt => {
-        // event creation is change 1,
-        // the image post is change 2,
-        // the event id is 3.
-        expect(evt.image, "image names should have a sequence number")
-          .to.equal("3-2.jpg");
-        //
-        const imageTarget = getImageTarget(3, imageSource);
-        return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
+    return postImage(3, imageSource, imageTarget)
+      .then(res => {
+        assert.equal(res.status, 200);
+        return CalEvent.getByID(3).then(evt => {
+          // event creation is change 1,
+          // the image post is change 2,
+          // the event id is 3.
+          assert.equal(evt.image, "3-2.jpg", "image names should have a sequence number");
+          //
+          const imageTarget = getImageTarget(3, imageSource);
+          return fsp.stat(imageTarget); // rejects if it doesn't exist on disk.
+        });
       });
-    });
   });
-  it("fails too large", function(){
+  it("fails too large", () => {
     const imageSource = path.join( config.image.dir, "bike-big.png" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(function (res) {
-      testData.expectError(expect, res, 'image');
-      return fsp.stat(imageTarget)
-        .then(_ => {
-          chai.assert(false, `didn't expect ${imageTarget} to exists`);
-        })
-        .catch(_ => {
-          chai.assert(true);
-        });
+    return postImage(3, imageSource, imageTarget)
+      .then(res => {
+        testData.expectError(res, 'image');
+        return fsp.stat(imageTarget)
+          .then(_ => {
+            assert.fail(`didn't expect ${imageTarget} to exists`);
+          })
+          .catch(_ => {
+            assert(true);
+          });
     });
   });
-  it("fails bad format", function(){
+  it("fails bad format", () => {
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
     const imageTarget = getImageTarget(3, imageSource);
-    return postImage(3, imageSource, imageTarget).then(function (res) {
-      testData.expectError(expect, res, 'image');
+    return postImage(3, imageSource, imageTarget).then(res => {
+      testData.expectError(res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
-          chai.assert(false, `didn't expect ${imageTarget} to exists`);
+          assert.fail(`didn't expect ${imageTarget} to exists`);
         })
         .catch(_ => {
-          chai.assert(true);
+          assert(true);
         });
     });
   });
-  it("prevents image upload on new events", function(){
+  it("prevents image upload on new events", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
-    return chai.request( app )
+    return request(app)
       .post(manage_api)
       .type('form')
       .field({
         json: JSON.stringify(eventData)
       })
       .attach('file', fs.readFileSync(imageSource), path.basename(imageSource))
-      .then(async function (res) {
-        expect(res).to.have.status(400);
-        expect(res.body.error.fields).to.have.key('image');
+      .then(res => {
+        testData.expectError(res, 'image');
       });
   });
 });

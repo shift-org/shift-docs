@@ -1,54 +1,46 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appSetup");
 const testdb = require("./testdb");
-
-chai.use(require('chai-http'));
-const expect = chai.expect;
+//
+const { describe, it, before, after } = require("node:test");
+const request = require('supertest');
 
 describe("crawl testing", () => {
   // runs before the first test in this block.
-  before(function() {
+  before(() => {
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     return testdb.destroy();
   });
   // test:
-  it("handles a simple get", function(done) {
-    chai.request( app )
+  it("handles a simple get", () => {
+    return request(app)
       .get('/api/crawl.php')
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.html;
+      .expect(200)
+      .expect('Content-Type', /html/)
+      .then(res => {
         // console.log(res.text);
-        done();
       });
   });
-  it("handles a valid daily id", function(done) {
-    chai.request( app )
+  it("handles a valid daily id", () => {
+    return request(app)
       .get('/api/crawl.php')
       .query({id: 201})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.html;
+      .expect(200)
+      .expect('Content-Type', /html/)
+      .then(res => {
         // console.log(res.text);
-        done();
       });
   });
-  it("errors on an invalid daily id", function(done) {
-    chai.request( app )
+  it("errors on an invalid daily id", () => {
+    return request(app)
       .get('/api/crawl.php')
       .query({id: 999})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(404);
-        // crawl returns an empty 404
-        expect(res).to.be.text;
-        done();
+      .expect(404) // crawl returns an empty 404
+      .expect('Content-Type', /text/)
+      .then(res => {
+        // console.log(res.text);
       });
   });
 });

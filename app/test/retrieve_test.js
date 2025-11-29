@@ -1,80 +1,64 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appSetup");
 const testData = require("./testData");
 const testdb = require("./testdb");
-
-chai.use(require('chai-http'));
-const expect = chai.expect;
+//
+const { describe, it, before, after } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
 
 describe("retrieving event data for editing", () => {
   // runs before the first test in this block.
-  before(function() {
+  before(() => {
     return testdb.setup();
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     return testdb.destroy();
   });
-  it("errors on an invalid id", function(done) {
-    chai.request( app )
+  it("errors on an invalid id", () => {
+    return request(app)
       .get('/api/retrieve_event.php')
       .query({
         id: 999
       })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        testData.expectError(expect, res);
-        done();
-      });
+      .then(testData.expectError);
   });
-  it("private data requires the correct secret", function(done) {
-    chai.request( app )
+  it("private data requires the correct secret", () => {
+    return request(app)
       .get('/api/retrieve_event.php')
       .query({
          id: 2,
          secret: "the incorrect answer to life, the universe, and this event.",
        })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res).to.have.header('Api-Version');
-        expect(res.body.id).to.equal('2');
-        expect(res.body.email, "email should be private")
-          .to.be.null;
-        expect(res.body.phone, "phone should be private")
-          .to.be.null;
-        expect(res.body.contact, "contact should be private")
-          .to.be.null;
-        done();
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(res => {
+        assert.equal(res.body.id, '2'); // a string
+        assert.equal(res.body.email, null, "email should be private");
+        assert.equal(res.body.phone, null, "phone should be private");
+        assert.equal(res.body.contact, null, "contact should be private");
       });
   });
-  it("retrieves with a valid id and secret", function(done) {
-    chai.request( app )
+  it("retrieves with a valid id and secret", () => {
+    return request(app)
       .get('/api/retrieve_event.php')
       .query({
          id: 2,
          secret: testData.secret,
        })
-      .end(function (err, res) {
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(res => {
         // console.dir(res.body);
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res).to.have.header('Api-Version');
-        expect(res.body.id).to.equal('2');
-        expect(res.body.email, "b/c of the secret, email should be present")
-          .to.exist;
-        expect(res.body.phone,  "b/c of the secret, phone should be present")
-          .to.exist;
-        expect(res.body.contact,  "b/c of the secret, contact should be present")
-          .to.exist;
-        expect(res.body.hideemail, "the test data has the email hidden")
-          .to.be.true;
-        expect(res.body.email, "b/c of the secret, we should see the email")
-          .to.equal(testData.email);
-        expect(res.body.datestatuses).to.deep.equal([{
+        assert.equal(res.body.id, '2'); // a string
+        assert.ok(res.body.email, "b/c of the secret, email should be present");
+        assert.ok(res.body.phone, "b/c of the secret, phone should be present");
+        assert.ok(res.body.contact, "b/c of the secret, contact should be present");
+        assert.equal(res.body.hideemail, true, "the test data has the email hidden");
+        assert.equal(res.body.email, testData.email, "b/c of the secret, we should see the email");
+        assert.deepEqual(res.body.datestatuses, [{
           id: '201',
           date: '2002-08-01',
           status: 'A',
@@ -85,33 +69,25 @@ describe("retrieving event data for editing", () => {
           status: 'A',
           newsflash: 'news flash'
         }]);
-        done();
       });
   });
-  it("errors on a hidden event", function(done) {
-    chai.request( app )
+  it("errors on a hidden event", () => {
+    return request(app)
       .get('/api/retrieve_event.php')
       .query({
         id: 3
       })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        testData.expectError(expect, res);
-        done();
-      });
+      .then(testData.expectError);
   });
-  it("errors on a hidden event, unless given the secret", function(done) {
-    chai.request( app )
+  it("errors on a hidden event, unless given the secret", () => {
+    return request(app)
       .get('/api/retrieve_event.php')
       .query({
         id: 3,
         secret: testData.secret,
       })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        done();
-      });
+      .expect(200)
+      .expect('Content-Type', /json/);
   });
 });
 
