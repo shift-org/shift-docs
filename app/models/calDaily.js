@@ -268,14 +268,23 @@ class CalDaily {
         })
         .whereNot('eventstatus', EventStatus.Skipped)
         .where(function(q) {
+          // If we're NOT searching for old events, aka future search, look today and greater.
           if (!searchOldEvents) {
-            q.where('eventdate', '>=', knex.toDate(firstDay))  
-            // Removing for testing all future events search
-            // .where('eventdate', '<=', knex.toDate(lastDay)) 
+            q.where('eventdate', '>=', knex.toDate(firstDay))
           }
         })
-        .orderBy('eventdate')
-        .limit(limit)  // Limit the query but
+        .where(function(q) {
+          // If we ARE searching for old events, only show old events, including today's events.  [#1004]
+          // Decision stardate 2025-11-03 by JP; AK
+          if (searchOldEvents) {
+            q.where('eventdate', '<=', knex.toDate(firstDay))
+          }
+        })
+        // If we are searching old events, eventdata claus never occurs and we add a desc to the ordering.
+        .orderBy('eventdate', searchOldEvents? 'desc' : 'asc')
+        .orderBy('eventtime', searchOldEvents? 'desc' : 'asc')
+        .orderBy('title', 'asc')
+        .limit(limit)              // Limit the query but
         .offset(offset);           // accept the offset from the client
     // console.log(query.toSQL().toNative());
     return query.then(function(rows) {
@@ -284,11 +293,12 @@ class CalDaily {
   }
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
-  static getEventsCount(todayDate, startDate, endDate) {
-    let query = knex.query('caldaily')
+  static getEventsCount(startDate, endDate) {
+    const currDate = knex.currentDateString()
+    const query = knex.query('caldaily')
         .column(knex.query.raw('COUNT(*) as total'))
-        .column(knex.query.raw('COUNT(CASE WHEN eventdate < CURDATE() THEN 1 END) AS past'))
-        .column(knex.query.raw('COUNT(CASE WHEN eventdate >= CURDATE() THEN 1 END) AS upcoming'))
+        .column(knex.query.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
+        .column(knex.query.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
         .join('calevent', 'caldaily.id', 'calevent.id')
         .whereRaw('not coalesce(hidden, 0)')
         .where(function(q) {
@@ -300,11 +310,9 @@ class CalDaily {
         .where(function(q) {
           q.where('eventdate', '>=', knex.toDate(startDate))
           q.where('eventdate', '<=', knex.toDate(endDate))
-        });
+        }).first();
     // console.log(query.toSQL().toNative());
-    return query.then(function(rows) {
-      return rows.map(at => addMethods(at));
-    });
+    return query;
   }
   /**
    * Add, cancel, and update occurrences of a particular event.

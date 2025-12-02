@@ -34,7 +34,7 @@ const AUDIENCE_DESCRIPTION = Object.freeze({
     'A' : '21+ Only — Adults only',
 });
 
-const LENGTH = Object.freeze({
+const RIDE_LENGTH = Object.freeze({
     '--'   : '--',
     '0-3'  : '0-3 miles',
     '3-8'  : '3-8 miles',
@@ -45,7 +45,7 @@ const LENGTH = Object.freeze({
 const DEFAULT_TIME = '17:00:00';
 const DEFAULT_AREA = 'P';
 const DEFAULT_AUDIENCE = 'G';
-const DEFAULT_LENGTH = '--';
+const DEFAULT_RIDE_LENGTH = '--';
 
 // total number of days to fetch, inclusive of start and end dates;
 // minimum of 1, maximum set by server

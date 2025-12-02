@@ -134,10 +134,10 @@
         }
         shiftEvent.areaOptions = populateMenuOptions(AREA, shiftEvent.area);
 
-        if (!shiftEvent.length) {
-            shiftEvent.length = DEFAULT_LENGTH;
+        if (!shiftEvent.ridelength) {
+            shiftEvent.ridelength = DEFAULT_RIDE_LENGTH;
         }
-        shiftEvent.lengthOptions = populateMenuOptions(LENGTH, shiftEvent.length);
+        shiftEvent.rideLengthOptions = populateMenuOptions(RIDE_LENGTH, shiftEvent.ridelength);
 
         template = $('#mustache-edit').html();
         rendered = Mustache.render(template, shiftEvent);

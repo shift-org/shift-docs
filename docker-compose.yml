@@ -8,7 +8,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.26.3
+    image: nginx:1.28.0
     restart: always
     volumes:
       # DEV SITE:
@@ -30,7 +30,7 @@ services:
 
   db:
     restart: always
-    image: mysql:8.4.4
+    image: mysql:8.4.6
     command: mysqld  --mysql-native-password=ON
     environment:
       - MYSQL_ROOT_PASSWORD
