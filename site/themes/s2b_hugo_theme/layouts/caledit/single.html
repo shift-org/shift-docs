@@ -1,26 +1,22 @@
 {{ define "page_body" }}
-              <div class="col-md-12">
-
-                {{ partial "alert_banner.html" . }}
-
-                <div>
-                  {{ .Content }}
-
-                  {{ if isset .Params "pp" }}
-                    {{ partial "cal/pp-header.html" . }}
-                  {{ end }}
-                </div>
-
-                <!-- add/edit form -->
-                <div id="mustache-html" class="container"></div>
-
-              </div>
+<div class="col-md-12">
+  <div>
+    {{ if isset .Params "pp" }}
+    {{ partial "cal/pp-header.html" . }}
+    {{ end }}
+  </div>
+  <div id="mustache-html" class="container"></div>
+  <div class="caledit-content">
+    {{ .Content }}
+  </div>
+  {{ partial "alert_banner.html" . }}
+</div>
 {{ end }}
 {{ define "postscript" }}
-  {{ partial "cal/scripts.html" . }}
-  {{ partial "cal/edit.html" . }}
+{{ partial "cal/scripts.html" . }}
+{{ partial "cal/edit.html" . }}
 
-  <script type="text/javascript">
-    window.cal_renderpage = "{{ .Params.id }}";
-  </script>
+<script type="text/javascript">
+  window.cal_renderpage = "{{ .Params.id }}";
+</script>
 {{ end }}
