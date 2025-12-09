@@ -11,7 +11,7 @@
     "express": "^4.22.0",
     "express-http-proxy": "^2.0.0",
     "http-proxy-middleware": "^2.0.7",
-    "nodemailer": "^6.9.13",
+    "nodemailer": "^7.0.11",
     "shift-docs": "1.0.0",
     "sqlstring": "^2.3.3"
   },
