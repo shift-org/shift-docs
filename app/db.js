@@ -118,10 +118,6 @@ function unpackConfig({ type, connect, debug }) {
     pool: {
       min: 0,
       max: 7,
-      afterCreate: function (conn, done) {
-        console.log("connection created");
-        done();
-      },
     },
   } : (type === 'sqlite') ? {
     client: "sqlite3",
