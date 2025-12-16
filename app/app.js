@@ -24,13 +24,17 @@ db.initialize().then(async () => {
   // start a webserver to listen to all requests
   const port = config.site.listen;
   app.listen(port, _ => {
-    // NOTE: the ./shift script listens for this message!
-    console.log("=======================================");
-    console.group();
-    console.info(`${config.site.name} listening.`);
-    console.info(`Browse to \x1b[36m${config.site.url()}\x1b[0m to see the site.`)
-    console.groupEnd();
-    console.log("=======================================");
     app.emit("ready"); // raise a signal for testing? todo: document what this does.
+    // use a timeout to appear after the vite message;
+    // reduces confusion about which port to browse to.
+    setTimeout(() => {
+      // NOTE: the ./shift script listens for this message!
+      console.log("\n=======================================");
+      console.group();
+      console.info(`${config.site.name} listening.`);
+      console.info(`Browse to \x1b[36m${config.site.url()}\x1b[0m to see the site.`)
+      console.groupEnd();
+      console.log("=======================================");
+    }, 1000);
   });
 });
