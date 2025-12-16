@@ -1,5 +1,5 @@
-const knex = require("shift-docs/knex");
 const { faker } = require('@faker-js/faker');
+const db = require("shift-docs/db");
 const config = require("shift-docs/config");
 const dt = require("shift-docs/util/dateTime");
 const { Area, Audience, DatesType, EventStatus, RideLength } = require('shift-docs/models/calConst');
@@ -18,7 +18,7 @@ const isTesting = process.env.npm_lifecycle_event === 'test';
 function makeFakeData(firstDay, lastDay, numEvents) {
   const fakeData = generateFakeData(firstDay, lastDay, numEvents);
   const promisedEvents = fakeData.map(data => {
-    return knex.query('calevent')
+    return db.query('calevent')
       .insert(data.event).then(row => {
         const id = row[0]; // the magic to get the event id.
         // when passing a seed (ex. for tests); silence the output.
@@ -27,7 +27,7 @@ function makeFakeData(firstDay, lastDay, numEvents) {
         }
         const promisedDays = data.days.map(at => {
           at.id = id; // assign the id before adding to the db
-          return knex.query('caldaily').insert(at);
+          return db.query('caldaily').insert(at);
          });
         return Promise.all(promisedDays);
       });
@@ -102,7 +102,7 @@ function makeCalDailies(start, numDays) {
       start = start.add(1 + faker.number.int(3), 'days');
     }
     out.push({
-      eventdate   : knex.toDate(start),
+      eventdate   : db.toDate(start),
       eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
       newsflash   : msg,
     });

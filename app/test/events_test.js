@@ -9,7 +9,7 @@ const request = require('supertest');
 describe("getting events", () => {
   // runs before the evt test in this block.
   before(() => {
-    return testdb.setup();
+    return testdb.setupTestData("events");
   });
   // runs once after the last test in this block
   after(() => {

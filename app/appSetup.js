@@ -3,7 +3,7 @@ const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
 const { initMail } = require("./emailer");
-const knex = require("./knex");  // initialize on startup
+const knex = require("./db");  // initialize on startup
 const app = express();
 
 // shift.conf for nginx sets the x-forward header

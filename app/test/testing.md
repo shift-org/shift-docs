@@ -1,26 +1,17 @@
 # Testing
 
-To test the backend, at the root of repo run:
+To test the backend, at the root of repo run: `npm test`.
 
-```
-npm test
-```
 
-All tests use the [Node Test runner](https://nodejs.org/docs/latest/api/test.html#test-runner), with [supertest](https://github.com/forwardemail/supertest) for making http testing requests.
+All tests use the [Node Test runner](https://nodejs.org/docs/latest/api/test.html#test-runner), with [supertest](https://github.com/forwardemail/supertest) for making (local) http requests.
 
-Isolating tests:
+## Isolating tests:
 
-Tests can be identified by name:
+Tests can be identified by name: ex. `npm test -- --test-name-pattern="ical feed"`
 
-```
-npm test -- --test-name-pattern="ical feed"
-```
+Or, temporarily can be marked with 'only' in the code. For example: `describe.only()`, and then selected with: `npm test -- --test-only```
 
-Or, temporarily can be marked with 'only' in the code. For example: `describe.only()`, and then selected with:
-
-```
-npm test -- --test-only
-```
+By default tests use sqlite, you can test against mysql as well:  `npm test -db=mysql`. It launches a standalone docker container for the tests. Additionally, `npm test -db_debug` will log queries to the db.
 
 # Test Data
 

@@ -1,63 +1,39 @@
-// the knex object opens a connection to the db.
-const createKnex = require('knex');
-const path = require('path'); // for sqlite 3
+const knex = require('knex'); // the knex constructor
 const pickBy = require('lodash/pickBy'); // a dependency of package knex
 const config = require("./config");
-const tables = require("./models/tables");
 const dt = require("./util/dateTime");
 
-// the default configuration;
-// the values change based on various environmental values
-const shift = {
-  client: config.db.type,
-  connection: {
-    host : config.db.host,
-    port : config.db.port,
-    user : config.db.user,
-    password : config.db.pass,
-    database : config.db.name
-  }
-};
+// build knex configuration from our own
+const dbConfig = unpackConfig(config.db);
+const useSqlite = config.db.type === 'sqlite';
+const dropOnCreate = config.db.connect?.name === 'shift_test';
 
-// testing for sqlite
-const sqliteCfg = {
-  client: "sqlite3",
-  connection: ":memory:",
-  useNullAsDefault: true,
-};
+const db = {
+  config: config.db,
 
-// use sqlite when running `npm test`
-let useSqlite = process.env.npm_lifecycle_event === 'test';
+  // access to the created knex object.
+  // ex. their `knex.select('*')` is our `db.query.select('*')`
+  // valid in-between db.initialize() and db.destroy()
+  query: false,
 
-// hack: change mysql to sqlite if the environment variable
-// MYSQL_DATABASE was set to "sqlite"
-// also: can specify a filename for the db "sqlite:somefile.db"
-if (!useSqlite && config.db.name.startsWith('sqlite')) {
-  const parts = config.db.name.split(':');
-  if (parts && parts.length === 2) {
-    const fn = parts[1];
-    sqliteCfg.connection = path.resolve(config.appPath, fn);
-  }
-  console.log("using sqlite", sqliteCfg.connection);
-  useSqlite = true;
-}
-
-const dbConfig = Object.freeze( useSqlite ? sqliteCfg : shift );
-
-const knex = {
-  // lightly wrap knex with a query function.
-  // ex. knex.query('calevent').....
-  query: createKnex(dbConfig),
-
-  // create tables if they dont already exist
-  initialize() {
-    return tables.create(knex.query, !useSqlite);
+  // waits to open a connection.
+  async initialize(name) {
+    if (db.query) {
+      throw new Error("db already initialized");
+    }
+    const connection = knex(dbConfig);
+    db.query = connection;
+    await connection;
   },
 
-  // for tests to be able to reset the database.
-  recreate() {
-    knex.query = createKnex(dbConfig);
-    return knex.initialize();
+  // promise to close connections.
+  destroy() {
+    const connection = db.query;
+    if (!connection) {
+      throw new Error("db already destroyed");
+    }
+    db.query = false;
+    return connection.destroy();
   },
 
   // convert a dayjs object to a 'date' column.
@@ -90,7 +66,7 @@ const knex = {
    * this updates *everything*.
    */
   store(table, idField, rec) {
-    const q = knex.query(table);
+    const q = db.query(table);
     // get everything from that isn't a function()
     let cleanData = pickBy(rec, isSafe);
     if (rec.exists()) {
@@ -112,14 +88,49 @@ const knex = {
    * where the named field has the value in the passed record.
    */
   del(table, idField, rec) {
-    return knex.query(table).where(idField, rec[idField]).del();
+    return db.query(table).where(idField, rec[idField]).del();
   },
 };
-module.exports = knex;
+module.exports = db;
 
 // ugh. if knex sees a function in an object,
 // it assumes the function generates knex style queries and tries to call them.
 // filter them out, mimicking what knex does internally for undefined values.
 function isSafe(v, k) {
   return (typeof v !== 'function');
+}
+
+// turn the shift config into knex format
+function unpackConfig({ type, connect, debug }) {
+  return (type === 'mysql') ? {
+    client: 'mysql2',
+    debug,
+    connection: {
+      host : connect.host,
+      port : connect.port,
+      user : connect.user,
+      password : connect.pass,
+      database : connect.name
+    },
+    // knex recommends setting the min pool size to 0
+    // ( for backcompat, their default is 2. )
+    // https://knexjs.org/guide/#pool
+    pool: {
+      min: 0,
+      max: 7,
+      afterCreate: function (conn, done) {
+        console.log("connection created");
+        done();
+      },
+    },
+  } : (type === 'sqlite') ? {
+    client: "sqlite3",
+    debug,
+    connection: {
+      filename: connect.name,   // memory or a filename
+    },
+    useNullAsDefault: true,
+  } : {
+    client: "unknown"
+  }
 }

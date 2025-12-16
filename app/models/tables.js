@@ -1,24 +1,38 @@
+const db = require("shift-docs/db");
+const config = require("shift-docs/config");
+
 // create tables if they dont already exist
 // fix? modified time doesn't work for sqlite
 // ( maybe manually set the time in knex.js store()? )
 module.exports = {
-  create: async function(knex, mysql) {
-    const hasCalDaily= await knex.schema.hasTable('caldaily');
-    if (!hasCalDaily) {
-      await knex.schema
-        .createTable('caldaily', function (table) {
-          createCalDaily( newTableMaker(knex, mysql, table) );
-          table.index(['eventdate'], 'eventdate');
-        });
+  dropTables: async () => {
+    if (!config.isTesting) {
+      throw new Error("probably don't want to be dropping production tables");
     }
-    const hasCalEvent= await knex.schema.hasTable('calevent');
+    await db.query.schema.dropTableIfExists('caldaily');
+    await db.query.schema.dropTableIfExists('calevent');
+  },
+  //
+  createTables: async () => {
+    const knex = db.query;
+    const mysql = db.config.type === 'mysql';
+    if (!knex) {
+      throw new Error("db not initialized");
+    }
+
+    const hasCalDaily = await knex.schema.hasTable('caldaily');
+    if (!hasCalDaily) {
+      await knex.schema.createTable('caldaily', (table) => {
+        createCalDaily( newTableMaker(db.query, mysql, table) );
+        table.index(['eventdate'], 'eventdate');
+      });
+    }
+    const hasCalEvent = await knex.schema.hasTable('calevent');
     if (!hasCalEvent) {
-      await knex.schema
-        .createTable('calevent', function (table) {
-          createCalEvent( newTableMaker(knex, mysql, table) );
-        });
-      }
-    return knex;
+      await knex.schema.createTable('calevent', (table) => {
+        createCalEvent( newTableMaker(db.query, mysql, table) );
+      });
+    }
   }
 };
 

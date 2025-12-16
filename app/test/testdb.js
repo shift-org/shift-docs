@@ -1,40 +1,44 @@
 const { Area, Audience, DatesType, EventStatus, Review } = require("../models/calConst");
+const tables = require("../models/tables");
 const dt = require("../util/dateTime");
 const { faker } = require('@faker-js/faker');
 const testData = require("./testData");
-const knex = require("../knex");
+const db = require("../db");
 const { makeFakeData } = require("./fakeData");
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
 module.exports = {
-  setup: async () => {
-    await knex.recreate();
-    faker.seed(23204); // keeps the generated data stable.
-    return createData(knex.query);
+  // generates a hand rolled set of data
+  setupTestData: async (name) => {
+    await db.initialize();
+    await tables.dropTables();
+    await tables.createTables();
+    faker.seed(23204); // uses lorem generator
+    await createTestData();
   },
-  setupWithFakeData: async () => {
-    await knex.recreate();
+  // uses faker to generate a good amount of fake data
+  setupFakeData: async (name) => {
+    await db.initialize();
+    await tables.dropTables();
+    await tables.createTables();
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;
     faker.seed(23204); // keeps the generated data stable.
-    return makeFakeData(firstDay, lastDay, numEvents);
+    await makeFakeData(firstDay, lastDay, numEvents);
   },
-  destroy: async () => {
-    return knex.query.destroy();
+  destroy() {
+    // leaves the tables in place; lets create drop them when needed.
+    return db.destroy();
   }
 }
 
-async function createData(knex) {
-  await knex.table('calevent').insert(fakeCalEvent(1));
-  await knex.table('calevent').insert(fakeCalEvent(2));
-  await knex.table('calevent').insert(fakeCalEvent(3));
+async function createTestData() {
+  await db.query('calevent').insert(fakeCalEvent(1));
+  await db.query('calevent').insert(fakeCalEvent(2));
+  await db.query('calevent').insert(fakeCalEvent(3));
   //
-  await knex.table('caldaily').insert(fakeCalDaily(1, 2));
-  await knex.table('caldaily').insert(fakeCalDaily(2, 2));
+  await db.query('caldaily').insert(fakeCalDaily(1, 2));
+  await db.query('caldaily').insert(fakeCalDaily(2, 2));
 };
 
 function fakeCalDaily(order, eventId) {
@@ -44,7 +48,7 @@ function fakeCalDaily(order, eventId) {
   return {
     id          : eventId,
     pkid        : pkid,
-    eventdate   : knex.toDate(dt.fromYMDString(ymd)),
+    eventdate   : db.toDate(dt.fromYMDString(ymd)),
     eventstatus : EventStatus.Active,
     newsflash   : "news flash",
   };
@@ -73,7 +77,7 @@ function fakeCalEvent(eventId) {
     printphone: 0,
     weburl: contacturl,
     webname: "example.com",
-    printweburl: contacturl,
+    printweburl: 1,
     contact: organizer,
     hidecontact : 1,
     printcontact : 1,

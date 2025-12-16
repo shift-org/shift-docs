@@ -8,13 +8,12 @@ const request = require('supertest');
 describe("ride count testing", () => {
   // runs before the first test in this block.
   before(() => {
-    return testdb.setupWithFakeData();
+    return testdb.setupFakeData("count");
   });
   // runs once after the last test in this block
   after(() => {
     return testdb.destroy();
   });
-  // test:
   it("handles an all encompassing range", () => {
     return request(app)
       .get('/api/ride_count.php')

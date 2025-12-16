@@ -17,7 +17,7 @@ describe("ical feed", () => {
   // runs before the evt test in this block.
   before(() => {
     testData.stubData(sinon);
-    return testdb.setup();
+    return testdb.setupTestData("ical");
   });
   // runs once after the last test in this block
   after(() => {

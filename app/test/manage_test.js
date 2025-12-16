@@ -34,7 +34,7 @@ describe("managing events", () => {
   // reset after each one.
   beforeEach(() => {
     spy = testData.stubData(sinon);
-    return testdb.setup();
+    return testdb.setupTestData("manage");
   });
   afterEach(() => {
     sinon.restore();
@@ -146,7 +146,7 @@ describe("managing events", () => {
           secret: testData.secret,
         }, eventData))
         .expect(200)
-        .then(async  (res) => {
+        .then(async (res) => {
           assert.equal(spy.eventStore.callCount, 1, "event stores");
           spy.resetHistory();
           const evt = await CalEvent.getByID(3);

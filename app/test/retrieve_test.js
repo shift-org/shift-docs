@@ -9,7 +9,7 @@ const request = require('supertest');
 describe("retrieving event data for editing", () => {
   // runs before the first test in this block.
   before(() => {
-    return testdb.setup();
+    return testdb.setupTestData("retrieve");
   });
   // runs once after the last test in this block
   after(() => {

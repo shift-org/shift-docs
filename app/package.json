@@ -20,9 +20,10 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "node --test"
+    "test": "node --test --trace-warnings --test-global-setup=test/db_setup.js --test-concurrency=1 **/*_test.js --"
   },
   "devDependencies": {
+    "shelljs": "^0.10.0",
     "sinon": "^15.0.3",
     "supertest": "^7.1.4"
   }

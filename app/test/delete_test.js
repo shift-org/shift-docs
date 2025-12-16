@@ -18,7 +18,7 @@ describe("deleting using a form", () => {
   // runs before the first test in this block.
   before(() => {
     spy = testData.stubData(sinon);
-    return testdb.setup();
+    return testdb.setupTestData("del");
   });
   // runs once after the last test in this block
   after(() => {
@@ -95,7 +95,7 @@ describe("deleting using json", () => {
   let spy;
   before(() => {
     spy = testData.stubData(sinon);
-    return testdb.setup();
+    return testdb.setupTestData("del json");
   });
   after(() => {
     sinon.restore();

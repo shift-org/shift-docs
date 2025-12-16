@@ -7,7 +7,7 @@ const request = require('supertest');
 describe("crawl testing", () => {
   // runs before the first test in this block.
   before(() => {
-    return testdb.setup();
+    return testdb.setupTestData("crawl")
   });
   // runs once after the last test in this block
   after(() => {
@@ -19,9 +19,7 @@ describe("crawl testing", () => {
       .get('/api/crawl.php')
       .expect(200)
       .expect('Content-Type', /html/)
-      .then(res => {
-        // console.log(res.text);
-      });
+      // .then(logResponse);
   });
   it("handles a valid daily id", () => {
     return request(app)
@@ -29,9 +27,7 @@ describe("crawl testing", () => {
       .query({id: 201})
       .expect(200)
       .expect('Content-Type', /html/)
-      .then(res => {
-        // console.log(res.text);
-      });
+      // .then(logResponse);
   });
   it("errors on an invalid daily id", () => {
     return request(app)
@@ -39,8 +35,11 @@ describe("crawl testing", () => {
       .query({id: 999})
       .expect(404) // crawl returns an empty 404
       .expect('Content-Type', /text/)
-      .then(res => {
-        // console.log(res.text);
-      });
+      // .then(logResponse);
   });
 });
+
+
+function logResponse(res) {
+  console.log(res.text);
+}
