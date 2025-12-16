@@ -1,4 +1,4 @@
-// const app = require("../appSetup");
+// const app = require("../appEndpoints");
 // const testdb = require("./testdb");
 // const { EventSearch } = require("../models/calConst");
 // //

@@ -3,7 +3,7 @@
  */
 const config = require('./config');
 const { initMail } = require( './emailer');
-const app = require( './appSetup');
+const app = require( './appEndpoints');
 const db = require('./db');  // initialize on startup
 const tables = require("./models/tables");
 

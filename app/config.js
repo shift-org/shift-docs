@@ -12,10 +12,8 @@ const listen = env_default('NODE_PORT', 3080);
 // the user facing server.
 const siteHost = siteUrl(listen);
 
-// location of app.js ( same as config.cs )
+// location of app.js ( same as config.js )
 const appPath = path.resolve(__dirname);
-// location where npm run/test was typed
-const startPath = env_default('INIT_CWD', appPath);
 
 // for max file size
 const bytesPerMeg = 1024*1024;
@@ -249,7 +247,7 @@ function getMysqlTesting() {
 // if filename is null, it uses a memory database
 // paths are relative to npm's starting path.
 function getSqliteConfig(filename) {
-  const connection = !filename ? ":memory:" : path.resolve(startPath, filename);
+  const connection = !filename ? ":memory:" : path.resolve(appPath, filename);
   return {
     name: connection
   };

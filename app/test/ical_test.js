@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-const app = require("../appSetup");
+const app = require("../appEndpoints");
 const testData = require("./testData");
 const testdb = require("./testdb");
 
