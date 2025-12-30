@@ -20,7 +20,7 @@ const bytesPerMeg = 1024*1024;
 
 const staticFiles = env_default('SHIFT_STATIC_FILES');
 
-const isTesting = !!process.env.npm_lifecycle_event.match(/test$/);
+const isTesting = !!(process.env.npm_lifecycle_event || "").match(/test$/);
 // read the command line parameter for db configuration
 const dbType = env_default('npm_config_db');
 const dbDebug = !!env_default('npm_config_db_debug');

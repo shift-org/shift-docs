@@ -9,8 +9,6 @@ const password = "supersecret";
 // number of days within which to create fake events
 const fakeRange = 7;
 
-const isTesting = process.env.npm_lifecycle_event === 'test';
-
 // promise an array of events
 //  - firstDay is a dt day
 //  - numEvents: a number of events to create
@@ -22,7 +20,7 @@ function makeFakeData(firstDay, lastDay, numEvents) {
       .insert(data.event).then(row => {
         const id = row[0]; // the magic to get the event id.
         // when passing a seed (ex. for tests); silence the output.
-        if (!isTesting) {
+        if (!config.isTesting) {
           logData(id, data);
         }
         const promisedDays = data.days.map(at => {
@@ -39,7 +37,7 @@ function makeFakeData(firstDay, lastDay, numEvents) {
 //
 function logData(id, data) {
   const url = config.site.url("addevent", `edit-${id}-${password}`);
-  const start = data.days[0].eventdate;
+  const start = dt.friendlyDate(data.days[0].eventdate);
   console.log(`created "${data.event.title}" with ${data.days.length} days starting on ${start}\n ${url}`);
 }
 

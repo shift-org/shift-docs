@@ -51,13 +51,15 @@ The docker configuration also supports running your own frontend and backend ser
 
 Note that no changes to the filesystems **inside** the container should ever be needed;  they read from your **local** filesystem so updating the local FS will show up in the container (perhaps after a restart).  Updating, changing branches, etc can be done with git commands **outside** of the container (`git checkout otherbranch` or `git pull`).
 
-So - now you can hopefully access the site.  But a real end-toend test of yoursetup, would be creating an event:
+Now, hopefully access the site. To test your setup, create event:
 
-1. visit https://localhost:4443/addevent/
-2. fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
-3. save the event (fix any validation errors around missing fields to ensure it saves)
-4. In production, we send you an email with a link to confirm the ride listing; we also write a copy of that email to the file `services/node/shift-mail.log`. For local development, we don't actually send the email, so get the confirmation link from that mail log, visit it, and hit publish event
-5. hopefully see your event on the https://localhost:4443/calendar page!
+1. Visit https://localhost:4443/addevent/
+2. Fill out all required fields (ones marked with an asterisk), for a date a day or two in the future.
+3. Save the event (fix any validation errors around missing fields to ensure it saves)
+4. In production, the backend would send you an email with a link to confirm the ride listing. During local development, we don't actually send the email. Instead, the confirmation link gets logged to Docker. To see those logs, run `./shift logs node`, and visit the link logged "publish" your ride. ( The link will look something like: `https://localhost:4443/addevent/edit-17-10b24786f5b14e4595cb8c988002a536` )
+5. After publishing, if everything succeeds, you should be able to see your event on the https://localhost:4443/calendar page!
+
+If you would like to create multiple test events, you can also run: `./shift compose makeFakeEvents`
 
 ## Important Project Files
 
