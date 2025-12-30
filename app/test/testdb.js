@@ -1,39 +1,44 @@
 const { Area, Audience, DatesType, EventStatus, Review } = require("../models/calConst");
+const tables = require("../models/tables");
 const dt = require("../util/dateTime");
-const loremIpsum = require("lorem-ipsum").loremIpsum;
+const { faker } = require('@faker-js/faker');
 const testData = require("./testData");
-const knex = require("../knex");
+const db = require("../db");
 const { makeFakeData } = require("./fakeData");
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
 module.exports = {
-  setup: async function() {
-    await knex.recreate();
-    return createData(knex.query);
+  // generates a hand rolled set of data
+  setupTestData: async (name) => {
+    await db.initialize();
+    await tables.dropTables();
+    await tables.createTables();
+    faker.seed(23204); // uses lorem generator
+    await createTestData();
   },
-  setupWithFakeData: async function() {
-    await knex.recreate();
+  // uses faker to generate a good amount of fake data
+  setupFakeData: async (name) => {
+    await db.initialize();
+    await tables.dropTables();
+    await tables.createTables();
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;
-    const arbitraryNumber = 23204; // keeps the generated data stable.
-    return makeFakeData(firstDay, lastDay, numEvents, arbitraryNumber);
+    faker.seed(23204); // keeps the generated data stable.
+    await makeFakeData(firstDay, lastDay, numEvents);
   },
-  destroy: function() {
-    return knex.query.destroy();
+  destroy() {
+    // leaves the tables in place; lets create drop them when needed.
+    return db.destroy();
   }
 }
 
-async function createData(knex) {
-  await knex.table('calevent').insert(fakeCalEvent(1));
-  await knex.table('calevent').insert(fakeCalEvent(2));
-  await knex.table('calevent').insert(fakeCalEvent(3));
+async function createTestData() {
+  await db.query('calevent').insert(fakeCalEvent(1));
+  await db.query('calevent').insert(fakeCalEvent(2));
+  await db.query('calevent').insert(fakeCalEvent(3));
   //
-  await knex.table('caldaily').insert(fakeCalDaily(1, 2));
-  await knex.table('caldaily').insert(fakeCalDaily(2, 2));
+  await db.query('caldaily').insert(fakeCalDaily(1, 2));
+  await db.query('caldaily').insert(fakeCalDaily(2, 2));
 };
 
 function fakeCalDaily(order, eventId) {
@@ -43,7 +48,7 @@ function fakeCalDaily(order, eventId) {
   return {
     id          : eventId,
     pkid        : pkid,
-    eventdate   : knex.toDate(dt.fromYMDString(ymd)),
+    eventdate   : db.toDate(dt.fromYMDString(ymd)),
     eventstatus : EventStatus.Active,
     newsflash   : "news flash",
   };
@@ -57,10 +62,7 @@ function fakeCalEvent(eventId) {
   const contacturl = "http://example.com";
   const title = `ride ${eventId} title`;
   const organizer = "organizer";
-  // generate some consistent, arbitrary text:
-  const descr = loremIpsum({
-    random: mulberry32(eventId),
-  });
+  const descr = faker.lorem.text();
   return {
     created,
     modified,
@@ -75,7 +77,7 @@ function fakeCalEvent(eventId) {
     printphone: 0,
     weburl: contacturl,
     webname: "example.com",
-    printweburl: contacturl,
+    printweburl: 1,
     contact: organizer,
     hidecontact : 1,
     printcontact : 1,
@@ -116,15 +118,5 @@ function hidden(eventId) {
     return null; // use a legacy hidden code.
   default:
     throw new Error("unexpected event id", eventId);
-  }
-}
-
-// https://stackoverflow.com/questions/521295/seeding-the-random-number-generator-in-javascript
-function mulberry32(a) {
-  return function() {
-    var t = a += 0x6D2B79F5;
-    t = Math.imul(t ^ t >>> 15, t | 1);
-    t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
   }
 }
