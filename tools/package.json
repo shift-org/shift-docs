@@ -6,14 +6,12 @@
   "author": "SHIFT calendar crew",
   "license": "MIT",
   "dependencies": {
-    "@faker-js/faker": "^8.4.1",
-    "env-cmd": "^10.1.0",
-    "express": "^4.22.0",
-    "express-http-proxy": "^2.0.0",
-    "http-proxy-middleware": "^2.0.7",
-    "nodemailer": "^7.0.11",
+    "@faker-js/faker": "~8.4.1",
+    "env-cmd": "~10.1.0",
+    "express-http-proxy": "~2.1.1",
+    "http-proxy-middleware": "~3.0.5",
     "shift-docs": "1.0.0",
-    "sqlstring": "^2.3.3"
+    "sqlstring": "~2.3.3"
   },
   "scripts": {
     "preview": "env-cmd -f dev.env node preview.js",

@@ -6,17 +6,17 @@
   "author": "SHIFT calendar crew",
   "license": "MIT",
   "dependencies": {
-    "dayjs": "^1.11.7",
-    "express": "^4.22.0",
-    "knex": "^2.4.2",
-    "lodash": "^4.17.21",
-    "multer": "^2.0.2",
-    "mysql2": "^3.9.8",
-    "nodemailer": "^7.0.11",
-    "nunjucks": "^3.2.3",
-    "sqlite3": "^5.1.6",
-    "validator": "^13.15.22",
-    "wordwrapjs": "^5.1.0"
+    "dayjs": "~1.11.13",
+    "express": "~4.22.0",
+    "knex": "~2.5.1",
+    "lodash": "~4.17.21",
+    "multer": "~2.0.2",
+    "mysql2": "~3.14.0",
+    "nodemailer": "~7.0.11",
+    "nunjucks": "~3.2.4",
+    "sqlite3": "~5.1.7",
+    "validator": "~13.15.22",
+    "wordwrapjs": "~5.1.0"
   },
   "scripts": {
     "start": "node app.js",
