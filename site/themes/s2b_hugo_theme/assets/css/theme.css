@@ -511,6 +511,12 @@ body.boxed .navbar-affixed-top.affix {
 #login-modal {
   overflow: hidden;
 }
+.modal-header {
+  text-align: center;
+}
+.modal-body {
+  padding: 5px 15px;
+}
 #login-modal .modal-header h4 {
   text-transform: uppercase;
 }
