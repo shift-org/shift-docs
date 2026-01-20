@@ -54,7 +54,9 @@ $(document).ready(function() {
 
                     let exportURL = new URL(API_ICS_URL);
                     exportURL.searchParams.set('id', value.id);
-                    value.exportlink = exportURL.toString();
+
+                    // TEST HACK
+                    value.exportlink = "webcal://www.shift2bikes.org/api/ics.php?id=12788";
 
                     value.addToGoogleLink = container.getAddToGoogleLink(value);
 
