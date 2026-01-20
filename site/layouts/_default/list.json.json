@@ -1,0 +1,11 @@
+{{- $s := slice }}
+{{- range  .Pages }}
+    {{- $d := dict 
+            "name" .File.ContentBaseName
+            "title" .Title 
+            "url"  .RelPermalink 
+            "startdate" .Params.startdate 
+     }}
+    {{- $s = $s | append $d }}
+{{- end }}
+{{- $s | jsonify (dict "prefix" " " "indent" "  ") }}

@@ -18,11 +18,12 @@ import CalBeta from './CalBeta.vue'
 
 // the source of records displayed by CalList.
 import sourcePool from './sources/sourcePool.js' 
-import socialSource from './sources/socialSource.js'
+// import socialSource from './sources/socialSource.js'
 import eventSource from './sources/eventSource.js'
 import festivalSource from './sources/festivalSource.js'
+import newsSource from './sources/newsSource.js'
 
-sourcePool.register(/*socialSource, */eventSource, festivalSource);
+sourcePool.register(/*socialSource, */eventSource, festivalSource, newsSource);
 
 // the router reads and writes the user's address bar
 const router = createRouter({
