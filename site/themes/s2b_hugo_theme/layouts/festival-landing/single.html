@@ -1,0 +1,21 @@
+{{ define "page_body" }}
+              <div class="col-md-12">
+
+                <div>
+                  <!-- modified pp_heading partial -->
+                  <div class="pp-banner">
+                    <a href="{{ .Param "poster-image" }}"><img alt="Pedalpalooza" id="pedalpalooza-img" src="{{ .Param "banner-image" }}"></a>
+                    <div>
+                      <span class="pp-headline">{{ .Param "festival.name" }}!</span>
+                      <!-- <span class="pp-daterange">{{ .Param "daterange" }}</span> -->
+                    </div>
+
+                    <p>Stay tuned for more information on the next <a href="/pages/pedalpalooza/">{{ .Param "festival.name" }}</a>! Be sure to follow <a href="https://www.bike-summer.org">Bike-Summer.org</a> and <a href="https://www.instagram.com/pedalpaloozapdx/">Pedalpalooza on Instagram</a> for updates!</p>
+
+                    <p>Seeking inspiration? View the <a href="/archive/pedal-palooza-archives/">archives of past festivals</a>. Looking for current events? Check out the current <a href="/calendar/">ride calendar</a>.</p>
+
+                  </div> <!-- end pp_heading -->
+                  
+                </div>
+              </div>
+{{ end }}

@@ -13,6 +13,6 @@ export default {
   currentYear : ppYear,
   show: ppShow, 
   details: ppInfo,
-  // the options are pp-landing, calfestival
-  useLanding: ppInfo.type === "pp-landing"
+  // the options are festival-landing, calfestival
+  useLanding: ppInfo.type === "festival-landing"
 }
