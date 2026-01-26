@@ -626,3 +626,10 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.59.1: (2025-09-29) Updated MySQL patch version
 * 3.59.2: (2025-10-20) Fixed some backend tests
 * 3.59.3: (2025-11-03) Adjusted search results order when searching past events
+* 3.59.4: (2025-11-17) When mapping an event location, "TBA"/"TBD" addresses are now handled more robustly. Search endpoint now looks at either A) today and future, sort order ascending (default), or B) past only, sort order descending.
+* 3.59.5: (2025-11-24) Updated dependencies: http-proxy-middleware
+* 3.59.6: (2025-12-01) Updated dependencies: Vite
+* 3.59.7: (2025-12-08) Updated dependencies: express, validator, multer
+* 3.59.8: (2025-12-12) Remove now-unneeded version from Docker compose file
+* 3.59.9: (2025-12-22) Updated dependencies: nodemailer
+* 3.59.10: (2026-01-15) Changed dependency management to only allow patch updates; updated dependencies: MySQL. Also removed unused example data.
