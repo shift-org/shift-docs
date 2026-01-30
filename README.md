@@ -59,7 +59,7 @@ Now, hopefully access the site. To test your setup, create event:
 4. In production, the backend would send you an email with a link to confirm the ride listing. During local development, we don't actually send the email. Instead, the confirmation link gets logged to Docker. To see those logs, run `./shift logs node`, and visit the link logged "publish" your ride. ( The link will look something like: `https://localhost:4443/addevent/edit-17-10b24786f5b14e4595cb8c988002a536` )
 5. After publishing, if everything succeeds, you should be able to see your event on the https://localhost:4443/calendar page!
 
-If you would like to create multiple test events, you can also run: `./shift compose makeFakeEvents`
+If you would like to create multiple test events, you can also run: `./shift makeFakeEvents`
 
 ## Important Project Files
 
