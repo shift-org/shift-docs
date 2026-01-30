@@ -12,13 +12,18 @@ const listen = env_default('NODE_PORT', 3080);
 // the user facing server.
 const siteHost = siteUrl(listen);
 
-// location of app.js ( same as config.cs )
-const appPath =  path.resolve(__dirname);
+// location of app.js ( same as config.js )
+const appPath = path.resolve(__dirname);
 
 // for max file size
 const bytesPerMeg = 1024*1024;
 
 const staticFiles = env_default('SHIFT_STATIC_FILES');
+
+const isTesting = !!(process.env.npm_lifecycle_event || "").match(/test$/);
+// read the command line parameter for db configuration
+const dbType = env_default('npm_config_db');
+const dbDebug = !!env_default('npm_config_db_debug');
 
 const config = {
   appPath,
@@ -26,14 +31,9 @@ const config = {
     header: 'Api-Version',
     version: "3.59.10",
   },
-  db: {
-    host: env_default('MYSQL_HOST', 'db'),
-    port: 3306, // standard mysql port.
-    user: env_default('MYSQL_USER', 'shift'),
-    pass: env_default('MYSQL_PASSWORD', 'ok124'),
-    name: env_default('MYSQL_DATABASE', 'shift'),
-    type: "mysql2", // name of driver, installed by npm
-  },
+  db: getDatabaseConfig(dbType, isTesting),
+  // maybe bad, but some code likes to know:
+  isTesting,
   // a nodemailer friendly config, or false if smtp is not configured.
   smtp: getSmtpSettings(),
   site: {
@@ -193,4 +193,62 @@ function getSmtpSettings() {
       }
     };
   }
+}
+
+// our semi-agnostic database configuration
+function getDatabaseConfig(dbType, isTesting) {
+  // dbType comes from the command-line
+  // if nothing was specfied, use the MYSQL_DATABASE environment variable
+  const env = env_default('MYSQL_DATABASE')
+  if (!dbType && env) {
+    dbType = env.startsWith("sqlite") ? env : null;
+  }
+  if (!dbType) {
+    dbType =  isTesting ? 'sqlite' : 'mysql'
+  }
+  const [name, parts] = dbType.split(':');
+  const config = {
+    mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
+    sqlite: getSqliteConfig,
+  }
+  if (!name in config) {
+    throw new Error(`unknown database type '${dbType}'`)
+  }
+  return {
+    type: name,
+    connect: config[name](parts),
+    debug: dbDebug,
+  }
+}
+
+// the default for mysql when running dev or production
+function getMysqlDefault() {
+  return {
+    host: env_default('MYSQL_HOST', 'db'),
+    port: env_default('MYSQL_PORT', 3306), // standard mysql port.
+    user: env_default('MYSQL_USER', 'shift'),
+    pass: env_default('MYSQL_PASSWORD', 'ok124'),
+    name: env_default('MYSQL_DATABASE', 'shift'),
+  }
+}
+
+// the default for mysql when running tests
+function getMysqlTesting() {
+  return {
+    host: "localhost",
+    port: 3308,  // custom EXTERNAL port to avoid conflicts
+    user: 'shift_test',
+    pass: 'shift_test',
+    name: 'shift_test',
+  }
+}
+
+// the default for sqlite
+// if filename is null, it uses a memory database
+// paths are relative to npm's starting path.
+function getSqliteConfig(filename) {
+  const connection = !filename ? ":memory:" : path.resolve(appPath, filename);
+  return {
+    name: connection
+  };
 }

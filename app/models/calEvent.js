@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const knex = require("../knex");
+const knex = require("../db");
 const { CalDaily } = require("./calDaily");
 const { Review } = require("./calConst");
 const dt = require("../util/dateTime");

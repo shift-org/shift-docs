@@ -49,7 +49,7 @@ async function importMysql() {
   // make sure the tables exist in the output
   // alt: could use the dump to create the tables
   console.log("creating tables...");
-  await tables.create(q, false);
+  await tables.createTables();
 
   console.log("importing data...");
   await importDump(q, inFile);

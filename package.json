@@ -34,7 +34,7 @@
     "postdeploy": "cp site/public/404/index.html site/public/404.html",
     
     "postinstall": "hugo-installer --version 0.144.2",
-    "test": "npm -w app run test",
+    "test": "npm -w app test --",
 
     "preview": "concurrently --kill-others-on-fail \"npm:preview-*\"",
     "preview-hugo": "npm run dev-hugo",
