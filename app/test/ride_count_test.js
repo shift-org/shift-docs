@@ -1,5 +1,6 @@
 const app = require("../appEndpoints");
 const testdb = require("./testdb");
+const testData = require("./testData");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
@@ -13,6 +14,12 @@ describe("ride count testing", () => {
   // runs once after the last test in this block
   after(() => {
     return testdb.destroy();
+  });
+  // FIX! it would be good to support an unspecified range
+  it("handles an unspecified range", () => {
+    return request(app)
+      .get('/api/ride_count.php')
+      .expect(testData.expectError);
   });
   it("handles an all encompassing range", () => {
     return request(app)
@@ -42,14 +49,12 @@ describe("ride count testing", () => {
   it("errors on a missing time", () => {
     return request(app)
       .get('/api/ride_count.php')
-      .expect(400)
-      .expect('Content-Type', /json/);
+      .expect(testData.expectError);
   });
   it("errors on an invalid time", () => {
     return request(app)
       .get('/api/ride_count.php')
       .query({s: "yesterday", e: "tomorrow"})
-      .expect(400)
-      .expect('Content-Type', /json/);
+      .expect(testData.expectError);
   });
 });

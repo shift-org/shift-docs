@@ -1,5 +1,6 @@
 const app = require("../appEndpoints");
 const testdb = require("./testdb");
+const testData = require("./testData");
 const { EventSearch } = require("../models/calConst");
 //
 const { describe, it, before, after } = require("node:test");
@@ -19,12 +20,7 @@ describe("searching for events", () => {
   it("errors on an empty search term", () => {
     return request(app)
       .get('/api/search.php')
-      // .query({q: "events"})
-      .expect(400)
-      .expect('Content-Type', /json/)
-      .then(res => {
-        assert.ok(res.body?.error, "expects an error string");
-      });
+      .expect(testData.expectError);
   });
   it("handles a search", () => {
     return request(app)
