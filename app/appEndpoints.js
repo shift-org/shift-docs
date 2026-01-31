@@ -2,8 +2,6 @@ const express = require('express');
 const config = require("./config");
 const errors = require("./util/errors");
 const nunjucks = require("./nunjucks");
-const { initMail } = require("./emailer");
-const knex = require("./db");  // initialize on startup
 const app = express();
 
 // shift.conf for nginx sets the x-forward header
@@ -70,5 +68,5 @@ app.use(function(err, req, res, next) {
   console.error(err.stack);
 });
 
-// for testing
+// for starting a server or running tests
 module.exports = app;
