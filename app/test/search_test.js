@@ -62,6 +62,7 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
+        // pagination: still 14 events available; but we've asked for two at a time.
         assert.equal(res.body?.pagination.fullcount, 14);
         assert.equal(res.body?.pagination.offset, 0);
         assert.equal(res.body?.pagination.limit, 2);
@@ -83,6 +84,7 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
+        // pagination: still 14 events available; but we've asked for two at a time.
         assert.equal(res.body?.pagination?.fullcount, 14);
         assert.equal(res.body?.pagination?.offset, 2);
         assert.equal(res.body?.pagination?.limit, 2);
