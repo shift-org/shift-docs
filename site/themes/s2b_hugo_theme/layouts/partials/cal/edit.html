@@ -23,9 +23,16 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" id="delete-modal" role="dialog">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog">
     <div class="modal-content">
+      <h4 class="modal-header">
+        Delete Event
+      </h4>
       <div class="modal-body">
+        <p>If this event is no longer happening, we recommend <a href="#dateandtime-fields" data-dismiss="modal">cancelling</a> instead of deleting. Cancelling gives you an opportunity to inform riders, like if it's been rescheduled to another date.</p>
+        <p><strong>Once an event is deleted, it can't be restored!</strong></p>
+        <p>If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
+        
         <h4>Are you sure you want to delete this event?</h4>
         <p>The event will be permanently deleted. This can't be undone.</p>
       </div>
@@ -71,9 +78,6 @@
 </div><!-- /.modal -->
 
 <script id="mustache-edit" type="text/template">
-
-  [[^ id ]]<h1>Add Event</h1>[[/ id ]]
-  [[# id ]]<h1>Edit Event</h1>[[/ id ]]
 
   [[# id ]]
   [[^ published ]]
@@ -478,46 +482,22 @@
       </div>
       [[/ id ]]
 
-      [[# id ]]
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h2>
-            <a role="button" data-toggle="collapse" href="#delete-event-fields" aria-expanded="true">
-              Delete Event
-              <svg class="icon expand" role="img" aria-hidden="true">
-                <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}"/>
-              </svg>
-            </a>
-          </h2>
-        </div>
-
-        <div id="delete-event-fields" class="panel-collapse collapse in">
-          <div class="panel-body">
-            <div class="form-group">
-              <p class="input-help">If an event is no longer happening, we recommend <a href="#dateandtime-fields">cancelling</a> instead of deleting. Cancelling it gives you an opportunity to post a message to inform riders, like if it's been rescheduled to another date.</p>
-              <p class="input-help">If this is a series of repeating events, <strong>this will delete the entire series</strong>.</p>
-              <p class="input-help"><strong>Once an event is deleted, it can't be restored!</strong> If you're sure: </p>
-
-              <button id="delete-button" type="button" class="btn btn-add-event" data-toggle="modal" data-target="#delete-modal">Delete</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      [[/ id ]]
-
     </div>
   </form>
+
+    <hr>
+
   <div class="edit-buttons" >
       <button type="button" class="preview-edit-button btn btn-add-event" style="display: none;">Edit</button>
       <button type="button" class="preview-button btn btn-add-event">Preview</button>
       [[# id ]]
-      <button type="button" class="save-button published-save-button btn btn-add-event" style="display: none;">Save</button>
-      <button type="button" class="duplicate-button btn btn-add-event" style="display: none;">Duplicate</button>
+        <button type="button" class="save-button btn btn-add-event published-button" style="display: none;">Save</button>
+        <button type="button" class="duplicate-button btn btn-add-event published-button" style="display: none;">Duplicate</button>
+        <button type="button" class="btn btn-add-event delete-button published-button" id="delete-button" data-toggle="modal" data-target="#delete-modal" style="display: none;">Delete</button>
       [[/ id ]]
       [[^ id ]]
-      <button type="button" class="save-button btn btn-add-event">Save</button>
-      <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Discard</button>
+        <button type="button" class="save-button btn btn-add-event">Save</button>
+        <button type="button" class="cancel-button btn btn-add-event" data-toggle="modal" data-target="#cancel-modal">Discard</button>
       [[/ id ]]
 
       <span class="save-result"></span>
