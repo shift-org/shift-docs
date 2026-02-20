@@ -61,7 +61,7 @@ function get(req, res, next) {
 
   // calevent id for a series of events;
   // if series_id isn't provided, fallback to generic id
-  const series_id = (req.query.series_id) ? req.query.series_id : req.query.id;
+  const series_id = req.query.series_id || req.query.id;
 
   const start = readDate(req.query.startdate);
   const end = readDate(req.query.enddate);
