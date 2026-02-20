@@ -25,7 +25,7 @@ More info: [@NakedHearts:PDX on Instagram](https://instagram.com/nakedhearts.pdx
 
 ### Foster Night Ride
 * Every other Tuesday <!-- (opposite Twosday Road Rascals) -->
-* Starting location: Portland Mercado
+* Starting location: Foster Food Carts (SE Foster Rd & SE 52nd Ave)
 
 Eat, drink, and bike on a bike adventure in the Foster-Powell neighborhood & beyond.
 
