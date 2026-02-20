@@ -209,13 +209,19 @@ Endpoint:
 * GET `ics`
 
 Example request:
-* `/ics.php?id=1234`
+* `/ics.php?event_id=9300`
+* `/ics.php?series_id=6245`
 * `/ics.php?startdate=2019-06-01&enddate=2019-06-15`
 
 URL parameters:
+* `event_id`:
+  * `caldaily` ID (single occurrence)
+  * if `event_id` is provided it takes precedence; all other params will be ignored
+* `series_id`:
+  * `calevent` ID (all events in a series)
 * `id`:
-  * `calevent` event ID
-  * if `id` is provided it takes precedence; all other params will be ignored
+  * alias for `series_id`
+  * deprecated; clients should use `event_id` or `series_id` for clarity
 * `startdate`:
   * first day of range, inclusive
   * `YYYY-MM-DD` format
@@ -230,14 +236,50 @@ URL parameters:
 * `filename`:
   * if `none`, the output is plain text instead of an ICS file; useful for local debugging
 
-If no parameters are provided, it responds with a range from 1 month prior to 3 months forward from the current date.
+If multiple ID/range parameters are provided, they take precedence with decreasing specificity: `event_id`, `series_id`, `startdate`/`enddate`.
+
+If no parameters are provided, it responds with a range from 1 month prior to 6 months forward from the current date.
 
 Unknown parameters are ignored.
+
+Example response for a single event:
+
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//shift2bikes.org//NONSGML shiftcal v2.1//EN
+    METHOD:PUBLISH
+    X-WR-CALNAME:Shift Community Calendar
+    X-WR-CALDESC:Find fun bike events all year round.
+    X-WR-RELCALID:community@shift2bikes.org
+    BEGIN:VEVENT
+    UID:event-9300@shift2bikes.org
+    SUMMARY:Shift to Pedalpalooza Ride
+    CONTACT:fool
+    DESCRIPTION:Have you ever wondered how Pedalpalooza happens every 
+     year...and did you know we have a team of programmers who work on the 
+     shift calendar and website.  There is a lot of rewarding volunteer work 
+     that goes on behind the scenes and we are recruiting for new folks who are
+      interested in helping out next year and beyond.  Come on this ride and we
+      will talk a little bit about the history of shift and try to find you a 
+     place to help out in the future.  We will end at a family friendly 
+     watering hole.  First round of drinks is on shift.  We will be done by 8 
+     so you can check out other rides.\nhttps://shift2bikes.org/calendar/event-
+     9300
+    LOCATION:director park\n877 SW park
+    STATUS:CONFIRMED
+    DTSTART:20170606T010000Z
+    DTEND:20170606T030000Z
+    CREATED:20230512T085747Z
+    DTSTAMP:20170512T050134Z
+    SEQUENCE:1
+    URL:https://shift2bikes.org/calendar/event-9300
+    END:VEVENT
+    END:VCALENDAR
 
 Errors:
 * status code: `400`, `404`
 * possible errors
-  * `id` not found
+  * `event_id` or `series_id` not found
   * `enddate` before `startdate`
   * date range too large (100 days maximum)
 
