@@ -78,8 +78,8 @@ export default {
   // fix: this isn't nice as a method of data pool
   // make an endpoints file of some sort that dataPool uses.
   // ( and then have callers of this use that file directly )
-  getExportURL(id) {
-    return buildUrl(API_ICS_URL, {id});
+  getExportURL(event_id) {
+    return buildUrl(API_ICS_URL, {event_id});
   },
 }
 

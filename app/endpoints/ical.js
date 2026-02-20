@@ -20,6 +20,7 @@ const wordwrap = require('wordwrapjs');
 const nunjucks = require("../nunjucks");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
+const { EventsRange } = require("../models/calConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
@@ -55,7 +56,13 @@ function readDate(d) {
 
 // the endpoint handler for all ical feeds.
 function get(req, res, next) {
-  const id = req.query.id; // a cal event id
+  // caldaily id for a single event
+  const event_id = req.query.event_id;
+
+  // calevent id for a series of events;
+  // if series_id isn't provided, fallback to generic id
+  const series_id = req.query.series_id || req.query.id;
+
   const start = readDate(req.query.startdate);
   const end = readDate(req.query.enddate);
   const includeDeleted = readBool(req.query.all);
@@ -63,7 +70,7 @@ function get(req, res, next) {
   const pedalp = customName.startsWith("pedalp");
   const cal = Object.assign({}, config.cal.base, pedalp? config.cal.pedalp: config.cal.shift);
 
-  return getEventData(cal, id, start, end, includeDeleted).then(data => {
+  return getEventData(cal, event_id, series_id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
     if (pedalp) {
       events.push( buildClosingEvent(end) );
@@ -82,17 +89,17 @@ function get(req, res, next) {
 
 // promise a structure containing: filename and events.
 // start and end are dayjs objects ( or false )
-function getEventData(cal, id, start, end, includeDeleted) {
+function getEventData(cal, event_id, series_id, start, end, includeDeleted) {
   let filename;
   let buildEvents;
-  if (id && start && end) {
-    // there's not a real need to validate the parameters like this
-    // its probably over-zealous and could be removed.
-    buildEvents = Promise.reject("expected either an id or date range");
-  } else if (id) {
-    // ex. shift-calendar-12414.ics
-    filename = `${cal.filename}-${id}` + cal.ext;
-    buildEvents = buildOne(id);
+  if (event_id) {
+    // ex. shift-calendar-event-9300.ics
+    filename = `${cal.filename}-event-${event_id}` + cal.ext;
+    buildEvents = buildOne(event_id);
+  } else if (series_id) {
+    // ex. shift-calendar-series-6245.ics
+    filename = `${cal.filename}-series-${series_id}` + cal.ext;
+    buildEvents = buildSeries(series_id);
   } else if (start && end) {
     // ex. shift-calendar-2001-06-02-to-2022-01-01.ics
     filename = [cal.filename, 
@@ -134,9 +141,20 @@ function respondWith(cal, res, filename, events) {
 // javascript objects that represent each v-event.
 // ---------------------------------
 
+// Promise a single occurrence of a single event in ical format as a string.
+// id is a caldaily id.
+function buildOne(id) {
+  return CalDaily.getByDailyID(id).then((daily) => {
+    if (!daily) {
+      return Promise.reject("no such event");
+    }
+    return buildEntries([daily]);
+  });
+}
+
 // Promise all of the occurrences of a single event in ical format as a string.
 // id is a calevent id.
-function buildOne(id) {
+function buildSeries(id) {
   return CalDaily.getByEventID(id).then((dailies) => {
     if (!dailies.length) {
       return Promise.reject("no such events");
@@ -150,7 +168,7 @@ function buildCurrent() {
   const now = dt.getNow();
   const started = now.subtract(1, 'month');
   const ended = now.add(6, 'month');
-  return CalDaily.getFullRange(started, ended).then((dailies)=>{
+  return CalDaily.getFullRange(started, ended).then((dailies) => {
     return buildEntries(dailies);
   });
 }
@@ -162,7 +180,7 @@ function buildRange(start, end, includeDeleted) {
     return Promise.reject("invalid dates");
   } else {
     const range = end.diff(start, 'day');
-    if ((range < 0) || (range > 100)) {
+    if ((range < 0) || (range > EventsRange.MaxDays)) {
       return Promise.reject("bad date range");
     }
     const q = includeDeleted?

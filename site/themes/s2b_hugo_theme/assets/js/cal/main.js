@@ -53,7 +53,7 @@ $(document).ready(function() {
                     value.contactLink = container.getContactLink(value.contact);
 
                     let exportURL = new URL(API_ICS_URL);
-                    exportURL.searchParams.set('id', value.id);
+                    exportURL.searchParams.set('event_id', value.caldaily_id);
                     value.exportlink = exportURL.toString();
 
                     value.addToGoogleLink = container.getAddToGoogleLink(value);
