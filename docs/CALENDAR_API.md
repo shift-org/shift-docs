@@ -675,3 +675,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.59.8: (2025-12-12) Remove now-unneeded version from Docker compose file
 * 3.59.9: (2025-12-22) Updated dependencies: nodemailer
 * 3.59.10: (2026-01-15) Changed dependency management to only allow patch updates; updated dependencies: MySQL. Also removed unused example data.
+* 3.60.0: (2026-02-19) ICS export now supports either single occurrence (`event_id`; new default) or the series (`series_id`; previous default). The existing `id` parameter aliases to `series_id` for backwards compatibility, but clients are encouraged to specify the ID type explicitly. Also updated Node to v24.x (latest LTS).
