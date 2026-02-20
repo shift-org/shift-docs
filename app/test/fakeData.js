@@ -9,21 +9,10 @@ const password = "supersecret";
 // number of days within which to create fake events
 const fakeRange = 7;
 
-// promise an array of {event: {}, days: [{}]}
-//  - firstDay is a dt day
-//  - numEvents: a number of events to create
-//  - seed: an optional random seed
+// writes an array of the fake data format into the db.
+// separating generation from insertion prevents race conditions from influencing the generated data.
 function insertFakeData(fakeData) {
   return db.query.transaction(tx => _insertData(tx, fakeData));
-}
-
-//
-function logFakeData(data) {
-  data.forEach(({event, days}) => {
-    const url = config.site.url("addevent", `edit-${event.id}-${event.password}`);
-    const start = dt.friendlyDate(days[0].eventdate);
-    console.log(`created ${url}\n  "${event.title}" with ${days.length} days starting on ${start}`);
-  });
 }
 
 function _insertData(tx, fakeData) {
@@ -43,8 +32,19 @@ function _insertData(tx, fakeData) {
   return Promise.all(promisedEvents);
 }
 
-// build the data before inserting into the db
-// this avoids race conditions influencing the data generated.
+// prints an array of fake data format to console.
+function logFakeData(data) {
+  data.forEach(({event, days}) => {
+    const url = config.site.url("addevent", `edit-${event.id}-${event.password}`);
+    const start = dt.friendlyDate(days[0].eventdate);
+    console.log(`created ${url}\n  "${event.title}" with ${days.length} days starting on ${start}`);
+  });
+}
+
+// promise an array of {event: {}, days: [{}]}
+//  - firstDay is a dt day
+//  - numEvents: a number of events to create
+//  - seed: an optional random seed
 // nextEventId can be a number, in which case it creates events starting with that id.
 function generateFakeData(firstDay, lastDay, numEvents, seed, nextEventId = undefined) {
   faker.seed(seed);
