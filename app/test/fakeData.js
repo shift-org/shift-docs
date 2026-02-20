@@ -9,23 +9,32 @@ const password = "supersecret";
 // number of days within which to create fake events
 const fakeRange = 7;
 
-// promise an array of events
+// promise an array of {event: {}, days: [{}]}
 //  - firstDay is a dt day
 //  - numEvents: a number of events to create
 //  - seed: an optional random seed
-function makeFakeData(firstDay, lastDay, numEvents) {
-  const fakeData = generateFakeData(firstDay, lastDay, numEvents);
+function insertFakeData(fakeData) {
+  return db.query.transaction(tx => _insertData(tx, fakeData));
+}
+
+//
+function logFakeData(data) {
+  data.forEach(({event, days}) => {
+    const url = config.site.url("addevent", `edit-${event.id}-${event.password}`);
+    const start = dt.friendlyDate(days[0].eventdate);
+    console.log(`created ${url}\n  "${event.title}" with ${days.length} days starting on ${start}`);
+  });
+}
+
+function _insertData(tx, fakeData) {
   const promisedEvents = fakeData.map(data => {
-    return db.query('calevent')
+    return tx('calevent')
       .insert(data.event).then(row => {
-        const id = row[0]; // the magic to get the event id.
-        // when passing a seed (ex. for tests); silence the output.
-        if (!config.isTesting) {
-          logData(id, data);
-        }
+        const id = row[0];  // the magic to get the event id.
+        data.event.id = id; // update the data so we can return it.
         const promisedDays = data.days.map(at => {
           at.id = id; // assign the id before adding to the db
-          return db.query('caldaily').insert(at);
+          return tx('caldaily').insert(at);
          });
         return Promise.all(promisedDays);
       });
@@ -34,29 +43,29 @@ function makeFakeData(firstDay, lastDay, numEvents) {
   return Promise.all(promisedEvents);
 }
 
-//
-function logData(id, data) {
-  const url = config.site.url("addevent", `edit-${id}-${password}`);
-  const start = dt.friendlyDate(data.days[0].eventdate);
-  console.log(`created "${data.event.title}" with ${data.days.length} days starting on ${start}\n ${url}`);
-}
-
 // build the data before inserting into the db
 // this avoids race conditions influencing the data generated.
-function generateFakeData(firstDay, lastDay, numEvents) {
+// nextEventId can be a number, in which case it creates events starting with that id.
+function generateFakeData(firstDay, lastDay, numEvents, seed, nextEventId = undefined) {
+  faker.seed(seed);
   const out = [];
+  let nextDayId = nextEventId ? 1 : undefined;
   for (let i = 0; i< numEvents; i++) {
     // always have one event on the day specified;
     // on subsequent events, pick from a range of days.
-    const start = !i ? firstDay:
+    const start = !i ? firstDay :
        dt.convert(faker.date.between({
           from: firstDay.toDate(),
           to: lastDay.toDate(),
         }));
     const title = faker.music.songName();
-    const event = makeCalEvent(title);
+    const event = makeCalEvent(title, nextEventId);
     const numDays = randomDayCount();
-    const days = makeCalDailies(start, numDays);
+    const days = makeCalDailies(start, numDays, nextDayId);
+    if (nextEventId !== undefined) {
+      nextEventId += 1;
+      nextDayId += numDays;
+    }
     out.push({
       event,
       days,
@@ -66,7 +75,7 @@ function generateFakeData(firstDay, lastDay, numEvents) {
 }
 
 // export!
-module.exports = { makeFakeData };
+module.exports = { insertFakeData, generateFakeData, logFakeData };
 
 function randomDayCount() {
   // some dumb weighted random
@@ -88,7 +97,7 @@ function nextDay(days, refDate) {
   });
 }
 
-function makeCalDailies(start, numDays) {
+function makeCalDailies(start, numDays, nextPkid = undefined) {
   const out = [];
   const active = faker.datatype.boolean(0.8);
   const flash = faker.datatype.boolean(!active? 0.8: 0.3);
@@ -103,6 +112,7 @@ function makeCalDailies(start, numDays) {
       eventdate   : db.toDate(start),
       eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
       newsflash   : msg,
+      pkid : (nextPkid !== undefined) ? (nextPkid++) : undefined,
     });
   }
   return out;
@@ -113,7 +123,7 @@ function capitalize(str, yes= true) {
   return (yes? first.toUpperCase() : first.toLowerCase() ) + str.slice(1);
 }
 
-function makeCalEvent(title) {
+function makeCalEvent(title, predefinedId = undefined) {
   const firstName = faker.person.firstName();
   const lastName = faker.person.lastName();
   const organizer = faker.person.fullName({firstName, lastName});
@@ -165,7 +175,7 @@ function makeCalEvent(title) {
     // created,
     // modified,
     changes,
-    // id: eventId,
+    id: predefinedId,
     name: organizer,
     email,
     hideemail,
