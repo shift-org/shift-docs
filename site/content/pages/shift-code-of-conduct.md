@@ -37,6 +37,7 @@ The following behaviors are expected to be used as a resource for ride leaders t
 * Be mindful of your surroundings and of your fellow participants. Alert those who are helping you lead the ride if you notice a dangerous situation, someone in distress, or violations of this Code of Conduct, even if they seem inconsequential. Report bad actors who violate the Code of Conduct to Shift via your ride listing if you are having issues with repeated behavior.
 * Remember that rides are open to everyone and take place in public; please be respectful to all road users, sidewalk users, and those enjoying the public spaces where rides might find themselves.
 * Refrain from insulting, harassing, demeaning, or otherwise with respect to other events and other ride leaders in the community. Report behavior if you see it and do not attack others.
+* For fires, fireworks, or grilling, follow all local fire regulations including seasonal or situational burn bans.
 
 Expected behavior for "Adult (21+)" rides:
 
@@ -96,7 +97,7 @@ Respectfully, Shift does not engage with local law enforcement or otherwise aide
 
 ## 8. Appealing Decisions
 
-Only permanent resolutions (such as bans) may be appealed. To appeal a decision of the working group, contact the Shift board at [conduct@shift2bikes.org](mailto:conduct@shift2bikes.org) with your appeal and the board will review the case.
+Only permanent resolutions (such as bans) may be appealed. To appeal a decision or provide additional information, the reported party may reply to the Conduct committee. You may also choose to contact the Shift board and the board will review the case.
 
 ## 9. Listing on the Shift Calendar
 
@@ -143,3 +144,5 @@ Doxing
 Calendar Event / Ride Listing / Listing
 
 > An event listed on the Shift calendar.
+
+*Last updated: March 2026*
