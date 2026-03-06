@@ -20,6 +20,7 @@ const AREA = Object.freeze({
     'W' : 'Westside',
     'E' : 'East Portland',
     'C' : 'Clackamas',
+    'S' : 'Salem',
 });
 
 const AUDIENCE = Object.freeze({

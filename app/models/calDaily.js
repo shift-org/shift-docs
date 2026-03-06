@@ -249,6 +249,43 @@ class CalDaily {
         return dailies.map(at => addMethods(at));
       });
   }
+
+  // Promises all occurrences of any scheduled CalDaily within the specified date range.
+  // hacky SALEM version
+  // Days are datejs objects.
+  static getRangeVisibleS(firstDay, lastDay, includeAllEvents=false) {
+   return knex
+      .query('caldaily')
+      .join('calevent', 'caldaily.id', 'calevent.id')
+      .whereRaw('not coalesce(hidden, 0)')           // calevent: zero when published; null for legacy events.
+      .where(function(q) {
+        if (!includeAllEvents) {
+          // calevent: a legacy code; reused for soft-delete
+          q.whereNot('review', Review.Excluded)
+          // caldaily: for deselected days; soft-deleted days are also deselected.
+          q.whereNot('eventstatus', EventStatus.Delisted)
+        }
+        // the normal behavior is to not show "delisted days":
+        // those are days deselected by an organizer on the calendar widget
+        // but not explicitly canceled.
+        //
+        // enabling this block hides "delisted days" when includingDeleted events
+        // commenting out this block shows "delisted days" when includingDeleted events.
+        // else {
+        // q.whereNot('eventstatus', EventStatus.Delisted)
+        //  .orWhere('eventstatus', EventStatus.Delisted)
+        //  .andWhere('review', Review.Excluded)
+      })
+      .whereNot('eventstatus', EventStatus.Skipped)  // caldaily: a legacy status code.
+      .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
+      .where('eventdate', '<=', knex.toDate(lastDay))
+      .where('area', 'S')
+      .orderBy('eventdate')
+      .then(function(dailies) {
+        return dailies.map(at => addMethods(at));
+      });
+  }
+
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
@@ -291,6 +328,8 @@ class CalDaily {
       return rows.map(at => addMethods(at));
     });
   }
+
+
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsCount(startDate, endDate) {

@@ -2,14 +2,16 @@
  * Events: Displays one or more event times.
  * Used for browsing the calendar so people can find information about interesting rides.
  *
- * This endpoint supports two different queries:
+ * This endpoint supports a few different queries:
  *   id=caldaily_id ( the time id )
  *   startdate=YYYY-MM-DD & enddate=YYYY-MM-DD
+ *   area=X ( a specific area to limit results to)
  *   &all=true ( to include soft deleted rides )
  *
  * For example:
  *   http://localhost:3080/api/events.php?id=1893
  *   https://localhost:4443/api/events.php?startdate=2023-03-19&enddate=2023-03-29
+ *   http://localhost:3080/api/events.php?area=S
  *
  * In both cases it returns a list of events as a JSON object:
  *  {
@@ -35,6 +37,7 @@ exports.get = function(req, res, next) {
   let id = req.query.id;
   let start = req.query.startdate;
   let end = req.query.enddate;
+  let area = req.query.area;
   const includeAllEvents = (req.query.all === "true") || (req.query.all === "1");
   if (id && start && end) {
     res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
@@ -56,6 +59,7 @@ exports.get = function(req, res, next) {
     // return a range of dailies between two times:
     start = fromYMDString(start);
     end = fromYMDString(end);
+    area = area;
     if (!start.isValid() || !end.isValid()) {
       res.textError("need valid start and end times");
     } else {
@@ -66,6 +70,18 @@ exports.get = function(req, res, next) {
         res.textError("end date cannot be before start date");
       } else if (range > EventsRange.MaxDays) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
+      } else if (area === "S") {
+/** handle Salem area query param */
+        return CalDaily.getRangeVisibleS(start, end, includeAllEvents).then((dailies) => {
+          return getSummaries(dailies).then((events) => {
+            const pagination = getPagination(start, end, events.length);
+            res.set(config.api.header, config.api.version);
+            res.json({
+              events,
+              pagination,
+            });
+          });
+        }).catch(next);
       } else {
         return CalDaily.getRangeVisible(start, end, includeAllEvents).then((dailies) => {
           return getSummaries(dailies).then((events) => {
