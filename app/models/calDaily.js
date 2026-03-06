@@ -81,6 +81,12 @@ const methods =  {
     return config.site.url("calendar", `event-${this.pkid}`);
   },
 
+  // return a url which exports this particular occurrence to calendar apps
+  // ex. https://localhost:4443/api/ics.php?event_id=13662
+  getExportable() {
+    return config.site.url("api", `ics.php?event_id=${this.pkid}`);
+  },
+
   // return true if the occurrence has been removed from the calendar; false otherwise.
   // ( differentiates between explicitly canceled, and no longer scheduled. )
   isDelisted() {
@@ -106,6 +112,7 @@ const methods =  {
       date: this.getFormattedDate(),
       caldaily_id: this.pkid.toString(),
       shareable: this.getShareable(),
+      exportable: this.getExportable(),
       cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
       // don't send newsflash when delisted:
       // it's not scheduled and may be deleted

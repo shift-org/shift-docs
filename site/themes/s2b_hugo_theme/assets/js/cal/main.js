@@ -52,10 +52,6 @@ $(document).ready(function() {
                     value.webLink = container.getWebLink(value.weburl);
                     value.contactLink = container.getContactLink(value.contact);
 
-                    let exportURL = new URL(API_ICS_URL);
-                    exportURL.searchParams.set('event_id', value.caldaily_id);
-                    value.exportlink = exportURL.toString();
-
                     value.addToGoogleLink = container.getAddToGoogleLink(value);
 
                     groupedByDate[date].events.push(value);
