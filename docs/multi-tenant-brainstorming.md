@@ -7,21 +7,20 @@ Hardcode a filter for a single region into a backend and frontend /calendar page
 - ...so that getRangeVisible can handle default/other areas correctly (without changing other behavior of that call) .  Dumb hacky way here: https://github.com/shift-org/shift-docs/blob/area-query/app/models/calDaily.js#L256-L287 but would want to instead parameterize the getRangeVisible call to do even a real MVP.
 - change config.js in the hugo theme to include the new region (https://github.com/shift-org/shift-docs/blob/area-query/site/themes/s2b_hugo_theme/assets/js/cal/config.js#L23)
 - create new frontend page that uses the new getRangeVisible call correctly (`region="S"` or whatever)
-- create new addevent page that is region locked to new region (but,  don't do addevent until we have a PoC with salem events to share and ask them about their usage!)
+- create new addevent page that is region locked to new region (but, for now _don't do even bother with addevent until we have a PoC with Salem events_, to share and ask them about their usage and whether it suits!)
 
 Notes:
 
-API call working after my hack! (grabbed from network tools)
-        curl -vk https://localhost:4443/api/events.php\?startdate\=2026-02-26T00%3A00%3A00-08%3A00\&enddate\=2026-02-28T00%3A00%3A00-08%3A00\&area\=S
+API call working after my hack! (grabbed from network tools, shell escaped):
+        `curl -vk https://localhost:4443/api/events.php\?startdate\=2026-02-26T00%3A00%3A00-08%3A00\&enddate\=2026-02-28T00%3A00%3A00-08%3A00\&area\=S`
 
-call for the calendar page via id/category in calendar.md is routed to:
-        site/themes/s2b_hugo_theme/layouts/partials/cal/fullcal.html
+call for the calendar page via id & category in `calendar.md` is routed to:
+        `site/themes/s2b_hugo_theme/layouts/partials/cal/fullcal.html`
 
 from Simon:
 
 this is the plugin we use for displaying the calendar : https://fullcalendar.io/ , more specifically https://fullcalendar.io/docs/events-json-feed
-fullcalendar.ioevents (as a json feed) - Docs                           
-apparently there's an `extraParams` that can be set / sent along
+fullcalendar.ioevents (as a json feed); apparently there's an `extraParams` that can be set / sent along
 
 ## v1.0
 
