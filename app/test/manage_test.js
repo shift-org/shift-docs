@@ -94,10 +94,7 @@ describe("managing events", () => {
         return request(app)
         .post(manage_api)
         .send(post)
-        .expect(400)
-        .then(res => {
-          assert.ok(res.body.error.fields[key]);
-        });
+        .then(res => testData.expectError(res, key));
       })
     }
     return seq;
@@ -126,10 +123,7 @@ describe("managing events", () => {
         return request(app)
         .post(manage_api)
         .send(post)
-        .expect(400)
-        .then(res => {
-          assert.ok(res.body.error.fields[key]);
-        });
+        .then(res => testData.expectError(res, key));
       })
     }
     return seq;

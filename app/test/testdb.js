@@ -4,7 +4,7 @@ const dt = require("../util/dateTime");
 const { faker } = require('@faker-js/faker');
 const testData = require("./testData");
 const db = require("../db");
-const { makeFakeData } = require("./fakeData");
+const { generateFakeData, insertFakeData } = require("./fakeData");
 
 module.exports = {
   // generates a hand rolled set of data
@@ -23,8 +23,9 @@ module.exports = {
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;
-    faker.seed(23204); // keeps the generated data stable.
-    await makeFakeData(firstDay, lastDay, numEvents);
+    const seed = 23204; // keeps the generated data stable.
+    const fakeData = generateFakeData(firstDay, lastDay, numEvents, seed, seed);
+    return insertFakeData(fakeData);
   },
   destroy() {
     // leaves the tables in place; lets create drop them when needed.

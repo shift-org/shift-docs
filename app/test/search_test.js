@@ -1,5 +1,6 @@
 const app = require("../appEndpoints");
 const testdb = require("./testdb");
+const testData = require("./testData");
 const { EventSearch } = require("../models/calConst");
 //
 const { describe, it, before, after } = require("node:test");
@@ -19,12 +20,7 @@ describe("searching for events", () => {
   it("errors on an empty search term", () => {
     return request(app)
       .get('/api/search.php')
-      // .query({q: "events"})
-      .expect(400)
-      .expect('Content-Type', /json/)
-      .then(res => {
-        assert.ok(res.body?.error, "expects an error string");
-      });
+      .expect(testData.expectError);
   });
   it("handles a search", () => {
     return request(app)
@@ -66,6 +62,7 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
+        // pagination: still 14 events available; but we've asked for two at a time.
         assert.equal(res.body?.pagination.fullcount, 14);
         assert.equal(res.body?.pagination.offset, 0);
         assert.equal(res.body?.pagination.limit, 2);
@@ -87,6 +84,7 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
+        // pagination: still 14 events available; but we've asked for two at a time.
         assert.equal(res.body?.pagination?.fullcount, 14);
         assert.equal(res.body?.pagination?.offset, 2);
         assert.equal(res.body?.pagination?.limit, 2);

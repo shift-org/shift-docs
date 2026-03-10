@@ -2,9 +2,9 @@
  * create one or more fake events.
  * ex. npm run -w tools make-fake-events
  */
-const knex = require("shift-docs/db");
+const db = require("shift-docs/db");
 const dt = require("shift-docs/util/dateTime");
-const { makeFakeData } = require("shift-docs/test/fakeData");
+const { generateFakeData, insertFakeData, logFakeData } = require("shift-docs/test/fakeData");
 
 // todo: improve commandline parsing
 // this uses npm's command vars ( probably a bad idea )
@@ -31,10 +31,12 @@ async function makeFakeEvents() {
   const firstDay = dt.getNow().add(args.start, 'days');
   const lastDay = firstDay.add(args.range, 'days');
   const numEvents = args.make;
-  return knex.initialize().then(_ => {
-    return makeFakeData(firstDay, lastDay, numEvents);
+  const fakeData = generateFakeData(firstDay, lastDay, numEvents);
+  return db.initialize().then(_ => {
+    return insertFakeData(fakeData);
   })
   .then(_ => {
+    logFakeData(fakeData);
     console.log("done");
     // can't use top-level "await" with commonjs modules
     // ( ie. await makeFakeEvents() )
