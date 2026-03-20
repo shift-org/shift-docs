@@ -32,7 +32,7 @@ async function makeFakeEvents() {
   const lastDay = firstDay.add(args.range, 'days');
   const numEvents = args.make;
   const fakeData = generateFakeData(firstDay, lastDay, numEvents);
-  return db.initialize().then(_ => {
+  return db.initialize('makeFakeEvents').then(_ => {
     return insertFakeData(fakeData);
   })
   .then(_ => {

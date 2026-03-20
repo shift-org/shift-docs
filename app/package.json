@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "node --test --trace-warnings --test-global-setup=test/db_setup.js --test-concurrency=1 **/*_test.js --"
+    "test": "node ./test/testRunner.js"
   },
   "devDependencies": {
     "shelljs": "^0.10.0",

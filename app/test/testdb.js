@@ -9,7 +9,7 @@ const { generateFakeData, insertFakeData } = require("./fakeData");
 module.exports = {
   // generates a hand rolled set of data
   setupTestData: async (name) => {
-    await db.initialize();
+    await db.initialize('setupTestData');
     await tables.dropTables();
     await tables.createTables();
     faker.seed(23204); // uses lorem generator
@@ -17,7 +17,7 @@ module.exports = {
   },
   // uses faker to generate a good amount of fake data
   setupFakeData: async (name) => {
-    await db.initialize();
+    await db.initialize('setupFakeData');
     await tables.dropTables();
     await tables.createTables();
     const firstDay = dt.fromYMDString("2002-08-01");

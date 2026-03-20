@@ -1,9 +1,33 @@
+// global configuration for the backend
+// holds all environment, commandline options, paths, etc.
+//
+// const config = require('./config');
+//
 const path = require('path');
 const fs = require("fs");
+const { CommandLine } = require('./util/cmdLine.js');
 
+// helper to read environment variables
 function env_default(field, def) {
   return process.env[field] ?? def;
 }
+
+// helper to turn lines of quoted text into a single string
+function lines(...lines) {
+  return lines.join("\n");
+}
+
+const cmdLine = new CommandLine({
+  db: lines(
+    `an optional string. can be 'sqlite' or 'mysql'.`,
+    `the behavior depends on context. for tests, defaults to sqlite. for prod and dev defaults to mysql.`,
+    `- 'mysql': requires docker. for prod and dev pulls its full configuration from the environment; tests have a hardcoded configuration.`,
+    `- 'sqlite': can followed by the path to its file. For example: '-db=sqlite:../bin/events.db'. That example path is its default.`,
+  ),
+  db_debug: lines(
+    `an optional flag. adds extra debugging info for queries.`,
+  ),
+});
 
 // node server listen for its http requests
 // fix? there is no such environment variable right now.
@@ -15,23 +39,26 @@ const siteHost = siteUrl(listen);
 // location of app.js ( same as config.js )
 const appPath = path.resolve(__dirname);
 
-// for max file size
+// for max image size
 const bytesPerMeg = 1024*1024;
 
 const staticFiles = env_default('SHIFT_STATIC_FILES');
 
-const isTesting = !!(process.env.npm_lifecycle_event || "").match(/test$/);
-// read the command line parameter for db configuration
-const dbType = env_default('npm_config_db');
-const dbDebug = !!env_default('npm_config_db_debug');
+// running node --test with a glob ( ex.  node --test **/*_test.js )
+// injects all of those files onto the command line as separate arguments.
+const isTesting = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.startsWith('test');
+// ^ FIX: check for --test if running node directly?
 
+const dbConfig = getDatabaseConfig(cmdLine.options.db, cmdLine.bool('db_debug'), isTesting);
+
+// The config object exported
 const config = {
   appPath,
   api: {
     header: 'Api-Version',
     version: "3.59.10",
   },
-  db: getDatabaseConfig(dbType, isTesting),
+  db: dbConfig,
   // maybe bad, but some code likes to know:
   isTesting,
   // a nodemailer friendly config, or false if smtp is not configured.
@@ -166,7 +193,7 @@ function getSmtpSettings() {
   if (emailCfg) {
     try {
       const raw= fs.readFileSync(emailCfg, "utf8");
-      return JSON.parse(raw);
+      return JSON.getBool(raw);
     } catch (err) {
       // its okay if there is no such file...
       if (err.code !== 'ENOENT') {
@@ -195,17 +222,27 @@ function getSmtpSettings() {
   }
 }
 
-// our semi-agnostic database configuration
-function getDatabaseConfig(dbType, isTesting) {
-  // dbType comes from the command-line
-  // if nothing was specfied, use the MYSQL_DATABASE environment variable
-  const env = env_default('MYSQL_DATABASE')
-  if (!dbType && env) {
-    dbType = env.startsWith("sqlite") ? env : null;
-  }
+// nothing specified in the env fails
+// sqlite specified in the env uses.... sqlite.
+// anything other than sqlite in the env is assumed to be a mysql spec.
+function readDbEnv(env = 'MYSQL_DATABASE') {
+  const dbType = env_default(env);
   if (!dbType) {
-    dbType =  isTesting ? 'sqlite' : 'mysql'
+    throw new Error(`expected db type on command line or '${env}' env variable`);
   }
+  return dbType.startsWith("sqlite") ? dbType : 'mysql';
+}
+
+// returns our semi-agnostic database configuration.
+// read the command line and environment for the desired db.
+//
+// dbType can be 'sqlite' or 'mysql' or none.
+// 'mysql' pulls its full configuration from the environment.
+// 'sqlite' can optionally followed by the path to its file.
+// testing defaults to sqlite; dev and prod fallback to the environment.
+//
+function getDatabaseConfig(dbType, dbDebug, isTesting) {
+  dbType = dbType || (isTesting ? 'sqlite' : readDbEnv());
   const [name, parts] = dbType.split(':');
   const config = {
     mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
