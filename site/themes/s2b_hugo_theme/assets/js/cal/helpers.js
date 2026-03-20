@@ -84,18 +84,29 @@
         const startString = startDate.format(googleFormat);
         const endString = endDate.format(googleFormat);
         const calendarDates = `${startString}/${endString}`;
-        
+
+        const descr = $.fn.truncateString(event.details, 500) + `\n\n${event.shareable}`;
+
         googleCalUrl.search = new URLSearchParams({
           action: "TEMPLATE",
           text: `shift2Bikes: ${event.title}`,
           location: event.address,
-          details: `${event.details}\n\n${event.shareable}`,
+          details: descr,
           dates: calendarDates,
           // FIX: this seems better than timezoneless but probably should be configurable.
           ctz: `America/Los_Angeles`
         });
 
         return googleCalUrl.toString();
+    };
+
+    $.fn.truncateString = function ( str, maxLength=250 ) {
+        let text = str.substring(0,maxLength);
+        if (str.length > maxLength) {
+          // replace the last character with an ellipsis
+          text = text.slice(0, -1) + "…";
+        }
+        return text;
     };
 
     $.fn.compareTimes = function ( event1, event2 ) {
