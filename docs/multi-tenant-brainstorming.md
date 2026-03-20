@@ -22,6 +22,9 @@ from Simon:
 this is the plugin we use for displaying the calendar : https://fullcalendar.io/ , more specifically https://fullcalendar.io/docs/events-json-feed
 fullcalendar.ioevents (as a json feed); apparently there's an `extraParams` that can be set / sent along
 
+From Andrew:
+We should consider a "lost password" feature where a /lost endpoint on the api resends the password email to the email address on file.  most of our support cases revolve around I lost my edit link.
+
 ## v1.0
 
 ### Goals to meet for actually having anyone use this at any volume:
