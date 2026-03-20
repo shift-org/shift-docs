@@ -10,7 +10,9 @@ menu:
 
 [Bike Summer](https://www.bike-summer.org/) (aka Pedalpalooza) is an annual festival in metro Portland, Oregon.  During the festival, there are hundreds of volunteer-organized free bike events.
 
-<p style="padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;"><strong>Bike Summer 2025 is on!</strong> This year will be three months of bike fun — June, July, and August! <a href="/addevent/">List your rides now!</a></p>
+<!-- 
+<p style="padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2;" hidden><strong>Bike Summer 2025 is on!</strong> This year will be three months of bike fun — June, July, and August! <a href="/addevent/">List your rides now!</a></p>
+ -->
 
 See all of the rides on the [Bike Summer calendar](/bike-summer-calendar/), and check [Bike-Summer.org](https://www.bike-summer.org/) for more updates!
 
@@ -20,7 +22,7 @@ The tradition of a summer bike fun festival in Portland started in summer of 200
 
 ## Past Festivals
 
-Check out the [archives of previous years](/archive/pedal-palooza-archives/) for hundreds of bike fun events from years past.
+Check out the [archives of previous years](/archive/pedal-palooza-archives/) for thousands of bike fun events from years past.
 
 ## Contact
 

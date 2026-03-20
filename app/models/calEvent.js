@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const knex = require("../knex");
+const knex = require("../db");
 const { CalDaily } = require("./calDaily");
 const { Review } = require("./calConst");
 const dt = require("../util/dateTime");
@@ -31,7 +31,7 @@ const methods =  {
       hideemail   : this.hideemail != 0,       // true if never set
       hidephone   : this.hidephone != 0,       // true if never set
       hidecontact : this.hidecontact != 0,     // true if never set
-      length      : null,
+      ridelength  : this.ridelength,
       timedetails : this.timedetails,
       locdetails  : this.locdetails,
       loopride    : !!this.loopride,    // false if never set ( null )

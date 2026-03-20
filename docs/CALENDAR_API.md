@@ -83,6 +83,7 @@ Example response for a single event:
           "date": "2017-06-05",
           "caldaily_id": "9300",
           "shareable": "https://shift2bikes.org/calendar/event-9300",
+          "exportable": "https://shift2bikes.org/api/ics.php?event_id=9300",
           "cancelled": false,
           "newsflash": null,
           "status": "A",
@@ -209,13 +210,19 @@ Endpoint:
 * GET `ics`
 
 Example request:
-* `/ics.php?id=1234`
+* `/ics.php?event_id=9300`
+* `/ics.php?series_id=6245`
 * `/ics.php?startdate=2019-06-01&enddate=2019-06-15`
 
 URL parameters:
+* `event_id`:
+  * `caldaily` ID (single occurrence)
+  * if `event_id` is provided it takes precedence; all other params will be ignored
+* `series_id`:
+  * `calevent` ID (all events in a series)
 * `id`:
-  * `calevent` event ID
-  * if `id` is provided it takes precedence; all other params will be ignored
+  * alias for `series_id`
+  * deprecated; clients should use `event_id` or `series_id` for clarity
 * `startdate`:
   * first day of range, inclusive
   * `YYYY-MM-DD` format
@@ -230,14 +237,50 @@ URL parameters:
 * `filename`:
   * if `none`, the output is plain text instead of an ICS file; useful for local debugging
 
-If no parameters are provided, it responds with a range from 1 month prior to 3 months forward from the current date.
+If multiple ID/range parameters are provided, they take precedence with decreasing specificity: `event_id`, `series_id`, `startdate`/`enddate`.
+
+If no parameters are provided, it responds with a range from 1 month prior to 6 months forward from the current date.
 
 Unknown parameters are ignored.
+
+Example response for a single event:
+
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//shift2bikes.org//NONSGML shiftcal v2.1//EN
+    METHOD:PUBLISH
+    X-WR-CALNAME:Shift Community Calendar
+    X-WR-CALDESC:Find fun bike events all year round.
+    X-WR-RELCALID:community@shift2bikes.org
+    BEGIN:VEVENT
+    UID:event-9300@shift2bikes.org
+    SUMMARY:Shift to Pedalpalooza Ride
+    CONTACT:fool
+    DESCRIPTION:Have you ever wondered how Pedalpalooza happens every 
+     year...and did you know we have a team of programmers who work on the 
+     shift calendar and website.  There is a lot of rewarding volunteer work 
+     that goes on behind the scenes and we are recruiting for new folks who are
+      interested in helping out next year and beyond.  Come on this ride and we
+      will talk a little bit about the history of shift and try to find you a 
+     place to help out in the future.  We will end at a family friendly 
+     watering hole.  First round of drinks is on shift.  We will be done by 8 
+     so you can check out other rides.\nhttps://shift2bikes.org/calendar/event-
+     9300
+    LOCATION:director park\n877 SW park
+    STATUS:CONFIRMED
+    DTSTART:20170606T010000Z
+    DTEND:20170606T030000Z
+    CREATED:20230512T085747Z
+    DTSTAMP:20170512T050134Z
+    SEQUENCE:1
+    URL:https://shift2bikes.org/calendar/event-9300
+    END:VEVENT
+    END:VCALENDAR
 
 Errors:
 * status code: `400`, `404`
 * possible errors
-  * `id` not found
+  * `event_id` or `series_id` not found
   * `enddate` before `startdate`
   * date range too large (100 days maximum)
 
@@ -616,3 +659,21 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.55.0: (2024-08-30) Added year-round calendar iCal feed (at `/api/shift-calendar.php`), in addition to Pedalpalooza-specific one
 * 3.55.1: (2024-12-09) Terms fields (`code_of_conduct`, `ride_comic`) are now only validated on initial submission
 * 3.56.0: (2024-12-13) Max day range is now set in config; `prev` URL added to `pagination` object; pagination `range` now reports an inclusive number of days (e.g. single day range now returns `range: 1` instead of `0`)
+* 3.56.1: (2025-03-03) Updated dependencies: nginx (patch)
+* 3.56.2: (2025-03-24) Updated dependencies: Node.js (patch) plus 1 of its dependencies
+* 3.56.3: (2025-04-07) Updated dependencies: MySQL (patch)
+* 3.57.0: (2025-06-23) Altered weburl field to allow 512 characters (up from 255)
+* 3.58.0: (2025-08-11) Added experimental `ride_count` endpoint: provides the number of events in a given time frame, excluding cancelled events. Syntax & usage may not be stable yet.
+* 3.58.1: (2025-09-15) Updated dependencies: nginx
+* 3.59.0: (2025-09-23) Fixed issue with ride length field; now saves, retrieves, and displays correctly
+* 3.59.1: (2025-09-29) Updated MySQL patch version
+* 3.59.2: (2025-10-20) Fixed some backend tests
+* 3.59.3: (2025-11-03) Adjusted search results order when searching past events
+* 3.59.4: (2025-11-17) When mapping an event location, "TBA"/"TBD" addresses are now handled more robustly. Search endpoint now looks at either A) today and future, sort order ascending (default), or B) past only, sort order descending.
+* 3.59.5: (2025-11-24) Updated dependencies: http-proxy-middleware
+* 3.59.6: (2025-12-01) Updated dependencies: Vite
+* 3.59.7: (2025-12-08) Updated dependencies: express, validator, multer
+* 3.59.8: (2025-12-12) Remove now-unneeded version from Docker compose file
+* 3.59.9: (2025-12-22) Updated dependencies: nodemailer
+* 3.59.10: (2026-01-15) Changed dependency management to only allow patch updates; updated dependencies: MySQL. Also removed unused example data.
+* 3.60.0: (2026-02-19) ICS export now supports either single occurrence (`event_id`; new default) or the series (`series_id`; previous default). The existing `id` parameter aliases to `series_id` for backwards compatibility, but clients are encouraged to specify the ID type explicitly. Also updated Node to v24.x (latest LTS).

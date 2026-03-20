@@ -14,7 +14,7 @@ export default  {
     // ported from helpers.js getMapLink
     mapLink() {
       const { address } = this.evt;
-      if (!address || address == 'TBA' || address == 'TBD') {
+      if (!address || /^(tba|tbd)\b/i.test(address)) {
         // if address is null or not available yet, don't try to map it
         return null;
       } else if (address.match(urlPattern)) {

@@ -26,3 +26,4 @@ app/eventimages/*
 bin/
 node_modules/
 /frontend/.vscode
+package-lock.json

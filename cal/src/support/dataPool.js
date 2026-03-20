@@ -78,8 +78,8 @@ export default {
   // fix: this isn't nice as a method of data pool
   // make an endpoints file of some sort that dataPool uses.
   // ( and then have callers of this use that file directly )
-  getExportURL(id) {
-    return buildUrl(API_ICS_URL, {id});
+  getExportURL(event_id) {
+    return buildUrl(API_ICS_URL, {event_id});
   },
 }
 
@@ -89,9 +89,6 @@ function mungeEvents(events) {
     evt.moment = dayjs(`${evt.date}T${evt.time}`);
     caldaily_map.set(evt.caldaily_id, evt);
   });
-  events.sort((a, b) => 
-    a.moment.isBefore(b.moment) ? -1 : 
-    a.moment.isAfter(b.moment) ? 1 : 0); 
 }
 
 function buildUrl(endpoint, pairs) {

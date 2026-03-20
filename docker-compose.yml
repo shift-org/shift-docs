@@ -1,5 +1,3 @@
-version: "2.4"
-
 volumes:
   # used by the db container to store mysql content
   db: {}
@@ -8,7 +6,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.26.3
+    image: nginx:1.28.0
     restart: always
     volumes:
       # DEV SITE:
@@ -30,7 +28,7 @@ services:
 
   db:
     restart: always
-    image: mysql:8.4.4
+    image: mysql:8.4.7
     command: mysqld  --mysql-native-password=ON
     environment:
       - MYSQL_ROOT_PASSWORD
@@ -47,7 +45,7 @@ services:
     # note: this container is only needed for local development.
     # for production, netlify serves the hugo content instead.
     # see also: ./shift watch ( sub_watch() )
-    image: floryn90/hugo:0.144.2-busybox
+    image: floryn90/hugo:0.152.2-busybox
     volumes:
       - ./site/:/src/
       - ./site/public/:/output/
@@ -55,7 +53,7 @@ services:
 
   node:
     restart: always
-    image: node:20.18.3-slim
+    image: node:24.13.0-slim
     # use the local logging driver for log storage and rotation
     # WARNING: doesnt work on production, reports:
     #  no logs are available with the 'local' log driver
@@ -84,12 +82,9 @@ services:
     volumes:
       # map the shift node code and package files;
       # and attach to the volume for its modules.
-      # remaps "package-lock" to "npm-shrinkwrap"
-      # to ensure "npm i" uses a fixed set of dependencies.
       - ./app:/shift/app/
       - ./tools:/shift/tools/
       - ./package.json:/shift/package.json
-      - ./package-lock.json:/shift/npm-shrinkwrap.json
       - modules:/shift/node_modules/
 
       # provide access to images:
