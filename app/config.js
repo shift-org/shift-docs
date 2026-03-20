@@ -193,7 +193,7 @@ function getSmtpSettings() {
   if (emailCfg) {
     try {
       const raw= fs.readFileSync(emailCfg, "utf8");
-      return JSON.getBool(raw);
+      return JSON.parse(raw);
     } catch (err) {
       // its okay if there is no such file...
       if (err.code !== 'ENOENT') {
