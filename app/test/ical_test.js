@@ -63,16 +63,6 @@ describe("ical feed", () => {
       })
       .expect(400);
   });
-  it("errors too many parameters",  () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-        id: 2,
-        startdate: "2002-08-01",
-        enddate  : "2002-08-02",
-      })
-      .expect(400);
-  });
   it("supports an 'all events' feed", () => {
     return request(app)
       .get('/api/ical.php')

@@ -124,9 +124,8 @@ export default {
       return this.evt.shareable;
     },
     exportLink()  {
-      // FIX: this matches the calendar but should be a single day.
-      const { series_id } = this.$route.params;
-      return dataPool.getExportURL(series_id);
+      const { caldaily_id } = this.$route.params;
+      return dataPool.getExportURL(caldaily_id);
     },
     addToGoogleLink() {
       const { evt } = this;
