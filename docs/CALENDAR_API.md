@@ -83,6 +83,7 @@ Example response for a single event:
           "date": "2017-06-05",
           "caldaily_id": "9300",
           "shareable": "https://shift2bikes.org/calendar/event-9300",
+          "exportable": "https://shift2bikes.org/api/ics.php?event_id=9300",
           "cancelled": false,
           "newsflash": null,
           "status": "A",
