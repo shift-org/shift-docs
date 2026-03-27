@@ -7,7 +7,7 @@ export default {
   //    [{uid, type, moment, title}]
   //
   // at a minimum, each record should contain:
-  //    uid: some globally unique id
+  //    uid: some id unique per type
   //    type: used by the display to know how to render the record
   //    moment: a dayjs object
   //
