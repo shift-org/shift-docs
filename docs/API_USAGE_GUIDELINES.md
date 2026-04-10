@@ -8,13 +8,15 @@ Failure to obey these requests may result in us blocking your requests without n
 
 ### Conditions
 
-1. Do not abuse our service with queries (time range or single event queries should each be made a maximum of once a day and at a rate of less than 15 per minute.  Requests should be made sequentially, not in parallel)
+1. Do not abuse our service with queries (automated time range or single event queries should each be made a maximum of once a day and at a rate of less than 15 per minute.  Real-time user-initiated requests may occur more often.  Requests should be made sequentially, not in parallel.)
 2. Follow our best practices around caching and not refetching unchanged images [as outlined in this usage doc](https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#fetching-event-images).  Note that we specifically change the image filename if a new image is uploaded!  Please don't link to our event images outside of the context of a ride.
 3. All requests for our data from your service should use a clear, individual `User-Agent` identifying HTTP request header (e.g. `User-Agent: mycoolapp.com email bob@mycoolapp.com for questions`).  We like to know who is consuming our data; we won't expose your UA to the public.
 4. When showing our data, clearly label it as coming from, and attribute it to, shift (linking to [www.shift2bikes.org](https://www.shift2bikes.org)).  **Do not represent our data as your own data.**
-5. Do not misuse contact information published with events.
-6. Do not resell our event or contact data.
-7. All event data including images is presumed to be the property of the ride creator.
+5. If your site would like to create or edit event data, please [contact us](mailto:bikecal@shift2bikes.org) before you implement this feature.
+6. Do not misuse contact information published with events.
+7. Do not resell our event or contact data.
+8. All event data including images is presumed to be the property of the ride creator.
+9. If in doubt, try to tailor your API usage to the spirit of our [Code of Conduct](https://www.shift2bikes.org/pages/shift-code-of-conduct/).
 
 
 ### Usage
