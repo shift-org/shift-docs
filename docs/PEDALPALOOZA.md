@@ -18,9 +18,9 @@ approx. April–early May
 
 * Change `/site/content/bike-summer-calendar.md` page type back to `calfestival`.
 * Set `params.festival.active` to `true` in `hugo.toml`; this will enable most of the conditional content
+* Update `params.festival.banner-image` in `hugo.toml`
 * Disable the "early" carousel item
 * Enable the regular carousel item; update the year and image
-* Update the image in the `pp-header` banner
 * Uncomment the promo blurb on `/site/content/pages/bike-summer.md`
 
 
