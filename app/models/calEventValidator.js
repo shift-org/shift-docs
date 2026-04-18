@@ -85,6 +85,7 @@ function makeValidator(input, errors) {
       if (validator.isEmpty(str)) {
         errors.addError('time');
       } else {
+        // input is AM/PM style
         let t = dt.from12HourString(str);
         if (!t.isValid()) {
           t = dt.from24HourString(str);
@@ -252,8 +253,22 @@ function validateEvent(input) {
   };
 }
 
+// read a possible json request into a javascript object.
+// returns undefined for any error.
+function safeParse(data) {
+  if (data && data.json) {
+    try {
+      data = JSON.parse(data.json);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  return data;
+}
+
 module.exports = {
   validateEvent,
+  safeParse,
   // exported for testing:
   makeValidator,
   ErrorCollector

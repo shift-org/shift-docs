@@ -29,26 +29,25 @@ const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/calConst");
+const validator = require('validator');
 
 // the events endpoint:
 exports.get = function(req, res, next) {
-  let id = req.query.id;
+  const dayId = readInt(req.query.id);  // pkid
   let start = req.query.startdate;
   let end = req.query.enddate;
   const includeAllEvents = (req.query.all === "true") || (req.query.all === "1");
-  if (id && start && end) {
+  if (dayId && start && end) {
     res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
-  } else if (id) {
-    // return the summary of a particular daily event:
-    return CalDaily.getByDailyID(id).then((daily) => {
+  } else if (dayId) {
+    // return the summary of a particular event on a particular day:
+    return CalDaily.getByDailyID(dayId).then((daily) => {
       if (!daily) {
-        res.textError("no such time");
+        res.textError("no such day");
       } else  {
         return getSummaries([daily]).then((events) => {
           res.set(config.api.header, config.api.version);
-          res.json({
-            events
-          });
+          res.json({events});
         });
       }
     }).catch(next);
@@ -80,6 +79,10 @@ exports.get = function(req, res, next) {
       }
     }
   }
+}
+
+function readInt(i, opt) {
+  return (i !== undefined) && validator.isInt(i, opt) && validator.toInt(i);
 }
 
 // promise an array containing json-friendly summaries of all the passed CalDaily(s)

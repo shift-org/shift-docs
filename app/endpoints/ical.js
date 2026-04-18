@@ -227,6 +227,7 @@ function buildCalEntry(evt, at) {
     // php handles this just fine.
     startAt = dt.combineDateAndTime(at.eventdate, dt.from12HourString("12:00 PM"));
   }
+
   const endAt = evt.addDuration(startAt);
   const url = at.getShareable();
   let title = evt.title;
@@ -249,7 +250,7 @@ function buildCalEntry(evt, at) {
     description: [
       news,
       evt.descr, evt.timedetails,
-      evt.locend? "Ends at "+ evt.locend: null,
+      evt.locend ? ("Ends at "+ evt.locend) : null,
       url
     ],
     location: [

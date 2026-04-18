@@ -34,12 +34,17 @@ module.exports = {
 }
 
 async function createTestData() {
-  await db.query('calevent').insert(fakeCalEvent(1));
-  await db.query('calevent').insert(fakeCalEvent(2));
-  await db.query('calevent').insert(fakeCalEvent(3));
-  //
-  await db.query('caldaily').insert(fakeCalDaily(1, 2));
-  await db.query('caldaily').insert(fakeCalDaily(2, 2));
+  // create 3 separate series with ids 1, 2, 3
+  for (const id of [1, 2, 3]) {
+    const tableValues = fakeCalEvent(id);
+    await db.query('calevent').insert(tableValues);
+  }
+  // generates two status days for series 2.
+  const eventId = 2;
+  for (const order of [1, 2]) {
+    const item = fakeCalDaily(order, eventId);
+    await db.query('caldaily').insert(item);
+  }
 };
 
 function fakeCalDaily(order, eventId) {

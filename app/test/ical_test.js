@@ -122,7 +122,8 @@ describe("ical feed", () => {
       });
   });
   it("can handle a canceled event", () => {
-    return CalEvent.getByID(2).then(evt => {
+    const seriesId = 2;
+    return CalEvent.getByID(seriesId).then(evt => {
       // todo: create a separate test where these values are nil and zero.
       // that had caused a bad feed at one point; its fixed but still good to test.
       // evt.eventtime = null;
@@ -134,7 +135,7 @@ describe("ical feed", () => {
             return request(app)
               .get('/api/ical.php')
               .query({
-                 id: 2, // an event id
+                 id: seriesId, // an event id
                })
               .expect(200)
               .expect('content-type', CalendarType)

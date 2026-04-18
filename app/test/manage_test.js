@@ -246,8 +246,9 @@ describe("managing events", () => {
     });
   }
   it("attaches an image", () => {
-    const imageSource = path.join( config.image.dir, "bike.jpg" );
+    const imageSource = path.join(config.image.dir, "bike.jpg");
     const imageTarget = getImageTarget(3, imageSource);
+    // post the image once
     return postImage(3, imageSource, imageTarget)
       .then(res => {
         assert.equal(res.status, 200);
@@ -268,14 +269,18 @@ describe("managing events", () => {
     return postImage(3, imageSource, imageTarget)
       .then(res => {
         testData.expectError(res, 'image');
+
+        // check for the image on disk:
         return fsp.stat(imageTarget)
           .then(_ => {
-            assert.fail(`didn't expect ${imageTarget} to exists`);
+            // fail if it existed
+            assert.fail(`didn't expect ${imageTarget} to exist`);
           })
           .catch(_ => {
-            assert(true);
+            // make sure we get here
+            assert.ok(true);
           });
-    });
+      });
   });
   it("fails bad format", () => {
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
@@ -284,10 +289,12 @@ describe("managing events", () => {
       testData.expectError(res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
-          assert.fail(`didn't expect ${imageTarget} to exists`);
+          // fail if it existed
+            assert.fail(`didn't expect ${imageTarget} to exist`);
         })
         .catch(_ => {
-          assert(true);
+          // make sure we get here
+          assert.ok(true);
         });
     });
   });
