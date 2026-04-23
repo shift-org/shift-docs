@@ -15,7 +15,7 @@ const { CalDaily } = require("../models/calDaily");
 const { to12HourString, from24HourString, friendlyDate } = require("../util/dateTime");
 
 exports.get = function(req, res, next) {
-  let id = req.query.id;
+  const id = req.query.id;
   const p = {
     title: config.crawl.title,
     description : config.crawl.description,

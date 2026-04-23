@@ -7,6 +7,7 @@ const dt = require("./util/dateTime");
 const dbConfig = unpackConfig(config.db);
 const useSqlite = config.db.type === 'sqlite';
 const dropOnCreate = config.db.connect?.name === 'shift_test';
+let prevSetup;
 
 const db = {
   config: config.db,
@@ -19,10 +20,11 @@ const db = {
   // waits to open a connection.
   async initialize(name) {
     if (db.query) {
-      throw new Error("db already initialized");
+      throw new Error(`db being initialized by ${name} when already initialized by ${this.initialized}.`);
     }
     const connection = knex(dbConfig);
     db.query = connection;
+    db.initialized = name;
     await connection;
   },
 
@@ -33,6 +35,7 @@ const db = {
       throw new Error("db already destroyed");
     }
     db.query = false;
+    db.initialized = false;
     return connection.destroy();
   },
 

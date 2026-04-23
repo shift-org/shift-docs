@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch via NPM",
+            "name": "Node Server",
             "request": "launch",
             "runtimeArgs": [
                 "run-script",
@@ -18,7 +18,7 @@
             "type": "node"
         },
         {
-            "name": "Test",
+            "name": "Full Test",
             "request": "launch",
             "runtimeArgs": [
                 "run-script",
@@ -29,6 +29,6 @@
                 "<node_internals>/**"
             ],
             "type": "node"
-        },
+        }
     ]
 }

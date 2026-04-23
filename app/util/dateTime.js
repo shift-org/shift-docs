@@ -1,6 +1,6 @@
 // DateTime formatting helpers
 //
-// note: the mysql driver converts timestamp, date, and datetime values into javascript Date.
+// note: the mysql driver reads timestamp, date, and datetime values into javascript Date.
 // https://github.com/mysqljs/mysql#type-casting
 
 const dayjs = require("dayjs");
@@ -8,11 +8,14 @@ const customParseFormat = require("dayjs/plugin/customParseFormat");
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 const localZone = 'America/Los_Angeles';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
 dayjs.tz.setDefault(localZone);
 
+// these all return dayjs objects
+// unless otherwise specified.
 module.exports = {
   friendlyDate,     // out: "Mon, Aug 8th"
   icalFormat,       // out: "20230413T041000Z"
@@ -20,15 +23,15 @@ module.exports = {
   toYMDString,      // out: "YYYY-MM-DD"
   to12HourString,   // out: "9:10 PM"
   to24HourString,   // out: "21:10:00"
-  toTimestamp,      // out: mysql format
+  toTimestamp,      // out: mysql timestamp format
 
-  fromYMDString,    // in : "YYYY-MM-DD"
-  from24HourString, // in : "9:10 PM"
-  from12HourString,  // in : "21:10:00"
+  fromYMDString,    // in: "YYYY-MM-DD"
+  from24HourString, // in: "9:10 PM"
+  from12HourString, // in: "21:10:00"
 
-  combineDateAndTime,
-  getNow,
-  convert,
+  combineDateAndTime, // in: (date, time)
+  getNow,             //
+  convert,            // in: javascript date
 };
 
 // wraps "now" so it can be stubbed out by tests
@@ -121,11 +124,10 @@ function combineDateAndTime(d, t) {
   return out.add(t.hour(), 'h').add(t.minute(), 'm');
 }
 
-
 // https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number
 function daySuffix(i) {
-  let j = i % 10;
-  let k = i % 100;
+  const j = i % 10;
+  const k = i % 100;
   if (j == 1 && k != 11) {
     return "st";
   } else if (j == 2 && k != 12) {

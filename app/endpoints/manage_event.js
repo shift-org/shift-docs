@@ -23,7 +23,7 @@ const dt = require("../util/dateTime");
 const config = require("../config");
 const emailer = require("../emailer");
 const nunjucks = require("../nunjucks");
-const { validateEvent } = require("../models/calEventValidator");
+const { safeParse, validateEvent } = require("../models/calEventValidator");
 
 // read multipart (and curl) posts.
 exports.post = [ uploader.makeHandler(), handleRequest ];
@@ -37,13 +37,10 @@ exports.post = [ uploader.makeHandler(), handleRequest ];
  * it should only reject due to things like database or programmer errors.
  */
 function handleRequest(req, res, next) {
-  let input = req.body;
   // fix? the client uploads form data containing json
   // ( rather than raw json ) because multi-part forms require that.
   // a more rest-like api might use a separate put at some event/image url.
-  if (input && input.json) {
-    input = safeParse(input.json);
-  }
+  const input = safeParse(req.body);
   if (!input) {
     return res.textError("invalid request");
   }
@@ -66,7 +63,7 @@ function handleRequest(req, res, next) {
       // save the uploaded file (if any)
       const saveImage = !req.file ? Promise.resolve() :
         // the image gets written to disk as "id.ext"
-        uploader.write( req.file, evt.id ).then(f => {
+        uploader.write(req.file, evt.id.toString()).then(f => {
           // the image name gets stored in the db as "id-sequence.ext"
           // the sequence number needs to be different for each new image.
           // ( shift.conf strips off the sequence when the file is requested; see cache_busting.md )
@@ -171,14 +168,4 @@ function sendConfirmationEmail(evt, dailies) {
     // html
     // attachments
   }, evt.name, evt.email, evt.title, url);
-}
-
-// read json into a javascript object.
-// returns undefined for any error.
-function safeParse(json) {
-  try {
-    return JSON.parse(json);
-  } catch (err) {
-    console.error(err);
-  }
 }
