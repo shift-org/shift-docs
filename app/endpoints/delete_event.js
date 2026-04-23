@@ -15,64 +15,42 @@
  *
  */
 const config = require("../config");
+const db = require("../db");
 const express = require('express');
 const textError = require("../util/errors");
-const { CalEvent } = require("../models/calEvent");
+const Reconcile = require("../models/reconcile")
 const { uploader } = require("../uploader");
+const { safeParse } = require("../models/calEventValidator");
 
 // the front end sends a multi-part form post
 // so... we need to handle that.
 exports.post = [ uploader.makeHandler(), handleRequest ];
 
 function handleRequest(req, res, next) {
-  let data = req.body;
   // fix? client uploads form data containing json...
   // probably to match manage_event where its currently required.
-  if (data && data.json) {
-    data = safeParse(data.json);
-  }
+  const data = safeParse(req.body);
   if (!data) {
-    return res.textError('JSON could not be decoded');
-  }
-  if (!data.id) {
-    return res.textError('Missing id');
-  }
-  // get the event: delete seems to send an int, where manage is a string.
-  // normalize it to a string for consistency ( tbd: is that good, or even needed? )
-  return CalEvent.getByID(''+data.id).then((evt) => {
-    // verify the event exists.
-    if (!evt) {
-      return res.textError('Event not found');
-    }
-
-    // validate the password.
-    if (!evt.isSecretValid(data.secret)) {
-      return res.textError('Invalid secret, use link from email');
-    }
-
-    // if the event was never published, we can delete it completely;
-    // otherwise, soft delete it.
-    let q = !evt.isPublished() ? evt.eraseEvent() : evt.softDelete();
-    q.then((_) => {
-      // note: the frontend currently doesn't use this json;
-      // instead it looks for request success ( http 200 )
-      res.set(config.api.header, config.api.version);
-      res.json({
-        success: true
-      })
-    }).catch((e) => {
-      console.error("error trying to cancel an event", e);
-      return res.textError('Server error');
-    });
-  }).catch(next);
-}
-
-// read json into a javascript object.
-// returns undefined for any error.
-function safeParse(json) {
-  try {
-    return JSON.parse(json);
-  } catch (err) {
-    console.error(err);
+    res.textError('Bad request');
+  } else if (!data.id) {
+    res.textError('Missing id');
+  } else if (!data.secret) {
+    res.textError('Missing secret');
+  } else {
+    const seriesId = '' + data.id; // normalize int into a string
+    return db.query.transaction(tx => {
+      return Reconcile.removeEntireSeries(tx, seriesId, data.secret)
+    }).then(count => {
+      if (!count) {
+        res.textError('Event not found');
+      } else {
+        res.set(config.api.header, config.api.version);
+        // note: the frontend currently doesn't use this json;
+        // instead it looks for request success ( http 200 )
+        res.json({
+          success: true
+        });
+      }
+    }).catch(next);
   }
 }

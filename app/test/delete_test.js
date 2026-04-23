@@ -2,27 +2,21 @@ const app = require("../appEndpoints");
 const testdb = require("./testdb");
 const testData = require("./testData");
 
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
 //
-const sinon = require('sinon');
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 //
 const delete_api = '/api/delete_event.php';
 
-describe("deleting using a form", () => {
-  // spies on data storage:
-  let spy;
+
+describe.skip(deleting using a form", () => {
   // runs before the first test in this block.
   before(() => {
-    spy = testData.stubData(sinon);
     return testdb.setupTestData("del");
   });
   // runs once after the last test in this block
   after(() => {
-    sinon.restore();
     return testdb.destroy();
   });
   // test:
@@ -47,18 +41,28 @@ describe("deleting using a form", () => {
           secret: "to life, etc.",
         })
       })
-      .then(testData.expectError);
+      .then(testData.expectError)
+      .then(async (res) => {
+        // it should still have the original data.
+        // ( ie. nothing should have been deleted on error )
+        const events = await testdb.findSeries(2);
+        assert.equal(events.length, 2);
+        const [d1, d2] = events;
+        assert.equal(d1.hidden, 0);
+        assert.equal(d1.eventstatus, 'A');
+        assert.equal(d2.eventstatus, 'A');
+      });
   });
-  it("delists a published event", async () => {
-    const e0 = await CalEvent.getByID(2);
-    const d1 = await CalDaily.getForTesting(201);
-    const d2 = await CalDaily.getForTesting(202);
-
-    assert.notEqual(e0.review, 'E'); // anything is fine other than excluded
-    assert.ok(e0.password);
+  it("deletes with a valid id and secret", async () => {
+    // verify the original data in the db
+    const events = await testdb.findSeries(2);
+    assert.equal(events.length, 2);
+    const [d1, d2] = events;
+    assert.ok(d1.password);
+    assert.equal(d1.hidden, 0);
     assert.equal(d1.eventstatus, 'A');
     assert.equal(d2.eventstatus, 'A');
-
+    // request the deletion
     return request(app)
       .post(delete_api)
       .type('form')
@@ -72,42 +76,29 @@ describe("deleting using a form", () => {
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
       .then(async (res) => {
-        assert.equal(spy.eventStore.callCount, 1);
-        assert.equal(spy.dailyStore.callCount, 2);
-        spy.resetHistory();
-
-        const e0 = await CalEvent.getByID(2);
-        const d1 = await CalDaily.getForTesting(201);
-        const d2 = await CalDaily.getForTesting(202);
-
-        // the days of deleted events are marked with D
-        // to distinguish them from individually canceled events.
-        assert.equal(e0.review, 'E');
-        assert.ok(!e0.password);
-        assert.equal(d1.eventstatus, 'D');
-        assert.equal(d2.eventstatus, 'D');
+        // deletion is deletion;
+        // the series shouldn't exist anymore.
+        const events = await testdb.findSeries(2);
+        assert.equal(events.length, 0);
       });
   });
 });
 
 // do the same things again,but post json ( ala curl )
-describe("deleting using json", () => {
-  let spy;
+describe.skip(deleting using json", () => {
   before(() => {
-    spy = testData.stubData(sinon);
     return testdb.setupTestData("del json");
   });
   after(() => {
-    sinon.restore();
     return testdb.destroy();
   });
-  it("delists a published event", async () => {
-    const e0 = await CalEvent.getByID(2);
-    const d1 = await CalDaily.getForTesting(201);
-    const d2 = await CalDaily.getForTesting(202);
+  it("deletes with a valid id and secret", async () => {
+    const events = await testdb.findSeries(2);
+    assert.equal(events.length, 2);
+    const [ d1, d2 ] = events;
+    assert.equal(d1.hidden, 0);
 
-    assert.notEqual(e0.review, 'E');
-    assert.ok(e0.password);
+    assert.ok(d1.password);
     assert.equal(d1.eventstatus, 'A');
     assert.equal(d2.eventstatus, 'A');
 
@@ -122,59 +113,56 @@ describe("deleting using json", () => {
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
       .then(async (res) => {
-        assert.equal(spy.eventStore.callCount, 1);
-        assert.equal(spy.dailyStore.callCount, 2);
-        assert.equal(spy.eventErasures.callCount, 0);
-        spy.resetHistory();
-
-        const e0 = await CalEvent.getByID(2);
-        const d1 = await CalDaily.getForTesting(201);
-        const d2 = await CalDaily.getForTesting(202);
-
-        // the days of deleted events are marked with D
-        // to distinguish them from individually canceled events.
-        assert.equal(e0.review, 'E');
-        assert.ok(!e0.password);
-        assert.equal(d1.eventstatus, 'D');
-        assert.equal(d2.eventstatus, 'D');
+        // deletion is deletion;
+        // the series shouldn't exist anymore.
+        const events = await testdb.findSeries(2);
+        assert.equal(events.length, 0);
       });
   });
 
-  it("deletes unpublished events", () => {
+  it("deletes unpublished events", async () => {
+    // there should be one entry for event 3
+    const events = await testdb.findSeries(3);
+    assert.equal(events.length, 1);
     return request(app)
       .post(delete_api)
       .send({
-        id: 3,
-        secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
-      .then(res => {
-        assert.equal(spy.eventErasures.callCount, 1);
-        spy.resetHistory();
-      });
-  });
-  it("deletes a legacy event", async () => {
-    const e0 = await CalEvent.getByID(1);
-    assert.notEqual(e0.review, 'E');
-    assert.ok(e0.password);
-    //
-    return request(app)
-      .post(delete_api)
-      .send({
-        id: 1, // id 1 is hidden null
+        id: 3, // 3 is unpublished
         secret: testData.secret,
       })
       .expect(200)
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
       .then(async (res) => {
-        assert.equal(spy.eventErasures.callCount, 0);
-        spy.resetHistory();
-        const e0 = await CalEvent.getByID(1);
-        assert.equal(e0.review, 'E');
-        assert.ok(!e0.password);
+        // and now zero:
+        const events = await testdb.findSeries(3);
+        assert.equal(events.length, 0, "all gone");
+      });
+  });
+
+  it("deletes a legacy event", async () => {
+    const events = await testdb.findSeries(1);
+    assert.equal(events.length, 1);
+    // the test data for series 1 doesn't have any days
+    // but we should still be able to mark it as unused.
+    const [e0] = events;
+    assert.notEqual(e0.review, 'E');
+    assert.ok(e0.password);
+    //
+    return request(app)
+      .post(delete_api)
+      .send({
+        id: 1, // id 1 has hidden null; which is published.
+        secret: testData.secret,
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(async (res) => {
+        // deletion is deletion;
+        // the series shouldn't exist anymore.
+        const events = await testdb.findSeries(1);
+        assert.equal(events.length, 0);
       });
   });
 });

@@ -1,6 +1,6 @@
 // DateTime formatting helpers
 //
-// note: the mysql driver converts timestamp, date, and datetime values into javascript Date.
+// note: the mysql driver reads timestamp, date, and datetime values into javascript Date.
 // https://github.com/mysqljs/mysql#type-casting
 
 const dayjs = require("dayjs");
@@ -8,11 +8,14 @@ const customParseFormat = require("dayjs/plugin/customParseFormat");
 const utc = require('dayjs/plugin/utc');
 const timezone = require('dayjs/plugin/timezone');
 const localZone = 'America/Los_Angeles';
+
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(customParseFormat);
 dayjs.tz.setDefault(localZone);
 
+// these all return dayjs objects
+// unless otherwise specified.
 module.exports = {
   friendlyDate,     // out: "Mon, Aug 8th"
   icalFormat,       // out: "20230413T041000Z"
@@ -20,15 +23,15 @@ module.exports = {
   toYMDString,      // out: "YYYY-MM-DD"
   to12HourString,   // out: "9:10 PM"
   to24HourString,   // out: "21:10:00"
-  toTimestamp,      // out: mysql format
+  toTimestamp,      // out: mysql timestamp format
 
-  fromYMDString,    // in : "YYYY-MM-DD"
-  from24HourString, // in : "9:10 PM"
-  from12HourString,  // in : "21:10:00"
+  fromYMDString,    // in: "YYYY-MM-DD"
+  from24HourString, // in: "21:10:00"
+  from12HourString, // in: "9:10 PM"
 
-  combineDateAndTime,
-  getNow,
-  convert,
+  combineDateAndTime, // in: (date, time)
+  getNow,             //
+  convert,            // in: javascript date
 };
 
 // wraps "now" so it can be stubbed out by tests
@@ -53,7 +56,7 @@ function friendlyDate(d) {
 // note: dayjs theoretically takes into account daylight savings based on the day and month.
 function icalFormat(d) {
   const t = dayjs(d); // convert or clone as dayjs
- if (!t.isValid()) {
+  if (!t.isValid()) {
     return null;
   } else {
     // tell dayjs that the time was specified using local time.
@@ -78,9 +81,8 @@ function to12HourString(d) {
   return out.isValid() ? dayjs(d).format('h:mm A') : null;
 }
 
-// format a Date or dayjs as a string "19:00:00".
+// format a Date or dayjs as a string "19:00:00"
 // returns "null" if the passed date is invalid.
-// tbd: do we really need to be handing seconds around?
 function to24HourString(d) {
   const out = dayjs(d);
   return out.isValid() ? dayjs(out).format('HH:mm:ss') : null;
@@ -96,22 +98,25 @@ function toTimestamp(d) {
 
 // turn a YYYY-MM-DD string ( ex. 2006-01-02 ) into a dayjs object.
 // returns an "invalid" dayjs object if the string couldn't be parsed.
-function fromYMDString(str) {
+// by default, uses strict parsing; often query parsing for ranges will pass false.
+function fromYMDString(str, options = {strict: true}) {
   // note: if str was undefined, dayjs would return "now()"
   // so pass null on any empty value to generate a '!.isValid()' dayjs object instead.
-  return dayjs(str || null, 'YYYY-MM-DD', false); // strict parsing
+  return dayjs(str || null, 'YYYY-MM-DD', options.strict);
 }
 
-// turn a string formatted as "19:00 PM" into a dayjs object.
+// turn a string formatted as "9:00 PM" into a dayjs object.
 // returns an "invalid" dayjs object if the string couldn't be parsed.
-function from12HourString(str) {
-  return dayjs(str || null, 'h:mm A', false);
+// by default, uses strict parsing: the client provides AM/PM.
+function from12HourString(str, options = {strict: true}) {
+  return dayjs(str || null, 'h:mm A', options.strict);
 }
 
 // turn a string formatted as "19:00:00" into a dayjs object.
 // returns an "invalid" dayjs object if the string couldn't be parsed.
-function from24HourString(str) {
-  return dayjs(str || null, 'HH:mm:ss', false); // not strict parsing, in case seconds are missing.
+// by default, uses strict parsing: the db provides this exact format.
+function from24HourString(str, options = {strict: true}) {
+  return dayjs(str || null, 'HH:mm:ss', options.strict);
 }
 
 // expects two dayjs objects
@@ -121,11 +126,10 @@ function combineDateAndTime(d, t) {
   return out.add(t.hour(), 'h').add(t.minute(), 'm');
 }
 
-
 // https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number
 function daySuffix(i) {
-  let j = i % 10;
-  let k = i % 100;
+  const j = i % 10;
+  const k = i % 100;
   if (j == 1 && k != 11) {
     return "st";
   } else if (j == 2 && k != 12) {
