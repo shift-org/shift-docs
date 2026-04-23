@@ -10,7 +10,7 @@ const tables = require("./models/tables");
 // connect to the db
 db.initialize().then(async () => {
   // create db tables
-  await tables.createTables();
+  await tables.createTables(db);
 
   // connect to the smtp server
   await initMail().then(hostName => {

@@ -11,8 +11,8 @@ exports.uploader = {
   // The uploaded file contains a 'mimetype', and either:
   // a 'buffer' of binary data, or a 'path' (to a temp file in system tmp.)
   // Promises an object with the name and an extension: `{name, ext}`.
-  write( file, name ) {
-    if (!name) {
+  write(file, name) {
+    if (!name || (typeof(name) !== 'string')) {
       return Promise.reject(Error("cant store an image without a valid name"));
     }
     if (!file) {

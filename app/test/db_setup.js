@@ -1,25 +1,21 @@
+// Configures mysql while testing.
 //
 // > npm test -db=mysql -db_debug=true
 //
-const shell = require( 'shelljs');  // cross-platform shell interaction
-const { setTimeout } = require('node:timers/promises');
-const db  = require('../db');
+const shell = require('shelljs');  // talks to docker in a cross-platform way.
+const { setTimeout } = require('node:timers/promises'); // mysql takes time to start.
+const db = require('../db');
 
-// re: Unknown cli config "--db". This will stop working in the next major version of npm.
-// the alternative is ugly; tbd but would rather wait till it breaks.
-// const custom = process.argv.indexOf("--");
-// if (custom >= 0) {
-//   console.log(process.argv.slice(custom+1));
-// }
+const dockerImage = `mysql:8.4.7`;  // fix? pull from env somewhere.
 
 function shutdownMysql() {
-  console.log(`shutting down up docker mysql...`);
+  console.log(`shutting down up docker...`);
   const code = shell.exec("docker stop test_shift", {silent: true}).code;
-  console.log(`docker shutdown ${code}.`);
+  console.log(`docker shutdown ${code === 0 ? 'successfully' : code}.`);
 }
 
 async function startupMysql(connect) {
-  console.log(`setting up docker mysql...`);
+  console.log(`setting up docker image ${dockerImage}...`);
   // ex. if a test failed and the earlier run didn't exit well.
   const alreadyExists = shell.exec("docker start test_shift", {silent: true}).code === 0;
   if (alreadyExists) {
@@ -27,21 +23,21 @@ async function startupMysql(connect) {
     console.log("docker test_shift already running. reusing the container.");
   }
 
-  // setup docker mysql
+  // setup docker mysql for testing
   // https://dev.mysql.com/doc/refman/8.4/en/docker-mysql-more-topics.html
   // https://docs.docker.com/reference/cli/docker/container/run/
   // https://hub.docker.com/_/mysql/
-  if (!alreadyExists && shell.exec(lines(
+  if (!alreadyExists && shell.exec(join(
     `docker run`,
     `--name test_shift`,                  // container name
     `--detach`,                           // keep running the container in the background
     `--rm` ,                              // cleanup the container after exit
-    `-p ${connect.port}:3306`,         // expose mysql's internal 3306 port as our custom port
+    `-p ${connect.port}:3306`,            // expose mysql's internal 3306 port as our custom port
     `-e MYSQL_RANDOM_ROOT_PASSWORD=true`, // alt:  MYSQL_ROOT_PASSWORD
     `-e MYSQL_DATABASE=${connect.name}`,
     `-e MYSQL_USER=${connect.user}`,
     `-e MYSQL_PASSWORD=${connect.pass}`,
-    `mysql:8.4.7`,                       // fix? pull from env somewhere.
+    dockerImage,
     `--disable-log-bin=true`,
   `--character-set-server=utf8mb4`,
     `--collation-server=utf8mb4_unicode_ci`)).code !== 0) {
@@ -51,7 +47,7 @@ async function startupMysql(connect) {
 }
 
 async function initConnection() {
-  // configure the connection
+  // configure a connection
   await db.initialize("test setup");
 
   // wait for an empty query to succeed.
@@ -70,25 +66,31 @@ async function initConnection() {
     console.log(`waiting ${i} seconds....`);
     await setTimeout(i * 1000);
   }
+
+  await db.destroy();
 }
 
-// helpers
+// helper to read environment variables
 function env_default(field, def) {
   return process.env[field] ?? def;
 }
-function lines(...lines) {
+
+// helper to turn lines of quoted text into a single string
+function join(...lines) {
   return lines.join(" ");
 }
 
+// when testing, called once before any tests start
 async function globalSetup() {
+  console.log("global setup using: ", JSON.stringify(db.config, null, " "));
   if (db.config.type === 'mysql') {
     await startupMysql(db.config.connect);
   }
   await initConnection();
 }
 
+// when testing, called once after all tests have completed
 async function globalTeardown() {
-  await db.destroy();
   if (db.config.type === 'mysql') {
     shutdownMysql();
   }

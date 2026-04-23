@@ -27,15 +27,14 @@
  */
 const dayjs = require("dayjs");
 const config = require("../config");
-const { CalDaily } = require("../models/calDaily");
 const { EventSearch } = require("../models/calConst");
-const { getSummaries } = require("./events.js");
+const { summarize } = require("../models/summarize");
 const validator = require('validator');
 
 // the search endpoint:
 exports.get = function(req, res, next) {
   const term = (req.query.q || "").trim();   // ?q=term   The search term
-  const offset = readInt(req.query.o);  // &o=25
+  const offset = readOffset(req.query.o);  // &o=25
   const limit = readLimit(req.query.l);  // &l=50
   const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // &all=1|true  Option to search historically (TBD)
 
@@ -44,33 +43,47 @@ exports.get = function(req, res, next) {
   } else {
     // Search for the given search term, starting from today
     const startDate = dayjs().startOf('day');
-    return CalDaily.getEventsBySearch(startDate, term, limit, offset, searchOldEvents).then((dailies) => {
-        return getSummaries(dailies).then((events) => {
+    const options = {
+      // when searching all events, don't specify a starting day
+      firstDay: !searchOldEvents && startDate,
+      // If we are searching all events, start with newest dates
+      // because the user likely wants to see the events which happened recently
+      // so they can achieve the most fomo.
+      newestFirst: !!searchOldEvents,
+      limit,
+      offset, 
+    };
+    return summarize.search(term, options).then(events => {
           // fullcount appears in every returned row; the same in every row.
           const fullcount = events.length ? events[0].fullcount : 0;
           res.set(config.api.header, config.api.version);
           res.json({
             events,
             pagination: { 
-                offset, limit, fullcount 
+                offset,
+                limit,
+                fullcount
             }
-          });
         });
       }).catch(next);
   }
 }
 
-// treats non numbers as 0
-// could use {gt: 1, lt: 4}  to ensure ranges
-function readInt(i) {
-  // validator uses strings. if 'i' is undefined, pass the validator a blank string.
-  return !validator.isInt(i || "") ? 0 : validator.toInt(i);
+// exceptions if i is not a string or 'undefined'
+// returns false if the string doesn't look like an integer (ex. "one", or "1.2")
+// allows {min: 1, max: 4} to ensure ranges
+function readInt(i, opt) {
+  return (i !== undefined) && validator.isInt(i, opt) && validator.toInt(i);
+}
+
+// read the offset query parameter
+// returns zero if invalid
+function readOffset(i) {
+  return readInt(i, {min: 0}) || 0;
 }
 
 // read the limit query parameter
+// returns the internal default limit if invalid
 function readLimit(i) {
-  // try to read the int, and if its zero fallback to our default
-  const want = readInt(i) || EventSearch.Limit;
-  // don't allow more than our default
-  return Math.min(want, EventSearch.Limit);
+  return readInt(i, {min: 0, max: EventSearch.Limit}) || EventSearch.Limit;
 }
