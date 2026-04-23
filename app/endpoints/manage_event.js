@@ -120,7 +120,7 @@ function updateEvent(evt, values, statusList) {
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
       // email the organizer about new events.
       // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
-      let q = !existed ? sendConfirmationEmail(evt) : Promise.resolve();
+      let q = !existed ? sendConfirmationEmail(evt, dailies) : Promise.resolve();
       const statuses = dailies.map(at => at.getStatus());
       return q.then(_ => {
         // finally, return a summary of the CalEvent and its CalDaily(s).
@@ -133,20 +133,31 @@ function updateEvent(evt, values, statusList) {
 }
 
 // promises a sent email
-// evt is a CalEvent.
-function sendConfirmationEmail(evt) {
+// evt is a CalEvent; dailies is an array of CalDaily.
+function sendConfirmationEmail(evt, dailies) {
   const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
   const subject = `Shift2Bikes Secret URL for ${evt.title}`;
   console.debug("sending confirmation for", url);
 
-  const support= config.email.support;
+  const dates = dailies
+    .filter(d => !d.isDelisted())
+    .map(d => dt.friendlyDate(d.eventdate))
+    .join('; ');
+  const time = dt.to12HourString(dt.from24HourString(evt.eventtime));
+  const location = [evt.locname, evt.address].filter(Boolean).join(', ');
+
+  const support = config.email.support;
   const body = nunjucks.render('email.njk', {
     organizer: evt.name,
     title: evt.title,
+    date: dates,
+    time,
+    location,
     url,
     help: config.site.helpPage(),
     support: support.address || support, // a string or object
   });
+  console.debug("confirmation email body:\n", body);
   return emailer.sendMail({
     subject,
     text: body,
