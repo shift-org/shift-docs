@@ -4,7 +4,7 @@ const testdb = require("./testdb");
 const { describe, it, before, after } = require("node:test");
 const request = require('supertest');
 
-describe.skip(crawl testing", () => {
+describe("crawl testing", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupTestData("crawl")
@@ -38,7 +38,6 @@ describe.skip(crawl testing", () => {
       // .then(logResponse);
   });
 });
-
 
 function logResponse(res) {
   console.log(res.text);

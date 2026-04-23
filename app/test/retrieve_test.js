@@ -6,7 +6,7 @@ const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 
-describe.skip(retrieving event data for editing", () => {
+describe("retrieving event data for editing", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupTestData("retrieve");

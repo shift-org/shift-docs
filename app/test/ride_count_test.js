@@ -6,7 +6,7 @@ const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 
-describe.skip(ride count testing", () => {
+describe("ride count testing", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupFakeData("count");

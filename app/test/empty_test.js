@@ -4,7 +4,7 @@ const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
 // tests for the function isEmptyRow
-describe.skip('empty row validation', () => {
+describe("empty row validation", () => {
   it('should be empty', () => {
     const tags = [
       tag("bool", false),

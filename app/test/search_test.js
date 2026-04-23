@@ -7,7 +7,7 @@ const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 
-describe.skip(searching for events", () => {
+describe("searching for events", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupFakeData("search");

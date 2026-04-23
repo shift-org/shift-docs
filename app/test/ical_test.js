@@ -12,7 +12,7 @@ const sandbox = require('sinon').createSandbox();
 
 const CalendarType = /^text\/calendar/;
 
-describe.skip(ical feed", () => {
+describe("ical feed", () => {
   // runs before the evt test in this block.
   before(() => {
     testData.fakeNow(sandbox);

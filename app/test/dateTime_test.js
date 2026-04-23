@@ -3,7 +3,7 @@ const dt = require('../util/dateTime.js');
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
-describe.skip('date time', () => {
+describe('date time', () => {
   it('parse times', () => {
     // these should be considered valid
     const validTimes = ["9:10 AM", "9:00 PM"];

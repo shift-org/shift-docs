@@ -9,8 +9,7 @@ const request = require('supertest');
 //
 const delete_api = '/api/delete_event.php';
 
-
-describe.skip(deleting using a form", () => {
+describe("deleting using a form", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupTestData("del");
@@ -85,7 +84,7 @@ describe.skip(deleting using a form", () => {
 });
 
 // do the same things again,but post json ( ala curl )
-describe.skip(deleting using json", () => {
+describe("deleting using json", () => {
   before(() => {
     return testdb.setupTestData("del json");
   });
