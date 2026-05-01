@@ -183,15 +183,6 @@
             $('.help-block').remove();
             $('.save-result').removeClass('text-danger').text('');
             postVars = eventFromForm();
-            if (!postVars.hideemail) {
-                var input = $('[name=hideemail]'),
-                    parent = input.closest('.form-group');
-                input.attr('aria-invalid', true);
-                parent.addClass('has-error')
-                    .append('<div class="help-block">Please select whether to publish your email address.</div>');
-                input.focus();
-                return;
-            }
             if (!isNew) {
                 postVars['id'] = shiftEvent.id;
             }

@@ -335,15 +335,17 @@
               <input type="text" class="form-control" name="email" id="email" value="[[email]]" autocomplete="email" aria-describedby="email-help email-suggestion" required="true" aria-invalid="false" />
               <p class="input-help" id="email-help">This must be a valid email address where we can reach you. A confirmation message will be mailed to this address.</p>
               <div id="email-suggestion" aria-live="polite"></div>
+            </div>
 
-              <div class="form-group">
-                <label class="control-label req-label" for="hideemail">Publish email address online?</label>
-                <select class="form-control" name="hideemail" id="hideemail" required="true" aria-invalid="false">
-                  <option value="">Select one</option>
-                  <option value="1" [[# hideemail ]]selected[[/ hideemail ]]>🚫 Don't publish my email address online</option>
-                  <option value="0" [[# id ]][[^ hideemail ]]selected[[/ hideemail ]][[/ id ]]>✅ Do publish my email address online</option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label class="control-label req-label" for="hideemail">Publish email address online?</label>
+              <select class="form-control" name="hideemail" id="hideemail" required="true" aria-invalid="false" aria-describedby="hideemail-help hideemail-suggestion">
+                <option value="">Select one</option>
+                <option value="1" [[# hideemail ]]selected[[/ hideemail ]]>🚫 Don't publish my email address online</option>
+                <option value="0" [[# id ]][[^ hideemail ]]selected[[/ hideemail ]][[/ id ]]>✅ Do publish my email address online</option>
+              </select>
+              <p class="input-help" id="hideemail-help">This option chooses whether or not to publish your email address on the calendar.</p>
+              <div id="hideemail-suggestion" aria-live="polite"></div>
             </div>
 
             <div>Website for additional details</div>
