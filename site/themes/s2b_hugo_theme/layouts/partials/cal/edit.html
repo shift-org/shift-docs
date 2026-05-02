@@ -396,7 +396,14 @@
         <div id="print-fields" class="panel-collapse collapse in">
           <div class="panel-body">
             <p class="input-help">The printed calendar has limited space for each event, so we must limit the amount of info for some fields. Be as brief as reasonably possible!</p>
-            <p class="input-help">You must submit at least 3 weeks in advance of the print deadline. We can't guarantee that all submitted rides will be printed, sorry!</p>
+            <p class="input-help">We do our best to print all submitted rides, but we can't guarantee that everything will make it to print — sorry!</p>
+
+            {{ if .Site.Params.festival.printCalendarActive }}
+            <div class="pp-banner">
+              If you want your ride to appear in the print calendar, you must <strong>publish</strong> your event by {{ .Site.Params.festival.printCalendarDate }}.
+            </div>
+            {{ end }}
+
             <div class="form-group">
               <label class="control-label optional-label" for="tinytitle">Print title (24 characters)</label>
               <input type="text" class="form-control" name="tinytitle" id="tinytitle" value="[[tinytitle]]" maxlength="24" />
