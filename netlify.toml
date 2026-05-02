@@ -10,6 +10,7 @@
 
 [build.environment]
   # extra environment variables if needed.
+  HUGO_VERSION = "0.152.2" # also set the version in docker-compose.yml
 
 # we need to manually copy the 404 page over for now, in every environment
 # cf https://github.com/shift-org/shift-docs/issues/862
