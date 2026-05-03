@@ -82,7 +82,7 @@ function randomDayCount() {
 }
 
 function randomRideLength() {
-  return faker.helpers.arrayElement(Distance);
+  return faker.helpers.arrayElement(Distance.shorthands);
 }
 
 // days is the range of possible days in the future
@@ -203,9 +203,9 @@ function makeCalEvent(title) {
       printed_summary: descr,
     },
     tag: [
-      tag(TagName.Area, area.data),
-      tag(TagName.Audience, audience.data),
-      tag(TagName.Distance, ridelength.data),
+      tag(TagName.Area, area.value),
+      tag(TagName.Audience, audience.value),
+      tag(TagName.Distance, ridelength.value),
       tag(TagName.LoopRide, loopride),
       tag(TagName.SafetyPlan, safetyplan),
       tag(TagName.Featured, highlight),

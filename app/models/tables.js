@@ -24,8 +24,13 @@ const extraKeys = {
 // fix? modified time doesn't work for sqlite
 // ( maybe manually set the time in knex.js store()? )
 module.exports = {
+
   // 'image', 'series', etc.
   tableNames: Object.keys(tableStatements),
+
+  dumpTableStatements(db) {
+    return dumpTableStatements(db.query, db.config.type === 'mysql');
+  },
 
   createTables(db, {drop}) {
     if (!db.config.type) {
@@ -114,6 +119,19 @@ function isEmptyData(rowData, ignore = []) {
   return first < 0;
 }
 
+function dumpTableStatements(knex, isMysql, drop) {
+  const tableNames = Object.keys(tableStatements);
+  const pairs = tableNames.map(name => {
+    const q = knex.schema.createTable(name, (table) => {
+      const make = newTableMaker(knex, isMysql, table);
+      const cb = tableStatements[name];
+      cb(make, table);
+    });
+    return [name, q.toSQL()[0].sql];
+  });
+  return new Map(pairs);
+}
+
 async function createAll(knex, isMysql, drop) {
   const tableNames = Object.keys(tableStatements);
   const drops = drop ? Promise.all(tableNames.map(n => knex.schema.dropTableIfExists(n)))
@@ -153,25 +171,25 @@ async function createAll(knex, isMysql, drop) {
     end`);
 }
 
-function imageTable(make) {
-  make.dependentKey('id');
-  make.integer('img_version');
-  make.string('img_ext', {width: 8});      // ex. "png" (lowercase, no leading dot)
-  make.string('img_override', {width: 64});
-  // make.string('img_alt', 512); -- future
-}
 // make is a tableMaker
 function seriesTable(make) {
   make.primaryKey('id');
-  make.createdTime();
-  make.modifiedTime();
   make.integer('published'); // a counter of the number of times published
   make.string('title', {width: 256});
+  make.string('tiny', {width: 50});
   make.string('organizer', {width: 256});
   make.string('start_time', {width: 10, required: true});
   make.integer('ride_duration'); // in minutes
-  make.string('tinytitle', {width: 50});
-  make.string('details', {width: 6500}); // we have a couple in the 6000 char range
+  make.string('details', {width: 6500}); // there's a few in the 6k range
+  make.createdTime();
+  make.modifiedTime();
+}
+function imageTable(make) {
+  make.dependentKey('id');
+  make.integer('img_version');  // often null for old data where there is no version number.
+  make.string('img_ext', {width: 8}); // ex. "png" (lowercase, no leading dot)
+  make.string('img_override', {width: 64});
+  // make.string('img_alt', 512); -- future
 }
 function locationTable(make) {
   make.dependentKey('id','loc_type');
@@ -184,11 +202,11 @@ function locationTable(make) {
 function printTable(make) {
   make.dependentKey('id');
   // make.boolflag('no_print'); -- a way to opt out?
-  make.string('printed_summary', {width: 812}); // was: printdescr
   make.boolflag('add_email');    // 'add' to help indicate its a boolean
   make.boolflag('add_phone');    // unlike 'printed_summary' which is text.
   make.boolflag('add_link');
   make.boolflag('add_contact');
+  make.string('printed_summary', {width: 812}); // was: printdescr
 }
 function privateTable(make) {
   make.dependentKey('id');
@@ -205,7 +223,6 @@ function scheduleTable(make) {
   // ( otherwise it'd be a dependentKey on id, ymd )
   make.integer('id', {required: true});
   make.string('ymd', {width: 12, required: true});
-  make.string('news', {width: 1024});
   // defaults to 0, and can be set to null
   make.boolflag('is_scheduled', {default: 0, required: false});
   // FIX! i would love to get rid of the pkid.
@@ -216,6 +233,7 @@ function scheduleTable(make) {
   // uses different names than the series to avoid query conflicts
   make.createdTime('added');
   make.modifiedTime('changed');
+  make.string('news', {width: 1024});
   // ideally this would be the primary key:
   make.uniqueIndex('id', 'ymd');
 }

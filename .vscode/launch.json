@@ -18,6 +18,21 @@
             "type": "node"
         },
         {
+            "name": "Migrate",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "-w",
+                "tools",
+                "migrate"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "name": "Test",
             "request": "launch",
             "runtimeArgs": [

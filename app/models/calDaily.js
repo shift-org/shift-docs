@@ -11,7 +11,7 @@ const CalDaily = {
 
   // return true if the occurrence has been cancelled
   isCancelled(at) {
-    return at.eventstatus !== EventStatus.Active.key;
+    return at.eventstatus !== EventStatus.Active.toString();
   },
 
   // return a complete summary of this occurrence.

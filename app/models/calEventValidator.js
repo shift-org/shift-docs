@@ -16,8 +16,9 @@ class ErrorCollector {
   }
 }
 
-// the validator package requires strings and only strings
-// the various functions below convert strings to the desired output types.
+// the validator package *requires* strings
+// but not all data sent by the client are strings.
+// example usage: validator.isBoolean(asString(userData)).
 function asString(value) {
   // coalecese nulls and undefined into a blank string
   // ensure all numbers and booleans are strings
@@ -25,20 +26,11 @@ function asString(value) {
   return ((value ?? '') + '').trim();
 }
 
-// ex. calConst.Distance
-function asShorthand(shorthands, value) {
-  const str = asString(value);
-  return shorthands.find(n => n.key === str);
-}
-
 // ensure the email, title, etc. submitted by the organizer seem valid.
 // input is json, errors is of type ErrorCollector
 function makeValidator(input, errors) {
   function getString(field) {
     return asString(input[field]);
-  }
-  function getShorthand(shorthands, field) {
-    return asShorthand(shorthands, input[field]);
   }
   function smallerThan(str, field, maxLen) {
     const okay = validator.isByteLength(str, { min: 0, max: maxLen });
@@ -154,20 +146,10 @@ function makeValidator(input, errors) {
     },
     // for validating from an object containing shorthand constants
     // ex. calConst.Area
-    parseTag(group, field, required) {
-      const n = getShorthand(Object.values(group), field);
-      if (n) {
-        return n.data;
-      } else if (required) {
-        errors.addError(field);
-      }
-    },
-    // for validating from an array of shorthand constants
-    // ex. calConst.Distance
-    parseValue(group, field, required) {
-      const n = getShorthand(group, field);
-      if (n) {
-        return n.data;
+    parseConst(cls, field, required) {
+      const value = cls.keyToValue(getString(field));
+      if (value !== undefined) {
+        return value;
       } else if (required) {
         errors.addError(field);
       }
@@ -185,7 +167,6 @@ function makeValidator(input, errors) {
     validateStatus(statusList) {
       const invalidDateStrings = [];
       const validStatus = [];
-      const shorthands = Object.values(EventStatus);
       if (statusList) {
         if (!Array.isArray(statusList)) {
           invalidDateStrings.push("expected an array");
@@ -197,13 +178,13 @@ function makeValidator(input, errors) {
             } else {
               const news = asString(status.newsflash);
               // transform 'A' (active) into 1, and 'C' (cancelled) into 0
-              const state = asShorthand(shorthands, status.status);
-              if (!state) {
+              const scheduled = EventStatus.keyToValue(asString(status.status));
+              if (scheduled === undefined) {
                 invalidDateStrings.push(status.date);
               } else {
                 validStatus.push({
                   ymd: dt.toYMDString(validDate),
-                  is_scheduled: state.data,
+                  is_scheduled: scheduled,
                   // the original code stored null for empty news
                   news: news || null,
                 });
@@ -234,8 +215,8 @@ function validateEvent(input) {
     // image: ... image data is handled separately (via multi-part form data)
     series: {
       title: v.requireString('title', 'Title missing', 256),
+      tiny: v.nullString('tinytitle', 48), // client caps to 24, but some are longer already
       organizer: v.requireString('organizer', 'Organizer missing'),
-      tinytitle: v.nullString('tinytitle', 48), // client caps to 24, but some are longer already
       details: v.requireString('details', 'Details missing', 16*1024),
       start_time: v.requiredTime('time'), // can return something falsy on error.
       ride_duration: v.zeroInt('eventduration') || null,  // client defaults this to "" if not specified.
@@ -267,9 +248,9 @@ function validateEvent(input) {
       printed_summary: v.nullString('printdescr', 1024),
     },
     tag: [
-      tag(TagName.Area, v.parseTag(Area, 'area', true)),
-      tag(TagName.Audience, v.parseTag(Audience, 'audience', true)),
-      tag(TagName.Distance, v.parseValue(Distance, 'ridelength', false)),
+      tag(TagName.Area, v.parseConst(Area, 'area', true)),
+      tag(TagName.Audience, v.parseConst(Audience, 'audience', true)),
+      tag(TagName.Distance, v.parseConst(Distance, 'ridelength', false)),
       tag(TagName.LoopRide, v.optionalFlag('loopride') && "true"),
       tag(TagName.SafetyPlan, v.optionalFlag('safetyplan') && "true"),
     ],

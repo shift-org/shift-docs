@@ -89,7 +89,7 @@ function fakeCalEvent(eventId) {
       start_time: "19:00:00",
       ride_duration: 60,
       title,
-      tinytitle: title,
+      tiny: title,
       details: descr,
     },
     location: [{

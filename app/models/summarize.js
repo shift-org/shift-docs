@@ -60,7 +60,7 @@ function queryEvents(view, opt = {}) {
       q.where('pkid', opt.dayId);
     }
     if (opt.onlyActive) {
-      q.whereNot('eventstatus', EventStatus.Cancelled.key);
+      q.whereNot('eventstatus', EventStatus.Cancelled.toString());
     }
   });
   // pagination:

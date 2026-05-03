@@ -240,10 +240,10 @@ describe("managing events",  () => {
           const [ d0, d2 ] = events;
 
           assert.equal(d0.eventdate, "2002-08-01");
-          assert.equal(d0.eventstatus, EventStatus.Cancelled.key);
+          assert.equal(d0.eventstatus, EventStatus.Cancelled.toString());
 
           assert.equal(d2.eventdate, "2002-08-03");
-          assert.equal(d2.eventstatus, EventStatus.Active.key);
+          assert.equal(d2.eventstatus, EventStatus.Active.toString());
           // fix: should add a test for an explicitly cancelled day.
         });
     });

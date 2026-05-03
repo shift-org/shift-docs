@@ -9,6 +9,7 @@ shift.overrides
 !services/db/*.sql
 !services/db/*/*.sql
 services/db/tmp/*.sql
+services/db/*.data
 *.today
 *.DS_Store
 backend/eventimages/

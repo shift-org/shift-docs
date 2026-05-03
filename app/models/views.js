@@ -23,7 +23,7 @@ const seriesEvents = `
 select 
   id, 
   title, 
-  tinytitle,
+  tiny as tinytitle,
   organizer as name,
   details as descr,
   created,

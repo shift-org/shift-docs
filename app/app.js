@@ -8,7 +8,7 @@ const db = require('./db');  // initialize on startup
 const tables = require("./models/tables");
 
 // connect to the db
-db.initialize().then(async () => {
+db.initialize("app").then(async () => {
   // create db tables
   await tables.createTables(db);
 

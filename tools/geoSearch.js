@@ -97,8 +97,8 @@ async function geoImport(inFile, outFile, date= "2024-06-01") {
     join caldaily
     using (id)
     where eventdate >= "${date}"
-    and review != "${Review.Excluded}"
-    and area != "${Area.Vancouver}"
+    and review != "${Review.Excluded.value}"
+    and area != "${Area.Vancouver.value}"
     order by id
     `);
   console.log(`**** ${events.length} ****`);
