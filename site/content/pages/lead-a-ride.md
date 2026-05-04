@@ -2,13 +2,23 @@
 title: Leading a Social Ride
 weight: "5"
 menu:
-    main:
-        parent: communitynav
+  main:
+    parent: communitynav
 ---
 
 **Please read our [Public health](/pages/public-health/) page** for info on riding safely during the pandemic and beyond.
 
 ----
+
+## Ride Leading 101
+
+Curious about leading a group ride? Check out our Ride Leading 101 video, created in collaboration with [Bike Stuff PDX](https://www.youtube.com/@BikeStuffPDX)!
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Lq-VSRwlqls?si=VtLuV4aLvwnEVAcA" title="title="Ride Leading 101 — YouTube video player"" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+[Ride Leading 101 — YouTube](https://www.youtube.com/watch?v=Lq-VSRwlqls)
+
+## Ride leading guidelines
 
 You should consider the below points when creating your ride.  They're all optional, but strongly suggested to keep things going smoothly.  For more details than this checklist, check out this [detailed guide (PDF)](/docs/ride-leading-guide.pdf)!
 
