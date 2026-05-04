@@ -113,7 +113,7 @@ disableKinds = ["taxonomy", "term"]
     merchSaleActive = true # set to true when merch sales are open
     merchSaleInfo = "Pre-sale ends May 14th at 11:59pm."
     merchSaleURL = "https://www.shop.rendered.co/bikesummer"
-    printCalendarActive = true
+    printCalendarActive = true # set to true if print calendar is announced
     printCalendarDate = "May 10th at 11:59pm"
     donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
