@@ -36,10 +36,10 @@ $(document).ready(function() {
                         mustacheData.dates.push(groupedByDate[date]);
                     }
 
-                    value.displayStartTime = dayjs(value.time, 'hh:mm:ss').format('h:mm A');
+                    value.displayStartTime = dayjs(value.time, 'HH:mm:ss').format('h:mm A');
                     value.displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
                     if (value.endtime) {
-                      value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
+                      value.displayEndTime = dayjs(value.endtime, 'HH:mm:ss').format('h:mm A');
                     }
 
                     value.audienceLabel = container.getAudienceLabel(value.audience);

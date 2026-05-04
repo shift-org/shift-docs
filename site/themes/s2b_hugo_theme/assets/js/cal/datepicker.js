@@ -125,17 +125,26 @@
         return Mustache.render(dateStatusesTemplate, {dateStatuses});
     }
 
-    function isToday(date) {
-        return dayjs().isSame(date, 'day');
+    // Return the current date in Pacific time as a YYYY-MM-DD string.
+    // Using Intl.DateTimeFormat ensures correctness regardless of the browser's local timezone.
+    function getPacificToday() {
+        return new Date().toLocaleDateString('en-CA', {
+            timeZone: 'America/Los_Angeles',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
     }
 
-    // return the utc YYYY-MM-DD string of the passed date
-    // note: 'date' is sometimes a utc string, or a dayjs object.
+    function isToday(date) {
+        return dayjs(date).format('YYYY-MM-DD') === getPacificToday();
+    }
+
+    // return the YYYY-MM-DD string of the passed date
+    // note: 'date' is sometimes a string, or a dayjs object.
     // see also: main.js viewEvents()
-   function toUtcString(date) {
-        // tbd: does the server actually handle dates as utc?
-        // i believe times ( ex. start times ) are assumed local.
-        return dayjs(date).utc().format('YYYY-MM-DD');
+    function toUtcString(date) {
+        return dayjs(date).format('YYYY-MM-DD');
     }
 
     function isSelected(date) {
@@ -237,7 +246,7 @@
     // fix: should this scroll the first scheduled day into view
     // ( ex. when editing existing events )
     function initDatePicker() {
-        const now = dayjs();
+        const now = dayjs(getPacificToday());
         earliestMonth = now;
         latestMonth = now.add(1, 'month');
 
