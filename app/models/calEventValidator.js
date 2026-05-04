@@ -119,6 +119,17 @@ function makeValidator(input, errors) {
         return validator.toBoolean(str) ? 1 : 0;
       }
     },
+    // requires a 0, 1, true, or false value; empty is an error
+    requiredFlag(field, msg) {
+      const str = getString(field);
+      if (validator.isEmpty(str)) {
+        errors.addError(field, msg);
+      } else if (!validator.isBoolean(str)) {
+        errors.addError(field);
+      } else {
+        return validator.toBoolean(str) ? 1 : 0;
+      }
+    },
     // if not specified, returns 0
     // otherwise expects an int-like value
     // greater than or equal to 0
@@ -215,7 +226,7 @@ function validateEvent(input) {
     address: v.requireString('address', 'Address missing'),
     name: v.requireString('organizer', 'Organizer missing'),
     email: v.requireEmail('email'),
-    hideemail: v.optionalFlag('hideemail'),
+    hideemail: v.requiredFlag('hideemail', 'Please select whether or not to publish your email address'),
     phone: v.nullString('phone'),
     hidephone: v.optionalFlag('hidephone'),
     contact: v.nullString('contact'),
