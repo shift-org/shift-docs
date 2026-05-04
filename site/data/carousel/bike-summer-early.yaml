@@ -7,4 +7,4 @@ description: "<p>Pedalpalooza
 # image: "images/carousel/pedalpalooza-general.png"
 image: "images/carousel/pedalpalooza-2026.jpg"
 link: "/bike-summer-calendar/"
-disabled: false
+disabled: true
