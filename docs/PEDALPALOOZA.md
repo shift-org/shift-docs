@@ -28,8 +28,15 @@ approx. April–early May
 
 approx. early to mid May
 
-* Set `params.festival.merchSaleActive` to `true` once merch sales open up. 
-* Update the merch sale snippet (`pp-merch.html`) in the PP header (`pp-header.html`) as needed. This typically won't be available until early May, and then needs to be removed once sales close (mid May to early June). Sometimes there is more than round of sales, so an additional update may be needed.
+* Merch sales:
+  * Set `params.festival.merchSaleActive` to `true` once merch sales open up
+  * Describe the merch pre-order deadline in `params.festival.merchSaleInfo`; this typically won't be available until early May
+  * If there any changes to merch sales, like a second round of orders, update `params.festival.merchSaleInfo` again
+  * If needed, update `params.festival.merchSaleURL`
+* Print calendar:
+  * If a print calendar is being prepared, set `params.festival.printCalendarActive` to `true`
+  * Set `params.festival.printCalendarDate` to the print deadline date
+  * Once the print deadline passes, set `params.festival.printCalendarActive` to `false`
 
 
 ## During

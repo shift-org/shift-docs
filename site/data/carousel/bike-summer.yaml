@@ -1,8 +1,7 @@
 weight: 01
 title: "Bike Summer"
-description: "<p>Pedalpalooza 2026
-<br>is happening now!
+description: "<p>Pedalpalooza 2026 is on!
 <br>June, July, & August</p>"
 image: "images/carousel/pedalpalooza-2026.jpg"
 link: "/bike-summer-calendar/"
-disabled: true
+disabled: false
