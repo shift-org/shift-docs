@@ -5,7 +5,7 @@
 // 2. proxy all api paths to the production backend
 //
 const express = require('express');
-const config = require("shift-docs/config");
+const config = require('server/config');
 const { serveWebContent } = require("shift-docs/facade");
 const { createProxyMiddleware } = require('http-proxy-middleware');
 

@@ -1,12 +1,15 @@
-const knex = require('knex'); // the knex constructor
-const pickBy = require('lodash/pickBy'); // a dependency of package knex
-const config = require("./config");
-const dt = require("./util/dateTime");
+/**
+ * Provides a thin wrapper around knex.
+ */
+const knex = require('knex');            // the knex constructor.
+const pickBy = require('lodash/pickBy'); // for store(): its part of package knex.
+const dt = require('server/util/dateTime');
+const config = require('server/config');
 
-// build knex configuration from our own
+// build knex configuration from our own agnostic config.
 const dbConfig = unpackConfig(config.db);
+// for local differentiation between sqlite and mysql
 const useSqlite = config.db.type === 'sqlite';
-const dropOnCreate = config.db.connect?.name === 'shift_test';
 
 const db = {
   config: config.db,
@@ -17,12 +20,14 @@ const db = {
   query: false,
 
   // waits to open a connection.
-  async initialize(name) {
+  // the passed name can be any arbitrary string.
+  async initialize(debugName = "unknown") {
     if (db.query) {
-      throw new Error("db already initialized");
+      throw new Error(`db being initialized by ${name} when already initialized by ${this.debugName}.`);
     }
     const connection = knex(dbConfig);
     db.query = connection;
+    db.debugName = debugName;
     await connection;
   },
 
@@ -33,20 +38,23 @@ const db = {
       throw new Error("db already destroyed");
     }
     db.query = false;
+    db.debugName = `destroyed ${db.debugName}`;
     return connection.destroy();
   },
 
+  // helper shortcut
+  raw(...args) {
+    return db.query.raw(...args);
+  },
+
   // convert a dayjs object to a 'date' column.
-  //
   // the sqlite driver stores a date as a number
-  // re: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
   // while that works, it's hard to read.
+  // re: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
   //
   // mysql stores a date as "YYYY-MM-DD"
   // re: https://dev.mysql.com/doc/refman/8.0/en/date-and-time-literals.html
   // but the code has been handing it javascript dates, and it seems to like that.
-  // tbd: test if mysql can (also) use strings; if so, remove the if statement here.
-  //
   toDate(date) {
     return !useSqlite ? date.toDate() : dt.toYMDString(date);
   },
@@ -61,9 +69,6 @@ const db = {
    * @param table string table name.
    * @oaram rec the object containing the data.
    * @return promises the rec ( with its new id ).
-   *
-   * fix? an orm would probably be smart enough to only update the needed fields.
-   * this updates *everything*.
    */
   store(table, idField, rec) {
     const q = db.query(table);

@@ -3,7 +3,7 @@
 // and that it has the `bike.jpg` used by fake events.
 const path = require("path");
 const fs = require('fs').promises;
-const config = require("shift-docs/config");
+const config = require('server/config');
 
 const dstDir = config.image.dir;
 const srcDir = path.resolve(config.appPath, 'eventimages');

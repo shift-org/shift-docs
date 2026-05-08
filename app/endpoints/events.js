@@ -24,8 +24,8 @@
  * See also:
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
  */
-const config = require("../config");
-const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
+const config = require('server/config');
+const { fromYMDString, to24HourString, toYMDString } = require("server/util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/calConst");

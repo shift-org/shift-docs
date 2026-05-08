@@ -11,7 +11,8 @@
   "workspaces": [
     "app",
     "cal",
-    "tools"
+    "tools",
+    "src/server"
   ],
   "scripts": {
     "start": "npm -w app start",

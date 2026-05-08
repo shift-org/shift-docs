@@ -8,7 +8,7 @@
 const path = require("path");
 const fs = require('fs');
 const { faker } = require('@faker-js/faker');
-const config = require("shift-docs/config");
+const config = require('server/config');
 const knex = require('knex');
 const tables = require("shift-docs/models/tables"); // for sqlite 3
 const process = require('process');

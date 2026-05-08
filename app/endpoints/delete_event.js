@@ -14,9 +14,9 @@
  * returns http 400 "Bad Request" and a json error response (see errors.php)
  *
  */
-const config = require("../config");
+const config = require('server/config');
 const express = require('express');
-const textError = require("../util/errors");
+const textError = require("server/util/errors");
 const { CalEvent } = require("../models/calEvent");
 const { uploader } = require("../uploader");
 

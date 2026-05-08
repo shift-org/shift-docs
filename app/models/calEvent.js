@@ -2,8 +2,8 @@ const crypto = require("crypto");
 const knex = require("../db");
 const { CalDaily } = require("./calDaily");
 const { Review } = require("./calConst");
-const dt = require("../util/dateTime");
-const config = require("../config");
+const dt = require("server/util/dateTime");
+const config = require('server/config');
 
 // helper to add methods to a returned database object.
 const methods =  {

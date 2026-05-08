@@ -1,6 +1,6 @@
 const { Area, Audience, DatesType, EventStatus, Review } = require("../models/calConst");
 const tables = require("../models/tables");
-const dt = require("../util/dateTime");
+const dt = require("server/util/dateTime");
 const { faker } = require('@faker-js/faker');
 const testData = require("./testData");
 const db = require("../db");

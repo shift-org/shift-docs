@@ -1,16 +1,16 @@
 /**
  * The main entry point for the node container
  */
-const config = require('./config');
+const config = require('server/config');
 const { initMail } = require( './emailer');
 const app = require( './appEndpoints');
 const db = require('./db');  // initialize on startup
 const tables = require("./models/tables");
 
 // connect to the db
-db.initialize().then(async () => {
+db.initialize("app").then(async () => {
   // create db tables
-  await tables.createTables();
+  await tables.createTables(db);
 
   // connect to the smtp server
   await initMail().then(hostName => {

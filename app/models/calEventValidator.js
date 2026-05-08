@@ -1,4 +1,4 @@
-const dt = require("../util/dateTime");
+const dt = require("server/util/dateTime");
 const validator = require('validator');
 const { Area, Audience, DatesType, RideLength } = require("./calConst");
 

@@ -14,9 +14,9 @@
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('node:path');
-const sinon = require('sinon');
+const sandbox = require('sinon').createSandbox();
 const app = require("../appEndpoints");
-const config = require("../config");
+const config = require('server/config');
 const testdb = require("./testdb");
 const testData = require("./testData");
 
@@ -33,11 +33,14 @@ describe("managing events", () => {
   let spy;
   // reset after each one.
   beforeEach(() => {
-    spy = testData.stubData(sinon);
+    spy = testData.stubData(sandbox);
+    // docker config sets an explicit SHIFT_IMAGE_DIR
+    // but tests need the directory under app.
+    testData.setupImageDir(sandbox, "./eventimages");
     return testdb.setupTestData("manage");
   });
   afterEach(() => {
-    sinon.restore();
+    sandbox.restore();
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {

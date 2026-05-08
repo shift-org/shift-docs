@@ -19,8 +19,8 @@ const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { uploader } = require("../uploader");
 const validator = require('validator');
-const dt = require("../util/dateTime");
-const config = require("../config");
+const dt = require("server/util/dateTime");
+const config = require('server/config');
 const emailer = require("../emailer");
 const nunjucks = require("../nunjucks");
 const { validateEvent } = require("../models/calEventValidator");
@@ -66,7 +66,7 @@ function handleRequest(req, res, next) {
       // save the uploaded file (if any)
       const saveImage = !req.file ? Promise.resolve() :
         // the image gets written to disk as "id.ext"
-        uploader.write( req.file, evt.id ).then(f => {
+        uploader.write(req.file, evt.id.toString()).then(f => {
           // the image name gets stored in the db as "id-sequence.ext"
           // the sequence number needs to be different for each new image.
           // ( shift.conf strips off the sequence when the file is requested; see cache_busting.md )
@@ -137,15 +137,15 @@ function updateEvent(evt, values, statusList) {
 function sendConfirmationEmail(evt, dailies) {
   const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
   const subject = `Shift2Bikes Secret URL for ${evt.title}`;
-  console.debug("sending confirmation for", url);
-
+  if (!config.isTesting) {
+    console.debug("sending confirmation for", url);
+  }
   const dates = dailies
     .filter(d => !d.isDelisted())
     .map(d => dt.friendlyDate(d.eventdate))
     .join('; ');
   const time = dt.to12HourString(dt.from24HourString(evt.eventtime));
   const location = [evt.locname, evt.address].filter(Boolean).join(', ');
-
   const support = config.email.support;
   const body = nunjucks.render('email.njk', {
     organizer: evt.name,
@@ -157,7 +157,9 @@ function sendConfirmationEmail(evt, dailies) {
     help: config.site.helpPage(),
     support: support.address || support, // a string or object
   });
-  console.debug("confirmation email body:\n", body);
+  if (!config.isTesting) {
+    console.debug("confirmation email body:\n", body);
+  }
   return emailer.sendMail({
     subject,
     text: body,
@@ -170,7 +172,7 @@ function sendConfirmationEmail(evt, dailies) {
     bcc: config.email.moderator, // backup copy for debugging and/or moderating
     // html
     // attachments
-  }, evt.name, evt.email, evt.title, url);
+  });
 }
 
 // read json into a javascript object.

@@ -21,8 +21,8 @@ const nunjucks = require("../nunjucks");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/calConst");
-const dt = require("../util/dateTime");
-const config = require("../config");
+const dt = require("server/util/dateTime");
+const config = require('server/config');
 
 module.exports = {
 // endpoint export:
