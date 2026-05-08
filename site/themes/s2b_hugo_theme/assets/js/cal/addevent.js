@@ -323,9 +323,9 @@
         var $form = $('#event-entry');
         $.extend(previewEvent, shiftEvent, eventFromForm());
 
-        previewEvent['displayStartTime'] = dayjs(previewEvent['time'], 'hh:mm:ss').format('h:mm A');
+        previewEvent['displayStartTime'] = dayjs(previewEvent['time'], 'HH:mm:ss').format('h:mm A');
         if ( previewEvent['eventduration'] ){
-            var endTime = dayjs(previewEvent['time'], 'hh:mm:ss')
+            var endTime = dayjs(previewEvent['time'], 'HH:mm:ss')
                 .add(previewEvent['eventduration'], 'minutes')
                 .format('HH:mm');
             previewEvent['endtime'] = endTime; // e.g. 18:00
