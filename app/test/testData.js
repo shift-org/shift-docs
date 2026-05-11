@@ -1,5 +1,5 @@
 const dt = require("server/util/dateTime");
-const config = require('server/config');
+const config = require('server/core/config');
 const assert = require("node:assert/strict");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");

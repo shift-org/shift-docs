@@ -24,7 +24,7 @@
  */
 const dayjs = require("dayjs");
 const { CalDaily } = require("../models/calDaily");
-const config = require('server/config');
+const config = require('server/core/config');
 
 // the endpoint:
 exports.get = function(req, res, next) {

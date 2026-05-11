@@ -3,7 +3,7 @@ const tables = require("../models/tables");
 const dt = require("server/util/dateTime");
 const { faker } = require('@faker-js/faker');
 const testData = require("./testData");
-const db = require("../db");
+const db = require("server/core/db");
 const { makeFakeData } = require("./fakeData");
 
 module.exports = {

@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const fsp = require('fs').promises;
 const path = require('node:path');
-const config = require('server/config');
+const config = require('server/core/config');
 const dt = require("server/util/dateTime");
 
 // magically, config.smtp matches what nodemailer needs;

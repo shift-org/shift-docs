@@ -4,7 +4,7 @@
 const knex = require('knex');            // the knex constructor.
 const pickBy = require('lodash/pickBy'); // for store(): its part of package knex.
 const dt = require('server/util/dateTime');
-const config = require('server/config');
+const config = require('server/core/config');
 
 // build knex configuration from our own agnostic config.
 const dbConfig = unpackConfig(config.db);

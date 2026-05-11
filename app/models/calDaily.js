@@ -1,5 +1,5 @@
-const knex = require("../db");
-const config = require('server/config');
+const knex = require("server/core/db");
+const config = require('server/core/config');
 const dt = require("server/util/dateTime");
 const { EventStatus, Review, EventSearch } = require("./calConst");
 

@@ -4,7 +4,7 @@
 // after creating events, you can check messages here: https://ethereal.email/messages
 const path = require("path");
 const fs = require('fs');
-const config = require('server/config');
+const config = require('server/core/config');
 const nodemailer = require('nodemailer');
 
 async function newEtherealConfig()  {

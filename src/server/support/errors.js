@@ -1,4 +1,4 @@
-const config = require('server/config');
+const config = require('server/core/config');
 
 module.exports = {
   textError,

@@ -4,7 +4,7 @@
 //
 const shell = require('shelljs');  // talks to docker in a cross-platform way.
 const { setTimeout } = require('node:timers/promises'); // mysql takes time to start.
-const db = require('../db');
+const db = require('server/core/db');
 
 const dockerImage = `mysql:8.4.7`;  // fix? pull from env somewhere.
 

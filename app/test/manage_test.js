@@ -16,7 +16,7 @@ const fsp = fs.promises;
 const path = require('node:path');
 const sandbox = require('sinon').createSandbox();
 const app = require("../appEndpoints");
-const config = require('server/config');
+const config = require('server/core/config');
 const testdb = require("./testdb");
 const testData = require("./testData");
 

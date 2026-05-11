@@ -1,0 +1,1 @@
+Contains small one off helpers that could ( in theory ) exist in any project.

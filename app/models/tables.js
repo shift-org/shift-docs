@@ -1,5 +1,5 @@
-const db = require("shift-docs/db");
-const config = require('server/config');
+const db = require("server/core/db");
+const config = require('server/core/config');
 
 // create tables if they dont already exist
 // fix? modified time doesn't work for sqlite

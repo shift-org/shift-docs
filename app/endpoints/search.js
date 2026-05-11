@@ -26,7 +26,7 @@
  *  # TODO add block for search
  */
 const dayjs = require("dayjs");
-const config = require('server/config');
+const config = require('server/core/config');
 const { CalDaily } = require("../models/calDaily");
 const { EventSearch } = require("../models/calConst");
 const { getSummaries } = require("./events.js");

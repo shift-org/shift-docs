@@ -1,7 +1,7 @@
 /**
  * The main entry point for the node container
  */
-const config = require('server/config');
+const config = require('server/core/config');
 const { initMail } = require( './emailer');
 const app = require( './appEndpoints');
 const db = require('./db');  // initialize on startup

@@ -9,7 +9,7 @@
  * See also:
  *   https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#crawling-an-event
  */
-const config = require('server/config');
+const config = require('server/core/config');
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { to12HourString, from24HourString, friendlyDate } = require("server/util/dateTime");
