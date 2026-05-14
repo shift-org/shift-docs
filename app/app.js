@@ -1,10 +1,10 @@
 /**
  * The main entry point for the node container
  */
-const config = require('server/core/config');
-const { initMail } = require( './emailer');
+const config = require("server/core/config");
+const db = require("server/core/db");
+const { initMail } = require("server/support/emailer");
 const app = require( './appEndpoints');
-const db = require('./db');  // initialize on startup
 const tables = require("./models/tables");
 
 // connect to the db

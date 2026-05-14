@@ -5,13 +5,13 @@
  *
  * ex. npm run -w tools import-mysql --in="/Users/ionous/Downloads/prod.mysql" --out="./bin/test.db"
  */
-const path = require("path");
-const fs = require('fs');
+const fs = require("node:fs");
+const path = require("node:path");
+const process = require("node:process");
 const { faker } = require('@faker-js/faker');
 const config = require('server/core/config');
 const knex = require('knex');
 const tables = require("shift-docs/models/tables"); // for sqlite 3
-const process = require('process');
 
 // ----------------------------------------------------------------
 // command line arguments

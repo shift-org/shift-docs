@@ -15,14 +15,14 @@
  *    https://localhost:4443/addevent/edit-$event_id-$secret
  *    /site/themes/s2b_hugo_theme/static/js/cal/addevent.js
  */
+const validator = require('validator');
+const config = require('server/core/config');
+const emailer = require("server/support/emailer");
+const nunjucks = require("server/support/nunjucks");
+const { uploader } = require("server/support/uploader");
+const dt = require("server/util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-const { uploader } = require("../uploader");
-const validator = require('validator');
-const dt = require("server/util/dateTime");
-const config = require('server/core/config');
-const emailer = require("../emailer");
-const nunjucks = require("../nunjucks");
 const { validateEvent } = require("../models/calEventValidator");
 
 // read multipart (and curl) posts.

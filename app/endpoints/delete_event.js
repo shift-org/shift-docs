@@ -14,11 +14,11 @@
  * returns http 400 "Bad Request" and a json error response (see errors.php)
  *
  */
-const config = require('server/core/config');
 const express = require('express');
+const config = require('server/core/config');
 const textError = require("server/support/errors");
 const { CalEvent } = require("../models/calEvent");
-const { uploader } = require("../uploader");
+const { uploader } = require("server/support/uploader");
 
 // the front end sends a multi-part form post
 // so... we need to handle that.

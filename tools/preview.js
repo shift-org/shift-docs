@@ -6,7 +6,7 @@
 //
 const express = require('express');
 const config = require('server/core/config');
-const { serveWebContent } = require("shift-docs/facade");
+const { serveWebContent } = require('server/support/facade');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 

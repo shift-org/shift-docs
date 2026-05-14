@@ -17,13 +17,13 @@
 //   --name nominatim2 \
 //   mediagis/nominatim:4.4
 //
-const fsp= require('fs').promises;
+const fsp= require('node:fs').promises;
 const https = require('node:https');
 const path = require('node:path');
 const knex = require('knex');           // the raw knex, and not the shift-docs wrapper
 const sqlstring = require('sqlstring'); // part of mysql/2; note: "sql-escape-string" works better for reimport into sqlite ( because sqlstring assumes backslash escaping; which std sql doesnt allow )
-const dt = require("server/util/dateTime");
-const nunjucks = require("shift-docs/nunjucks");
+const dt = require('server/util/dateTime');
+const nunjucks = require('server/support/nunjucks');
 const { Area, Review } = require('shift-docs/models/calConst');
 
 // https://nominatim.org/release-docs/develop/api/Overview/

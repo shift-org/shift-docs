@@ -4,7 +4,7 @@
  */
 const path = require('path');
 const fs = require("fs");
-const { CommandLine } = require('server/util/cmdLine.js');
+const { CommandLine } = require('server/util/cmdLine');
 
 // helper to read environment variables
 function env_default(field, def) {
@@ -35,8 +35,8 @@ const listen = env_default('NODE_PORT', 3080);
 // the user facing server.
 const siteHost = siteUrl(listen);
 
-// location of app.js ( same as config.js )
-const appPath = path.resolve(__dirname);
+// location of root package.json: up from core, server, src
+const appPath = path.resolve(__dirname, "../../../app");
 
 // for max image size
 const bytesPerMeg = 1024*1024;
@@ -250,9 +250,14 @@ function getDatabaseConfig(dbType, dbDebug, isTesting) {
   if (!name in config) {
     throw new Error(`unknown database type '${dbType}'`)
   }
+  const connection = config[name](parts);
+  if (dbDebug) {
+    const logstr = JSON.stringify(connection, null, " ");
+    console.log("connecting to db:", logstr);
+  }
   return {
     type: name,
-    connect: config[name](parts),
+    connect: connection,
     debug: dbDebug,
   }
 }

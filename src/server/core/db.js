@@ -47,6 +47,7 @@ const db = {
     return db.query.raw(...args);
   },
 
+  // v1 tables only: can remove dt import when this is removed.
   // convert a dayjs object to a 'date' column.
   // the sqlite driver stores a date as a number
   // while that works, it's hard to read.
@@ -59,12 +60,14 @@ const db = {
     return !useSqlite ? date.toDate() : dt.toYMDString(date);
   },
 
+  // v1 tables only.
   // sqlite and mysql differ on the keyword.
   currentDateString() {
     return !useSqlite ? `CURDATE()` : `DATE()`;
   },
 
   /**
+   * v1 tables - can remove pickBy import when this is removed
    * update or insert into the database.
    * @param table string table name.
    * @oaram rec the object containing the data.
@@ -89,6 +92,7 @@ const db = {
     }
   },
   /**
+   * v1 tables only
    * delete one (or more) rows from the named table
    * where the named field has the value in the passed record.
    */
