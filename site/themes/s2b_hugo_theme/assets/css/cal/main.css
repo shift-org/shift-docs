@@ -469,6 +469,10 @@ button.expand-details svg {
   text-align: left;
 }
 
+.search-events {
+  display: inline-block;
+}
+
 .go-to-date {
   display: inline-block;
   text-align: right;

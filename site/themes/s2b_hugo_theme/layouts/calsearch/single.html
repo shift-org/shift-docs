@@ -1,0 +1,25 @@
+{{ define "page_body" }}
+              <div class="col-md-12">
+
+                <h1>Search Results</h1>
+                <p id="search-summary"></p>
+
+                {{ partial "cal/event-list-options" . }}
+
+                <div id="mustache-html" class="container"></div>
+
+                <a id="scrollToTop" class="scrollToTop"></a>
+
+                <button type="button" id="load-more" class="more-events" hidden>Show additional events</button>
+
+                {{ partial "alert_banner.html" . }}
+
+                {{ partial "disclaimer.html" . }}
+
+              </div>
+
+{{ end }}
+{{ define "postscript" }}
+  {{ partial "cal/scripts.html" . }}
+  {{ partial "cal/events.html" . }}
+{{ end }}
