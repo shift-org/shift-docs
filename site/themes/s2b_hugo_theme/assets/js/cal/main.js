@@ -4,6 +4,48 @@ $(document).ready(function() {
 
     var container = $('#mustache-html');
 
+    // shared event transformation used by both viewEvents and viewSearch
+    function processEvents(events, options) {
+        var groupedByDate = [];
+        var mustacheData = { dates: [] };
+
+        $.each(events, function(index, value) {
+            var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
+            if (groupedByDate[date] === undefined) {
+                groupedByDate[date] = {
+                    yyyymmdd: value.date,
+                    date: date,
+                    events: []
+                };
+                mustacheData.dates.push(groupedByDate[date]);
+            }
+
+            value.displayStartTime = dayjs(value.time, 'hh:mm:ss').format('h:mm A');
+            value.displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
+            if (value.endtime) {
+                value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
+            }
+
+            value.audienceLabel = container.getAudienceLabel(value.audience);
+            value.areaLabel = container.getAreaLabel(value.area);
+            value.mapLink = container.getMapLink(value.address);
+            if (options && options.show_details) {
+                value.expanded = true;
+            }
+            value.webLink = container.getWebLink(value.weburl);
+            value.contactLink = container.getContactLink(value.contact);
+            value.addToGoogleLink = container.getAddToGoogleLink(value);
+
+            groupedByDate[date].events.push(value);
+        });
+
+        for (var date in groupedByDate) {
+            groupedByDate[date].events.sort(container.compareTimes);
+        }
+
+        return mustacheData;
+    }
+
     function getEventHTML(options, callback) {
         let url = new URL(API_EVENTS_URL);
         if (options.id) {
@@ -21,45 +63,7 @@ $(document).ready(function() {
             url: url.toString(),
             headers: API_HEADERS,
             success: function(data) {
-                var groupedByDate = [];
-
-                var mustacheData = { dates: [] };
-                $.each(data.events, function( index, value ) {
-
-                    var date = dayjs(value.date).format('dddd, MMMM D, YYYY');
-                    if (groupedByDate[date] === undefined) {
-                        groupedByDate[date] = {
-                            yyyymmdd: value.date,
-                            date: date,
-                            events: []
-                        };
-                        mustacheData.dates.push(groupedByDate[date]);
-                    }
-
-                    value.displayStartTime = dayjs(value.time, 'hh:mm:ss').format('h:mm A');
-                    value.displayDate = dayjs(value.date).format('ddd, MMM D, YYYY');
-                    if (value.endtime) {
-                      value.displayEndTime = dayjs(value.endtime, 'hh:mm:ss').format('h:mm A');
-                    }
-
-                    value.audienceLabel = container.getAudienceLabel(value.audience);
-                    value.areaLabel = container.getAreaLabel(value.area);
-                    value.mapLink = container.getMapLink(value.address);
-
-                    if (options.show_details) {
-                        value.expanded = true;
-                    }
-                    value.webLink = container.getWebLink(value.weburl);
-                    value.contactLink = container.getContactLink(value.contact);
-
-                    value.addToGoogleLink = container.getAddToGoogleLink(value);
-
-                    groupedByDate[date].events.push(value);
-                });
-
-                for ( var date in groupedByDate )  {
-                    groupedByDate[date].events.sort(container.compareTimes);
-                }
+                var mustacheData = processEvents(data.events, options);
                 var template = $('#view-events-template').html();
                 var info = Mustache.render(template, mustacheData);
                 if (options.id) {
@@ -168,6 +172,79 @@ $(document).ready(function() {
         });
     }
 
+    function viewSearch(query) {
+        var currentOffset = 0;
+        var totalCount = 0;
+        var pageLimit = 25;
+
+        $('#search-events-field').val(query);
+        document.title = 'Search: ' + query + ' — ' + SITE_TITLE;
+
+        enableScrollToTop();
+
+        function fetchSearch(offset) {
+            var url = new URL('/api/search.php', window.location.origin);
+            url.searchParams.set('q', query);
+            if (offset) {
+                url.searchParams.set('o', offset);
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: url.toString(),
+                headers: API_HEADERS,
+                success: function(data) {
+                    var pagination = data.pagination || {};
+                    totalCount = pagination.fullcount || 0;
+                    currentOffset = (pagination.offset || 0) + (pagination.limit || pageLimit);
+
+                    var summary = document.getElementById('search-summary');
+                    if (summary && offset === 0) {
+                        summary.textContent = 'Found ' + totalCount + ' event' + (totalCount === 1 ? '' : 's') + ' matching “' + query + '”';
+                    }
+
+                    if (data.events.length === 0 && offset === 0) {
+                        container.html('<p>No events found matching “' + query + '”.</p>');
+                        $('#load-more').attr('hidden', '');
+                        return;
+                    }
+
+                    var mustacheData = processEvents(data.events, null);
+                    var template = $('#view-events-template').html();
+                    var html = Mustache.render(template, mustacheData);
+                    if (offset > 0) {
+                        $('#load-more').before(html);
+                    } else {
+                        container.html(html);
+                        lazyLoadEventImages();
+                    }
+
+                    if (currentOffset < totalCount) {
+                        $('#load-more').removeAttr('hidden');
+                    } else {
+                        $('#load-more').attr('hidden', '');
+                    }
+                },
+                error: function(data) {
+                    var msg = data.responseJSON && data.responseJSON.error && data.responseJSON.error.message;
+                    if (!msg) {
+                        msg = data.status + ' ' + data.statusText;
+                    }
+                    var template = $('#request-error').html();
+                    var rendered = Mustache.render(template, { error: msg });
+                    container.html(rendered);
+                }
+            });
+        }
+
+        fetchSearch(0);
+
+        $(document).off('click', '#load-more').on('click', '#load-more', function() {
+            fetchSearch(currentOffset);
+            return false;
+        });
+    }
+
     $(document).on('click', '#show-details', function() {
       var url = new URL(window.location.href);
       var expanded = url.search.includes("show_details");
@@ -206,10 +283,10 @@ $(document).ready(function() {
     // scroll to top functionality
     function enableScrollToTop() {
       const scroller = $('#scrollToTop');
-      const scroll = {  
+      const scroll = {
         start: 300,   // y offset below which we might show
         end :100      // y offset above which we never show
-      };   
+      };
       let fadeState = 0;     // nicety: don't fade multiple times
       let lastScrollPos = 0; // helper to fade when scrolling up
 
@@ -264,4 +341,5 @@ $(document).ready(function() {
     window.viewAddEventForm = viewAddEventForm;
     window.viewEvents = viewEvents;
     window.viewEvent = viewEvent;
+    window.viewSearch = viewSearch;
 });

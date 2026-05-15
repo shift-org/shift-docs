@@ -2,9 +2,9 @@
   <div class="show-details">
     <button type="button" id="show-details" class="btn">Toggle details</button>
   </div>
-  <form class="search-events" action="/calendar/search/" method="GET">
-    <label for="search-events-field">Search events</label>
-    <input type="text" name="q" id="search-events-field" placeholder="keywords">
+  <form class="search-events" action="/calendar/" method="GET">
+    <label for="search-events-field" class="sr-only">Search events</label>
+    <input type="text" name="q" id="search-events-field" placeholder="Search Events">
     <button type="submit" class="btn">Search</button>
   </form>
   <form class="go-to-date" action="/calendar/" method="GET">

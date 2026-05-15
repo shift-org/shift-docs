@@ -32,6 +32,9 @@
       if (query.has('enddate')) {
         urlParams['enddate'] = query.get('enddate');
       }
+      if (query.has('q')) {
+        urlParams['q'] = query.get('q');
+      }
       if (query.has('show_details')) {
         urlParams['show_details'] = true;
       }
@@ -45,16 +48,6 @@
     return urlParams;
   }
 </script>
-
-<!-- load on search results page -->
-{{ if eq .Type "calsearch" }}
-  {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
-  <script src="{{ $jsCalHelpers.Permalink }}"></script>
-  {{ $jsCalSearch := resources.Get "js/cal/search.js" | minify }}
-  <script src="{{ $jsCalSearch.Permalink }}"></script>
-  <script src="{{ absURL "lib/mustache/mustache.min.js" }}"></script>
-  {{ partial "cal/dayjs.html" . }}
-{{ end }}
 
 <!-- load on list, single ride, edit, and festival pages; not needed for grid view page -->
 {{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") }}
@@ -84,6 +77,9 @@
       } else if (window.cal_renderpage == "addevent") {
         // show blank form to add new event
         viewAddEventForm();
+      } else if (params.q) {
+        // view search results inline
+        viewSearch(params.q);
       } else {
         // view list of events
         if ({{ .Param "pp" }}) {
