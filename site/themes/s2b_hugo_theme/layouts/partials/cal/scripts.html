@@ -79,7 +79,7 @@
         viewAddEventForm();
       } else if (params.q) {
         // view search results inline
-        viewSearch(params.q);
+        viewSearch(params.q, params);
       } else {
         // view list of events
         if ({{ .Param "pp" }}) {

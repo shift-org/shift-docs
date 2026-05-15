@@ -172,7 +172,7 @@ $(document).ready(function() {
         });
     }
 
-    function viewSearch(query) {
+    function viewSearch(query, options) {
         var currentOffset = 0;
         var totalCount = 0;
         var pageLimit = 25;
@@ -209,7 +209,7 @@ $(document).ready(function() {
                         return;
                     }
 
-                    var mustacheData = processEvents(data.events, null);
+                    var mustacheData = processEvents(data.events, options);
                     var template = $('#view-events-template').html();
                     var html = Mustache.render(template, mustacheData);
                     if (offset > 0) {
