@@ -205,6 +205,11 @@ sub_makeFakeEvents() { #         - Generate a handful of test events
     sub_compose exec -w=/shift/tools node node makeFakeEvents.js
 }
 
+sub_migrate() { #                - Generate v2 db data
+  # can use ./shift mysql-pipe < results.sql
+  sub_compose exec node npm run -s -w tools mysql-migrate
+}
+
 SUB_CMD=$1
 case ${SUB_CMD} in
     "" | "-h" | "--help")

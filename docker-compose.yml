@@ -84,6 +84,7 @@ services:
       # map the shift node code and package files;
       # and attach to the volume for its modules.
       - ./app:/shift/app/
+      - ./src:/shift/src/
       - ./tools:/shift/tools/
       - ./package.json:/shift/package.json
       - modules:/shift/node_modules/
