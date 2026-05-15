@@ -7,7 +7,7 @@
 const fs = require('fs');         // search for test files
 const path = require('path');     // building paths to run those files
 const shell = require('shelljs'); // runs node from node; what could be simpler :sob:.
-const { CommandLine } = require('server/util/cmdLine.js');
+const { CommandLine } = require('server/util/cmdLine');
 const { globalSetup, globalTeardown } = require('./db_setup.js');
 
 const cmdLine = new CommandLine({
