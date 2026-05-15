@@ -48,7 +48,7 @@ async function migrate() {
         if (i > 0) {
           values += ",";
         }
-        values += formatValue(row[col]);
+        values += formatValue(col, row[col]);
       });
       values += ")";
     });
@@ -56,7 +56,7 @@ async function migrate() {
   });
 
   const comments = out.comments.map(c => `-- ${c}`).join("\n");
-  const migration = statements.join(';\n') + "\n\n" +
+  const migration = statements.join('\n') + "\n\n" +
                     values + "\n" +
                     comments;
   fs.writeFileSync(mainFile, migration);
@@ -106,9 +106,7 @@ function rewriteExceptions(events) {
 // "E" means the administrator has decided to exclude it from the printed calendar,
 // "I" means it needs to be inspected,
 // "R" means the event organizer did change it in response to that message.
-//  "S" means a message has been sent to the event organizer asking them to change it,
-
-
+// "S" means a message has been sent to the event organizer asking them to change it,
 function buildData(out, events) {
   for (const id in events) {
     const evt = events[id];
@@ -412,7 +410,7 @@ class Output {
 
 // transform a db values into a mysql escaped form
 // (safe for the text file output)
-function formatValue(v) {
+function formatValue(columnName, v) {
   if (v === undefined) {
     throw new Error('invalid values');
   }
@@ -420,8 +418,13 @@ function formatValue(v) {
     return "NULL";
   }
   if (v instanceof Date) {
-    const timestamp = dt.toTimestamp(v);
-    return `'${timestamp}'`;
+    if (columnName === 'ymd') {
+      const ymd = dt.toYMDString();
+      return `'${ymd}'`;
+    } else {
+      const timestamp = dt.toTimestamp(v);
+      return `'${timestamp}'`;
+    }
   }
   if (typeof(v) !== 'string') {
     return v.toString(); // presumably a number
@@ -442,7 +445,6 @@ async function runTool() {
   return db.initialize("migrate")
     .then(migrate)
     .then(_ => {
-      console.log("done");
       // can't use top-level "await" with commonjs modules
       // ( ie. await makeFakeEvents() )
       process.exit()
