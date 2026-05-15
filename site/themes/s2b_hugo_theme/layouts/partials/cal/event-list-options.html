@@ -2,6 +2,11 @@
   <div class="show-details">
     <button type="button" id="show-details" class="btn">Toggle details</button>
   </div>
+  <form class="search-events" action="/calendar/" method="GET">
+    <label for="search-events-field" class="sr-only">Search events</label>
+    <input type="text" name="q" id="search-events-field" placeholder="Search Events">
+    <button type="submit" class="btn">Search</button>
+  </form>
   <form class="go-to-date" action="/calendar/" method="GET">
     <label for="go-to-date-field">Go to date</label>
     <input type="date" name="startdate" id="go-to-date-field" min="2008-01-01">
