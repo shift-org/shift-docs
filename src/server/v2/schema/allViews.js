@@ -162,6 +162,15 @@ from series
   left join tag as safety on(safety.id = series.id and safety.tag_type = 'safety');
  `;
 
+// used for update event to grab the small bit of data it needs to validate its event.
+// setting published to null revokes the event; and it cannot be seen for updates.
+const updateCheck = `
+select id, secret, published
+from private
+join series using(id)
+where published is not null
+`;
+
 // the event endpoints currently only look for web urls.
 // note: reduces empty strings to null
 const webEvents = `
@@ -182,6 +191,7 @@ module.exports = {
   image_events: imageEvents,
   tag_events: tagEvents,
   raw_events: rawEvents,
+  update_check: updateCheck,
   web_events: webEvents,
   // order matter
   // these depend on the above views.

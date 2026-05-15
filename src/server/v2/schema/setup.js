@@ -1,5 +1,4 @@
 const allViews = require("server/v2/schema/allViews");
-const allTriggers = require("server/v2/schema/allTriggers");
 const { allTables, extraKeys } = require("server/v2/schema/allTables");
 const TableMaker = require('server/util/tableMaker');
 
@@ -8,7 +7,7 @@ module.exports = {
   // where db is a 'core/db' connection
   // returns the promise of success (true)
   setupTables(db, options = {drop: false}) {
-    const context = { tables: allTables, views: allViews, triggers: allTriggers };
+    const context = { tables: allTables, views: allViews };
     const steps = options.drop ? stages.recreateAll : stages.ensureAll;
     // create a nested chain of promises
     // each step has to succeed before the next occurs
@@ -21,13 +20,14 @@ module.exports = {
   // where db is a 'core/db' connection
   // return an array of sql statements
   setupStatements(db) {
-    const context = { tables: allTables, views: allViews, triggers: allTriggers };
+    const context = { tables: allTables, views: allViews };
     return stages.recreateAll.flatMap(stage => {
       const ps = stage(db, context);
       const out =  ps.map(p => {
         // https://github.com/knex/knex/issues/5369
         const res = p.toSQL();
-        return db.raw(res[0].sql, res[0].bindings).toSQL().toNative().sql;
+        const text = db.raw(res[0].sql, res[0].bindings).toSQL().toNative().sql;
+        return (text.endsWith(';') ? text : text + ';') + '\n';;
       });
       return out;
     });
@@ -38,11 +38,11 @@ module.exports = {
 // staging
 // ---------------------------------------------------------------------------
 
-// holds arrays of staging functions: fn(db, {tables, views, triggers})
+// holds arrays of staging functions: fn(db, {tables, views})
 // which must be called in-order, one at a time.
 const stages = {
-  ensureAll: [ensureTables, dropViews, ensureViews, ensureTriggers],
-  recreateAll: [dropViews, dropTables, setupTables, ensureViews, ensureTriggers]
+  ensureAll: [ensureTables, dropViews, ensureViews],
+  recreateAll: [dropViews, dropTables, setupTables, ensureViews]
 }
 
 // a staging function: drops all the tables
@@ -83,11 +83,6 @@ function ensureTables(db, {tables}) {
 function ensureViews(db, {views}) {
   db.config.debug && console.log("ensureViews...");
   return Object.keys(views).map(name => recreateView(db, name, views[name]));
-}
-// a staging function: ensure the triggers exist, recreating if they already do.
-function ensureTriggers(db, {triggers}) {
-  db.config.debug && console.log("ensureTriggers...");
-  return Object.values(triggers).map(t => db.query.schema.raw(t));
 }
 
 // ---------------------------------------------------------------------------
