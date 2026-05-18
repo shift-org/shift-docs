@@ -1,14 +1,14 @@
 /**
- * high level table functions for creating and updating events.
+ * high level functions for creating and updating events in the db.
  */
 const db = require("server/core/db");
 const { newSecret } = require('server/util/misc');
 const { allTables, extraKeys } = require("server/v2/schema/allTables");
 
 module.exports = {
-  newEvent,
-  updateEvent,
-  updateImage,
+  newEventData,
+  updateEventData,
+  updateImageData,
   removeEntireSeries,
   // exported for testing
   isEmptyRow,
@@ -18,7 +18,7 @@ module.exports = {
 // after creating a new event and adding all its info
 // promises an object containing { seriesId, password }.
 // tx can be either 'db.query' or a knex transaction.
-function newEvent(tx, eventData, dayData) {
+function newEventData(tx, eventData, dayData) {
   const password = newSecret();
   eventData.private.secret = password;
   return insertEventData(tx, eventData).then(seriesId => {
@@ -33,7 +33,7 @@ function newEvent(tx, eventData, dayData) {
 // promises an object containing { seriesId, published }.
 // intended to be used in a a transaction so that if it fails
 // ( ex. due to password mismatch ) nothing gets written to the db.
-function updateEvent(tx, seriesId, secret, eventData, dayData) {
+function updateEventData(tx, seriesId, secret, eventData, dayData) {
   // tbd: instead of pre-matching the secret, can you throw if on mismatch
   return tx('update_check')
     .where({id: seriesId, secret})
@@ -58,7 +58,7 @@ function updateEvent(tx, seriesId, secret, eventData, dayData) {
 
 // insert or update image data
 // where img = { name, ext: '.ext' }
-function updateImage(tx, seriesId, img) {
+function updateImageData(tx, seriesId, img) {
   if (img.name !== ('' + seriesId)) {
     throw new Error(`series '${seriesId}' had unexpected image '${img.name}'`);
   } else if (!('' + img.ext).startsWith('.')) {

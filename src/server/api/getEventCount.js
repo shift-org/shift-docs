@@ -1,10 +1,14 @@
 /**
  * return a count of the rides
  */
+const summarize = require("server/core/summarize");
 const { TextError } = require("server/support/errors");
 const { parseYmd, parseInt } = require("server/util/parse");
 
-function getEventCount(start, end, version) {
+module.exports = getEventCount;
+
+// the exported request handler
+function getEventCount(req) {
   const version = parseInt(req.params.version);
   const start = parseYmd(req.query.s);
   const end = parseYmd(req.query.e);
@@ -20,5 +24,3 @@ function getEventCount(start, end, version) {
     version: version,
   });
 }
-
-module.exports = getEventCount;

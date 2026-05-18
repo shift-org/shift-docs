@@ -12,16 +12,16 @@ const EventData = require("server/model/eventData");
 // customized via options.version
 class View {
   static dailyEvents(options) {
-    return vone(options) || 'daily_events';
+    return View.vone(options) || 'daily_events';
   }
   static publicEvents(options) {
-    return vone(options) || 'public_events';
+    return View.vone(options) || 'public_events';
   }
   static privateEvents(options) {
-    return vone(options) || 'private_events';
+    return View.vone(options) || 'private_events';
   }
   static reverseLookup(options) {
-    return vone(options) ? 'v1_reverse' : 'v2_reverse';
+    return View.vone(options) ? 'v1_reverse' : 'v2_reverse';
   }
   static combined(options) {
     return options.includePrivate ?

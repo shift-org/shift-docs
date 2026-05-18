@@ -1,15 +1,16 @@
+const { newEventData } = require("server/core/reconcile");
 const { TextError, FieldError } = require("server/support/errors");
-const { readEvent, handleEventError } = require("server/support/events");
+const { readEvent, handleEventError } = require("./readEvents");
 
 module.exports = createNewEvent;
 
-// the search endpoint:
+// the exported request handler
 function createNewEvent(req) {
   const { tgt, vals } = readEvent(req);
   if (tgt.id || tgt.seriesId) {
     throw new TextError("Malformed request");
   }
-  return handleCreate(vals).catch(onEventError);
+  return handleCreate(vals).catch(handleEventError);
 }
 
 // promises an object with { id: seriesId }
@@ -20,7 +21,7 @@ async function handleCreate(vals) {
   // the returned tgt will always have a valid id
   const tgt = await db.query.transaction(tx => {
     const { event, days } = vals;
-    return Reconcile.newEvent(tx, event, days);
+    return newEventData(tx, event, days);
   });
   await sendConfirmationEmail(tgt.seriesId, tgt.password, vals.event);
   return {

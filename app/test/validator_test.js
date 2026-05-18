@@ -1,6 +1,6 @@
 const assert = require("node:assert/strict");
 const { describe, it } = require("node:test");
-const makeValidator = require("server/core/eventValidator");
+const makeValidator = require("server/support/formValidator");
 const { ErrorCollector } = require("server/support/errors");
 
 describe('event field validation', () => {

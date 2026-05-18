@@ -4,11 +4,13 @@
  * Throws on error.
  */
 const db = require("server/core/db");
+const { removeEntireSeries } = require("server/core/reconcile");
 const { parseJson } = require("server/util/parse");
 const { TextError } = require("server/support/errors");
-//
-const Reconcile = require("../models/reconcile");
 
+module.exports = deleteEvent;
+
+// the exported request handler
 function deleteEvent(req) {
   const data = parseJson(req.body);
   if (!data) {
@@ -23,7 +25,7 @@ function deleteEvent(req) {
   return db.query.transaction(tx => {
     const seriesId = '' + data.id; // normalizes int to a string
     const secret = data.secret;
-    return Reconcile.removeEntireSeries(tx, seriesId, secret);
+    return removeEntireSeries(tx, seriesId, secret);
   }).then(count => {
     if (!count) {
       // if the secret was wrong; treats it as event not found.
@@ -31,5 +33,3 @@ function deleteEvent(req) {
     }
   });
 }
-
-module.exports = deleteEvent;

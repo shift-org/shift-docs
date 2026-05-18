@@ -7,6 +7,9 @@ const summarize = require("server/core/summarize");
 const { TextError } = require("server/support/errors");
 const { parseInt, parseString, parseYmd } = require("server/util/parse");
 
+module.exports = getEventSeries;
+
+// the exported request handler
 function getEventSeries(req)  {
   const version = parseInt(req.params.version);
   const seriesId = parseInt(req.params.seriesId);
@@ -44,8 +47,6 @@ function getEventSeries(req)  {
       }
     });
 }
-
-module.exports = getEventSeries;
 
 // these fields are only in the data if the secret existed and matched.
 function getPrivateFields(evt) {

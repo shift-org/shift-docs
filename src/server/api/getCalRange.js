@@ -6,10 +6,11 @@ const summarize = require("server/core/summarize");
 const { buildCalEvent } = require('server/model/ical');
 const dt = require('server/util/dateTime');
 const { parseYmd, parseString } = require('server/util/parse');
-const { CalResponse } = require('./calResponse');
+const { CalResponse } = require('server/support/calResponse');
 
 module.exports = getCalRange;
 
+// the exported request handler
 function getCalRange(req) {
   const cal = config.cal.shift;
   const version = parseInt(req.params.version);

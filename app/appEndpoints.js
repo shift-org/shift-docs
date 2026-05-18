@@ -1,4 +1,5 @@
 const express = require('express');
+const useApi = require('server/api');
 const config = require('server/core/config');
 const errors = require('server/support/errors');
 const nunjucks = require('server/support/nunjucks');
@@ -32,6 +33,9 @@ if (config.site.staticFiles) {
 // handle application/x-www-form-urlencoded and application/json posts
 // ( multipart posts are handled by their individual endpoints )
 app.use(express.urlencoded({extended:false}), express.json());
+
+// install the rest-like urls
+useApi(app);
 
 // each of these is a javascript file
 // containing a get ( or post ) export.

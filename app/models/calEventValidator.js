@@ -1,6 +1,6 @@
 const validator = require("validator");
 const { Area, Audience, DatesType, RideLength } = require("./calConst");
-const makeValidator = require("server/core/eventValidator");
+const makeValidator = require("server/support/formValidator");
 const { ErrorCollector } = require("server/support/errors");
 const dt = require("server/util/dateTime");
 

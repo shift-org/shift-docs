@@ -32,7 +32,7 @@ const { parseString, parseInt, parseBool } = require("server/util/parse");
 
 module.exports = getSearch;
 
-// the search endpoint:
+// the exported request handler
 function getSearch(req) {
   const { term, options } = readRequest(req);
   if (!term) {

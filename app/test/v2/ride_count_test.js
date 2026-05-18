@@ -6,7 +6,9 @@ const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 
-describe.skip("ride count testing", () => {
+const RideCountApi = "/api/v2/count.json";
+
+describe.only("v2 ride count testing", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupFakeData("count");
@@ -17,7 +19,7 @@ describe.skip("ride count testing", () => {
   });
   it("handles an unspecified range", () => {
     return request(app)
-      .get('/api/ride_count.php')
+      .get(RideCountApi)
       .expect(200)
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
@@ -32,7 +34,7 @@ describe.skip("ride count testing", () => {
   });
   it("handles an all encompassing range", () => {
     return request(app)
-      .get('/api/ride_count.php')
+      .get(RideCountApi)
       .query({s: "1900-01-01", e: "2012-12-21"})
       .expect(200)
       .expect('Content-Type', /json/)
@@ -44,7 +46,7 @@ describe.skip("ride count testing", () => {
   });
   it("handles a slice of time", () => {
     return request(app)
-      .get('/api/ride_count.php')
+      .get(RideCountApi)
       .query({s: "2002-08-10", e: "2002-08-11"})
       .expect(200)
       .expect('Content-Type', /json/)
@@ -54,7 +56,7 @@ describe.skip("ride count testing", () => {
   });
   it("errors on a missing time", () => {
     return request(app)
-      .get('/api/ride_count.php')
+      .get(RideCountApi)
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
@@ -64,7 +66,7 @@ describe.skip("ride count testing", () => {
   });
   it("errors on an invalid time", () => {
     return request(app)
-      .get('/api/ride_count.php')
+      .get(RideCountApi)
       .query({s: "yesterday", e: "tomorrow"})
       .expect(testData.expectError);
   });

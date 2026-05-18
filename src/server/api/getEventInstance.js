@@ -2,6 +2,9 @@ const summarize = require("server/core/summarize");
 const { TextError } = require("server/support/errors");
 const { parseInt, parseYmd } = require("server/util/parse");
 
+module.exports = getEventInstance;
+
+// the exported request handler
 function getEventInstance(req)  {
   const version = parseInt(req.params.version);
   const seriesId = parseInt(req.params.seriesId);
@@ -19,5 +22,3 @@ function getEventInstance(req)  {
     }
   });
 }
-
-module.exports = getEventInstance;

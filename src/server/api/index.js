@@ -10,22 +10,32 @@ const config = require("server/core/config");
 const { StatusError } = require("server/support/errors");
 const { uploader } = require("server/support/uploader");
 //
+const createNewEvent = require("./createNewEvent");
 const deleteEvent = require("./deleteEvent");
-const getEventInstance = require("./getEventInstance");
+const getCalInstance = require("./getCalInstance");
+const getCalRange = require("./getCalRange");
+const getCalSeries = require("./getCalSeries");
 const getEventCount = require("./getEventCount");
+const getEventInstance = require("./getEventInstance");
 const getEventRange = require("./getEventRange");
+const getEventSeries =  require("./getEventSeries");
 const getSearch = require("./getSearch");
 const handleLegacyRedirect = require("./handleLegacyRedirect");
+const updateExistingEvent = require("./updateExistingEvent");
+
+module.exports = useApi;
 
 // where app is an express object
 // https://expressjs.com/en/guide/routing.html
+// https://bjohansebas.github.io/playground-router/
 function useApi(app) {
   // base of every url
-  const versioned = "/api/v:version:";
+  const versioned = "/api/v:version";
   const versionv2 = "/api/v2";
 
-  // GET /count.json
+  // GET /count.json -- /api/v2/count.json
   app.get(versioned + "/count.json", renderJson(getEventCount));
+
   // GET /search.json?q=breakfast
   app.get(versioned + "/search.json", renderJson(getSearch));
 
@@ -34,25 +44,28 @@ function useApi(app) {
   app.get(versionv2 + "/events.ical", renderCal(getCalRange));
 
   // GET /events/1234(.json|.ical)
-  app.get(versioned + "/events/:seriesId:.json", renderJson(getEventSeries));
-  app.get(versionv2 + "/events/:seriesId:.ical", renderCal(getCalSeries));
+  app.get(versioned + "/events/:seriesId.json", renderJson(getEventSeries));
+  app.get(versionv2 + "/events/:seriesId.ical", renderCal(getCalSeries));
 
   // GET /events/1234/2026-05-12(.json|.ical)
-  app.get(versioned + "/events/:seriesId:/:ymd:.json", renderJson(getEventInstance));
-  app.get(versionv2 + "/events/:seriesId:/:ymd:.ical", renderCal(getCalInstance));
+  app.get(versioned + "/events/:seriesId/:ymd.json", renderJson(getEventInstance));
+  app.get(versionv2 + "/events/:seriesId/:ymd.ical", renderCal(getCalInstance));
 
   // POST /events/1234?_method=DELETE
-  app.post(versionv2 + "/events/:seriesId:", postJson(deleteEvent, {_method: "DELETE"}));
-  app.post(versionv2 + "/events/:seriesId:", postJson(createNewEvent));
-  app.post(versionv2 + "/events/:seriesId:", postJson(updateExistingEvent));
+  app.post(versionv2 + "/events/:seriesId", postJson(deleteEvent, {_method: "DELETE"}));
+
+  // POST /events/1234
+  app.post(versionv2 + "/events/:seriesId", postJson(updateExistingEvent));
+
+  // POST /events
+  app.post(versionv2 + "/events", postJson(createNewEvent));
+
 
   // GET /legacy/32(.json|.ical)
   // the instance of a particular event on a particular day identified by id
   // redirects to an event-day style url.
-  app.get(versioned + "/legacy/:pkid:.:ext:", renderJson(handleLegacyRedirect));
+  app.get(versioned + "/legacy/:pkid.:ext", renderJson(handleLegacyRedirect));
 }
-
-module.exports = { useApi };
 
 function postJson(cb, queryMatch) {
   // the client sends multi-part form posts
@@ -62,29 +75,30 @@ function postJson(cb, queryMatch) {
 }
 
 function renderJson(cb, queryMatch) {
-  return function(req, res, next) {
-    // our endpoints generate "plain old data"
-    getResponse(cb, queryMatch).then(pod => {
-      // that data gets turned into a json response by express.
-      if (pod !== undefined) {
-        res.json(pod);
-      } else {
-        // or, we send a generic okay in the body.
-        res.sendStatus(200);
-      }
-    });
-  }
+  // our endpoints generate "plain old data"
+  return getResponse(cb, queryMatch, (res, pod) => {
+    // that data gets turned into a json response by express.
+    if (pod !== undefined) {
+      res.json(pod);
+    } else {
+      // or, we send a generic okay in the body.
+      res.sendStatus(200);
+    }
+  });
 }
 
 function renderCal(cb, queryMatch) {
-  return function(req, res, next) {
-    // the ical callbacks generate a CalendarFeed object.
-    getResponse(cb, queryMatch).then(ical => ical.send(res));
-  }
+  // our endpoints generate cal responses
+  return getResponse(cb, queryMatch, (res, cal) => {
+    cal.send(res);
+  });
 }
 
 // wrapper for shift endpoints.
-function getResponse(cb, queryMatch) {
+// assumes cb either generates a promise or throws
+// and that send knows how to handle the result of that promise.
+function getResponse(cb, queryMatch, send) {
+  // express request, response, and chain handler
   return function(req, res, next) {
     // only handle this endpoint if the query expectations matched
     if (queryMatch && !checkQuery(queryMatch)) {
@@ -96,8 +110,9 @@ function getResponse(cb, queryMatch) {
       // so create our own promise chain
       // and then call the appropriate express functions.
       // express is asynchronous: it waits until a result is generated, or until next() is called.
-      return Promise.resolve().then(cb => {
-        return cb(req); // if the callback throws an error, that's handled by catch
+      return Promise.resolve().then(_ => cb(req)).then(ret => {
+        // if callback or send throws an error, that's handled by catch
+        send(res, ret);
       }).catch((err) => {
         // some code uses promise.reject for expected errors.
         if (typeof(err) === 'string') {

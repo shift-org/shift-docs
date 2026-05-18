@@ -7,6 +7,9 @@ const { TextError } = require("server/support/errors");
 const { getPaginatedRange } = require("server/util/misc");
 const { parseYmd, parseInt } = require("server/util/parse");
 
+module.exports = getEventRange;
+
+// the exported request handler
 // supports two query params: 's' & 'e' in YYYY-MM-DD format.
 function getEventRange(req)  {
   const version = parseInt(req.params.version);
@@ -38,8 +41,6 @@ function getEventRange(req)  {
     }
   }
 }
-
-module.exports = getEventRange;
 
 // return a day js range that includes the start and ending dates
 function makeRange(start, end) {

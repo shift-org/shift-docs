@@ -4,7 +4,7 @@ const { isEmptyRow } = require("server/core/reconcile");
 const { LocType } = require("server/model/shorthands");
 
 // tests for the function isEmptyRow
-describe.skip("empty row validation", () => {
+describe("empty row validation", () => {
   it('should be empty', () => {
     const tags = [
       tag("bool", false),

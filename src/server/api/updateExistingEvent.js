@@ -1,14 +1,16 @@
+const { updateEventData, updateImageData } = require("server/core/reconcile");
 const { TextError } = require("server/support/errors");
-const { readEvent, handleEventError } = require("server/support/events");
+const { readEvent, handleEventError } = require("./readEvents");
 
 module.exports = updateExistingEvent;
 
+// the exported request handler
 function updateExistingEvent(req) {
   const { tgt, vals } = readEvent(req, {allowImages: true});
   if (tgt.id || tgt.seriesId) {
     throw new TextError("Malformed request");
   }
-  return handleUpdate(tgt, req.file, vals).catch(onEventError);
+  return handleUpdate(tgt, req.file, vals).catch(handleEventError);
 }
 
 // promises an object with { id, image, published: true }
@@ -18,7 +20,7 @@ async function handleUpdate(src, fileData, vals) {
   const tgt = await db.query.transaction(tx => {
     const { seriesId, password } = src;
     const { event, days } = vals;
-    return Reconcile.updateEvent(tx, seriesId, password, event, days);
+    return updateEventData(tx, seriesId, password, event, days);
   });
   // doing this outside of the transaction
   // TBD: might consider catching problems and notifying the user
@@ -26,7 +28,7 @@ async function handleUpdate(src, fileData, vals) {
   const newImage = await saveImageToDisk(tgt.seriesId, fileData);
   if (newImage) {
     // todo: a way of clearing the image?
-    await Reconcile.updateImage(db.query, tgt.seriesId, newImage);
+    await updateImageData(db.query, tgt.seriesId, newImage);
   }
   // if we got here... all must be well.
   return {
