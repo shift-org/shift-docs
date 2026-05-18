@@ -14,8 +14,8 @@ nunjucks.express(app);
 // modify every request
 app.use(function (req, res, next) {
   // add these two error shortcuts:
-  res.textError = (msg) => errors.textError(res, msg);
-  res.fieldError = (fields, msg) => errors.fieldError(res, fields, msg);
+  res.textError = (msg) => errors.sendTextError(res, msg);
+  res.fieldError = (fields, msg) => errors.sendFieldError(res, fields, msg);
   // tbd: the php sets this for every end point.
   // maybe unneeded with the trust_proxy call above?
   res.set('Access-Control-Allow-Origin', "*");

@@ -12,6 +12,8 @@ const { faker } = require('@faker-js/faker');
 const config = require('server/core/config');
 const knex = require('knex');
 const tables = require("shift-docs/models/tables"); // for sqlite 3
+// const v2 = require('server/model/schema');
+
 
 // ----------------------------------------------------------------
 // command line arguments
@@ -50,6 +52,7 @@ async function importMysql() {
   // alt: could use the dump to create the tables
   console.log("creating tables...");
   await tables.createTables();
+  //   await v2.setupTables();
 
   console.log("importing data...");
   await importDump(q, inFile);
@@ -87,6 +90,7 @@ async function anonymize(q) {
           email: evt.email ? faker.internet.email() : evt.email,
           phone: evt.phone ? faker.phone.number() : evt.phone,
           contact: evt.contact ? faker.person.fullName() : evt.contact,
+          password: evt.password ? faker.string.uuid().replaceAll("-", "") : null,
         })
     });
     return Promise.all(ps);

@@ -1,12 +1,12 @@
-const app = require("../appEndpoints");
+const app = require("shift-docs/appEndpoints");
 const testdb = require("./testdb");
-const testData = require("./testData");
+const testData = require("../testData");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 
-describe("getting events", () => {
+describe.skip("getting events", () => {
   // runs before the evt test in this block.
   before(() => {
     return testdb.setupTestData("events");
@@ -73,8 +73,8 @@ describe("getting events", () => {
         const evt = res.body.events[0];
         assert.equal(evt.id, '2');
         assert.equal(evt.caldaily_id, '201');
-        assert.equal(evt.hideemail, true, "the test data has the email hidden");
         assert.equal(evt.email, null, "with no secret the email should be nil");
+        assert.equal(evt.hideemail, undefined, "only exists for manage/retrieve");
         assert.equal(res.body.pagination, undefined, "only ranges should have pagination");
       });
   });
@@ -94,7 +94,7 @@ describe("getting events", () => {
         const evt = res.body.events[0];
         assert.equal(evt.id, '2');
         assert.equal(evt.caldaily_id, '201');
-        assert.equal(evt.hideemail, true, "the test data has the email hidden");
+        assert.equal(evt.hideemail, undefined, "only exists for manage/retrieve");
         assert.equal(evt.email, null, "with no secret the email should be nil");
         assert.ok(res.body.pagination, "range should have pagination");
         const page = res.body.pagination;

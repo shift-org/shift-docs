@@ -4,6 +4,7 @@
 const config = require("server/core/config");
 const db = require("server/core/db");
 const { initMail } = require("server/support/emailer");
+const v2 = require("server/v2/schema");
 const app = require( './appEndpoints');
 const tables = require("./models/tables");
 
@@ -11,6 +12,7 @@ const tables = require("./models/tables");
 db.initialize("app").then(async () => {
   // create db tables
   await tables.createTables(db);
+  await v2.setupTables(db);
 
   // connect to the smtp server
   await initMail().then(hostName => {

@@ -1,8 +1,8 @@
-const app = require("../appEndpoints");
-const testdb = require("./testdb");
-//
 const { describe, it, before, after } = require("node:test");
 const request = require('supertest');
+
+const app = require("shift-docs/appEndpoints");
+const testdb = require("./testdb");
 
 describe("crawl testing", () => {
   // runs before the first test in this block.
@@ -38,7 +38,6 @@ describe("crawl testing", () => {
       // .then(logResponse);
   });
 });
-
 
 function logResponse(res) {
   console.log(res.text);

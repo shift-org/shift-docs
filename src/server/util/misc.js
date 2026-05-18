@@ -9,4 +9,25 @@ function newSecret()  {
 
 module.exports = {
   newSecret,
+  getPaginatedRange,
+}
+
+// expects days are dayjs objects
+// and count is the number of events between the two
+function getPaginatedRange(firstDay, lastDay) {
+  // add 1 so days in range is inclusive
+  const range = lastDay.diff(firstDay, 'day') + 1;
+  //
+  const prevRangeStart = firstDay.subtract(range, 'day');
+  const prevRangeEnd = lastDay.subtract(range, 'day');
+  //
+  const nextRangeStart = firstDay.add(range, 'day');
+  const nextRangeEnd = lastDay.add(range, 'day');
+  //
+  return {
+    prev: [prevRangeStart, prevRangeEnd],
+    next: [nextRangeStart, nextRangeEnd],
+    // tbd: can client determine from start, end instead
+    range
+  };
 }

@@ -1,6 +1,7 @@
-const { ErrorCollector, makeValidator } = require("../models/calEventValidator");
-const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
+const { describe, it } = require("node:test");
+const makeValidator = require("server/core/eventValidator");
+const { ErrorCollector } = require("server/support/errors");
 
 describe('event field validation', () => {
   it('int validator should succeed', () => {

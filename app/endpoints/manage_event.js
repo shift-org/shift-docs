@@ -23,7 +23,7 @@ const { uploader } = require("server/support/uploader");
 const dt = require("server/util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-const { validateEvent } = require("../models/calEventValidator");
+const validateEvent = require("../models/calEventValidator");
 
 // read multipart (and curl) posts.
 exports.post = [ uploader.makeHandler(), handleRequest ];

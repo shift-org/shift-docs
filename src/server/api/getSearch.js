@@ -1,0 +1,88 @@
+/**
+ * Used for Searching the calendar so people can find information about interesting rides.
+ *
+ * This endpoint supports two different queries:
+ *   q=search_term (  )
+ *   all=true ( search old events rather than only future events )
+ *   l=number of events to return
+ *   o=the index of the first result to return within all matching results
+ *
+ * For example:
+ *   http://localhost:3080/api/search.php?q=prince
+ *   https://localhost:4443/api/search.php?q=prince&qold=true
+ *
+ * In both cases it returns a list of events as a JSON object:
+ *  {
+ *    events: [ {...},  ... ]
+ *    pagination: { offset, limit, fullcount }
+ *  }x
+ *
+ * If there is a problem the error code will be 400 ( perhaps 404? ) with a json response of the form:
+ *  {
+ *      "error": { "message": "Rides with 'term' not found." }
+ *  }
+ *
+ *  # TODO add block for search
+ */
+const dayjs = require("dayjs");
+const config = require("server/core/config");
+const summarize = require("server/core/summarize");
+const { EventSearch } = require("server/model/shorthands");
+const { parseString, parseInt, parseBool } = require("server/util/parse");
+
+module.exports = getSearch;
+
+// the search endpoint:
+function getSearch(req) {
+  const { term, options } = readRequest(req);
+  if (!term) {
+    throw new TextError("missing search term");
+  }
+  return summarize.search(term, options).then(events => {
+    // fullcount appears in every returned row;
+    // the same in every row.
+    const fullcount = events.length ? events[0].fullcount : 0;
+    return {
+      events,
+      pagination: {
+        offset,
+        limit,
+        fullcount
+      }
+    };
+  });
+}
+
+// unpack the request into term and options
+function readRequest(req) {
+  const term = parseString(req.query.q);   // ?q=term   The search term
+  const offset = readOffset(req.query.o);  // &o=25
+  const limit = readLimit(req.query.l);  // &l=50
+  const searchOldEvents = parseBool(req.query.all);  // &all=1|true  Option to search historically (TBD)
+
+  // Search for the given search term, starting from today
+  const startDate = dayjs().startOf('day');
+  const options = {
+    // when searching all events, don't specify a starting day
+    firstDay: !searchOldEvents && startDate,
+    // If we are searching all events, start with newest dates
+    // because the user likely wants to see the events which happened recently
+    // so they can achieve the most fomo.
+    newestFirst: !!searchOldEvents,
+    limit,
+    offset,
+  };
+  return {term, options};
+}
+
+// read the offset query parameter
+// returns zero if invalid
+function readOffset(i) {
+  return parseInt(i, {min: 0}) || 0;
+}
+
+// read the limit query parameter
+// returns the internal default limit if invalid
+function readLimit(i) {
+  return parseInt(i, {min: 0, max: EventSearch.Limit}) || EventSearch.Limit;
+}

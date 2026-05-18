@@ -3,6 +3,26 @@
  *  into the formats needed by the various endpoints.
  * ---------------------------------------------------------------------- */
 
+// for v1 backwards compat, combine all data as is.
+// relies on the application code correctly filtering private data
+// ( v2 relies on the application code making the appropriate queries )
+const v1Events = `select * from calevent left join caldaily using(id)`;
+
+const v1Reverse = `
+select id, eventdate
+from v1_events
+where not coalesce(hidden, 0)
+and eventstatus in ('A', 'C')
+`
+
+const v2Reverse = `
+select id, ymd as eventdate
+from series
+join schedule using(id)
+where published is not null
+and is_scheduled is not null
+`
+
 // individual event instances
 // tbd if the bike fun app needs the pkids at all.
 const dailyEvents = `
@@ -64,7 +84,7 @@ from image;
 const locEvents = `
 select 
   series.id as id,
-  star.place_name as venue,
+  star.place_name as locname,
   star.address as address,
   series.start_time as eventtime,
   star.time_info as timedetails,
@@ -80,6 +100,7 @@ from
 // a summary of all events regardless of publication status
 // NOTE: includes all private data as part of its results.
 // ( ex. for the retrieve event endpoint )
+// contains the secret so it can be be matched/validated.
 const privateEvents = `
 select 
   *,
@@ -184,6 +205,9 @@ where web_type = 'url';
 
 // export:
 module.exports = {
+  v1_events: v1Events,
+  v1_reverse: v1Reverse,
+  v2_reverse: v2Reverse,
   daily_events: dailyEvents,
   series_events: seriesEvents,
   loc_events: locEvents,

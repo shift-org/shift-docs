@@ -32,6 +32,7 @@ module.exports = {
   combineDateAndTime, // in: (date, time)
   getNow,             // current time as dayjs object
   convert,            // in: javascript date
+  invalid: dayjs(null) // a constant that's always invalid
 };
 
 // wraps "now" so it can be stubbed out by tests

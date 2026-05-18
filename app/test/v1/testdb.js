@@ -1,8 +1,12 @@
-const { Area, Audience, DatesType, EventStatus, Review } = require("../models/calConst");
-const tables = require("../models/tables");
+/**
+ * helpers to standup/teardown the test db, and
+ * fill it with fake data.
+ */
+const { Area, Audience, DatesType, EventStatus, Review } = require("shift-docs/models/calConst");
+const tables = require("shift-docs/models/tables");
 const dt = require("server/util/dateTime");
 const { faker } = require('@faker-js/faker');
-const testData = require("./testData");
+const testData = require("../testData");
 const db = require("server/core/db");
 const { makeFakeData } = require("./fakeData");
 
@@ -17,7 +21,7 @@ module.exports = {
   },
   // uses faker to generate a good amount of fake data
   setupFakeData: async (name) => {
-    await db.initialize();
+    await db.initialize(name);
     await tables.dropTables();
     await tables.createTables();
     const firstDay = dt.fromYMDString("2002-08-01");

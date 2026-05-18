@@ -1,5 +1,5 @@
-const app = require("../appEndpoints");
-const testData = require("./testData");
+const app = require("shift-docs/appEndpoints");
+const testData = require("../testData");
 const testdb = require("./testdb");
 //
 const { describe, it, before, after } = require("node:test");

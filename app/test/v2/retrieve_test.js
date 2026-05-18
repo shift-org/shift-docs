@@ -1,0 +1,87 @@
+const app = require("shift-docs/appEndpoints");
+const testData = require("../testData");
+const testdb = require("./testdb");
+//
+const { describe, it, before, after } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
+
+describe.skip("retrieving event data for editing", () => {
+  // runs before the first test in this block.
+  before(() => {
+    return testdb.setupTestData("retrieve");
+  });
+  // runs once after the last test in this block
+  after(() => {
+    return testdb.destroy();
+  });
+  it("errors on an invalid id", () => {
+    return request(app)
+      .get('/api/retrieve_event.php')
+      .query({
+        id: 999
+      })
+      .then(testData.expectError);
+  });
+   // originally, incorrect secrets returned the public event data;
+   // now this errors.
+  it("incorrect secrets return an error", () => {
+    return request(app)
+      .get('/api/retrieve_event.php')
+      .query({
+         id: 2,
+         secret: "the incorrect answer to life, the universe, and this event.",
+       })
+      .then(testData.expectError);
+  });
+  it("retrieves with a valid id and secret", () => {
+    return request(app)
+      .get('/api/retrieve_event.php')
+      .query({
+         id: 2,
+         secret: testData.secret,
+       })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect('Api-Version', /^3\./)
+      .then(res => {
+        // console.dir(res.body);
+        assert.equal(res.body.id, '2'); // a string
+        assert.ok(res.body.email, "b/c of the secret, email should be present");
+        assert.ok(res.body.phone, "b/c of the secret, phone should be present");
+        assert.ok(res.body.contact, "b/c of the secret, contact should be present");
+        assert.equal(res.body.hideemail, true, "the test data has the email hidden");
+        assert.equal(res.body.email, testData.email, "b/c of the secret, we should see the email");
+        assert.deepEqual(res.body.datestatuses, [{
+          id: '201',
+          date: '2002-08-01',
+          status: 'A',
+          newsflash: 'news flash'
+        },{
+          id: '202',
+          date: '2002-08-02',
+          status: 'A',
+          newsflash: 'news flash'
+        }]);
+      });
+  });
+  it("errors on a hidden event", () => {
+    return request(app)
+      .get('/api/retrieve_event.php')
+      .query({
+        id: 3
+      })
+      .then(testData.expectError);
+  });
+  it("errors on a hidden event, unless given the secret", () => {
+    return request(app)
+      .get('/api/retrieve_event.php')
+      .query({
+        id: 3,
+        secret: testData.secret,
+      })
+      .expect(200)
+      .expect('Content-Type', /json/);
+  });
+});
+

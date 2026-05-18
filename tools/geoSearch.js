@@ -24,7 +24,7 @@ const knex = require('knex');           // the raw knex, and not the shift-docs 
 const sqlstring = require('sqlstring'); // part of mysql/2; note: "sql-escape-string" works better for reimport into sqlite ( because sqlstring assumes backslash escaping; which std sql doesnt allow )
 const dt = require('server/util/dateTime');
 const nunjucks = require('server/support/nunjucks');
-const { Area, Review } = require('shift-docs/models/calConst');
+const { Area, Review } = require('server/model/shorthands');
 
 // https://nominatim.org/release-docs/develop/api/Overview/
 const nominatim = {
@@ -97,8 +97,8 @@ async function geoImport(inFile, outFile, date= "2024-06-01") {
     join caldaily
     using (id)
     where eventdate >= "${date}"
-    and review != "${Review.Excluded}"
-    and area != "${Area.Vancouver}"
+    and review != "${Review.Excluded.value}"
+    and area != "${Area.Vancouver.value}"
     order by id
     `);
   console.log(`**** ${events.length} ****`);

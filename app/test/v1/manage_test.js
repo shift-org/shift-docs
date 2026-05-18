@@ -11,29 +11,49 @@
 // x add / cancel dates from a published event
 // x raw json ( curl ) vs body json ( forms )
 // x multi-part form ( attach image )
-const fs = require('fs');
+const assert = require("node:assert/strict");
+const { describe, it, before, after, beforeEach, afterEach } = require("node:test");
+const fs = require('node:fs');
 const fsp = fs.promises;
 const path = require('node:path');
 const sandbox = require('sinon').createSandbox();
-const app = require("../appEndpoints");
-const config = require('server/core/config');
-const testdb = require("./testdb");
-const testData = require("./testData");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
+const supertest = require('supertest');
 //
-const { describe, it, beforeEach, afterEach } = require("node:test");
-const assert = require("node:assert/strict");
-const request = require('supertest');
+const config = require('server/core/config');
+const { CalEvent } = require("shift-docs/models/calEvent");
+const { CalDaily } = require("shift-docs/models/calDaily");
+const app = require("shift-docs/appEndpoints");
+//
+const testdb = require("./testdb");
+const stubData = require("./dbSpy");
+const testData = require("../testData");
 //
 const manage_api = '/api/manage_event.php';
 
-describe("managing events", () => {
+describe("managing v1 events",  () => {
+  // hangs occur if the http requests throw exceptions;
+  // using supertest's agent api instead of its 'request' api
+  // allows this to call the agent's close
+  // which fixes the hang
+  // ( calling catch at the end of every promise change would too. )
+  // tbd: we don't need to test express itself, so setting up the endpoints for each test
+  // is overkill. maybe there's a way to share the agent globally through the testRunner...
+  //  "It is possible to apply the same configuration to all files by placing common configuration code in a module preloaded with --require or --import."
+  // https://nodejs.org/api/cli.html#-require-module
+  // https://nodejs.org/api/cli.html#importmodule
+  let agent;
+  before(() => {
+    const server = app.listen();
+    agent = supertest.agent(server);
+  });
+  after(() => {
+    const server = agent.app;
+    server.close();
+  });
   let spy;
   // reset after each one.
   beforeEach(() => {
-    spy = testData.stubData(sandbox);
+    spy = stubData(sandbox);
     // docker config sets an explicit SHIFT_IMAGE_DIR
     // but tests need the directory under app.
     testData.setupImageDir(sandbox, "./eventimages");
@@ -44,7 +64,7 @@ describe("managing events", () => {
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {
-    return request(app)
+    return agent
       .post(manage_api)
       .type('form')
       .send({
@@ -55,7 +75,7 @@ describe("managing events", () => {
       .then(testData.expectError);
   });
   it("creates a new event, using raw json", () => {
-    return request(app)
+    return agent
       .post(manage_api)
       .send(eventData)
       .expect(200)
@@ -94,13 +114,10 @@ describe("managing events", () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return request(app)
+        return agent
         .post(manage_api)
         .send(post)
-        .expect(400)
-        .then(res => {
-          assert.ok(res.body.error.fields[key]);
-        });
+        .then(res => testData.expectError(res, key));
       })
     }
     return seq;
@@ -126,13 +143,10 @@ describe("managing events", () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return request(app)
+        return agent
         .post(manage_api)
         .send(post)
-        .expect(400)
-        .then(res => {
-          assert.ok(res.body.error.fields[key]);
-        });
+        .then(res => testData.expectError(res, key));
       })
     }
     return seq;
@@ -141,7 +155,7 @@ describe("managing events", () => {
     // id three is unpublished
     return CalEvent.getByID(3).then(evt => {
       assert.equal(evt.isPublished(), false);
-      return request(app)
+      return agent
         .post(manage_api)
         // by adding the id and posting to it, we should be able to publish it.
         .send(Object.assign({
@@ -158,7 +172,7 @@ describe("managing events", () => {
     });
   });
   it("fails to use an empty secret", () => {
-    return request(app)
+    return agent
       .post(manage_api)
       .send(Object.assign({
         id: 3,
@@ -167,7 +181,7 @@ describe("managing events", () => {
       .then(testData.expectError);
   });
   it("fails to use an invalid secret", () => {
-    return request(app)
+    return agent
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
@@ -190,7 +204,7 @@ describe("managing events", () => {
         { "date": "2002-08-03", status: 'A' }
       ]}, evt.getJSON({includePrivate:true}));
       //
-      return request(app)
+      return agent
         .post(manage_api)
         .type('form')
         .send({
@@ -227,7 +241,7 @@ describe("managing events", () => {
   });
   function getImageTarget(id, imageSource) {
     return path.join( config.image.dir, id + path.extname(imageSource) );
-  };
+  }
   function postImage(id, imageSource, imageTarget) {
     // remove any image from earlier tests:
     return fsp.rm(imageTarget, {force:true}).then(_ => {
@@ -241,7 +255,7 @@ describe("managing events", () => {
             code_of_conduct: "1",
             read_comic: "1",
             }, eventData);
-          return request(app)
+          return agent
             .post(manage_api)
             .type('form')
             .field({
@@ -277,14 +291,18 @@ describe("managing events", () => {
     return postImage(3, imageSource, imageTarget)
       .then(res => {
         testData.expectError(res, 'image');
+
+        // check for the image on disk:
         return fsp.stat(imageTarget)
           .then(_ => {
-            assert.fail(`didn't expect ${imageTarget} to exists`);
+            // fail if it existed
+            assert.fail(`didn't expect ${imageTarget} to exist`);
           })
           .catch(_ => {
-            assert(true);
+            // make sure we get here
+            assert.ok(true);
           });
-    });
+      });
   });
   it("fails bad format", () => {
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
@@ -293,10 +311,12 @@ describe("managing events", () => {
       testData.expectError(res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
-          assert.fail(`didn't expect ${imageTarget} to exists`);
+          // fail if it existed
+            assert.fail(`didn't expect ${imageTarget} to exist`);
         })
         .catch(_ => {
-          assert(true);
+          // make sure we get here
+          assert.ok(true);
         });
     });
   });
@@ -304,7 +324,7 @@ describe("managing events", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
-    return request(app)
+    return agent
       .post(manage_api)
       .type('form')
       .field({
@@ -317,6 +337,16 @@ describe("managing events", () => {
   });
 });
 
+// some days to request
+const statusData = [{
+  date: "2023-05-24",
+  status: "A",
+},{
+  date: "2023-05-26",
+  status: "C",
+  newsflash: "not the news",
+}];
+
 // minimal json for pushing a new event
 const eventData = {
   "title": "new event",
@@ -328,13 +358,9 @@ const eventData = {
   "code_of_conduct": "1",
   "read_comic": "1",
   "time": "3:15 PM", // time is sent with meridian for some reason.
+  "audience": "G",
+  "area": "P",
   // currently, these aren't actually needed...
   // tbd: maybe it should require at least one when creating an event?
-  "datestatuses": [{
-    "date": "2023-05-24",
-  },{
-    "date": "2023-05-26",
-    "newsflash": "not the news",
-  }]
-}
-
+  "datestatuses": statusData
+};

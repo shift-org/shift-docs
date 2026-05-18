@@ -1,202 +1,60 @@
-const dt = require("server/util/dateTime");
-const validator = require('validator');
+const validator = require("validator");
 const { Area, Audience, DatesType, RideLength } = require("./calConst");
+const makeValidator = require("server/core/eventValidator");
+const { ErrorCollector } = require("server/support/errors");
+const dt = require("server/util/dateTime");
 
-class ErrorCollector {
-  constructor() {
-    this.errors = {};
-    this.count = 0;
-  }
-  addError(field, msg) {
-    this.errors[field] = msg ?? `Please enter a value for <span class=\"field-name\">${field}</span>`;
-    this.count++;
-  }
-  getErrors() {
-    return this.errors;
-  }
+module.exports = validateEvent;
+
+
+// munge print title:
+// if print title (aka tinytitle) isn't set,
+// use the first 24 chars of the regular title
+function mungeTinyTitle(v, title) {
+  const str = v.getString('tinytitle');
+  // fix? cut at words? ( could use the wordwrapjs )
+  return (!str && title) ? title.substring(0, 24) : str;
 }
 
-// ensure the email, title, etc. submitted by the organizer seem valid.
-// input is json, errors is of type ErrorCollector
-function makeValidator(input, errors) {
-  // the validator package requires strings and only strings
-  // the various functions below convert strings to the desired output types.
-  function getString(field) {
-    // coalecese nulls and undefined into a blank string
-    // ensure all numbers and booleans are strings
-    // trim all strings
-    return ((input[field] ?? '') + '').trim();
-  }
-  function smallerThan(str, field, maxLen) {
-    const okay = validator.isByteLength(str, { min: 0, max: maxLen });
-    if (!okay) {
-      errors.addError(field, "Field is too long");
+/**
+ * Ensures that the 'datestatuses' in 'data' (if any) are valid.
+ * Allows an empty list ( which cancels all existing occurrences. )
+ *
+ * @param statusList: A list of data status objects sent by the organizer.
+ *        [{ id, date, status, newsflash }, ...]
+ * @out an array of validated [{ date, state, news }]
+ *
+ * dates in and out are : YYYY-MM-DD format
+ */
+function validateStatus(v, statusList) {
+  const invalidDateStrings = [];
+  const validStatus = [];
+  if (statusList) {
+    if (!Array.isArray(statusList)) {
+      invalidDateStrings.push("expected an array");
+    } else {
+      statusList.forEach(status => {
+        const validDate = status.date && dt.fromYMDString(status.date).isValid();
+        if (!validDate) {
+          invalidDateStrings.push(status.date);
+        } else {
+          validStatus.push(status);
+        }
+      });
     }
-    return okay;
   }
-  return {
-    requireString(field, msg, maxLen = 255) {
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        errors.addError(field, msg);
-      } else if (smallerThan(str, field, maxLen)) {
-        return str;
-      }
-    },
-    // the real valid email spec is 320; 
-    // our db only supports 255
-    requireEmail(field, maxLen = 255) {
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        errors.addError('email', "Email missing");
-      } else if (!smallerThan(str, field, maxLen)) {
-        // already set errors 
-      } else if (!validator.isEmail(str)) {
-        errors.addError('email', "Email is invalid");
-      } else {
-       return str; // write the trimmed value.
-      }
-    },
-    // only checks the value; doesnt return anything
-    requireTrue(field, msg) {
-      const str = getString(field);
-      // is the boolean value missing?
-      if (!validator.isBoolean(str)) {
-        errors.addError(field, msg);
-      } else {
-        // is the boolean value false?
-        if (!validator.toBoolean(str)) {
-          errors.addError(field, msg);
-        }
-      }
-    },
-    // validate the event time
-    // the php doesnt do this, but it feels like a good idea.
-    // ( and CalEvent.updateFromJSON() relies on it. )
-    requiredTime(field) {
-      // interestingly: the upload is in AM/PM style
-      // but the server stores and reports in 24 hour style.
-      // and flourish stores communicates 'time' fields as an fTime
-      // while mysql stores as a 'hh:mm:ss' with no meridian
-      // so flourish must automatically transform to 24 time.
-      // https://dev.mysql.com/doc/refman/8.0/en/time.html
-      // https://flourishlib.com/docs/fTime.html
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        errors.addError('time');
-      } else {
-        let t = dt.from12HourString(str);
-        if (!t.isValid()) {
-          t = dt.from24HourString(str);
-        }
-        if (!t.isValid()) {
-          errors.addError('time');
-        } else {
-          return dt.to24HourString(t);
-        }
-      }
-    },
-    // to mimic php/flourish empty strings are converted to null.
-    // https://flourishlib.com/docs/fActiveRecord.html#ColumnOperations
-    nullString(field, maxLen = 255) {
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        return null; 
-      } else if (smallerThan(str, field, maxLen)) {
-        return str; 
-      }
-    },
-    // if not specified, returns 0
-    // otherwise expects 0, 1, true, or false
-    // then returns a 0 or 1 value
-    optionalFlag(field) {
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        return 0;
-      } else if (!validator.isBoolean(str)) {
-        errors.addError(field);
-      } else {
-        return validator.toBoolean(str) ? 1 : 0;
-      }
-    },
-    // if not specified, returns 0
-    // otherwise expects an int-like value
-    // greater than or equal to 0
-    zeroInt(field) {
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        return 0;
-      } else if (!validator.isInt(str)) {
-        errors.addError(field);
-      } else {
-        // validator returns NaN if it cant convert
-        const val = validator.toInt(str);
-        if (isNaN(val) || val < 0) {
-          errors.addError(field);
-        } else {
-          return val;
-        }
-      }
-    },
-    // if not specified, returns the defaultVal
-    // otherwise must be a single letter
-    optionalChar(field, defaultVal) {
-      const str = getString(field);
-      if (validator.isEmpty(str)) {
-        return defaultVal;
-      } else if (!validator.matches(str, /^[A-Z]$/)) {
-        errors.addError(field);
-      } else {
-        return str;
-      }
-    },
-    // munge print title:
-    // if print title (aka tinytitle) isn't set,
-    // use the first 24 chars of the regular title
-    mungeTinyTitle(title) {
-      const str = getString('tinytitle');
-      // fix? cut at words? ( could use the wordwrapjs )
-      return (validator.isEmpty(str) && title) ? title.substring(0, 24) : str;
-    },
 
-    /**
-     * Ensures that the 'datestatuses' in 'data' (if any) are valid.
-     * Allows an empty list ( which cancels all existing occurrences. )
-     *
-     * @param statusList:A list of data status objects sent by the organizer.
-     *        [{ id, date, status, newsflash }, ...]
-     */
-    validateStatus(statusList) {
-      const invalidDateStrings = [];
-      const validStatus = [];
-      if (statusList) {
-        if (!Array.isArray(statusList)) {
-          invalidDateStrings.push("expected an array");
-        } else {
-          statusList.forEach(status => {
-            const validDate = status.date && dt.fromYMDString(status.date).isValid();
-            if (!validDate) {
-              invalidDateStrings.push(status.date);
-            } else {
-              validStatus.push(status);
-            }
-          });
-        }
-      }
-      if (invalidDateStrings.length) {
-        const msg = "Invalid dates: " + invalidDateStrings.join(', ');
-        errors.addError('dates', msg);
-      }
-      return validStatus;
-    },
-
-    validateRideLength(rideLength) {
-      value = getString(rideLength);
-      return (value in RideLength) ? value : null;
-    },
-  };
+  if (invalidDateStrings.length) {
+    const msg = "Invalid dates: " + invalidDateStrings.join(', ');
+    errors.addError('dates', msg);
+  }
+  return validStatus;
 }
 
+function validateRideLength(v, rideLength) {
+  const value = v.getString(rideLength);
+  return (value in RideLength) ? value : null;
+}
 
 // fix? required only from March to June, during Pedalpalooza
 // tinytitle', 'printdescr'
@@ -226,12 +84,12 @@ function validateEvent(input) {
     locdetails: v.nullString('locdetails'),
     loopride: v.optionalFlag('loopride'),
     locend: v.nullString('locend'),
-    ridelength: v.validateRideLength('ridelength'),
+    ridelength: validateRideLength(v, 'ridelength'),
     eventduration: v.zeroInt('eventduration'),
     weburl: v.nullString('weburl', 512), // fix? validate this is url-like?
     webname: v.nullString('webname'),
     audience: v.optionalChar('audience', Audience.General),
-    tinytitle: v.mungeTinyTitle(title),
+    tinytitle: mungeTinyTitle(v, title),
     printdescr: v.nullString('printdescr', 1024),
     dates: v.nullString('datestring'), // string field 'dates' needed for legacy admin calendar
     datestype: v.optionalChar('datestype', DatesType.OneDay),
@@ -242,7 +100,7 @@ function validateEvent(input) {
     printcontact: v.optionalFlag('printcontact'),
     safetyplan: v.optionalFlag('safetyplan'),
   };
-  const statusList = v.validateStatus(input.datestatuses);
+  const statusList = validateStatus(v, input.datestatuses);
   return {
     id: input.id,
     secret: input.secret,
@@ -250,11 +108,4 @@ function validateEvent(input) {
     statusList,
     errors,
   };
-}
-
-module.exports = {
-  validateEvent,
-  // exported for testing:
-  makeValidator,
-  ErrorCollector
 }

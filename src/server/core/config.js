@@ -148,26 +148,25 @@ const config = {
       `Shift helps groups and individuals to promote their "bike fun" events.`,
   },
   cal: {
+    // deprecated:
     pedalp: {
       name: 'Pedalpalooza Bike Calendar',
       desc: 'Find fun Pedalpalooza bike events!',
       guid: 'shift@shift2bikes.org',
       filename: 'pedalpalooza-calendar',
     },
+    // every ical calendar is the shift calendar now
     shift: {
       name: 'Shift Community Calendar',
       desc: 'Find fun bike events all year round.',
       guid: 'community@shift2bikes.org',
       filename: 'shift-calendar',
-    },
-    // shared properties:
-    base: {
       ext: '.ics',
       maxage: 60*60*3, // 3 hours
       // the software that created the calendar
       prod: '-//shift2bikes.org//NONSGML shiftcal v2.1//EN',
     },
-  },
+  }
 };
 module.exports = config;
 

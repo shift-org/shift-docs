@@ -37,7 +37,9 @@
             "request": "launch",
             "runtimeArgs": [
                 "run-script",
-                "test"
+                "test",
+               // "--",
+               //"-only"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [

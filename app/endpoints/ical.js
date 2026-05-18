@@ -15,47 +15,18 @@
  * See also:
  *   AllEvents.md
  */
-const dayjs = require ('dayjs');
-const wordwrap = require('wordwrapjs');
 const config = require("server/core/config");
-const nunjucks = require("server/support/nunjucks");
+const { buildCalEntry, buildClosingEvent } = require("server/model/ical");
+const { sendCal } = require("server/support/calResponse");
+const { parseBool, parseYmd, parseString } = require("server/util/parse");
 const dt = require("server/util/dateTime");
+//
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/calConst");
 
-module.exports = {
-// endpoint export:
-  get,
-// export for testing:
-  escapeBreak,
-  replace,
-};
-
-// text|escapeBreak("HEADER") => HEADER:text
-// text can be either a string or an array.
-nunjucks.addFilter('escapeBreak', function(text, header) {
-  header += ":";
-  return !Array.isArray(text) ? 
-          escapeBreak(header, text) : 
-          escapeBreak(header, ...text);
-});
-
-// format a dayjs object in a ical friendly way.
-nunjucks.addFilter('ical', function(d) {
-  return dt.icalFormat(d);
-});
-
-function readBool(b) {
-  return b === "true" || b === "1";
-}
-
-function readDate(d) {
-  return d && dt.fromYMDString(d);
-}
-
 // the endpoint handler for all ical feeds.
-function get(req, res, next) {
+exports.get = function(req, res, next) {
   // caldaily id for a single event
   const event_id = req.query.event_id;
 
@@ -63,12 +34,12 @@ function get(req, res, next) {
   // if series_id isn't provided, fallback to generic id
   const series_id = req.query.series_id || req.query.id;
 
-  const start = readDate(req.query.startdate);
-  const end = readDate(req.query.enddate);
-  const includeDeleted = readBool(req.query.all);
-  const customName = req.query.filename || "";
+  const start = parseYmd(req.query.startdate);
+  const end = parseYmd(req.query.enddate);
+  const includeDeleted = parseBool(req.query.all);
+  const customName = parseString(req.query.filename) || "";
   const pedalp = customName.startsWith("pedalp");
-  const cal = Object.assign({}, config.cal.base, pedalp? config.cal.pedalp: config.cal.shift);
+  const cal = Object.assign({}, config.cal.shift, pedalp ? config.cal.pedalp : null);
 
   return getEventData(cal, event_id, series_id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
@@ -123,17 +94,7 @@ function respondWith(cal, res, filename, events) {
   // according to  https://en.wikipedia.org/wiki/ICalendar
   // its default utf8, and mime type should be used for anything different.
   res.setHeader(config.api.header, config.api.version);
-  if (!filename || filename === "none") {
-    res.setHeader('content-type', `text/plain`);
-  } else {
-    res.setHeader('content-type', `text/calendar`);
-    res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
-    res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
-  }
-  // tbd: maybe there's filter or something for nunjucks to add the carriage returns.
-  const body = nunjucks.render('ical.njk', {cal, events});
-  // replace the our "normalized" line break with what ical wants
-  res.send(body.replaceAll("\n", "\r\n"));
+  sendCal(res, cal, events, filename);
 }
 
 // ---------------------------------
@@ -191,13 +152,7 @@ function buildRange(start, end, includeDeleted) {
     });
   }
 }
-
-// ---------------------------------
-// ical formatting:
-// ---------------------------------
-
 // promise an array of cal entries, one per daily.
-// see also: getSummaries()
 function buildEntries(dailies) {
   // a cache because multiple dailies may have the same event.
   const events = new Map();
@@ -210,139 +165,4 @@ function buildEntries(dailies) {
     // promise the entry after the event is available:
     return events.get(at.id).then(evt => buildCalEntry(evt, at));
   }));
-}
-
-/**
- * Turn an EventTime record into a single ical v-event.
- * @param  CalEvent  evt
- * @param  CalDaily  at
- * @return an object containing the elements needed for producing a v-event.
- * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
- */
-function buildCalEntry(evt, at) {
-  let startAt = evt.getStartTime(at.eventdate);
-  if (!startAt.isValid()) {
-    // provide a fallback if the start time was invalid
-    // i dont know if this is a real issue, or just test data
-    // php handles this just fine.
-    startAt = dt.combineDateAndTime(at.eventdate, dt.from12HourString("12:00 PM"));
-  }
-  const endAt = evt.addDuration(startAt);
-  const url = at.getShareable();
-  let title = evt.title;
-  // google calendar doesn't indicated canceled events well;
-  // so force it to.
-  if (at.isUnscheduled()) {
-    title = "CANCELLED: " + title;
-  }
-  let news = at.getNewsFlash();
-  if (!news) {
-    news = "";  // no news is null news; we want an empty string.
-  } else {
-    news += "\n";
-  }
-  return {
-    uid: "event-" + at.pkid + "@shift2bikes.org",
-    url,
-    summary: title,
-    contact: evt.name,
-    description: [
-      news,
-      evt.descr, evt.timedetails,
-      evt.locend? "Ends at "+ evt.locend: null,
-      url
-    ],
-    location: [
-      evt.locname, evt.address, evt.locdetails
-    ],
-    status:  at.isUnscheduled() ? "CANCELLED": "CONFIRMED",
-    start:    startAt,
-    end:      endAt,
-    created:  evt.created,
-    modified: evt.modified,
-    sequence: evt.changes + 1,
-  };
-}
-
-/**
- * Create a fake closing event for pedalp.
- * @param  dayjs  lastDay of Pedalpalooza ( ex. the final day of the month )
- * @return an object containing the elements needed for producing a v-event.
- * @see buildCalEntry()
- */
-function buildClosingEvent(lastDay) {
-  const year = lastDay.year();
-  const fakeModified = dayjs(`06-01-${year}`, "MM-DD-YYYY");
-  const oneDayLater = lastDay.add(1, 'day');
-  const url = "https://shift2bikes.org/calendar/";
-  return {
-    // usually: "event-123@shift2bikes.org"
-    uid: `pedalpalooza-${year}-end@shift2bikes.org`,
-    summary: `Pedalpalooza ${year} is over!`,
-    contact: "bikecal@shift2bikes.org",
-    description: 
-    "We hope you've had a great bike summer and a great Pedalpalooza!!!\n"+
-    "While Pedalpalooza is done, there is still plenty of bike fun to be found on the Shift2bikes website. "+
-    "And you can also subscribe to the Shift community calendar to see those rides.\n"+ 
-    `Visit ${url} for more details.`,
-    location: "Portland, and beyond!",
-    status:   "CONFIRMED",
-    // create an all day event on the day after Pedalpalooza
-    start:    oneDayLater.startOf('day'),
-    end:      oneDayLater.endOf('day'),
-    created:  fakeModified,
-    modified: fakeModified,
-    sequence: 1, 
-    url,
-  };
-}
-
-
-// ---------------------------------
-// the internals:
-// ---------------------------------
-
-/**
- * Format a set of strings for ical, word-wrapping if necessary.
- * Note: the returned string uses bare newline, ical requires carriage returns,
- * the caller is responsible for adding those. ( ie. respondWith() )
- *
- * @param string        row     The lede text of the ical row, including a colon. ( ex. "SUMMARY:" )
- * @param array<string> strings One or more strings to join into newlines.
- *
- * https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.11
- */
-function escapeBreak(row, ...strings) {
-  // join the passed strings, separating by semantic newlines
-  let str = "";
-  strings.forEach(el => {
-    let s = el && el.trim();
-    if (s) {
-      s = replace(s);
-      if (str.length) {
-        str += "\\n"; // semantic newline.
-      }
-      str += s;
-    }
-  });
-
-  // Lines of text SHOULD NOT be longer than 75 octets [bytes], excluding the line
-  // break... a long line can be split between any two characters by inserting a CRLF
-  // immediately followed by a single linear [space].
-  // 74 is best to fit the required leading space of subsequent lines.
-  //
-  // note: only injecting "\n" here, respondWith() replaces those with "\r\n" later.
-  const lines =  wordwrap.lines(row + str, { width: 74, break: true, noTrim: true });
-  return lines.join("\n ");
-}
-
-function replace(str) {
-  // An intentional formatted text line break MUST only be included
-  // [as a] BACKSLASH, followed by a LATIN SMALL LETTER N...
-  // A BACKSLASH ... MUST be escaped with another BACKSLASH character.
-  // A COMMA ... MUST be escaped...
-  // A SEMICOLON ... MUST be escaped...
-  const replaceWhat = [ "\\", "\r\n", "\n", ',',  ';' ];
-  const replaceWith = [ "\\\\", "\n", "\\n", "\\,", "\\;" ];
-  return replaceWhat.reduce( (val, el, i) => val.replaceAll(el, replaceWith[i]), str );
 }

@@ -1,14 +1,16 @@
-const app = require("../appEndpoints");
-const testdb = require("./testdb");
-const testData = require("./testData");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
-//
-const sinon = require('sinon');
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const request = require('supertest');
+const sinon = require("sinon");
+const request = require("supertest");
+
+const app = require("shift-docs/appEndpoints");
+const { CalEvent } = require("shift-docs/models/calEvent");
+const { CalDaily } = require("shift-docs/models/calDaily");
+//
+const testdb = require("./testdb");
+const stubData = require("./dbSpy");
+const testData = require("../testData");
+
 //
 const delete_api = '/api/delete_event.php';
 
@@ -17,7 +19,7 @@ describe("deleting using a form", () => {
   let spy;
   // runs before the first test in this block.
   before(() => {
-    spy = testData.stubData(sinon);
+    spy = stubData(sinon);
     return testdb.setupTestData("del");
   });
   // runs once after the last test in this block
@@ -94,7 +96,7 @@ describe("deleting using a form", () => {
 describe("deleting using json", () => {
   let spy;
   before(() => {
-    spy = testData.stubData(sinon);
+    spy = stubData(sinon);
     return testdb.setupTestData("del json");
   });
   after(() => {

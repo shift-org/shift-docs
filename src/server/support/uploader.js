@@ -3,6 +3,7 @@ const path = require('node:path');
 const validator = require('validator');
 const multer = require('multer');
 const config = require('server/core/config');
+const { sendFieldError } = require('server/support/errors');
 
 class FileFilterError extends Error {}
 
@@ -13,15 +14,15 @@ exports.uploader = {
   // Promises an object with the name and an extension: `{name, ext}`.
   write(file, name) {
     if (!name || (typeof(name) !== 'string')) {
-      return Promise.reject(Error("cant store an image without a valid name"));
+      return Promise.reject("cant store an image without a valid name");
     }
     if (!file) {
-      return Promise.reject(Error("no file data specified"));
+      return Promise.reject("no file data specified");
     }
     // this is also validated during upload in fileFilter
     const ext = config.image.imageTypes[file.mimetype];
     if (!ext) {
-      return Promise.reject(Error("cant store an image without a valid extension"));
+      return Promise.reject("cant store an image without a valid extension");
     }
     // ex. '/opt/backend/eventimages/7431.jpg'
     // this uses regular path ( not posix ) because it involves local files.
@@ -75,7 +76,7 @@ exports.uploader = {
         // this catches multner's error for surpassing limits;
         // and the custom error generated in fileFilter() above.
         if (err) {
-          res.fieldError({ [errorField]: err.message || "Unknown error" });
+          sendFieldError(res, { [errorField]: err.message || "Unknown error" });
         } else {
           // tell express to call the next middleware
           // if we pass 'err' to 'next()' express respond with http 500
