@@ -11,6 +11,8 @@ const { CommandLine } = require('server/util/cmdLine');
 const { globalSetup, globalTeardown } = require('./db_setup.js');
 
 const cmdLine = new CommandLine({
+  v: `limit to a specific test version`,
+  f: `limit to a specific file`,
   only: `flag to invoke --test-only`,
   pattern: `regex for --test-name-pattern`,
 });
@@ -35,16 +37,19 @@ async function runTests() {
 runTests();
 
 // helpers:
-function _runTests(dir, args, orig, { only, pattern }) {
+function _runTests(dir, args, orig, options) {
+  const { only, pattern, v: version, f: filename } = options;
   if (only && pattern) {
     throw new Error(`The test runner expects at most one option. Both only and pattern were specified.`);
   }
-  const files = findTestFiles(dir);
-  if (!only && !pattern) {
+  // fix: only have to look in the test directory. probably.
+  const files = findTestFiles(dir, version, filename);
+  const testOnly = only === 'true';
+  if (!testOnly && !pattern) {
     // the regular test command can handle processing multiple files
     test([`--test`].concat(args, files, '--', orig));
 
-  } else if (only) {
+  } else if (testOnly) {
     // find will stop running tests when something returns a non-zero error code.
     files.find(f => test([`--test-only`].concat(args, f,'--', orig)) !== 0 );
 
@@ -56,13 +61,16 @@ function _runTests(dir, args, orig, { only, pattern }) {
 
 // return an array of filenames to test
 // (returned paths are relative to dir)
-function findTestFiles(dir) {
+function findTestFiles(dir, version, filename) {
    const entries = fs.readdirSync(dir, {
     withFileTypes: true,
     recursive: true,
   });
-  return entries.filter(f => f.name.endsWith("_test.js"))
-    .map(f => path.relative(dir, path.resolve(f.parentPath, f.name)));
+  return entries.filter(f => {
+    return f.name.endsWith("_test.js") &&
+      (!version || f.parentPath.includes("v" + version)) &&
+      (!filename || f.name.includes(filename));
+  }).map(f => path.relative(dir, path.resolve(f.parentPath, f.name)));
 }
 
 function test(parts) {
@@ -70,5 +78,6 @@ function test(parts) {
   shell.echo(cmdLine);
   // note: shell.cmd is safer, but i can't get it to work with quoted text options. :shrug:
   // ex. --test-name-pattern="date time" looks correct when echo'd but doesn't pass the pattern to node.
+  // shell.env["DEBUG"]= "express:router";
   return shell.exec(cmdLine).code;
 }

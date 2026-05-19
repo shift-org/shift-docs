@@ -38,8 +38,10 @@
             "runtimeArgs": [
                 "run-script",
                 "test",
-               // "--",
-               //"-only"
+               "--",
+                "-v=2",
+                "-f=ical",
+                "-only=true"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [

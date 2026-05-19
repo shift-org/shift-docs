@@ -11,6 +11,10 @@ Tests can be identified by name: ex. `npm test -- --test-name-pattern="ical feed
 
 Or, temporarily can be marked with 'only' in the code. For example: `describe.only()`, and then selected with: `npm test -- -only`
 
+`-f` can also be used to select any part of a test filename ( ex. `-f=manage` for "manage_test.vscript" )
+
+`-v` can be used to select a particular subset of tests ( ex. `v=1` for v1, or `v=2` for v2. )
+
 By default tests use sqlite, you can test against mysql as well:  `npm test -db=mysql`. It launches a standalone docker container for the tests. Additionally, `npm test -db_debug` will log queries to the db.
 
 # Test Data
