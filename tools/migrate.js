@@ -12,7 +12,7 @@ const db = require("server/core/db");
 const { allTables, setupStatements } = require("server/v2/schema");
 const dt = require('server/util/dateTime');
 const { newSecret } = require("server/util/misc");
-const { Area, Audience, Distance, EventStatus, Showable, LocType } = require("server/v2/model/shorthands");
+const { Area, Audience, Distance, EventStatus, Showable, LocType } = require("server/model/shorthands");
 
 // return map of { tableName: newTable }
 // caller writes to disk.
