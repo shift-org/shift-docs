@@ -5,6 +5,7 @@
  */
 const summarize = require("server/core/summarize");
 const { TextError } = require("server/support/errors");
+const dt = require("server/util/dateTime");
 const { parseInt, parseString, parseYmd } = require("server/util/parse");
 
 module.exports = getEventSeries;
@@ -13,19 +14,16 @@ module.exports = getEventSeries;
 function getEventSeries(req)  {
   const version = parseInt(req.params.version);
   const seriesId = parseInt(req.params.seriesId);
-  const includePrivate = parseString(req.query.secret); // optional
-  if (!id) {
-    throw new TextError("Request incomplete, please pass an id in the url");
-  }
-  // note: summarize returns empty when a secret was provided and it doesn't match.
-  // fix: maybe it should return the data without private fields?
+  const includePrivate = parseString(req.query.secret);
   return summarize.events({
       seriesId,
-      includePrivate,  //
+      includePrivate,  // optional secret
       summary: false,  // ask for the raw event data.
     }).then(rows => {
+      // returns empty when a secret exists and it was incorrect.
+      // fix: maybe it should return the data without private fields?
       if (!rows.length) {
-        throw new TextError(`Event ${seriesId} not found`);
+        throw new TextError(`Requested unknown event ${seriesId}`);
       } else {
         const evt = rows[0]; // the event data exists in every row, so the first is as good as any.
         const sum = EventData.getSummary(evt);

@@ -28,6 +28,7 @@ const dayjs = require("dayjs");
 const config = require("server/core/config");
 const summarize = require("server/core/summarize");
 const { EventSearch } = require("server/model/shorthands");
+const { TextError } = require("server/support/errors");
 const { parseString, parseInt, parseBool } = require("server/util/parse");
 
 module.exports = getSearch;
@@ -36,7 +37,7 @@ module.exports = getSearch;
 function getSearch(req) {
   const { term, options } = readRequest(req);
   if (!term) {
-    throw new TextError("missing search term");
+    throw new TextError("Request was missing a search term");
   }
   return summarize.search(term, options).then(events => {
     // fullcount appears in every returned row;
@@ -45,8 +46,8 @@ function getSearch(req) {
     return {
       events,
       pagination: {
-        offset,
-        limit,
+        offset: options.offset,
+        limit: options.limit,
         fullcount
       }
     };

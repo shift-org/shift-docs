@@ -5,17 +5,20 @@ const EventData = require("server/model/eventData");
 const DailyData = require("server/model/dailyData");
 
 /**
- * Given info on a scheduled event ( an event from a particular series on a particular day )
+ * Given info on a scheduled event
+ * ( an event from a particular series on a particular day )
  * return a ical v-event object.
  *
- * @param  CalEvent  evt
- * @param  CalDaily  optionalAt - if not specified, evt is expected to contain the scheduling info.
+ * Can be called in two different ways:
+ * 1. with a pairing of CalEvent and CalDaily data; or,
+ * 2. from a summarize function with joined row data;
+ * The first caller sends two args; the second: three args.
  *
  * @return an object containing the elements needed for producing a v-event.
  * @see https://datatracker.ietf.org/doc/html/rfc5545#section-3.6.1
  */
-function buildCalEntry(evt, optionalAt) {
-  const at = optionalAt || evt;
+function buildCalEntry(evt, optionalAt, optionalIndex) {
+  const at = optionalIndex !== undefined ? evt : optionalAt;
   let startAt = EventData.getStartTime(evt, at.eventdate);
   if (!startAt.isValid()) {
     // provide a fallback if the start time was invalid

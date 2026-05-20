@@ -3,10 +3,10 @@
  */
 const config = require('server/core/config');
 const summarize = require("server/core/summarize");
-const { buildCalEvent } = require('server/model/ical');
+const { CalResponse } = require('server/support/calResponse');
+const { buildCalEntry } = require('server/model/ical');
 const dt = require('server/util/dateTime');
 const { parseYmd, parseString } = require('server/util/parse');
-const { CalResponse } = require('server/support/calResponse');
 
 module.exports = getCalRange;
 
@@ -20,11 +20,11 @@ function getCalRange(req) {
   const defaultName = `${cal.filename}${cal.ext}`;
   //
   if (!start.isValid() || !end.isValid()) {
-    return Promise.reject("invalid dates");
+    return Promise.reject(`Requested invalid event range: start date was ${start} and end date was ${end}.`);
   }
   const range = end.diff(start, 'month');
   if ((range < 0) || (range > 6)) {
-    return Promise.reject("bad date range");
+    return Promise.reject(`Requested too large a range: start date was ${start} and end date was ${end}.`);
   }
   //
   return summarize.events({
@@ -32,7 +32,7 @@ function getCalRange(req) {
     version: version,
     firstDay: start,
     lastDay: end,
-    summary: buildCalEvent,
+    summary: buildCalEntry,
   }).then(events => {
     return new CalResponse(cal, events, customName || defaultName);
   });

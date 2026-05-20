@@ -13,12 +13,11 @@ function getEventInstance(req)  {
     seriesId,
     exactDay,
     version
-  }).then(evt => {
-    if (!evt) {
-      throw new TextError("no such day");
+  }).then(events => {
+    if (!events.length) {
+      throw new TextError(`Requested unknown event instance from series ${seriesId} on day ${exactDay}`);
     } else  {
-      // caller expects an events array containing a single result.
-      return {events: [evt]};
+      return {events};
     }
   });
 }

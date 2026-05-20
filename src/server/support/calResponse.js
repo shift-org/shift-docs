@@ -10,7 +10,7 @@ class CalResponse {
   // 'filename' is an optional name the browser will prompt the user to save.
   // a blank filename, or the filename 'none',
   // will send the data in plain text format instead of as a file.
-  construtor(cal, events, filename) {
+  constructor(cal, events, filename) {
     this.cal = cal;
     this.events = events;
     this.filename = filename;
@@ -18,8 +18,8 @@ class CalResponse {
 
   // res is an express response object
   sendCal(res) {
-    const { cal, filename, events } = this;
-    sendCal(res, cal, filename, events);
+    const { cal, events, filename } = this;
+    sendCal(res, cal, events, filename);
   }
 }
 

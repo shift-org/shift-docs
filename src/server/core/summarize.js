@@ -8,29 +8,17 @@ const config = require("server/core/config");
 const DailyData = require("server/model/dailyData");
 const EventData = require("server/model/eventData");
 
-// return the name of a db view
-// customized via options.version
-class View {
-  static dailyEvents(options) {
-    return View.vone(options) || 'daily_events';
-  }
-  static publicEvents(options) {
-    return View.vone(options) || 'public_events';
-  }
-  static privateEvents(options) {
-    return View.vone(options) || 'private_events';
-  }
-  static reverseLookup(options) {
-    return View.vone(options) ? 'v1_reverse' : 'v2_reverse';
-  }
-  static combined(options) {
-    return options.includePrivate ?
-        View.privateEvents(options) :
-        View.publicEvents(options);
-  }
-  // internal helper:
-  static vone(options) {
-     return (options.version === 1) ? 'v1_events' : false;
+// return the name of a db view based on version
+function findView(view, version) {
+  // the requested name is the version 2 name / default.
+  if (version !== 1) {
+    return view;
+  } else if (view === 'reverse_lookup') {
+    // the reverse lookup is special even for v1
+    return 'v2_reverse';
+  } else {
+    // otherwise, in v1 we just return a big join of all data.
+    return 'v1_events';
   }
 }
 
@@ -66,7 +54,7 @@ function getDefaultOptions(...overrideOptions) {
 
 // promise rows of data pulled from the db.
 function queryEvents(view, opt = {}) {
-  const q = db.query(view)
+  const q = db.query(findView(view, opt.version));
   // filters:
   q.where(q => {
     if (opt.includePrivate) {
@@ -82,7 +70,10 @@ function queryEvents(view, opt = {}) {
       q.where('eventdate', '<=', dt.toYMDString(opt.lastDay));
     }
     if (opt.exactDay) {
-      q.where('eventdate', '==', dt.toYMDString(opt.exactDay));
+      q.where('eventdate', '=', dt.toYMDString(opt.exactDay));
+      // note exact day doesn't use .first() to pick a single row
+      // because callers always expect an array of events
+      // even if there's only one entry in it.
     }
     if (opt.seriesId) {
       q.where('id', opt.seriesId);
@@ -107,10 +98,6 @@ function queryEvents(view, opt = {}) {
     q.orderBy('eventdate', sort);
     q.orderBy('eventtime', sort);
   }
-  // limiting:
-  if (opt.exactDay) {
-    q.first();
-  }
   return q;
 }
 
@@ -125,11 +112,14 @@ function handleSummary(q, opt, log) {
   }));
 }
 
+// exported object.
 const summarize = {
   // given a pkid, return an id and eventdate
   reverseLookup(pkid, options) {
-    return db.queryEvents(View.reverseLookup(options), {
+    return queryEvents('reverse_lookup', {
       dayId: pkid,
+      version: options.version,
+      newestFirst: 'unordered'
     }).first();
   },
 
@@ -140,7 +130,9 @@ const summarize = {
     // if the name of a view was specified use that.
     // (ex. the ical feed uses a specialized view)
     // otherwise use the default private or public view depending
-    const view = combined.view || View.events(combined);
+    const view = combined.view || (
+      options.includePrivate ? 'private_events' : 'public_events'
+    );
     // query the db.
     const q = queryEvents(view, combined);
     // if desired, transform the returned data.
@@ -155,7 +147,7 @@ const summarize = {
     const currDate = db.currentDateString();
     // note: this uses the dailyEvents view rather than raw 'status'
     // so that it can use the same summary options ( ex. eventdate, eventstatus )
-    return queryEvents(View.dailyEvents(combined), combined)
+    return queryEvents('daily_events', combined)
         .column(db.raw(`COUNT(*) as total`))
         .column(db.raw(`COUNT(CASE WHEN eventdate < ${currDate} THEN 1 END) AS past`))
         .column(db.raw(`COUNT(CASE WHEN eventdate >= ${currDate} THEN 1 END) AS upcoming`))
@@ -165,7 +157,7 @@ const summarize = {
   // Promises an array of published events which match the search term.
   search(term, options) {
     const combined = getDefaultOptions(options);
-    const q = queryEvents(View.publicEvents(combined), combined)
+    const q = queryEvents('public_events', combined)
         .column(db.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .where(q => {
           q.where('title', 'LIKE', `%${term}%`)

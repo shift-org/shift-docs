@@ -8,7 +8,7 @@ const request = require('supertest');
 
 const RideCountApi = "/api/v2/count.json";
 
-describe.only("v2 ride count testing", () => {
+describe("v2 ride count testing", () => {
   // runs before the first test in this block.
   before(() => {
     return testdb.setupFakeData("count");

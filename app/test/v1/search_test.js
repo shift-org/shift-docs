@@ -8,6 +8,8 @@ const { EventSearch } = require("shift-docs/models/calConst");
 const testdb = require("./testdb");
 const testData = require("../testData");
 
+const SearchApi = "/api/search.php";
+
 describe("searching for v1 events", () => {
   // runs before the first test in this block.
   before(() => {
@@ -20,12 +22,12 @@ describe("searching for v1 events", () => {
   // test:
   it("errors on an empty search term", () => {
     return request(app)
-      .get('/api/search.php')
+      .get(SearchApi)
       .expect(testData.expectError);
   });
   it("handles a search", () => {
     return request(app)
-      .get('/api/search.php')
+      .get(SearchApi)
       .query({q: "go", all: true})
       .expect(200)
       .expect('Content-Type', /json/)
@@ -36,7 +38,7 @@ describe("searching for v1 events", () => {
   });
   it("caps large limits", () => {
     return request(app)
-      .get('/api/search.php')
+      .get(SearchApi)
       .query({
           q: "go",
           l: 1000000,
@@ -54,7 +56,7 @@ describe("searching for v1 events", () => {
   });
   it("handles narrow limits", () => {
     return request(app)
-      .get('/api/search.php')
+      .get(SearchApi)
       .query({
           q: "go",
           l: 2,
@@ -75,7 +77,7 @@ describe("searching for v1 events", () => {
   });
   it("handles offsets", () => {
     return request(app)
-      .get('/api/search.php')
+      .get(SearchApi)
       .query({
           q: "go",
           o: 2,

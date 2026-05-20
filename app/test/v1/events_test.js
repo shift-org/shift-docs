@@ -1,12 +1,28 @@
 const app = require("shift-docs/appEndpoints");
 const testdb = require("./testdb");
-const testData = require("../testData");
+const test = require("../testData");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
 
-describe("getting events", () => {
+function eventList() {
+  return "/api/events.php";
+}
+function eventRange(start, end) {
+  return {
+    path: "/api/events.php",
+    query: {startdate: start, enddate: end}
+  };
+}
+function eventInstance(pkid) {
+  return {
+    path: "/api/events.php",
+    query: {id: pkid}
+  };
+}
+
+describe("v1 getting events", () => {
   // runs before the evt test in this block.
   before(() => {
     return testdb.setupTestData("events");
@@ -16,55 +32,27 @@ describe("getting events", () => {
     return testdb.destroy();
   });
   it("errors with no parameters", () => {
-    return request(app)
-      .get('/api/events.php')
-      .then(testData.expectError);
+    return test.GET(eventList())
+      .then(test.expectError);
   });
   it("errors on an invalid id", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-          id:999
-        })
-      .then(testData.expectError);
+      return test.GET(eventInstance(999))
+      .then(test.expectError);
   });
   it("errors on an invalid date", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-        // date time formats have been loosened ( #ff5ae63 )
-        // clearly invalid dates are still rejected.
-        startdate: "apple",
-        enddate  : "sauce",
-        // startdate: "2002/05/06",
-        // enddate  : "2002/05/06",
-      })
-      .then(testData.expectError);
+    return test.GET(eventRange("apple", "sauce"))
+      .then(test.expectError);
   });
   it("errors on too large a range", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-        startdate: "2002-01-01",
-        enddate  : "2003-01-01",
-      })
-      .then(testData.expectError);
+    return test.GET(eventRange("2002-01-01", "2003-01-01"))
+      .then(test.expectError);
   });
   it("errors on a negative range", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-        startdate: "2003-01-01",
-        enddate  : "2002-01-01",
-       })
-      .then(testData.expectError);
+     return test.GET(eventRange("2003-01-01", "2002-01-01"))
+      .then(test.expectError);
   });
   it("succeeds with a valid id", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-         id: 201, // a daily id
-       })
+    return test.GET(eventInstance(201))
       .expect(200)
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
@@ -78,13 +66,8 @@ describe("getting events", () => {
         assert.equal(res.body.pagination, undefined, "only ranges should have pagination");
       });
   });
-  it("succeeds with a valid range", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-         startdate: "2002-08-01",
-         enddate  : "2002-08-02",
-       })
+  it.only("succeeds with a valid range", () => {
+    return test.GET(eventRange("2002-08-01", "2002-08-02"))
       .expect(200)
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)

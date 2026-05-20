@@ -1,6 +1,5 @@
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const request = require('supertest');
 const sandbox = require('sinon').createSandbox();
 //
 const db = require("server/core/db");
@@ -13,7 +12,30 @@ const testData = require("../testData");
 const testdb = require("./testdb");
 
 //
-const { CalendarType, allEvents, cancelledDay, emptyRange, pedalpaloozaFeed, } = testData;
+const { allEvents, cancelledDay, emptyRange, pedalpaloozaFeed, } = testData;
+const CalendarType = /^text\/calendar/;
+
+function eventList() {
+  return "/api/ical.php";
+}
+function eventSeries(seriesId)  {
+  return {
+    path: "/api/ical.php",
+    query: {id: seriesId},
+  }
+}
+function eventInstance(pkid) {
+  return {
+    path: "/api/ical.php",
+    query: {event_id: pkid},
+  }
+}
+function eventRange(startdate, enddate, filename = undefined) {
+  return {
+    path: "/api/ical.php",
+    query: {startdate, enddate, filename}
+  };
+}
 
 describe("getting v1 ical feed", () => {
   // runs before the evt test in this block.
@@ -28,47 +50,23 @@ describe("getting v1 ical feed", () => {
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-        id: 999
-      })
+    return test.GET(eventSeries(999))
       .expect(400);
   });
   it("errors on an invalid date",  () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-        // date time formats have been loosened ( #ff5ae63 )
-        // clearly invalid dates are still rejected.
-        startdate: "apple",
-        enddate  : "sauce",
-        // startdate: "2002/05/06",
-        // enddate  : "2002/05/06",
-      })
+    return test.GET(eventRange("apple", "sauce"))
       .expect(400);
   });
   it("errors on too large a range",  () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-        startdate: "2002-01-01",
-        enddate  : "2003-01-01",
-      })
+    return test.GET(eventRange("2002-01-01","2003-01-01"))
       .expect(400);
   });
   it("errors on a negative range",  () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-        startdate: "2003-01-01",
-        enddate  : "2002-01-01",
-      })
+    return test.GET(eventRange("2003-03-01","2003-02-01"))
       .expect(400);
   });
   it("supports an 'all events' feed", () => {
-    return request(app)
-      .get('/api/ical.php')
+    return test.GET(eventList())
       // test that it also has an api version
       // that exists everywhere, but only tested here.
       .expect('Api-Version', /^3\./)
@@ -76,11 +74,7 @@ describe("getting v1 ical feed", () => {
       .expect('content-type', CalendarType);
   });
   it("provides the days of a single event", () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-         id: 2, // an event id
-       })
+    return test.GET(eventSeries(2))
       .expect(200)
       .expect('content-type', CalendarType)
       .then(res => {
@@ -88,42 +82,28 @@ describe("getting v1 ical feed", () => {
       });
   });
   it("provides a range of days", () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-         startdate: "2002-08-01",
-         enddate  : "2002-08-02",
-       })
+    return test.GET(eventRange("2002-08-01","2002-08-02"))
       .expect(200)
-      .expect('content-type', CalendarType);
+      .expect('content-type', CalendarType)
+      .done();
   });
   it("can return an empty range", () => {
-    return request(app)
-      .get('/api/ical.php')
-      .query({
-         startdate: "2002-01-01",
-         enddate  : "2002-01-02",
-       })
+    return test.GET(eventRange("2002-01-01","2002-01-02"))
       .expect(200)
       .expect('content-type', CalendarType)
       .then(res => {
         assert.equal(res.text, emptyRange);
       });
   });
-  it("has a special pedalpalooza feed", () => {
-     return request(app)
-      .get('/api/ical.php')
-      .query({
-         startdate: "2002-08-01",
-         enddate  : "2002-08-02",
-         filename : "pedalpalooza-2024.ics",
-       })
-      .expect(200)
-      .expect('content-type', CalendarType)
-      .then(res => {
-        assert.equal(res.text, pedalpaloozaFeed);
-      });
-  });
+  // no longer:
+  // it("has a special pedalpalooza feed", () => {
+  //    return test.GET(eventRange("2002-08-01","2002-08-02", "pedalpalooza-2024.ics"))
+  //     .expect(200)
+  //     .expect('content-type', CalendarType)
+  //     .then(res => {
+  //       assert.equal(res.text, pedalpaloozaFeed);
+  //     });
+  // });
   it("can handle a canceled event", () => {
     return CalEvent.getByID(2).then(evt => {
       // todo: create a separate test where these values are nil and zero.
@@ -134,11 +114,7 @@ describe("getting v1 ical feed", () => {
         return CalDaily.getForTesting(201).then(d => {
           d.eventstatus = EventStatus.Cancelled;
           return d._store().then(_ => {
-            return request(app)
-              .get('/api/ical.php')
-              .query({
-                 id: 2, // an event id
-               })
+            return test.GET(eventSeries(2))
               .expect(200)
               .expect('content-type', CalendarType)
               .then(res => {

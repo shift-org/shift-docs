@@ -1,8 +1,7 @@
 const dt = require('server/util/dateTime');
-const validator = require('validator');
 const { Area, Audience, Distance, EventStatus, LocType, Showable, TagName, WebType } = require("server/model/shorthands");
-const { parseJson } = require('server/util/parse');
-const { ErrorCollector, TextError } = require('server/support/errors');
+const { ErrorCollector } = require('server/support/errors');
+const makeValidator = require('server/support/formValidator');
 
 module.exports = validateEvent;
 

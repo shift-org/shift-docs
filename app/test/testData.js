@@ -1,9 +1,13 @@
 /**
  * misc test helpers
  */
+const assert = require("node:assert/strict");
+const request = require('supertest');
+//
 const dt = require('server/util/dateTime');
 const config = require('server/core/config');
-const assert = require("node:assert/strict");
+//
+const app = require("shift-docs/appEndpoints");
 
 const secret = "12e1c433836d6c92431ac71f1ff6dd97";
 const email ="email@example.com";
@@ -176,8 +180,14 @@ module.exports = {
   setupImageDir(sinon, path) {
     sinon.replace(config.image, 'dir', path);
   },
+  // p can be a string or {path, query}
+  GET(p) {
+    return request(app).get(p.path || p).query(p.query || {});
+  },
+  POST(p) {
+    return request(app).post(p.path || p).query(p.query || {});
+  },
   // ical data:
-  CalendarType: /^text\/calendar/,
   pedalpaloozaFeed,
   cancelledDay,
   emptyRange,

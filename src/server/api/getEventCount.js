@@ -14,7 +14,7 @@ function getEventCount(req) {
   const end = parseYmd(req.query.e);
   // start and end are optional
   if ((start && !start.isValid()) || (end && !end.isValid())) {
-    throw new TextError(`start date was ${start} and end date was ${end}.`);
+    throw new TextError(`Requested invalid event range: start date was ${start} and end date was ${end}.`);
   }
   // "total": 123, "past": 80, "upcoming": 42
   return summarize.count({

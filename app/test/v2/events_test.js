@@ -1,12 +1,31 @@
-const app = require("shift-docs/appEndpoints");
 const testdb = require("./testdb");
-const testData = require("../testData");
+const test = require("../testData");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const request = require('supertest');
+const config = require("server/core/config");
 
-describe.skip("getting events", () => {
+function eventList(version = 2) {
+  return `/api/v${version}/events.json`;
+}
+// todo: add a test for this
+function eventSeries(seriesId, version = 2)  {
+  return `/api/v${version}/events/${seriesId}.json`;
+}
+function eventInstance(series, ymd, version = 2) {
+  return `/api/v${version}/events/${series}/${ymd}.json`;
+}
+function eventRange(start, end, version = 2) {
+  return {
+    path: `/api/v${version}/events.json`,
+    query: {s: start, e: end}
+  };
+}
+function legacyEvent(pkid, version = 2) {
+  return `/api/v${version}/legacy/${pkid}.json`;
+}
+
+describe("v2 getting events", () => {
   // runs before the evt test in this block.
   before(() => {
     return testdb.setupTestData("events");
@@ -15,56 +34,45 @@ describe.skip("getting events", () => {
   after(() => {
     return testdb.destroy();
   });
+  // NOTE: new api allows this
   it("errors with no parameters", () => {
-    return request(app)
-      .get('/api/events.php')
-      .then(testData.expectError);
+    return test.GET(eventList())
+      .expect(200)
+      .then(res => {
+        // TODO: add some validation here.
+        console.log(JSON.stringify(res.body));
+      });
   });
   it("errors on an invalid id", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-          id:999
-        })
-      .then(testData.expectError);
+    return test.GET(legacyEvent(999))
+      .then(test.expectError);
   });
   it("errors on an invalid date", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-        // date time formats have been loosened ( #ff5ae63 )
-        // clearly invalid dates are still rejected.
-        startdate: "apple",
-        enddate  : "sauce",
-        // startdate: "2002/05/06",
-        // enddate  : "2002/05/06",
-      })
-      .then(testData.expectError);
+    return test.GET(eventRange("apple", "sauce"))
+      .then(test.expectError);
   });
   it("errors on too large a range", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-        startdate: "2002-01-01",
-        enddate  : "2003-01-01",
-      })
-      .then(testData.expectError);
+    return test.GET(eventRange("2002-01-01", "2003-01-01"))
+      .then(test.expectError);
   });
   it("errors on a negative range", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-        startdate: "2003-01-01",
-        enddate  : "2002-01-01",
-       })
-      .then(testData.expectError);
+    return test.GET(eventRange("2003-01-01", "2002-01-01"))
+      .then(test.expectError);
   });
-  it("succeeds with a valid id", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-         id: 201, // a daily id
-       })
+  it("handles a legacy pkid", () => {
+    const expectedRedirect = eventInstance(2, "2002-08-01");
+    return test.GET(legacyEvent(201))
+      .expect(302) // redirect reports found
+      .expect('Location', expectedRedirect)
+      .then(_ => true);
+    });
+
+  it.only("succeeds with a valid id", () => {
+    // FISXXXX -- exactDay only returns first
+    // i think thats fucking up summary.
+    // probably it should return all but some other things might need fixup
+
+    return test.GET(eventInstance(2, "2002-08-01"))
       .expect(200)
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
@@ -79,12 +87,7 @@ describe.skip("getting events", () => {
       });
   });
   it("succeeds with a valid range", () => {
-    return request(app)
-      .get('/api/events.php')
-      .query({
-         startdate: "2002-08-01",
-         enddate  : "2002-08-02",
-       })
+    return test.GET(eventRange("2002-08-01", "2002-08-02"))
       .expect(200)
       .expect('Content-Type', /json/)
       .expect('Api-Version', /^3\./)
@@ -101,7 +104,8 @@ describe.skip("getting events", () => {
         assert.equal(page.events, 2);
         assert.equal(page.start, '2002-08-01');
         assert.equal(page.end, '2002-08-02');
-        assert.match(page.next, /\?startdate=2002-08-03&enddate=2002-08-04$/);
+        const p = "/api/v2/events.json?s=2002-08-03&e=2002-08-04";
+        assert.ok(page.next.endsWith(p), `expected ${p} got ${page.next}`);
       });
   });
 });

@@ -31,7 +31,7 @@ module.exports = useApi;
 function useApi(app) {
   // base of every url
   const versioned = "/api/v:version";
-  const versionv2 = "/api/v2";
+  const v2only = "/api/v2";
 
   // GET /count.json -- /api/v2/count.json
   app.get(versioned + "/count.json", renderJson(getEventCount));
@@ -41,25 +41,24 @@ function useApi(app) {
 
   // GET /events(.json|.ical)?s=2020-05-12&e=2026-05-12
   app.get(versioned + "/events.json", renderJson(getEventRange));
-  app.get(versionv2 + "/events.ical", renderCal(getCalRange));
+  app.get(versioned + "/events.ical", renderCal(getCalRange));
 
   // GET /events/1234(.json|.ical)
   app.get(versioned + "/events/:seriesId.json", renderJson(getEventSeries));
-  app.get(versionv2 + "/events/:seriesId.ical", renderCal(getCalSeries));
+  app.get(versioned + "/events/:seriesId.ical", renderCal(getCalSeries));
 
   // GET /events/1234/2026-05-12(.json|.ical)
   app.get(versioned + "/events/:seriesId/:ymd.json", renderJson(getEventInstance));
-  app.get(versionv2 + "/events/:seriesId/:ymd.ical", renderCal(getCalInstance));
+  app.get(versioned + "/events/:seriesId/:ymd.ical", renderCal(getCalInstance));
 
   // POST /events/1234?_method=DELETE
-  app.post(versionv2 + "/events/:seriesId", postJson(deleteEvent, {_method: "DELETE"}));
+  app.post(v2only + "/events/:seriesId", postJson(deleteEvent, {_method: "DELETE"}));
 
   // POST /events/1234
-  app.post(versionv2 + "/events/:seriesId", postJson(updateExistingEvent));
+  app.post(v2only + "/events/:seriesId", postJson(updateExistingEvent));
 
   // POST /events
-  app.post(versionv2 + "/events", postJson(createNewEvent));
-
+  app.post(v2only + "/events", postJson(createNewEvent));
 
   // GET /legacy/32(.json|.ical)
   // the instance of a particular event on a particular day identified by id
@@ -90,7 +89,7 @@ function renderJson(cb, queryMatch) {
 function renderCal(cb, queryMatch) {
   // our endpoints generate cal responses
   return getResponse(cb, queryMatch, (res, cal) => {
-    cal.send(res);
+    cal.sendCal(res);
   });
 }
 

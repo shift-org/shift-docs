@@ -9,19 +9,19 @@
 const v1Events = `select * from calevent left join caldaily using(id)`;
 
 const v1Reverse = `
-select id, eventdate
+select id, pkid, eventdate
 from v1_events
 where not coalesce(hidden, 0)
 and eventstatus in ('A', 'C')
-`
+`;
 
-const v2Reverse = `
-select id, ymd as eventdate
+const reverseLookup = `
+select id, pkid, ymd as eventdate
 from series
 join schedule using(id)
 where published is not null
 and is_scheduled is not null
-`
+`;
 
 // individual event instances
 // tbd if the bike fun app needs the pkids at all.
@@ -207,7 +207,7 @@ where web_type = 'url';
 module.exports = {
   v1_events: v1Events,
   v1_reverse: v1Reverse,
-  v2_reverse: v2Reverse,
+  reverse_lookup: reverseLookup,
   daily_events: dailyEvents,
   series_events: seriesEvents,
   loc_events: locEvents,

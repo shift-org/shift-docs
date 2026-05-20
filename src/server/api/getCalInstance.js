@@ -1,12 +1,12 @@
 /**
  * Return a ical file containing one event on one day.
  */
-const config = require('server/core/config');
-const summarize = require('server/core/summarize');
-const dt = require('server/util/dateTime');
-const { parseYmd, parseString } = require('server/util/parse');
-const { buildCalEvent } = require('server/model/ical');
-const { CalResponse } = require('server/support/calResponse');
+const config = require("server/core/config");
+const summarize = require("server/core/summarize");
+const { buildCalEntry } = require("server/model/ical");
+const { CalResponse } = require("server/support/calResponse");
+const dt = require("server/util/dateTime");
+const { parseYmd, parseString } = require("server/util/parse");
 
 module.exports = getCalInstance;
 
@@ -24,7 +24,7 @@ function getCalInstance(req) {
       version: version,
       seriesId,
       exactDay,
-      summary: buildCalEvent,
+      summary: buildCalEntry,
   }).then(events => {
     return new CalResponse(cal, events, customName || defaultName);
   });
