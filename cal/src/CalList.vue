@@ -8,13 +8,14 @@ import dayjs from 'dayjs'
 // components:
 import EventSummary from './EventSummary.vue'
 import DateDivider from './DateDivider.vue'
+import NewsItem from './NewsItem.vue'
 // support:
 import { fetchRange } from './calList.js'
 import helpers from './calHelpers.js'
 import siteConfig from './siteConfig.js'
 
 export default {
-  components: { EventSummary, DateDivider },
+  components: { EventSummary, DateDivider, NewsItem },
   emits: [ 'pageLoaded' ],
   // called before the component is fully created
   // ( doesnt have access to `this` )
@@ -70,7 +71,7 @@ export default {
     class="c-day"
     :data-date="day.date">
     <DateDivider :date="day.date" />
-    <template v-for="rec in day.records" :key="rec.uid">
+    <template v-for="rec in day.records" :key="`${rec.type}-${rec.uid}`">
       <h2 v-if="rec.type == 'calfestival'"
       class="c-day__festival" :class="{
          'c-day__festival--start': rec.start,
@@ -79,6 +80,7 @@ export default {
         {{rec.title}} {{rec.start ? "Starts": "Ends"}}
       </h2>
       <EventSummary v-else-if="rec.type == 'caldaily'" :evt="rec" />
+      <NewsItem v-else-if="rec.type == 'news'" :news="rec" />
       <template v-else-if="rec.type == 'social'">
         <p>Social</p>
         <img v-if="rec.image" :alt="rec.image.alt" :src="rec.image.url">
