@@ -1,50 +1,43 @@
-const app = require("shift-docs/appEndpoints");
-const testdb = require("./testdb");
-const testData = require("../testData");
-const { EventSearch } = require("server/model/shorthands");
-//
-const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const request = require('supertest');
-
-const SearchApi = "/api/v2/search.json";
+const { describe, it, before, after } = require("node:test");
+const testdb = require("./testdb");
+const test = require("../testData");
+//
+const { EventSearch } = require("server/model/shorthands");
 
 describe("searching for v2 events", () => {
   // runs before the first test in this block.
   before(() => {
+    test.configure("v2", "json");
     return testdb.setupFakeData("search");
   });
   // runs once after the last test in this block
   after(() => {
+    test.configure();
     return testdb.destroy();
   });
   // test:
   it("errors on an empty search term", () => {
-    return request(app)
-      .get(SearchApi)
-      .expect(testData.expectError);
+    return test.GET(test.api.search())
+      .then(test.expectError);
   });
   it("handles a search", () => {
-    return request(app)
-      .get(SearchApi)
-      .query({q: "go", all: true})
-      .expect(200)
-      .expect('Content-Type', /json/)
+    return test.GET(test.api.search({
+        q: "go", all: true
+      }))
+      .then(test.expectOkay)
       .then(res => {
         assert.equal(res.body?.pagination?.fullcount, 14);
         assert.equal(res.body?.events?.length, 14);
       });
   });
   it("caps large limits", () => {
-    return request(app)
-      .get(SearchApi)
-      .query({
+    return test.GET(test.api.search({
           q: "go",
           l: 1000000,
           all: true
-        })
-      .expect(200)
-      .expect('Content-Type', /json/)
+      }))
+      .then(test.expectOkay)
       .then(res => {
         // we've been capped to the internal limits
         assert.equal(res.body?.pagination?.limit, EventSearch.Limit);
@@ -54,15 +47,12 @@ describe("searching for v2 events", () => {
       });
   });
   it("handles narrow limits", () => {
-    return request(app)
-      .get(SearchApi)
-      .query({
+    return test.GET(test.api.search({
           q: "go",
           l: 2,
           all: true
-        })
-      .expect(200)
-      .expect('Content-Type', /json/)
+        }))
+      .then(test.expectOkay)
       .then(res => {
         // pagination: still 14 events available; but we've asked for two at a time.
         assert.equal(res.body?.pagination.fullcount, 14);
@@ -75,16 +65,13 @@ describe("searching for v2 events", () => {
       });
   });
   it("handles offsets", () => {
-    return request(app)
-      .get(SearchApi)
-      .query({
+    return test.GET(test.api.search({
           q: "go",
           o: 2,
           l: 2,
           all: true
-        })
-      .expect(200)
-      .expect('Content-Type', /json/)
+        }))
+      .then(test.expectOkay)
       .then(res => {
         // pagination: still 14 events available; but we've asked for two at a time.
         assert.equal(res.body?.pagination?.fullcount, 14);

@@ -46,6 +46,7 @@ select
   tiny_title as tinytitle,
   organizer as name,
   details as descr,
+  summary as printdescr,
   created,
   modified,
   published as changes,
@@ -165,15 +166,19 @@ select * from series
 `;
 
 // certain tags are provided as fields for the existing event endpoints.
+// tag_value can be null if the tag doesn't exist in the db.
+// the "is" expressions turn boolean tests to 0 or 1, and handle null values automatically
+// substring(str,y,z) chops str at char y, for z characters, where y=1 is the first character;
+// if str is empty, it returns empty. if str is null, it returns null. ( so coalesce is needed. )
 const tagEvents = `
  select  
   series.id,
+  coalesce( substring(audience.tag_value, 1, 1), 'G' ) as audience,
+  coalesce( substring(area.tag_value, 1, 1), 'P' ) as area,
   distance.tag_value as ridelength,
-  coalesce( loopride.tag_value, 0 ) as loopride,
-  coalesce( substring(audience.tag_value,1,1), 'G' ) as audience, 
-  coalesce( substring(area.tag_value,1,1), 'P' ) as area, 
-  coalesce( featured.tag_value, 0 ) as featured,
-  coalesce( safety.tag_value, 0 ) as safetyplan
+  loopride.tag_value is 'true' as loopride,
+  featured.tag_value is 'true' as featured,
+  safety.tag_value is 'true' as safetyplan
 from series
   left join tag as audience on(audience.id = series.id and audience.tag_type = 'audience')
   left join tag as distance on(distance.id = series.id and distance.tag_type = 'distance')

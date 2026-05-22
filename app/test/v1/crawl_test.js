@@ -1,44 +1,39 @@
+const assert = require("node:assert/strict");
 const { describe, it, before, after } = require("node:test");
-const request = require('supertest');
-
-const app = require("shift-docs/appEndpoints");
 const testdb = require("./testdb");
+const test = require("../testData");
 
 describe("crawl testing", () => {
   // runs before the first test in this block.
   before(() => {
+    test.configure("v1", "html");
     return testdb.setupTestData("crawl")
   });
   // runs once after the last test in this block
   after(() => {
+    test.configure();
     return testdb.destroy();
   });
   // test:
   it("handles a simple get", () => {
-    return request(app)
-      .get('/api/crawl.php')
-      .expect(200)
-      .expect('Content-Type', /html/)
-      // .then(logResponse);
+    return test.GET(test.api.crawl())
+      .then(test.expectOkay)
+      .then(handleResponse);
   });
   it("handles a valid daily id", () => {
-    return request(app)
-      .get('/api/crawl.php')
-      .query({id: 201})
-      .expect(200)
-      .expect('Content-Type', /html/)
-      // .then(logResponse);
+    return test.GET(test.api.crawl(201))
+      .then(test.expectOkay)
+      .then(handleResponse);
   });
   it("errors on an invalid daily id", () => {
-    return request(app)
-      .get('/api/crawl.php')
-      .query({id: 999})
+    return test.GET(test.api.crawl(999))
       .expect(404) // crawl returns an empty 404
       .expect('Content-Type', /text/)
-      // .then(logResponse);
+      .then(handleResponse);
   });
 });
 
-function logResponse(res) {
-  console.log(res.text);
+function handleResponse(res) {
+  assert.ok(true);
+  //console.log(res.text);
 }

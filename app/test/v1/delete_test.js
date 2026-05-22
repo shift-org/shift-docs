@@ -1,9 +1,7 @@
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const sinon = require("sinon");
-const request = require("supertest");
 
-const app = require("shift-docs/appEndpoints");
 const { CalEvent } = require("shift-docs/models/calEvent");
 const { CalDaily } = require("shift-docs/models/calDaily");
 //
@@ -20,34 +18,26 @@ describe("deleting using a form", () => {
   // runs before the first test in this block.
   before(() => {
     spy = stubData(sinon);
+    testData.configure("v1", "json");
     return testdb.setupTestData("del");
   });
   // runs once after the last test in this block
   after(() => {
     sinon.restore();
+    testData.configure();
     return testdb.destroy();
   });
   // test:
   it("fails on an invalid id", () => {
-    return request(app)
-      .post(delete_api)
-      .type('form')
-      .send({
-        json: JSON.stringify({
+    return testData.POST(delete_api, {
           id: 999,
-        })
       })
       .then(testData.expectError);
   });
   it("fails on an incorrect password", () => {
-    return request(app)
-      .post(delete_api)
-      .type('form')
-      .send({
-        json: JSON.stringify({
+    return testData.POST(delete_api, {
           id: 2,
           secret: "to life, etc.",
-        })
       })
       .then(testData.expectError);
   });
@@ -61,18 +51,11 @@ describe("deleting using a form", () => {
     assert.equal(d1.eventstatus, 'A');
     assert.equal(d2.eventstatus, 'A');
 
-    return request(app)
-      .post(delete_api)
-      .type('form')
-      .send({
-        json: JSON.stringify({
+    return testData.POST(delete_api, {
           id: 2,
           secret: testData.secret,
-        })
       })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      .then(testData.expectOkay)
       .then(async (res) => {
         assert.equal(spy.eventStore.callCount, 1);
         assert.equal(spy.dailyStore.callCount, 2);
@@ -92,14 +75,16 @@ describe("deleting using a form", () => {
   });
 });
 
-// do the same things again,but post json ( ala curl )
+// do the same things again, but post json ( ala curl )
 describe("deleting using json", () => {
   let spy;
   before(() => {
     spy = stubData(sinon);
+    testData.configure("v1", "json");
     return testdb.setupTestData("del json");
   });
   after(() => {
+    testData.configure();
     sinon.restore();
     return testdb.destroy();
   });
@@ -112,17 +97,11 @@ describe("deleting using json", () => {
     assert.ok(e0.password);
     assert.equal(d1.eventstatus, 'A');
     assert.equal(d2.eventstatus, 'A');
-
-    return request(app)
-      .post(delete_api)
-      // .type('form') ... intentionally send not as a form
-      .send({
+    return testData.POST(delete_api,{
         id: 2,
         secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      }, false) // false, not a form
+      .then(testData.expectOkay)
       .then(async (res) => {
         assert.equal(spy.eventStore.callCount, 1);
         assert.equal(spy.dailyStore.callCount, 2);
@@ -143,15 +122,11 @@ describe("deleting using json", () => {
   });
 
   it("deletes unpublished events", () => {
-    return request(app)
-      .post(delete_api)
-      .send({
+    return testData.POST(delete_api,{
         id: 3,
         secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      }, false) // false, not a form
+      .then(testData.expectOkay)
       .then(res => {
         assert.equal(spy.eventErasures.callCount, 1);
         spy.resetHistory();
@@ -162,15 +137,11 @@ describe("deleting using json", () => {
     assert.notEqual(e0.review, 'E');
     assert.ok(e0.password);
     //
-    return request(app)
-      .post(delete_api)
-      .send({
+    return testData.POST(delete_api,{
         id: 1, // id 1 is hidden null
         secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      }, false) // false, not a form
+      .then(testData.expectOkay)
       .then(async (res) => {
         assert.equal(spy.eventErasures.callCount, 0);
         spy.resetHistory();

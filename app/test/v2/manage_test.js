@@ -17,7 +17,6 @@ const fs = require('node:fs');
 const fsp = fs.promises;
 const path = require('node:path');
 const sandbox = require('sinon').createSandbox();
-const supertest = require('supertest');
 //
 const config = require('server/core/config');
 const db = require('server/core/db');
@@ -25,11 +24,15 @@ const DailyData = require("server/model/dailyData");
 const EventData = require("server/model/eventData");
 const { EventStatus } = require("server/model/shorthands");
 //
-const app = require("shift-docs/appEndpoints");
 const testdb = require("./testdb");
-const testData = require("../testData");
+const test = require("../testData");
 //
 const manage_api = '/api/manage_event.php';
+
+// handler is createNewEvent; verb is post.
+function createNewEvent(seriesId, version = 2) {
+  return`/api/v${version}/events/${seriesId}.json`;
+}
 
 describe.skip("managing events",  () => {
   // hangs occur if the http requests throw exceptions;
@@ -55,7 +58,7 @@ describe.skip("managing events",  () => {
   beforeEach(() => {
     // docker config sets an explicit SHIFT_IMAGE_DIR
     // but tests need the directory under app.
-    testData.setupImageDir(sandbox, "./eventimages");
+    test.setupImageDir(sandbox, "./eventimages");
     return testdb.setupTestData("manage");
   });
   afterEach(() => {
@@ -71,16 +74,13 @@ describe.skip("managing events",  () => {
           id: 999,
         })
       })
-      .then(testData.expectError);
+      .then(test.expectError);
   });
   it("creates a new event, using raw json", () => {
     return agent
       .post(manage_api)
       .send(eventData)
-      // FIX: renable this...
-      // .expect(200)
-      // .expect('Content-Type', /json/)
-      // .expect('Api-Version', /^3\./)
+      .then(test.expectOkay)
       .then(async (res) => {
         assert.equal(res.body?.error?.message, undefined);
         //
@@ -118,7 +118,7 @@ describe.skip("managing events",  () => {
         return agent
         .post(manage_api)
         .send(post)
-        .then(res => testData.expectError(res, key));
+        .then(res => test.expectError(res, key));
       })
     }
     return seq;
@@ -147,7 +147,7 @@ describe.skip("managing events",  () => {
         return agent
         .post(manage_api)
         .send(post)
-        .then(res => testData.expectError(res, key));
+        .then(res => test.expectError(res, key));
       })
     }
     return seq;
@@ -163,9 +163,9 @@ describe.skip("managing events",  () => {
         .post(manage_api)
         .send(Object.assign({
           id: 3,
-          secret: testData.secret,
+          secret: test.secret,
         }, eventData))
-        .expect(200)
+        .then(test.expectOkay)
         .then(async (res) => {
           // first, validate the response
           // because the client sends it, it shouldn't need this id back
@@ -199,16 +199,16 @@ describe.skip("managing events",  () => {
         id: 3,
         // not sending any secret
       }, eventData))
-      .then(testData.expectError);
+      .then(test.expectError);
   });
   it("fails to use an invalid secret", () => {
     return agent
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
-        secret: testData.secret.split("").reverse().join(""),
+        secret: test.secret.split("").reverse().join(""),
       }, eventData))
-      .then(testData.expectError);
+      .then(test.expectError);
   });
   it("adds one date and removes another", ()=> {
     return testdb.findSeries(2).then(events => {
@@ -217,7 +217,7 @@ describe.skip("managing events",  () => {
       // 2 2002-08-02  news flash  1 202 2025-11-17 05:50:02
       const eventData = EventData.getSummary(events[0], {includePrivate: true});
       const post = Object.assign({
-        secret: testData.secret,
+        secret: test.secret,
         code_of_conduct: "1",
         read_comic: "1",
         datestatuses : [
@@ -234,7 +234,7 @@ describe.skip("managing events",  () => {
         .send({
           json: JSON.stringify(post)
         })
-        .expect(200)
+        .then(test.expectOkay)
         .then(async (res) => {
           // three dailies for our event are in the db:
           // but the delisted one is hidden
@@ -264,7 +264,7 @@ describe.skip("managing events",  () => {
       return testdb.findSeries(id).then(events => {
         const eventData = EventData.getSummary(events[0], {includePrivate: true});
         const post = Object.assign({
-          secret: testData.secret,
+          secret: test.secret,
           code_of_conduct: "1",
           read_comic: "1",
         }, eventData);
@@ -287,7 +287,7 @@ describe.skip("managing events",  () => {
     const imageTarget = getImageTarget(3, imageSource);
     // post the image once
     await postImage(3, imageSource, imageTarget)
-      .then(testData.expectOkay)
+      .then(test.expectOkay)
       .then(_ => {
         return testdb.findSeries(3).then(events => {
           const evt = events[0];
@@ -303,7 +303,7 @@ describe.skip("managing events",  () => {
     // posting eventimages/bike.png eventimages/3.png
     console.log("posting", altSource, altTarget);
     await postImage(3, altSource, altTarget)
-      .then(testData.expectOkay)
+      .then(test.expectOkay)
       .then(res => {
         return testdb.findSeries(3).then(events => {
           const evt = events[0];
@@ -319,7 +319,7 @@ describe.skip("managing events",  () => {
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget)
       .then(res => {
-        testData.expectError(res, 'image');
+        test.expectError(res, 'image');
 
         // check for the image on disk:
         return fsp.stat(imageTarget)
@@ -337,7 +337,7 @@ describe.skip("managing events",  () => {
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget).then(res => {
-      testData.expectError(res, 'image');
+      test.expectError(res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
           // fail if it existed
@@ -361,7 +361,7 @@ describe.skip("managing events",  () => {
       })
       .attach('file', fs.readFileSync(imageSource), path.basename(imageSource))
       .then(res => {
-        testData.expectError(res, 'image');
+        test.expectError(res, 'image');
       });
   });
 });

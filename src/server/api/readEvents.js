@@ -25,7 +25,7 @@ function readEvent(req, options = {allowImages: false}) {
     err.addError("image", "Images can only be added to existing events.");
   }
   if (err.count) {
-    throw new FieldError(errs.getErrors());
+    throw new FieldError(err.getErrors());
   }
   return { tgt, vals };
 }

@@ -150,19 +150,152 @@ String.raw`END:VCALENDAR`,
 ].join("\r\n");
 
 // ---------------------------------------------
-module.exports = {
+const options = {};
+
+const restApi = {
+  crawl() {
+    throw new Error("legacy event not supported via the rest api");
+  },
+  eventList() {
+    return `/api/${options.version}/events.${options.format}`;
+  },
+  eventSeries(seriesId, secret)  {
+    return {
+      path: `/api/${options.version}/events/${seriesId}.${options.format}`,
+      query: {secret}
+    };
+  },
+  eventDay(series, ymd) {
+    return `/api/${options.version}/events/${series}/${ymd}.${options.format}`;
+  },
+  eventRange(start, end) {
+    return {
+      path: `/api/${options.version}/events.${options.format}`,
+      query: {s: start, e: end}
+    };
+  },
+  count(s, e) {
+    return {
+      path: "/api/v2/count.json",
+      query: { s, e }
+    };
+  },
+  search(query) {
+    return {
+      path: `/api/${options.version}/search.${options.format}`,
+      query,
+    };
+  },
+  eventInstance(pkid) {
+    // legacy: generates a redirect
+    return `/api/${options.version}/legacy/${pkid}.${options.format}`;
+  },
+};
+const phpApi = {
+  calList() {
+    return "/api/ical.php";
+  },
+  calSeries(seriesId)  {
+    return {
+      path: "/api/ical.php",
+      query: {id: seriesId},
+    }
+  },
+  calInstance(pkid) {
+    return {
+      path: "/api/ical.php",
+      query: {event_id: pkid},
+    }
+  },
+  calRange(startdate, enddate, filename = undefined) {
+    return {
+      path: "/api/ical.php",
+      query: {startdate, enddate, filename}
+    };
+  },
+  count(s, e) {
+    return {
+      path: '/api/ride_count.php',
+      query: { s, e }
+    };
+  },
+  crawl(id) {
+    return {
+     path: "/api/crawl.php",
+     query: {id}
+    }
+  },
+  eventInstance(pkid) {
+    return {
+      path: "/api/events.php",
+      query: {id: pkid}
+    };
+  },
+  eventList() {
+    return "/api/events.php";
+  },
+  eventRange(start, end) {
+    return {
+      path: "/api/events.php",
+      query: {startdate: start, enddate: end}
+    };
+  },
+  retrieve(id, secret)  {
+    return {
+      path: '/api/retrieve_event.php',
+      query: {id, secret},
+    }
+  },
+  search(query) {
+    return {
+      path: "/api/search.php",
+      query,
+    };
+  }
+};
+
+const test = {
   secret,
   email,
+  api: null, // the endpoints. errors if used w/o configure
+
+  // todo: figure out how to link this into the sandbox/sandbox.reset
+  configure(version, format) {
+    options.version = version;
+    options.format = format;
+    test.api = version === "v2"  ? restApi :
+               version === "v1"  ? phpApi :
+               null;
+  },
   expectOkay(res) {
+    const types = {
+      json: /json/,
+      html: /html/,
+      ical: /^text\/calendar/,
+    };
+    const fmt = options.format;
+    if (fmt) {
+      const expectedType = types[fmt];
+      if (!expectedType) {
+        throw new Error(`test requested an unknown format '${fmt}'`)
+      }
+      assert.match(res.header['content-type'], expectedType);
+    }
+    // crawl sends html and doesn't set the api version.
+    if (fmt !== 'html') {
+      assert.match(res.header['api-version'] || "missing api version", /^3\./);
+    }
     assert.equal(res.status, 200);
+    return res;
   },
   // helper for testing the calendar's custom error message format.
   expectError(res, field) {
     assert.equal(res.status, 400);
     assert.match(res.header['content-type'], /json/);
-    assert.match(res.header['api-version'], /^3\./);
+    assert.match(res.header['api-version']  || "missing api version", /^3\./);
     assert.ok(res.body?.error?.message);
     assert.ok(!field || res.body.error.fields[field]);
+    return res;
   },
   // create a fake database of cal events and dailies:
   fakeNow(sinon) {
@@ -182,10 +315,26 @@ module.exports = {
   },
   // p can be a string or {path, query}
   GET(p) {
+    // console.log("get", JSON.stringify(p));
     return request(app).get(p.path || p).query(p.query || {});
   },
-  POST(p) {
-    return request(app).post(p.path || p).query(p.query || {});
+  DELETE(p, data, form = true) {
+    const q = Object.assign( {}, p.query, {_method: "DELETE"} );
+    return test.POST({
+      path: p.path || p,
+      query: q,
+    }, data, form);
+  },
+  POST(p, data, form = true) {
+    // console.log("post", JSON.stringify(p));
+    const req = request(app)
+      .post(p.path || p)
+      .query(p.query || {});
+    return !form ?
+      req.send(data) :
+      req.type('form').send({
+        json: JSON.stringify(data)
+      });
   },
   // ical data:
   pedalpaloozaFeed,
@@ -193,3 +342,5 @@ module.exports = {
   emptyRange,
   allEvents
 };
+
+module.exports = test;

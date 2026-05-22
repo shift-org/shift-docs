@@ -1,27 +1,22 @@
-const app = require("shift-docs/appEndpoints");
-const testdb = require("./testdb");
-//
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const request = require('supertest');
-
-const RideCountApi = '/api/ride_count.php';
+const testdb = require("./testdb");
+const test = require("../testData");
 
 describe("v1 ride count testing", () => {
   // runs before the first test in this block.
   before(() => {
+    test.configure("v1", "json");
     return testdb.setupFakeData("count");
   });
   // runs once after the last test in this block
   after(() => {
+    test.configure();
     return testdb.destroy();
   });
   it("handles an all encompassing range", () => {
-    return request(app)
-      .get(RideCountApi)
-      .query({s: "1900-01-01", e: "2012-12-21"})
-      .expect(200)
-      .expect('Content-Type', /json/)
+    return test.GET(test.api.count("1900-01-01", "2012-12-21"))
+      .then(test.expectOkay)
       .then(res => {
         // past and upcoming are based on today's date
         // all the test dates are earlier
@@ -32,26 +27,18 @@ describe("v1 ride count testing", () => {
       });
   });
   it("handles a slice of time", () => {
-    return request(app)
-      .get(RideCountApi)
-      .query({s: "2002-08-10", e: "2002-08-11"})
-      .expect(200)
-      .expect('Content-Type', /json/)
+    return test.GET(test.api.count("2002-08-10", "2002-08-11"))
+      .then(test.expectOkay)
       .then(res => {
         assert.equal(res.body?.total, 4);
       });
   });
   it("errors on a missing time", () => {
-    return request(app)
-      .get(RideCountApi)
-      .expect(400)
-      .expect('Content-Type', /json/);
+    return test.GET(test.api.count())
+      .then(test.expectError);
   });
   it("errors on an invalid time", () => {
-    return request(app)
-      .get(RideCountApi)
-      .query({s: "yesterday", e: "tomorrow"})
-      .expect(400)
-      .expect('Content-Type', /json/);
+    return test.GET(test.api.count("yesterday", "tomorrow"))
+      .then(test.expectError);
   });
 });

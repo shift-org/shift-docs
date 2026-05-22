@@ -63,7 +63,7 @@ function validateEvent(input) {
   };
   const seriesId = v.zeroInt('id');
   const password = v.nullString('secret');
-  const days = validateStatus(timeNow, input.datestatuses);
+  const days = validateStatus(v, input.datestatuses);
   return {
     tgt: {
       seriesId,
@@ -85,7 +85,7 @@ function validateEvent(input) {
  * @param statusList:A list of data status objects sent by the organizer.
  *        [{ id, date, status, newsflash }, ...]
  */
-function validateStatus(timeNow, statusList) {
+function validateStatus(v, statusList) {
   const invalidDateStrings = [];
   const validStatus = [];
   if (statusList) {
@@ -104,20 +104,19 @@ function validateStatus(timeNow, statusList) {
   }
   if (invalidDateStrings.length) {
     const msg = "Invalid dates: " + invalidDateStrings.join(', ');
-    errors.addError('dates', msg);
+    v.addError('dates', msg);
   }
   return validStatus;
 }
 
-
 // for validating from an object containing shorthand constants
 // ex. shorthands.Area
 function parseConst(v, cls, field, required) {
-  const value = cls.keyToValue(getString(field));
+  const value = cls.keyToValue(v.getString(field));
   if (value !== undefined) {
     return value;
   } else if (required) {
-    errors.addError(field);
+    v.addError(field);
   }
 }
 

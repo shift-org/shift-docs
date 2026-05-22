@@ -1,49 +1,33 @@
-const app = require("shift-docs/appEndpoints");
-const testData = require("../testData");
+const test = require("../testData");
 const testdb = require("./testdb");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const request = require('supertest');
 
-describe.skip("retrieving event data for editing", () => {
+describe("retrieving event data for editing", () => {
   // runs before the first test in this block.
   before(() => {
+    test.configure("v2", "json");
     return testdb.setupTestData("retrieve");
   });
   // runs once after the last test in this block
   after(() => {
+    test.configure();
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {
-    return request(app)
-      .get('/api/retrieve_event.php')
-      .query({
-        id: 999
-      })
-      .then(testData.expectError);
+    return test.GET(test.api.eventSeries(999))
+      .then(test.expectError);
   });
    // originally, incorrect secrets returned the public event data;
    // now this errors.
   it("incorrect secrets return an error", () => {
-    return request(app)
-      .get('/api/retrieve_event.php')
-      .query({
-         id: 2,
-         secret: "the incorrect answer to life, the universe, and this event.",
-       })
-      .then(testData.expectError);
+    return test.GET(test.api.eventSeries(2, "the incorrect answer to life, the universe, and this event."))
+      .then(test.expectError);
   });
   it("retrieves with a valid id and secret", () => {
-    return request(app)
-      .get('/api/retrieve_event.php')
-      .query({
-         id: 2,
-         secret: testData.secret,
-       })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+    return test.GET(test.api.eventSeries(2, test.secret))
+      .then(test.expectOkay)
       .then(res => {
         // console.dir(res.body);
         assert.equal(res.body.id, '2'); // a string
@@ -51,7 +35,7 @@ describe.skip("retrieving event data for editing", () => {
         assert.ok(res.body.phone, "b/c of the secret, phone should be present");
         assert.ok(res.body.contact, "b/c of the secret, contact should be present");
         assert.equal(res.body.hideemail, true, "the test data has the email hidden");
-        assert.equal(res.body.email, testData.email, "b/c of the secret, we should see the email");
+        assert.equal(res.body.email, test.email, "b/c of the secret, we should see the email");
         assert.deepEqual(res.body.datestatuses, [{
           id: '201',
           date: '2002-08-01',
@@ -65,23 +49,13 @@ describe.skip("retrieving event data for editing", () => {
         }]);
       });
   });
-  it("errors on a hidden event", () => {
-    return request(app)
-      .get('/api/retrieve_event.php')
-      .query({
-        id: 3
-      })
-      .then(testData.expectError);
+  it("errors on a hidden event with no secret", () => {
+    return test.GET(test.api.eventSeries(3))
+      .then(test.expectError);
   });
   it("errors on a hidden event, unless given the secret", () => {
-    return request(app)
-      .get('/api/retrieve_event.php')
-      .query({
-        id: 3,
-        secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/);
+    return test.GET(test.api.eventSeries(3, test.secret))
+      .then(test.expectOkay);
   });
 });
 

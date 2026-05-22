@@ -46,7 +46,7 @@ function validateStatus(v, statusList) {
 
   if (invalidDateStrings.length) {
     const msg = "Invalid dates: " + invalidDateStrings.join(', ');
-    errors.addError('dates', msg);
+    v.addError('dates', msg);
   }
   return validStatus;
 }

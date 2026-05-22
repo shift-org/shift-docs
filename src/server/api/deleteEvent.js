@@ -27,9 +27,13 @@ function deleteEvent(req) {
     const secret = data.secret;
     return removeEntireSeries(tx, seriesId, secret);
   }).then(count => {
+    // if no data existed to be removed
+    // or the secret didn't match
+    // return not found.
     if (!count) {
-      // if the secret was wrong; treats it as event not found.
       throw new TextError('Event not found');
     }
+    // all done.
+    return {success: true};
   });
 }

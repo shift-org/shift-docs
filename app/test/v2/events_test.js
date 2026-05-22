@@ -5,77 +5,55 @@ const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 const config = require("server/core/config");
 
-function eventList(version = 2) {
-  return `/api/v${version}/events.json`;
-}
-// todo: add a test for this
-function eventSeries(seriesId, version = 2)  {
-  return `/api/v${version}/events/${seriesId}.json`;
-}
-function eventInstance(series, ymd, version = 2) {
-  return `/api/v${version}/events/${series}/${ymd}.json`;
-}
-function eventRange(start, end, version = 2) {
-  return {
-    path: `/api/v${version}/events.json`,
-    query: {s: start, e: end}
-  };
-}
-function legacyEvent(pkid, version = 2) {
-  return `/api/v${version}/legacy/${pkid}.json`;
-}
+// todo: add a test for eventSeries
 
 describe("v2 getting events", () => {
   // runs before the evt test in this block.
   before(() => {
+    test.configure("v2", "json");
     return testdb.setupTestData("events");
   });
   // runs once after the last test in this block
   after(() => {
+    test.configure();
     return testdb.destroy();
   });
   // NOTE: new api allows this
   it("errors with no parameters", () => {
-    return test.GET(eventList())
-      .expect(200)
+    return test.GET(test.api.eventList())
+      .then(test.expectOkay)
       .then(res => {
         // TODO: add some validation here.
         console.log(JSON.stringify(res.body));
       });
   });
   it("errors on an invalid id", () => {
-    return test.GET(legacyEvent(999))
+    return test.GET(test.api.eventInstance(999))
       .then(test.expectError);
   });
   it("errors on an invalid date", () => {
-    return test.GET(eventRange("apple", "sauce"))
+    return test.GET(test.api.eventRange("apple", "sauce"))
       .then(test.expectError);
   });
   it("errors on too large a range", () => {
-    return test.GET(eventRange("2002-01-01", "2003-01-01"))
+    return test.GET(test.api.eventRange("2002-01-01", "2003-01-01"))
       .then(test.expectError);
   });
   it("errors on a negative range", () => {
-    return test.GET(eventRange("2003-01-01", "2002-01-01"))
+    return test.GET(test.api.eventRange("2003-01-01", "2002-01-01"))
       .then(test.expectError);
   });
   it("handles a legacy pkid", () => {
-    const expectedRedirect = eventInstance(2, "2002-08-01");
-    return test.GET(legacyEvent(201))
+    const expectedRedirect = test.api.eventDay(2, "2002-08-01");
+    return test.GET(test.api.eventInstance(201))
       .expect(302) // redirect reports found
       .expect('Location', expectedRedirect)
       .then(_ => true);
     });
 
-  it.only("succeeds with a valid id", () => {
-    // FISXXXX -- exactDay only returns first
-    // i think thats fucking up summary.
-    // probably it should return all but some other things might need fixup
-
-    return test.GET(eventInstance(2, "2002-08-01"))
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+  it("succeeds with a valid id", () => {
+    return test.GET(test.api.eventDay(2, "2002-08-01"))
+      .then(test.expectOkay)
       .then(res => {
         assert.equal(res.body?.events?.length, 1);
         const evt = res.body.events[0];
@@ -87,10 +65,8 @@ describe("v2 getting events", () => {
       });
   });
   it("succeeds with a valid range", () => {
-    return test.GET(eventRange("2002-08-01", "2002-08-02"))
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+    return test.GET(test.api.eventRange("2002-08-01", "2002-08-02"))
+      .then(test.expectOkay)
       .then(res => {
         // console.log(res.body);
         assert.equal(res.body?.events?.length, 2);

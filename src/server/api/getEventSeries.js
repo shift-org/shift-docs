@@ -4,9 +4,10 @@
  * can contain private data ( email, contact info ) if a valid secret is provided.
  */
 const summarize = require("server/core/summarize");
+const EventData = require("server/model/eventData");
 const { TextError } = require("server/support/errors");
-const dt = require("server/util/dateTime");
 const { parseInt, parseString, parseYmd } = require("server/util/parse");
+const dt = require("server/util/dateTime");
 
 module.exports = getEventSeries;
 
@@ -49,9 +50,12 @@ function getEventSeries(req)  {
 // these fields are only in the data if the secret existed and matched.
 function getPrivateFields(evt) {
   return {
-    // published isn't included by the summary
-    // but it's used by the manage endpoint.
-    published   : evt.published,
+    // 'published' is used by the client while editing.
+    // ( the series table calls it "published"; 
+    //   but it gets reported as "changes" for the ical feed;
+    //   we name it back here, and turn it into a bool. 
+    //   it also exists as !evt.hidden. )
+    published   : evt.changes > 0,
     // include the email when editing the data.
     email       : evt.email,
     phone       : evt.phone,

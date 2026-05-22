@@ -75,12 +75,12 @@ function postJson(cb, queryMatch) {
 
 function renderJson(cb, queryMatch) {
   // our endpoints generate "plain old data"
-  return getResponse(cb, queryMatch, (res, pod) => {
-    // that data gets turned into a json response by express.
+  return handleCall(cb, queryMatch, (res, pod) => {
+    // send that data as json in response.
     if (pod !== undefined) {
       res.json(pod);
     } else {
-      // or, we send a generic okay in the body.
+      // or, send a generic okay.
       res.sendStatus(200);
     }
   });
@@ -88,7 +88,7 @@ function renderJson(cb, queryMatch) {
 
 function renderCal(cb, queryMatch) {
   // our endpoints generate cal responses
-  return getResponse(cb, queryMatch, (res, cal) => {
+  return handleCall(cb, queryMatch, (res, cal) => {
     cal.sendCal(res);
   });
 }
@@ -96,11 +96,11 @@ function renderCal(cb, queryMatch) {
 // wrapper for shift endpoints.
 // assumes cb either generates a promise or throws
 // and that send knows how to handle the result of that promise.
-function getResponse(cb, queryMatch, send) {
+function handleCall(cb, queryMatch, send) {
   // express request, response, and chain handler
   return function(req, res, next) {
     // only handle this endpoint if the query expectations matched
-    if (queryMatch && !checkQuery(queryMatch)) {
+    if (queryMatch && !checkQuery(req, queryMatch)) {
       next('route'); // tells express to move to the next router statement
     } else {
       // add the shift version info

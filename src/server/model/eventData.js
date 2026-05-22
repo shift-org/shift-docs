@@ -14,21 +14,21 @@ class EventData {
       organizer     : evt.name,
       details       : evt.descr,
       time          : evt.eventtime,
-      ridelength    : evt.ridelength,
+      ridelength    : evt.ridelength,   // allowed to be null
       timedetails   : evt.timedetails,
       locdetails    : evt.locdetails,
-      loopride      : !!evt.loopride, // in v1 data, loopride could be null.
+      loopride      : !!evt.loopride,   // int to bool, and false if null
       locend        : evt.locend,
       eventduration : EventData.getDuration(evt),
       weburl        : evt.weburl,
       webname       : evt.webname,
       image         : EventData.getImageUrl(evt),
       audience      : evt.audience,
-      tinytitle     : evt.tinytitle,  // used for short overviews
-      printdescr    : evt.printdescr, // used for opengraph tags
+      tinytitle     : evt.tinytitle,    // used for short overviews
+      printdescr    : evt.printdescr,   // used for opengraph tags
       area          : evt.area,
-      featured      : evt.featured,
-      safetyplan    : evt.safetyplan,
+      featured      : !!evt.featured,   // int to bool, and false if null
+      safetyplan    : !!evt.safetyplan, // int to bool, and false if null
       email         : EventData.getPrivateField(evt, 'email', options),
       phone         : EventData.getPrivateField(evt, 'phone', options),
       contact       : EventData.getPrivateField(evt, 'contact', options),
@@ -36,8 +36,8 @@ class EventData {
       // excludes the following fields from the summary:
       // - (hide|print)(email|phone|weburl|contact)
       // - published, datestype.
-      // they are only used by the retrieve endpoint
-      // ( and by shift for creating the print calendar )
+      // the first set are added by getEventSeries only if the secret matches.
+      // the second set aren't used by the client.
     };
   }
 

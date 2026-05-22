@@ -78,9 +78,7 @@ describe("managing v1 events",  () => {
     return agent
       .post(manage_api)
       .send(eventData)
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      .then(testData.expectOkay)
       .then(async (res) => {
         assert.equal(spy.eventStore.callCount, 1, "event stores");
         assert.equal(spy.dailyStore.callCount, 2, "daily store");
@@ -162,7 +160,7 @@ describe("managing v1 events",  () => {
           id: 3,
           secret: testData.secret,
         }, eventData))
-        .expect(200)
+        .then(testData.expectOkay)
         .then(async (res) => {
           assert.equal(spy.eventStore.callCount, 1, "event stores");
           spy.resetHistory();
@@ -210,7 +208,7 @@ describe("managing v1 events",  () => {
         .send({
           json: JSON.stringify(post)
         })
-        .expect(200)
+        .then(testData.expectOkay)
         .then(async (res) => {
           assert.equal(spy.eventStore.callCount, 1, "event stores");
           assert.equal(spy.dailyStore.callCount, 3, "daily store");
@@ -273,7 +271,7 @@ describe("managing v1 events",  () => {
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget)
       .then(res => {
-        assert.equal(res.status, 200);
+        testData.expectOkay(res);
         return CalEvent.getByID(3).then(evt => {
           // event creation is change 1,
           // the image post is change 2,
