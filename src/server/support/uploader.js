@@ -76,7 +76,16 @@ exports.uploader = {
         // this catches multner's error for surpassing limits;
         // and the custom error generated in fileFilter() above.
         if (err) {
-          sendFieldError(res, { [errorField]: err.message || "Unknown error" });
+          const brief = err.message || "Unknown error";
+          const detailedMessage = `${brief}\n${err.stack}`;
+          let msg = brief;
+          if (config.isTesting) {
+            msg = detailedMessage;
+          } else {
+            msg = brief;
+            console.error(detailedMessage);
+          }
+          sendFieldError(res, { [errorField]: msg });
         } else {
           // tell express to call the next middleware
           // if we pass 'err' to 'next()' express respond with http 500
