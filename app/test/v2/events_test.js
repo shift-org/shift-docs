@@ -54,7 +54,7 @@ describe("v2 getting events", () => {
       .then(_ => true);
     });
 
-  it("succeeds with a valid id", () => {
+  it("succeeds with a valid series and day", () => {
     return test.GET(test.api.eventDay(2, "2002-08-01"))
       .then(test.expectOkay)
       .then(res => {

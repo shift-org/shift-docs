@@ -17,7 +17,7 @@ const fs = require('node:fs');
 const fsp = fs.promises;
 const path = require('node:path');
 const sandbox = require('sinon').createSandbox();
-const supertest = require('supertest');
+const request = require('supertest');
 //
 const config = require('server/core/config');
 const { CalEvent } = require("shift-docs/models/calEvent");
@@ -30,26 +30,7 @@ const testData = require("../testData");
 //
 const manage_api = '/api/manage_event.php';
 
-describe("managing v1 events",  () => {
-  // hangs occur if the http requests throw exceptions;
-  // using supertest's agent api instead of its 'request' api
-  // allows this to call the agent's close
-  // which fixes the hang
-  // ( calling catch at the end of every promise change would too. )
-  // tbd: we don't need to test express itself, so setting up the endpoints for each test
-  // is overkill. maybe there's a way to share the agent globally through the testRunner...
-  //  "It is possible to apply the same configuration to all files by placing common configuration code in a module preloaded with --require or --import."
-  // https://nodejs.org/api/cli.html#-require-module
-  // https://nodejs.org/api/cli.html#importmodule
-  let agent;
-  before(() => {
-    const server = app.listen();
-    agent = supertest.agent(server);
-  });
-  after(() => {
-    const server = agent.app;
-    server.close();
-  });
+describe("managing events",  () => {
   let spy;
   // reset after each one.
   beforeEach(() => {
@@ -64,7 +45,7 @@ describe("managing v1 events",  () => {
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {
-    return agent
+    return request(app)
       .post(manage_api)
       .type('form')
       .send({
@@ -75,7 +56,7 @@ describe("managing v1 events",  () => {
       .then(testData.expectError);
   });
   it("creates a new event, using raw json", () => {
-    return agent
+    return request(app)
       .post(manage_api)
       .send(eventData)
       .then(testData.expectOkay)
@@ -112,7 +93,7 @@ describe("managing v1 events",  () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return agent
+        return request(app)
         .post(manage_api)
         .send(post)
         .then(res => testData.expectError(res, key));
@@ -141,7 +122,7 @@ describe("managing v1 events",  () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return agent
+        return request(app)
         .post(manage_api)
         .send(post)
         .then(res => testData.expectError(res, key));
@@ -153,7 +134,7 @@ describe("managing v1 events",  () => {
     // id three is unpublished
     return CalEvent.getByID(3).then(evt => {
       assert.equal(evt.isPublished(), false);
-      return agent
+      return request(app)
         .post(manage_api)
         // by adding the id and posting to it, we should be able to publish it.
         .send(Object.assign({
@@ -170,7 +151,7 @@ describe("managing v1 events",  () => {
     });
   });
   it("fails to use an empty secret", () => {
-    return agent
+    return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3,
@@ -179,7 +160,7 @@ describe("managing v1 events",  () => {
       .then(testData.expectError);
   });
   it("fails to use an invalid secret", () => {
-    return agent
+    return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
@@ -202,7 +183,7 @@ describe("managing v1 events",  () => {
         { "date": "2002-08-03", status: 'A' }
       ]}, evt.getJSON({includePrivate:true}));
       //
-      return agent
+      return request(app)
         .post(manage_api)
         .type('form')
         .send({
@@ -253,7 +234,7 @@ describe("managing v1 events",  () => {
             code_of_conduct: "1",
             read_comic: "1",
             }, eventData);
-          return agent
+          return request(app)
             .post(manage_api)
             .type('form')
             .field({
@@ -322,7 +303,7 @@ describe("managing v1 events",  () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
-    return agent
+    return request(app)
       .post(manage_api)
       .type('form')
       .field({

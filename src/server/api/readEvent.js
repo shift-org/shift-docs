@@ -10,17 +10,22 @@ const { parseJson } = require("server/util/parse");
  */
 module.exports = readEvent;
 
+// helper to parse data sent by the client.
 class Schedule {
+  // vals: the original values from the client
   constructor(vals) {
+    // stores these for generating the error message
     this.vals = vals;
-    // these store any invalid indicies
+    // these store any invalid indices
     this.invalid = {
       dates: [],
       news: [],
       status: [],
     };
   }
-  reduce() {
+  // if any of the parsed entries had errors,
+  // summarize those errors into a single string.
+  generateErrorMessage() {
     let msg = "";
     ['dates', 'news', 'status'].forEach(n => {
       const a = this.invalid[n];
@@ -31,6 +36,9 @@ class Schedule {
     });
     return msg;
   }
+  // given the index being parsed, and a value containing a date
+  // returns the date as a yyyy-mm-dd string;
+  // or, undefined on error.
   parseDate(i, v) {
     const date = FormValidator.asString(v);
     if (!dt.fromYMDString(date).isValid()) {
@@ -39,6 +47,9 @@ class Schedule {
       return date;
     }
   }
+  // given the index being parsed, and a value containing a news string
+  // returns the string
+  // or, undefined on error.
   parseNews(i, v) {
     const news = FormValidator.asString(v) || null;
     if (news && !FormValidator.smallerThan(news, 1024)) {
@@ -47,6 +58,9 @@ class Schedule {
       return news;
     }
   }
+  // given the index being parsed, and an EventStatus value
+  // returns the db value to store ( 0 or 1 )
+  // or, undefined on error.
   parseStatus(i, v) {
    const status = FormValidator.asString(v);
     const is_scheduled = EventStatus.keyToValue(status);
@@ -83,7 +97,7 @@ class ExtendedFormValidator extends FormValidator {
       }
     });
     // write all invalid dates as an error of the "dates" field.
-    const msg = sched.reduce();
+    const msg = sched.generateErrorMessage();
     if (msg) {
       this.errors.addError('dates', msg);
     }
@@ -157,6 +171,7 @@ function parseIntoV2Format(input) {
   }
   return {
     errors,
+    // input: a mapping of table name to column names and values
     input: {
       id: v.select('id').zeroInt(),
       secret: v.select('secret').nullString(),

@@ -26,9 +26,10 @@ async function updateExistingEvent(req) {
     const { id, secret, event, schedule } = input;
     return updateEventData(tx, id, secret, event, schedule);
   });
-  // doing this outside of the transaction
-  // TBD: might consider catching problems and notifying the user
-  // without a full error. ex. their data is saved; just not the image.
+  // after the data has been saved, try to save the image.
+  // TBD: might consider catching problems and reporting some
+  // "image saved" / "image error" in the returned data
+  // currently, it throws an error as if the event hadn't been saved.
   const newImage = await saveImageToDisk(tgt.seriesId, req.file);
   if (newImage) {
     // todo: a way of clearing the image?

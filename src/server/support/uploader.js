@@ -81,21 +81,21 @@ const uploader = {
 
   // generates "middleware" for express endpoints
   // ( middleware is any function following a certain pattern. )
+  // this processes the form; the next handler is always the php style endpoint
   makeHandler(dataField = 'file', errorField = 'image') {
     const upload = this.makeUploader(dataField, errorField);
-    // make our own middleware to call multner's
-    // so that we can handle any errors we generated in fileFilter()
-    // ( why couldn't they just use promises like everyone else!? )
+    // wrap multner's middleware to handle errors generated in fileFilter()
     return function(req, res, next) {
       upload(req, res, err => {
-        if (!err) {
-          next(); //
+        // this catches multner's error for surpassing limits;
+        // and the custom error generated in fileFilter() above.
+        if (err) {
+          res.fieldError({ [errorField]: err.message || "Unknown error" });
         } else {
-          // catches multner errors for surpassing limits and
-          // the custom error generated in fileFilter() above.
-          // passing 'err' to 'next()' invokes express's default response of http 500
+          // tell express to call the next middleware
+          // if we pass 'err' to 'next()' express respond with http 500
           // https://expressjs.com/en/guide/error-handling.html#error-handling
-          sendFieldError(res, { [errorField]: err.message || "Unknown error" });
+          next();
         }
       });
     };

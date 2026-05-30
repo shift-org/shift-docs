@@ -19,7 +19,7 @@ describe("retrieving event data for editing", () => {
     return test.GET(test.api.eventSeries(999))
       .then(test.expectError);
   });
-   // originally, incorrect secrets returned the public event data;
+   // fix? originally, incorrect secrets returned the public event data;
    // now this errors.
   it("incorrect secrets return an error", () => {
     return test.GET(test.api.eventSeries(2, "the incorrect answer to life, the universe, and this event."))
