@@ -8,6 +8,7 @@ const db = require("server/core/db");
 const dt = require("server/util/dateTime");
 const { Area, Audience, DatesType, EventStatus, Review } = require("shift-docs/models/calConst");
 const tables = require("shift-docs/models/tables");
+const v2 = require("server/v2/schema"); // creates v2 tables for their views
 //
 const testData = require("./testData");
 const { makeFakeData } = require("./fakev1");
@@ -18,6 +19,7 @@ module.exports = {
     await db.initialize();
     await tables.dropTables();
     await tables.createTables();
+    await v2.setupTables(db, {drop: true});
     faker.seed(23204); // uses lorem generator
     await createTestData();
   },
@@ -26,6 +28,7 @@ module.exports = {
     await db.initialize(name);
     await tables.dropTables();
     await tables.createTables();
+    await v2.setupTables(db, {drop: true});
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;

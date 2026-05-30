@@ -8,7 +8,7 @@ const testdb = require("../v2data");
 
 const { EventStatus } = require("server/model/shorthands");
 
-describe("v2 ical feed", () => {
+describe("getting v2 events via the ical rest endpoint", () => {
   // runs before the evt test in this block.
   before(() => {
     test.fakeNow(sandbox);

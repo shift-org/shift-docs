@@ -5,7 +5,7 @@ const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 
 // point to the events php endpoint
-describe("v1 getting events", () => {
+describe("getting v1 events via the php events endpoint", () => {
   // runs before the evt test in this block.
   before(() => {
     test.configure("v1", "json");

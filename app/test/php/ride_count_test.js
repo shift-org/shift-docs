@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const testdb = require("../v1data");
 const test = require("../testData");
 
-describe("v1 ride count testing", () => {
+describe("counting v1 rides data via the php endpoint", () => {
   // runs before the first test in this block.
   before(() => {
     test.configure("v1", "json");

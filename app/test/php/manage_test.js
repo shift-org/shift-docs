@@ -30,7 +30,7 @@ const testData = require("../testData");
 //
 const manage_api = '/api/manage_event.php';
 
-describe("managing events",  () => {
+describe("managing v1 events via the php endpoint",  () => {
   let spy;
   // reset after each one.
   beforeEach(() => {

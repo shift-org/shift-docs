@@ -11,7 +11,7 @@ const test = require("../testData");
 const testdb = require("../v1data");
 const { allEvents, cancelledDay, emptyRange, pedalpaloozaFeed } = test;
 
-describe("getting v1 ical feed", () => {
+describe("getting v1 events via the php ical endpoint", () => {
   // runs before the evt test in this block.
   before(() => {
     test.fakeNow(sandbox);

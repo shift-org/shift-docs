@@ -5,7 +5,7 @@ const test = require("../testData");
 //
 const { EventSearch } = require("server/model/shorthands");
 
-describe("searching for v2 events", () => {
+describe("searching for v2 events via the rest endpoint", () => {
   // runs before the first test in this block.
   before(() => {
     test.configure("v2", "json");

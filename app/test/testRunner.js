@@ -13,6 +13,7 @@ const { globalSetup, globalTeardown } = require('./db_setup.js');
 const cmdLine = new CommandLine({
   f: `limit to a specific filename`,
   p: `limit to a specific sub-directory`,
+  v: `attempt to limit to a specific db version`,
   only: `flag to invoke --test-only`,
   pattern: `regex for --test-name-pattern`,
 });
@@ -38,7 +39,7 @@ runTests();
 
 // helpers:
 function _runTests(dir, args, orig, options) {
-  const { only, pattern, p: subdir, f: filename } = options;
+  const { only, pattern, p: subdir, f: filename, v: version } = options;
   if (only && pattern) {
     throw new Error(`The test runner expects at most one option. Both only and pattern were specified.`);
   }
@@ -47,15 +48,15 @@ function _runTests(dir, args, orig, options) {
   const testOnly = only === 'true';
   if (!testOnly && !pattern) {
     // the regular test command can handle processing multiple files
-    test([`--test`].concat(args, files, '--', orig));
+    test(version, [`--test`].concat(args, files, '--', orig));
 
   } else if (testOnly) {
     // find will stop running tests when something returns a non-zero error code.
-    files.find(f => test([`--test-only`].concat(args, f,'--', orig)) !== 0 );
+    files.find(f => test(version, [`--test-only`].concat(args, f,'--', orig)) !== 0 );
 
   } else if (pattern) {
     // find will stop running tests when something returns a non-zero error code.
-    files.find(f => test(args.concat(`--test-name-pattern="${pattern}"`, f)) !== 0 );
+    files.find(f => test(version, args.concat(`--test-name-pattern="${pattern}"`, f)) !== 0 );
   }
 }
 
@@ -75,11 +76,14 @@ function findTestFiles(dir, subdir, filename) {
   }).map(f => path.relative(dir, path.resolve(f.parentPath, f.name)));
 }
 
-function test(parts) {
+function test(version, parts) {
   const cmdLine = `node ${parts.join(' ')}`;
   shell.echo(cmdLine);
+  if (version) {
+    // this sets a string: so don't set it to the string "undefined" or "false"
+    shell.env["SHIFT_VERSION"] = version;
+  }
   // note: shell.cmd is safer, but i can't get it to work with quoted text options. :shrug:
   // ex. --test-name-pattern="date time" looks correct when echo'd but doesn't pass the pattern to node.
-  // shell.env["DEBUG"]= "express:router";
   return shell.exec(cmdLine).code;
 }

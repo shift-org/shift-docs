@@ -15,6 +15,8 @@ Or, temporarily can be marked with 'only' in the code. For example: `describe.on
 
 `-p` can be used to select any part of a test sub-directory ( ex. `-p=p` for php style endpoints, or `-p=r` for the rest style endpoints. )
 
+`-v` attempts to limit the testing to a specific db version. only some tests look at this. can be either v1 or v2. ( ex. `-v=v2` )
+
 By default tests use sqlite, you can test against mysql as well:  `npm test -db=mysql`. It launches a standalone docker container for the tests. Additionally, `npm test -db_debug` will log queries to the db.
 
 # Test Data

@@ -39,9 +39,9 @@
                 "run-script",
                 "test",
                 "--",
-                // "-v=2",
-                // "-f=man",
-                // "-only"
+                // "-v=v2",
+                "-p=rest",
+                "-f=events",
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [

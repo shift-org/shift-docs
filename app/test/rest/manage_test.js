@@ -34,7 +34,7 @@ const testData = require("../testData");
 const request = require('supertest');
 const app = require("shift-docs/appEndpoints");
 
-describe("v2 managing events",  () => {
+describe("managing v2 events via the rest endpoint",  () => {
   let getMostRecentlySentEmail;
   // reset after each one.
   beforeEach(() => {

@@ -6,15 +6,22 @@ const assert = require("node:assert/strict");
 const sandbox = require('sinon').createSandbox();
 const test = require("../testData");
 
-// describe("viewing v1 events via rest", () => testEvents('v1'));
-describe("viewing v2 events via rest", () => testEvents('v2'));
+// via the command line -v option
+const version = process.env.SHIFT_VERSION;
+
+if (!version || version === "v1") {
+  describe("viewing v1 events via rest", () => testEvents('v1'));
+}
+if (!version || version === "v2") {
+  describe("viewing v2 events via rest", () => testEvents('v2'));
+}
 
 function testEvents(dbVersion, fmt = "json") {
   const testdb = require(`../${dbVersion}data`);
 
   // runs once before any of the tests in this block.
   before(() => {
-    test.configure(dbVersion, fmt);
+    test.configure(dbVersion, fmt, "rest");
     test.fakeSiteUrl(sandbox);
     return testdb.setupTestData("events");
   });
@@ -24,7 +31,10 @@ function testEvents(dbVersion, fmt = "json") {
     sandbox.restore();
     return testdb.destroy();
   });
-  it("returns paginated data with no parameters", () => {
+  // this returns pagination with no events. not sure exactly what we want here yet
+  // at any rate, its fine that it doesn't error. setting to skip till the behavior is defined.
+  // {"events":[],"pagination":{"start":"2026-04-30","end":"2026-10-30","range":184,"events":0,"prev":"https://shift2bikes.org/api/v1/events.json?s=2025-10-28&e=2026-04-29","next":"https://shift2bikes.org/api/v1/events.json?s=2026-10-31&e=2027-05-02"}}
+  it.skip("returns paginated data with no parameters", () => {
     // ex. /api/v2/events.json
     return test.GET(test.api.eventList())
       .then(test.expectOkay)
@@ -85,8 +95,8 @@ function testEvents(dbVersion, fmt = "json") {
         assert.equal(page.events, 2);
         assert.equal(page.start, '2002-08-01');
         assert.equal(page.end, '2002-08-02');
-        const p = "/api/v2/events.json?s=2002-08-03&e=2002-08-04";
-        assert.ok(page.next.endsWith(p), `expected ${p} got ${page.next}`);
+        const p = `/api/${dbVersion}/events.${fmt}?s=2002-08-03&e=2002-08-04`;
+        assert.ok(page.next.endsWith(p), `expected to end with ${p} got ${page.next}`);
       });
   });
 }

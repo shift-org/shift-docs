@@ -4,7 +4,7 @@ const test = require("../testData");
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
 
-describe("v2 ride count testing", () => {
+describe("counting v2 rides data via the rest endpoint", () => {
   // runs before the first test in this block.
   before(() => {
     test.configure("v2", "json");

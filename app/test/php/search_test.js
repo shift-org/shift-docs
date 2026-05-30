@@ -5,7 +5,7 @@ const test = require("../testData");
 //
 const { EventSearch } = require("shift-docs/models/calConst");
 
-describe("searching for v1 events", () => {
+describe("searching for v1 events via the php endpoint", () => {
   // runs before the first test in this block.
   before(() => {
     test.configure("v1", "json");

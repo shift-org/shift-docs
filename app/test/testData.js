@@ -289,11 +289,13 @@ const test = {
   api: null, // the endpoints. errors if used w/o configure
 
   // todo: figure out how to link this into the sandbox/sandbox.reset
-  configure(version, format) {
+  configure(version, format, api) {
     options.version = version;
     options.format = format;
-    test.api = version === "v2"  ? restApi :
-               version === "v1"  ? phpApi :
+    // if no api is specified, then v2 implies rest, and v1 implies php
+    api = api || (version === "v2" ? "rest" : version === "v1" ? "php" : null);
+    test.api = api === "rest" ? restApi :
+               api === "php" ? phpApi :
                null;
   },
   expectOkay(res) {

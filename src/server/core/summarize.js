@@ -10,12 +10,12 @@ const EventData = require("server/model/eventData");
 
 // return the name of a db view based on version
 function findView(view, version) {
-  // the requested name is the version 2 name / default.
   if (version !== 1) {
+    // the requested name is the version 2 name
     return view;
   } else if (view === 'reverse_lookup') {
     // the reverse lookup is special even for v1
-    return 'v2_reverse';
+    return 'v1_reverse';
   } else {
     // otherwise, in v1 we just return a big join of all data.
     return 'v1_events';
