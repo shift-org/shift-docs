@@ -11,8 +11,8 @@ const { CommandLine } = require('server/util/cmdLine');
 const { globalSetup, globalTeardown } = require('./db_setup.js');
 
 const cmdLine = new CommandLine({
-  v: `limit to a specific test version`,
-  f: `limit to a specific file`,
+  f: `limit to a specific filename`,
+  p: `limit to a specific sub-directory`,
   only: `flag to invoke --test-only`,
   pattern: `regex for --test-name-pattern`,
 });
@@ -38,12 +38,12 @@ runTests();
 
 // helpers:
 function _runTests(dir, args, orig, options) {
-  const { only, pattern, v: version, f: filename } = options;
+  const { only, pattern, p: subdir, f: filename } = options;
   if (only && pattern) {
     throw new Error(`The test runner expects at most one option. Both only and pattern were specified.`);
   }
   // fix: only have to look in the test directory. probably.
-  const files = findTestFiles(dir, version, filename);
+  const files = findTestFiles(dir, subdir, filename);
   const testOnly = only === 'true';
   if (!testOnly && !pattern) {
     // the regular test command can handle processing multiple files
@@ -61,14 +61,16 @@ function _runTests(dir, args, orig, options) {
 
 // return an array of filenames to test
 // (returned paths are relative to dir)
-function findTestFiles(dir, version, filename) {
+function findTestFiles(dir, subdir, filename) {
    const entries = fs.readdirSync(dir, {
     withFileTypes: true,
     recursive: true,
   });
   return entries.filter(f => {
+    const rel = path.relative(dir, f.parentPath);
     return f.name.endsWith("_test.js") &&
-      (!version || f.parentPath.includes("v" + version)) &&
+      (!rel.includes("node_modules")) &&
+      (!subdir || rel.includes(subdir)) &&
       (!filename || f.name.includes(filename));
   }).map(f => path.relative(dir, path.resolve(f.parentPath, f.name)));
 }
