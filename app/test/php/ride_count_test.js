@@ -1,6 +1,6 @@
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const testdb = require("./testdb");
+const testdb = require("../v1data");
 const test = require("../testData");
 
 describe("v1 ride count testing", () => {

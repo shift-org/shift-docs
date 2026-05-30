@@ -1,17 +1,20 @@
-const testdb = require("./testdb");
-const test = require("../testData");
-const sandbox = require('sinon').createSandbox();
+// additional possible tests:
+// a test for the entire schedule of a particular series.
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
-const config = require("server/core/config");
+const sandbox = require('sinon').createSandbox();
+const test = require("../testData");
 
-// todo: add a test for eventSeries
+// describe("viewing v1 events via rest", () => testEvents('v1'));
+describe("viewing v2 events via rest", () => testEvents('v2'));
 
-describe("v2 getting events", () => {
-  // runs before the evt test in this block.
+function testEvents(dbVersion, fmt = "json") {
+  const testdb = require(`../${dbVersion}data`);
+
+  // runs once before any of the tests in this block.
   before(() => {
-    test.configure("v2", "json");
+    test.configure(dbVersion, fmt);
     test.fakeSiteUrl(sandbox);
     return testdb.setupTestData("events");
   });
@@ -21,8 +24,8 @@ describe("v2 getting events", () => {
     sandbox.restore();
     return testdb.destroy();
   });
-  // NOTE: new api allows this
-  it("errors with no parameters", () => {
+  it("returns paginated data with no parameters", () => {
+    // ex. /api/v2/events.json
     return test.GET(test.api.eventList())
       .then(test.expectOkay)
       .then(res => {
@@ -53,7 +56,6 @@ describe("v2 getting events", () => {
       .expect('Location', expectedRedirect)
       .then(_ => true);
     });
-
   it("succeeds with a valid series and day", () => {
     return test.GET(test.api.eventDay(2, "2002-08-01"))
       .then(test.expectOkay)
@@ -87,4 +89,4 @@ describe("v2 getting events", () => {
         assert.ok(page.next.endsWith(p), `expected ${p} got ${page.next}`);
       });
   });
-});
+}

@@ -1,5 +1,5 @@
 const test = require("../testData");
-const testdb = require("./testdb");
+const testdb = require("../v1data");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");

@@ -2,16 +2,18 @@
  * helpers to standup/teardown the test db, and
  * fill it with fake data.
  */
-const db = require("server/core/db");
-const { TagName, LocType, Showable, WebType } = require("server/model/shorthands");
-const dt = require('server/util/dateTime');
-const { setupTables } = require("server/v2/schema");
 const { faker } = require('@faker-js/faker');
-
-const testData = require("../testData");
+//
+const db = require("server/core/db");
+const dt = require('server/util/dateTime');
+const { TagName, LocType, Showable, WebType } = require("server/model/shorthands");
+const { setupTables } = require("server/v2/schema");
+//
 const tables = require("shift-docs/models/tables");
-const { generateFakeData, insertFakeData } = require("./fakeData");
 const { insertNewData } = require("server/core/reconcile");
+//
+const testData = require("./testData");
+const { generateFakeData, insertFakeData } = require("./fakev2");
 
 module.exports = {
   // generates a hand rolled set of data

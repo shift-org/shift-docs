@@ -4,7 +4,7 @@ const sandbox = require('sinon').createSandbox();
 
 const db = require("server/core/db");
 const test = require("../testData");
-const testdb = require("./testdb");
+const testdb = require("../v2data");
 
 const { EventStatus } = require("server/model/shorthands");
 

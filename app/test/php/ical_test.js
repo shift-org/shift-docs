@@ -8,7 +8,7 @@ const { CalEvent } = require("shift-docs/models/calEvent");
 const { CalDaily } = require("shift-docs/models/calDaily");
 const { EventStatus } = require("shift-docs/models/calConst");
 const test = require("../testData");
-const testdb = require("./testdb");
+const testdb = require("../v1data");
 const { allEvents, cancelledDay, emptyRange, pedalpaloozaFeed } = test;
 
 describe("getting v1 ical feed", () => {

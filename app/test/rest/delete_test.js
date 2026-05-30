@@ -1,4 +1,4 @@
-const testdb = require("./testdb");
+const testdb = require("../v2data");
 const testData = require("../testData");
 //
 const { describe, it, beforeEach, afterEach } = require("node:test");

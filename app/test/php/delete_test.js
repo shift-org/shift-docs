@@ -5,7 +5,7 @@ const sinon = require("sinon");
 const { CalEvent } = require("shift-docs/models/calEvent");
 const { CalDaily } = require("shift-docs/models/calDaily");
 //
-const testdb = require("./testdb");
+const testdb = require("../v1data");
 const stubData = require("./dbSpy");
 const testData = require("../testData");
 

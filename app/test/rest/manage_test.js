@@ -28,7 +28,7 @@ const DailyData = require("server/model/dailyData");
 const EventData = require("server/model/eventData");
 const { EventStatus } = require("server/model/shorthands");
 //
-const testdb = require("./testdb");
+const testdb = require("../v2data");
 const testData = require("../testData");
 //
 const request = require('supertest');
