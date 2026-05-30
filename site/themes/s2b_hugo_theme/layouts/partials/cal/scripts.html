@@ -32,6 +32,9 @@
       if (query.has('enddate')) {
         urlParams['enddate'] = query.get('enddate');
       }
+      if (query.has('q')) {
+        urlParams['q'] = query.get('q');
+      }
       if (query.has('show_details')) {
         urlParams['show_details'] = true;
       }
@@ -74,6 +77,9 @@
       } else if (window.cal_renderpage == "addevent") {
         // show blank form to add new event
         viewAddEventForm();
+      } else if (params.q) {
+        // view search results inline
+        viewSearch(params.q, params);
       } else {
         // view list of events
         if ({{ .Param "pp" }}) {

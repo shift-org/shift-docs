@@ -204,6 +204,116 @@ Some best practices for handling images:
 * Caching is encouraged. The image file has change number after the event ID, e.g. `/eventimages/6245-3.jpg`. This number is incremented only when the image has changed. If the change number is the same, you can safely use a cached image.
 
 
+### Counting events
+
+Endpoint:
+* GET `ride_count`
+
+Example request:
+* `/ride_count.php?s=2025-06-01&e=2025-08-31`
+
+URL parameters:
+* `s`:
+  * start date of range, inclusive
+  * `YYYY-MM-DD` format; required
+* `e`:
+  * end date of range, inclusive
+  * `YYYY-MM-DD` format; required
+
+Unknown parameters are ignored.
+
+Cancelled, delisted, and hidden events are excluded from all counts. `past` and `upcoming` are relative to the current date at the time of the request.
+
+Success:
+* status code: `200`
+* `total`: total number of non-cancelled events in the given date range
+* `past`: number of those events whose date is before today
+* `upcoming`: number of those events whose date is today or later
+
+Example response:
+
+    {
+      "total": 123,
+      "past": 80,
+      "upcoming": 43
+    }
+
+Errors:
+* status code: `400`
+* possible errors
+  * `s` or `e` missing or not a valid date
+
+Example error:
+
+    {
+      "error": {
+        "message": "start date was Invalid Date and end date was Invalid Date."
+      }
+    }
+
+> **Note:** This endpoint is experimental. Its syntax and behavior may not be stable yet.
+
+
+### Searching events
+
+Endpoint:
+* GET `search`
+
+Example requests:
+* `/search.php?q=night+ride`
+* `/search.php?q=night+ride&o=25`
+* `/search.php?q=night+ride&all=true`
+
+URL parameters:
+* `q`:
+  * search term (required)
+  * matches against ride name and ride leader
+* `o`:
+  * offset — index of the first result to return within all matching results
+  * integer; default `0`
+* `l`:
+  * limit — maximum number of results to return
+  * integer; default and maximum `25`
+* `all`:
+  * if `true` or `1`, searches past events in descending order; otherwise searches today and future events in ascending order
+
+Unknown parameters are ignored.
+
+Success:
+* status code: `200`
+* `events`: array of event objects in the same format as the `events` endpoint; array may be empty
+* `pagination`: object with offset/limit/fullcount for fetching additional pages
+
+Example response:
+
+    {
+      "events": [
+        {
+          "id": "1234",
+          ...
+        }
+      ],
+      "pagination": {
+        "offset": 0,
+        "limit": 25,
+        "fullcount": 42
+      }
+    }
+
+Errors:
+* status code: `400`
+* possible errors
+  * missing `q` parameter
+
+Example error:
+
+    {
+      "error": {
+        "message": "missing search term"
+      }
+    }
+
+
 ### Exporting an event
 
 Endpoint:

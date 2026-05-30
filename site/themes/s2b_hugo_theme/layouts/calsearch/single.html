@@ -1,0 +1,6 @@
+{{ define "page_body" }}
+<script>
+  var q = new URLSearchParams(location.search).get('q') || '';
+  window.location.replace('/calendar/' + (q ? '?q=' + encodeURIComponent(q) : ''));
+</script>
+{{ end }}

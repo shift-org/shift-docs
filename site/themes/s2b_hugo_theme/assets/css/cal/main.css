@@ -469,6 +469,10 @@ button.expand-details svg {
   text-align: left;
 }
 
+.search-events {
+  display: flex;
+}
+
 .go-to-date {
   display: inline-block;
   text-align: right;
@@ -477,6 +481,23 @@ button.expand-details svg {
 .event-list-options {
   display: flex;
   justify-content: space-between;
+}
+
+@media (width <= 992px) {
+  .event-list-options {
+    flex-direction: column;
+  }
+
+  .event-list-options > * {
+    text-align: center;
+    margin: 0.5rem auto;
+  }
+}
+
+summary {
+  display: revert;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .error {

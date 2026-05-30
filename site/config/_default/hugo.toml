@@ -111,9 +111,9 @@ disableKinds = ["taxonomy", "term"]
     banner-image = "/images/pp/pp2026-banner.jpg"
     active = true # set to true when festival is happening soon or now
     merchSaleActive = true # set to true when merch sales are open
-    merchSaleInfo = "Pre-sale ends May 14th at 11:59pm."
+    merchSaleInfo = "2nd pre-sale ends June 8th at 11:59pm."
     merchSaleURL = "https://www.shop.rendered.co/bikesummer"
-    printCalendarActive = true # set to true if print calendar is announced
+    printCalendarActive = false # set to true when print calendar is accepting submissions
     printCalendarDate = "May 10th at 11:59pm"
     donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
