@@ -4,7 +4,7 @@
 
   <div class="event-list-options">
     <div class="show-details">
-      <button type="button" id="show-details" class="btn">Toggle details</button>
+      <button type="button" id="show-details" class="btn">Show all details</button>
     </div>
     <form class="search-events" action="/calendar/search/" method="GET">
       <label for="search-events-field" class="sr-only">Search events</label>
@@ -17,6 +17,20 @@
       <button type="submit" class="btn">Go</button>
     </form>
 </details>
+
+<script>
+  // get URL params to determine current view options
+  let query = new URLSearchParams(location.search);
+
+  // update label of show/collapse details button
+  let toggleButton = document.getElementById('show-details');
+  let isExpanded = query.get('show_details');
+  toggleButton.innerText = isExpanded ? 'Collapse details' : 'Show all details';
+
+  // populate date field, if in use
+  let dateField = document.getElementById('go-to-date-field');
+  let dateField.value = query.get('startdate');
+</script>
 
 <script>
   // expand the view options section if:
