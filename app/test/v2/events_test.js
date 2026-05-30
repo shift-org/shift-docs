@@ -1,5 +1,6 @@
 const testdb = require("./testdb");
 const test = require("../testData");
+const sandbox = require('sinon').createSandbox();
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
@@ -11,11 +12,13 @@ describe("v2 getting events", () => {
   // runs before the evt test in this block.
   before(() => {
     test.configure("v2", "json");
+    test.fakeSiteUrl(sandbox);
     return testdb.setupTestData("events");
   });
   // runs once after the last test in this block
   after(() => {
     test.configure();
+    sandbox.restore();
     return testdb.destroy();
   });
   // NOTE: new api allows this

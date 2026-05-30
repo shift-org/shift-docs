@@ -149,6 +149,34 @@ String.raw`END:VCALENDAR`,
 "" // trailing new line. i think.
 ].join("\r\n");
 
+const createdEmail = {
+  subject: 'Shift2Bikes Secret URL for new event',
+  text:
+ `Dear js test,
+
+Thank you for adding your event, new event, to the Shift Calendar. To activate the event listing, you must visit the confirmation link below and publish it:
+
+https://shift2bikes.org/addevent/edit-4-ef23a887cdbd44f381275fa771a2d133
+
+Your scheduled event details are:
+Date(s): Wed, May 24th
+Time: 3:15 PM
+Location: the secret hideout, the location of the secret hideout
+
+This link is like a password. Anyone who has it can delete and change your event. Please keep this email so you can manage your event in the future.
+
+If you need help with your listing, please refer to https://shift2bikes.org/pages/calendar-faq/ or email bikecal@shift2bikes.org.
+
+Bike on!
+
+-Shift
+`,
+  to: { name: 'js test', address: 'test@example.com' },
+  from: { name: 'SHIFT to Bikes', address: 'bikefun@shift2bikes.org' },
+  replyTo: 'bikecal@shift2bikes.org',
+  bcc: 'shift-event-email-archives@googlegroups.com'
+}
+
 // ---------------------------------------------
 const options = {};
 
@@ -160,8 +188,9 @@ const restApi = {
     return `/api/${options.version}/events.${options.format}`;
   },
   eventSeries(seriesId, secret)  {
-    return {
-      path: `/api/${options.version}/events/${seriesId}.${options.format}`,
+    const path = `/api/${options.version}/events/${seriesId}.${options.format}`;
+    return !secret ? path : {
+      path: path,
       query: {secret}
     };
   },
@@ -285,7 +314,8 @@ const test = {
     if (fmt !== 'html') {
       assert.match(res.header['api-version'] || "missing api version", /^3\./);
     }
-    assert.equal(res.status, 200);
+    const body = JSON.stringify(res.body);
+    assert.equal(res.status, 200, `got status ${res.status} with body ${body}`);
     return res;
   },
   // helper for testing the calendar's custom error message format.
@@ -305,12 +335,13 @@ const test = {
     });
   },
   // changes how absolute urls are generated
-  fakeSiteUrl(sinon, path) {
+  // to prefix them with "shift.com" even though generated from localhost
+  fakeSiteUrl(sinon, path = "https://shift2bikes.org") {
     sinon.stub(config.site, 'url').callsFake((...parts) => {
       return [path, ...parts].join("/");
     });
   },
-  setupImageDir(sinon, path) {
+  setupImageDir(sinon, path= "./eventimages") {
     sinon.replace(config.image, 'dir', path);
   },
   // p can be a string or {path, query}
@@ -318,11 +349,10 @@ const test = {
     // console.log("get", JSON.stringify(p));
     return request(app).get(p.path || p).query(p.query || {});
   },
-  DELETE(p, data, form = true) {
-    const q = Object.assign( {}, p.query, {_method: "DELETE"} );
+  DELETE(path, data, form = true) {
     return test.POST({
-      path: p.path || p,
-      query: q,
+      path,
+      query: {_method: "DELETE"},
     }, data, form);
   },
   POST(p, data, form = true) {
@@ -340,7 +370,8 @@ const test = {
   pedalpaloozaFeed,
   cancelledDay,
   emptyRange,
-  allEvents
+  allEvents,
+  createdEmail
 };
 
 module.exports = test;

@@ -1,6 +1,9 @@
+/**
+ * some very basic testing of the FormValidator
+ */
 const assert = require("node:assert/strict");
 const { describe, it } = require("node:test");
-const makeValidator = require("server/support/formValidator");
+const FormValidator = require("server/support/formValidator");
 const { ErrorCollector } = require("server/support/errors");
 
 describe('event field validation', () => {
@@ -17,8 +20,8 @@ describe('event field validation', () => {
       const value = pairs[i + 0];
       const want  = pairs[i + 1];
       const errors = new ErrorCollector();
-      const v = makeValidator({ key: value }, errors);
-      const got = v.zeroInt(key);
+      const v = new FormValidator({ key: value }, errors);
+      const got = v.select(key).zeroInt();
       assert.equal(got, want, `test ${i / 2}`);
       assert.equal(errors.count, 0);
     }
@@ -37,8 +40,8 @@ describe('event field validation', () => {
     const errors = new ErrorCollector();
     for (let i = 0; i < list.length; i++) {
       const key = "key";
-      const v = makeValidator({ key: list[i] }, errors);
-      const got = v.zeroInt(key);
+      const v = new FormValidator({ key: list[i] }, errors);
+      const got = v.select(key).zeroInt();
       assert.equal(got, undefined, `test ${i / 2}`);
       assert.equal(errors.count, i + 1, `count ${i}`);
     }

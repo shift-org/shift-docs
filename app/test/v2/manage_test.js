@@ -1,8 +1,9 @@
 // some possible tests:
 // - delete an unpublished event.
-// - explicitly cancel an event.
 // - resurrect dates from a canceled event.
-// - test email output.
+// - use sinon to count the number of email calls; test 1 for each create; 0 for each update
+// x explicitly cancel an day.
+// x test email output.
 // x manage invalid id
 // x empty; invalid secret
 // x missing required fields (ex. code of conduct, etc.)
@@ -17,6 +18,9 @@ const fs = require('node:fs');
 const fsp = fs.promises;
 const path = require('node:path');
 const sandbox = require('sinon').createSandbox();
+const { faker } = require('@faker-js/faker');
+const emailer = require("server/support/emailer");
+const misc = require('server/util/misc');
 //
 const config = require('server/core/config');
 const db = require('server/core/db');
@@ -25,62 +29,58 @@ const EventData = require("server/model/eventData");
 const { EventStatus } = require("server/model/shorthands");
 //
 const testdb = require("./testdb");
-const test = require("../testData");
+const testData = require("../testData");
 //
-const manage_api = '/api/manage_event.php';
+const request = require('supertest');
+const app = require("shift-docs/appEndpoints");
 
-// handler is createNewEvent; verb is post.
-function createNewEvent(seriesId, version = 2) {
-  return`/api/v${version}/events/${seriesId}.json`;
-}
-
-describe.skip("managing events",  () => {
-  // hangs occur if the http requests throw exceptions;
-  // using supertest's agent api instead of its 'request' api
-  // allows this to call the agent's close
-  // which fixes the hang
-  // ( calling catch at the end of every promise change would too. )
-  // tbd: we don't need to test express itself, so setting up the endpoints for each test
-  // is overkill. maybe there's a way to share the agent globally through the testRunner...
-  //  "It is possible to apply the same configuration to all files by placing common configuration code in a module preloaded with --require or --import."
-  // https://nodejs.org/api/cli.html#-require-module
-  // https://nodejs.org/api/cli.html#importmodule
-  let agent;
-  before(() => {
-    const server = app.listen();
-    agent = supertest.agent(server);
-  });
-  after(() => {
-    const server = agent.app;
-    server.close();
-  });
+describe("v2 managing events",  () => {
+  let getMostRecentlySentEmail;
   // reset after each one.
   beforeEach(() => {
+    testData.configure("v2", "json");
     // docker config sets an explicit SHIFT_IMAGE_DIR
     // but tests need the directory under app.
-    test.setupImageDir(sandbox, "./eventimages");
+    testData.setupImageDir(sandbox);
+    testData.fakeSiteUrl(sandbox);
+    // listen to email sending.
+    // requires callers to use emailer.sendMail()
+    sandbox.stub(emailer, 'sendMail').callsFake(email => {
+      getMostRecentlySentEmail = email;
+    }).callThrough();
+    // temporarily replace the secret generation
+    // requires callers to use misc.newSecret()
+    sandbox.stub(misc, 'newSecret').callsFake(_ => {
+      return faker.string.uuid().replaceAll("-", "");
+    });
     return testdb.setupTestData("manage");
   });
   afterEach(() => {
+    testData.configure();
     sandbox.restore();
     return testdb.destroy();
   });
   it("errors on an invalid id", () => {
-    return agent
+    // handled by updateExistingEvent()
+    const manage_api = "/api/v2/events/999";
+    return request(app)
       .post(manage_api)
       .type('form')
       .send({
         json: JSON.stringify({
           id: 999,
+          secret: testData.secret,
         })
       })
-      .then(test.expectError);
+      .then(testData.expectError);
   });
   it("creates a new event, using raw json", () => {
-    return agent
+    // handled by createNewEvent()
+    const manage_api = "/api/v2/events";
+    return request(app)
       .post(manage_api)
       .send(eventData)
-      .then(test.expectOkay)
+      .then(testData.expectOkay)
       .then(async (res) => {
         assert.equal(res.body?.error?.message, undefined);
         //
@@ -91,6 +91,7 @@ describe.skip("managing events",  () => {
         const [ evt ] = events;
         assert.equal(evt.hidden, 1, "the initial event should be hidden by default");
         // console.log(res.body);
+        assert.deepStrictEqual(getMostRecentlySentEmail, testData.createdEmail);
       });
   });
   it("fail creation when missing required fields", () => {
@@ -115,10 +116,12 @@ describe.skip("managing events",  () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return agent
+        // handled by createNewEvent()
+        const manage_api = "/api/v2/events";
+        return request(app)
         .post(manage_api)
         .send(post)
-        .then(res => test.expectError(res, key));
+        .then(res => testData.expectError(res, key));
       })
     }
     return seq;
@@ -144,10 +147,12 @@ describe.skip("managing events",  () => {
       const post = Object.assign({}, eventData);
       post[key] = value;
       seq = seq.then(_ => {
-        return agent
+        // handled by createNewEvent()
+        const manage_api = "/api/v2/events";
+        return request(app)
         .post(manage_api)
         .send(post)
-        .then(res => test.expectError(res, key));
+        .then(res => testData.expectError(res, key));
       })
     }
     return seq;
@@ -157,15 +162,16 @@ describe.skip("managing events",  () => {
       const evt = events[0];
       // id 3 starts unpublished
       assert.equal(evt.hidden, 1);
-      // by posting some valid event data
-      // we should be able to publish it
-      return agent
+      // by posting to we should be able to publish it
+      // handled by updateExistingEvent()
+      const manage_api = "/api/v2/events/3";
+      return request(app)
         .post(manage_api)
         .send(Object.assign({
           id: 3,
-          secret: test.secret,
+          secret: testData.secret,
         }, eventData))
-        .then(test.expectOkay)
+        .then(testData.expectOkay)
         .then(async (res) => {
           // first, validate the response
           // because the client sends it, it shouldn't need this id back
@@ -193,22 +199,48 @@ describe.skip("managing events",  () => {
     });
   });
   it("fails to use an empty secret", () => {
-    return agent
+    // handled by updateExistingEvent()
+    const manage_api = "/api/v2/events/3";
+    return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3,
         // not sending any secret
       }, eventData))
-      .then(test.expectError);
+      .then(testData.expectError);
   });
   it("fails to use an invalid secret", () => {
-    return agent
+    // handled by updateExistingEvent()
+    const manage_api = "/api/v2/events/3";
+     // reverses the secret:
+    const reversedSecret = testData.secret.split("").reverse().join("");
+    return request(app)
       .post(manage_api)
       .send(Object.assign({
-        id: 3, // reverses the secret:
-        secret: test.secret.split("").reverse().join(""),
+        id: 3,
+        secret: reversedSecret,
       }, eventData))
-      .then(test.expectError);
+      .then(testData.expectError);
+  });
+  it("fails if endpoint and id are mismatched", () => {
+    // handled by updateExistingEvent()
+    const manage_api = "/api/v2/events/3";
+    return request(app)
+      .post(manage_api)
+      .send(Object.assign({
+        id: 3 + 1, // first: make the internal mismatched
+        secret: testData.secret,
+      }, eventData))
+      .then(res => {
+        testData.expectError(res);
+        // next: make the end point mismatched
+        const manage_api = "/api/v2/events/4";
+        return request(app).post(manage_api, {
+          id: 3,
+          secret: testData.secret,
+        })
+        .then(testData.expectError)
+      });
   });
   it("adds one date and removes another", ()=> {
     return testdb.findSeries(2).then(events => {
@@ -216,25 +248,27 @@ describe.skip("managing events",  () => {
       // 2 2002-08-01  news flash  1 201 2025-11-17 05:50:02
       // 2 2002-08-02  news flash  1 202 2025-11-17 05:50:02
       const eventData = EventData.getSummary(events[0], {includePrivate: true});
-      const post = Object.assign({
-        secret: test.secret,
+      const post = Object.assign( {
+        secret: testData.secret,
         code_of_conduct: "1",
         read_comic: "1",
         datestatuses : [
-        // keep the first date ( removes the newsflash )
+        // 1. keep the first date ( removes the newsflash )
         { "date": "2002-08-01", status: 'C' },
-        // delist the second;
+        // 2. implicitly remove the second;
         // .....
-        // add a third.
+        // 3. add a third.
         { "date": "2002-08-03", status: 'A', newsflash: "new!" }
       ]}, eventData);
-      return agent
+      // handled by updateExistingEvent()
+      const manage_api = "/api/v2/events/2";
+      return request(app)
         .post(manage_api)
         .type('form')
         .send({
           json: JSON.stringify(post)
         })
-        .then(test.expectOkay)
+        .then(testData.expectOkay)
         .then(async (res) => {
           // three dailies for our event are in the db:
           // but the delisted one is hidden
@@ -247,9 +281,8 @@ describe.skip("managing events",  () => {
 
           assert.equal(d2.eventdate, "2002-08-03");
           assert.equal(d2.eventstatus, EventStatus.Active.toString());
-          
+
           // NOTE: new manage event doesn't return "datestatuses" when done.
-          // fix: should add a test for an explicitly cancelled day.
         });
     });
   });
@@ -264,19 +297,22 @@ describe.skip("managing events",  () => {
       return testdb.findSeries(id).then(events => {
         const eventData = EventData.getSummary(events[0], {includePrivate: true});
         const post = Object.assign({
-          secret: test.secret,
+          secret: testData.secret,
           code_of_conduct: "1",
           read_comic: "1",
         }, eventData);
-        return agent
+        // handled by createNewEvent()
+        // id is always 3 in these tests
+        const manage_api = "/api/v2/events/3";
+        return request(app)
           .post(manage_api)
           .type('form')
           .field({
             json: JSON.stringify(post)
           })
-          // the tests originally based a filepath here
-          // but that started generating EPIPE errors for reasons.
-          .attach('file', fs.readFileSync(imageSource), path.basename(imageSource));
+          // Queue the given `file` as an attachment to the specified `field`,
+          // with optional `options` (or filename).
+          .attach('file', imageSource, path.basename(imageSource));
       });
     });
   }
@@ -287,8 +323,8 @@ describe.skip("managing events",  () => {
     const imageTarget = getImageTarget(3, imageSource);
     // post the image once
     await postImage(3, imageSource, imageTarget)
-      .then(test.expectOkay)
-      .then(_ => {
+      .then(res => {
+        testData.expectOkay(res);
         return testdb.findSeries(3).then(events => {
           const evt = events[0];
           assert.equal(evt.image, "3-1.jpg", "should have a sequence number");
@@ -301,10 +337,9 @@ describe.skip("managing events",  () => {
     const altSource = path.join(config.image.dir, "bike.png");
     const altTarget = getImageTarget(3, altSource);
     // posting eventimages/bike.png eventimages/3.png
-    console.log("posting", altSource, altTarget);
     await postImage(3, altSource, altTarget)
-      .then(test.expectOkay)
       .then(res => {
+        testData.expectOkay(res);
         return testdb.findSeries(3).then(events => {
           const evt = events[0];
           assert.equal(evt.image, "3-2.png", "sequence should have incremented");
@@ -319,8 +354,7 @@ describe.skip("managing events",  () => {
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget)
       .then(res => {
-        test.expectError(res, 'image');
-
+        testData.expectError(res, 'image');
         // check for the image on disk:
         return fsp.stat(imageTarget)
           .then(_ => {
@@ -337,7 +371,7 @@ describe.skip("managing events",  () => {
     const imageSource = path.join( config.image.dir, "bike-bad.tiff" );
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget).then(res => {
-      test.expectError(res, 'image');
+      testData.expectError(res, 'image');
       return fsp.stat(imageTarget)
         .then(_ => {
           // fail if it existed
@@ -351,17 +385,19 @@ describe.skip("managing events",  () => {
   });
   it("prevents image upload on new events", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
+    // handled by createNewEvent()
+    const manage_api = "/api/v2/events";
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
-    return agent
+    return request(app)
       .post(manage_api)
       .type('form')
       .field({
         json: JSON.stringify(eventData)
       })
-      .attach('file', fs.readFileSync(imageSource), path.basename(imageSource))
+      .attach('file', imageSource, path.basename(imageSource))
       .then(res => {
-        test.expectError(res, 'image');
+        testData.expectError(res, 'image');
       });
   });
 });

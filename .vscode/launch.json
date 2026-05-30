@@ -38,9 +38,10 @@
             "runtimeArgs": [
                 "run-script",
                 "test",
-               "--",
-                "-v=2",
-                "-f=event"
+                "--",
+                // "-v=2",
+                // "-f=man",
+                // "-only"
             ],
             "runtimeExecutable": "npm",
             "skipFiles": [

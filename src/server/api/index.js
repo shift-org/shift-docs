@@ -7,8 +7,9 @@
  * in theory, these endpoints perform faster than their php counterparts.
  */
 const config = require("server/core/config");
-const { StatusError } = require("server/support/errors");
-const { uploader } = require("server/support/uploader");
+const { StatusError, sendFieldError } = require("server/support/errors");
+const { FileFormatError, uploader } = require("server/support/uploader");
+const { MulterError } = require('multer');
 //
 const createNewEvent = require("./createNewEvent");
 const deleteEvent = require("./deleteEvent");
@@ -33,6 +34,19 @@ function useApi(app) {
   const versioned = "/api/v:version";
   const v2only = "/api/v2";
 
+  // POST /events
+  // exceptions in post can raise "Unexpected end of form error"
+  // when there are other handlers present; listing them first seems to help.
+  app.post(v2only + "/events", postJson(createNewEvent));
+
+  // POST /events/1234
+  app.post(v2only + "/events/:seriesId", postJson(updateExistingEvent,
+    q => q._method === undefined )); // match only if a method isn't passed
+
+  // POST /events/1234?_method=DELETE
+  app.post(v2only + "/events/:seriesId", postJson(deleteEvent,
+    q => q._method === "DELETE"));// match only if method is delete
+
   // GET /count.json -- /api/v2/count.json
   app.get(versioned + "/count.json", renderJson(getEventCount));
 
@@ -51,31 +65,25 @@ function useApi(app) {
   app.get(versioned + "/events/:seriesId/:ymd.json", renderJson(getEventInstance));
   app.get(versioned + "/events/:seriesId/:ymd.ical", renderCal(getCalInstance));
 
-  // POST /events/1234?_method=DELETE
-  app.post(v2only + "/events/:seriesId", postJson(deleteEvent, {_method: "DELETE"}));
-
-  // POST /events/1234
-  app.post(v2only + "/events/:seriesId", postJson(updateExistingEvent));
-
-  // POST /events
-  app.post(v2only + "/events", postJson(createNewEvent));
-
   // GET /legacy/32(.json|.ical)
   // the instance of a particular event on a particular day identified by id
   // redirects to an event-day style url.
   app.get(versioned + "/legacy/:pkid.:ext", renderJson(handleLegacyRedirect));
+
+  app.use(handleError);
 }
 
-function postJson(cb, queryMatch) {
+const upload = uploader.makeUploader();
+
+function postJson(cb, queryFilter) {
   // the client sends multi-part form posts
   // so parse that first using the uploader util.
-  const handleForm = uploader.makeHandler();
-  return [handleForm, renderJson(cb, queryMatch)];
+  return [upload, renderJson(cb, queryFilter)];
 }
 
-function renderJson(cb, queryMatch) {
+function renderJson(cb, queryFilter) {
   // our endpoints generate "plain old data"
-  return handleCall(cb, queryMatch, (res, pod) => {
+  return handleCall(cb, queryFilter, (res, pod) => {
     // send that data as json in response.
     if (pod !== undefined) {
       res.json(pod);
@@ -86,51 +94,68 @@ function renderJson(cb, queryMatch) {
   });
 }
 
-function renderCal(cb, queryMatch) {
+function renderCal(cb, queryFilter) {
   // our endpoints generate cal responses
-  return handleCall(cb, queryMatch, (res, cal) => {
+  return handleCall(cb, queryFilter, (res, cal) => {
     cal.sendCal(res);
   });
 }
 
 // wrapper for shift endpoints.
-// assumes cb either generates a promise or throws
-// and that send knows how to handle the result of that promise.
-function handleCall(cb, queryMatch, send) {
+// assumes 'cb' either generates a promise or throws an error,
+// and that 'send' can handle the result of that promise.
+function handleCall(cb, queryFilter, send) {
   // express request, response, and chain handler
   return function(req, res, next) {
     // only handle this endpoint if the query expectations matched
-    if (queryMatch && !checkQuery(req, queryMatch)) {
+    if (queryFilter && !queryFilter(req.query)) {
       next('route'); // tells express to move to the next router statement
     } else {
       // add the shift version info
       res.set(config.api.header, config.api.version);
-      // express 4 doesn't seem to support promises
-      // so create our own promise chain
-      // and then call the appropriate express functions.
-      // express is asynchronous: it waits until a result is generated, or until next() is called.
-      return Promise.resolve().then(_ => cb(req)).then(ret => {
-        // if callback or send throws an error, that's handled by catch
+      // express 4 doesn't directly support promises; so create our own promise chain.
+      // ( express is asynchronous: waiting until a result is generated, or until next() is called; ex. on error. )
+      return Promise.resolve(cb(req)).then(ret => {
         send(res, ret);
-      }).catch((err) => {
-        // some code uses promise.reject for expected errors.
-        if (typeof(err) === 'string') {
-          res.status(400).send(err);
-        } else if (err instanceof StatusError) {
-          // other code throws specific error types.
-          err.sendError(res);
-        } else {
-          // otherwise, hand the error to express.
-          next(err);
-        }
-      });
+      }).catch(next);
     }
   }
 }
-
-// does every value in match appear in the request query parameters?
-// returns true if there's nothing to match
-function checkQuery(req, match) {
-  const keys = Object.keys(match);
-  return keys.every(key => req.query[key] === match[key]);
+// any errors thrown the request handlers wind up here.
+// https://expressjs.com/en/guide/error-handling/
+function handleError(err, req, res, next) {
+  // let express handle the php endpoints in the old way.
+  if (!req.path.startsWith("/api/v")) {
+    next(err);
+  } else {
+    // skips logging common errors during testing
+    if (!config.isTesting) {
+      console.debug("Client error detected:", err.stack);
+    }
+    // some code uses promise.reject for expected errors.
+    // those don't send the json field errors
+    if (typeof(err) === 'string') {
+      res.status(400).send(err);
+    } else if (err instanceof StatusError) {
+      // other code throws specific error types.
+      err.sendError(res);
+    } else if ((err instanceof MulterError) || (err instanceof FileFormatError)) {
+      // cheating: knows that the form uses 'image' as its field for these errors.
+      sendFieldError(res, {image: err.message || "Unknown error" });
+    } else {
+      // okay, for unknown errors, log those while testing.
+      if (config.isTesting) {
+        console.error("Unknown error detected:", err.stack);
+      }
+      // otherwise, hand a generic error to express.
+      // ( to avoid leaking any internal info to the client )
+      const errors = [
+        "Something unexpected went wrong.",
+        "The server developed a flat.",
+        "The chain fell off."
+      ];
+      const str = errors[Math.random() * (errors.length - 1)]
+      next(`Eek! ${str} Please try again.`);
+    }
+  }
 }

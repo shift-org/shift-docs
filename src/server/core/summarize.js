@@ -61,6 +61,7 @@ function queryEvents(view, opt = {}) {
       q.where('password', opt.includePrivate);
     } else if (view === 'private_events') {
       // help ensure calling code is using the private_events table correctly.
+      // this (probably) indicates a coding error rather than bad client data.
       throw new Error(`can't view private event data without specifying a secret`);
     }
     if (opt.firstDay) {
@@ -104,7 +105,7 @@ function queryEvents(view, opt = {}) {
 // visit every row, calling the summary function specified in options.
 // returns an array of the data returned from that function.
 function handleSummary(q, opt, log) {
-  log && console.log(q.toSQL().toNative());
+  log && console.log("SQL: ", q.toSQL().toNative());
   return q.then(rows => rows.map((row, index) => {
     // for every returned row, call the summary function:
     // pass the options and the index of the data 

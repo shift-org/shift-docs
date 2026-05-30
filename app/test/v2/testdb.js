@@ -11,7 +11,7 @@ const { faker } = require('@faker-js/faker');
 const testData = require("../testData");
 const tables = require("shift-docs/models/tables");
 const { generateFakeData, insertFakeData } = require("./fakeData");
-const { insertEventData } = require("server/core/reconcile");
+const { insertNewData } = require("server/core/reconcile");
 
 module.exports = {
   // generates a hand rolled set of data
@@ -48,7 +48,7 @@ async function createTestData() {
   // create 3 separate series with ids 1, 2, 3
   for (const id of [1, 2, 3]) {
     const tableValues = fakeCalEvent(id);
-    await insertEventData(db.query, tableValues);
+    await insertNewData(db.query, tableValues);
   }
   // generates two status days for series 2.
   const eventId = 2;

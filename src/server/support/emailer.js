@@ -17,7 +17,9 @@ module.exports = {
           Promise.reject("smtp not configured.") :
           transporter.verify().then(_ => config.smtp.host || "???");
   },
-  // returns a empty promise after sending the email.
+  // returns an empty promise after sending the passed 'email'.
+  // 'email' is a nodemailer formatted object, containing:
+  // { subject, text, to, from, replyTo, bcc, html, attachments, ... }
   sendMail(email) {
     // info contains extended info about the sent email.
     // not much we can do with that info, so this eats it.

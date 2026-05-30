@@ -16,7 +16,7 @@ const { Area, Audience, Distance, EventStatus, Showable, LocType } = require("se
 
 // return map of { tableName: newTable }
 // caller writes to disk.
-async function migrate() {
+async function migrate(outFile = "/dev/stdout") {
   const out = new Output();
   const tableNames = Object.keys(allTables);
 
@@ -26,9 +26,6 @@ async function migrate() {
   const events = await readAllData();
   rewriteExceptions(events);
   buildData(out, events);
-
-  // write migration:
-  const mainFile = db.config.type === "sqlite" ? path.join(`../services/db/tmp/reorg.sql`) : "/dev/stdout";
 
   // use select statements:
   // INSERT INTO Student (id, name, national_id)
@@ -59,7 +56,7 @@ async function migrate() {
   const migration = statements.join('\n') + "\n\n" +
                     values + "\n" +
                     comments;
-  fs.writeFileSync(mainFile, migration);
+  fs.writeFileSync(outFile, migration);
 
   // alt: use data files for "load data"
   // Object.keys(out.tables).forEach(name => {

@@ -36,7 +36,7 @@ const allTables = {
     // passwords are generally 33 chars (32 plus the null terminator. )
     // max 48 here for ... padding?
     secret: [make.string, {width: 48}],
-    private_email: [make.string, {width: 64}],
+    private_email: [make.string, {width: 256}],
     // some people have a short description here in phone
     private_phone: [make.string, {width: 64} ],
     private_contact: [make.string, {width:  256}],

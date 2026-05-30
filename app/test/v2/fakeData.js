@@ -4,7 +4,7 @@ const config = require('server/core/config');
 const dt = require('server/util/dateTime');
 const tables = require("shift-docs/models/tables");
 const { Area, Audience, Distance, LocType, Showable, TagName, WebType } = require('server/model/shorthands');
-const { insertEventData } = require('server/core/reconcile');
+const { insertNewData } = require('server/core/reconcile');
 
 // password shared for all fake events
 const password = "supersecret";
@@ -19,7 +19,7 @@ function insertFakeData(fakeData) {
 
 function _insertData(tx, fakeData) {
   const promisedEvents = fakeData.map(data => {
-    return insertEventData(tx, data.event).then(id => {
+    return insertNewData(tx, data.event).then(id => {
       const promisedDays = data.days.map(at => {
         at.id = id; // assign the id before adding to the db
         return tx('schedule').insert(at);

@@ -12,12 +12,16 @@ module.exports = deleteEvent;
 
 // the exported request handler
 function deleteEvent(req) {
+  const id = parseInt(req.params.seriesId);
   const data = parseJson(req.body);
   if (!data) {
     throw new TextError('Bad request');
   }
   if (!data.id) {
     throw new TextError('Missing id');
+  }
+  if (id !== data.id) {
+    throw new TextError("Malformed request");
   }
   if (!data.secret) {
     throw new TextError('Missing secret');

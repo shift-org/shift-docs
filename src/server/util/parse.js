@@ -42,12 +42,7 @@ function parseYmd(str) {
 // read a possible json request into a javascript object.
 // returns undefined for any error, logging to the console for debugging.
 function parseJson(data) {
-  if (data && data.json) {
-    try {
-      data = JSON.parse(data.json);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return data;
+  // sometimes the client sends the data as a json like object;
+  // sometimes it sends it as a string in an object with a member called json.
+  return (data && data.json) ? JSON.parse(data.json) : data;
 }

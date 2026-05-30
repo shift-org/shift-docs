@@ -1,13 +1,13 @@
 const config = require('server/core/config');
 
-// base class for throwable errors capable of
-// presenting information to the user on the client.
+// base class for errors intended to be shown to the end user.
+// for internal errors, prefer a regular Error.
 class StatusError extends Error {
   // defaults to status code 400 Bad Request
   // "The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, size too large, invalid request message framing, or deceptive request routing)."
-  constructor(msg, status = 400) {
+  constructor(msg, status = undefined) {
     super(msg); // becomes this.message
-    this.status = status;
+    this.status = status || 400;
   }
 
   // res is an express response
@@ -27,17 +27,19 @@ class StatusError extends Error {
 
 // a single string
 class TextError extends StatusError {
-  constructor(msg, status) {
+  constructor(msg, status = undefined) {
     super(msg, status);
   }
 }
 
 // reports back to the user with one or more error messages
 // relating to specific fields of a form.
-class FieldError extends StatusError {
-  constructor(fields, msg, status) {
-    super(msg, status);
-    this.fields = fields.errors;
+class FormError extends StatusError {
+  // where errors is a map of field name to error message
+  // (ie. the result of ErrorCollector.getErrors())
+  constructor(errors, msg = undefined, status = undefined) {
+    super(msg || "There were errors in your fields", status);
+    this.fields = errors;
   }
 }
 
@@ -58,9 +60,12 @@ class ErrorCollector {
     this.errors = {};
     this.count = 0;
   }
-  addError(field, msg) {
+  // if msg is missing, adds a generic error
+  // fix? messages can contain html.
+  addError(field, msg = undefined) {
     this.errors[field] = msg ?? `Please enter a value for <span class=\"field-name\">${field}</span>`;
     this.count++;
+    return this;
   }
   getErrors() {
     return this.errors;
@@ -114,10 +119,9 @@ module.exports = {
   sendFieldError,
 
   TextError,
-  FieldError,
+  FormError,
   RedirectError,
   StatusError,
 
   ErrorCollector,
 };
-

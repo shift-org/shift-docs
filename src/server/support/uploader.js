@@ -3,45 +3,55 @@ const path = require('node:path');
 const validator = require('validator');
 const multer = require('multer');
 const config = require('server/core/config');
-const { sendFieldError } = require('server/support/errors');
+const { StatusError, sendFieldError } = require('server/support/errors');
 
-class FileFilterError extends Error {}
+// return the promise of a saved file
+function saveImage(file, outpath) {
+  // file.path indicates a temp file in a temp directory
+  // file.buffer is used if the image contents were uploaded into memory.
+  if (file.path) {
+    return fsp.rename(file.path, outpath);
+  } else if (file.buffer) {
+    return fsp.writeFile(outpath, file.buffer);
+  } else {
+    throw new StatusError("image has no data");
+  }
+}
 
-exports.uploader = {
+class FileFormatError extends Error {
+  constructor(field, message) {
+    super(message);
+    this.field = field;
+  }
+};
+
+const uploader = {
   // save an uploaded file to a new file with 'name' (event id).
   // The uploaded file contains a 'mimetype', and either:
   // a 'buffer' of binary data, or a 'path' (to a temp file in system tmp.)
   // Promises an object with the name and an extension: `{name, ext}`.
   write(file, name) {
     if (!name || (typeof(name) !== 'string')) {
-      return Promise.reject("cant store an image without a valid name");
+      throw new StatusError("cant store an image without a valid name");
     }
     if (!file) {
-      return Promise.reject("no file data specified");
+      throw new StatusError("no file data specified");
     }
     // this is also validated during upload in fileFilter
     const ext = config.image.imageTypes[file.mimetype];
     if (!ext) {
-      return Promise.reject("cant store an image without a valid extension");
+      throw new StatusError("cant store an image without a valid extension");
     }
     // ex. '/opt/backend/eventimages/7431.jpg'
     // this uses regular path ( not posix ) because it involves local files.
     const outpath = path.join(config.image.dir, name + ext);
-
-    // file.path indicates a temp file in a temp directory
-    // file.buffer is used if the image contents were uploaded into memory.
-    const saveImage = file.path ? fsp.rename(file.path, outpath) :
-          file.buffer ? fsp.writeFile(outpath, file.buffer) :
-          Promise.reject("Image has no data");
     // after moving/writing the file, return the name and extension.
-    return saveImage.then(_ => ({ name,  ext }));
+    return saveImage(file, outpath).then(_ => ({ name,  ext }));
   },
 
-  // generates "middleware" for express endpoints
-  // ( middleware is any function following a certain pattern. )
-  makeHandler(dataField= 'file', errorField= 'image') {
+  makeUploader(dataField = 'file', errorField = 'image') {
     // ask multer to create its middleware
-    const upload = multer({
+    return multer({
       // because the limits are so small
       // using memory storage for multner is probably fine.
       // storage: multer.diskStorage()
@@ -63,39 +73,39 @@ exports.uploader = {
         if (validator.isIn(file.mimetype, mimeTypes)) {
           cb(null, true)
         } else {
-          cb(new FileFilterError('Invalid image type'));
+          cb(new FileFormatError(errorField, 'Invalid image type'));
         }
       },
     }).single(dataField);
+  },
 
+  // generates "middleware" for express endpoints
+  // ( middleware is any function following a certain pattern. )
+  makeHandler(dataField = 'file', errorField = 'image') {
+    const upload = this.makeUploader(dataField, errorField);
     // make our own middleware to call multner's
     // so that we can handle any errors we generated in fileFilter()
     // ( why couldn't they just use promises like everyone else!? )
     return function(req, res, next) {
       upload(req, res, err => {
-        // this catches multner's error for surpassing limits;
-        // and the custom error generated in fileFilter() above.
-        if (err) {
-          const brief = err.message || "Unknown error";
-          const detailedMessage = `${brief}\n${err.stack}`;
-          let msg = brief;
-          if (config.isTesting) {
-            msg = detailedMessage;
-          } else {
-            msg = brief;
-            console.error(detailedMessage);
-          }
-          sendFieldError(res, { [errorField]: msg });
+        if (!err) {
+          next(); //
         } else {
-          // tell express to call the next middleware
-          // if we pass 'err' to 'next()' express respond with http 500
+          // catches multner errors for surpassing limits and
+          // the custom error generated in fileFilter() above.
+          // passing 'err' to 'next()' invokes express's default response of http 500
           // https://expressjs.com/en/guide/error-handling.html#error-handling
-          next();
+          sendFieldError(res, { [errorField]: err.message || "Unknown error" });
         }
       });
     };
   } // makeHandler()
 }
+
+module.exports = {
+  FileFormatError,
+  uploader
+};
 
 // https://github.com/expressjs/multer
 // req.file holds the file info ( the property is always .file regardless of the form name )

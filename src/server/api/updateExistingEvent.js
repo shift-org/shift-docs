@@ -1,32 +1,35 @@
-const { readEvent, handleEventError } = require("server/api/readEvents");
+const readEvent = require("server/api/readEvent");
+const config = require("server/core/config");
+const db = require("server/core/db");
 const { updateEventData, updateImageData } = require("server/core/reconcile");
 const { TextError } = require("server/support/errors");
+const { uploader } = require("server/support/uploader");
 const dt = require("server/util/dateTime");
 
 module.exports = updateExistingEvent;
 
 // the exported request handler
-function updateExistingEvent(req) {
-  const { tgt, vals } = readEvent(req, {allowImages: true});
-  if (tgt.id || tgt.seriesId) {
+// after validating the incoming id and secret,
+// updates the event and scheduling data, then
+// promises an object with { id, image, published: true }
+async function updateExistingEvent(req) {
+  const id = parseInt(req.params.seriesId);
+  const input = readEvent(req, {allowImages: true});
+  // we expect the outer id, and the inner id to match
+  if (id !== input.id || !input.secret) {
     throw new TextError("Malformed request");
   }
-  return handleUpdate(tgt, req.file, vals).catch(handleEventError);
-}
-
-// promises an object with { id, image, published: true }
-async function handleUpdate(src, fileData, vals) {
-  // update all the data; throws if it can't.
-  // ( in which case nothing gets saved. )
+  // update all the data; throws if it can't
+  // ( including on mismatched secret )
+  // in which case nothing gets saved.
   const tgt = await db.query.transaction(tx => {
-    const { seriesId, password } = src;
-    const { event, days } = vals;
-    return updateEventData(tx, seriesId, password, event, days);
+    const { id, secret, event, schedule } = input;
+    return updateEventData(tx, id, secret, event, schedule);
   });
   // doing this outside of the transaction
   // TBD: might consider catching problems and notifying the user
   // without a full error. ex. their data is saved; just not the image.
-  const newImage = await saveImageToDisk(tgt.seriesId, fileData);
+  const newImage = await saveImageToDisk(tgt.seriesId, req.file);
   if (newImage) {
     // todo: a way of clearing the image?
     await updateImageData(db.query, tgt.seriesId, newImage);

@@ -1,39 +1,44 @@
 /**
  * high level functions for creating and updating events in the db.
+ * note: all of these assume the incoming data has been validated
+ * except for the correct id/password pairing.
  */
 const db = require("server/core/db");
-const { newSecret } = require('server/util/misc');
+const { StatusError } = require("server/support/errors");
 const { allTables, extraKeys } = require("server/v2/schema/allTables");
+const dt = require("server/util/dateTime");
+const misc = require('server/util/misc');
 
 module.exports = {
-  newEventData,
-  updateEventData,
-  updateImageData,
-  removeEntireSeries,
+  newEventData,       // generates a new secret
+  updateEventData,    // validates the secret
+  updateImageData,    // does not validate the secret
+  removeEntireSeries, // validates the secret
   // exported for testing
   isEmptyRow,
-  insertEventData
+  insertNewData       // overwrites the secret
 };
 
 // after creating a new event and adding all its info
-// promises an object containing { seriesId, password }.
+// promises an object containing { id, secret }.
 // tx can be either 'db.query' or a knex transaction.
 function newEventData(tx, eventData, dayData) {
-  const password = newSecret();
-  eventData.private.secret = password;
-  return insertEventData(tx, eventData).then(seriesId => {
-    return updateDays(tx, seriesId, dayData).then(_ => ({
-      seriesId,
-      password
+  const secret = misc.newSecret();
+  eventData.private.secret = secret;
+  return insertNewData(tx, eventData).then(id => {
+    return writeSchedule(tx, id, dayData).then(_ => ({
+      id,
+      secret
     }));
   });
 }
 
-// after updating all event data and days
-// promises an object containing { seriesId, published }.
-// intended to be used in a a transaction so that if it fails
-// ( ex. due to password mismatch ) nothing gets written to the db.
+// after validating the id and secret
+// updates all event and scheduling info then
+// promises an object containing { seriesId, published }
+// where 'published' is a counter of the next change.
 function updateEventData(tx, seriesId, secret, eventData, dayData) {
+  // update_check provides id, secret, published
   // tbd: instead of pre-matching the secret, can you throw if on mismatch
   return tx('update_check')
     .where({id: seriesId, secret})
@@ -41,28 +46,39 @@ function updateEventData(tx, seriesId, secret, eventData, dayData) {
       if (!rows.length) {
         // note this can also happen when published is null
         // ( for revoking rides without deleting their data  )
-        throw new Error(`Unknown series ${seriesId} or invalid password.`);
+        throw new StatusError(`Unknown series ${seriesId} or invalid password.`);
       }
       // we've read the current published value from the db:
       // increment it, and store it into the new series data.
+      // not sure if the transaction saves us from race conditions on the counter.
+      // (ex. if two requests to update the same event are being processed at the same time)
+      // but i don't think it matters much.
       const nextChange = rows[0].published + 1;
       eventData.series.published = nextChange;
-      return tables.updateEventData(tx, seriesId, eventData).then(_ => {
-        return updateDays(tx, seriesId, dayData);
-      }).then(_ => ({
+      // eventData is a map of table to row data
+      // for each table, generate an update statement
+      const updates = Object.keys(eventData).flatMap(tableName => {
+        const vals = eventData[tableName];
+        const rows = [].concat(vals); // normalize into an array
+        return rows.map(row => updateOrDelete(tx, tableName, seriesId, row));
+      }).concat(writeSchedule(tx, seriesId, dayData));
+      // wait on all the table updates including the schedule.
+      // after everything: return the id and predicted next published counter
+      return Promise.all(updates).then(_ => ({
         seriesId,
         published: nextChange,
       }));
     });
 }
 
-// insert or update image data
+// insert or update image data for the indicated series.
 // where img = { name, ext: '.ext' }
+// does not validate the secret!
 function updateImageData(tx, seriesId, img) {
   if (img.name !== ('' + seriesId)) {
-    throw new Error(`series '${seriesId}' had unexpected image '${img.name}'`);
+    throw new Error(`Image for series '${seriesId}' had an unexpected name: '${img.name}'`);
   } else if (!('' + img.ext).startsWith('.')) {
-    throw new Error(`series ${seriesId} had unexpected img extension '${img.ext}'`)
+    throw new Error(`Image for series '${seriesId}' had an unexpected extension: '${img.ext}'`)
   }
   const data = {
     id: seriesId,
@@ -84,8 +100,7 @@ function updateImageData(tx, seriesId, img) {
     });
 }
 
-// TODO: what happens if something fails?
-async function updateDays(tx, seriesId, dayData) {
+async function writeSchedule(tx, seriesId, dayData) {
   // create an array of just the dates. ex ["YYYY-MM-DD", "YYYY-MM-DD", ...]
   const ymds = dayData.map(el => el.ymd);
   // assuming there are some....
@@ -102,56 +117,59 @@ async function updateDays(tx, seriesId, dayData) {
 // create days for any dates not in the db.
 // assumes newDates is an array of validated YYYY-MM-DD strings.
 function addMissingDays(tx, seriesId, ymds) {
-  // manually validate the id
-  if (!Number.isInteger(seriesId)) {
-    throw new Error(`Invalid id ${seriesId}`);
-  }
-  const withIdDates = withTable("idDates", ['id', 'ymd'], ymds.length);
-  const idDates = ymds.flatMap(ymd => [seriesId, ymd]);
-  return tx.raw(`
-  insert into schedule(id, ymd)
+  const now = dt.toTimestamp(); // for sqlite, set the change time manually
+  // generates ? placeholders for the query
+  const withIdDates = withTable("idDates", ['id', 'ymd', 'changed'], ymds.length);
+  // those places holders are filled with these matching values:
+  const idDates = ymds.flatMap(ymd => [seriesId, ymd, now]);
+  const raw = `
+  insert into schedule(id, ymd, changed)
   ${withIdDates}
   select * from idDates
   where not exists ( 
     select 1 from schedule
     where schedule.id = idDates.id
     and schedule.ymd = idDates.ymd
-  )`, idDates);
+  )`;
+  return tx.raw(raw, idDates);
 }
 
 // delist any days not listed in ymds
 // ( by filling the schedule with nulls )
 function delistMissingDays(tx, seriesId, ymds) {
+  const now = dt.toTimestamp(); // for sqlite, set the change time manually
   return tx('schedule')
     .where('id', seriesId)
     .whereNotIn('ymd', ymds)
-    .update('is_scheduled', null);
+    .update({
+      is_scheduled: null,
+      changed: now,
+    });
 }
 
 // overwrite an existing schedule with dayData
-// dayData is an array of: { date, is_scheduled, news }
+// dayData is an array of: { ymd, is_scheduled, news }
+// the validated data from the client.
 function updateDailyStatus(tx, seriesId, dayData) {
-  // manually validate the id
-  if (!Number.isInteger(seriesId)) {
-    throw new Error(`Invalid id ${seriesId}`);
-  }
+  const now = dt.toTimestamp(); // for sqlite, set the change time manually
   const usingSqlite = db.config.type === 'sqlite';
-  const withValues = withTable("vals", ['ymd', 'is_scheduled', 'news'], dayData.length);
-  const vals = dayData.flatMap(sched => [sched.ymd, sched.is_scheduled, sched.news])
+  const withValues = withTable("vals", ['ymd', 'is_scheduled', 'news', 'changed'], dayData.length);
+  const vals = dayData.flatMap(sched => [sched.ymd, sched.is_scheduled, sched.news, now])
   return tx.raw(withValues + `
   update schedule
   ${!usingSqlite ? `join vals`: ""}
   set
     is_scheduled = vals.is_scheduled,
-    news = vals.news
+    news = vals.news,
+    changed = vals.changed
   ${usingSqlite ? `from vals`: ""}
   where schedule.id = ${seriesId}
   and schedule.ymd = vals.ymd`, vals);
 }
 
-// promises the total number of removed items when done.
+// promises the total number of removed items when done:
+// zero if the series didn't exist or the secret didn't match.
 function removeEntireSeries(tx, id, secret) {
-  // tbd: instead of pre-matching the secret, can you throw if deleting returned 0?
   return tx('private')
     .where({id, secret})
     .then(rows => {
@@ -182,10 +200,10 @@ function withTable(name, cols, length) {
 // the tableData can be one row of data, or multiple rows ( an array. )
 // each row of data is an object { column_name: column_data }.
 // NOTE: this doesn't do any data validation nor any secret testing.
-function insertEventData(tx, eventData) {
+function insertNewData(tx, eventData) {
   // first: insert the series table first
   return tx('series').insert(eventData.series).then(row => {
-    // the series id is autogenerated by the series table
+    // the series id is auto-generated by the series table
     const seriesId = row[0];
     // then: insert the other tables
     // get all those table names
@@ -207,20 +225,6 @@ function insertEventData(tx, eventData) {
   });
 }
 
-
-// issues statements to update rows ( or remove them if empty )
-// the eventData format matches the .insert() format ( above )
-// NOTE: this doesn't do any data validation nor any secret testing.
-function updateEventData(tx, seriesId, eventData) {
-  const updates = Object.keys(eventData).flatMap(tableName => {
-    const vals = eventData[tableName];
-    const rows = [].concat(vals); // normalize into an array
-    return rows.map(rowData =>
-      updateOrDelete(tx, tableName, seriesId, rowData));
-  });
-  return Promise.all(updates);
-}
-
 function updateOrDelete(tx, tableName, seriesId, rowData) {
   const q =  tx(tableName).where('id', seriesId);
   const extraKey = extraKeys[tableName];
@@ -238,7 +242,7 @@ function updateOrDelete(tx, tableName, seriesId, rowData) {
 
 // returns `true` if every value in the passed row data is empty
 // where `tableName` is a known table, and `rowData` is a map of { column_name: column_data }.
-// used by insertEventData() to skip inserting data which would generate a row of empty data.
+// used by insertNewData() to skip inserting data which would generate a row of empty data.
 // ( ex. a tag with a false value, or an empty ending location. )
 function isEmptyRow(tableName, rowData) {
   const extraKey = extraKeys[tableName];
