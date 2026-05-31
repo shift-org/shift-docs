@@ -29,7 +29,7 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.60.0",
+    version: "3.61.0",
   },
   db: getDatabaseConfig(dbType, isTesting),
   // maybe bad, but some code likes to know:
@@ -40,7 +40,7 @@ const config = {
     name: "SHIFT to Bikes",
     listen,
     path: "/",
-    // used for crawl url, shareable links, and the manage url sent in email
+    // used for shareable links, and the manage url sent in email
     url(...parts) {
      const base = `${siteHost}${config.site.path}`;
      return base + parts.join("/");
@@ -114,12 +114,6 @@ const config = {
       'image/pjpeg': '.jpg',
       'image/png'  : '.png',
     },
-  },
-  crawl: {
-    image: 'https://www.shift2bikes.org/images/shiftLogo_plain.gif',
-    title: 'Shift/Pedalpalooza Calendar',
-    description: `Find fun bike events and make new friends!` +
-      `Shift helps groups and individuals to promote their "bike fun" events.`,
   },
   cal: {
     pedalp: {
