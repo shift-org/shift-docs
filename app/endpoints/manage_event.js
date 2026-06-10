@@ -135,8 +135,10 @@ function updateEvent(evt, values, statusList) {
 // promises a sent email
 // evt is a CalEvent; dailies is an array of CalDaily.
 function sendConfirmationEmail(evt, dailies) {
+  const isDeadLetter = emailer.isDeadLetter(evt.email);
+
   const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
-  const subject = `Shift2Bikes Secret URL for ${evt.title}`;
+  const subject = !isDeadLetter ? `Shift2Bikes Secret URL for ${evt.title}` : `Shift2Bikes Blocked ${evt.title}`;
   console.debug("sending confirmation for", url);
 
   const dates = dailies
@@ -161,16 +163,22 @@ function sendConfirmationEmail(evt, dailies) {
   return emailer.sendMail({
     subject,
     text: body,
-    to: {
+    to: !isDeadLetter ? {
       name: evt.name,
       address: evt.email,
-    },
+    } : config.email.moderator,
     from: config.email.sender,
     replyTo: config.email.support,
     bcc: config.email.moderator, // backup copy for debugging and/or moderating
     // html
     // attachments
-  }, evt.name, evt.email, evt.title, url);
+  }).then(_ => {
+    // log after sending:
+    const date = dt.getNow().toString();
+    const header = JSON.stringify([evt.name, evt.email, evt.title, url], null, " ");
+    const logMessage = [date, header, body].join("\n");
+    console.log(!isDeadLetter ? "Sent email" : "** Blocked ** email", logMessage);
+  });
 }
 
 // read json into a javascript object.
