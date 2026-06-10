@@ -159,7 +159,6 @@ function sendConfirmationEmail(evt, dailies) {
     help: config.site.helpPage(),
     support: support.address || support, // a string or object
   });
-  console.debug("confirmation email body:\n", body);
   return emailer.sendMail({
     subject,
     text: body,
