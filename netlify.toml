@@ -6,7 +6,7 @@
   base = "site"
   # note: this is configured as "public" on netlify.com but this overrides.
   # perhaps we should adjust hugo and vite to output to that root "public" instead?
-  publish = "site/public/"
+  publish = "/site/public"
 
 [build.environment]
   # extra environment variables if needed.
