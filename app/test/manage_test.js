@@ -26,6 +26,7 @@ const { CalDaily } = require("../models/calDaily");
 const { describe, it, beforeEach, afterEach } = require("node:test");
 const assert = require("node:assert/strict");
 const request = require('supertest');
+const emailer = require("../emailer");
 //
 const manage_api = '/api/manage_event.php';
 
@@ -68,6 +69,17 @@ describe("managing events", () => {
         assert.equal(evt.hidden, 1, "the initial event should be hidden by default");
         // console.log(res.body);
       });
+  });
+  it("tests dead letters", () => {
+    process.env.DEAD_LETTERS = "example.com";
+    assert.equal(emailer.isDeadLetter("bob@example.com"), true);
+    assert.equal(emailer.isDeadLetter("bob@example.net"), false);
+    assert.equal(emailer.isDeadLetter("bob@example.org"), false);
+    process.env.DEAD_LETTERS = "example.net;.org";
+    assert.equal(emailer.isDeadLetter("bob@example.com"), false);
+    assert.equal(emailer.isDeadLetter("bob@example.net"), true);
+    assert.equal(emailer.isDeadLetter("bob@shifty.org"), true);
+    delete process.env.DEAD_LETTERS;
   });
   it("fail creation when missing required fields", () => {
     // each time substitute a field value that should fail
