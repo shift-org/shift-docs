@@ -10,7 +10,7 @@ const app = express();
 // and this says express can use it
 app.set('trust proxy', true);
 
-// allows ex. res.render('crawl.html');
+// allows ex. res.render('email.njk');
 nunjucks.express(app);
 
 // modify every request
@@ -38,7 +38,6 @@ app.use(express.urlencoded({extended:false}), express.json());
 // each of these is a javascript file
 // containing a get ( or post ) export.
 const endpoints = [
-  "crawl",
   "delete_event",
   "events",
   "ical",
