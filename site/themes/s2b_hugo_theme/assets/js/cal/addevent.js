@@ -235,7 +235,7 @@
                       err = returnVal.responseJSON.error;
                     } else if (returnVal.status === 413) {
                       // 413 - "Request Entity Too Large" gets sent by nginx above its client_max_body_size;
-                      // so the error message sent by flourish.
+                      // nginx (not the backend) sends it, so we construct the error message here.
                       err = {
                         message: 'There were errors in your fields',
                         fields: {

@@ -37,7 +37,7 @@ const methods =  {
 
   // store the status and newflash if they changed.
   // promises this after storing the change.
-  // note: flourish stored empty strings as null; so we do the same.
+  // note: empty strings are stored as null, to stay consistent with existing data.
   _updateStatus(dateStatus) {
     let changed = false;
     const newStatus = dateStatus.status || null;
@@ -328,7 +328,7 @@ class CalDaily {
    * @param  statusMap a js Map containing {YYYY-MM-DD: dateStatus }
    * @return the promise of valid CalDaily(s)
    *
-   * @see: DateStatus.php, manage_event.php
+   * @see: dateStatus.js, manage_event.js
    */
   static reconcile(evt, statusMap, softDelete = true) {
     return CalDaily.getByEventID(evt.id).then((dailies) => {

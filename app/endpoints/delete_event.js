@@ -11,7 +11,7 @@
  *   }
  *
  * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" and a json error response (see errors.php)
+ * returns http 400 "Bad Request" and a json error response (see util/errors.js)
  *
  */
 const config = require("../config");
