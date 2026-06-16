@@ -29,7 +29,7 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.61.0",
+    version: "3.63.0",
   },
   db: getDatabaseConfig(dbType, isTesting),
   // maybe bad, but some code likes to know:

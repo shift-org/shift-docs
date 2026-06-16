@@ -735,4 +735,9 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.59.9: (2025-12-22) Updated dependencies: nodemailer
 * 3.59.10: (2026-01-15) Changed dependency management to only allow patch updates; updated dependencies: MySQL. Also removed unused example data.
 * 3.60.0: (2026-02-19) ICS export now supports either single occurrence (`event_id`; new default) or the series (`series_id`; previous default). The existing `id` parameter aliases to `series_id` for backwards compatibility, but clients are encouraged to specify the ID type explicitly. Also updated Node to v24.x (latest LTS).
-* 3.61.0: (2026-05-30) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers.
+* 3.61.0: (2026-03-19) Added `exportable` parameter to event object for ICS export URL
+* 3.61.1: (2026-04-09) Added API usage documentation
+* 3.62.0: (2026-04-22) Added more details to the email sent when posting a ride: date/s, location, time
+* 3.62.1: (2026-04-30) Updated Node, MySQL, and Nginx to latest stable versions
+* 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
+* 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
