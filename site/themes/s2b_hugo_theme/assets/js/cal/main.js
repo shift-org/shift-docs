@@ -34,6 +34,7 @@ $(document).ready(function() {
             }
             value.webLink = container.getWebLink(value.weburl);
             value.contactLink = container.getContactLink(value.contact);
+            value.linkedDetails = container.getLinkedDetails(value.details);
             value.addToGoogleLink = container.getAddToGoogleLink(value);
 
             groupedByDate[date].events.push(value);

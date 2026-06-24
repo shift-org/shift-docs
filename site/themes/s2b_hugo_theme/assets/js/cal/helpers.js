@@ -100,6 +100,64 @@
         return googleCalUrl.toString();
     };
 
+    // domains we trust enough to auto-link inside free-text event
+    // descriptions. keeps the description field from becoming an open
+    // invitation for spam links while still letting people share their
+    // ridewithgps.com routes. see issue #1072.
+    var LINKABLE_DOMAINS = ['ridewithgps.com'];
+
+    var linkableHostPattern = LINKABLE_DOMAINS.map(function(domain) {
+        return '(?:[a-z0-9-]+\\.)*' + domain.replace(/\./g, '\\.');
+    }).join('|');
+
+    // an optional scheme/www, one of the allow-listed hosts, then an optional path.
+    // the negative lookbehind keeps it from matching as a suffix of a longer
+    // word/domain (eg. "evilridewithgps.com") or an email's domain part.
+    var linkableUrlPattern = new RegExp(
+        '(?<![\\w.@-])(?:https?:\\/\\/)?(?:' + linkableHostPattern + ')(?:\\/[^\\s<>"\']*)?',
+        'gi'
+    );
+
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // turns plain-text event details into safe html, hyperlinking any
+    // ridewithgps.com links (the rest of the text is html-escaped, not
+    // left as raw html, since this is free text from event organizers).
+    $.fn.getLinkedDetails = function(details) {
+        if (!details) {
+            return details;
+        }
+
+        var html = '';
+        var lastIndex = 0;
+        var match;
+        linkableUrlPattern.lastIndex = 0;
+
+        while ((match = linkableUrlPattern.exec(details)) !== null) {
+            // don't swallow trailing sentence punctuation into the link
+            var url = match[0].replace(/[.,!?;:'")\]}]+$/, '');
+            var start = match.index;
+            var end = start + url.length;
+
+            html += escapeHtml(details.slice(lastIndex, start));
+            var href = /^https?:\/\//i.test(url) ? url : ('https://' + url);
+            html += '<a href="' + escapeHtml(href) + '" target="_blank" rel="noopener nofollow external" title="Opens in a new window">' +
+                escapeHtml(url) + '</a>';
+
+            lastIndex = end;
+            linkableUrlPattern.lastIndex = end;
+        }
+        html += escapeHtml(details.slice(lastIndex));
+        return html;
+    };
+
     $.fn.truncateString = function ( str, maxLength=250 ) {
         let text = str.substring(0,maxLength);
         if (str.length > maxLength) {
