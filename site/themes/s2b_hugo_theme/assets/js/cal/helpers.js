@@ -100,12 +100,7 @@
         return googleCalUrl.toString();
     };
 
-    // domains we trust enough to auto-link inside free-text event
-    // descriptions. keeps the description field from becoming an open
-    // invitation for spam links while still letting people share their
-    // ridewithgps.com routes. see issue #1072.
-    var LINKABLE_DOMAINS = ['ridewithgps.com'];
-
+    // LINKABLE_DOMAINS is defined in config.js
     var linkableHostPattern = LINKABLE_DOMAINS.map(function(domain) {
         return '(?:[a-z0-9-]+\\.)*' + domain.replace(/\./g, '\\.');
     }).join('|');
