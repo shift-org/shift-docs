@@ -138,6 +138,7 @@ $(document).ready(function() {
         getEventHTML(view, function (eventHTML) {
              container.append(eventHTML);
              lazyLoadEventImages();
+             container.loadUnfurls();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
                       // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
@@ -151,6 +152,7 @@ $(document).ready(function() {
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
                           lazyLoadEventImages();
+                          container.loadUnfurls();
                       });
                       return false;
                  });
@@ -164,6 +166,7 @@ $(document).ready(function() {
         }, function (eventHTML) {
             container.append(eventHTML);
             lazyLoadEventImages();
+            container.loadUnfurls();
         });
     }
 

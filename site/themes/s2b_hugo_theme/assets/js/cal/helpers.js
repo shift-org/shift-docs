@@ -143,7 +143,7 @@
 
             html += escapeHtml(details.slice(lastIndex, start));
             var href = /^https?:\/\//i.test(url) ? url : ('https://' + url);
-            html += '<a href="' + escapeHtml(href) + '" target="_blank" rel="noopener nofollow external" title="Opens in a new window">' +
+            html += '<a href="' + escapeHtml(href) + '" data-unfurl-url="' + escapeHtml(href) + '" target="_blank" rel="noopener nofollow external" title="Opens in a new window">' +
                 escapeHtml(url) + '</a>';
 
             lastIndex = end;
@@ -170,6 +170,43 @@
             return 1;
         }
         return 0;
+    };
+
+    // fetch oEmbed cards for any ridewithgps links in the container.
+    // uses IntersectionObserver so requests only fire when a link is actually
+    // visible (i.e. after the user expands that event's details).
+    $.fn.loadUnfurls = function() {
+        var links = this.find('a[data-unfurl-url]:not([data-unfurl-observed])');
+        if (!links.length || !('IntersectionObserver' in window)) return;
+
+        links.attr('data-unfurl-observed', '1');
+
+        var observer = new IntersectionObserver(function(entries, obs) {
+            entries.forEach(function(entry) {
+                if (!entry.isIntersecting) return;
+                obs.unobserve(entry.target);
+
+                var link = $(entry.target);
+                var eventDetails = link.closest('.event-details');
+                // one card per event — first ridewithgps link wins
+                if (!eventDetails.length || eventDetails.data('unfurl-loaded')) return;
+                eventDetails.data('unfurl-loaded', true);
+
+                var url = link.data('unfurl-url');
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://ridewithgps.com/oembed?format=json&url=' + encodeURIComponent(url),
+                    dataType: 'json',
+                    success: function(data) {
+                        if (!data.html) return;
+                        var card = $('<div class="rwgps-unfurl"></div>').html(data.html);
+                        link.closest('p.description').after(card);
+                    }
+                });
+            });
+        });
+
+        links.each(function() { observer.observe(this); });
     };
 
 } (jQuery));
