@@ -20,6 +20,42 @@ function within(a, start, end) {
 const urlPattern = /^https*:\/\//;
 const emailPattern = /.+@.+[.].+/;
 
+// domains we trust enough to auto-link inside free-text event
+// descriptions. keeps the description field from becoming an open
+// invitation for spam links while still letting people share their
+// ridewithgps.com routes. mirrors the legacy calendar's config.js. see #1072.
+const LINKABLE_DOMAINS = ['ridewithgps.com'];
+
+const linkableHostPattern = LINKABLE_DOMAINS.map(
+  (domain) => '(?:[a-z0-9-]+\\.)*' + domain.replace(/\./g, '\\.')
+).join('|');
+
+// an optional scheme/www, one of the allow-listed hosts, then an optional path.
+// the negative lookbehind keeps it from matching as a suffix of a longer
+// word/domain (eg. "evilridewithgps.com") or an email's domain part.
+const linkableUrlPattern = new RegExp(
+  '(?<![\\w.@-])(?:https?:\\/\\/)?(?:' + linkableHostPattern + ')(?:\\/[^\\s<>"\']*)?',
+  'gi'
+);
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// drop trailing sentence punctuation so it doesn't get swallowed into a link
+function trimUrl(url) {
+  return url.replace(/[.,!?;:'")\]}]+$/, '');
+}
+
+function normalizeHref(url) {
+  return /^https?:\/\//i.test(url) ? url : ('https://' + url);
+}
+
 function friendlyTime(time) {
   return dayjs(time, 'hh:mm:ss').format('h:mm A');
 }
@@ -45,6 +81,47 @@ export default {
           return 'mailto:' + contact;
       } 
       // if it's not a link, return nothing
+  },
+
+  // turns plain-text event details into safe html, hyperlinking any
+  // allow-listed links (eg. ridewithgps.com routes). the rest of the text is
+  // html-escaped, not left as raw html, since this is free text from event
+  // organizers. mirrors the legacy calendar's getLinkedDetails (helpers.js).
+  getLinkedDetails(details) {
+    if (!details) {
+      return details;
+    }
+
+    let html = '';
+    let lastIndex = 0;
+    let match;
+    linkableUrlPattern.lastIndex = 0;
+
+    while ((match = linkableUrlPattern.exec(details)) !== null) {
+      const url = trimUrl(match[0]);
+      const start = match.index;
+      const end = start + url.length;
+
+      html += escapeHtml(details.slice(lastIndex, start));
+      const href = normalizeHref(url);
+      html += `<a href="${escapeHtml(href)}" target="_blank" rel="noopener nofollow external" title="Opens in a new window">${escapeHtml(url)}</a>`;
+
+      lastIndex = end;
+      linkableUrlPattern.lastIndex = end;
+    }
+    html += escapeHtml(details.slice(lastIndex));
+    return html;
+  },
+
+  // the first allow-listed url in the details (normalized with a scheme),
+  // or undefined. used to fetch an oEmbed card. first link wins.
+  getUnfurlUrl(details) {
+    if (!details) {
+      return undefined;
+    }
+    linkableUrlPattern.lastIndex = 0;
+    const match = linkableUrlPattern.exec(details);
+    return match ? normalizeHref(trimUrl(match[0])) : undefined;
   },
 
   //7:00 AM to 9:00 AM
