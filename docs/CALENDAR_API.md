@@ -8,7 +8,6 @@ Base URL:
 
 Most responses are in JSON format, except for:
 * event export returns vCalendar format
-* event crawl returns HTML
 
 ## Viewing events
 
@@ -395,57 +394,6 @@ Errors:
   * date range too large (100 days maximum)
 
 
-### Crawling an event
-
-Endpoint:
-* GET `crawl`
-
-Example request:
-* `/crawl.php?id=1234`
-
-URL parameters:
-* `id`: `caldaily` event ID
-
-Unknown parameters are ignored.
-
-This endpoint is used by web crawlers such as search engines.
-
-Success:
-* status code: `200`
-* returns a simple HTML rendering of ride data
-* if `id` parameter is not present, a short, general message about Shift
-
-
-Example response:
-
-    <html>
-        <head>
-            <title>Shift to Pedalpalooza Ride</title>
-            <meta property="og:title" content="Shift to Pedalpalooza Ride">
-            <meta property="og:url" content="https://www.shift2bikes.org/calendar/event-9300">
-            <meta property="og:image" content="https://www.shift2bikes.org/eventimages/6245.jpg">
-            <meta property="og:type" content="article">
-            <meta property="og:description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
-            <meta property="og:site_name" content="SHIFT to Bikes">
-            <meta name="description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
-            <meta name="keywords" content="bikes,fun,friends,Portland,exercise,community,social,events,outdoors">
-        </head>
-        <body>
-            <h2>Mon, Jun 5th, 6:00 PM - Shift to Pedalpalooza Ride</h2>
-            <p>Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.</p>
-            <p>877 SW park</p>
-            <img src="https://www.shift2bikes.org/eventimages/6245.jpg">
-        </body>
-    </html>
-
-Errors:
-* status code: `404`
-* body of response is empty
-* possible errors
-  * `id` not found
-  * `id` of a hidden (unpublished) event
-
-
 ## Managing events
 
 ### Retrieving all event data
@@ -787,3 +735,9 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.59.9: (2025-12-22) Updated dependencies: nodemailer
 * 3.59.10: (2026-01-15) Changed dependency management to only allow patch updates; updated dependencies: MySQL. Also removed unused example data.
 * 3.60.0: (2026-02-19) ICS export now supports either single occurrence (`event_id`; new default) or the series (`series_id`; previous default). The existing `id` parameter aliases to `series_id` for backwards compatibility, but clients are encouraged to specify the ID type explicitly. Also updated Node to v24.x (latest LTS).
+* 3.61.0: (2026-03-19) Added `exportable` parameter to event object for ICS export URL
+* 3.61.1: (2026-04-09) Added API usage documentation
+* 3.62.0: (2026-04-22) Added more details to the email sent when posting a ride: date/s, location, time
+* 3.62.1: (2026-04-30) Updated Node, MySQL, and Nginx to latest stable versions
+* 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
+* 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.

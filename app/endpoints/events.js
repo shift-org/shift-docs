@@ -103,13 +103,11 @@ function getSummaries(dailies) {
 }
 exports.getSummaries = getSummaries;
 
-// the php version had each daily query for its event
-// and then tacked the end time to the end of the daily json
-// relying on flourish to ( presumably ) filter out the redundant event queries.
-// this pools the events to avoid multiple queries:
-// so to keep the endtime after each daily, we have to tack it on manually.
+// pool the events so each daily doesn't separately query for its (shared) event.
+// the end time lives on the event, but needs to appear after each daily's json,
+// so it's tacked on manually below.
 function specialSummary(evt) {
-  // an invalid duration generates a null here; just like the php.
+  // an invalid duration generates a null here.
   const endTime = to24HourString(evt.getEndTime());
   return [ evt.getJSON(), endTime ];
 }
