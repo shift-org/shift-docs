@@ -1,0 +1,19 @@
+# Force UTF-8 (utf8mb4) everywhere. See issue #796.
+#
+# The database and its tables were already converted to utf8mb4 in
+# migration 0005_char_set_and_collation.sql, but the *server* defaults
+# and the `mysql` command-line client still negotiated latin1, so
+# non-ASCII characters showed up as `?` in terminal output.
+#
+# Setting these here (rather than per-session) makes utf8mb4 the durable
+# default for every connection and every `mysql` session.
+
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
+
+[client]
+default-character-set=utf8mb4
+
+[mysql]
+default-character-set=utf8mb4
