@@ -122,10 +122,12 @@
   to = "/calendar/"
   status = 301
 
-## a special redirect for a URL that someone made up
+## a special redirect for a URL that someone made up.
+## points straight at the current Bike Summer page to avoid a double hop
+## through /pages/pedalpalooza ( which is itself only a redirect to it ).
 [[redirects]]
   from = "/calendar/pedalpalooza"
-  to = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
   status = 301
 
 ## old Pedalpalooza page should link to new one
