@@ -38,6 +38,8 @@ services:
       - MYSQL_HOST
     volumes:
       - db:/var/lib/mysql/
+      # force utf8mb4 for the server defaults and the mysql client ( re: #796 )
+      - ./services/db/conf.d/charset.cnf:/etc/mysql/conf.d/charset.cnf
     ports:
       - 3306
 

@@ -110,7 +110,10 @@ function unpackConfig({ type, connect, debug }) {
       port : connect.port,
       user : connect.user,
       password : connect.pass,
-      database : connect.name
+      database : connect.name,
+      // match the utf8mb4 database/server so 4-byte characters
+      // ( ex. emoji ) round-trip cleanly. re: #796
+      charset : 'utf8mb4',
     },
     // knex recommends setting the min pool size to 0
     // ( for backcompat, their default is 2. )
