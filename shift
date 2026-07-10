@@ -123,7 +123,7 @@ sub_watch() { #                   - Watch the site directory for changes and reb
 }
 
 sub_down() { #                    - Stop and remove services
-    sub_compose down $@
+    sub_compose down "$@"
 }
 
 sub_ps() { #                      - Print service information
@@ -139,41 +139,41 @@ sub_pull() { #                    - Update the codebase to HEAD of currently dep
 }
 
 sub_reload() { # <service>, ...   - Trigger a code/conf reload
-    echo Reloading $@
-    sub_compose kill -s SIGHUP $@
+    echo Reloading "$@"
+    sub_compose kill -s SIGHUP "$@"
 }
 
 sub_start() { # <service>, ..     - Alias for up
-    sub_up $@
+    sub_up "$@"
 }
 
 sub_stop() { # <service>, ...     - Stop service(s)
-    sub_compose stop $@
+    sub_compose stop "$@"
 }
 
 sub_restart() { # <service>, ...  - Trigger entrypoint.sh, required after modifying anything in borzoi
-    sub_stop $@
-    sub_start $@
+    sub_stop "$@"
+    sub_start "$@"
 }
 
 sub_rebuild() { # <service>, ...  - Remove and rebuild a service
-    echo Rebuilding $@
-    sub_stop $@
-    sub_compose rm -f $@
-    sub_compose build $@
-    sub_compose up -d $@
+    echo Rebuilding "$@"
+    sub_stop "$@"
+    sub_compose rm -f "$@"
+    sub_compose build "$@"
+    sub_compose up -d "$@"
 }
 
 sub_attach() { # <service>        - Run bash on a running service
-    sub_compose exec $@ bash
+    sub_compose exec "$@" bash
 }
 
 sub_compose() { # <cmd...>        - Run a compose with associated files
-    docker compose $@
+    docker compose "$@"
 }
 
 sub_logs() { # <service>, ...     - Show last 50 lines and attach to a service
-    sub_compose logs --tail=50 -f $@
+    sub_compose logs --tail=50 -f "$@"
 }
 
 sub_emails() { #                  - Show recent emails and update with new ones
@@ -182,17 +182,17 @@ sub_emails() { #                  - Show recent emails and update with new ones
 
 sub_mysql() { #                   - Open a mysql prompt with the db selected
     cd "${ROOT}"
-    sub_compose exec db mysql -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} $@
+    sub_compose exec db mysql -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} "$@"
 }
 
 sub_mysql-pipe() { #              - Pipe sql into this command to send to db
     cd "${ROOT}"
-    docker exec -i $(sub_compose ps -q db) mysql -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} $@
+    docker exec -i $(sub_compose ps -q db) mysql -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} "$@"
 }
 
 sub_mysqldump() { #               - Dump the mysql database
     cd "${ROOT}"
-    sub_compose exec db mysqldump -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} $@
+    sub_compose exec db mysqldump -u ${MYSQL_USER} -h db -P 3306 -p"${MYSQL_PASSWORD}" ${MYSQL_DATABASE} "$@"
 }
 
 sub_backup() { #                  - Backup the mysql database
@@ -214,7 +214,7 @@ case ${SUB_CMD} in
         shift
 
         set +e
-        sub_${SUB_CMD} $@
+        sub_${SUB_CMD} "$@"
 
         if [ $? = 127 ]; then
             echo "Error: '${SUB_CMD}' is not a known subcommand." >&2
