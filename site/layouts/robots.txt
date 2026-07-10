@@ -1,0 +1,25 @@
+# https://www.shift2bikes.org/robots.txt
+# re: #1068
+#
+# hugo only generates this file when `enableRobotsTXT`
+# is set in site/config/_default/hugo.toml.
+
+User-agent: *
+
+# emailed event-management links; unlisted, but
+# they should never be indexed if one leaks.
+# ( netlify serves /addevent/* as a 200. )
+Disallow: /addevent/edit-
+
+# proxied straight through to our api server;
+# crawling these is load with no indexable value.
+Disallow: /api/
+Disallow: /socialapi/
+
+# the 404 page is a real page, and hugo
+# would otherwise offer it up for indexing.
+Disallow: /404.html
+
+# note: the entries in this sitemap are relative
+# until baseURL is set per-context. see #1068.
+Sitemap: https://www.shift2bikes.org/sitemap.xml
