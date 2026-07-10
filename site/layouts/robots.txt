@@ -18,7 +18,7 @@ Disallow: /socialapi/
 
 # the 404 page is a real page, and hugo
 # would otherwise offer it up for indexing.
-Disallow: /404/
+Disallow: /404.html
 
 # note: the entries in this sitemap are relative
 # until baseURL is set per-context. see #1068.
