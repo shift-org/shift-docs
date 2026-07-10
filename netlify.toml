@@ -125,7 +125,7 @@
 ## a special redirect for a URL that someone made up
 [[redirects]]
   from = "/calendar/pedalpalooza"
-  to = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
   status = 301
 
 ## old Pedalpalooza page should link to new one
