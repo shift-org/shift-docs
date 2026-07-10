@@ -11,17 +11,28 @@
 [build.environment]
   # extra environment variables if needed.
 
+# HUGO_BASEURL overrides `baseURL` in site/config/_default/hugo.toml
+# ( which stays "/" so local dev and any un-cased build work on any host ).
+# hugo needs an absolute baseURL for a valid sitemap: <loc> entries must be
+# fully qualified urls, so relative paths get rejected by search engines.
+# cf https://github.com/shift-org/shift-docs/issues/1082
+#
+# note: netlify only expands env vars like $DEPLOY_PRIME_URL inside `command`,
+# not inside a [context.*.environment] table, so we set it inline here.
+
 # we need to manually copy the 404 page over for now, in every environment
 # cf https://github.com/shift-org/shift-docs/issues/862
 [context.deploy-preview]
   # -D builds draft content for deploy previews
   # ( the doubledash is needed to pass the argument through to hugo )
   # cf https://docs.netlify.com/site-deploys/deploy-previews/
-  command = 'npm run deploy -- -D'
+  # DEPLOY_PRIME_URL is this preview's own origin, so assets and the
+  # /api proxy still resolve against the preview rather than production.
+  command = 'HUGO_BASEURL="$DEPLOY_PRIME_URL" npm run deploy -- -D'
 
 [context.branch-deploy]
   # operates on custom branches, same as deploy-preview.
-  command = 'npm run deploy -- -D'
+  command = 'HUGO_BASEURL="$DEPLOY_PRIME_URL" npm run deploy -- -D'
 
 [context.production]
   # see this guide about why we do this funky thing with ssh: 
@@ -31,9 +42,10 @@
   # and replace with one of the 'npm run deploy' commands from above.
   #
   # NOTE: This pulls new code to the api server!
-  # drafts are excluded (no `-D` option) for prod build.  
-  #  
-  command = 'npm run deploy && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
+  # drafts are excluded (no `-D` option) for prod build.
+  # HUGO_BASEURL is the canonical host ( matching the domain redirects above ),
+  # so the sitemap points at the version of the site we actually serve.
+  command = 'HUGO_BASEURL="https://www.shift2bikes.org" npm run deploy && mkdir -p ~/.ssh && echo -e "${SSH_KEY//_/\\n}" > ~/.ssh/id_rsa && chmod og-rwx ~/.ssh/id_rsa && ssh -v -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ubuntu@api.shift2bikes.org "cd /opt/shift-docs && ./shift pull" || (echo "you seem to be building without ssh access - see https://github.com/shift-org/shift-docs#netlify-deployment for details" ; /bin/false)'
 
 ## ---------------------------------------------------------------------------
 ## domain redirects to serve alternative domains.  First, we canonicalize
