@@ -114,7 +114,7 @@ disableKinds = ["taxonomy", "term"]
     merchSaleInfo = "2nd pre-sale ends June 8th at 11:59pm."
     merchSaleURL = "https://www.shop.rendered.co/bikesummer"
     printCalendarActive = false # set to true when print calendar is accepting submissions
-    printCalendarDate = "May 10th at 11:59pm"
+    printCalendarDate = "July 13th at 11:59pm"
     donationsURL = "https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=NQAUFEUSM49ZJ"
 
 # Main page image carousel
