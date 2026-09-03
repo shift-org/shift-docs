@@ -109,7 +109,7 @@ disableKinds = ["taxonomy", "term"]
 [params.festival]
     name = "Bike Summer"
     banner-image = "/images/pp/pp2026-banner.jpg"
-    active = true # set to true when festival is happening soon or now
+    active = false # set to true when festival is happening soon or now
     merchSaleActive = false # set to true when merch sales are open
     merchSaleInfo = "2nd pre-sale ends June 8th at 11:59pm."
     merchSaleURL = "https://www.shop.rendered.co/bikesummer"
