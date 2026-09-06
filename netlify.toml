@@ -111,6 +111,13 @@
   status = 200
   force = true
 
+## campaign urls for logging to datad
+[[redirects]]
+  from = "/campaigns/"
+  to = "https://api.shift2bikes.org/api/campaigns"
+  status = 200
+  force = true
+
 ## ---------------------------------------------------------------------------
 ## legacy links
 ## ---------------------------------------------------------------------------
