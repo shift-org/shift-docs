@@ -10,7 +10,13 @@
 
     $.fn.getAddEventForm = function(id, secret, callback) {
         // TODO: loading spinner
-        if (id && secret) {
+        const editing = id && secret;
+
+        // why do we have one page for editing and creating events?
+        $('.page-title').text(editing ? 'Edit Event' : 'Add Event');  
+        document.title = (editing ? 'Edit Event - Shift' : 'Add Event - Shift');  
+
+        if (editing) {
             let url = new URL(API_RETRIEVE_URL);
             url.searchParams.set('id', id);
             url.searchParams.set('secret', secret);
@@ -151,8 +157,7 @@
         }
 
         if (shiftEvent.published) {
-          $('.published-save-button').show();
-          $('.duplicate-button').show();
+          $('.published-button').show();
 
           // show the user's selected image after they select it:
           // first, attach to the input button.
@@ -203,8 +208,7 @@
                 success: function(returnVal) {
                     if (returnVal.published) {
                         $('.unpublished-event').remove();
-                        $('.published-save-button').show();
-                        $('.duplicate-button').show();
+                        $('.published-button').show();
                         _isFormDirty = false;
                     }
                     if (!isNew) {
