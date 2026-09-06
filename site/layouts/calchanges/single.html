@@ -1,0 +1,25 @@
+{{ define "page_body" }}
+<div class="col-md-12">
+<h1>Releases</h1>
+{{/* or commits: https://github.com/shift-org/shift-docs/commits/main.atom */}}
+{{ $url := "https://github.com/shift-org/shift-docs/releases.atom" }}
+{{ with try (resources.GetRemote $url) }}
+  {{ with .Err }}
+    {{ errorf "%s" . }}
+  {{ else with .Value }}
+    {{ $data := . | transform.Unmarshal }}
+    {{ range $data.entry }}
+      <h2>{{ .title }}</h2>
+      <a href="{{ index .link "-href" }}">{{ index .link "-href" }}</a>
+      {{/* probably safe to use the raw html.
+      we're the only ones creating releases */}}
+      {{ index .content "#text" | safe.HTML }}
+    {{ end }}
+    {{/* debug display the data on screen */}}
+    <pre>{{ debug.Dump $data }}</pre>
+  {{ else }}
+    {{ errorf "Unable to get remote resource %q" $url }}
+  {{ end }}
+{{ end }}
+</div>
+{{ end }}
