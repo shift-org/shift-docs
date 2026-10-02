@@ -76,9 +76,14 @@ const facade = {
   // then remapped and served by ngnix.
   // ex. http://localhost:3080/eventimages/9248-124.png
   serveImages(app, config) {
+    const safeNamePattern = /^[A-Za-z0-9_-]+$/;
     const imageHandler = function (req, res, next) {
       const { id, rev, ext } = req.params;
       console.debug("got event image request:", id, rev || "xxx", ext );
+      // reject anything that isn't a plain filename segment to prevent directory traversal
+      if (!safeNamePattern.test(id) || !safeNamePattern.test(ext)) {
+        return res.status(400).end();
+      }
       // ignores rev: that's for cache busting; the image is just id and extension.
       // these are local files, so it uses regular path functions
       const imageFile = path.join(config.image.dir, `${id}.${ext}`)
