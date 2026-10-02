@@ -11,8 +11,8 @@ module.exports = {
   secret,
   email,
   // helper for testing the calendar's custom error message format.
-  expectError(res, field) {
-    assert.equal(res.status, 400);
+  expectError(res, field, status = 400) {
+    assert.equal(res.status, status);
     assert.match(res.header['content-type'], /json/);
     assert.match(res.header['api-version'], /^3\./);
     assert.ok(res.body?.error?.message);
