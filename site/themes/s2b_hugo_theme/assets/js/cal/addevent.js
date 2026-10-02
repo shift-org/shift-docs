@@ -347,6 +347,9 @@
         });
 
         previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
+        // the listing template keys the area block off areaLabel, not area;
+        // without this the preview silently drops it. ( cf main.js, viewEvents )
+        previewEvent['areaLabel'] = $form.getAreaLabel(previewEvent['area']);
         previewEvent['length'] += ' miles';
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
         previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
