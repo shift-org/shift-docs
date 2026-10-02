@@ -178,7 +178,9 @@
         $('.save-button, .publish-button').click(function() {
             let postVars,
                 isNew = !shiftEvent.id;
-            $('.form-group').removeClass('has-error');
+            // must match the containers used when errors are applied below;
+            // the terms checkboxes live in '.checkbox', not '.form-group'.
+            $('.form-group, .checkbox').removeClass('has-error');
             $('[aria-invalid="true"]').attr('aria-invalid', false);
             $('.help-block').remove();
             $('.save-result').removeClass('text-danger').text('');
