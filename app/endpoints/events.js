@@ -16,7 +16,8 @@
  *    events: [ {...},  ... ]
  *  }
  *
- * If there is a problem the error code will be 400 with a json response of the form:
+ * If there is a problem the error code will be 400 -- or 404 when an id
+ * doesn't match a visible event -- with a json response of the form:
  *  {
  *      "error": { "message": "Error message" }
  *  }
@@ -42,7 +43,9 @@ exports.get = function(req, res, next) {
     // return the summary of a particular daily event:
     return CalDaily.getByDailyID(id).then((daily) => {
       if (!daily) {
-        res.textError("no such time");
+        // the id didn't match a visible event: not found, rather than a bad request.
+        // ( getByDailyID() also returns null for hidden and delisted events. )
+        res.textError("no such time", 404);
       } else  {
         return getSummaries([daily]).then((events) => {
           res.set(config.api.header, config.api.version);
