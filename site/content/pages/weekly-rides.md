@@ -90,7 +90,9 @@ More info: [ThursdayNightRide.com](https://thursdaynightride.com/)
 
 Starts at and returns to Columbia Park, join for an hour-ish ramble through North Portland and beyond. Expect roughly 10 miles at a conversation-friendly pace (~10 mph) and a brief rest stop along the way. Check the calendar for the occasional pre-ride social, usually on the last Thursday of the month!
 
-More info: [Search for upcoming NoPo Night Rides](https://www.shift2bikes.org/calendar/?q=NoPo%20Night%20Ride)
+More info: [email NoPo Night Ride](mailto:noponightriders@gmail.com)
+
+[Search for upcoming NoPo Night Rides](https://www.shift2bikes.org/calendar/?q=NoPo%20Night%20Ride)
 
 ## Friday
 
