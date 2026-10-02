@@ -11,8 +11,6 @@
 [build.environment]
   # extra environment variables if needed.
 
-# we need to manually copy the 404 page over for now, in every environment
-# cf https://github.com/shift-org/shift-docs/issues/862
 [context.deploy-preview]
   # -D builds draft content for deploy previews
   # ( the doubledash is needed to pass the argument through to hugo )
