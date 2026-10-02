@@ -57,13 +57,13 @@ More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/wests
 
 [Search for upcoming Westside Wednesday rides](https://www.shift2bikes.org/calendar/?q=Westside%20Wednesday)
 
-### Bike Happy Hour
+### Bike Social Hour
 * Every Wednesday
 * Starting location: 
   * in summer: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road) 
   * in winter: Migration Brewing, N Williams Ave (between N Failing St & N Shaver St)
 
-Not a ride itself, but a great place to hang out with other bike-y folks. Come by 4pm to 7pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun! Started and sustained by Jonathan Maus of BikePortland, now hosted by BikeLoud PDX. Look too for other similar bike happy hour events scattered around the metro area on different days by different hosts!
+Not a ride itself, but a great place to hang out with other bike-y folks. Come by 4pm to 7pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun! Started and sustained by Jonathan Maus of BikePortland under the moniker Bike Happy Hour, now hosted by BikeLoud PDX as Bike Social Hour. Look too for other similar bike happy hour events scattered around the metro area on different days by different hosts!
 
 More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikehappyhour), [BikeLoud PDX](https://bikeloudpdx.org/)
 
@@ -71,16 +71,6 @@ More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikeha
 
 
 ## Thursday
-
-<!--
-### Ride Safe PDX
-* Every Thursday
-* Starting location: Colonel Summers Park
-
-A weekly ride led by Ride Safe PDX, a group aiming to make Portland rides safer from harassment. Theme, route, and playlist will change weekly, but every ride will have a store stop, safe people to help with any issues, and clear expectations of consent and respect. Every Thursday ride will be a loop (ends where it started). Free Biketown codes available; contact the leaders for details.
-
-More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
--->
 
 ### Thursday Night Ride (TNR)
 * Every Thursday
@@ -93,6 +83,14 @@ Routes and ride leaders change weekly, but expect an energetic party-paced "roll
 More info: [ThursdayNightRide.com](https://thursdaynightride.com/)
 
 [Search for upcoming Thursday Night Rides](https://www.shift2bikes.org/calendar/?q=Thursday%20Night%20Ride)
+
+### NoPo Night Ride
+* Every Thursday
+* Starting location: Columbia Park, 7701 N Chautauqua Blvd (meet in front of the pool)
+
+Starts at and returns to Columbia Park, join for an hour-ish ramble through North Portland and beyond. Expect roughly 10 miles at a conversation-friendly pace (~10 mph) and a brief rest stop along the way. Check the calendar for the occasional pre-ride social, usually on the last Thursday of the month!
+
+More info: [Search for upcoming NoPo Night Rides](https://www.shift2bikes.org/calendar/?q=NoPo%20Night%20Ride)
 
 ## Friday
 
