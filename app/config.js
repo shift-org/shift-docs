@@ -205,7 +205,10 @@ function getDatabaseConfig(dbType, isTesting) {
     mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
     sqlite: getSqliteConfig,
   }
-  if (!name in config) {
+  // note: hasOwn, not 'in': '!name in config' parses as '(!name) in config'
+  // which is always false; and plain 'in' would accept inherited keys
+  // like "toString" as database names.
+  if (!Object.hasOwn(config, name)) {
     throw new Error(`unknown database type '${dbType}'`)
   }
   return {
