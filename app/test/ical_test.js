@@ -24,13 +24,24 @@ describe("ical feed", () => {
     sinon.restore();
     return testdb.destroy();
   });
-  it("errors on an invalid id", () => {
+  it("reports 404 for a series id that matches no events", () => {
+    // 'id' aliases to series_id. an id that matches nothing is
+    // "not found", not a bad request.
+    // cf https://github.com/shift-org/shift-docs/issues/566
     return request(app)
       .get('/api/ical.php')
       .query({
         id: 999
       })
-      .expect(400);
+      .expect(404);
+  });
+  it("reports 404 for an event id that matches no event", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        event_id: 999
+      })
+      .expect(404);
   });
   it("errors on an invalid date",  () => {
     return request(app)
