@@ -17,20 +17,17 @@ module.exports = {
           Promise.reject("smtp not configured.") :
           transporter.verify().then(_ => config.smtp.host || "???");
   },
-  // returns a promise after sending the email and logging the trailing arguments
+  // returns an empty promise after sending the email.
   // see https://nodemailer.com/message/
-  sendMail(email, ...logArgs) {
-    return transporter.sendMail(email).then(info => {
-      const date = dt.getNow().toString();
-      const logMessage = `Sent email ${date}:\n` + JSON.stringify(logArgs, null, " ");
-      console.log(logMessage);
-      return Promise.resolve(true); // don't log to the file for now; conflicts with php/node paths
-      // tbd: would it be better to log to console only, and configure docker with "local"
-      // it does compression, and auto rotation.
-      // https://docs.docker.com/config/containers/logging/configure/
-      // const logFile = config.email.logfile;
-      // return !logFile ? Promise.resolve(true) :
-      //        fsp.writeFile(config.email.logfile, logMessage+"\n", {flag: 'a'});
+  sendMail(email) {
+    return transporter.sendMail(email).then(_ => {
+      return Promise.resolve(true);
     });
+  },
+
+  // returns true if the passed email address was on the block list.
+  isDeadLetter(address) {
+    const parts = (process.env.DEAD_LETTERS || "").split(";").filter(Boolean);
+    return parts.some(p => address.endsWith(p));
   }
 };
