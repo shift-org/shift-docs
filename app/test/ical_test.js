@@ -6,6 +6,8 @@ const testdb = require("./testdb");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventStatus } = require("../models/calConst");
+const ical = require("../endpoints/ical");
+const dt = require("../util/dateTime");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
@@ -281,3 +283,53 @@ String.raw`BEGIN:VCALENDAR`,
 String.raw`END:VCALENDAR`,
 "" // trailing new line. i think.
 ].join("\r\n");
+
+// buildCalEntry is a pure function, so these need no database.
+// re: #498 -- and the "nil and zero" todo in "can handle a canceled event".
+describe("ical duration", () => {
+  const day = dt.fromYMDString("2002-08-01");
+
+  // build the pieces buildCalEntry() needs for one occurrence.
+  function entryFor(eventduration, timedetails = null) {
+    const evt = CalEvent.wrap({
+      id: 1, title: "Test Ride", name: "organizer",
+      descr: "details", eventtime: "19:00:00", eventduration, timedetails,
+      created: day.toDate(), modified: day.toDate(), changes: 0,
+    });
+    const at = CalDaily.wrap({
+      pkid: 201, id: 1, eventdate: day.toDate(),
+      eventstatus: EventStatus.Active, newsflash: null,
+    });
+    return ical.buildCalEntry(evt, at);
+  }
+
+  it("notes the assumed duration when the organizer gave none", () => {
+    for (const none of [null, 0, undefined]) {
+      const entry = entryFor(none);
+      assert.ok(entry.description.includes(ical.UNSPECIFIED_DURATION),
+        `expected the note for eventduration ${JSON.stringify(none)}`);
+      // the invented end time is one hour after the start
+      assert.equal(entry.end.diff(entry.start, 'minute'), 60);
+    }
+  });
+
+  it("says nothing when the organizer gave a duration", () => {
+    const entry = entryFor(90);
+    assert.ok(!entry.description.includes(ical.UNSPECIFIED_DURATION),
+      "did not expect the note when a duration was supplied");
+    assert.equal(entry.end.diff(entry.start, 'minute'), 90);
+  });
+
+  // a ride without a duration may still describe its timing in free text,
+  // which prints just above this note; repeating it there reads as a
+  // contradiction. re: #498
+  it("says nothing when timedetails already covers the timing", () => {
+    const entry = entryFor(null, "meet 7pm, roll 7:30");
+    assert.ok(!entry.description.includes(ical.UNSPECIFIED_DURATION),
+      "did not expect the note alongside timedetails");
+    assert.ok(entry.description.includes("meet 7pm, roll 7:30"),
+      "expected the organizer's own timing note to still be there");
+    // the end time is still assumed; we just don't say so twice.
+    assert.equal(entry.end.diff(entry.start, 'minute'), 60);
+  });
+});

@@ -24,12 +24,19 @@ const { EventsRange } = require("../models/calConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
+// shown in the description when the organizer didn't give a duration
+// and the feed had to assume one. re: #498
+const UNSPECIFIED_DURATION =
+  "The organizer didn't specify an end time, so this entry assumes 1 hour.";
+
 module.exports = {
 // endpoint export:
   get,
 // export for testing:
   escapeBreak,
   replace,
+  buildCalEntry,
+  UNSPECIFIED_DURATION,
 };
 
 // text|escapeBreak("HEADER") => HEADER:text
@@ -249,6 +256,15 @@ function buildCalEntry(evt, at) {
     description: [
       news,
       evt.descr, evt.timedetails,
+      // a v-event needs an end time, so addDuration() invents one hour when the
+      // organizer didn't give a duration. say so: otherwise the entry looks just
+      // as definite as one with a real end time. re: #498
+      //
+      // only when there's no timedetails though: that's free text like
+      // "meet 7pm, roll 7:30" and it prints on the line above. saying the
+      // organizer gave no end time directly under their own note about the
+      // timing reads as a contradiction.
+      (!evt.hasDuration() && !evt.timedetails) ? UNSPECIFIED_DURATION : null,
       evt.locend? "Ends at "+ evt.locend: null,
       url
     ],
