@@ -1,6 +1,12 @@
 <script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
 <script src="{{ absURL "lib/fullcalendar/list/main.min.js" }}"></script>
 
+{{/* the homepage doesn't load cal/scripts.html, so pull these in directly */}}
+{{ $jsCalConfig := resources.Get "js/cal/config.js" | minify }}
+<script src="{{ $jsCalConfig.Permalink }}"></script>
+{{ $jsCalFetch := resources.Get "js/cal/fetchevents.js" | minify }}
+<script src="{{ $jsCalFetch.Permalink }}"></script>
+
 <script type="text/javascript">
   {{/* 
     up-next is used by the homepage to display a list of upcoming events.
@@ -32,14 +38,7 @@
       noEventsMessage: "No events happening today or tomorrow",
       eventSources: [
         {
-          url: '{{ absURL "api/events.php" }}',
-          startParam: 'startdate',
-          endParam: 'enddate',
-          success: function( content ) {
-            // our API returns { "events": [ ] }
-            // and this will return just the inner array as fullcalendar expects
-            return content.events;
-          },
+          events: fetchCalendarEvents,
           eventDataTransform: function( eventData ) {
             // this transforms the data for individual rides
             // into the format needed by fullcalendar
