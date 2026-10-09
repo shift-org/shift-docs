@@ -87,6 +87,12 @@ export default {
         jump: {
           label: "Jump"
         },
+        map: {
+          label: "Map",
+          // navigates rather than expanding a panel.
+          route: { name: "map" },
+          active: route.name === "map" && !route.query.expanded,
+        },
         bikefest: !festInfo.show ? undefined : {
           label: `Bike Summer`
         },
