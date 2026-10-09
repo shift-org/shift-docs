@@ -29,9 +29,12 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.64.0",
+    version: "3.65.0",
   },
   db: getDatabaseConfig(dbType, isTesting),
+  // looks up map coordinates for event locations ( see util/geocode.js )
+  // false if disabled.
+  geocoder: getGeocoder(isTesting),
   // maybe bad, but some code likes to know:
   isTesting,
   // a nodemailer friendly config, or false if smtp is not configured.
@@ -150,6 +153,24 @@ function siteUrl(proxyPort) {
   const protocol = serverPort ? "https://" : "http://";
   const portstr  = (serverPort === '443') ? '' : ':' + (serverPort ?? proxyPort);
   return protocol + hostname + portstr;
+}
+
+// settings for looking up map coordinates; false if disabled.
+// SHIFT_GEOCODER_URL can point to a different nominatim server,
+// or be set to "off" to disable lookups. ( testing never does lookups. )
+function getGeocoder(isTesting) {
+  const url = env_default('SHIFT_GEOCODER_URL', "https://nominatim.openstreetmap.org/search");
+  if (isTesting || !url || url === "off") {
+    return false;
+  }
+  return {
+    url,
+    // nominatim requires an identifying user agent; and suggests an email.
+    userAgent: "Shift2Bikes/1.0 (https://www.shift2bikes.org/)",
+    email: "bikecal@shift2bikes.org",
+    // the portland metro area: left,top,right,bottom.
+    viewbox: "-123.2,45.8,-122.2,45.2",
+  };
 }
 
 // returns a nodemailer friendly config, or false if smtp is not configured.
