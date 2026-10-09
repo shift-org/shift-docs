@@ -80,6 +80,8 @@ Example response for a single event:
           "email": null,
           "phone": null,
           "contact": null,
+          "latitude": 45.518652,
+          "longitude": -122.681392,
           "date": "2017-06-05",
           "caldaily_id": "9300",
           "shareable": "https://shift2bikes.org/calendar/event-9300",
@@ -744,3 +746,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
 * 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
+* 3.65.0: Added `latitude` and `longitude` to the event object: map coordinates for the starting location, looked up from the address when the organizer saves the event. Both are `null` when the location couldn't be found, or the event hasn't been saved since this change.

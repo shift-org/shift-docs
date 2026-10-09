@@ -24,6 +24,7 @@ const config = require("../config");
 const emailer = require("../emailer");
 const nunjucks = require("../nunjucks");
 const { validateEvent } = require("../models/calEventValidator");
+const geocode = require("../util/geocode");
 
 // read multipart (and curl) posts.
 exports.post = [ uploader.makeHandler(), handleRequest ];
@@ -111,10 +112,11 @@ function updateEvent(evt, values, statusList) {
   if (existed) {
     evt.setPublished();
   }
-  // we dont know whether something significant changed or not:
-  // so we always have to store.
+  // look up map coordinates if the location changed.
+  // then, since we dont know whether something significant changed or not:
+  // we always have to store.
   // ( this creates the event if it didnt exist. )
-  return evt.storeChange().then(() =>{
+  return geocode.updateEvent(evt).then(() => evt.storeChange()).then(() =>{
     // now that the event has been stored, and it has an id: add/remove times.
     const statusMap = new Map(statusList.map(status => [status.date, status]));
     return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
