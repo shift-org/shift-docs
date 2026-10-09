@@ -26,7 +26,7 @@ describe("deleting using a form", () => {
     return testdb.destroy();
   });
   // test:
-  it("fails on an invalid id", () => {
+  it("reports 404 on an invalid id", () => {
     return request(app)
       .post(delete_api)
       .type('form')
@@ -35,9 +35,9 @@ describe("deleting using a form", () => {
           id: 999,
         })
       })
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 404));
   });
-  it("fails on an incorrect password", () => {
+  it("reports 403 on an incorrect password", () => {
     return request(app)
       .post(delete_api)
       .type('form')
@@ -47,7 +47,7 @@ describe("deleting using a form", () => {
           secret: "to life, etc.",
         })
       })
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 403));
   });
   it("delists a published event", async () => {
     const e0 = await CalEvent.getByID(2);

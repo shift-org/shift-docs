@@ -154,23 +154,23 @@ describe("managing events", () => {
         });
     });
   });
-  it("fails to use an empty secret", () => {
+  it("reports 403 for an empty secret", () => {
     return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3,
         // not sending any secret
       }, eventData))
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 403));
   });
-  it("fails to use an invalid secret", () => {
+  it("reports 403 for an invalid secret", () => {
     return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
         secret: testData.secret.split("").reverse().join(""),
       }, eventData))
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 403));
   });
   it("adds one date and removes another", () => {
     return CalEvent.getByID(2).then(evt => {

@@ -61,7 +61,9 @@ function handleRequest(req, res, next) {
   // ( depending on whether an id was submitted )
   return getOrCreateEvent(data.id, data.secret).then((evt)=> {
     if (!evt) {
-      res.textError("Invalid secret, use link from email");
+      // getOrCreateEvent() returns null for an unknown id as well as a bad
+      // secret; 403 covers both rather than revealing which. re: #559
+      res.textError("Invalid secret, use link from email", 403);
     } else {
       // save the uploaded file (if any)
       const saveImage = !req.file ? Promise.resolve() :

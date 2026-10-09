@@ -187,8 +187,11 @@ function buildRange(start, end, includeDeleted) {
     return Promise.reject(expected(400, "invalid dates"));
   } else {
     const range = end.diff(start, 'day');
-    if ((range < 0) || (range > EventsRange.MaxDays)) {
-      return Promise.reject(expected(400, "bad date range"));
+    if (range < 0) {
+      return Promise.reject(expected(422, "end date cannot be before start date"));
+    }
+    if (range > EventsRange.MaxDays) {
+      return Promise.reject(expected(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`));
     }
     const q = includeDeleted?
               CalDaily.getFullRange:
