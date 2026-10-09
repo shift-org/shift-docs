@@ -102,6 +102,8 @@
   <script src="{{ absURL "lib/fullcalendar/core/main.min.js" }}"></script>
   <script src="{{ absURL "lib/fullcalendar/daygrid/main.min.js" }}"></script>
   <script src="{{ absURL "lib/fullcalendar/timegrid/main.min.js" }}"></script>
+  {{ $jsCalFetch := resources.Get "js/cal/fetchevents.js" | minify }}
+  <script src="{{ $jsCalFetch.Permalink }}"></script>
 {{ end }}
 
 <!-- only render grid view for festival pages, 2008 or later -->
@@ -140,14 +142,7 @@
       navLinks: true,
       eventSources: [
         {
-          url: '{{ absURL "api/events.php" }}',
-          startParam: 'startdate',
-          endParam: 'enddate',
-          success: function( content ) {
-            // our API returns { "events": [ ] }
-            // and this will return just the inner array as fullcalendar expects
-            return content.events;
-          },
+          events: fetchCalendarEvents,
           eventDataTransform: function( eventData ) {
             // this transforms the data for individual rides
             // into the format needed by fullcalendar
