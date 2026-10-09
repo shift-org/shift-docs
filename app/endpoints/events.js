@@ -66,9 +66,9 @@ exports.get = function(req, res, next) {
       // e.g. (2025-06-10 - 2025-06-01 = 9 days difference) + 1 day = 10 day range
       const range = end.diff(start, 'day') + 1;
       if (range < 1) {
-        res.textError("end date cannot be before start date");
+        res.textError("end date cannot be before start date", 422);
       } else if (range > EventsRange.MaxDays) {
-        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
+        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`, 413);
       } else {
         return CalDaily.getRangeVisible(start, end, includeAllEvents).then((dailies) => {
           return getSummaries(dailies).then((events) => {
