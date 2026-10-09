@@ -77,14 +77,20 @@ function get(req, res, next) {
     }
     return respondWith(cal, res, customName || filename, events);
   }).catch(err => {
-    // the code below uses strings for expected errors.
+    // the code below rejects with expected() for errors we want to report.
     // ex. a bad range; allow other things to be 500 server errors with stacks.
-    if (typeof(err) !== 'string') {
+    if (!err || !err.expected) {
       next(err);
     } else {
-      res.status(400).send(err);
+      res.status(err.status).send(err.message);
     }
   });
+}
+
+// describes an error worth reporting to the caller, and the status to use.
+// a rejection without this marker is a real exception: see get().
+function expected(status, message) {
+  return { expected: true, status, message };
 }
 
 // promise a structure containing: filename and events.
@@ -146,7 +152,8 @@ function respondWith(cal, res, filename, events) {
 function buildOne(id) {
   return CalDaily.getByDailyID(id).then((daily) => {
     if (!daily) {
-      return Promise.reject("no such event");
+      // an id that matches nothing is "not found", not a bad request.
+      return Promise.reject(expected(404, "no such event"));
     }
     return buildEntries([daily]);
   });
@@ -157,7 +164,7 @@ function buildOne(id) {
 function buildSeries(id) {
   return CalDaily.getByEventID(id).then((dailies) => {
     if (!dailies.length) {
-      return Promise.reject("no such events");
+      return Promise.reject(expected(404, "no such events"));
     }
     return buildEntries(dailies);
   });
@@ -177,11 +184,11 @@ function buildCurrent() {
 // where start and end are dayjs objects.
 function buildRange(start, end, includeDeleted) {
   if (!start.isValid() || !end.isValid()) {
-    return Promise.reject("invalid dates");
+    return Promise.reject(expected(400, "invalid dates"));
   } else {
     const range = end.diff(start, 'day');
     if ((range < 0) || (range > EventsRange.MaxDays)) {
-      return Promise.reject("bad date range");
+      return Promise.reject(expected(400, "bad date range"));
     }
     const q = includeDeleted?
               CalDaily.getFullRange:

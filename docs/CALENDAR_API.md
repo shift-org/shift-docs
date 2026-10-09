@@ -44,7 +44,8 @@ Success:
 * status code: `200`
 * `events`: array of event objects; array may be empty
 * each event object: key-value pairs of all available public fields; does not contain any private fields (use `manage_event` endpoint for those)
-* when using `id` parameter, array is expected to return 1 object; if the ID does not match a known event, you will receive a `200` response with an empty `events` array
+* when using `id` parameter, array returns 1 object; if the ID does not match a visible event, you will receive a `404` (see Errors, below)
+* for a range request, an empty `events` array is a normal `200` result: it means nothing is scheduled in that range
 
 Example response for a single event:
 
@@ -178,10 +179,11 @@ Example response for a range of events, including delisted events:
     }
 
 Errors:
-* status code: `400`
+* status code: `400`, or `404` when an `id` doesn't match a visible event
 * `error`: object containing `message` key
 * `message`: text string explaining the error
 * possible errors
+  * `id` not found (`404`); this also covers events that are unpublished or deleted
   * `enddate` before `startdate`
   * date range too large (100 days maximum)
 
@@ -741,3 +743,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.62.1: (2026-04-30) Updated Node, MySQL, and Nginx to latest stable versions
 * 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
+* 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
