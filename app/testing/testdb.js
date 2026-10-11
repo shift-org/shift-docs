@@ -8,23 +8,23 @@ const { makeFakeData } = require("./fakeData");
 
 module.exports = {
   // generates a hand rolled set of data
-  setupTestData: async (name) => {
+  setupTestData: async (name, scheduledEvents) => {
     await db.initialize();
     await tables.dropTables();
     await tables.createTables();
     faker.seed(23204); // uses lorem generator
-    await createTestData();
+    await createTestData(db, scheduledEvents);
   },
   // uses faker to generate a good amount of fake data
   setupFakeData: async (name) => {
     await db.initialize();
-    await tables.dropTables();
-    await tables.createTables();
+    await setupTables(db, {drop: true});
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;
     faker.seed(23204); // keeps the generated data stable.
-    await makeFakeData(firstDay, lastDay, numEvents);
+    const fakeData = generateFakeData(firstDay, lastDay, numEvents);
+    return insertFakeData(db, fakeData);
   },
   destroy() {
     // leaves the tables in place; lets create drop them when needed.
@@ -32,14 +32,21 @@ module.exports = {
   }
 }
 
-async function createTestData() {
-  await db.query('calevent').insert(fakeCalEvent(1));
-  await db.query('calevent').insert(fakeCalEvent(2));
-  await db.query('calevent').insert(fakeCalEvent(3));
-  //
-  await db.query('caldaily').insert(fakeCalDaily(1, 2));
-  await db.query('caldaily').insert(fakeCalDaily(2, 2));
-};
+async function createTestData(db, scheduledEvents) {
+  // create 3 separate series with ids 1, 2, 3
+  for (const id of [1, 2, 3]) {
+    const tableValues = fakeCalEvent(id);
+    await insertNewData(db.query, tableValues);
+  }
+  // schedules a few days to some of the events
+  const whichEvents = scheduledEvents || [2];
+  for (const id of whichEvents) {
+    for (const order of [1, 2]) {
+      const item = fakeCalDaily(order, id);
+      await db.query('schedule').insert(item);
+    }
+  }
+}
 
 function fakeCalDaily(order, eventId) {
   if (!eventId) { throw new Error("expects a valid id"); }
