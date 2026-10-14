@@ -166,6 +166,7 @@ String.raw`METHOD:PUBLISH`,
 String.raw`X-WR-CALNAME:Shift Community Calendar`,
 String.raw`X-WR-CALDESC:Find fun bike events all year round.`,
 String.raw`X-WR-RELCALID:community@shift2bikes.org`,
+String.raw`X-WR-TIMEZONE:America/Los_Angeles`,
 ];
 
 const pedalpHeader = [
@@ -175,6 +176,7 @@ String.raw`METHOD:PUBLISH`,
 String.raw`X-WR-CALNAME:Pedalpalooza Bike Calendar`,
 String.raw`X-WR-CALDESC:Find fun Pedalpalooza bike events!`,
 String.raw`X-WR-RELCALID:shift@shift2bikes.org`,
+String.raw`X-WR-TIMEZONE:America/Los_Angeles`,
 ];
 
 const event1 = [
