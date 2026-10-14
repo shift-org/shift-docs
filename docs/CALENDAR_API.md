@@ -664,6 +664,70 @@ Example error:
       }
     }
 
+
+## Matching an organizer email for Biiikes
+
+[Biiikes](https://biiikes.com) imports rides from this calendar. When a ride leader asks to manage an imported ride there, Biiikes uses this endpoint to check that the email the leader types is the email the ride was posted with. Biiikes then sends its own confirmation email to that address; this endpoint never sends mail, and never returns an email address.
+
+The endpoint is off unless `BIIIKES_MATCH_TOKENS` is set. While it's off, it answers `404`, the same as an unknown URL.
+
+Endpoint:
+* POST `biiikes_match`
+
+URL parameters:
+* none
+
+Request headers:
+* `Authorization: Bearer <token>`, where the token is one of the comma-separated values in `BIIIKES_MATCH_TOKENS`
+* `Content-Type: application/json`
+
+Request body:
+* required fields
+  * `series_id`: `calevent` event ID, as a string of digits (a number is also accepted)
+  * `email`: the email to check
+
+Unknown properties are ignored. The email must be in the JSON body, never in the URL, so that it doesn't end up in access logs.
+
+Example request:
+
+    {
+        "series_id": "6245",
+        "email": "organizer@example.com"
+    }
+
+Success:
+* status code: `200`
+* `leads` is `true` only when the event exists, is published, hasn't been deleted, and has an organizer email that matches `email`. Both are compared after trimming surrounding spaces and lowercasing.
+* `leads` is `false` for everything else: a different email, an unknown ID, an unpublished or deleted event, or an event with no email. A blank `email` never matches. The response doesn't say which, and is byte-for-byte the same in every case.
+
+Example response:
+
+    {
+        "leads": true
+    }
+
+Errors:
+* status code: `400`, `401`, `404`, `429`
+* possible errors
+  * body missing or not a JSON object; `series_id` missing or not a positive whole number; `email` missing or not a string (`400`)
+  * missing or unknown token (`401`, with `WWW-Authenticate: Bearer`)
+  * endpoint not enabled (`404`)
+  * more than `BIIIKES_MATCH_PER_HOUR` requests (default 100) from one token in the current clock hour (`429`, with `Retry-After` in seconds)
+
+Example error:
+
+    {
+      "error": {
+        "message": "Missing or unknown token"
+      }
+    }
+
+Notes:
+* The endpoint is for server-to-server use: it doesn't send the `Access-Control-Allow-Origin` header the other endpoints send, and responses are marked `Cache-Control: no-store`.
+* The email is never logged.
+* The request limit is kept in memory, so restarting the node service resets it.
+* Because it answers whether an email matches a ride, this endpoint could be used to test guesses at an organizer's email. The token, the per-token limit, and the caller's own limits are what bound that; see `PRODUCTION_CONFIGURATION.md`.
+
 ----
 
 ## Changelog
@@ -744,3 +808,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
 * 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
+* 3.65.0: (2026-10-14) Added the `biiikes_match` endpoint, which tells Biiikes whether an email is a ride's organizer email. It is off unless `BIIIKES_MATCH_TOKENS` is set.

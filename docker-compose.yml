@@ -77,6 +77,8 @@ services:
         - SMTP_HOST
         - SMTP_USER
         - SMTP_PASS
+        - BIIIKES_MATCH_TOKENS    # enables biiikes_match.php
+        - BIIIKES_MATCH_PER_HOUR  # its per-token hourly limit
     # by default the node image will run "node"
     # https://github.com/nodejs/docker-node/blob/main/docker-entrypoint.sh
     # override to run npm start; which auto installs from package-lock.json

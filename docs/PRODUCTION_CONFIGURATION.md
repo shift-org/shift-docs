@@ -38,6 +38,14 @@ A filled out version of that file exists as `/opt/shift-docs/secrets` on our ser
 
 We use amazon's smtp service. ex. `SMTP_HOST=smtp.us-west-2.amazonaws.com` with USER and PASS credentials obtained from the amazon, and `SMTP_DOMAIN=shift2bikes.org`.
 
+## Biiikes email matching
+The `biiikes_match` endpoint ( see [CALENDAR_API.md](CALENDAR_API.md#matching-an-organizer-email-for-biiikes) ) is off unless `BIIIKES_MATCH_TOKENS` is set in `/opt/shift-docs/secrets`. Like the smtp settings, it reaches the node container through `docker-compose.yml`, so restart node after changing it: `./shift restart node`.
+
+* `BIIIKES_MATCH_TOKENS`: one or more long random tokens, comma separated. Give Biiikes its token privately. To rotate, add the new token, let Biiikes switch to it, then remove the old one. Removing every token turns the endpoint off again.
+* `BIIIKES_MATCH_PER_HOUR`: how many requests each token may make per clock hour. Defaults to 100. Past that, the endpoint answers `429` until the hour turns.
+
+The endpoint answers whether an email matches a ride's organizer email, so whoever holds a token can test guesses at an organizer's email, up to the hourly limit. Treat the token like the smtp password. The limit is kept in memory and resets when node restarts.
+
 ## SSL
 Our SSL certificate is provided by [lets encrypt](https://letsencrypt.org).  This is required for the hugo front-end running on Netlify to connect to the calendar, and if it doesn't work, you'll see a 500 HTTP error in your devtools (and a blank calendar page in the browser) when trying to fetch calendar data.
 

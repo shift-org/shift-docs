@@ -29,7 +29,16 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.64.0",
+    version: "3.65.0",
+  },
+  // lets biiikes ask whether an email matches a ride's organizer email.
+  // see endpoints/biiikes_match.js. it answers 404 while no tokens are set.
+  biiikesMatch: {
+    // comma separated, so a new token can be added before an old one is removed.
+    tokens: env_default('BIIIKES_MATCH_TOKENS', "")
+      .split(",").map(t => t.trim()).filter(t => t.length),
+    // the most requests each token can make in one clock hour.
+    perHour: positiveInt(env_default('BIIIKES_MATCH_PER_HOUR'), 100),
   },
   db: getDatabaseConfig(dbType, isTesting),
   // maybe bad, but some code likes to know:
@@ -150,6 +159,12 @@ function siteUrl(proxyPort) {
   const protocol = serverPort ? "https://" : "http://";
   const portstr  = (serverPort === '443') ? '' : ':' + (serverPort ?? proxyPort);
   return protocol + hostname + portstr;
+}
+
+// parse a positive whole number; otherwise use the default.
+function positiveInt(str, def) {
+  const n = Number(str);
+  return (Number.isInteger(n) && n > 0) ? n : def;
 }
 
 // returns a nodemailer friendly config, or false if smtp is not configured.

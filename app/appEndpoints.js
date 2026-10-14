@@ -38,6 +38,7 @@ app.use(express.urlencoded({extended:false}), express.json());
 // each of these is a javascript file
 // containing a get ( or post ) export.
 const endpoints = [
+  "biiikes_match",
   "delete_event",
   "events",
   "ical",
@@ -61,6 +62,11 @@ endpoints.forEach((ep) => {
     } else {
       app.post(apipath, endpoint.post);
     }
+  }
+  // an endpoint can handle errors that happen before it runs
+  // ( ex. a json body that couldn't be parsed. )
+  if (endpoint.error) {
+    app.use(apipath, endpoint.error);
   }
 });
 
