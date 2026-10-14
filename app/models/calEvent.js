@@ -108,7 +108,13 @@ const methods =  {
   // generates a 1 hour duration if none was specified.
   addDuration(start) {
     const len = this.eventduration;
-    return endTime = (len > 0) ? start.add(len, 'minute') : start.add(1, 'hour');
+    return (len > 0) ? start.add(len, 'minute') : start.add(1, 'hour');
+  },
+
+  // true when the organizer gave an explicit duration;
+  // false when addDuration() would have to invent one.
+  hasDuration() {
+    return this.eventduration > 0;
   },
 
   // remove this record and any associated caldaily(s) from the database.
