@@ -1,4 +1,5 @@
 const { ErrorCollector, makeValidator } = require("../models/calEventValidator");
+const { RideLength } = require("../models/calConst");
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
@@ -47,5 +48,39 @@ describe('event field validation', () => {
     // there should be one error in there
     assert.ok(msg.key);
     assert.equal(msg.key, `Please enter a value for <span class="field-name">key</span>`);
+  });
+  it('ride length validator should accept the known lengths', () => {
+    for (const want of Object.keys(RideLength)) {
+      const errors = new ErrorCollector();
+      const v = makeValidator({ ridelength: want }, errors);
+      assert.equal(v.validateRideLength('ridelength'), want);
+      assert.equal(errors.count, 0);
+    }
+  });
+  it('ride length validator should reject anything else', () => {
+    const list = [
+      "bogus",
+      "",
+      null,
+      // these are inherited from Object.prototype;
+      // an 'in' test would let them through. re: #1089
+      "toString",
+      "constructor",
+      "hasOwnProperty",
+      "valueOf",
+      "__proto__",
+    ];
+    for (const bad of list) {
+      const errors = new ErrorCollector();
+      const v = makeValidator({ ridelength: bad }, errors);
+      assert.equal(v.validateRideLength('ridelength'), null, `for ${JSON.stringify(bad)}`);
+    }
+  });
+  it('ride length validator should not leak a global', () => {
+    delete globalThis.value;
+    const errors = new ErrorCollector();
+    const v = makeValidator({ ridelength: '0-3' }, errors);
+    v.validateRideLength('ridelength');
+    assert.equal(globalThis.value, undefined, "expected no implicit global");
   });
 });
