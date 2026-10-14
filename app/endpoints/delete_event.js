@@ -14,65 +14,38 @@
  * returns http 400 "Bad Request" and a json error response (see util/errors.js)
  *
  */
-const config = require("../config");
 const express = require('express');
-const textError = require("../util/errors");
-const { CalEvent } = require("../models/calEvent");
-const { uploader } = require("../uploader");
+const reconcile = require('shift-docs/support/reconcile');
+const { uploader } = require('shift-docs/uploader');
+const { parseJson } = require('shift-docs/util/parse');
+const { ErrBadRequest, ErrNotFound } = require('shift-docs/util/errors');
+const handleCall = require('shift-docs/util/handleCall');
+const db = require('shift-docs/db');
 
 // the front end sends a multi-part form post
 // so... we need to handle that.
-exports.post = [ uploader.makeHandler(), handleRequest ];
+exports.post = [ uploader.makeHandler(), handleCall(postDelete) ];
 
-function handleRequest(req, res, next) {
-  let data = req.body;
-  // fix? client uploads form data containing json...
-  // probably to match manage_event where its currently required.
-  if (data && data.json) {
-    data = safeParse(data.json);
-  }
-  if (!data) {
-    return res.textError('JSON could not be decoded');
-  }
+function postDelete(req) {
+  const data = parseJson(req.body);
   if (!data.id) {
-    return res.textError('Missing id');
+    throw new ErrBadRequest("Missing id");
   }
-  // get the event: delete seems to send an int, where manage is a string.
-  // normalize it to a string for consistency ( tbd: is that good, or even needed? )
-  return CalEvent.getByID(''+data.id).then((evt) => {
-    // verify the event exists.
-    if (!evt) {
-      return res.textError('Event not found');
-    }
-
-    // validate the password.
-    if (!evt.isSecretValid(data.secret)) {
-      return res.textError('Invalid secret, use link from email');
-    }
-
-    // if the event was never published, we can delete it completely;
-    // otherwise, soft delete it.
-    let q = !evt.isPublished() ? evt.eraseEvent() : evt.softDelete();
-    q.then((_) => {
-      // note: the frontend currently doesn't use this json;
-      // instead it looks for request success ( http 200 )
-      res.set(config.api.header, config.api.version);
-      res.json({
-        success: true
-      })
-    }).catch((e) => {
-      console.error("error trying to cancel an event", e);
-      return res.textError('Server error');
-    });
-  }).catch(next);
+  return deleteEvent(data.id, data.secret);
 }
 
-// read json into a javascript object.
-// returns undefined for any error.
-function safeParse(json) {
-  try {
-    return JSON.parse(json);
-  } catch (err) {
-    console.error(err);
-  }
+function deleteEvent(id, secret) {
+  return db.query.transaction((tx) => {
+    // FIX? revoke hides the event from all queries
+    // it's nice for testing/support to not delete the data entirely
+    // tbd: maybe a chron job could delete revoked events older than a month?
+    return reconcile.revokeEntireSeries(tx, id, secret);
+    //return reconcile.deleteEntireSeries(tx, id, secret);
+  })
+  .then((count) => {
+    if (!count) {
+      throw new ErrNotFound("Event not found");
+    }
+    return { success: true };
+  });
 }

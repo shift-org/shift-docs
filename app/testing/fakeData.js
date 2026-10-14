@@ -1,62 +1,71 @@
 const { faker } = require('@faker-js/faker');
-const db = require("shift-docs/db");
-const config = require("shift-docs/config");
-const dt = require("shift-docs/util/dateTime");
-const { Area, Audience, DatesType, EventStatus, RideLength } = require('shift-docs/models/calConst');
+const config = require('shift-docs/config');
+const dt = require('shift-docs/util/dateTime');
+const { Area, Audience, Distance, Distances, LocType, Showable, TagName, WebType } = require('shift-docs/models/calConst');
+const { insertNewData } = require('shift-docs/support/reconcile');
 
 // password shared for all fake events
 const password = "supersecret";
 // number of days within which to create fake events
 const fakeRange = 7;
 
-// promise an array of events
-//  - firstDay is a dt day
-//  - numEvents: a number of events to create
-//  - seed: an optional random seed
-function makeFakeData(firstDay, lastDay, numEvents) {
-  const fakeData = generateFakeData(firstDay, lastDay, numEvents);
+// writes an array of the fake data format into the db.
+// separating generation from insertion prevents race conditions from influencing the generated data.
+function insertFakeData(db, fakeData) {
+  return db.query.transaction(tx => _insertData(tx, fakeData));
+}
+
+// where fakeData contains [{event, days}]
+function _insertData(tx, fakeData) {
   const promisedEvents = fakeData.map(data => {
-    return db.query('calevent')
-      .insert(data.event).then(row => {
-        const id = row[0]; // the magic to get the event id.
-        // when passing a seed (ex. for tests); silence the output.
-        if (!config.isTesting) {
-          logData(id, data);
-        }
-        const promisedDays = data.days.map(at => {
-          at.id = id; // assign the id before adding to the db
-          return db.query('caldaily').insert(at);
-         });
-        return Promise.all(promisedDays);
-      });
+    return insertNewData(tx, data.event).then(id => {
+      data.event.series.id = id;
+      const promisedDays = data.days.map(at => {
+        at.id = id; // assign the id before adding to the db
+        return tx('cal_schedule').insert(at).then(row => {
+          at.pkid = row[0]; // the value returend
+          return at;
+        });
+       });
+      return Promise.all(promisedDays);
+    });
   });
-  // wait on all the days to finish.
+  // wait on all the events to finish.
   return Promise.all(promisedEvents);
 }
 
-//
-function logData(id, data) {
-  const url = config.site.url("addevent", `edit-${id}-${password}`);
-  const start = dt.friendlyDate(data.days[0].eventdate);
-  console.log(`created "${data.event.title}" with ${data.days.length} days starting on ${start}\n ${url}`);
+// prints an array of fake data format to console.
+function logFakeData(data) {
+  data.forEach(({event, days}) => {
+    const url = config.site.url("addevent", `edit-${event.series.id}-${event.private.secret}`);
+    const start = dt.friendlyDate(days[0].ymd);
+    console.log(`created ${url}\n  "${event.series.title}" with ${days.length} days starting on ${start}`);
+  });
 }
 
-// build the data before inserting into the db
-// this avoids race conditions influencing the data generated.
-function generateFakeData(firstDay, lastDay, numEvents) {
+// promise an array of {event: {}, days: [{}]}
+//  - firstDay is a dt day
+//  - numEvents: a number of events to create
+// nextEventId can be a number, in which case it creates events starting with that id.
+function generateFakeData(firstDay, lastDay, numEvents, nextEventId = undefined) {
   const out = [];
+  let nextDayId = nextEventId ? 1 : undefined;
   for (let i = 0; i< numEvents; i++) {
     // always have one event on the day specified;
     // on subsequent events, pick from a range of days.
-    const start = !i ? firstDay:
+    const start = !i ? firstDay :
        dt.convert(faker.date.between({
           from: firstDay.toDate(),
           to: lastDay.toDate(),
         }));
     const title = faker.music.songName();
-    const event = makeCalEvent(title);
+    const event = makeCalEvent(title, nextEventId);
     const numDays = randomDayCount();
-    const days = makeCalDailies(start, numDays);
+    const days = makeCalDailies(start, numDays, nextDayId);
+    if (nextEventId !== undefined) {
+      nextEventId += 1;
+      nextDayId += numDays;
+    }
     out.push({
       event,
       days,
@@ -66,7 +75,7 @@ function generateFakeData(firstDay, lastDay, numEvents) {
 }
 
 // export!
-module.exports = { makeFakeData };
+module.exports = { insertFakeData, generateFakeData, logFakeData };
 
 function randomDayCount() {
   // some dumb weighted random
@@ -75,8 +84,7 @@ function randomDayCount() {
 }
 
 function randomRideLength() {
-  const pick = Object.keys(RideLength);
-  return faker.helpers.arrayElement(pick);
+  return faker.helpers.arrayElement(Distances);
 }
 
 // days is the range of possible days in the future
@@ -88,7 +96,7 @@ function nextDay(days, refDate) {
   });
 }
 
-function makeCalDailies(start, numDays) {
+function makeCalDailies(start, numDays, nextPkid = undefined) {
   const out = [];
   const active = faker.datatype.boolean(0.8);
   const flash = faker.datatype.boolean(!active? 0.8: 0.3);
@@ -100,9 +108,10 @@ function makeCalDailies(start, numDays) {
       start = start.add(1 + faker.number.int(3), 'days');
     }
     out.push({
-      eventdate   : db.toDate(start),
-      eventstatus : active? EventStatus.Active : EventStatus.Cancelled,
-      newsflash   : msg,
+      ymd  : dt.toYMDString(start),
+      news : msg,
+      is_scheduled : active ? 1 : 0,  // boolean as a number
+      pkid : (nextPkid !== undefined) ? (nextPkid++) : undefined,
     });
   }
   return out;
@@ -118,8 +127,8 @@ function makeCalEvent(title) {
   const lastName = faker.person.lastName();
   const organizer = faker.person.fullName({firstName, lastName});
   const email = faker.internet.exampleEmail({firstName, lastName});
-  const hideemail = faker.datatype.boolean(0.75) ? 1: 0;
-  const printInfo = faker.datatype.boolean(0.5) ? 1: 0;
+  const visible = faker.datatype.boolean(0.75) ? 0: 1;
+  const printable = faker.datatype.boolean(0.5) ? 1: 0;
   const phone = faker.phone.number();
   const weburl = faker.datatype.boolean(0.5) ? null:
       faker.internet.url();
@@ -132,20 +141,19 @@ function makeCalEvent(title) {
   // this would normally be the event id; remove if this is a problem.
   const image = faker.datatype.boolean(0.75) ? null: "bike.jpg";
   // "19:00:00"
-  const eventtime = (6+ faker.number.int(12)) + ":" +
-                (15* faker.number.int(3)) + ":00";
+  const eventtime = String(6+ faker.number.int(12)).padStart(2, '0') + ":" +
+                String(15* faker.number.int(3)).padStart(2, '0') + ":00";
   // in minutes, but sometimes not specified at all
   const eventduration = faker.datatype.boolean(0.25) ? null :
                 (6* faker.number.int(3) * 15);
   const timedetails = faker.datatype.boolean(0.75) ? null :
                    faker.lorem.sentences({ min: 1, max: 3 });
-  // mostly portland:
   const area = faker.datatype.boolean(0.25) ?
                     faker.helpers.objectValue( Area ) :
                     Area.Portland;
-  const highlight = faker.datatype.boolean(0.1) ? 1: 0;
-  const safetyplan  = faker.datatype.boolean(0.75) ? 1: 0;
-  const loopride = faker.datatype.boolean(0.5) ? 1: 0;
+  const highlight = faker.datatype.boolean(0.1);
+  const safetyplan  = faker.datatype.boolean(0.75);
+  const loopride = faker.datatype.boolean(0.5);
   const locname =  capitalize(faker.word.adverb()) + " " +
                    capitalize(faker.animal.fish(), false);
 
@@ -156,49 +164,74 @@ function makeCalEvent(title) {
                      faker.location.streetAddress();
   const ridelength = randomRideLength();
 
-  // constants:
-  const changes = 1;
-  const hidden = 0; // never hidden
-  const datestype = DatesType.OneDay;
+  const show = Showable.combine(visible, printable);
 
+  // constants:
   return {
-    // created,
-    // modified,
-    changes,
-    // id: eventId,
-    name: organizer,
-    email,
-    hideemail,
-    printemail: printInfo,
-    phone,
-    hidephone: hideemail,
-    printphone: printInfo,
-    weburl,
-    webname,
-    printweburl: printInfo,
-    contact: organizer,
-    hidecontact : 1,
-    printcontact : printInfo,
-    title: title,
-    tinytitle: title,
-    audience,
-    descr,
-    printdescr: descr,
-    image,
-    datestype,
-    eventtime,
-    eventduration,
-    timedetails,
-    locname,
-    address,
-    locdetails,
-    locend,
-    loopride,
-    ridelength,
-    area,
-    highlight,
-    hidden,
-    password,
-    safetyplan,
+    image: {
+      img_override: image,
+    },
+    series: {
+      // not directly set: id, created, modified
+      published: 1,
+      title,
+      organizer,
+      start_time: eventtime,
+      scheduled_duration: eventduration,
+      summary: descr,
+      details: descr,
+    },
+    location: [{
+      loc_type: LocType.Start,
+      place_name: locname,
+      address: address,
+      place_info: locdetails,
+      time_info: timedetails,
+    }, (locend || eventduration) ? filterObject({
+        loc_type: LocType.Finish,
+        place_name: locend,
+    }) : null].filter(el => el), // removes the finish if it was empty
+    private: {
+      secret: password,
+      private_email: email,
+      private_phone: phone,
+      private_contact: organizer,
+      show_email: show.value,
+      show_phone: show.value,
+      show_contact: Showable.Private.value, // test always uses private.
+    },
+    tag: [
+      tag(TagName.Area, area.value),
+      tag(TagName.Audience, audience.value),
+      tag(TagName.Distance, ridelength.value),
+      tag(TagName.LoopRide, loopride),
+      tag(TagName.SafetyPlan, safetyplan),
+      tag(TagName.Featured, highlight),
+    ].filter(t => !!t.tag_value),
+    web: {
+      web_type: WebType.Url,
+      web_link: weburl,
+      web_text: webname,
+      show_weburl: Showable.Public.value, // test always uses printable, visible.
+    }
   };
+}
+
+// return a copy of a, omitting keys with empty values.
+function filterObject(a) {
+  const out = {};
+  Object.keys(a).forEach(k => {
+    const v = a[k];
+    if (v) {
+      out[k] = v;
+    }
+  });
+  return out;
+}
+
+function tag(a, b) {
+  return {
+    tag_type: a,
+    tag_value: b,
+  }
 }

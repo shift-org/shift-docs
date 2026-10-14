@@ -1,19 +1,18 @@
-const app = require("../appEndpoints");
-const testData = require("./testData");
-const testdb = require("./testdb");
-//
-const { describe, it, before, after } = require("node:test");
-const assert = require("node:assert/strict");
+const assert = require('node:assert/strict');
+const { describe, it, beforeEach, afterEach } = require('node:test');
 const request = require('supertest');
+//
+const app = require('shift-docs/appEndpoints')
+const testing = require('shift-docs/testing');
+const testdb = require('shift-docs/testing/testdb');
 
 describe("retrieving event data for editing", () => {
-  // runs before the first test in this block.
-  before(() => {
-    return testdb.setupTestData("retrieve");
+  beforeEach(() => {
+    testing.configure("json");
+    return testing.setupTestData("retrieve");
   });
-  // runs once after the last test in this block
-  after(() => {
-    return testdb.destroy();
+  afterEach(() => {
+    return testing.reset();
   });
   it("errors on an invalid id", () => {
     return request(app)
@@ -21,7 +20,7 @@ describe("retrieving event data for editing", () => {
       .query({
         id: 999
       })
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("private data requires the correct secret", () => {
     return request(app)
@@ -30,9 +29,7 @@ describe("retrieving event data for editing", () => {
          id: 2,
          secret: "the incorrect answer to life, the universe, and this event.",
        })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      .then(testing.expectOkay)
       .then(res => {
         assert.equal(res.body.id, '2'); // a string
         assert.equal(res.body.email, null, "email should be private");
@@ -45,11 +42,9 @@ describe("retrieving event data for editing", () => {
       .get('/api/retrieve_event.php')
       .query({
          id: 2,
-         secret: testData.secret,
+         secret: testing.user.secret,
        })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      .then(testing.expectOkay)
       .then(res => {
         // console.dir(res.body);
         assert.equal(res.body.id, '2'); // a string
@@ -57,7 +52,7 @@ describe("retrieving event data for editing", () => {
         assert.ok(res.body.phone, "b/c of the secret, phone should be present");
         assert.ok(res.body.contact, "b/c of the secret, contact should be present");
         assert.equal(res.body.hideemail, true, "the test data has the email hidden");
-        assert.equal(res.body.email, testData.email, "b/c of the secret, we should see the email");
+        assert.equal(res.body.email, testing.user.email, "b/c of the secret, we should see the email");
         assert.deepEqual(res.body.datestatuses, [{
           id: '201',
           date: '2002-08-01',
@@ -77,17 +72,15 @@ describe("retrieving event data for editing", () => {
       .query({
         id: 3
       })
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("errors on a hidden event, unless given the secret", () => {
     return request(app)
       .get('/api/retrieve_event.php')
       .query({
         id: 3,
-        secret: testData.secret,
+        secret: testing.user.secret,
       })
-      .expect(200)
-      .expect('Content-Type', /json/);
+      .then(testing.expectOkay);
   });
 });
-

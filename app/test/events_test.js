@@ -1,32 +1,30 @@
-const app = require("../appEndpoints");
-const testdb = require("./testdb");
-const testData = require("./testData");
-//
-const { describe, it, before, after } = require("node:test");
-const assert = require("node:assert/strict");
+const assert = require('node:assert/strict');
+const { describe, it, beforeEach, afterEach } = require('node:test');
 const request = require('supertest');
+//
+const app = require('shift-docs/appEndpoints');
+const testing = require('shift-docs/testing');
 
 describe("getting events", () => {
-  // runs before the evt test in this block.
-  before(() => {
-    return testdb.setupTestData("events");
+  beforeEach(() => {
+    testing.configure("json");
+    return testing.setupTestData("deleting with forms");
   });
-  // runs once after the last test in this block
-  after(() => {
-    return testdb.destroy();
+  afterEach(() => {
+    return testing.reset();
   });
   it("errors with no parameters", () => {
     return request(app)
       .get('/api/events.php')
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("errors on an invalid id", () => {
     return request(app)
       .get('/api/events.php')
       .query({
-          id:999
+          id: 999
         })
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("errors on an invalid date", () => {
     return request(app)
@@ -39,7 +37,7 @@ describe("getting events", () => {
         // startdate: "2002/05/06",
         // enddate  : "2002/05/06",
       })
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("errors on too large a range", () => {
     return request(app)
@@ -48,7 +46,7 @@ describe("getting events", () => {
         startdate: "2002-01-01",
         enddate  : "2003-01-01",
       })
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("errors on a negative range", () => {
     return request(app)
@@ -57,7 +55,7 @@ describe("getting events", () => {
         startdate: "2003-01-01",
         enddate  : "2002-01-01",
        })
-      .then(testData.expectError);
+      .then(testing.expectError);
   });
   it("succeeds with a valid id", () => {
     return request(app)
@@ -65,9 +63,7 @@ describe("getting events", () => {
       .query({
          id: 201, // a daily id
        })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      .then(testing.expectOkay)
       .then(res => {
         assert.equal(res.body?.events?.length, 1);
         const evt = res.body.events[0];
@@ -85,9 +81,7 @@ describe("getting events", () => {
          startdate: "2002-08-01",
          enddate  : "2002-08-02",
        })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
+      .then(testing.expectOkay)
       .then(res => {
         // console.log(res.body);
         assert.equal(res.body?.events?.length, 2);

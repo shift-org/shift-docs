@@ -213,9 +213,11 @@
                       $('#success-message').text('Your event has been updated!');
                       $('#success-modal').modal('show');
                       // update the image in case it was changed.
-                      let imgDisplay = $('div.image-display').find('a');
-                      imgDisplay.attr("href", returnVal.image);
-                      imgDisplay.find("img").attr("src", returnVal.image);
+                      if (returnVal.image) {
+                        const imgDisplay = $('div.image-display').find('a');
+                        imgDisplay.attr("href", returnVal.image);
+                        imgDisplay.find("img").attr("src", returnVal.image);
+                      }
                     } else {
                         let newUrl = 'event-submitted';
                         history.pushState({}, newUrl, newUrl);

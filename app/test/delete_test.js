@@ -1,180 +1,118 @@
-const app = require("../appEndpoints");
-const testdb = require("./testdb");
-const testData = require("./testData");
-
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
-//
-const sinon = require('sinon');
-const { describe, it, before, after } = require("node:test");
-const assert = require("node:assert/strict");
+const assert = require('node:assert/strict');
+const { describe, it, beforeEach, afterEach } = require('node:test');
 const request = require('supertest');
 //
-const delete_api = '/api/delete_event.php';
+const app = require('shift-docs/appEndpoints');
+const testing = require('shift-docs/testing');
 
+// delete using forms
 describe("deleting using a form", () => {
-  // spies on data storage:
-  let spy;
-  // runs before the first test in this block.
-  before(() => {
-    spy = testData.stubData(sinon);
-    return testdb.setupTestData("del");
+   beforeEach(() => {
+    testing.configure("json");
+    return testing.setupTestData("deleting with forms");
   });
-  // runs once after the last test in this block
-  after(() => {
-    sinon.restore();
-    return testdb.destroy();
+  afterEach(() => {
+    return testing.reset();
   });
-  // test:
-  it("fails on an invalid id", () => {
-    return request(app)
-      .post(delete_api)
-      .type('form')
-      .send({
-        json: JSON.stringify({
-          id: 999,
-        })
-      })
-      .then(testData.expectError);
-  });
-  it("fails on an incorrect password", () => {
-    return request(app)
-      .post(delete_api)
-      .type('form')
-      .send({
-        json: JSON.stringify({
-          id: 2,
-          secret: "to life, etc.",
-        })
-      })
-      .then(testData.expectError);
-  });
-  it("delists a published event", async () => {
-    const e0 = await CalEvent.getByID(2);
-    const d1 = await CalDaily.getForTesting(201);
-    const d2 = await CalDaily.getForTesting(202);
-
-    assert.notEqual(e0.review, 'E'); // anything is fine other than excluded
-    assert.ok(e0.password);
-    assert.equal(d1.eventstatus, 'A');
-    assert.equal(d2.eventstatus, 'A');
-
-    return request(app)
-      .post(delete_api)
-      .type('form')
-      .send({
-        json: JSON.stringify({
-          id: 2,
-          secret: testData.secret,
-        })
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
-      .then(async (res) => {
-        assert.equal(spy.eventStore.callCount, 1);
-        assert.equal(spy.dailyStore.callCount, 2);
-        spy.resetHistory();
-
-        const e0 = await CalEvent.getByID(2);
-        const d1 = await CalDaily.getForTesting(201);
-        const d2 = await CalDaily.getForTesting(202);
-
-        // the days of deleted events are marked with D
-        // to distinguish them from individually canceled events.
-        assert.equal(e0.review, 'E');
-        assert.ok(!e0.password);
-        assert.equal(d1.eventstatus, 'D');
-        assert.equal(d2.eventstatus, 'D');
-      });
-  });
+  handleDeleteWithForms(true);
 });
 
-// do the same things again,but post json ( ala curl )
+// delete without forms
 describe("deleting using json", () => {
-  let spy;
-  before(() => {
-    spy = testData.stubData(sinon);
-    return testdb.setupTestData("del json");
+  beforeEach(() => {
+    testing.configure("json");
+    return testing.setupTestData("deleting with json");
   });
-  after(() => {
-    sinon.restore();
-    return testdb.destroy();
+  afterEach(() => {
+    return testing.reset();
   });
-  it("delists a published event", async () => {
-    const e0 = await CalEvent.getByID(2);
-    const d1 = await CalDaily.getForTesting(201);
-    const d2 = await CalDaily.getForTesting(202);
+  handleDeleteWithForms(false);
+});
 
-    assert.notEqual(e0.review, 'E');
-    assert.ok(e0.password);
-    assert.equal(d1.eventstatus, 'A');
-    assert.equal(d2.eventstatus, 'A');
+// ---------------------------------------
+// support functions:
+// ---------------------------------------
 
-    return request(app)
-      .post(delete_api)
-      // .type('form') ... intentionally send not as a form
-      .send({
+// run a series of deletion tests with or without forms
+function handleDeleteWithForms(useForm) {
+  it("fails on an invalid id", () => {
+    return Promise.resolve()
+      .then(_ => requestDelete({
+        id: 999,
+        secret: testing.user.secret,
+        useForm
+      }))
+      .then(testing.expectError);
+  });
+  it("fails on an incorrect password", () => {
+    // fix? maybe this should return "okay"
+    // so that someone couldn't spam searching for the correct secret.
+    return Promise.resolve()
+      .then(_ => requestDelete({
         id: 2,
-        secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
-      .then(async (res) => {
-        assert.equal(spy.eventStore.callCount, 1);
-        assert.equal(spy.dailyStore.callCount, 2);
-        assert.equal(spy.eventErasures.callCount, 0);
-        spy.resetHistory();
+        secret: "invalid password",
+        useForm
+      }))
+      .then(testing.expectError)
+      .then(_ => verifyDataExists(2));
+  });
 
-        const e0 = await CalEvent.getByID(2);
-        const d1 = await CalDaily.getForTesting(201);
-        const d2 = await CalDaily.getForTesting(202);
-
-        // the days of deleted events are marked with D
-        // to distinguish them from individually canceled events.
-        assert.equal(e0.review, 'E');
-        assert.ok(!e0.password);
-        assert.equal(d1.eventstatus, 'D');
-        assert.equal(d2.eventstatus, 'D');
-      });
+  it("deletes published events", () => {
+    return Promise.resolve()
+      .then(_ => verifyDataExists(2))
+      .then(_ => requestDelete({
+        id: 2,
+        secret: testing.user.secret,
+        useForm
+      }))
+      .then(testing.expectOkay)
+      .then(_ => verifyDataDeleted(2));
   });
 
   it("deletes unpublished events", () => {
-    return request(app)
-      .post(delete_api)
-      .send({
+    return Promise.resolve()
+      .then(_ => verifyDataExists(3))
+      .then(_ => requestDelete({
         id: 3,
-        secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
-      .then(res => {
-        assert.equal(spy.eventErasures.callCount, 1);
-        spy.resetHistory();
-      });
+        secret: testing.user.secret,
+        useForm
+      }))
+      .then(testing.expectOkay)
+      .then(_ => verifyDataDeleted(3));
   });
-  it("deletes a legacy event", async () => {
-    const e0 = await CalEvent.getByID(1);
-    assert.notEqual(e0.review, 'E');
-    assert.ok(e0.password);
-    //
+}
+
+async function verifyDataExists(id) {
+  // fix -- can this ve reverted here?
+  const events = await testing.findSeries(id);
+  if (id !== 2) {
+    assert.ok(events.length > 0);
+  } else {
+    assert.equal(events.length, 2);
+    const [d1, d2] = events;
+    assert.equal(d1.hidden, 0);
+    assert.equal(d1.eventstatus, 'A');
+    assert.equal(d2.eventstatus, 'A');
+  }
+}
+
+async function verifyDataDeleted(id) {
+  const events = await testing.findSeries(id);
+  assert.equal(events.length, 0);
+}
+
+// helper to send a delete request using forms or raw json post
+function requestDelete({id, secret, useForm}) {
+  const path = '/api/delete_event.php';
+  const data = { id, secret };
+  if (!useForm) {
+    return request(app).post(path).send(data);
+  } else {
     return request(app)
-      .post(delete_api)
+      .post(path)
+      .type('form')
       .send({
-        id: 1, // id 1 is hidden null
-        secret: testData.secret,
-      })
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .expect('Api-Version', /^3\./)
-      .then(async (res) => {
-        assert.equal(spy.eventErasures.callCount, 0);
-        spy.resetHistory();
-        const e0 = await CalEvent.getByID(1);
-        assert.equal(e0.review, 'E');
-        assert.ok(!e0.password);
+         json: JSON.stringify(data)
       });
-  });
-});
+  }
+}

@@ -1,5 +1,7 @@
 # Calendar API
 
+Version: 3.64.0
+
 ## General
 
 Base URL:
@@ -32,9 +34,6 @@ URL parameters:
   * last day of range, inclusive
   * `YYYY-MM-DD` format
   * if not provided, current date is used
-* `all`:
-  * for range requests only (no effect when `id` is provided)
-  * if `true`, delisted events are included, with minimal information provided in their event object; useful for clients that cache results and need to reconcile events that have been removed
 
 Unknown parameters are ignored.
 
@@ -592,7 +591,7 @@ Example multipart/form-data request:
 
 Success:
 * status code: `200`
-* response body is the same as when submitting a JSON-only request
+* response body contains { id: string, published: bool, image: optional, new url of published image }
 
 Errors:
 * status code: `400` or `413`
@@ -741,3 +740,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.62.1: (2026-04-30) Updated Node, MySQL, and Nginx to latest stable versions
 * 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
+* 3.64.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "soft-deleted" events are no longer a thing.

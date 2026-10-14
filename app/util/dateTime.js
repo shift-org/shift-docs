@@ -23,8 +23,9 @@ module.exports = {
   toTimestamp,      // out: mysql format
 
   fromYMDString,    // in : "YYYY-MM-DD"
-  from24HourString, // in : "9:10 PM"
-  from12HourString,  // in : "21:10:00"
+  from12HourString, // in : "9:10 PM"
+  from24HourString, // in : "21:10:00"
+  fromTimeString,   // in : prefers 12hr time; fallsback to 24hr time when needed.
 
   combineDateAndTime,
   getNow,
@@ -53,7 +54,7 @@ function friendlyDate(d) {
 // note: dayjs theoretically takes into account daylight savings based on the day and month.
 function icalFormat(d) {
   const t = dayjs(d); // convert or clone as dayjs
- if (!t.isValid()) {
+  if (!t.isValid()) {
     return null;
   } else {
     // tell dayjs that the time was specified using local time.
@@ -66,6 +67,7 @@ function icalFormat(d) {
 
 // format a Date or dayjs in YYYY-MM-DD format ( ex. 2006-01-02 )
 // returns "null" if the passed date is invalid.
+// ( passing undefined -- no parameter -- returns the current date )
 function toYMDString(d) {
   const out = dayjs(d);
   return out.isValid() ? out.format('YYYY-MM-DD') : null;
@@ -114,13 +116,18 @@ function from24HourString(str) {
   return dayjs(str || null, 'HH:mm:ss', false); // not strict parsing, in case seconds are missing.
 }
 
+// browser time pickers don't match the original client format
+// ... attempt to handle them all?
+function fromTimeString(str) {
+  return dayjs(str || null, ['h:mm A', 'HH:mm:ss', 'HH:mm']);
+}
+
 // expects two dayjs objects
 // the second one is inspected for its time only and added to the first.
 function combineDateAndTime(d, t) {
   const out = dayjs(d);
   return out.add(t.hour(), 'h').add(t.minute(), 'm');
 }
-
 
 // https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number
 function daySuffix(i) {
