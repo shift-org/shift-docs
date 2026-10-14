@@ -1,6 +1,8 @@
+const sinon = require('sinon');
 const app = require("../appEndpoints");
 const testData = require("./testData");
 const testdb = require("./testdb");
+const { CalDaily } = require("../models/calDaily");
 //
 const { describe, it, before, after } = require("node:test");
 const assert = require("node:assert/strict");
@@ -88,6 +90,21 @@ describe("retrieving event data for editing", () => {
       })
       .expect(200)
       .expect('Content-Type', /json/);
+  });
+  it("reports a server error when reading the event times fails", async () => {
+    const stub = sinon.stub(CalDaily, 'getStatusesByEventId')
+      .rejects(new Error("database went away"));
+    try {
+      await request(app)
+        .get('/api/retrieve_event.php')
+        .query({
+          id: 2
+        })
+        .timeout(2000)
+        .expect(500);
+    } finally {
+      stub.restore();
+    }
   });
 });
 

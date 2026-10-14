@@ -40,7 +40,7 @@ exports.get = function get(req, res, next) {
           res.textError("Event not found");
         } else {
           const statuses = CalDaily.getStatusesByEventId(evt.id);
-          evt.getDetails(statuses, {includePrivate}).then(details => {
+          return evt.getDetails(statuses, {includePrivate}).then(details => {
             res.set(config.api.header, config.api.version);
             res.json(details);
           });
