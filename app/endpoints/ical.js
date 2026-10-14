@@ -134,7 +134,7 @@ function respondWith(cal, res, filename, events) {
   } else {
     res.setHeader('content-type', `text/calendar`);
     res.setHeader('content-disposition', `attachment; filename=\"${filename}\"`);
-    res.setHeader('cache-control',`'public, max-age=${cal.maxage}`);
+    res.setHeader('cache-control', `public, max-age=${cal.maxage}`);
   }
   // tbd: maybe there's filter or something for nunjucks to add the carriage returns.
   const body = nunjucks.render('ical.njk', {cal, events, timezone: dt.localZone});

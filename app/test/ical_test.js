@@ -43,6 +43,15 @@ describe("ical feed", () => {
       })
       .expect(404);
   });
+  it("sends a well-formed cache-control header", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        id: 2
+      })
+      .expect(200)
+      .expect('cache-control', 'public, max-age=10800');
+  });
   it("errors on an invalid date",  () => {
     return request(app)
       .get('/api/ical.php')
