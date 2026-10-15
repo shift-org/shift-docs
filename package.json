@@ -42,5 +42,10 @@
   },
   "devDependencies": {
     "http-proxy-middleware": "3.0.5"
+  },
+  "overrides": {
+    "hugo-installer": {
+      "semver": "~7.7.0"
+    }
   }
 }

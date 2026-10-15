@@ -33,8 +33,8 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
-        assert.equal(res.body?.pagination?.fullcount, 14);
-        assert.equal(res.body?.events?.length, 14);
+        assert.equal(res.body?.pagination?.fullcount, 16);
+        assert.equal(res.body?.events?.length, 16);
       });
   });
   it("caps large limits", () => {
@@ -50,9 +50,9 @@ describe("searching for events", () => {
       .then(res => {
         // we've been capped to the internal limits
         assert.equal(res.body?.pagination?.limit, EventSearch.Limit);
-        assert.equal(res.body?.pagination?.fullcount, 14);
+        assert.equal(res.body?.pagination?.fullcount, 16);
         assert.equal(res.body?.pagination?.offset, 0);
-        assert.equal(res.body?.events?.length, 14);
+        assert.equal(res.body?.events?.length, 16);
       });
   });
   it("handles narrow limits", () => {
@@ -66,13 +66,13 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
-        assert.equal(res.body?.pagination.fullcount, 14);
+        assert.equal(res.body?.pagination.fullcount, 16);
         assert.equal(res.body?.pagination.offset, 0);
         assert.equal(res.body?.pagination.limit, 2);
         assert.equal(res.body?.events?.length, 2)
         const events = res.body.events;
-        assert.equal(events[0].title, "Losing My Religion");
-        assert.equal(events[1].title, "Nothing's Gonna Stop Us Now");
+        assert.equal(events[0].title, "You Really Got Me");
+        assert.equal(events[1].title, "You Really Got Me");
       });
   });
   it("handles offsets", () => {
@@ -87,13 +87,13 @@ describe("searching for events", () => {
       .expect(200)
       .expect('Content-Type', /json/)
       .then(res => {
-        assert.equal(res.body?.pagination?.fullcount, 14);
+        assert.equal(res.body?.pagination?.fullcount, 16);
         assert.equal(res.body?.pagination?.offset, 2);
         assert.equal(res.body?.pagination?.limit, 2);
         assert.equal(res.body?.events?.length, 2);
         const events = res.body.events;
-        assert.equal(events[0].title, "Dreamlover");
-        assert.equal(events[1].title, "Losing My Religion");
+        assert.equal(events[0].title, "You Really Got Me");
+        assert.equal(events[1].title, "I Got You (I Feel Good)");
       });
   });
 });
