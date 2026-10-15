@@ -6,7 +6,7 @@
   "author": "SHIFT calendar crew",
   "license": "MIT",
   "dependencies": {
-    "@faker-js/faker": "~8.4.1",
+    "@faker-js/faker": "~10.6.0",
     "env-cmd": "~10.1.0",
     "express-http-proxy": "~2.1.1",
     "http-proxy-middleware": "~3.0.5",
