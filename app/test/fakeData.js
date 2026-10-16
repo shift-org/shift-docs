@@ -132,8 +132,8 @@ function makeCalEvent(title) {
   // this would normally be the event id; remove if this is a problem.
   const image = faker.datatype.boolean(0.75) ? null: "bike.jpg";
   // "19:00:00"
-  const eventtime = (6+ faker.number.int(12)) + ":" +
-                (15* faker.number.int(3)) + ":00";
+  const eventtime = String(6+ faker.number.int(12)).padStart(2, "0") + ":" +
+                String(15* faker.number.int(3)).padStart(2, "0") + ":00";
   // in minutes, but sometimes not specified at all
   const eventduration = faker.datatype.boolean(0.25) ? null :
                 (6* faker.number.int(3) * 15);
