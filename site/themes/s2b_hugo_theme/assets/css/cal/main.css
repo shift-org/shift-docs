@@ -504,3 +504,71 @@ summary {
   padding: 1rem;
   text-align: center;
 }
+
+/* calendar map page ( /calmap/ ) */
+.map-days {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.map-title {
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.ride-map {
+  /* contain leaflet's own z-indexes, so the map doesn't draw over the nav menu. */
+  position: relative;
+  isolation: isolate;
+  z-index: 0;
+  height: calc(100dvh - 16rem);
+  min-height: 300px;
+  margin: 0.5em 0 1em;
+}
+
+.map-empty {
+  text-align: center;
+}
+
+.map-pin {
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 3px solid white;
+  background-color: #e86a1c;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  color: white;
+  font-weight: bold;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.map-pin-cancelled {
+  background-color: #888;
+}
+
+.map-dialog {
+  width: min(40rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 4rem);
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}
+
+.map-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.map-dialog-close {
+  float: right;
+  border: none;
+  background: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
