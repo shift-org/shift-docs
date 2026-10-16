@@ -173,7 +173,7 @@ Example response for a range of events, including delisted events:
         "end": "2025-01-01",
         "range": 1,
         "events": 3,
-        "prev": "https://www.shift2bikes.org/api/events.php?startdate=2024-12-31&enddate=2023-12-31",
+        "prev": "https://www.shift2bikes.org/api/events.php?startdate=2024-12-31&enddate=2024-12-31",
         "next": "https://www.shift2bikes.org/api/events.php?startdate=2025-01-02&enddate=2025-01-02"
       }
     }
