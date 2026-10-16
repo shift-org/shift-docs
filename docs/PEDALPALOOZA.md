@@ -8,8 +8,8 @@
 
 approx. January–March
 
-* Change `/site/content/bike-summer-calendar.md` page type from `calfestival` to `pp-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
-* Un-comment the contents of `/site/data/carousel/bike-summer.yaml`. Change the year, and temporarily set the evergreen image (`images/carousel/pedalpalooza-general.png`). Leave it at its current carousel position for now.
+* Change `/site/content/bike-summer-calendar.md` page type from `calfestival` to `festival-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
+* Enable the "early" carousel item (`/site/data/carousel/bike-summer-early.yaml`) by setting `disabled: false`. 
 
 
 ### Ramping up
@@ -17,26 +17,35 @@ approx. January–March
 approx. April–early May
 
 * Change `/site/content/bike-summer-calendar.md` page type back to `calfestival`.
-* Move the Bike Summer carousel to the first position
-* Set the real image in the carousel
-* Set the real image in the `pp-header` banner
-* Set `params.festival.active` to `true` in `hugo.toml`
-* Add promo banner on add/edit form
-* In `site/themes/s2b_hugo_theme/layouts/partials/cal/pp_header.html`, update the `if eq (.Param "year")` statement to include the current year. Also un-hide the "add your rides now" CTA and adjust it for the current year.
+* Set `params.festival.active` to `true` in `hugo.toml`; this will enable most of the conditional content
+* Update `params.festival.banner-image` in `hugo.toml`
+* Disable the "early" carousel item
+* Enable the regular carousel item; update the year and image
+* Uncomment the promo blurb on `/site/content/pages/bike-summer.md`
 
 
 ### Closer to the start
 
 approx. early to mid May
 
-* Add the merch sale snippet (`pp-merch.html`) to the PP header (`pp-header.html`). This typically won't be available until early May, and then needs to be removed once sales close (mid May to early June). Sometimes there is more than round of sales, so an additional update may be needed.
+* Merch sales:
+  * Set `params.festival.merchSaleActive` to `true` once merch sales open up
+  * Describe the merch pre-order deadline in `params.festival.merchSaleInfo`; this typically won't be available until early May
+  * If there any changes to merch sales, like a second round of orders, update `params.festival.merchSaleInfo` again
+  * If needed, update `params.festival.merchSaleURL`
+* Print calendar:
+  * If a print calendar is being prepared, set `params.festival.printCalendarActive` to `true`
+  * Set `params.festival.printCalendarDate` to the print deadline date
+  * If there are multiple print rounds, update the deadline each time
+  * Once the last print deadline passes, set `params.festival.printCalendarActive` back to `false`
 
 
 ## During
 
 June, July, and August
 
-* No regular changes planned
+* Set `params.festival.merchSaleActive` to `false` once merch sales are over
+* No other regular changes planned
 * Monitor calendar crew inbox ([bikecal@shift2bikes.org](mailto:bikecal@shift2bikes.org)) for support requests 
 
 
@@ -45,7 +54,6 @@ June, July, and August
 September or later
 
 * Add the just-finished festival to the Pedalpalooza Archives page; get the total count of published, uncanceled rides
-* Hide Pedalpalooza carousel item
-* Remove promo banner from regular events page and from add/edit form
 * Set `params.festival.active` to `false` in `hugo.toml`
-* Hide the "add your rides now" CTA from `pp_header.html`
+* Disable the carousel item (`/site/data/carousel/bike-summer.yaml`) by setting `disabled: true`
+* Comment out the promo blurb on `/site/content/pages/bike-summer.md`

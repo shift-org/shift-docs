@@ -4,7 +4,9 @@
  *
  * This endpoint supports two different queries:
  *   q=search_term (  )
- *   &qold=true ( search old events rather than ones going forward )
+ *   all=true ( search old events rather than only future events )
+ *   l=number of events to return
+ *   o=the index of the first result to return within all matching results
  *
  * For example:
  *   http://localhost:3080/api/search.php?q=prince
@@ -13,6 +15,7 @@
  * In both cases it returns a list of events as a JSON object:
  *  {
  *    events: [ {...},  ... ]
+ *    pagination: { offset, limit, fullcount }
  *  }
  *
  * If there is a problem the error code will be 400 ( perhaps 404? ) with a json response of the form:
@@ -20,8 +23,6 @@
  *      "error": { "message": "Rides with 'term' not found." }
  *  }
  *
- * See also:
- *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
  *  # TODO add block for search
  */
 const dayjs = require("dayjs");
@@ -29,37 +30,47 @@ const config = require("../config");
 const { CalDaily } = require("../models/calDaily");
 const { EventSearch } = require("../models/calConst");
 const { getSummaries } = require("./events.js");
+const validator = require('validator');
 
 // the search endpoint:
 exports.get = function(req, res, next) {
   const term = (req.query.q || "").trim();   // ?q=term   The search term
-  const offset = parseInt(req.query.o, 10) || 0;  // &o=25
-  const limit = parseInt(req.query.l, 10) || EventSearch.Limit; // &l=50
+  const offset = readInt(req.query.o);  // &o=25
+  const limit = readLimit(req.query.l);  // &l=50
   const searchOldEvents = (req.query.all === "true") || (req.query.all === "1");  // &all=1|true  Option to search historically (TBD)
 
-  if (term) {
+  if (!term) {
+    res.textError("missing search term");
+  } else {
     // Search for the given search term, starting from today
     const startDate = dayjs().startOf('day');
     return CalDaily.getEventsBySearch(startDate, term, limit, offset, searchOldEvents).then((dailies) => {
         return getSummaries(dailies).then((events) => {
-          // fullcount appears in every
+          // fullcount appears in every returned row; the same in every row.
           const fullcount = events.length ? events[0].fullcount : 0;
-          const pagination = getPaginationSearch(fullcount, limit, offset);
+          res.set(config.api.header, config.api.version);
           res.json({
             events,
-            pagination,
+            pagination: { 
+                offset, limit, fullcount 
+            }
           });
         });
       }).catch(next);
-  } else {
-    res.textError("getEventsBySearch: no such time");
   }
 }
 
-function getPaginationSearch(count, limit, offset) {
-  return {
-    offset: offset,
-    limit: limit,
-    fullcount: count,
-  };
+// treats non numbers as 0
+// could use {gt: 1, lt: 4}  to ensure ranges
+function readInt(i) {
+  // validator uses strings. if 'i' is undefined, pass the validator a blank string.
+  return !validator.isInt(i || "") ? 0 : validator.toInt(i);
+}
+
+// read the limit query parameter
+function readLimit(i) {
+  // try to read the int, and if its zero fallback to our default
+  const want = readInt(i) || EventSearch.Limit;
+  // don't allow more than our default
+  return Math.min(want, EventSearch.Limit);
 }

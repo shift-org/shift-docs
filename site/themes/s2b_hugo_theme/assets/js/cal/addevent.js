@@ -134,10 +134,10 @@
         }
         shiftEvent.areaOptions = populateMenuOptions(AREA, shiftEvent.area);
 
-        if (!shiftEvent.length) {
-            shiftEvent.length = DEFAULT_LENGTH;
+        if (!shiftEvent.ridelength) {
+            shiftEvent.ridelength = DEFAULT_RIDE_LENGTH;
         }
-        shiftEvent.lengthOptions = populateMenuOptions(LENGTH, shiftEvent.length);
+        shiftEvent.rideLengthOptions = populateMenuOptions(RIDE_LENGTH, shiftEvent.ridelength);
 
         template = $('#mustache-edit').html();
         rendered = Mustache.render(template, shiftEvent);
@@ -178,7 +178,9 @@
         $('.save-button, .publish-button').click(function() {
             let postVars,
                 isNew = !shiftEvent.id;
-            $('.form-group').removeClass('has-error');
+            // must match the containers used when errors are applied below;
+            // the terms checkboxes live in '.checkbox', not '.form-group'.
+            $('.form-group, .checkbox').removeClass('has-error');
             $('[aria-invalid="true"]').attr('aria-invalid', false);
             $('.help-block').remove();
             $('.save-result').removeClass('text-danger').text('');
@@ -235,7 +237,7 @@
                       err = returnVal.responseJSON.error;
                     } else if (returnVal.status === 413) {
                       // 413 - "Request Entity Too Large" gets sent by nginx above its client_max_body_size;
-                      // so the error message sent by flourish.
+                      // nginx (not the backend) sends it, so we construct the error message here.
                       err = {
                         message: 'There were errors in your fields',
                         fields: {
@@ -345,6 +347,9 @@
         });
 
         previewEvent['audienceLabel'] = $form.getAudienceLabel(previewEvent['audience']);
+        // the listing template keys the area block off areaLabel, not area;
+        // without this the preview silently drops it. ( cf main.js, viewEvents )
+        previewEvent['areaLabel'] = $form.getAreaLabel(previewEvent['area']);
         previewEvent['length'] += ' miles';
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
         previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);

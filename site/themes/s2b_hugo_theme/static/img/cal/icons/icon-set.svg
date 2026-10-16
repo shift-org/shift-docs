@@ -69,4 +69,10 @@
     <!-- Map by widphic from <a href="https://thenounproject.com/browse/icons/term/map/" target="_blank" title="Map Icons">Noun Project</a> (CC BY 3.0) -->
   </symbol>
 
+  <symbol id="icon-ridelength" viewBox="0 0 80 80">
+    <path d="M73.4142 26.4142C74.1953 25.6332 74.1953 24.3668 73.4142 23.5858L60.6863 10.8579C59.9052 10.0768 58.6389 10.0768 57.8579 10.8579C57.0768 11.6389 57.0768 12.9052 57.8579 13.6863L69.1716 25L57.8579 36.3137C57.0768 37.0948 57.0768 38.3611 57.8579 39.1421C58.6389 39.9232 59.9052 39.9232 60.6863 39.1421L73.4142 26.4142ZM8 25V27H72V25V23H8V25Z" fill="black"/>
+    <line x1="8" y1="51" x2="72" y2="51" stroke="black" stroke-width="8" stroke-dasharray="4 4"/>
+    <line x1="8" y1="59" x2="72" y2="59" stroke="black" stroke-width="8" stroke-dasharray="4 12"/>
+  </symbol>
+
 </svg>

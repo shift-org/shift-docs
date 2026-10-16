@@ -5,8 +5,8 @@ const path = require("path");
 const fs = require('fs').promises;
 const config = require("shift-docs/config");
 
+const dstDir = config.image.dir;
 const srcDir = path.resolve(config.appPath, 'eventimages');
-const dstDir = path.resolve(config.appPath, config.image.dir);
 const imageFile = "bike.jpg"; // lives in the repo
 
 async function setupEventImages() {

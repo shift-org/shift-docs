@@ -6,7 +6,9 @@
   </div>
   <button type="button" aria-expanded="true" class="expand-details" data-toggle-target="#pp-description">
     <svg class="icon expand" role="img" aria-hidden="true">
-      <use href="#icon-arrow-down" />
+      <!-- TODO: temporarily using dupe file in `images` dir; should be `img` -->
+      <!-- <use href="{{ absURL "img/cal/icons/icon-set.svg#icon-arrow-down" }}" /> -->
+      <use href="{{ absURL "images/cal/icons/icon-set.svg#icon-arrow-down" }}" />
     </svg>
     <span>About {{ .Param "festival.name" }}</span>
   </button>

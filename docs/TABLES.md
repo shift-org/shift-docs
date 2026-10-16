@@ -45,7 +45,7 @@ See also:
   - **tinytitle** string 
 
     event string used for the printed calendar.
-    if not specified, manage_event.php slices the first 24 characters of the long title.
+    if not specified, the manage_event endpoint slices the first 24 characters of the long title.
 
   - **audience** char
 
@@ -59,13 +59,11 @@ See also:
 
   - **image** string
 
-    server location is configured via config.php:
-      $IMAGEDIR = "/opt/backend/eventimages";
-      $IMAGEURL = "/eventimages";
-    
-    mange_event.php accepts gif, jpeg, pjpeg, png, up to 2 megs.
-    https://flourishlib.com/docs/fValidation.html
-    https://flourishlib.com/docs/fUpload.html
+    the storage location and url path are configured in `app/config.js`
+    ( `config.image.dir` and `config.image.path` ).
+
+    the `manage_event` endpoint accepts gif, jpeg, pjpeg, png images,
+    up to `config.image.maxFileSize`.
 
   - **tinytitle** string
   

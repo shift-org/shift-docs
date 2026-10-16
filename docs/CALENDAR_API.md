@@ -8,7 +8,6 @@ Base URL:
 
 Most responses are in JSON format, except for:
 * event export returns vCalendar format
-* event crawl returns HTML
 
 ## Viewing events
 
@@ -45,7 +44,8 @@ Success:
 * status code: `200`
 * `events`: array of event objects; array may be empty
 * each event object: key-value pairs of all available public fields; does not contain any private fields (use `manage_event` endpoint for those)
-* when using `id` parameter, array is expected to return 1 object; if the ID does not match a known event, you will receive a `200` response with an empty `events` array
+* when using `id` parameter, array returns 1 object; if the ID does not match a visible event, you will receive a `404` (see Errors, below)
+* for a range request, an empty `events` array is a normal `200` result: it means nothing is scheduled in that range
 
 Example response for a single event:
 
@@ -83,6 +83,7 @@ Example response for a single event:
           "date": "2017-06-05",
           "caldaily_id": "9300",
           "shareable": "https://shift2bikes.org/calendar/event-9300",
+          "exportable": "https://shift2bikes.org/api/ics.php?event_id=9300",
           "cancelled": false,
           "newsflash": null,
           "status": "A",
@@ -178,10 +179,11 @@ Example response for a range of events, including delisted events:
     }
 
 Errors:
-* status code: `400`
+* status code: `400`, or `404` when an `id` doesn't match a visible event
 * `error`: object containing `message` key
 * `message`: text string explaining the error
 * possible errors
+  * `id` not found (`404`); this also covers events that are unpublished or deleted
   * `enddate` before `startdate`
   * date range too large (100 days maximum)
 
@@ -203,19 +205,135 @@ Some best practices for handling images:
 * Caching is encouraged. The image file has change number after the event ID, e.g. `/eventimages/6245-3.jpg`. This number is incremented only when the image has changed. If the change number is the same, you can safely use a cached image.
 
 
+### Counting events
+
+Endpoint:
+* GET `ride_count`
+
+Example request:
+* `/ride_count.php?s=2025-06-01&e=2025-08-31`
+
+URL parameters:
+* `s`:
+  * start date of range, inclusive
+  * `YYYY-MM-DD` format; required
+* `e`:
+  * end date of range, inclusive
+  * `YYYY-MM-DD` format; required
+
+Unknown parameters are ignored.
+
+Cancelled, delisted, and hidden events are excluded from all counts. `past` and `upcoming` are relative to the current date at the time of the request.
+
+Success:
+* status code: `200`
+* `total`: total number of non-cancelled events in the given date range
+* `past`: number of those events whose date is before today
+* `upcoming`: number of those events whose date is today or later
+
+Example response:
+
+    {
+      "total": 123,
+      "past": 80,
+      "upcoming": 43
+    }
+
+Errors:
+* status code: `400`
+* possible errors
+  * `s` or `e` missing or not a valid date
+
+Example error:
+
+    {
+      "error": {
+        "message": "start date was Invalid Date and end date was Invalid Date."
+      }
+    }
+
+> **Note:** This endpoint is experimental. Its syntax and behavior may not be stable yet.
+
+
+### Searching events
+
+Endpoint:
+* GET `search`
+
+Example requests:
+* `/search.php?q=night+ride`
+* `/search.php?q=night+ride&o=25`
+* `/search.php?q=night+ride&all=true`
+
+URL parameters:
+* `q`:
+  * search term (required)
+  * matches against ride name and ride leader
+* `o`:
+  * offset — index of the first result to return within all matching results
+  * integer; default `0`
+* `l`:
+  * limit — maximum number of results to return
+  * integer; default and maximum `25`
+* `all`:
+  * if `true` or `1`, searches past events in descending order; otherwise searches today and future events in ascending order
+
+Unknown parameters are ignored.
+
+Success:
+* status code: `200`
+* `events`: array of event objects in the same format as the `events` endpoint; array may be empty
+* `pagination`: object with offset/limit/fullcount for fetching additional pages
+
+Example response:
+
+    {
+      "events": [
+        {
+          "id": "1234",
+          ...
+        }
+      ],
+      "pagination": {
+        "offset": 0,
+        "limit": 25,
+        "fullcount": 42
+      }
+    }
+
+Errors:
+* status code: `400`
+* possible errors
+  * missing `q` parameter
+
+Example error:
+
+    {
+      "error": {
+        "message": "missing search term"
+      }
+    }
+
+
 ### Exporting an event
 
 Endpoint:
 * GET `ics`
 
 Example request:
-* `/ics.php?id=1234`
+* `/ics.php?event_id=9300`
+* `/ics.php?series_id=6245`
 * `/ics.php?startdate=2019-06-01&enddate=2019-06-15`
 
 URL parameters:
+* `event_id`:
+  * `caldaily` ID (single occurrence)
+  * if `event_id` is provided it takes precedence; all other params will be ignored
+* `series_id`:
+  * `calevent` ID (all events in a series)
 * `id`:
-  * `calevent` event ID
-  * if `id` is provided it takes precedence; all other params will be ignored
+  * alias for `series_id`
+  * deprecated; clients should use `event_id` or `series_id` for clarity
 * `startdate`:
   * first day of range, inclusive
   * `YYYY-MM-DD` format
@@ -230,67 +348,52 @@ URL parameters:
 * `filename`:
   * if `none`, the output is plain text instead of an ICS file; useful for local debugging
 
-If no parameters are provided, it responds with a range from 1 month prior to 3 months forward from the current date.
+If multiple ID/range parameters are provided, they take precedence with decreasing specificity: `event_id`, `series_id`, `startdate`/`enddate`.
+
+If no parameters are provided, it responds with a range from 1 month prior to 6 months forward from the current date.
 
 Unknown parameters are ignored.
+
+Example response for a single event:
+
+    BEGIN:VCALENDAR
+    VERSION:2.0
+    PRODID:-//shift2bikes.org//NONSGML shiftcal v2.1//EN
+    METHOD:PUBLISH
+    X-WR-CALNAME:Shift Community Calendar
+    X-WR-CALDESC:Find fun bike events all year round.
+    X-WR-RELCALID:community@shift2bikes.org
+    BEGIN:VEVENT
+    UID:event-9300@shift2bikes.org
+    SUMMARY:Shift to Pedalpalooza Ride
+    CONTACT:fool
+    DESCRIPTION:Have you ever wondered how Pedalpalooza happens every 
+     year...and did you know we have a team of programmers who work on the 
+     shift calendar and website.  There is a lot of rewarding volunteer work 
+     that goes on behind the scenes and we are recruiting for new folks who are
+      interested in helping out next year and beyond.  Come on this ride and we
+      will talk a little bit about the history of shift and try to find you a 
+     place to help out in the future.  We will end at a family friendly 
+     watering hole.  First round of drinks is on shift.  We will be done by 8 
+     so you can check out other rides.\nhttps://shift2bikes.org/calendar/event-
+     9300
+    LOCATION:director park\n877 SW park
+    STATUS:CONFIRMED
+    DTSTART:20170606T010000Z
+    DTEND:20170606T030000Z
+    CREATED:20230512T085747Z
+    DTSTAMP:20170512T050134Z
+    SEQUENCE:1
+    URL:https://shift2bikes.org/calendar/event-9300
+    END:VEVENT
+    END:VCALENDAR
 
 Errors:
 * status code: `400`, `404`
 * possible errors
-  * `id` not found
+  * `event_id` or `series_id` not found
   * `enddate` before `startdate`
   * date range too large (100 days maximum)
-
-
-### Crawling an event
-
-Endpoint:
-* GET `crawl`
-
-Example request:
-* `/crawl.php?id=1234`
-
-URL parameters:
-* `id`: `caldaily` event ID
-
-Unknown parameters are ignored.
-
-This endpoint is used by web crawlers such as search engines.
-
-Success:
-* status code: `200`
-* returns a simple HTML rendering of ride data
-* if `id` parameter is not present, a short, general message about Shift
-
-
-Example response:
-
-    <html>
-        <head>
-            <title>Shift to Pedalpalooza Ride</title>
-            <meta property="og:title" content="Shift to Pedalpalooza Ride">
-            <meta property="og:url" content="https://www.shift2bikes.org/calendar/event-9300">
-            <meta property="og:image" content="https://www.shift2bikes.org/eventimages/6245.jpg">
-            <meta property="og:type" content="article">
-            <meta property="og:description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
-            <meta property="og:site_name" content="SHIFT to Bikes">
-            <meta name="description" content="Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.">
-            <meta name="keywords" content="bikes,fun,friends,Portland,exercise,community,social,events,outdoors">
-        </head>
-        <body>
-            <h2>Mon, Jun 5th, 6:00 PM - Shift to Pedalpalooza Ride</h2>
-            <p>Have you ever wondered how Pedalpalooza happens every year...and did you know we have a team of programmers who work on the shift calendar and website.  There is a lot of rewarding volunteer work that goes on behind the scenes and we are recruiting for new folks who are interested in helping out next year and beyond.  Come on this ride and we will talk a little bit about the history of shift and try to find you a place to help out in the future.  We will end at a family friendly watering hole.  First round of drinks is on shift.  We will be done by 8 so you can check out other rides.</p>
-            <p>877 SW park</p>
-            <img src="https://www.shift2bikes.org/eventimages/6245.jpg">
-        </body>
-    </html>
-
-Errors:
-* status code: `404`
-* body of response is empty
-* possible errors
-  * `id` not found
-  * `id` of a hidden (unpublished) event
 
 
 ## Managing events
@@ -620,3 +723,24 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.56.2: (2025-03-24) Updated dependencies: Node.js (patch) plus 1 of its dependencies
 * 3.56.3: (2025-04-07) Updated dependencies: MySQL (patch)
 * 3.57.0: (2025-06-23) Altered weburl field to allow 512 characters (up from 255)
+* 3.58.0: (2025-08-11) Added experimental `ride_count` endpoint: provides the number of events in a given time frame, excluding cancelled events. Syntax & usage may not be stable yet.
+* 3.58.1: (2025-09-15) Updated dependencies: nginx
+* 3.59.0: (2025-09-23) Fixed issue with ride length field; now saves, retrieves, and displays correctly
+* 3.59.1: (2025-09-29) Updated MySQL patch version
+* 3.59.2: (2025-10-20) Fixed some backend tests
+* 3.59.3: (2025-11-03) Adjusted search results order when searching past events
+* 3.59.4: (2025-11-17) When mapping an event location, "TBA"/"TBD" addresses are now handled more robustly. Search endpoint now looks at either A) today and future, sort order ascending (default), or B) past only, sort order descending.
+* 3.59.5: (2025-11-24) Updated dependencies: http-proxy-middleware
+* 3.59.6: (2025-12-01) Updated dependencies: Vite
+* 3.59.7: (2025-12-08) Updated dependencies: express, validator, multer
+* 3.59.8: (2025-12-12) Remove now-unneeded version from Docker compose file
+* 3.59.9: (2025-12-22) Updated dependencies: nodemailer
+* 3.59.10: (2026-01-15) Changed dependency management to only allow patch updates; updated dependencies: MySQL. Also removed unused example data.
+* 3.60.0: (2026-02-19) ICS export now supports either single occurrence (`event_id`; new default) or the series (`series_id`; previous default). The existing `id` parameter aliases to `series_id` for backwards compatibility, but clients are encouraged to specify the ID type explicitly. Also updated Node to v24.x (latest LTS).
+* 3.61.0: (2026-03-19) Added `exportable` parameter to event object for ICS export URL
+* 3.61.1: (2026-04-09) Added API usage documentation
+* 3.62.0: (2026-04-22) Added more details to the email sent when posting a ride: date/s, location, time
+* 3.62.1: (2026-04-30) Updated Node, MySQL, and Nginx to latest stable versions
+* 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
+* 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
+* 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.

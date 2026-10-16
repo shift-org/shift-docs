@@ -16,7 +16,8 @@
  *    events: [ {...},  ... ]
  *  }
  *
- * If there is a problem the error code will be 400 with a json response of the form:
+ * If there is a problem the error code will be 400 -- or 404 when an id
+ * doesn't match a visible event -- with a json response of the form:
  *  {
  *      "error": { "message": "Error message" }
  *  }
@@ -42,7 +43,9 @@ exports.get = function(req, res, next) {
     // return the summary of a particular daily event:
     return CalDaily.getByDailyID(id).then((daily) => {
       if (!daily) {
-        res.textError("no such time");
+        // the id didn't match a visible event: not found, rather than a bad request.
+        // ( getByDailyID() also returns null for hidden and delisted events. )
+        res.textError("no such time", 404);
       } else  {
         return getSummaries([daily]).then((events) => {
           res.set(config.api.header, config.api.version);
@@ -103,13 +106,11 @@ function getSummaries(dailies) {
 }
 exports.getSummaries = getSummaries;
 
-// the php version had each daily query for its event
-// and then tacked the end time to the end of the daily json
-// relying on flourish to ( presumably ) filter out the redundant event queries.
-// this pools the events to avoid multiple queries:
-// so to keep the endtime after each daily, we have to tack it on manually.
+// pool the events so each daily doesn't separately query for its (shared) event.
+// the end time lives on the event, but needs to appear after each daily's json,
+// so it's tacked on manually below.
 function specialSummary(evt) {
-  // an invalid duration generates a null here; just like the php.
+  // an invalid duration generates a null here.
   const endTime = to24HourString(evt.getEndTime());
   return [ evt.getJSON(), endTime ];
 }

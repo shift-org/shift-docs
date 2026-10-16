@@ -42,6 +42,13 @@ const Review = Object.freeze({
   Revised   : 'R',
 });
 
+const RideLength = Object.freeze({
+    '0-3'  : '0-3 miles',
+    '3-8'  : '3-8 miles',
+    '8-15' : '8-15 miles',
+    '15+'  : '15+ miles',
+});
+
 const EventsRange = Object.freeze({
   MaxDays : 100,
 });
@@ -51,4 +58,4 @@ const EventSearch = Object.freeze({
 });
 
 //
-module.exports = { Area, Audience, DatesType, EventStatus, Review, EventsRange, EventSearch};
+module.exports = { Area, Audience, DatesType, EventStatus, Review, RideLength, EventsRange, EventSearch};

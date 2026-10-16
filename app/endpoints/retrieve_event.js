@@ -9,7 +9,7 @@
  *
  * On success, returns a json summary of event.
  * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" with a json error response ( see errors.php )
+ * returns http 400 "Bad Request" with a json error response ( see util/errors.js )
  *
  *  See also:
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data

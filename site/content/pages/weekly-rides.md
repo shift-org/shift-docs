@@ -15,21 +15,25 @@ This is just a sample — there are also plenty of one-off or less-frequent ride
 
 ### Mellow Mondays
 * Every Monday
-* Starting location: Irving Park
+* Starting location: Abernethy School
 
 Casual ride series on Mondays to chill with friends and welcome new people to the community. Gift sharing is optional; small gifts such as snacks or stickers are a way to come together and get to know each other. Organized by Moorland Moss, with guest ride leaders on the regular.
 
 More info: [@NakedHearts:PDX on Instagram](https://instagram.com/nakedhearts.pdx/)
 
+[Search for upcoming Mellow Monday rides](https://www.shift2bikes.org/calendar/?q=Mellow%20Mondays)
+
 ## Tuesday
 
 ### Foster Night Ride
 * Every other Tuesday <!-- (opposite Twosday Road Rascals) -->
-* Starting location: Portland Mercado
+* Starting location: Foster Food Carts (SE Foster Rd & SE 52nd Ave)
 
 Eat, drink, and bike on a bike adventure in the Foster-Powell neighborhood & beyond.
 
 More info: [@FosterNightRidePDX on Instagram](https://www.instagram.com/fosternightridepdx/), [Foster Night Ride on Facebook](https://www.facebook.com/foponr/)
+
+[Search for upcoming Foster Night Rides](https://www.shift2bikes.org/calendar/?q=Foster%20Night%20Ride)
 
 <!--
 ### Twosday Road Rascals (TRR)
@@ -51,34 +55,44 @@ Explore Beaverton and other westside locations by bike. If you're coming from Po
 
 More info: [@WestsideWednesdayRide on Instagram](https://www.instagram.com/westsidewednesdayride/)
 
-### Bike Happy Hour
+[Search for upcoming Westside Wednesday rides](https://www.shift2bikes.org/calendar/?q=Westside%20Wednesday)
+
+### Bike Social Hour
 * Every Wednesday
-* Starting location: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road)
+* Starting location: 
+  * in summer: Gorges Beer Co., SE Ankeny St between 27th & 28th Ave (aka Ankeny Rainbow Road) 
+  * in winter: Migration Brewing, N Williams Ave (between N Failing St & N Shaver St)
 
-Not a ride itself, but a great place to hang out with other bike-y folks. Come by 3pm to 6pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Name tags are encouraged as well; see Jonathan Maus or another Happy Hour Ambassador if you need one. Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun!
+Not a ride itself, but a great place to hang out with other bike-y folks. Come by 4pm to 7pm (-ish) and enjoy community, food, and drinks. The only rules are to be nice and to keep your socializing circles open to new people! Rides sometimes use this happy hour as a starting location, so check the calendar each Wednesday for related bike fun! Started and sustained by Jonathan Maus of BikePortland under the moniker Bike Happy Hour, now hosted by BikeLoud PDX as Bike Social Hour. Look too for other similar bike happy hour events scattered around the metro area on different days by different hosts!
 
-More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikehappyhour)
+More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikehappyhour), [BikeLoud PDX](https://bikeloudpdx.org/)
+
+[Search for upcoming bike happy hours](https://www.shift2bikes.org/calendar/?q=bike%20happy%20hour)
 
 
 ## Thursday
 
-### Ride Safe PDX
-* Every Thursday
-* Starting location: Colonel Summers Park
-
-A weekly ride led by Ride Safe PDX, a group aiming to make Portland rides safer from harassment. Theme, route, and playlist will change weekly, but every ride will have a store stop, safe people to help with any issues, and clear expectations of consent and respect. Every Thursday ride will be a loop (ends where it started). Free Biketown codes available; contact the leaders for details.
-
-More info: [@RideSafePDX on Instagram](https://www.instagram.com/ridesafepdx/)
-
-<!--
 ### Thursday Night Ride (TNR)
 * Every Thursday
 * Starting location: Salmon Street Fountain
 
-Thursday Night Ride (TNR) is a year-round weekly social bike ride. Route varies between 10-17 miles, all through the city of Portland, at a social pace.
+Thursday Night Ride (TNR) is Portland's longest-running weekly social ride, riding every Thursday night since 2015!
 
-More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrbanBike)
--->
+Routes and ride leaders change weekly, but expect an energetic party-paced "rolling dive bar" of a ride for newcomers and regulars alike. Most rides will feature park and store stops, but come prepared to have fun and celebrate cycling together — other wheeled guests should respect the pace and space of cyclists.
+
+More info: [ThursdayNightRide.com](https://thursdaynightride.com/)
+
+[Search for upcoming Thursday Night Rides](https://www.shift2bikes.org/calendar/?q=Thursday%20Night%20Ride)
+
+### NoPo Night Ride
+* Every Thursday
+* Starting location: Columbia Park, 7701 N Chautauqua Blvd (meet in front of the pool)
+
+Starts at and returns to Columbia Park, join for an hour-ish ramble through North Portland and beyond. Expect roughly 10 miles at a conversation-friendly pace (~10 mph) and a brief rest stop along the way. Check the calendar for the occasional pre-ride social, usually on the last Thursday of the month!
+
+More info: [email NoPo Night Ride](mailto:noponightriders@gmail.com)
+
+[Search for upcoming NoPo Night Rides](https://www.shift2bikes.org/calendar/?q=NoPo%20Night%20Ride)
 
 ## Friday
 
@@ -88,6 +102,8 @@ More info: [@PortlandUrbanBike on Facebook](https://www.facebook.com/PortlandUrb
 
 Friday night ride that cruises around town to different spots. May link up with other rides, especially during the summer; 2nd Fridays meet up with Midnight Mystery Ride. Every first Friday is bottle share night (any type of drink), and the occasional fifth Friday is Bike Club Vest's ride.
 
+[Search for upcoming Friday Night Rides](https://www.shift2bikes.org/calendar/?q=Friday%20Night%20Ride)
+
 ### Midnight Mystery Ride (MMR)
 * 2nd Friday every month
 * Starting location: varies, check the [calendar](https://www.shift2bikes.org/calendar/)
@@ -96,17 +112,21 @@ The ride start location is kept secret until the day of the event. Meet up aroun
 
 More info: [Midnight Mystery Ride blog](https://midnightmysteryride.wordpress.com/), [Midnight Mystery Ride on Shift](https://www.shift2bikes.org/pages/mmr/)
 
+[Search for upcoming Midnight Mystery Rides](https://www.shift2bikes.org/calendar/?q=%20Team%20Midnight)
+
 ## Saturday
 
 ### PDX Market Rides
 * Every Saturday
 * Starting location: multiple in Southeast (SE Clinton St & 41st Ave; SE Clinton St & 26 Ave; east end of Tilikum Bridge, at PDX Opera)
 
-An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/), started and sustained by [Hami Ramani](https://instagram.com/hamiramani) and now led by community members like [Chris Smith](https://bsky.app/profile/chrissmithus.bsky.social) and others. This ride helps support local farmers, bakers, and makers of all kinds and builds community in a relaxed, informal setting.
+An all-ages/all-abilities ride from Southeast Portland to the [PSU Farmers' Market](https://www.portlandfarmersmarket.org/our-markets/psu/), started and sustained by [Hami Ramani](https://instagram.com/hamiramani) and now led by community members like [Chris Smith](https://bsky.app/profile/chrissmith.us) and others. This ride helps support local farmers, bakers, and makers of all kinds and builds community in a relaxed, informal setting.
 
 Once a month, there's also a similar ride from Northwest Portland (meeting at NW Raleigh St & 26th Ave and then NW Pettygrove St & 13th Ave), led by [Strong Towns PDX](https://www.strongtownspdx.org/). Check the [calendar](https://www.shift2bikes.org/calendar/) for details! Also, follow the #PDXMarketRides hashtag across social media for other rides in the same spirit to different markets on different days.
 
 More info: #PDXMarketRides
+
+[Search for upcoming PSU Farmers Market rides](https://www.shift2bikes.org/calendar/?q=PSU%20farmers%20market%20ride)
 
 ### Dead Baby Bike Club Monthly Ride
 * 1st Saturday every month
@@ -115,6 +135,16 @@ More info: #PDXMarketRides
 Meet up around 7:30pm and ride at 9:00pm. Route under 9-miles with refreshment stops midway. All are welcome, freak bikes encouraged. 
 
 More info: [Dead Baby Bikes Portland on Facebook](https://www.facebook.com/groups/426657747988717/events/), [@DeadBabyBikes_PDX on Instagram](https://www.instagram.com/deadbabybikes_pdx/)
+
+[Search for upcoming Dead Baby Bike Club rides](https://www.shift2bikes.org/calendar/?q=dead%20baby)
+
+### Bike Milwaukie Monthly Ride
+* 3rd Saturday every month; day sometimes varies, check the [calendar](https://www.shift2bikes.org/calendar/)
+* Starting location: varies, check the calendar
+
+Bike Milwaukie rides are easy paced with no drops and great for cyclists of all ages, starting in or riding around Portland's southern neighbor! If a monthly ride is more challenging, the ride listing will say so.
+
+[Search for upcoming Bike Milwaukie rides](https://www.shift2bikes.org/calendar/?q=Bike%20Milwaukie)
 
 ## Sunday
 
@@ -126,6 +156,8 @@ Second Sunday Funday ride every month — each month is led by a different Corvi
 
 More info: [@CorvidaeBC on Instagram](https://www.instagram.com/corvidaebc/), [@CorvidaeBC on Facebook](https://www.facebook.com/corvidaeBC/)
 
+[Search for upcoming Corvidae BC rides](https://www.shift2bikes.org/calendar/?q=Corvidae%20BC)
+
 ### Overlook Ride
 * 2nd Sunday every month
 * Starting location: Stacks Coffeehouse (N Killingsworth St & N Campbell Ave)
@@ -134,7 +166,9 @@ Meet at Stacks Coffeehouse for coffee and conversation, then ride; loops back to
 
 Led by the transportation chair for the Overlook Neighborhood Association; feedback and ideas from folks about transportation-related issues are welcome!
 
-More info: [Overlook Neighborhood Association](https://overlookneighborhood.org/)
+More info: [OverlookNeighborhood.org](https://overlookneighborhood.org/)
+
+[Search for upcoming Overlook Rides](https://www.shift2bikes.org/calendar/?q=Overlook%20Bike%20Ride)
 
 ### Zoo Bomb
 * Every Sunday
@@ -144,6 +178,8 @@ Hop on the MAX train at Providence Park Station (either Red or Blue line, $2.50 
 
 More info: [@ZooBomb on Facebook](https://www.facebook.com/groups/2232941380)
 
+[Search for upcoming ZooBombs](https://www.shift2bikes.org/calendar/?q=zoobomb)
+
 ### Portland Bike Polo
 * Every Sunday
 * Starting location: Alberta Park, NE 20th Ave & NE Killingsworth St
@@ -151,3 +187,5 @@ More info: [@ZooBomb on Facebook](https://www.facebook.com/groups/2232941380)
 Hardcourt Bike Polo is a fast-paced, gender-inclusive team sport played on a hard, smooth, enclosed court. Three players per team ride bicycles and use mallets to hit a small ball into the opposing team's goal while avoiding physical contact with the ground. New players are welcome; loaner bikes & equipment available.
 
 More info: [@PortlandBikePolo on Instagram](http://instagram.com/portlandbikepolo)
+
+[Search for upcoming bike polo events](https://www.shift2bikes.org/calendar/?q=bike%20polo)

@@ -5,12 +5,12 @@ keywords: ["pedalpalooza", "bike summer"]
 id: pedalpalooza-calendar
 type: calfestival
 pp: true
-year: 2025
-startdate: 2025-06-01
-enddate: 2025-08-31
-daterange: June 1–August 31, 2025
-banner-image: "/images/pp/pp2025-banner.png"
-poster-image: "/images/pp/pp2025.png"
+year: 2026
+startdate: 2026-06-01
+enddate: 2026-08-31
+daterange: June 1–August 31, 2026
+banner-image: "/images/pp/pp2026-banner.jpg"
+poster-image: "/images/pp/pp2026.webp"
 
 ---
 {{< generateFestivalHeader >}}
