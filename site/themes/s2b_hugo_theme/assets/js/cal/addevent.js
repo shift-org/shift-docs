@@ -227,6 +227,9 @@
                         $('#submit-email').text(postVars.email);
                         $('#submit-modal').modal('show');
                     }
+                    // the input keeps its file after saving; clearing it stops the
+                    // next save re-uploading and re-versioning the image. re: #542
+                    $('#image').val('');
                     shiftEvent.id = returnVal.id;
                 },
                 error: function(returnVal) {
