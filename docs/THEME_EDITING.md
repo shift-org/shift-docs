@@ -1,28 +1,43 @@
 # Understanding the site
 
-The site is built with [Hugo](https://gohugo.io/) with the ([Universal](https://themes.gohugo.io/hugo-universal-theme/) theme. All of the edits related to the theme and its content are done in **shift-docs/site**. see `site/README` for more info.
+The site is built with [Hugo](https://gohugo.io/), using a theme that started out as a port of the [Universal](https://themes.gohugo.io/hugo-universal-theme/) theme. All of the edits related to the theme and its content are done in **shift-docs/site**. see `site/README` for more info.
 
 #### Definition of terms used in this document
 1. navbar items
 2. children of navbar items
-3. External link icon (icon name: external-link-alt_Font)
+3. External link icon (no longer used; the menu has no off-site links right now)
 4. home logo
 
 ![annotated screenshot of homepage showing 4 items above](./images/THEME_editing_terms.png)
 
 ## Navbar items & children
-The navbar items (dropdown) are defined in shift-docs/site/config.toml. On 01/03/19 they are: Calendar, Featured Events, Community and About.
-- All four dropdowns have children, some that link to on-site pages and some leading to off-site pages (marked by an external link icon before their name).
-- The navbar items (dropdown) start with: **[[menu.main]]**
-- The double square brackets are TO BE VERIFIED. 
-- A name is given to the item below the **[[menu.main]]** and a weight (order in which it will show up). 
-	 
-### Children of navbar items (dropdowns)
-They start with a comment **#Child of calendar** for clarity. After the comment, we use the **[[menu.main]]**, as with the parent. 
 
-We have defined 2-3 properties for the children: **URL**, **parent** and **identifier**. 
-- **URL:** points to the page
-- **Parent:** set on of the navbar item as it’s parent (by using the parent’s name)
-- **Identifier:** only used in some cases, is an additional way to refer to the child. It is used to link a page to the Child associated with in. 
+The navbar is Hugo's `main` menu, drawn by `site/themes/s2b_hugo_theme/layouts/partials/nav.html`. Entries come from two places:
 
-Example of how to use **Identifier**: In **shift-docs/site/content/pages/lead-a-ride.md**, a Parent property is set to "communitynav", which is the identifier of the Child named "Community". 
+- `site/config/_default/hugo.toml`: each `[[menu.main]]` block is one entry. The four navbar items (Calendar, Featured Events, Community, About) are defined here, along with a few children like the calendar links.
+- page frontmatter: most children are pages that add themselves with a `menu` block. See [Adding content to the site navigation](UPDATING.md#adding-content-to-the-site-navigation) for how.
+
+A child's `parent` has to match the `identifier` of a navbar item: `featuredevents`, `communitynav` or `aboutmenu`. Calendar doesn't set an identifier, so its children use its name instead (`parent: Calendar`).
+
+The text shown in the menu is the page `title`, unless the menu block sets a `name`. The order within a dropdown comes from the page `weight`, lowest first.
+
+## Page missing from the menu?
+
+Look for a warning like this in the hugo output:
+
+```
+WARN  "site/content/pages/pedalpalooza.md:1:1": duplicate menu entry with identifier "Pedalpalooza" in menu "main"
+```
+
+If an entry doesn't set an `identifier`, hugo uses its name. So two entries with the same name collide, even if the pages are in different directories, or one of them is in `hugo.toml`. Hugo keeps one and quietly drops the other. The build still works, so the warning is the only clue. (Older versions of hugo stopped the build with an error instead.)
+
+To fix it, give the page its own `identifier`:
+
+```
+menu:
+    main:
+        parent: aboutmenu
+        identifier: about-calendar
+```
+
+or change its `title` or menu `name` so they don't match.
