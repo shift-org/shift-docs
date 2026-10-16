@@ -15,8 +15,6 @@
       we're the only ones creating releases */}}
       {{ index .content "#text" | safe.HTML }}
     {{ end }}
-    {{/* debug display the data on screen */}}
-    <pre>{{ debug.Dump $data }}</pre>
   {{ else }}
     {{ errorf "Unable to get remote resource %q" $url }}
   {{ end }}
