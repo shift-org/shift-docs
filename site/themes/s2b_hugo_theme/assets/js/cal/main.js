@@ -34,6 +34,7 @@ $(document).ready(function() {
             }
             value.webLink = container.getWebLink(value.weburl);
             value.contactLink = container.getContactLink(value.contact);
+            value.linkedDetails = container.getLinkedDetails(value.details);
             value.addToGoogleLink = container.getAddToGoogleLink(value);
 
             groupedByDate[date].events.push(value);
@@ -137,6 +138,7 @@ $(document).ready(function() {
         getEventHTML(view, function (eventHTML) {
              container.append(eventHTML);
              lazyLoadEventImages();
+             container.loadUnfurls();
              $(document).off('click', '#load-more')
                   .on('click', '#load-more', function(e) {
                       // if there is a user-provided enddate, use that to set the day range (and add 1 so date range is inclusive);
@@ -150,6 +152,7 @@ $(document).ready(function() {
                       getEventHTML(view, function(eventHTML) {
                           $('#load-more').before(eventHTML);
                           lazyLoadEventImages();
+                          container.loadUnfurls();
                       });
                       return false;
                  });
@@ -163,6 +166,7 @@ $(document).ready(function() {
         }, function (eventHTML) {
             container.append(eventHTML);
             lazyLoadEventImages();
+            container.loadUnfurls();
         });
     }
 
