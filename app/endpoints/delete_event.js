@@ -42,12 +42,12 @@ function handleRequest(req, res, next) {
   return CalEvent.getByID(''+data.id).then((evt) => {
     // verify the event exists.
     if (!evt) {
-      return res.textError('Event not found');
+      return res.textError('Event not found', 404);
     }
 
     // validate the password.
     if (!evt.isSecretValid(data.secret)) {
-      return res.textError('Invalid secret, use link from email');
+      return res.textError('Invalid secret, use link from email', 403);
     }
 
     // if the event was never published, we can delete it completely;

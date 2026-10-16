@@ -15,13 +15,13 @@ describe("retrieving event data for editing", () => {
   after(() => {
     return testdb.destroy();
   });
-  it("errors on an invalid id", () => {
+  it("reports 404 on an invalid id", () => {
     return request(app)
       .get('/api/retrieve_event.php')
       .query({
         id: 999
       })
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 404));
   });
   it("private data requires the correct secret", () => {
     return request(app)
@@ -71,13 +71,14 @@ describe("retrieving event data for editing", () => {
         }]);
       });
   });
-  it("errors on a hidden event", () => {
+  it("reports 404 on a hidden event", () => {
+    // same answer as an unknown id, so the secret isn't leaked by the status
     return request(app)
       .get('/api/retrieve_event.php')
       .query({
         id: 3
       })
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 404));
   });
   it("errors on a hidden event, unless given the secret", () => {
     return request(app)

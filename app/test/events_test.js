@@ -27,7 +27,7 @@ describe("getting events", () => {
           id:999
         })
       // an id that matches nothing is "not found", not a bad request.
-      // cf https://github.com/shift-org/shift-docs/issues/566
+      // re: #566
       .then(res => testData.expectError(res, null, 404));
   });
   it("errors on an invalid date", () => {
@@ -43,23 +43,24 @@ describe("getting events", () => {
       })
       .then(testData.expectError);
   });
-  it("errors on too large a range", () => {
+  it("reports 413 on too large a range", () => {
     return request(app)
       .get('/api/events.php')
       .query({
         startdate: "2002-01-01",
         enddate  : "2003-01-01",
       })
-      .then(testData.expectError);
+      .then(res => testData.expectError(res, null, 413));
   });
-  it("errors on a negative range", () => {
+  it("reports 422 on a negative range", () => {
     return request(app)
       .get('/api/events.php')
       .query({
         startdate: "2003-01-01",
         enddate  : "2002-01-01",
        })
-      .then(testData.expectError);
+      // parseable, but not a range we can answer. re: #559
+      .then(res => testData.expectError(res, null, 422));
   });
   it("succeeds with a valid id", () => {
     return request(app)
