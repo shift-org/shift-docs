@@ -66,7 +66,7 @@ Off-site links to websites and social accounts for an event.
 * `id` ref: The event series. An arbitrary number of web entries can exist for a given series so long as they each have a unique web_type. The application code only supports the web_type "url".
 * `web_type` string: ex. "url", could be "bluesky", or whatever.
 * `web_text` string: A description of the link provided by the organizer.
-* `web_link` string: ex. "https://example.come"
+* `web_link` string: ex. "https://example.com"
 * `show_weburl` a `showable` enum
 
 ## TAG:
