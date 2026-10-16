@@ -132,6 +132,20 @@ describe("ical feed", () => {
         assert.equal(res.text, pedalpaloozaFeed);
       });
   });
+  it("omits the pedalpalooza closing event without an end date", async () => {
+    for (const query of [
+      { filename: "pedalpalooza.ics" },
+      { filename: "pedalpalooza.ics", id: 2 },
+    ]) {
+      const res = await request(app)
+        .get('/api/ical.php')
+        .query(query)
+        .expect(200)
+        .expect('content-type', CalendarType);
+      assert.ok(res.text.includes("X-WR-CALNAME:Pedalpalooza Bike Calendar"));
+      assert.ok(!res.text.includes("UID:pedalpalooza-"), "no closing event");
+    }
+  });
   it("can handle a canceled event", () => {
     return CalEvent.getByID(2).then(evt => {
       // todo: create a separate test where these values are nil and zero.
