@@ -74,6 +74,7 @@ services:
         - SHIFT_DOMAIN        # used for generating sharable links
         - NGINX_HTTPS_PORT    # used for generating sharable links
         - SHIFT_IMAGE_DIR     # event images
+        - SHIFT_GEOCODER_URL  # map coordinates ( see util/geocode.js )
         - SMTP_HOST
         - SMTP_USER
         - SMTP_PASS

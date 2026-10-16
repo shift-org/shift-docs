@@ -15,6 +15,11 @@
 <link rel="stylesheet" type="text/css" href="/lib/fullcalendar/list/main.min.css"/>
 {{ end }}
 
+<!-- map styles on the calendar map page only -->
+{{ if (eq .Type "calmap") }}
+<link rel="stylesheet" type="text/css" href="/lib/leaflet/leaflet.css">
+{{ end }}
+
 <!-- only edit page styles on add/event calendar page; not needed on other cal pages -->
 {{ if (eq .Type "caledit") }}
 {{ $cssCalAddEvent := resources.Get "css/cal/addevent.css" | minify }}
