@@ -36,11 +36,6 @@ const db = {
     return connection.destroy();
   },
 
-  // helper shortcut to make raw queries easier to write
-  raw(...args) {
-    return db.query.raw(...args);
-  },
-
   // convert a dayjs object to a 'date' column.
   //
   // the sqlite driver stores a date as a number
