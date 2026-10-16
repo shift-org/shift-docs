@@ -1,4 +1,4 @@
-const knex = require("../knex");
+const knex = require("../db");
 const config = require("../config");
 const dt = require("../util/dateTime");
 const { EventStatus, Review, EventSearch } = require("./calConst");
@@ -37,7 +37,7 @@ const methods =  {
 
   // store the status and newflash if they changed.
   // promises this after storing the change.
-  // note: flourish stored empty strings as null; so we do the same.
+  // note: empty strings are stored as null, to stay consistent with existing data.
   _updateStatus(dateStatus) {
     let changed = false;
     const newStatus = dateStatus.status || null;
@@ -81,6 +81,12 @@ const methods =  {
     return config.site.url("calendar", `event-${this.pkid}`);
   },
 
+  // return a url which exports this particular occurrence to calendar apps
+  // ex. https://localhost:4443/api/ics.php?event_id=13662
+  getExportable() {
+    return config.site.url("api", `ics.php?event_id=${this.pkid}`);
+  },
+
   // return true if the occurrence has been removed from the calendar; false otherwise.
   // ( differentiates between explicitly canceled, and no longer scheduled. )
   isDelisted() {
@@ -106,6 +112,7 @@ const methods =  {
       date: this.getFormattedDate(),
       caldaily_id: this.pkid.toString(),
       shareable: this.getShareable(),
+      exportable: this.getExportable(),
       cancelled: this.isUnscheduled(), // better would have been "scheduled:true"
       // don't send newsflash when delisted:
       // it's not scheduled and may be deleted
@@ -268,14 +275,23 @@ class CalDaily {
         })
         .whereNot('eventstatus', EventStatus.Skipped)
         .where(function(q) {
+          // If we're NOT searching for old events, aka future search, look today and greater.
           if (!searchOldEvents) {
-            q.where('eventdate', '>=', knex.toDate(firstDay))  
-            // Removing for testing all future events search
-            // .where('eventdate', '<=', knex.toDate(lastDay)) 
+            q.where('eventdate', '>=', knex.toDate(firstDay))
           }
         })
-        .orderBy('eventdate')
-        .limit(limit)  // Limit the query but
+        .where(function(q) {
+          // If we ARE searching for old events, only show old events, including today's events.  [#1004]
+          // Decision stardate 2025-11-03 by JP; AK
+          if (searchOldEvents) {
+            q.where('eventdate', '<=', knex.toDate(firstDay))
+          }
+        })
+        // If we are searching old events, eventdata claus never occurs and we add a desc to the ordering.
+        .orderBy('eventdate', searchOldEvents? 'desc' : 'asc')
+        .orderBy('eventtime', searchOldEvents? 'desc' : 'asc')
+        .orderBy('title', 'asc')
+        .limit(limit)              // Limit the query but
         .offset(offset);           // accept the offset from the client
     // console.log(query.toSQL().toNative());
     return query.then(function(rows) {
@@ -312,7 +328,7 @@ class CalDaily {
    * @param  statusMap a js Map containing {YYYY-MM-DD: dateStatus }
    * @return the promise of valid CalDaily(s)
    *
-   * @see: DateStatus.php, manage_event.php
+   * @see: dateStatus.js, manage_event.js
    */
   static reconcile(evt, statusMap, softDelete = true) {
     return CalDaily.getByEventID(evt.id).then((dailies) => {

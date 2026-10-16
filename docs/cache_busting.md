@@ -7,7 +7,7 @@ use cases
 4. uploading a new image
 
 
-in the legacy case ( 3 ), say, for example, there is an old event with id `666` and an image called `legacy.png`. The php renames the file ( even during a GET ) to match its id ( ie. `666.png` ) and this becomes the stable case ( 2 ) thereafter.
+in the legacy case ( 3 ), an old event might have an image stored under a name unrelated to its id ( ex. `legacy.png` ). these files are served directly by their stored name.
 
 calevent image field examples
 --------------------
@@ -16,15 +16,14 @@ calevent image field examples
 5. **legacy name** -- i have no idea if any of these actually exist, but some images used to have a format different than the "base format". ( maybe some `legacy.png` )
 3. **base format** -- the db record matches the file on disk. its name follows from the event id. for example, for event `123` the image field is `123.png`
 4. **extended format** -- for cache busting, appends the calevent sequence number to the base format. for example, the image field might be `123-44.png`
-2. **upload finalized** -- in `manage_event.php` `upload_attached_file()`, after the upload has completed but before event management has finished, the event image field gets updated to match the name of the uploaded file. This name is determined by the flourish file uploader. It is temporary, and will become the base ( or extended ) format after `updateImageUrl()` is called.
+2. **upload finalized** -- when an image is uploaded, `manage_event` ( `app/endpoints/manage_event.js` ) saves the file via `app/uploader.js` and sets the image field to the extended format, `<id>-<sequence><ext>`. the sequence number comes from the event's `changes` counter.
 	
 filenames on disk
 ------------------
 
 1. **pre-upload**, the image has whatever name the user has assigned: ex. `/my/local/computer/puppet.png`
-2. **upload in progress**, flourish appears to upload files to a temp directory on the server with a randomly assigned temporary name: ex, maybe, `/tmp/tmphhh`
-2. **upload finalized**, flourish assigns a unique, non conflicting name based on the user's original file. For example: `/opt/backend/eventimages/puppet.png` or if there is already some `puppet.png` on the server, `/opt/backend/eventimages/puppet_copy_1.png`.  This name is not stored to the db, only set in memory.
-3. any time **updateImageUrl()** is called, the php code may rename the image file. It uses a name based on the event id. For example, for event 123, `/opt/backend/eventimages/123.png`. **Note:** this is the same as the "base format", it's never the "extended format".
+2. **uploaded**, the upload is received in memory by [multer](https://github.com/expressjs/multer) ( see `app/uploader.js` ), so no temporary file is left on disk.
+3. **stored**, `uploader.write()` writes the file under a name based on the event id, in the directory set by `config.image.dir`. for event 123, that's ex. `/opt/backend/eventimages/123.png`. **Note:** this is always the "base format", never the "extended format"; the sequence number only appears in the db image field and the url.
 
 
 image urls

@@ -42,7 +42,7 @@ export default {
   <div class="c-search__controls">
     <InputText name="search" label="Search" :attrs :model :shouldSelect/>
     <span class="c-search__past">
-      <label for="all">Include past events </label>
+      <label for="all">Only look at past events</label>
       <input type="checkbox" id="all" v-model="searchAll"/>
     </span>
   </div>

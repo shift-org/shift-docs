@@ -11,8 +11,6 @@
 [build.environment]
   # extra environment variables if needed.
 
-# we need to manually copy the 404 page over for now, in every environment
-# cf https://github.com/shift-org/shift-docs/issues/862
 [context.deploy-preview]
   # -D builds draft content for deploy previews
   # ( the doubledash is needed to pass the argument through to hugo )
@@ -125,7 +123,7 @@
 ## a special redirect for a URL that someone made up
 [[redirects]]
   from = "/calendar/pedalpalooza"
-  to = "/pages/pedalpalooza"
+  to = "/pages/bike-summer"
   status = 301
 
 ## old Pedalpalooza page should link to new one
@@ -156,6 +154,12 @@
 [[redirects]]
   from = "/pages/playbooks"
   to = "/pages/meeting-notes"
+  status = 301
+
+## sample redirect for a campaign (e.g. QR code or other link you want to track specific usage of)
+[[redirects]]
+  from = "/campaign1"
+  to = "/"
   status = 301
 
 #------------------------------------------------------------------------------------

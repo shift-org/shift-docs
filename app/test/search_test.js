@@ -1,107 +1,99 @@
-const chai = require('chai');
-const sinon = require('sinon');
-const app = require("../app");
+const app = require("../appEndpoints");
 const testdb = require("./testdb");
 const { EventSearch } = require("../models/calConst");
-
-chai.use(require('chai-http'));
-const expect = chai.expect;
+//
+const { describe, it, before, after } = require("node:test");
+const assert = require("node:assert/strict");
+const request = require('supertest');
 
 describe("searching for events", () => {
   // runs before the first test in this block.
-  before(function() {
-    return testdb.setupWithFakeData();
+  before(() => {
+    return testdb.setupFakeData("search");
   });
   // runs once after the last test in this block
-  after(function () {
+  after(() => {
     return testdb.destroy();
   });
   // test:
-  it("errors on an empty search term", function(done) {
-    chai.request( app )
+  it("errors on an empty search term", () => {
+    return request(app)
       .get('/api/search.php')
       // .query({q: "events"})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(400);
-        expect(res).to.be.json;
-        expect(res.body).property('error').to.exist;
-        done();
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        assert.ok(res.body?.error, "expects an error string");
       });
   });
-  it("handles a search", function(done) {
-    chai.request( app )
+  it("handles a search", () => {
+    return request(app)
       .get('/api/search.php')
       .query({q: "go", all: true})
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res.body).to.have.nested.property('pagination.fullcount', 8);
-        expect(res.body).property('events').lengthOf(8);
-        done();
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        assert.equal(res.body?.pagination?.fullcount, 14);
+        assert.equal(res.body?.events?.length, 14);
       });
   });
-  it("caps large limits", function(done) {
-    chai.request( app )
+  it("caps large limits", () => {
+    return request(app)
       .get('/api/search.php')
       .query({
-          q: "go", 
+          q: "go",
           l: 1000000,
           all: true
         })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
         // we've been capped to the internal limits
-        expect(res.body).to.have.nested.property('pagination.limit', EventSearch.Limit);
-        expect(res.body).to.have.nested.property('pagination.fullcount', 8);
-        expect(res.body).to.have.nested.property('pagination.offset', 0);
-        expect(res.body).property('events').lengthOf(8);
-        done();
+        assert.equal(res.body?.pagination?.limit, EventSearch.Limit);
+        assert.equal(res.body?.pagination?.fullcount, 14);
+        assert.equal(res.body?.pagination?.offset, 0);
+        assert.equal(res.body?.events?.length, 14);
       });
   });
-  it("handles narrow limits", function(done) {
-    chai.request( app )
+  it("handles narrow limits", () => {
+    return request(app)
       .get('/api/search.php')
       .query({
-          q: "go", 
+          q: "go",
           l: 2,
           all: true
         })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res.body).to.have.nested.property('pagination.fullcount', 8);
-        expect(res.body).to.have.nested.property('pagination.offset', 0);
-        expect(res.body).to.have.nested.property('pagination.limit', 2);
-        expect(res.body).property('events').lengthOf(2);
-        done();
-      });
-  });
-  it("handles offsets", function(done) {
-    chai.request( app )
-      .get('/api/search.php')
-      .query({
-          q: "go", 
-          o: 4,
-          l: 2,
-          all: true
-        })
-      .end(function (err, res) {
-        expect(err).to.be.null;
-        expect(res).to.have.status(200);
-        expect(res).to.be.json;
-        expect(res.body).to.have.nested.property('pagination.fullcount', 8);
-        expect(res.body).to.have.nested.property('pagination.offset', 4);
-        expect(res.body).to.have.nested.property('pagination.limit', 2);
-        expect(res.body).property('events').lengthOf(2);
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        assert.equal(res.body?.pagination.fullcount, 14);
+        assert.equal(res.body?.pagination.offset, 0);
+        assert.equal(res.body?.pagination.limit, 2);
+        assert.equal(res.body?.events?.length, 2)
         const events = res.body.events;
-        expect(events[0].title).to.equal("I Can't Go For That (No Can Do)");
-        expect(events[1].title).to.equal("Na Na Hey Hey (Kiss Him Goodbye)");
-        done();
+        assert.equal(events[0].title, "Losing My Religion");
+        assert.equal(events[1].title, "Nothing's Gonna Stop Us Now");
+      });
+  });
+  it("handles offsets", () => {
+    return request(app)
+      .get('/api/search.php')
+      .query({
+          q: "go",
+          o: 2,
+          l: 2,
+          all: true
+        })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        assert.equal(res.body?.pagination?.fullcount, 14);
+        assert.equal(res.body?.pagination?.offset, 2);
+        assert.equal(res.body?.pagination?.limit, 2);
+        assert.equal(res.body?.events?.length, 2);
+        const events = res.body.events;
+        assert.equal(events[0].title, "Dreamlover");
+        assert.equal(events[1].title, "Losing My Religion");
       });
   });
 });

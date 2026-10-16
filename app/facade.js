@@ -13,7 +13,7 @@ const facade = {
     if (!staticFiles) {
       throw new Error("missing static files path");
     }
-    console.log("serving static files from", staticFiles);
+    console.log("\nServing static files from", staticFiles);
     app.use(express.static(staticFiles));
 
     // remap any path under a url to a specific html pages. 
@@ -81,8 +81,7 @@ const facade = {
       console.debug("got event image request:", id, rev || "xxx", ext );
       // ignores rev: that's for cache busting; the image is just id and extension.
       // these are local files, so it uses regular path functions
-      const imageFiles = path.resolve(config.appPath, config.image.dir);
-      const imageFile = path.join(imageFiles, id+"."+ext)
+      const imageFile = path.join(config.image.dir, `${id}.${ext}`)
       res.sendFile(imageFile);
     };
     app.get("/eventimages/:id-:rev.:ext", imageHandler);

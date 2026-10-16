@@ -8,7 +8,7 @@
 
 approx. January–March
 
-* Change `/site/content/bike-summer-calendar.md` page type from `calfestival` to `pp-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
+* Change `/site/content/bike-summer-calendar.md` page type from `calfestival` to `festival-landing`. Update the front matter to the current year: `title`, `year`, `startdate`, `enddate`, and `daterange`. Temporarily set the evergreen image.
 * Enable the "early" carousel item (`/site/data/carousel/bike-summer-early.yaml`) by setting `disabled: false`. 
 
 
@@ -18,9 +18,9 @@ approx. April–early May
 
 * Change `/site/content/bike-summer-calendar.md` page type back to `calfestival`.
 * Set `params.festival.active` to `true` in `hugo.toml`; this will enable most of the conditional content
+* Update `params.festival.banner-image` in `hugo.toml`
 * Disable the "early" carousel item
 * Enable the regular carousel item; update the year and image
-* Update the image in the `pp-header` banner
 * Uncomment the promo blurb on `/site/content/pages/bike-summer.md`
 
 
@@ -28,8 +28,16 @@ approx. April–early May
 
 approx. early to mid May
 
-* Set `params.festival.merchSaleActive` to `true` once merch sales open up. 
-* Update the merch sale snippet (`pp-merch.html`) in the PP header (`pp-header.html`) as needed. This typically won't be available until early May, and then needs to be removed once sales close (mid May to early June). Sometimes there is more than round of sales, so an additional update may be needed.
+* Merch sales:
+  * Set `params.festival.merchSaleActive` to `true` once merch sales open up
+  * Describe the merch pre-order deadline in `params.festival.merchSaleInfo`; this typically won't be available until early May
+  * If there any changes to merch sales, like a second round of orders, update `params.festival.merchSaleInfo` again
+  * If needed, update `params.festival.merchSaleURL`
+* Print calendar:
+  * If a print calendar is being prepared, set `params.festival.printCalendarActive` to `true`
+  * Set `params.festival.printCalendarDate` to the print deadline date
+  * If there are multiple print rounds, update the deadline each time
+  * Once the last print deadline passes, set `params.festival.printCalendarActive` back to `false`
 
 
 ## During

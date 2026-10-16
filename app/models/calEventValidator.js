@@ -76,11 +76,9 @@ function makeValidator(input, errors) {
     requiredTime(field) {
       // interestingly: the upload is in AM/PM style
       // but the server stores and reports in 24 hour style.
-      // and flourish stores communicates 'time' fields as an fTime
-      // while mysql stores as a 'hh:mm:ss' with no meridian
-      // so flourish must automatically transform to 24 time.
+      // mysql stores 'time' fields as 'hh:mm:ss' with no meridian,
+      // so we convert to 24 hour here.
       // https://dev.mysql.com/doc/refman/8.0/en/time.html
-      // https://flourishlib.com/docs/fTime.html
       const str = getString(field);
       if (validator.isEmpty(str)) {
         errors.addError('time');
@@ -96,8 +94,7 @@ function makeValidator(input, errors) {
         }
       }
     },
-    // to mimic php/flourish empty strings are converted to null.
-    // https://flourishlib.com/docs/fActiveRecord.html#ColumnOperations
+    // empty strings are converted to null, to stay consistent with existing data.
     nullString(field, maxLen = 255) {
       const str = getString(field);
       if (validator.isEmpty(str)) {
