@@ -205,6 +205,25 @@ sub_makeFakeEvents() { #         - Generate a handful of test events
     sub_compose exec -w=/shift/tools node node makeFakeEvents.js
 }
 
+sub_mkcert() { #                 - Generate mkcert TLS certs for local HTTPS
+    if ! command -v mkcert &>/dev/null; then
+        echo "mkcert is not installed"
+        echo "See https://github.com/FiloSottile/mkcert#installation for the latest installation options"
+        exit 1
+    fi
+
+    local ssl_dir="${ROOT}/services/nginx/ssl"
+    local domain="${SHIFT_DOMAIN:-localhost}"
+
+    mkcert -install
+
+    echo "Generating certificate for ${domain}..."
+    mkcert -cert-file "${ssl_dir}/default.crt" -key-file "${ssl_dir}/default.key" "${domain}"
+
+    echo "Certificate generated! Restarting nginx..."
+    sub_compose restart nginx
+}
+
 SUB_CMD=$1
 case ${SUB_CMD} in
     "" | "-h" | "--help")
