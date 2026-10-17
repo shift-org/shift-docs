@@ -86,7 +86,12 @@ const facade = {
       }
       // ignores rev: that's for cache busting; the image is just id and extension.
       // these are local files, so it uses regular path functions
-      const imageFile = path.join(config.image.dir, `${id}.${ext}`)
+      // defense in depth: make sure the resolved path stays inside the image directory.
+      const imageDir = path.resolve(config.image.dir);
+      const imageFile = path.resolve(imageDir, `${id}.${ext}`);
+      if (!imageFile.startsWith(imageDir + path.sep)) {
+        return res.status(400).end();
+      }
       res.sendFile(imageFile);
     };
     app.get("/eventimages/:id-:rev.:ext", imageHandler);
