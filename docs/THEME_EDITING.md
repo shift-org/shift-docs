@@ -19,6 +19,28 @@ The navbar is Hugo's `main` menu, drawn by `site/themes/s2b_hugo_theme/layouts/p
 
 A child's `parent` has to match the `identifier` of a navbar item: `featuredevents`, `communitynav` or `aboutmenu`. Calendar doesn't set an identifier, so its children use its name instead (`parent: Calendar`).
 
+For example, this block in `hugo.toml` defines the Featured Events navbar item:
+
+```
+[[menu.main]]
+    name = "Featured Events"
+    url  = ""
+    weight = 2
+    identifier = "featuredevents"
+```
+
+and the front matter of `site/content/pages/mmr.md` puts the Midnight Mystery Ride page in its dropdown:
+
+```
+---
+title: "Midnight Mystery Ride"
+weight: 3
+menu:
+    main:
+        parent: featuredevents
+---
+```
+
 The text shown in the menu is the page `title`, unless the menu block sets a `name`. The order within a dropdown comes from the page `weight`, lowest first.
 
 ## Page missing from the menu?
