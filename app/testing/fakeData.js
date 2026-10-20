@@ -1,7 +1,7 @@
 const { faker } = require('@faker-js/faker');
 const config = require('shift-docs/config');
 const dt = require('shift-docs/util/dateTime');
-const { Area, Audience, Distance, Distances, LocType, Showable, TagName, WebType } = require('shift-docs/models/calConst');
+const { Area, Audience, Distance, Distances, LocType, Showable, TagName, WebType } = require('shift-docs/models/newConst');
 const { insertNewData } = require('shift-docs/support/reconcile');
 
 // password shared for all fake events

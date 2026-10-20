@@ -3,7 +3,7 @@ const db = require('shift-docs/db');
 const dt = require('shift-docs/util/dateTime');
 const { setupTables } = require('shift-docs/schema');
 const { insertNewData } = require('shift-docs/support/reconcile');
-const { TagName, LocType, Showable, WebType } = require('shift-docs/models/calConst');
+const { TagName, LocType, Showable, WebType } = require('shift-docs/models/newConst');
 const user = require('shift-docs/testing/user');
 
 module.exports = {

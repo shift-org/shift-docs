@@ -42,7 +42,7 @@ const allTables = {
     // note: some people have a short description here in phone
     private_phone: [make.string, {width: 64} ],
     private_contact: [make.string, {width:  256}],
-    // one of the calConst.Showable(s)
+    // one of the newConst.Showable(s)
     show_email: [make.string, {width:  12}],
     show_phone: [make.string, {width:  12}],
     show_contact: [make.string, {width:  12}],

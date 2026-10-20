@@ -1,7 +1,7 @@
 const knex = require('shift-docs/db');
 const config = require('shift-docs/config');
 const dt = require('../util/dateTime');
-const { EventStatus } = require('shift-docs/models/calConst');
+const { EventStatus } = require('shift-docs/models/newConst');
 
 // helper to add methods to a returned database object.
 const methods =  {

@@ -20,7 +20,7 @@ const wordwrap = require('wordwrapjs');
 const nunjucks = require("../nunjucks");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-const { EventsRange } = require("../models/calConst");
+const { EventsRange } = require("../models/newConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 

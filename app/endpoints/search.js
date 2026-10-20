@@ -28,7 +28,7 @@
 const dayjs = require("dayjs");
 const config = require("../config");
 const { CalDaily } = require("../models/calDaily");
-const { EventSearch } = require("../models/calConst");
+const { EventSearch } = require("../models/newConst");
 const { getSummaries } = require("./events.js");
 const validator = require('validator');
 

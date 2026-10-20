@@ -4,7 +4,7 @@ const request = require('supertest');
 //
 const app = require('shift-docs/appEndpoints');
 const testing = require('shift-docs/testing');
-const { EventSearch } = require('shift-docs/models/calConst');
+const { EventSearch } = require('shift-docs/models/newConst');
 
 describe("searching for events", () => {
   beforeEach(() => {

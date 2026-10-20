@@ -12,7 +12,7 @@ const db = require('shift-docs/db'); //
 const { allTables, setupStatements } = require('shift-docs/schema');
 const dt = require('shift-docs/util/dateTime');
 const { newSecret } = require('shift-docs/util/misc');
-const { Area, Audience, Distance, EventStatus, Showable, LocType } = require('shift-docs/models/calConst');
+const { Area, Audience, Distance, EventStatus, Showable, LocType } = require('shift-docs/models/newConst');
 
 // return map of { tableName: newTable }
 // caller writes to disk.

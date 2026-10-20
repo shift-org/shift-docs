@@ -1,7 +1,7 @@
 const FormValidator = require('shift-docs/support/formValidator');
 const {  ErrorStrings } = require('shift-docs/util/errors');
 const { Shorthand } = require('shift-docs/util/shorthand');
-const { Area, Audience, Distance, EventStatus, LocType, Showable, TagName, WebType } = require('shift-docs/models/calConst');
+const { Area, Audience, Distance, EventStatus, LocType, Showable, TagName, WebType } = require('shift-docs/models/newConst');
 const dt = require('shift-docs/util/dateTime');
 
 module.exports = newValidator;
