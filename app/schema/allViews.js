@@ -8,12 +8,54 @@
 // "in_" names are internal, partial views: helpers to build other view(s).
 const allViews = {
 
+  // a summary of all events whether published or not.
+  view_private_events: `
+select
+  *,
+  secret as password,
+
+  -- private fields are left as "private_email", etc.
+  -- the intent was to prevent accidental leakage
+  -- tbd if that's really useful or not.
+
+  -- legacy visibility settings
+  show_email not in ('public', 'visible') as hideemail,
+  show_phone not in ('public', 'visible') as hidephone,
+  show_contact not in ('public', 'visible') as hidecontact,
+  show_weburl not in ('public', 'visible') as hideweburl,
+
+  -- legacy printing settings
+  show_email in ('public', 'printable') as printemail,
+  show_phone in ('public', 'printable') as printphone,
+  show_contact in ('public', 'printable') as printcontact,
+  show_weburl in ('public', 'printable') as printweburl
+
+from
+  in_event_series
+  join cal_private using(id)
+  join in_event_place using(id)
+  join in_event_tags using(id)
+  left join view_public_schedule using(id)
+  left join in_event_images using(id)
+  left join in_private_web using(id);
+`,
+
+  // the limited set of data needed for the ics feed
+  view_ical_feed: `
+select *
+from view_public_schedule
+left join in_event_series using (id)
+left join in_event_place using (id)
+where changes > 0;
+`,
+
   // produces a summary of published events and their days
   // excludes revoked rides ( b/c view_public_schedule does )
+  // excludes events with no days ( via the join insteadf of left join )
   view_combined_events: `
 select * from
   view_public_series
-  left join view_public_schedule using(id);
+  join view_public_schedule using(id);
 `,
 
   // the calevent equivalent
@@ -57,48 +99,7 @@ join cal_series using(id)
 where published is not null;
 `,
 
-  // a summary of all events whether published or not.
-  view_private_events: `
-select
-  *,
-  secret as password,
-
-  -- private fields are left as "private_email", etc.
-  -- the intent was to prevent accidental leakage
-  -- tbd if that's really useful or not.
-
-  -- legacy visibility settings
-  show_email not in ('public', 'visible') as hideemail,
-  show_phone not in ('public', 'visible') as hidephone,
-  show_contact not in ('public', 'visible') as hidecontact,
-  show_weburl not in ('public', 'visible') as hideweburl,
-
-  -- legacy printing settings
-  show_email in ('public', 'printable') as printemail,
-  show_phone in ('public', 'printable') as printphone,
-  show_contact in ('public', 'printable') as printcontact,
-  show_weburl in ('public', 'printable') as printweburl
-
-from
-  in_event_series
-  join cal_private using(id)
-  join in_event_place using(id)
-  join in_event_tags using(id)
-  left join view_public_schedule using(id)
-  left join in_event_images using(id)
-  left join in_private_web using(id);
-`,
-
-  // the limited set of data needed for the ics feed
-  view_ical_feed: `
-select *
-from view_public_schedule
-left join in_event_series using (id)
-left join in_event_place using (id)
-where changes > 0;
-`,
-
- // use to find series and date from a pkid
+  // use to find series and date from a pkid
   view_reverse_lookup: `
 select id, pkid, ymd as eventdate
 from cal_series
@@ -124,6 +125,7 @@ select
 from cal_series
 where published is not null;
 `,
+
   // generate public web contact info.
   // the event endpoints currently only look for web urls.
   // note: reduces empty strings to null
@@ -149,7 +151,6 @@ where web_type = 'url';
 from cal_web
 where web_type = 'url';
 `,
-
 
   // generates a table of event tag data.
   // certain tags are provided as fields for the existing event endpoints.
@@ -203,6 +204,7 @@ from
   left join cal_location as loc_start on (cal_series.id = loc_start.id and loc_start.loc_type='start')
   left join cal_location as loc_end on (cal_series.id = loc_end.id and loc_end.loc_type='finish');
 `,
+
   // the pairing of id and image cache ( or image override ) filename.
   // the *real* filename is the cache name without the trailing dash.
   // the image override is used for images manually assigned by the calendar crew.
@@ -219,25 +221,25 @@ select
   as image
 from cal_image;
 `,
-
 };
-
-// return the names of the views from bottom to top.
-function views() {
-  return Object.keys(allViews).reverse();
-}
 
 module.exports = {
   // drop all known views
   // returns an array of promises
   dropViews(db) {
     db.config.debug && console.log("dropViews...");
-    return views().map((n) => db.query.schema.dropViewIfExists(n));
+    // walks views in top-to-bottom order ( reverse of creation )
+    const reverseNames = Object.keys(allViews);
+    return reverseNames.map((n) => db.query.schema.dropViewIfExists(n));
   },
 
+  // return the views as raw sql statements
+  // ( for migration generation )
   listViews(db) {
     db.config.debug && console.log("listViews...");
-    return views().map((n) => db.query.schema.createView(n, (view) => {
+    // the names of the views from bottom to top.
+    const viewNames = Object.keys(allViews).reverse();
+    return viewNames.map((n) => db.query.schema.createView(n, (view) => {
       const statement = allViews[n];
       return view.as(db.raw(statement));
     }));
@@ -249,8 +251,9 @@ module.exports = {
   createViews(db) {
     db.config.debug && console.log("createViews...");
     async function _createViews() {
-      const names = views();
-      for (const name of names) {
+      // the names of the views from bottom to top.
+      const viewNames = Object.keys(allViews).reverse();
+      for (const name of viewNames) {
         await db.query.schema.createView(name, (view) => {
           const statement = allViews[name];
           return view.as(db.raw(statement));
