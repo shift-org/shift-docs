@@ -24,6 +24,7 @@ const cmdLine = new CommandLine({
     "- 'mysql': Requires docker.",
     "  For prod and dev it pulls its full configuration from the environment.",
     "  Tests have a hardcoded configuration.",
+    "  This option can followed by a localhost port, '-db=mysql:61530'",
     "- 'sqlite': Uses a sqlite database.",
     "  This option can followed by the path to its file.",
     "  The default is equivalent to specifying: '-db=sqlite:./bin/events.db'.",
@@ -38,11 +39,8 @@ const listen = (() => {
 // the user facing server.
 const siteHost = siteUrl(listen);
 
-// via process:
-//  env.INIT_CWD: where 'npm run' was invoked.
-//  env.PWD: where 'node' was invoked, can change if the working dir changes.
-//  env.npm_package_json: root package.json path, ignoring workspace.
-const shiftRoot = process.env.INIT_CWD || process.env.PWD;
+// location of app.js ( same as config.js )
+const appPath = path.resolve(__dirname);
 
 // for max file size
 const bytesPerMeg = 1024*1024;
@@ -55,7 +53,7 @@ const isTesting = process.env.npm_lifecycle_event && process.env.npm_lifecycle_e
 // ( and that there is a separate front-end running out there, ex. production. )
 const staticFiles = (() => {
   const p = env_default('SHIFT_STATIC_FILES');
-  return !p ? null : path.resolve(shiftRoot, p);
+  return !p ? null : path.resolve(appPath, p);
 })();
 
 // storage location for uploaded images.
@@ -65,7 +63,7 @@ const imageDestination = (() => {
   if (isTesting) {
     return os.tmpdir();
   } else if (p) {
-    return path.resolve(shiftRoot, p);
+    return path.resolve(appPath, p);
   }
 })();
 
@@ -73,6 +71,7 @@ const dbConfig = getDatabaseConfig(cmdLine.options.db, cmdLine.bool('db_debug'),
 
 // The config object exported
 const config = {
+  appPath,
   api: {
     header: 'Api-Version',
     version: "3.64.0",
@@ -133,7 +132,7 @@ const config = {
     moderator: "shift-event-email-archives@googlegroups.com",
     logfile: function() {
       const logfile = env_default('SHIFT_EMAIL_LOG');
-      return logfile ? path.resolve(shiftRoot, logfile) : false;
+      return logfile ? path.resolve(appPath, logfile) : false;
     }()
   },
   image: {
@@ -269,14 +268,27 @@ function readDbEnv(fallback, env = 'MYSQL_DATABASE') {
 }
 
 // the default for mysql when running dev or production
-function getMysqlDefault() {
-  return {
-    host: env_default('MYSQL_HOST', 'db'),
-    port: env_default('MYSQL_PORT', 3306), // standard mysql port.
-    user: env_default('MYSQL_USER', 'shift'),
-    pass: env_default('MYSQL_PASSWORD', 'ok124'),
-    name: env_default('MYSQL_DATABASE', 'shift'),
-  }
+ // 3306 standard mysql port.
+function getMysqlDefault(port) {
+  const common = {
+    user: 'shift',
+    pass: 'ok124',
+    name: 'shift',
+  };
+  const env = {
+    user: env_default('MYSQL_USER'),
+    pass: env_default('MYSQL_PASSWORD'),
+    name: env_default('MYSQL_DATABASE'),
+    host: env_default('MYSQL_HOST', "db"),
+    port: env_default('MYSQL_PORT', 3306),
+  };
+  // normally, a port isnt assigned via the command line
+  // in that case, the environment wins over the common settings
+  // with a port, we ignore the environment
+  return Object.assign({}, common, !port ? env : {
+    host: "localhost",
+    port: port,
+  });
 }
 
 // the default for mysql when running tests
@@ -294,7 +306,7 @@ function getMysqlTesting() {
 // if filename is null, it uses a memory database
 // relative paths are resolved using the shift root directory
 function getSqliteConfig(filename) {
-  const connection = !filename ? ":memory:" : path.resolve(shiftRoot, filename);
+  const connection = !filename ? ":memory:" : path.resolve(appPath  , filename);
   return {
     name: connection
   };
