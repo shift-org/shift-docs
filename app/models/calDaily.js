@@ -52,7 +52,7 @@ const methods =  {
 
   // return a summary of this occurrence for the "events" endpoint.
   // backcompat: include the endtime if specified.
-  getJSON(endtime) {
+  getSchedule(endtime) {
     const data = {
       date: this.getFormattedDate(),
       caldaily_id: this.pkid.toString(),
@@ -66,7 +66,7 @@ const methods =  {
       status: this.eventstatus,
       fullcount: this.fullcount, // Full count of results for pagination
     };
-    // see notes in CalEvent.getJSON()
+    // see notes in CalEvent.getSummary()
     if (endtime !== undefined) {
       data.endtime = endtime;
     }
@@ -82,7 +82,6 @@ class CalDaily {
 
   // promises one CalDaily but only for published Events.
   // yields null if not found or not published.
-  // ( this is the php EventTime::getByID )
   static getByDailyID(pkid) {
     return knex
       .query('view_combined_events')
@@ -94,10 +93,9 @@ class CalDaily {
   }
 
   // promises an array of CalDaily(s).
-  // aka. the php buildEventTime('id')
   static getByEventID(id) {
     return knex
-      .query('view_public_schedule')
+      .query('view_combined_events')
       .where('id', id)
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
@@ -105,11 +103,8 @@ class CalDaily {
   }
 
   // promise an array of cal daily statuses
-  // ( similar to the php  getEventDateStatuses() )
   static getStatusesByEventId(id) {
     return CalDaily.getByEventID(id).then((dailies) => {
-      // fix: rather than filtering here, add a filter to getByEventId
-      // trying to keep it somewhat like the php right now.
       return dailies.map(at => at.getStatus());
     });
   }
@@ -131,10 +126,12 @@ class CalDaily {
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getRangeVisible(firstDay, lastDay) {
+   const min = dt.toYMDString(firstDay);
+   const max = dt.toYMDString(lastDay);
    return knex
       .query('view_combined_events')
-      .where('eventdate', '>=', dt.toYMDString(firstDay))   // view_public_schedule: instance of the event.
-      .where('eventdate', '<=', dt.toYMDString(lastDay))
+      .where('eventdate', '>=', min)
+      .where('eventdate', '<=', max)
       .orderBy('eventdate')
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
@@ -143,7 +140,7 @@ class CalDaily {
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
-    let query = knex.query('view_combined_events')
+    const query = knex.query('view_combined_events')
         .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .where(function(q) {
           q.where('title', 'LIKE', `%${term}%`)

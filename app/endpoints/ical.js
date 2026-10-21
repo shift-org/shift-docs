@@ -201,15 +201,13 @@ function buildRange(start, end, includeDeleted) {
 function buildEntries(dailies) {
   // a cache because multiple dailies may have the same event.
   const events = new Map();
-  // generate the array of promises:
-  return Promise.all( dailies.map((at) => {
-    // make a promise for this event ( if we've never see the event before )
+  return dailies.map((at) => {
     if (!events.has(at.id)) {
-      events.set(at.id, CalEvent.getByID(at.id));
+      events.set(at.id, CalEvent.wrap(at));
     }
-    // promise the entry after the event is available:
-    return events.get(at.id).then(evt => buildCalEntry(evt, at));
-  }));
+    const evt = events.get(at.id);
+    return buildCalEntry(evt, at);
+  });
 }
 
 /**

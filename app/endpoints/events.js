@@ -42,11 +42,10 @@ exports.get = function(req, res, next) {
       if (!daily) {
         res.textError("no such time");
       } else  {
-        return getSummaries([daily]).then((events) => {
-          res.set(config.api.header, config.api.version);
-          res.json({
-            events
-          });
+        const events = getSummaries([daily]);
+        res.set(config.api.header, config.api.version);
+        res.json({
+          events
         });
       }
     }).catch(next);
@@ -66,15 +65,17 @@ exports.get = function(req, res, next) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
       } else {
         return CalDaily.getRangeVisible(start, end).then((dailies) => {
-          return getSummaries(dailies).then((events) => {
-            const pagination = getPagination(start, end, events.length);
-            res.set(config.api.header, config.api.version);
-            res.json({
-              events,
-              pagination,
-            });
+          const events = getSummaries(dailies);
+          const pagination = getPagination(start, end, events.length);
+          res.set(config.api.header, config.api.version);
+          res.json({
+            events,
+            pagination,
           });
-        }).catch(next);
+        }).catch((err) => {
+          console.error("events endpoint error", err);
+          next(err);
+        });
       }
     }
   }
@@ -85,30 +86,19 @@ exports.get = function(req, res, next) {
 function getSummaries(dailies) {
   // a cache because multiple dailies may have the same event.
   const events = new Map();
-  // for all dailies:
-  return Promise.all( dailies.map((at) => {
-    // if this is the first time we've seen the event id:
+  return dailies.map((at) => {
+    // summarize the event the first tie we see it.
     if (!events.has(at.id)) {
-      // go create the event and end time summary pair.
-      events.set(at.id, CalEvent.getByID(at.id).then(specialSummary));
+      const evt = CalEvent.wrap(at);
+      const evtJson = evt.getSummary();
+      const endTime = evt.getEndTime(); // an invalid duration generates a null here.
+      events.set(at.id, [evtJson, endTime]);
     }
-    // wait till the event summary is complete then merge it with the daily:
-    return events.get(at.id).then((specialSum) => {
-      const [ evtJson, endTime ] = specialSum;
-      return Object.assign( {}, evtJson, at.getJSON(endTime) );
-    });
-  }));
+    const [evtJson, endTime] = events.get(at.id);
+    return Object.assign({}, evtJson, at.getSchedule(endTime));
+  });
 }
 exports.getSummaries = getSummaries;
-
-// pool the events so each daily doesn't separately query for its (shared) event.
-// the end time lives on the event, but needs to appear after each daily's json,
-// so it's tacked on manually below.
-function specialSummary(evt) {
-  // an invalid duration generates a null here.
-  const endTime = to24HourString(evt.getEndTime());
-  return [ evt.getJSON(), endTime ];
-}
 
 // expects days are dayjs objects
 // and count is the number of events between the two

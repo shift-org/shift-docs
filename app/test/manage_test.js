@@ -226,7 +226,7 @@ describe("managing events", () => {
         // implicitly remove the second;
         // add a third.
         { "date": "2002-08-03", status: 'A' }
-      ]}, evt.getJSON({includePrivate:true}));
+      ]}, evt.getSummary({includePrivate:true}));
       //
       return request(app)
         .post(manage_api)

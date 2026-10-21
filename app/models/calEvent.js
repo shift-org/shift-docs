@@ -6,7 +6,7 @@ const config = require('shift-docs/config');
 const methods =  {
 
   // aka Event::toArray in php
-  getJSON({includePrivate}= {}) {
+  getSummary({includePrivate}= {}) {
     let duration = this.eventduration;
     if (duration <= 0) {
       duration = null;
@@ -100,7 +100,7 @@ const methods =  {
   getDetails(statuses, {includePrivate} = {}) {
     // we either have actual times or promises of them:
     return Promise.resolve(statuses).then((statuses) => {
-      const details = this.getJSON({includePrivate});
+      const details = this.getSummary({includePrivate});
       details['datestatuses']= statuses;
       return details;
     });
