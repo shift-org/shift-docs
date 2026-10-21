@@ -1,8 +1,19 @@
-/**
+
+ /**
  * Generate a mysql migration file to move from old tables to new tables.
- * ex. npm run -w tools sqlite-migrate
- * ex. ./shift compose exec node npm run -w tools mysql-migrate
- *  no such file or directory, open '../services/db/tmp/reorg.sql'
+ * WARNING: this drops all data from the new table schema.
+ *
+ * Example with sqlite:
+ *  ex. > npm run -w tools sqlite-migrate
+ *
+ * Example of running the script inside the docker container:
+ *  ex. > ./shift compose exec node npm run --silent -w tools mysql-migrate > reorg.sql
+ *  > ./shift mysql-pipe < reorg.sql
+ *
+ * Example via external communication with docker:
+ * > npm run --silent -w tools sqlite-migrate -- -db=mysql:63064  > reorg.sql
+ *
+ *  note, the first few lines may sometimes contain stray commandline logging.
  */
 const fs = require("node:fs");
 const path = require("node:path");
@@ -23,8 +34,8 @@ async function migrate(outFile = "/dev/stdout") {
   const statements = setupStatements(db);
   tableNames.forEach(name => out.addTable(name));
 
-  const events = await readAllData();
-  rewriteExceptions(events);
+  const events = await readAllData(); // an object with id keys
+  rewriteExceptions(out, events);
   buildData(out, events);
 
   // use select statements:
@@ -72,7 +83,7 @@ async function migrate(outFile = "/dev/stdout") {
 // the new db will treat those as completely separate events.
 // the copies of those will be given the password of the original
 // to relate the two events.
-function rewriteExceptions(events) {
+function rewriteExceptions(out, events) {
   for (const id in events) {
     const evt = events[id];
     evt.allDays.forEach(at => {
@@ -84,12 +95,15 @@ function rewriteExceptions(events) {
           // 2751 -- maybe the event got deleted?
           at.eventstatus = 'A';
         } else {
+          out.note(at.id, `setting E(xception) ${at.exceptionid} to A(ctive)`);
+
           // most of these don't have passwords; not sure why.
-          // (too old?) give them one to be able to relate things.
+          // (too old maybe?) give them one to be able to relate things.
           if (!og.password) {
             og.password = newSecret();
           }
           cp.password = og.password;
+
           at.id = at.exceptionid;
           at.eventstatus = 'A';
         }
@@ -111,7 +125,7 @@ function buildData(out, events) {
     if (invalid) {
       // TBD: we could keep these i suppose.
       // a series ith no days.
-      out.note(evt.id, `no had days. review:${evt.review} title: "${evt.title}"`);
+      out.note(evt.id, `skipping because it no had scheduled days. review: ${evt.review} title: "${evt.title}"`);
     } else {
       const days = evt.allDays.filter(at => isScheduled(at) !== undefined);
       const skips = evt.allDays.filter(at => ['S', 'D'].includes(at.eventstatus)).length;
@@ -144,8 +158,9 @@ async function readAllData() {
   all.forEach(curr => {
     // add it as an event if we haven't seen it before
     const evt = events[curr.id] || curr;
-    // add it as a day as well, or add it to other days
-    evt.allDays = (evt.allDays || []).concat(curr);
+    // add a copy opf it as a day as well, or add it to other days
+    // ( this is a bit overkill: we only need the caldaily fields... oh well. )
+    evt.allDays = (evt.allDays || []).concat(Object.assign({}, curr));
     // and store whatever we did.
     events[curr.id] = evt;
   });
@@ -189,7 +204,7 @@ function imageTable(out, evt) {
     const img = getImageData(evt.id, image);
     if (!img) {
       // there are a few files like "6461." not sure what to think about that.
-      out.note(evt.id, `ignored image ${image}`)
+      out.note(evt.id, `invalid image ${image}`)
     } else {
       out.insert('cal_image', {
         id: evt.id,
@@ -419,7 +434,7 @@ function formatValue(columnName, v) {
   }
   if (v instanceof Date) {
     if (columnName === 'ymd') {
-      const ymd = dt.toYMDString();
+      const ymd = dt.toYMDString(v);
       return `'${ymd}'`;
     } else {
       const timestamp = dt.toTimestamp(v);
