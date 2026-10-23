@@ -8,55 +8,6 @@
 // "in_" names are internal, partial views: helpers to build other view(s).
 const allViews = {
 
-  // produces a summary of published events and their days
-  // excludes revoked rides ( b/c view_public_schedule does )
-  view_combined_events: `
-select * from
-  view_public_series
-  left join view_public_schedule using(id);
-`,
-
-  // the calevent equivalent
-  // returns public data about an event series.
-  view_public_series: `
-select * from
-  in_event_series
-  join in_permitted using(id)
-  join in_event_place using(id)
-  join in_event_tags using(id)
-  left join in_event_images using(id)
-  left join in_public_web using(id)
-where not hidden;
-`,
-
-  // the caldaily equivalent:
-  // returns an event's schedule.
-  view_public_schedule: `
-select
-  id,
-  pkid,
-  added,
-  changed,
-  ymd as eventdate,
-  case is_scheduled
-    when 1 then 'A'
-    when 0 then 'C'
-  end as eventstatus,
-  news as newsflash
-from cal_schedule
--- is_scheduled can become null when an organizer deletes a particular day.
-where is_scheduled is not null;
-`,
-
-  // used to validate events ( ex. for update event )
-  view_private_checks: `
-select id, secret, published
-from cal_private
-join cal_series using(id)
--- revoked rides are indicated by a null published status.
-where published is not null;
-`,
-
   // a summary of all events whether published or not.
   view_private_events: `
 select
@@ -84,21 +35,74 @@ from
   join cal_private using(id)
   join in_event_place using(id)
   join in_event_tags using(id)
-  left join view_public_schedule using(id)
+  left join view_all_days using(id)
   left join in_event_images using(id)
   left join in_private_web using(id);
 `,
 
-  // the limited set of data needed for the ics feed
+  // the limited set of data needed for the ics feed.
+  // only includes published events.
   view_ical_feed: `
 select *
-from view_public_schedule
+from view_all_days
 left join in_event_series using (id)
 left join in_event_place using (id)
-where changes > 0;
+where not hidden;
 `,
 
- // use to find series and date from a pkid
+  // produces a summary of published events and their days.
+  // excludes events that have yet to be published;
+  // excludes events with no days;
+  // excludes revoked events.
+  view_event_schedule: `
+select * from
+  view_public_series
+  join view_all_days using(id);
+`,
+
+  // approximately the calevent data from the original db:
+  // returns public data about published event series.
+  view_public_series: `
+select * from
+  in_event_series
+  join in_permitted using(id)
+  join in_event_place using(id)
+  join in_event_tags using(id)
+  left join in_event_images using(id)
+  left join in_public_web using(id)
+where not hidden;
+`,
+
+  // the caldaily equivalent:
+  // returns the schedule of events
+  // regardless of publication status.
+  view_all_days: `
+select
+  id,
+  pkid,
+  added,
+  changed,
+  ymd as eventdate,
+  case is_scheduled
+    when 1 then 'A'
+    when 0 then 'C'
+  end as eventstatus,
+  news as newsflash
+from cal_schedule
+-- is_scheduled can become null when an organizer deletes a particular day.
+where is_scheduled is not null;
+`,
+
+  // used to validate events ( ex. for update event )
+  view_private_checks: `
+select id, secret, published
+from cal_private
+join cal_series using(id)
+-- revoked rides are indicated by a null published status.
+where published is not null;
+`,
+
+  // use to find series and date from a pkid
   view_reverse_lookup: `
 select id, pkid, ymd as eventdate
 from cal_series
@@ -124,6 +128,7 @@ select
 from cal_series
 where published is not null;
 `,
+
   // generate public web contact info.
   // the event endpoints currently only look for web urls.
   // note: reduces empty strings to null
@@ -149,7 +154,6 @@ where web_type = 'url';
 from cal_web
 where web_type = 'url';
 `,
-
 
   // generates a table of event tag data.
   // certain tags are provided as fields for the existing event endpoints.
@@ -203,6 +207,7 @@ from
   left join cal_location as loc_start on (cal_series.id = loc_start.id and loc_start.loc_type='start')
   left join cal_location as loc_end on (cal_series.id = loc_end.id and loc_end.loc_type='finish');
 `,
+
   // the pairing of id and image cache ( or image override ) filename.
   // the *real* filename is the cache name without the trailing dash.
   // the image override is used for images manually assigned by the calendar crew.
@@ -219,25 +224,25 @@ select
   as image
 from cal_image;
 `,
-
 };
-
-// return the names of the views from bottom to top.
-function views() {
-  return Object.keys(allViews).reverse();
-}
 
 module.exports = {
   // drop all known views
   // returns an array of promises
   dropViews(db) {
     db.config.debug && console.log("dropViews...");
-    return views().map((n) => db.query.schema.dropViewIfExists(n));
+    // walks views in top-to-bottom order ( reverse of creation )
+    const reverseNames = Object.keys(allViews);
+    return reverseNames.map((n) => db.query.schema.dropViewIfExists(n));
   },
 
+  // return the views as raw sql statements
+  // ( for migration generation )
   listViews(db) {
     db.config.debug && console.log("listViews...");
-    return views().map((n) => db.query.schema.createView(n, (view) => {
+    // the names of the views from bottom to top.
+    const viewNames = Object.keys(allViews).reverse();
+    return viewNames.map((n) => db.query.schema.createView(n, (view) => {
       const statement = allViews[n];
       return view.as(db.raw(statement));
     }));
@@ -249,8 +254,9 @@ module.exports = {
   createViews(db) {
     db.config.debug && console.log("createViews...");
     async function _createViews() {
-      const names = views();
-      for (const name of names) {
+      // the names of the views from bottom to top.
+      const viewNames = Object.keys(allViews).reverse();
+      for (const name of viewNames) {
         await db.query.schema.createView(name, (view) => {
           const statement = allViews[name];
           return view.as(db.raw(statement));
