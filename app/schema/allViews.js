@@ -35,31 +35,33 @@ from
   join cal_private using(id)
   join in_event_place using(id)
   join in_event_tags using(id)
-  left join view_public_schedule using(id)
+  left join view_all_days using(id)
   left join in_event_images using(id)
   left join in_private_web using(id);
 `,
 
-  // the limited set of data needed for the ics feed
+  // the limited set of data needed for the ics feed.
+  // only includes published events.
   view_ical_feed: `
 select *
-from view_public_schedule
+from view_all_days
 left join in_event_series using (id)
 left join in_event_place using (id)
-where changes > 0;
+where not hidden;
 `,
 
-  // produces a summary of published events and their days
-  // excludes revoked rides ( b/c view_public_schedule does )
-  // excludes events with no days ( via the join insteadf of left join )
-  view_combined_events: `
+  // produces a summary of published events and their days.
+  // excludes events that have yet to be published;
+  // excludes events with no days;
+  // excludes revoked events.
+  view_event_schedule: `
 select * from
   view_public_series
-  join view_public_schedule using(id);
+  join view_all_days using(id);
 `,
 
-  // the calevent equivalent
-  // returns public data about an event series.
+  // approximately the calevent data from the original db:
+  // returns public data about published event series.
   view_public_series: `
 select * from
   in_event_series
@@ -72,8 +74,9 @@ where not hidden;
 `,
 
   // the caldaily equivalent:
-  // returns an event's schedule.
-  view_public_schedule: `
+  // returns the schedule of events
+  // regardless of publication status.
+  view_all_days: `
 select
   id,
   pkid,

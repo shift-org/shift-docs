@@ -246,8 +246,10 @@ function getDatabaseConfig(dbType, dbDebug, isTesting) {
     mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
     sqlite: getSqliteConfig,
   }
-  if (!name in config) {
-    throw new Error(`unknown database type '${dbType}'`)
+  if (!(name in config)) {
+    const types = Object.keys(config).join(", ");
+    const unknownConfig = `unknown database type '${dbType}'. expected one of: ${types}.`;
+    throw new Error(unknownConfig);
   }
   return {
     type: name,
@@ -292,10 +294,10 @@ function getMysqlDefault(port) {
 }
 
 // the default for mysql when running tests
-function getMysqlTesting() {
+function getMysqlTesting(port) {
   return {
     host: "localhost",
-    port: 3308,  // custom EXTERNAL port to avoid conflicts
+    port: port ?? 3308,  // custom EXTERNAL port to avoid conflicts
     user: 'shift_test',
     pass: 'shift_test',
     name: 'shift_test',

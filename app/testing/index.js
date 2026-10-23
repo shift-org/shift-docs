@@ -38,17 +38,24 @@ const localExports = {
     this.configure();
     return db.destroy();
   },
-  // a small set of manually defined test data
-  async setupTestData(name, scheduledEvents=false) {
-    await db.initialize();
+  // setup the test db without adding any data
+  async initTestDB(name) {
+    await db.initialize(name);
     await setupTables(db, {drop: true});
+  },
+  // add small set of manually defined test data
+  async createTestData(scheduledEvents = false) {
     faker.seed(23204); // uses lorem generator
     await createTestData(db, scheduledEvents);
   },
+  // initialize the test db and add a small set of manually defined test data
+  async setupTestData(name, scheduledEvents = false) {
+    await this.initTestDB(name);
+    await this.createTestData(scheduledEvents);
+  },
   // uses faker to setup a large amount of test data
   async setupFakeData(name) {
-    await db.initialize();
-    await setupTables(db, {drop: true});
+    await this.initTestDB(name);
     const firstDay = dt.fromYMDString("2002-08-01");
     const lastDay  = dt.fromYMDString("2002-08-31");
     const numEvents = 46;

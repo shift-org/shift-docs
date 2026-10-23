@@ -3,29 +3,23 @@ const config = require('shift-docs/config');
 const dt = require('../util/dateTime');
 const { EventStatus } = require('shift-docs/models/newConst');
 
+// return an object containing: {
+//   id:   CalDaily primary key.
+//   date: YYYY-MM-DD ( ex. 2006-01-02 )
+//   status: a single letter: 'A' for active, or 'C' for cancelled.
+//   newsflash: a special bit of text from the user, typically for canceled or rescheduled events.
+// }
+function getStatus(at) {
+  return {
+    id : at.pkid.toString(),
+    date : dt.toYMDString(at.eventdate),
+    status : at.eventstatus,
+    newsflash : at.newsflash
+  };
+}
+
 // helper to add methods to a returned database object.
 const methods =  {
-  // returns a date in YYYY-MM-DD format ( ex. 2006-01-02 )
-  getFormattedDate() {
-    // note: dates are returned by the mysql2 driver as a json Date.
-    return dt.toYMDString( this.eventdate );
-  },
-
-  // return an object containing: {
-  //   id:   CalDaily primary key.
-  //   date: YYYY-MM-DD ( ex. 2006-01-02 )
-  //   status: a single letter: 'A' for active, or 'C' for cancelled.
-  //   newsflash: a special bit of text from the user, typically for canceled or rescheduled events.
-  // }
-  // note: used by the "manage" and "retrieve" endpoints.
-  getStatus() {
-    return {
-      id : this.pkid.toString(),
-      date : this.getFormattedDate(),
-      status : this.eventstatus,
-      newsflash : this.newsflash
-    };
-  },
 
   // return a url which provides a view of this particular occurrence.
   // ex. https://localhost:4443/calendar/event-13662
@@ -54,7 +48,7 @@ const methods =  {
   // backcompat: include the endtime if specified.
   getSchedule(endtime) {
     const data = {
-      date: this.getFormattedDate(),
+      date: dt.toYMDString(this.eventdate),
       caldaily_id: this.pkid.toString(),
       shareable: this.getShareable(),
       exportable: this.getExportable(),
@@ -80,11 +74,11 @@ function addMethods(res) {
 
 class CalDaily {
 
-  // promises one CalDaily but only for published Events.
+  // promises one CalDaily for published events.
   // yields null if not found or not published.
   static getByDailyID(pkid) {
     return knex
-      .query('view_combined_events')
+      .query('view_event_schedule')
       .where('pkid', pkid)
       .first()
       .then(function(at) {
@@ -92,21 +86,23 @@ class CalDaily {
       });
   }
 
-  // promises an array of CalDaily(s).
+  // promises an array of CalDaily(s) for published events.
   static getByEventID(id) {
     return knex
-      .query('view_combined_events')
+      .query('view_event_schedule')
       .where('id', id)
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
       });
   }
 
-  // promise an array of cal daily statuses
+  // promise an array of cal daily statuses, including unpublished days.
   static getStatusesByEventId(id) {
-    return CalDaily.getByEventID(id).then((dailies) => {
-      return dailies.map(at => at.getStatus());
-    });
+    return knex
+      .query('view_all_days')
+      .where('id', id)
+      .orderBy('eventdate')
+      .then(dailies => dailies.map(getStatus));
   }
 
   // Promises all occurrences of any CalDaily within the specified date range....
@@ -114,7 +110,7 @@ class CalDaily {
   // Days are datejs objects.
   static getFullRange(firstDay, lastDay) {
     return knex
-      .query('view_combined_events')
+      .query('view_event_schedule')
       .where('eventdate', '>=', dt.toYMDString(firstDay))
       .where('eventdate', '<=', dt.toYMDString(lastDay))
       .orderBy('eventdate')
@@ -129,7 +125,7 @@ class CalDaily {
    const min = dt.toYMDString(firstDay);
    const max = dt.toYMDString(lastDay);
    return knex
-      .query('view_combined_events')
+      .query('view_event_schedule')
       .where('eventdate', '>=', min)
       .where('eventdate', '<=', max)
       .orderBy('eventdate')
@@ -140,7 +136,7 @@ class CalDaily {
   // Promises all occurrences of any scheduled CalDaily within the specified date range.
   // Days are datejs objects.
   static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
-    const query = knex.query('view_combined_events')
+    const query = knex.query('view_event_schedule')
         .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
         .where(function(q) {
           q.where('title', 'LIKE', `%${term}%`)
@@ -175,7 +171,7 @@ class CalDaily {
   // Days are datejs objects.
   static getEventsCount(startDate, endDate) {
     const currDate = dt.toYMDString();
-    const query = knex.query('view_combined_events')
+    const query = knex.query('view_event_schedule')
         .column(knex.query.raw('COUNT(*) as total'))
         .column(knex.query.raw('COUNT(CASE WHEN eventdate < ? THEN 1 END) AS past', [currDate]))
         .column(knex.query.raw('COUNT(CASE WHEN eventdate >= ? THEN 1 END) AS upcoming', [currDate]))

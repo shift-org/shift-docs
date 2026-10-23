@@ -54,7 +54,7 @@ describe("managing events", () => {
     sandbox.stub(misc, "newSecret").callsFake((_) => {
       return faker.string.uuid().replaceAll("-", "");
     });
-    return testing.setupTestData("manage", [1, 2, 3]);
+    return testing.initTestDB("manage");
   });
   afterEach(() => {
     sandbox.restore();
@@ -71,7 +71,8 @@ describe("managing events", () => {
       })
       .then(testing.expectError);
   });
-  it("creates a new event, using raw json", () => {
+  it("creates a new event, using raw json", async () => {
+    await testing.createTestData([1, 2, 3]);
     return request(app)
       .post(manage_api)
       .send(requestedSeries)
@@ -82,7 +83,7 @@ describe("managing events", () => {
         assert.equal(series.hidden, 1,
           "the initial event should be hidden by default",
         );
-        const schedule = await CalDaily.getByEventID(id);
+        const schedule = await CalDaily.getStatusesByEventId(id);
         assert.equal(schedule.length, 2,
           "there are two days in the posted data");
         // console.log(res.body);
@@ -126,7 +127,7 @@ describe("managing events", () => {
     }
     return seq;
   });
-  it("fails creation when fields have invalid values", () => {
+  it("fails creation when fields have invalid values", async () => {
     const pairs = [
       "eventduration", "i am not a number, i am a man!",
       // converting directly toInt will ignore trailing text
@@ -156,8 +157,9 @@ describe("managing events", () => {
     }
     return seq;
   });
-  it("publishes an event", () => {
-    // id three is unpublished
+  it("publishes an event", async () => {
+    // in the predetermined test data, id three winds up being unpublished
+    await testing.createTestData([1, 2, 3]);
     return CalEvent.getByID(3).then((initialEvent) => {
       assert.equal(initialEvent.hidden, 1);
       return request(app)
@@ -176,7 +178,7 @@ describe("managing events", () => {
           assert.equal(publishedEvent.isPublished(), true);
           // look over the days we requested
           // to validate what wound up in the db.
-          const schedule = await CalDaily.getByEventID(3);
+          const schedule = await CalDaily.getStatusesByEventId(3);
           requestedSchedule.forEach((requested, i) => {
             const at = schedule[i]; // raw db data
             // one of our requested newsflashes is missing;
@@ -186,9 +188,9 @@ describe("managing events", () => {
               requested.newsflash || null,
               `news mismatch ${i}`,
             );
-            assert.equal(at.eventdate, requested.date, `date mismatch ${i}`);
+            assert.equal(at.date, requested.date, `date mismatch ${i}`);
             assert.equal(
-              at.eventstatus,
+              at.status,
               requested.status,
               `status mismatch ${i}`,
             );
@@ -196,7 +198,8 @@ describe("managing events", () => {
         });
     });
   });
-  it("fails to use an empty secret", () => {
+  it("publish fails when using an empty secret", async () => {
+    await testing.createTestData([1, 2, 3]);
     return request(app)
       .post(manage_api)
       .send(Object.assign({
@@ -205,7 +208,8 @@ describe("managing events", () => {
       }, requestedSeries))
       .then(testing.expectError);
   });
-  it("fails to use an invalid secret", () => {
+  it("publish fails when using an invalid secret", async () => {
+    await testing.createTestData([1, 2, 3]);
     return request(app)
       .post(manage_api)
       .send(Object.assign({
@@ -214,7 +218,8 @@ describe("managing events", () => {
       }, requestedSeries))
       .then(testing.expectError);
   });
-  it("adds one date and removes another", () => {
+  it("adds one date and removes another", async () => {
+    await testing.createTestData([1, 2, 3]);
     return CalEvent.getByID(2).then(evt => {
       const post = Object.assign({
         secret: testing.user.secret,
@@ -258,38 +263,8 @@ describe("managing events", () => {
         });
     });
   });
-  function getImageTarget(id, imageSource) {
-    return path.join( config.image.dir, id + path.extname(imageSource) );
-  };
-  function postImage(id, imageSource, imageTarget) {
-    // remove any image from earlier tests:
-    return fsp.rm(imageTarget, {force:true}).then(_ => {
-      // act as if we are a client who just created an event
-      // and is posting it back up again, along with the new image.
-      return CalEvent.getByID(3).then(evt => {
-        const statuses = CalDaily.getStatusesByEventId(evt.id);
-        return evt.getDetails(statuses, {includePrivate:true}).then(requestedSeries => {
-          const eventData = Object.assign({
-            secret: testing.user.secret,
-            code_of_conduct: "1",
-            read_comic: "1",
-          }, requestedSeries);
-          return fsp.readFile(imageSource).then((fileData) => {
-            return request(app)
-              .post(manage_api)
-              .type('form')
-              .field({
-                json: JSON.stringify(eventData)
-              })
-              // the tests originally based a filepath here
-              // but that started generating EPIPE errors for reasons.
-              .attach('file', fileData, path.basename(imageSource));
-            });
-        });
-      });
-    });
-  }
-  it("attaches an image", () => {
+  it("attaches an image", async () => {
+    await testing.createTestData([1, 2, 3]);
     const imageSource = images.bike.jpg;
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget)
@@ -305,7 +280,8 @@ describe("managing events", () => {
         });
       });
   });
-  it("fails too large", () => {
+  it("fails image attachment when too large", async () => {
+    await testing.createTestData([1, 2, 3]);
     const imageSource = images.bike.big;
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget)
@@ -320,7 +296,8 @@ describe("managing events", () => {
           });
     });
   });
-  it("fails bad format", () => {
+  it("fails image attachment with an unsupported format", async () => {
+    await testing.createTestData([1, 2, 3]);
     const imageSource = images.bike.unsupportedFormat;
     const imageTarget = getImageTarget(3, imageSource);
     return postImage(3, imageSource, imageTarget).then(res => {
@@ -334,7 +311,7 @@ describe("managing events", () => {
         });
     });
   });
-  it("prevents image upload on new events", () => {
+  it("prevents images on new events", async () => {
     const imageSource = images.bike.jpg;
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.
@@ -350,6 +327,39 @@ describe("managing events", () => {
     });
   });
 });
+
+function getImageTarget(id, imageSource) {
+  return path.join( config.image.dir, id + path.extname(imageSource) );
+}
+
+function postImage(id, imageSource, imageTarget) {
+  // remove any image from earlier tests:
+  return fsp.rm(imageTarget, {force:true}).then(_ => {
+    // act as if we are a client who just created an event
+    // and is posting it back up again, along with the new image.
+    return CalEvent.getByID(3).then(evt => {
+      const statuses = CalDaily.getStatusesByEventId(evt.id);
+      return evt.getDetails(statuses, {includePrivate:true}).then(requestedSeries => {
+        const eventData = Object.assign({
+          secret: testing.user.secret,
+          code_of_conduct: "1",
+          read_comic: "1",
+        }, requestedSeries);
+        return fsp.readFile(imageSource).then((fileData) => {
+          return request(app)
+            .post(manage_api)
+            .type('form')
+            .field({
+              json: JSON.stringify(eventData)
+            })
+            // the tests originally based a filepath here
+            // but that started generating EPIPE errors for reasons.
+            .attach('file', fileData, path.basename(imageSource));
+          });
+      });
+    });
+  });
+}
 
 // some days to request
 const requestedSchedule = [

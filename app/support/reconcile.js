@@ -38,6 +38,7 @@ function newEventData(tx, eventData, dayData) {
   const secret = misc.newSecret();
   eventData.private.secret = secret;
   return insertNewData(tx, eventData).then(id => {
+    console.assert(id, "expected a valid series id");
     return writeSchedule(tx, id, dayData).then(_ => ({
       id,
       secret
