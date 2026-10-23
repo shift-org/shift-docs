@@ -1,161 +1,340 @@
-# Tables schema ( version 2 )
+See also:
 
-##  SERIES:
+  * [schema_explanation.txt](https://github.com/shift-org/shift-docs/blob/main/legacy/cal/doc/schema_explanation.txt)
+  * [legacy create table](https://github.com/shift-org/shift-docs/blob/main/admclobber.php)
 
-The core event data.
+# calevent:
+  - **id**, primary key. 
+    
+    ex. 6245
 
-`cal_series`:
-* `id` auto assigned integer: The event and all of its related info binds to this id. ( duplicates the existing `calevent.id` )
-* `created` : Timestamp of when the series was first added to the db.
-* `modified`: Timestamp of the most recent change to the series data.
-* `published` integer or null. A positive integer value means published and visible to the world. Zero means not yet published by the organizer. Increments every time the series is saved ( for the sake of ical feeds ). `null` means "revoked" -- they are skipped by all queries.
-* `title` string: human readable name of the event.
-* `organizer` string: Public visible name of the person or group who authored the event.
-* `start_time` string: *local* time as HH:DD:00. **IMPORTANT**: this isn't a mysql timestamp! if an organizer on the east coast says "ride starts at 8AM" we can look in the db expect to see "08:00:00" regardless of their time zone, our time zone, or the server's timezone.
-* `scheduled_duration` integer: time in minutes of any given instance of the event.
-* `details`: A large text string containing a description of the event. ( replaces `descr ) `
-* `tiny_title`  string: optional shorter version of the title.
-* `summary` small text: optional shorter version of details ( was printdescr )
+  - **modified**, timestamp:
 
-## SCHEDULE:
+    ex. 2022-10-01 19:41:25
+    
+  - **changes** int
+  
+    sequential counter indicated the number of time the organizer has changed the event. used primarily for the calendar feed so that ical clients will notice when changes to the event have occurred. also used for event image cache busting.
 
-A specific instance of a given series on a particular day. These are uniquely identified by the combination of its series and day ( the `id` and `ymd` fields, respectively. )
+  - **name** string
 
-`cal_schedule`:
-* `id` ref: The series id.
-* `ymd`: Day that the event takes place as a YYYY-MM-DD string. Multiple days can exist for a single series. Individual days are unique within each series.
-* `is_scheduled`: 0 or 1, implying cancelled or active respectively.
-* `news`: When an organizer reschedules or cancels a given day, this string allows them to explain why.
-* `added`: timestamp of when this entry was created.
-* `changed`: timestamp of when this entry was last modified.
-* `pkid` auto assigned integer: deprecated. exists for backwards compatibility.
+    the organizer's provided name 
+  
+  - **email** string, **hideemail** bool, **printemail** bool
 
-## PRIVATE:
+    the organizer's email address;
+    show email on the online calendar;
+    publish email in the print calendar.
 
-Holds potentially sensitive data that requires explicit permission to display. Rationale: we can easily anonymized data by dropping this table.
+  - **phone** string, **hidephone** bool, **printphone** bool
 
-`cal_private`:
-* `id` ref: Exactly one private row exists for every event series.
-* `secret` string: user password.
-* `show_email` showable enum: Whether the organizer wants to share their private_email address.
-* `show_phone` showable enum: Whether the organizer want to share their private_phone number.
-* `show_contact` showable enum: Whether the organizer want to share their private_contact info.
-* `private_email` string: The organizer's email.
-* `private_phone` string: The organizer's phone number.
-* `private_contact` string: Any arbitrary information the organizer would like to share about themselves.
+    the organizer's phone number ( optional )
 
-The `showable` enum values are: "private", "public", "visible", "printable". where visible means showable online, printable means showable on the printed calendar, public means both, and private means neither. While printable in the calendar (but not visible online) seems like an odd combination to me, there are rides marked this way.
+  - **weburl** string, **webname** string, **printweburl** bool:
 
-## LOCATION:
+    event web site for ride info
+  
+  - **contact** string, **hidecontact** bool, **printcontact** bool
 
-Provides extended data about the start and end of an event.
+    any additional contact info provided by the suer
 
-`cal_location`:
-* `id` ref: The event series. Multiple locations can exist for a given series.
-* `loc_type`: a string containing either 'start' or 'finish'.
-* `place_name`: arbitrary string name for the location.
-* `address`: a string containing a "mappable" location, a url ( ex. google maps ), or some placeholder like "TBD, or "TBA".
-* `place_info`: a string containing extra info provided by the organizer. ( replaces `locdetails` )
-* `time_info`: a string containing extra info provided by the organizer. ( replaces `timedetails` )
+  - **title** string
 
-## WEB:
+    event title.
 
-Off-site links to websites and social accounts for an event.
+  - **tinytitle** string 
 
-`cal_web`:
-* `id` ref: The event series. An arbitrary number of web entries can exist for a given series so long as they each have a unique web_type. The application code only supports the web_type "url".
-* `web_type` string: ex. "url", could be "bluesky", or whatever.
-* `web_text` string: A description of the link provided by the organizer.
-* `web_link` string: ex. "https://example.com"
-* `show_weburl` a `showable` enum
+    event string used for the printed calendar.
+    if not specified, the manage_event endpoint slices the first 24 characters of the long title.
 
-## TAG:
+  - **audience** char
 
-Extra data associated with an event. The *values* for a given tag are pulled from a set of predefined choices particular to its name. One could imagine these are "app" specific values. For example hiking might need different information than bike riding.
+    * G: general.
+    * F: family friendly
+    * A: adult ( 21 + )
+    
+  - **descr** text, **printdescr** text
 
-`cal_tag`:
-* `id` ref: The event series. An arbitrary number of tags can exist for a given series so long as their tag_names are unique.
-* `tag_name` string: some examples below.
-* `tag_value` string, ex. the string "true".
+    event description for website and print calendar.
 
-Maybe someday tags could be added directly by users. For now, the application supports these specific tag types and values:
+  - **image** string
 
-* audience: "General", "Family", "Adult".
-* area: ex. "Portland", "Vancouver", etc.
-* safety: the string "true", or doesn't exist and isn't covid friendly.
-* featured: the string "true" ( or potentially some extra details about why the event is featured: ex. "bikesummer" ).
-* loop: the string "true", or doesn't exist and isn't a loop.
-* distance: one of a set of predetermined strings indicating a length in miles: "0-3",  ..., "15+"
+    the storage location and url path are configured in `app/config.js`
+    ( `config.image.dir` and `config.image.path` ).
 
-Maybe:
-* pace ex. easy, steady, strenuous, etc. `no drop`?
-* protest: ex. "true", or doesn't exist and isn't a protest ride.
+    the `manage_event` endpoint accepts gif, jpeg, pjpeg, png images,
+    up to `config.image.maxFileSize`.
 
-## IMAGE:
+  - **tinytitle** string
+  
 
-For events with images. Stored as its own table because not all event series have images ( and perhaps we might want to allow multiple images someday. )
+  - **datestype** char
+  
+    i believe this is legacy information
+  
+    * O=one day
+    * C=consecutive
+    * S=scattered
 
-`cal_image`:
-* `id` ref: At most one image can exist per series.
-* `img_version` int: Exists for cache-busting. Incremented whenever a new image is uploaded.
-* `img_ext` short string: The original file extension, lowercased.
-* `img_override` string: For images that we maintainers have manually set to a specific file; used very rarely. Typically the image filename is the `id.ext` and this override string is blank.
+  - **eventtime** time ( aka eventTime )
 
-# Time Handling
+    there is one time for all events even if they occur on multiple days.
+    additional times can described in the timedetails.
 
-The SERIES start_time and the SCHEDULE days are stored as **strings**, `HH:MM:00` and `YYYY-MM-DD` respectively. They match the values specified by the organizer and are not shifted into any particular time-zone. For Shift, that means they are essentially Pacific Time relative to the scheduled day ( so that daylight-savings or standard-time depends on the day in question. ) Client code is required to understand that representation and display the times accordingly ( ex. by labeling the time, or by shifting to the user's timezone. )
+  - **eventduration** int
 
-Database created and modified times are stored as TIMESTAMP(s) ( ex. `2023-02-27 18:59:39` ) and are from the perspective of the server.
+    organizer provided number of minutes; has to be a number.
 
----
-# Views
+  - **timedetails** string
 
-A few views provide backwards compatibility with the original table format:
+    extra details about the event time.
 
-## view_event_schedule:
+  - **locname** string
 
-Returns the scheduled days of published events, joining the event and scheduling data.
+    arbitrary name provided by the organizer
 
-## view_public_series:
+  - **address** string
 
-Returns the public data of published events, similar to the `calevent` table data.
+    "", TBD, TBA
+    can be a url ( ex. google maps )
 
-* `id`: series id
-* `password`: string generated by the server, sent to the organizer in email.
-* `created`: timestamp of when this series was created
-* `modified`: timestamp of when this series was last modified
-* `changes` int: sequential counter indicated the number of time the organizer has changed the event. used primarily for the calendar feed so that ical clients will notice when changes to the event have occurred. also used for event image cache busting.
-* `name` string: the organizer's provided name
-* `email` string, `hideemail` bool, `printemail` bool: the organizer's email address
-* `phone` string, `hidephone` bool, `printphone` bool: the organizer's phone number ( optional )
-* `weburl` string, `webname` string, `hideweburl` `printweburl` bool: optional event web site provided by the organizer.
-* `contact` string, `hidecontact` bool, `printcontact` bool: any additional contact info provided by the organizer.
-* `title` string: event title.
-* `tinytitle` string: event string used for the printed calendar and other small summaries.
-* `audience` char: one of 'G", "F", or "A" for general, family friendly, or Adult (21+).
-* `descr` text, `printdescr` text: event description for website and print calendar.
-* `image` string: name and extension of ride image ( if any )
-* `eventtime` string ( 24 hour time: 19:00:00 ). there is one time for all events even if they occur on multiple days.
-* `eventduration` int: length of ride as a number of minutes
-* `timedetails` string: extra details about the event time.
-* `locname` string: arbitrary name provided by the organizer
-* `address` string: a "mappable" description. ex. "TBD, "TBA", or a url ( ex. google maps )
-* `locdetails` string: extra details about the location.
-* `locend` string: specifics about the end of the ride.
-* `loopride` bool: does the ride end where it starts.
-* `area` char: ex. `P` for Portland, or `V` for  Vancouver
-* `highlight` bool: featured events. this bool is set by the shift team, not the organizer. it provides special styling on the front end.
-* `hidden` bool: has the event been published? ( ie. has the person read their email and clicked the password link? )
-* `safetyplan` bool: true if the organizer checked the "covid safety plan" checkbox.
+  - **locdetails** string
 
-## view_all_days:
+    extra details about the location.
 
-Represents a single occurrence on a particular day, similar to the `caldaily` table data.
+  - **locend** string
 
-* `id`: series id.
-* `pkid`: deprecated unique id for a scheduled entry.
-* `added`: timestamp of when this entry was created
-* `changed`: timestamp of when this entry was last modified
-* `eventdate`: YYYY-MM-DD string
-* `newsflash`: organizer provided string.
-* `eventstatus` either `A` ( active ) or `C` ( cancelled )
+    specifics about the end of the ride.
+
+  - **loopride** bool
+
+    whether the organizer considers the ride to be a loop
+ 
+  - **area** char
+
+    * P: Portland
+    * V: Vancouver
+
+  - **review** char 
+
+    * I: Inspect
+    * E: Exclude
+    * A: Approved
+    * S: SentEmail
+    : R: Revised
+
+  - **highlight** bool 
+
+    featured events 
+    *TODO*: ore detail.
+
+  - **hidden** bool
+
+    has the event been published?
+    ( ie. has the person read their email and clicked the password link? )
+
+  - **password** string(50)
+
+    sent to the organizer in email
+    https://localhost:4443/addevent/edit-ID-PASSWORD
+
+  - **safetyplan** bool
+  
+    has the organizer checked the "covid safety plan" checkbox?**
+
+## old unused fields?
+  - addressverified char
+    
+    * Y: yes 
+    * X: no
+    
+  - dates string
+    
+    ex. "Every Sunday"
+    
+  - emailforum bool
+  - imageheight, imagewidth int
+  
+  - nestflag char
+  
+    * F=festival
+    * G=group
+    * else normal event
+    
+  - nestid key
+  - ridelength string
+  - external string
+  - source string
+
+
+# caldaily:
+
+Represents a single occurrence on a particular day of a **calevent**.
+
+Although the table has its own auto incrementing primary key (pkid),
+the application keeps the (cal event id, event date) pairing unique.
+That pairing is, in a sense, its true identity.
+
+  - **pkid** (primary key)
+
+    ex. 13651
+
+  - **modified** timestamp 
+
+    ex. 2023-02-27 18:59:39
+  
+  - **id** (foreign key)
+
+    references the calevent table.
+
+  - **eventdate** date
+
+    ex. 2023-02-23
+    indexed.
+
+  - **newsflash** text
+
+    When an organizer reschedules a ride, they can add "Newsflash" text to explain why.
+
+    see for an example -- /Users/ionous/Dev/shift/shift-docs/site/static/images/uploads/rescheduling-a-ride.png 
+
+  - **eventstatus** char
+  
+    * A=as scheduled
+    * C=canceled
+    * D=delisted - just removed, not explicitly canceled
+    * S=skipped   - legacy
+    * E=exception - legacy
+    
+  - **exceptionid** key
+  
+    re: eventstatus 'E'
+
+    this might be legacy. it seems to be trying to load event data into the ORM during getEvent() using either the "id" or the "exceptionid" column, but its not specifying a value for the column so i wonder if that works ( it has an exception handler which by default creates/attaches to a blank event. )
+
+
+# Old Unused Tables
+----------------------------------
+caladdress:
+- canon string (primary key)
+- address string
+- locname string
+- area char
+- locked bool
+
+
+calcount:
+- fromdate date
+- todate date
+- whendate date
+- count key
+ 
+
+calforum:
+- modified timestamp 
+- msgid primary key
+- id key
+- organizer bool
+- name string
+- subject string
+- msg text
+ 
+
+calshare:
+- sharename string
+- shareevents string
+ 
+
+pp20apr2006:
+- id primary key
+- name string 
+- email string 
+- hideemail bool 
+- phone string 
+- hidephone bool 
+- weburl string 
+- webname string 
+- contact string 
+- hidecontact bool 
+- title string 
+- tinytitle string 
+- audience char 
+- descr text 
+- newsflash text 
+- image string 
+- imageheight key 
+- imagewidth key 
+- eventdate date  DEFAULT '0000-00-00'
+- reqdate bool 
+- eventtime time  DEFAULT '00:00:00'
+- timedetails string 
+- repeats bool 
+- address string 
+- addressverified char 
+- locdetails string 
+- area char 
+ 
+
+ppdistro:
+- id primary key
+- location string(75) 
+- whodelivered string(25) 
+
+
+ppforum:
+- modified timestamp  
+- msgid primary key
+- id key 
+- organizer bool 
+- name string 
+- subject string 
+- body text 
+ 
+
+rideIdea:
+- id primary key
+- ride string 
+- contact string(26) 
+- IP string(15) 
+- datePosted timestamp  
+ 
+
+sched:
+- modified timestamp  
+-  id primary key
+-  name string 
+-  email string 
+-  hideemail bool 
+-  emailforum bool 
+-  printemail bool 
+-  phone string 
+-  hidephone bool 
+-  printphone bool 
+-  weburl string 
+-  webname string 
+-  printweburl bool 
+-  contact string 
+-  hidecontact bool 
+-  printcontact bool 
+-  title string 
+-  tinytitle string 
+-  audience char 
+-  descr text 
+-  printdescr text 
+-  newsflash text 
+-  image string 
+-  imageheight key 
+-  imagewidth key 
+-  eventdate date  DEFAULT '0000-00-00'
+-  reqdate bool 
+-  eventtime time  DEFAULT '00:00:00'
+-  eventduration key 
+-  timedetails string 
+-  repeats bool 
+-  address string 
+-  addressverified char 
+-  locdetails string 
+-  area char 
+-  headcount key 
+-  newbiecount key 
+-  ridereport text 
