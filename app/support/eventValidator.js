@@ -24,6 +24,7 @@ class EventValidator extends FormValidator {
     } else if (fallback === undefined) {
       this.addError(ErrorStrings.Missing);
     } else {
+      // some coding error:
       throw new Error(`unexpected fallback ${fallback} for ${this.currentField}`);
     }
   }
@@ -140,7 +141,7 @@ function newValidator(input, errors) {
           email: Showable.Private,
           phone: Showable.Private,
           contact: Showable.Private,
-          website: Showable.Public,
+          website: Showable.Visible, // by default: seen online but not printed
         }
       }) {
       return {
