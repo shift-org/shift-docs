@@ -198,7 +198,7 @@ describe("managing events", () => {
         });
     });
   });
-  it("publish fails when using an empty secret", async () => {
+  it("reports 403 for an empty secret", () => {
     await testing.createTestData([1, 2, 3]);
     return request(app)
       .post(manage_api)
@@ -206,17 +206,16 @@ describe("managing events", () => {
         id: 3,
         // not sending any secret
       }, requestedSeries))
-      .then(testing.expectError);
+      .then(res => testing.expectError(res, null, 403));
   });
-  it("publish fails when using an invalid secret", async () => {
-    await testing.createTestData([1, 2, 3]);
+  it("reports 403 for an invalid secret", () => {
     return request(app)
       .post(manage_api)
       .send(Object.assign({
         id: 3, // reverses the secret:
         secret: testing.user.secret.split("").reverse().join(""),
       }, requestedSeries))
-      .then(testing.expectError);
+      .then(res => .expectError(res, null, 403));
   });
   it("adds one date and removes another", async () => {
     await testing.createTestData([1, 2, 3]);

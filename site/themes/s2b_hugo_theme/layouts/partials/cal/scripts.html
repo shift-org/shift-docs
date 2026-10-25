@@ -14,7 +14,10 @@
       urlParams['eventId'] = parseInt(singleEvent[1]);
     }
 
-    var editEventRe = /edit-([0-9]+)-([0-9a-zA-Z]*)/g;
+    // the secret may contain hyphens and underscores: generated secrets are
+    // hex, but hand-made edit links use readable ones ( cf docs/CALENDAR_ADMIN.md ).
+    // the event id is digits only, so the first hyphen after it starts the secret.
+    var editEventRe = /edit-([0-9]+)-([\w-]*)/;
     var editEvent = editEventRe.exec(lastPart);
     if (editEvent && editEvent.length === 3) {
       urlParams['editId'] = parseInt(editEvent[1]);

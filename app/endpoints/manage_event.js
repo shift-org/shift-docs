@@ -18,7 +18,7 @@
 const { parseJson } = require('shift-docs/util/parse');
 const newValidator = require('shift-docs/support/eventValidator');
 const { checkEvent, writeEvent, writeImage } = require('shift-docs/support/requestedEvent');
-const { ErrorCollector, FormError, ErrNotFound } = require('shift-docs/util/errors');
+const { ErrorCollector, FormError, ErrForbidden } = require('shift-docs/util/errors');
 const { uploader } = require('shift-docs/uploader');
 const handleCall = require('shift-docs/util/handleCall');
 const { Area, Audience } = require('shift-docs/models/newConst');
@@ -88,7 +88,9 @@ async function updateEvent(input, values, fileData) {
   // validate id and secret while determining publication count
   const prevPublished = await checkEvent(id, secret);
   if (prevPublished === null) {
-    throw new ErrNotFound("unknown event");
+    // returns null for an unknown id as well as a bad
+    // secret; 403 covers both rather than revealing which. re: #559
+    throw new ErrForbidden("Invalid secret, use link from email");
   }
   // write the (validated) event data, updating the publication count
   const { event, schedule } = values;

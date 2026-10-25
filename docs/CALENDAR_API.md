@@ -1,6 +1,6 @@
 # Calendar API
 
-Version: 3.64.0
+Version: 3.66.0
 
 ## General
 
@@ -43,7 +43,8 @@ Success:
 * status code: `200`
 * `events`: array of event objects; array may be empty
 * each event object: key-value pairs of all available public fields; does not contain any private fields (use `manage_event` endpoint for those)
-* when using `id` parameter, array is expected to return 1 object; if the ID does not match a known event, you will receive a `200` response with an empty `events` array
+* when using `id` parameter, array returns 1 object; if the ID does not match a visible event, you will receive a `404` (see Errors, below)
+* for a range request, an empty `events` array is a normal `200` result: it means nothing is scheduled in that range
 
 Example response for a single event:
 
@@ -171,18 +172,20 @@ Example response for a range of events, including delisted events:
         "end": "2025-01-01",
         "range": 1,
         "events": 3,
-        "prev": "https://www.shift2bikes.org/api/events.php?startdate=2024-12-31&enddate=2023-12-31",
+        "prev": "https://www.shift2bikes.org/api/events.php?startdate=2024-12-31&enddate=2024-12-31",
         "next": "https://www.shift2bikes.org/api/events.php?startdate=2025-01-02&enddate=2025-01-02"
       }
     }
 
 Errors:
-* status code: `400`
+* status code: `400`, `404`, `413`, or `422`
 * `error`: object containing `message` key
 * `message`: text string explaining the error
 * possible errors
-  * `enddate` before `startdate`
-  * date range too large (100 days maximum)
+  * `id` not found (`404`); this also covers events that are unpublished or deleted
+  * `enddate` before `startdate` (`422`)
+  * date range too large, 100 days maximum (`413`)
+  * `startdate`/`enddate` not parseable, or both an `id` and a range were sent (`400`)
 
 Example error:
 
@@ -386,11 +389,12 @@ Example response for a single event:
     END:VCALENDAR
 
 Errors:
-* status code: `400`, `404`
+* status code: `400`, `404`, `413`, or `422`
 * possible errors
-  * `event_id` or `series_id` not found
-  * `enddate` before `startdate`
-  * date range too large (100 days maximum)
+  * `event_id` or `series_id` not found (`404`)
+  * `enddate` before `startdate` (`422`)
+  * date range too large, 100 days maximum (`413`)
+  * dates not parseable (`400`)
 
 
 ## Managing events
@@ -453,10 +457,10 @@ Example response:
     }
 
 Errors:
-* status code: `400`
+* status code: `400` or `404`
 * possible errors
-  * no `id` specified
-  * `id` not found
+  * no `id` specified (`400`)
+  * `id` not found (`404`); also returned for a deleted event, and for an unpublished one without a valid `secret`
 
 
 ### Adding or updating an event
@@ -560,11 +564,11 @@ Success:
 * response body is the same as the `retrieve_event` endpoint
 
 Errors:
-* status code: `400`
+* status code: `400` or `403`
 * possible errors
-  * no request body or not parseable JSON
-  * required field was not included, or has an invalid value
-  * invalid `secret` (when updating)
+  * no request body or not parseable JSON (`400`)
+  * required field was not included, or has an invalid value (`400`)
+  * invalid or missing `secret` when updating (`403`); also returned for an unknown `id`, so that it isn't revealed whether the event exists
 
 Example error:
 
@@ -646,12 +650,12 @@ Example response:
     }
 
 Errors:
-* status code: `400`
+* status code: `400`, `403`, or `404`
 * possible errors
-  * no request body or not parseable JSON
-  * `id` not included
-  * invalid `id`
-  * invalid or missing `secret`
+  * no request body or not parseable JSON (`400`)
+  * `id` not included (`400`)
+  * `id` not found (`404`)
+  * invalid or missing `secret` (`403`)
 
 Example error:
 
@@ -740,4 +744,6 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.62.1: (2026-04-30) Updated Node, MySQL, and Nginx to latest stable versions
 * 3.62.2: (2026-05-15) Updated Nginx patch version plus 1 Node.js dependency. Added documentation for `search` and `count` endpoints
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
-* 3.64.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "soft-deleted" events are no longer a thing.
+* 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
+* 3.65.0: (2026-10-08) More specific error status codes, replacing some generic `400`s: `403` for a bad or missing event `secret` (manage, delete), `404` for an id that matches no event (retrieve, delete), `413` for a date range over the maximum, and `422` for an `enddate` before its `startdate` (events, ICS export). Response bodies are unchanged.
+* 3.66.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "soft-deleted" events are no longer a thing.

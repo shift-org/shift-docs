@@ -18,13 +18,24 @@ describe("ical feed", () => {
     sandbox.restore();
     return testing.reset();
   });
-  it("errors on an invalid id", () => {
+  it("reports 404 for a series id that matches no events", () => {
+    // 'id' aliases to series_id. an id that matches nothing is
+    // "not found", not a bad request.
+    // re: #566
     return request(app)
       .get('/api/ical.php')
       .query({
         id: 999
       })
-      .expect(400);
+      .expect(404);
+  });
+  it("reports 404 for an event id that matches no event", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        event_id: 999
+      })
+      .expect(404);
   });
   it("errors on an invalid date",  () => {
     return request(app)
@@ -39,23 +50,23 @@ describe("ical feed", () => {
       })
       .expect(400);
   });
-  it("errors on too large a range",  () => {
+  it("reports 413 on too large a range",  () => {
     return request(app)
       .get('/api/ical.php')
       .query({
         startdate: "2002-01-01",
         enddate  : "2003-01-01",
       })
-      .expect(400);
+      .expect(413);
   });
-  it("errors on a negative range",  () => {
+  it("reports 422 on a negative range",  () => {
     return request(app)
       .get('/api/ical.php')
       .query({
         startdate: "2003-01-01",
         enddate  : "2002-01-01",
       })
-      .expect(400);
+      .expect(422);
   });
   it("supports an 'all events' feed", () => {
     return request(app)

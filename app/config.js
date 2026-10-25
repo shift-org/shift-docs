@@ -74,7 +74,7 @@ const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.64.0",
+    version: "3.66.0",
   },
   db: dbConfig,
   // maybe bad, but some code likes to know:

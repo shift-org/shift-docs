@@ -15,7 +15,8 @@
  *    events: [ {...},  ... ]
  *  }
  *
- * If there is a problem the error code will be 400 with a json response of the form:
+ * If there is a problem the error code will be 400 -- or 404 when an id
+ * doesn't match a visible event -- with a json response of the form:
  *  {
  *      "error": { "message": "Error message" }
  *  }
@@ -40,7 +41,9 @@ exports.get = function(req, res, next) {
     // return the summary of a particular daily event:
     return CalDaily.getByDailyID(id).then((daily) => {
       if (!daily) {
-        res.textError("no such time");
+        // the id didn't match a visible event: not found, rather than a bad request.
+        // ( getByDailyID() also returns null for hidden and delisted events. )
+        res.textError("no such time", 404);
       } else  {
         const events = getSummaries([daily]);
         res.set(config.api.header, config.api.version);
@@ -60,9 +63,9 @@ exports.get = function(req, res, next) {
       // e.g. (2025-06-10 - 2025-06-01 = 9 days difference) + 1 day = 10 day range
       const range = end.diff(start, 'day') + 1;
       if (range < 1) {
-        res.textError("end date cannot be before start date");
+        res.textError("end date cannot be before start date", 422);
       } else if (range > EventsRange.MaxDays) {
-        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
+        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`, 413);
       } else {
         return CalDaily.getRangeVisible(start, end).then((dailies) => {
           const events = getSummaries(dailies);

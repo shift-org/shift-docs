@@ -36,7 +36,8 @@ approx. early to mid May
 * Print calendar:
   * If a print calendar is being prepared, set `params.festival.printCalendarActive` to `true`
   * Set `params.festival.printCalendarDate` to the print deadline date
-  * Once the print deadline passes, set `params.festival.printCalendarActive` to `false`
+  * If there are multiple print rounds, update the deadline each time
+  * Once the last print deadline passes, set `params.festival.printCalendarActive` back to `false`
 
 
 ## During

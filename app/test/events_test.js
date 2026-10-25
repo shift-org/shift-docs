@@ -18,13 +18,15 @@ describe("getting events", () => {
       .get('/api/events.php')
       .then(testing.expectError);
   });
-  it("errors on an invalid id", () => {
+  it("reports 404 for an id that doesn't match a visible event", () => {
     return request(app)
       .get('/api/events.php')
       .query({
-          id: 999
+          id:999
         })
-      .then(testing.expectError);
+      // an id that matches nothing is "not found", not a bad request.
+      // re: #566
+      .then(res => testing.expectError(res, null, 404));
   });
   it("errors on an invalid date", () => {
     return request(app)
@@ -39,23 +41,24 @@ describe("getting events", () => {
       })
       .then(testing.expectError);
   });
-  it("errors on too large a range", () => {
+  it("reports 413 on too large a range", () => {
     return request(app)
       .get('/api/events.php')
       .query({
         startdate: "2002-01-01",
         enddate  : "2003-01-01",
       })
-      .then(testing.expectError);
+      .then(res => testing.expectError(res, null, 413));
   });
-  it("errors on a negative range", () => {
+  it("reports 422 on a negative range", () => {
     return request(app)
       .get('/api/events.php')
       .query({
         startdate: "2003-01-01",
         enddate  : "2002-01-01",
        })
-      .then(testing.expectError);
+      // parseable, but not a range we can answer. re: #559
+      .then(res => testing.expectError(res, null, 422));
   });
   it("succeeds with a valid id", () => {
     return request(app)
@@ -72,6 +75,22 @@ describe("getting events", () => {
         assert.equal(evt.hideemail, true, "the test data has the email hidden");
         assert.equal(evt.email, null, "with no secret the email should be nil");
         assert.equal(res.body.pagination, undefined, "only ranges should have pagination");
+      });
+  });
+  it("returns an empty array for a range with no events", () => {
+    // unlike a missing id, an empty range is a meaningful answer: nothing is
+    // scheduled then. it must stay a 200, not become a 404.
+    return request(app)
+      .get('/api/events.php')
+      .query({
+         startdate: "2002-09-01",
+         enddate  : "2002-09-02",
+       })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .then(res => {
+        assert.deepEqual(res.body.events, []);
+        assert.equal(res.body.pagination.events, 0);
       });
   });
   it("succeeds with a valid range", () => {

@@ -6,7 +6,7 @@ volumes:
 
 services:
   nginx:
-    image: nginx:1.30.1
+    image: nginx:1.30.5
     restart: always
     volumes:
       # DEV SITE:
@@ -56,7 +56,7 @@ services:
 
   node:
     restart: always
-    image: node:24.15.0-slim
+    image: node:24.22.1-slim
     # use the local logging driver for log storage and rotation
     # WARNING: doesnt work on production, reports:
     #  no logs are available with the 'local' log driver

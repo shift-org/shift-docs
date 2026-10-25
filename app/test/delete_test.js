@@ -35,16 +35,16 @@ describe("deleting using json", () => {
 
 // run a series of deletion tests with or without forms
 function handleDeleteWithForms(useForm) {
-  it("fails on an invalid id", () => {
+  it("reports 403 on an invalid id", () => {
     return Promise.resolve()
       .then(_ => requestDelete({
         id: 999,
         secret: testing.user.secret,
         useForm
       }))
-      .then(testing.expectError);
+      .then(res => testing.expectError(res, null, 403));
   });
-  it("fails on an incorrect password", () => {
+  it("reports 403 on an invalid password", () => {
     // fix? maybe this should return "okay"
     // so that someone couldn't spam searching for the correct secret.
     return Promise.resolve()
@@ -53,7 +53,7 @@ function handleDeleteWithForms(useForm) {
         secret: "invalid password",
         useForm
       }))
-      .then(testing.expectError)
+      .then(res => testing.expectError(res, null, 403))
       .then(_ => verifyDataExists(2));
   });
 

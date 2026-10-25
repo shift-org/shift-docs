@@ -27,9 +27,9 @@ exports.get = function get(req, res, next) {
   } else {
     return CalEvent.getByID(id).then((evt) => {
       if (!evt) {
-        res.textError("Event not found");
+        res.textError("Event not found", 404);
       } else if (evt.isDeleted()) {
-        res.textError("Event was deleted");
+        res.textError("Event was deleted", 404);
       } else {
         // the php version didnt error on invalid secret;
         // so this doesnt either ( private data is only returned with a valid secret )
@@ -37,7 +37,7 @@ exports.get = function get(req, res, next) {
         if (!evt.isPublished() && !includePrivate) {
           // act exactly as if unpublished events don't exist
           // ( unless you know the secret )
-          res.textError("Event not found");
+          res.textError("Event not found", 404);
         } else {
           const statuses = CalDaily.getStatusesByEventId(evt.id);
           evt.getDetails(statuses, {includePrivate}).then(details => {

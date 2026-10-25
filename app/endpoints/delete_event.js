@@ -27,9 +27,12 @@ const db = require('shift-docs/db');
 exports.post = [ uploader.makeHandler(), handleCall(postDelete) ];
 
 function postDelete(req) {
-  const data = parseJson(req.body);
-  if (!data.id) {
+  const { id, secret } = parseJson(req.body);
+  if (!id) {
     throw new ErrBadRequest("Missing id");
+  }
+  if (!secret) {
+    throw new ErrBadRequest("Missing secret");
   }
   return deleteEvent(data.id, data.secret);
 }
@@ -43,6 +46,8 @@ function deleteEvent(id, secret) {
     //return reconcile.deleteEntireSeries(tx, id, secret);
   })
   .then((count) => {
+    // note: doesn't distinguish between invalid secret and unknown event.
+    // think that's okay: we don't have to reveal more info about the event than needed.
     if (!count) {
       throw new ErrNotFound("Event not found");
     }
