@@ -1,24 +1,16 @@
 /**
  * Delete Event: Removes an event from the calendar.
- * Expects a JSON post with an id and password.
  *
- *  You can use curl to post json for testing. For example:
- *    curl -k -H 'Content-Type: application/json' -X POST --data-binary \
- *    "@delete_event.json" https://localhost:4443/api/delete_event.php
- *  {
- *      "id": "6245",
- *      "secret": "example"
- *   }
+ * Expects a JSON post containing an `id` and its corresponding `secret`.
+ * Responds with either HTTP success ( 200 ) or an HTTP error
+ * and a json object containing a success or error message.
  *
- * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" and a json error response (see util/errors.js)
- *
+ * See the CALENDAR_API.md for more details.
  */
-const express = require('express');
 const reconcile = require('shift-docs/support/reconcile');
 const { uploader } = require('shift-docs/uploader');
 const { parseJson } = require('shift-docs/util/parse');
-const { ErrBadRequest, ErrNotFound } = require('shift-docs/util/errors');
+const { ErrBadRequest, ErrForbidden } = require('shift-docs/util/errors');
 const handleCall = require('shift-docs/util/handleCall');
 const db = require('shift-docs/db');
 
@@ -34,10 +26,6 @@ function postDelete(req) {
   if (!secret) {
     throw new ErrBadRequest("Missing secret");
   }
-  return deleteEvent(data.id, data.secret);
-}
-
-function deleteEvent(id, secret) {
   return db.query.transaction((tx) => {
     // FIX? revoke hides the event from all queries
     // it's nice for testing/support to not delete the data entirely
@@ -49,7 +37,7 @@ function deleteEvent(id, secret) {
     // note: doesn't distinguish between invalid secret and unknown event.
     // think that's okay: we don't have to reveal more info about the event than needed.
     if (!count) {
-      throw new ErrNotFound("Event not found");
+      throw new ErrForbidden("Invalid secret, use link from email");
     }
     return { success: true };
   });

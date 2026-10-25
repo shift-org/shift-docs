@@ -60,7 +60,7 @@ describe("managing events", () => {
     sandbox.restore();
     return testing.reset();
   });
-  it("errors on an invalid id", () => {
+  it("reports error 400 on an invalid id", () => {
     return request(app)
       .post(manage_api)
       .type('form')
@@ -198,7 +198,7 @@ describe("managing events", () => {
         });
     });
   });
-  it("reports 403 for an empty secret", () => {
+  it("reports 403 for an empty secret", async () => {
     await testing.createTestData([1, 2, 3]);
     return request(app)
       .post(manage_api)
@@ -215,7 +215,7 @@ describe("managing events", () => {
         id: 3, // reverses the secret:
         secret: testing.user.secret.split("").reverse().join(""),
       }, requestedSeries))
-      .then(res => .expectError(res, null, 403));
+      .then(res => testing.expectError(res, null, 403));
   });
   it("adds one date and removes another", async () => {
     await testing.createTestData([1, 2, 3]);
@@ -279,7 +279,7 @@ describe("managing events", () => {
         });
       });
   });
-  it("fails image attachment when too large", async () => {
+  it("reports error 400 on an oversized image", async () => {
     await testing.createTestData([1, 2, 3]);
     const imageSource = images.bike.big;
     const imageTarget = getImageTarget(3, imageSource);
@@ -295,7 +295,7 @@ describe("managing events", () => {
           });
     });
   });
-  it("fails image attachment with an unsupported format", async () => {
+  it("reports error 400 on an unsupported image format", async () => {
     await testing.createTestData([1, 2, 3]);
     const imageSource = images.bike.unsupportedFormat;
     const imageTarget = getImageTarget(3, imageSource);
@@ -310,7 +310,7 @@ describe("managing events", () => {
         });
     });
   });
-  it("prevents images on new events", async () => {
+  it("reports error 400 when attaching images on new events", async () => {
     const imageSource = images.bike.jpg;
     // follows from "creates a new event" which would normally succeed
     // only we attach an image and it should fail because that's diallowed.

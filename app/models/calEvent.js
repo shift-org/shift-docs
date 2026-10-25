@@ -117,13 +117,7 @@ const methods =  {
     // note: legacy events have null for the hidden field
     // zero and null are considered published.
     return !this.hidden;
-  },
-
-  // deleted events are never returned by queries
-  // and "soft deleted" events are no longer a thing
-  isDeleted() {
-    return false;
-  },
+  }
 };
 
 function addMethods(res) {

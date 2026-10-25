@@ -31,12 +31,12 @@ const expect = {
   },
   // checks for shift's custom error message format.
   // field can check for a particular message field
-  error(res, field = null) {
+  error(res, field = null, status = 400) {
     if (field) {
       const errMsg = res.body?.error?.fields[field];
       assert.ok(errMsg, `expected an error message for field "${field}"`);
     }
-    assert.notEqual(res.status, 200, `unexpected status 200`);
+    assert.equal(res.status, status, `unexpected status`);
     assert.match(res.header['content-type'], /json/);
     assert.match(res.header['api-version'] || "missing api version", /^3\./);
     assert.ok(res.body?.error?.message, "a general error message must exist");

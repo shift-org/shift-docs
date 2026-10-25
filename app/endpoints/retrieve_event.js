@@ -1,51 +1,44 @@
 /**
- * Retrieve Event: returns the summary of an event and all of its event times.
+ * Retrieve Event: Responds with a summary of an event and all of its scheduled days.
+ *
  * Currently used only for displaying a ride to its organizer so they can edit the ride.
- * Could also be used for requesting all days a particular event takes place.
- * Expects an calevent id (and optionally, its matching secret) using url query parameters.
+ * Expects an series id (and optionally, its matching secret) using url query parameters.
  *
  * For example:
  * https://localhost:3080/api/retrieve_event.php?id=595&secret=12e1c433836d6c92431ac71f1ff6dd97
  *
- * On success, returns a json summary of event.
- * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" with a json error response ( see util/errors.js )
+ * On success, responds with HTTP 200, and a json summary of the event.
+ * On failure, responds with an HTTP error, abd a json error message.
  *
- *  See also:
- *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#retrieving-public-event-data
+ * See the CALENDAR_API.md for more details.
  */
-const config = require("../config");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
+const { ErrBadRequest, ErrNotFound } = require('shift-docs/util/errors');
+const { parseInt, parseString } = require('shift-docs/util/parse');
+const handleCall = require('shift-docs/util/handleCall');
 
-exports.get = function get(req, res, next) {
-  let id = req.query.id;
-  let secret = req.query.secret;
+exports.get = handleCall(retrieveEvent);
 
+function retrieveEvent(req) {
+  const id = parseInt(req.query.id);
+  const secret = parseString(req.query.secret);
   if (!id) {
-    res.textError("Request incomplete, please pass an id in the url");
-  } else {
-    return CalEvent.getByID(id).then((evt) => {
-      if (!evt) {
-        res.textError("Event not found", 404);
-      } else if (evt.isDeleted()) {
-        res.textError("Event was deleted", 404);
-      } else {
-        // the php version didnt error on invalid secret;
-        // so this doesnt either ( private data is only returned with a valid secret )
-        const includePrivate = evt.isSecretValid(secret);
-        if (!evt.isPublished() && !includePrivate) {
-          // act exactly as if unpublished events don't exist
-          // ( unless you know the secret )
-          res.textError("Event not found", 404);
-        } else {
-          const statuses = CalDaily.getStatusesByEventId(evt.id);
-          evt.getDetails(statuses, {includePrivate}).then(details => {
-            res.set(config.api.header, config.api.version);
-            res.json(details);
-          });
-        }
-      }
-    }).catch(next);
+    throw new ErrBadRequest("Missing id");
   }
+  return CalEvent.getByID(id).then((evt) => {
+    if (!evt) {
+      throw new ErrNotFound("Event not found");
+    }
+    // the php version didnt error on invalid secret;
+    // so this doesnt either ( private data is only returned with a valid secret )
+    const includePrivate = evt.isSecretValid(secret);
+    if (!evt.isPublished() && !includePrivate) {
+      // act exactly as if unpublished events don't exist
+      // ( unless you know the secret )
+      throw new ErrNotFound("Event not found");
+    }
+    const statuses = CalDaily.getStatusesByEventId(id);
+    return evt.getDetails(statuses, {includePrivate});
+  });
 }

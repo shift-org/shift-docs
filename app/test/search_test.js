@@ -15,7 +15,7 @@ describe("searching for events", () => {
     return testing.reset();
   });
   // test:
-  it("errors on an empty search term", () => {
+  it("reports error 400 on an empty search term", () => {
     return request(app)
       .get('/api/search.php')
       // .query({q: "events"})

@@ -61,6 +61,12 @@ class ErrBadRequest extends StatusError {
   }
 }
 
+class ErrForbidden extends StatusError {
+  constructor(message = "not permitted") {
+    super(403, message);
+  }
+}
+
 class ErrNotFound extends StatusError {
   constructor(message = "not found") {
     super(404, message);
@@ -165,6 +171,7 @@ module.exports = {
   ErrCommited,
   ErrBadRequest,
   ErrNotFound,
+  ErrForbidden,
 
   ErrorCollector,
   ErrorStrings,

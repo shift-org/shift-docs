@@ -11,6 +11,20 @@ Base URL:
 Most responses are in JSON format, except for:
 * event export returns vCalendar format
 
+For most endpoints, you can use curl to post json for testing. For example:
+
+```
+> curl -k -H 'Content-Type: application/json' -X POST --data-binary "@delete_event.json" https://localhost:4443/api/delete_event.php
+```
+
+where `delete_event.json` might contain:
+```
+{
+  "id": "6245",
+  "secret": "example"
+}
+```
+
 ## Viewing events
 
 ### Retrieving public event data
@@ -119,7 +133,7 @@ Example response for a range of events:
     }
 
 
-Example response for a range of events, including delisted events:
+Example response for a range of events:
 
     {
       "events": [
@@ -136,36 +150,7 @@ Example response for a range of events, including delisted events:
           "newsflash": null,
           "status": "A",
           "endtime": "10:00:00"
-        },
-        {
-          // for delisted occurrences when there are still valid occurences in the series,
-          // all event fields are provided
-          "id": "9001",
-          "title": "Late-Riser New Year's Day Ride",
-          ... // all standard fields
-          "date": "2025-01-01",
-          "caldaily_id": "10102",
-          "shareable": "https://shift2bikes.org/calendar/event-10102",
-          "cancelled": true,
-          "newsflash": "New start time",
-          "status": "D",     // D=delisted
-          "endtime": null
-        },
-        {
-          // for delisted occurences when the entire event series has been deleted,
-          // only these limited fields are provided
-          "id": "9002",
-          "deleted": true,
-          "date": "2025-01-01",
-          "caldaily_id": "10103",
-          "shareable": "https://shift2bikes.org/calendar/event-10103",
-          "cancelled": true,
-          "newsflash": null, // always null when delisted
-          "status": "D",     // D=delisted
-          "endtime": null
         }
-          // if an event is deleted when it is unpublished (aka hidden),
-          // the event is entirely gone and is not included here
       ],
       "pagination": {
         "start": "2025-01-01",
@@ -223,7 +208,7 @@ URL parameters:
 
 Unknown parameters are ignored.
 
-Cancelled, delisted, and hidden events are excluded from all counts. `past` and `upcoming` are relative to the current date at the time of the request.
+Cancelled, and hidden events are excluded from all counts. `past` and `upcoming` are relative to the current date at the time of the request.
 
 Success:
 * status code: `200`
@@ -342,9 +327,6 @@ URL parameters:
   * last day of range, inclusive
   * `YYYY-MM-DD` format
   * if not provided, current date is used
-* `all`:
-  * for range requests only (no effect when `id` is provided)
-  * if `true`, delisted events are included; useful for clients that cache results and need to reconcile events that have been removed
 * `filename`:
   * if `none`, the output is plain text instead of an ICS file; useful for local debugging
 
@@ -649,15 +631,11 @@ Example response:
         "success": true
     }
 
-Errors:
-* status code: `400`, `403`, or `404`
-* possible errors
-  * no request body or not parseable JSON (`400`)
-  * `id` not included (`400`)
-  * `id` not found (`404`)
-  * invalid or missing `secret` (`403`)
+Error status codes:
+* `400` (Bad Request): no request body, not parseable JSON, or `id` or `secret` not included.
+* `403` (Forbidden): `id` not found, invalid, or a mismatched `secret` was given.
 
-Example error:
+Example error json:
 
     {
       "error": {
@@ -746,4 +724,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
 * 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
 * 3.65.0: (2026-10-08) More specific error status codes, replacing some generic `400`s: `403` for a bad or missing event `secret` (manage, delete), `404` for an id that matches no event (retrieve, delete), `413` for a date range over the maximum, and `422` for an `enddate` before its `startdate` (events, ICS export). Response bodies are unchanged.
-* 3.66.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "soft-deleted" events are no longer a thing.
+* 3.66.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "delisted" events are no longer a thing.

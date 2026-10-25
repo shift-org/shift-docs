@@ -37,12 +37,12 @@ describe("ride count testing", () => {
         assert.equal(res.body?.total, 4);
       });
   });
-  it("errors on a missing time", () => {
+  it("reports error 400 on a missing time", () => {
     return request(app)
       .get('/api/ride_count.php')
       .then(testing.expectError);
   });
-  it("errors on an invalid time", () => {
+  it("reports error 400 on an invalid time", () => {
     return request(app)
       .get('/api/ride_count.php')
       .query({s: "yesterday", e: "tomorrow"})
