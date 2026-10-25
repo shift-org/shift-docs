@@ -94,7 +94,7 @@ describe("managing events", () => {
         // console.log(res.body);
       });
   });
-  it("fails creation when missing required fields", () => {
+  it("reports error 400 on creation when missing required fields", () => {
     // each time substitute a field value that should fail
     const pairs = [
       "title", "",
@@ -119,15 +119,12 @@ describe("managing events", () => {
         return request(app)
         .post(manage_api)
         .send(post)
-        .expect(400)
-        .then(res => {
-          assert.ok(res.body.error.fields[key]);
-        });
+        .then((res) => testing.expectError(res, key));
       })
     }
     return seq;
   });
-  it("fails creation when fields have invalid values", async () => {
+  it("reports error 400 on creation when fields have invalid values", async () => {
     const pairs = [
       "eventduration", "i am not a number, i am a man!",
       // converting directly toInt will ignore trailing text
@@ -138,9 +135,10 @@ describe("managing events", () => {
       "hideemail", "wants bool",
       "hidephone", 42,
       "loopride", "wants bool",
+      "ridelength", 800,
       "area", 23,
-      //  no longer used:
-      //"datestype", "a long string",
+      // ridelength very specifically turns invalid results into null values
+      // datestype is no longer used
     ];
     let seq = Promise.resolve(); // something to kick off the sequences.
     for (let i=0; i< pairs.length; i+=2) {
@@ -156,6 +154,13 @@ describe("managing events", () => {
       })
     }
     return seq;
+  });
+  it("succeeds when ridelength is the client default value", async () => {
+    const post = Object.assign({}, requestedSeries, {ridelength: "--"});
+    return request(app)
+      .post(manage_api)
+      .send(post)
+      .then(testing.expectOkay);
   });
   it("publishes an event", async () => {
     // in the predetermined test data, id three winds up being unpublished

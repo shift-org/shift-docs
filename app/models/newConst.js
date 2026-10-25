@@ -39,7 +39,7 @@ class EventStatus {
 
 // an array of common ride distances
 const Distances = [
-  new Shorthand('', 'Unspecified', null),
+  new Shorthand('--', 'Unspecified', null),
   new Shorthand('0-3', '0-3 miles'),
   new Shorthand('3-8', '3-8 miles'),
   new Shorthand('8-15','8-15 miles'),
