@@ -6,6 +6,7 @@ shift.overrides
 .idea/
 !services/db/*
 *.sql
+*.db
 !services/db/*.sql
 !services/db/*/*.sql
 services/db/tmp/*.sql
