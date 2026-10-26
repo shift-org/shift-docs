@@ -175,7 +175,7 @@ function buildCurrent() {
   const now = dt.getNow();
   const started = now.subtract(1, 'month');
   const ended = now.add(6, 'month');
-  return CalDaily.getFullRange(started, ended).then((dailies) => {
+  return CalDaily.getDateRange(started, ended).then((dailies) => {
     return buildEntries(dailies);
   });
 }
@@ -194,8 +194,8 @@ function buildRange(start, end, includeDeleted) {
       return Promise.reject(expected(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`));
     }
     const q = includeDeleted?
-              CalDaily.getFullRange:
-              CalDaily.getRangeVisible;
+              CalDaily.getDateRange:
+              CalDaily.getDateRange;
     return q(start,end).then((dailies)=>{
       return buildEntries(dailies);
     });

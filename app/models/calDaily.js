@@ -33,9 +33,8 @@ const methods =  {
     return config.site.url("api", `ics.php?event_id=${this.pkid}`);
   },
 
-  // return true if the occurrence has been cancelled or delisted;
-  // false if confirmed.
-  // fix: an isConfirmed() would make more sense.
+  // return true if the occurrence has been cancelled;
+  // fix: an isConfirmed() or isActive() would make more sense.
   isUnscheduled() {
     return (this.eventstatus === EventStatus.Cancelled.toString());
   },
@@ -96,7 +95,8 @@ class CalDaily {
       });
   }
 
-  // promise an array of cal daily statuses, including unpublished days.
+  // promise an array of cal daily objects,
+  // including events which haven't been published yet.
   static getStatusesByEventId(id) {
     return knex
       .query('view_all_days')
@@ -105,23 +105,10 @@ class CalDaily {
       .then(dailies => dailies.map(getStatus));
   }
 
-  // Promises all occurrences of any CalDaily within the specified date range....
-  // including excluded and delisted ones. ( see also: getRangeVisible )
-  // Days are datejs objects.
-  static getFullRange(firstDay, lastDay) {
-    return knex
-      .query('view_event_schedule')
-      .where('eventdate', '>=', dt.toYMDString(firstDay))
-      .where('eventdate', '<=', dt.toYMDString(lastDay))
-      .orderBy('eventdate')
-      .then(function(dailies) {
-        return dailies.map(at => addMethods(at));
-      });
-  }
-
-  // Promises all occurrences of any scheduled CalDaily within the specified date range.
-  // Days are datejs objects.
-  static getRangeVisible(firstDay, lastDay) {
+  // Promises CalDaily objects for all occurrences of
+  // any published events within the specified date range.
+  // The passed dates are datejs objects.
+  static getDateRange(firstDay, lastDay) {
    const min = dt.toYMDString(firstDay);
    const max = dt.toYMDString(lastDay);
    return knex
@@ -129,12 +116,10 @@ class CalDaily {
       .where('eventdate', '>=', min)
       .where('eventdate', '<=', max)
       .orderBy('eventdate')
-      .then(function(dailies) {
-        return dailies.map(at => addMethods(at));
-      });
+      .then(dailies => dailies.map(at => addMethods(at)));
   }
-  // Promises all occurrences of any scheduled CalDaily within the specified date range.
-  // Days are datejs objects.
+  // Promises CalDaily objects for all occurrences of
+  // any published events matching the passed search terms.
   static getEventsBySearch(firstDay, term, limit, offset, searchOldEvents=false) {
     const query = knex.query('view_event_schedule')
         .column(knex.query.raw('*, COUNT(*) OVER() AS fullcount'))  // COUNT OVER is our pagination hack
@@ -167,8 +152,9 @@ class CalDaily {
       return rows.map(at => addMethods(at));
     });
   }
-  // Promises all occurrences of any scheduled CalDaily within the specified date range.
-  // Days are datejs objects.
+  // Promises an object containing the number of scheduled events within the specified date range.
+  // The object contains { total, past, upcoming } where past and upcoming are relative to the current date and time.
+  // The passed dates are datejs objects.
   static getEventsCount(startDate, endDate) {
     const currDate = dt.toYMDString();
     const query = knex.query('view_event_schedule')

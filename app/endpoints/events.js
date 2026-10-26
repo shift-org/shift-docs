@@ -42,7 +42,7 @@ exports.get = function(req, res, next) {
     return CalDaily.getByDailyID(id).then((daily) => {
       if (!daily) {
         // the id didn't match a visible event: not found, rather than a bad request.
-        // ( getByDailyID() also returns null for hidden and delisted events. )
+        // ( getByDailyID() also returns null for hidden events. )
         res.textError("no such time", 404);
       } else  {
         const events = getSummaries([daily]);
@@ -67,7 +67,7 @@ exports.get = function(req, res, next) {
       } else if (range > EventsRange.MaxDays) {
         res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`, 413);
       } else {
-        return CalDaily.getRangeVisible(start, end).then((dailies) => {
+        return CalDaily.getDateRange(start, end).then((dailies) => {
           const events = getSummaries(dailies);
           const pagination = getPagination(start, end, events.length);
           res.set(config.api.header, config.api.version);
