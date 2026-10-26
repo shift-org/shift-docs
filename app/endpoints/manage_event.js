@@ -17,7 +17,7 @@
  */
 const { parseJson } = require('shift-docs/util/parse');
 const newValidator = require('shift-docs/support/eventValidator');
-const { checkEvent, writeEvent, writeImage } = require('shift-docs/support/requestedEvent');
+const { checkEventSecret, writeEvent, writeImage } = require('shift-docs/support/requestedEvent');
 const { ErrorCollector, FormError, ErrForbidden } = require('shift-docs/util/errors');
 const { uploader } = require('shift-docs/uploader');
 const handleCall = require('shift-docs/util/handleCall');
@@ -86,7 +86,7 @@ function createEvent(values) {
 async function updateEvent(input, values, fileData) {
   const { id, secret } = input;
   // validate id and secret while determining publication count
-  const prevPublished = await checkEvent(id, secret);
+  const prevPublished = await checkEventSecret(id, secret);
   if (prevPublished === null) {
     // returns null for an unknown id as well as a bad
     // secret; 403 covers both rather than revealing which. re: #559

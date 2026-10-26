@@ -99,7 +99,8 @@ select id, secret, published
 from cal_private
 join cal_series using(id)
 -- revoked rides are indicated by a null published status.
-where published is not null;
+-- some rides have a null secret.... we don't let them get updated.
+where secret is not null and published is not null;
 `,
 
   // use to find series and date from a pkid

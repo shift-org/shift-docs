@@ -5,26 +5,32 @@ const reconcile = require('shift-docs/support/reconcile');
 const dt = require('shift-docs/util/dateTime');
 
 module.exports = {
-  checkEvent,
+  checkEventSecret,
   writeEvent,
   writeImage
 };
 
-// promise publication count
-// returns null if not published
-function checkEvent(id, secret) {
+// validate the passed id and secret
+// promises the publication count
+// returns null the id or secret is invalid, or if the ride was revoked.
+function checkEventSecret(id, secret) {
+  // knex has the annoying behavior that an undefined parameter value
+  // and the calling code expects null when id or secret is missing or unmatched.
+  if (!id || !secret) {
+    return Promise.resolve(null);
+  }
   return db
     .query("view_private_checks")
-    // knex has the annoying behavior that an undefined value
-    // results in an unused binding, which makes the query throw
-    // since the calling code wants null on missing value, reduce undefined to null.
-    .where({ id: id ?? null, secret: secret ?? null })
+    .where({ id, secret })
     .then((rows) => {
+      // no match?
       if (!rows.length) {
         return null;
       } else {
         // the update_check gaurentees published is non-null
+        // a null published value means "revoked"
         const published = rows[0].published;
+        // raises an exception on a query coding error.
         console.assert(
           Number.isInteger(published),
           "expected a valid publication status",
