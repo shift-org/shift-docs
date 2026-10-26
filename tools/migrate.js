@@ -11,7 +11,7 @@
  *  > ./shift mysql-pipe < reorg.sql
  *
  * Example via external communication with docker:
- * > npm run --silent -w tools sqlite-migrate -- -db=mysql:63064  > reorg.sql
+ * > npm run --silent -w tools mysql-migrate -- -db=mysql:54166  > reorg.sql
  *
  *  note, the first few lines may sometimes contain stray commandline logging.
  */
@@ -123,8 +123,7 @@ function buildData(out, events) {
     const evt = events[id];
     const invalid = evt.allDays.length == 1 && evt.allDays[0].pkid === null;
     if (invalid) {
-      // TBD: we could keep these i suppose.
-      // a series ith no days.
+      // TBD: keep series with no days?
       out.note(evt.id, `skipping because it no had scheduled days. review: ${evt.review} title: "${evt.title}"`);
     } else {
       const days = evt.allDays.filter(at => isScheduled(at) !== undefined);
@@ -138,6 +137,7 @@ function buildData(out, events) {
        const err = out.warn(evt.id, `REMOVED ${diff} days; ${skips} skipped.`);
        throw new Error(err);
       }
+      reorderTimes(evt);
       seriesTable(out, evt);
       imageTable(out, evt);
       locTable(out, evt);
@@ -172,13 +172,6 @@ function seriesTable(out, evt) {
   // zero and null are considered visible.
   const hidden = evt.hidden === 1;
   const published = !hidden ? (evt.changes || 1) : 0;
-  //
-  let { modified, created } = evt;
-  if (dt.convert(modified).isBefore(created)) {
-    const swap = modified;
-    modified = created;
-    created = modified;
-  }
 
   // munge and don't store if we can generate it.
   const munged = (evt.title || "").substring(0, 24).trim();
@@ -255,6 +248,15 @@ function privateTable(out, evt) {
     show_contact: showContact.value,
   });
 }
+// created and modified times can be a little funky.
+function reorderTimes(evt) {
+  const { created, modified } = evt;
+  // console.log("created", dt.icalFormat(created), "modified", dt.icalFormat(modified));
+  if (dt.convert(modified).isBefore(dt.convert(created))) {
+    evt.created = modified;
+    evt.modified = created;
+  }
+}
 function scheduleTable(out, evt, days) {
   for (const at of days) {
     if (!at.pkid) {
@@ -262,11 +264,6 @@ function scheduleTable(out, evt, days) {
     }
     const scheduled = isScheduled(at);
     assert(scheduled !== undefined);
-    if (evt.modified < evt.created) {
-      const swap = evt.created;
-      evt.created = evt.modified;
-      evt.modified = swap;
-    }
     out.insert('cal_schedule', {
       id: at.id,
       ymd: at.eventdate,
