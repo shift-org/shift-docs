@@ -131,11 +131,8 @@ function buildData(out, events) {
 
       const diff = evt.allDays.length - days.length;
       if (diff > 0 && diff !== skips) {
-      evt.allDays.forEach(at => {
-        console.log(at);
-      });
-       const err = out.warn(evt.id, `REMOVED ${diff} days; ${skips} skipped.`);
-       throw new Error(err);
+        evt.allDays.forEach(at => console.log(at));
+        out.error(evt.id, `REMOVED ${diff} days; ${skips} skipped.`);
       }
       reorderTimes(evt);
       seriesTable(out, evt);
@@ -174,8 +171,13 @@ function seriesTable(out, evt) {
   const published = !hidden ? (evt.changes || 1) : 0;
 
   // munge and don't store if we can generate it.
-  const munged = (evt.title || "").substring(0, 24).trim();
-  const dbtiny = (evt.tinytitle || "").trim();
+  const munged = nullString(evt.title, 24);
+  const dbtiny = nullString(evt.tinytitle);
+
+  // a few rides have the text "none" for the tiny title or summary.
+  function eatNone(str) {
+    return str === "none" ? null : str;
+  }
 
   out.insert('cal_series', {
     id: evt.id,
@@ -208,6 +210,7 @@ function imageTable(out, evt) {
     }
   }
 }
+
 function locTable(out, evt) {
   out.insert('cal_location', {
     id: evt.id,
@@ -218,13 +221,15 @@ function locTable(out, evt) {
     place_info: evt.locdetails,
     time_info: evt.timedetails,
   });
-  const locEnd = (evt.locend + '').trim();
+
+  // only write the loc end if needed
+  const locEnd = nullString(evt.locend);
   if (locEnd) {
     out.insert('cal_location', {
       id: evt.id,
       loc_type: LocType.Finish,
       place_name: locEnd,
-      // only supported for start right now.
+      // these fields only supported for loc start right now.
       address: null,
       place_info: null,
       time_info: null,
@@ -260,7 +265,7 @@ function reorderTimes(evt) {
 function scheduleTable(out, evt, days) {
   for (const at of days) {
     if (!at.pkid) {
-      throw new Error("pkid");
+      out.error(evt.id, "missing pkid");
     }
     const scheduled = isScheduled(at);
     assert(scheduled !== undefined);
@@ -281,14 +286,12 @@ function tagTable(out, evt) {
   // two of which seem to be tests... dunno what's best for them.
   tags.area = evt.area ? Area.findShorthand(evt.area)?.value : Area.Portland.toString();
   if (!tags.area) {
-    const msg = out.note(evt.id, `unknown area ${evt.area}`)
-    throw new Error(msg);
+    out.error(evt.id, `unknown area ${evt.area}`);
   }
   //
   tags.audience = evt.audience ? Audience.findShorthand(evt.audience)?.value : Audience.General.toString();
   if (!tags.audience) {
-    const msg = out.note(evt.id, `unknown audience ${evt.audience}`)
-    throw new Error(msg);
+    out.error(evt.id, `unknown audience ${evt.audience}`);
   }
   // many rides have a null ridelength
   const dist = Distance.findShorthand(evt.ridelength)?.value;
@@ -299,8 +302,9 @@ function tagTable(out, evt) {
     // nothing else is like that.
     if (evt.ridelength == 12) {
       evt.ridelength = '8-15';
+      out.note(evt.id, `rewriting ride length ${evt.ridelength} as 8-15`);
     } else {
-     out.note(evt.id, `unknown ride length ${evt.ridelength}`);
+      out.error(evt.id, `unknown ride length ${evt.ridelength}`);
     }
   }
   // false zero or null
@@ -338,9 +342,13 @@ function webTable(out, evt) {
   }
 }
 // ---- helpers
-function eatNone(str) {
-  return str === "none" ? null : str;
+// turn null, or empty strings into null
+// ( where empty means: only spaces or no text at all )
+// clip optionally caps the string to the passed number of characters
+function nullString(v, clip) {
+  return (v || "").substring(0, clip).trim() || null;
 }
+
 // does the passed data have an valid values other than 'series'
 function hasData(d, ignore = []) {
   const keys = Object.keys(d);
@@ -410,13 +418,18 @@ class Output {
     }
     t.rows.push(cols);
   }
+  note(id, msg) {
+    this.comments.push(`note: event ${id} ${msg}`);
+    return msg;
+  }
   warn(id, msg) {
     this.comments.push(`WARNING: event ${id} ${msg}`);
     return msg;
   }
-  note(id, msg) {
-    this.comments.push(`note: event ${id} ${msg}`);
-    return msg;
+  error(id, msg) {
+    const comment = `ERROR: event ${id} ${msg}`;
+    this.comments.push(comment);
+    throw new Error(comment);
   }
 }
 
