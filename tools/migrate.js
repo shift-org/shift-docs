@@ -173,6 +173,7 @@ function seriesTable(out, evt) {
   // munge and don't store if we can generate it.
   const munged = nullString(evt.title, 24);
   const dbtiny = nullString(evt.tinytitle);
+  const summary = nullString(evt.printdescr);
 
   // a few rides have the text "none" for the tiny title or summary.
   function eatNone(str) {
@@ -187,7 +188,7 @@ function seriesTable(out, evt) {
     start_time: evt.eventtime,
     scheduled_duration: evt.eventduration,
     tiny_title: eatNone((munged === dbtiny) ? null : dbtiny),
-    summary: eatNone(evt.printdescr || null),
+    summary: eatNone(summary),
     details: evt.descr,
     created: evt.created,
     modified: evt.modified,
@@ -242,12 +243,17 @@ function privateTable(out, evt) {
     const printable = !!evt[`print${field}`]; // false if never set (ie. null)
     return Showable.combine(visible, printable);
   });
+  const email = nullString(evt.email);
+  if (email === null) {
+    // ride 732, joe the plubmer, has a null email
+    out.note(evt.id, `has a null email`);
+  }
   out.insert('cal_private', {
     id: evt.id,
-    secret: evt.password || null,
-    private_email: evt.email || null,
-    private_phone: evt.phone || null,
-    private_contact: evt.contact || null,
+    secret: nullString(evt.password),
+    private_email: email,
+    private_phone: nullString(evt.phone),
+    private_contact: nullString(evt.contact),
     show_email: showEmail.value,
     show_phone: showPhone.value,
     show_contact: showContact.value,
@@ -276,7 +282,7 @@ function scheduleTable(out, evt, days) {
       pkid: at.pkid,
       added: evt.created,
       changed: evt.modified,
-      news: at.newsflash || null,
+      news: nullString(at.newsflash),
     });
   }
 }
@@ -301,10 +307,11 @@ function tagTable(out, evt) {
     // dunno why but series 7283 has a length of "12"
     // nothing else is like that.
     if (evt.ridelength == 12) {
-      evt.ridelength = '8-15';
-      out.note(evt.id, `rewriting ride length ${evt.ridelength} as 8-15`);
+      const forcedValue = '8-15';
+      out.note(evt.id, `rewriting ride length '${evt.ridelength}' as '${forcedValue}'`);
+      evt.ridelength = forcedValue;
     } else {
-      out.error(evt.id, `unknown ride length ${evt.ridelength}`);
+      out.error(evt.id, `unknown ride length '${evt.ridelength}'`);
     }
   }
   // false zero or null
@@ -328,15 +335,17 @@ function tagTable(out, evt) {
   }
 }
 function webTable(out, evt) {
-  if (evt.weburl || evt.webname) {
+  const name = nullString(evt.webname);
+  const url = nullString(evt.weburl);
+  if (name || url) {
     const visible = true;
     const printable = !!evt.printweburl; // false if never set ( null )
     const show = Showable.combine(visible, printable);
     out.insert('cal_web', {
       id: evt.id,
       web_type: 'url',
-      web_text: evt.webname || null,
-      web_link: evt.weburl,
+      web_text: name,
+      web_link: url,
       show_weburl: show.value,
     });
   }
