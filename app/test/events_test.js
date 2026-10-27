@@ -21,9 +21,7 @@ describe("getting events", () => {
   it("reports 404 for an id that doesn't match a visible event", () => {
     return request(app)
       .get('/api/events.php')
-      .query({
-          id:999
-        })
+      .query({ id: 999 })
       // an id that matches nothing is "not found", not a bad request.
       // re: #566
       .then(res => testing.expectError(res, null, 404));
@@ -60,12 +58,10 @@ describe("getting events", () => {
       // parseable, but not a range we can answer. re: #559
       .then(res => testing.expectError(res, null, 422));
   });
-  it("succeeds with a valid id", () => {
+  it("succeeds with a valid pkid", () => {
     return request(app)
       .get('/api/events.php')
-      .query({
-         id: 201, // a daily id
-       })
+      .query({ id: 201 })
       .then(testing.expectOkay)
       .then(res => {
         assert.equal(res.body?.events?.length, 1);
