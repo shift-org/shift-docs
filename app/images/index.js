@@ -1,7 +1,6 @@
-// this directory provides some sample images for development.
-// this file exports a helper to find those images.
+// This file exports the location of sample images for development and testing.
 //
-// The bike.jpg is [creative commons licensed](https://creativecommons.org/licenses/by/2.0/)  齐健 from Peking, People's Republic of China - Down the Hutong
+// The bike images are [creative commons licensed](https://creativecommons.org/licenses/by/2.0/)  齐健 from Peking, People's Republic of China - Down the Hutong
 // https://www.flickr.com/photos/timquijano/6337789618/
 // via wikipedia.
 const path = require('node:path');
