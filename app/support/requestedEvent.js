@@ -3,6 +3,7 @@ const config = require('shift-docs/config');
 const { uploader } = require('shift-docs/uploader');
 const reconcile = require('shift-docs/support/reconcile');
 const dt = require('shift-docs/util/dateTime');
+const assert = require('node:assert/strict');
 
 module.exports = {
   checkEventSecret,
@@ -31,7 +32,7 @@ function checkEventSecret(id, secret) {
         // a null published value means "revoked"
         const published = rows[0].published;
         // raises an exception on a query coding error.
-        console.assert(
+        assert.ok(
           Number.isInteger(published),
           "expected a valid publication status",
         );
