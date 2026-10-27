@@ -7,6 +7,7 @@ const db = require('shift-docs/db');
 const { allTables, extraKeys } = require('shift-docs/schema/allTables');
 const dt = require('shift-docs/util/dateTime');
 const misc = require('shift-docs/util/misc');
+const assert = require('node:assert/strict');
 
 module.exports = {
   newEventData,       // generates a new secret
@@ -38,7 +39,7 @@ function newEventData(tx, eventData, dayData) {
   const secret = misc.newSecret();
   eventData.private.secret = secret;
   return insertNewData(tx, eventData).then(id => {
-    console.assert(id, "expected a valid series id");
+    assert.ok(id, "expected a valid series id");
     return writeSchedule(tx, id, dayData).then(_ => ({
       id,
       secret
@@ -70,11 +71,10 @@ function updateEventData(tx, seriesId, eventData, dayData) {
 // where img = { name, ext: '.ext' }
 // does not validate the secret!
 function updateImageData(tx, seriesId, name, ext) {
-  if (name !== ('' + seriesId)) {
-    throw new Error(`Image for series '${seriesId}' had an unexpected name: '${name}'`);
-  } else if (!('' + ext).startsWith('.')) {
-    throw new Error(`Image for series '${seriesId}' had an unexpected extension: '${ext}'`)
-  }
+  assert.equal(name, '' + seriesId,
+    `Image for series '${seriesId}' had an unexpected name: '${name}'`);
+  assert.ok('' + ext.startsWith('.'),
+    `Image for series '${seriesId}' had an unexpected extension: '${ext}'`);
   const data = {
     id: seriesId,
     img_version: 1,
@@ -132,6 +132,7 @@ function addMissingDays(tx, seriesId, ymds) {
 // delist any days not listed in ymds
 // ( by filling the schedule with nulls )
 function delistMissingDays(tx, seriesId, ymds) {
+  assert.ok(seriesId, "missing id");
   const now = dt.toTimestamp(); // for sqlite, set the change time manually
   return tx(table.schedule)
     .where('id', seriesId)
@@ -165,6 +166,9 @@ function updateDailyStatus(tx, seriesId, dayData) {
 // hides the published series
 // ( ex. instead of completely deleting it )
 function revokeEntireSeries(tx, id, secret) {
+  assert.ok(id, "missing id");
+  assert.ok(secret, "missing secret");
+  //
   return tx(table.privateData)
     .where({id, secret})
     .then(rows => {
@@ -182,6 +186,9 @@ function revokeEntireSeries(tx, id, secret) {
 // promises the total number of removed items when done:
 // zero if the series didn't exist or the secret didn't match.
 function deleteEntireSeries(tx, id, secret) {
+  assert.ok(id, "missing id");
+  assert.ok(secret, "missing secret");
+  //
   return tx(table.privateData)
     .where({id, secret})
     .then(rows => {
@@ -241,6 +248,7 @@ function insertNewData(tx, eventData) {
 }
 
 function updateOrDelete(tx, tableName, seriesId, rowData) {
+  assert.ok(seriesId, "missing id");
   const q = tx(tableName).where('id', seriesId);
   const extraKey = extraKeys[tableName];
   if (extraKey) {
