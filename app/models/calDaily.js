@@ -61,7 +61,7 @@ const methods =  {
     };
     // see notes in CalEvent.getSummary()
     if (endtime !== undefined) {
-      data.endtime = endtime;
+      data.endtime = dt.to24HourString(endtime);
     }
     return data;
   }

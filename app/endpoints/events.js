@@ -90,7 +90,7 @@ function getSummaries(dailies) {
   // a cache because multiple dailies may have the same event.
   const events = new Map();
   return dailies.map((at) => {
-    // summarize the event the first tie we see it.
+    // summarize the event the first time we see it.
     if (!events.has(at.id)) {
       const evt = CalEvent.wrap(at);
       const evtJson = evt.getSummary();

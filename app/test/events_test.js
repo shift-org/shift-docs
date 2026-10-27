@@ -70,6 +70,7 @@ describe("getting events", () => {
         assert.equal(evt.caldaily_id, '201');
         assert.equal(evt.hideemail, true, "the test data has the email hidden");
         assert.equal(evt.email, null, "with no secret the email should be nil");
+        assert.equal(evt.endtime, '20:00:00');
         assert.equal(res.body.pagination, undefined, "only ranges should have pagination");
       });
   });
