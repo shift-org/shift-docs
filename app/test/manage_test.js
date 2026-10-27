@@ -203,7 +203,7 @@ describe("managing events", () => {
         });
     });
   });
-  it("reports 403 for an empty secret", async () => {
+  it("reports 403 for a missing secret", async () => {
     await testing.createTestData([1, 2, 3]);
     return request(app)
       .post(manage_api)
@@ -213,7 +213,7 @@ describe("managing events", () => {
       }, requestedSeries))
       .then(res => testing.expectError(res, null, 403));
   });
-  it("reports 403 for an invalid secret", () => {
+  it("reports 403 for a mismatched secret", () => {
     return request(app)
       .post(manage_api)
       .send(Object.assign({
