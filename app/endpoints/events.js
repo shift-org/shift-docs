@@ -15,8 +15,7 @@
  *    events: [ {...},  ... ]
  *  }
  *
- * If there is a problem the error code will be 400 -- or 404 when an id
- * doesn't match a visible event -- with a json response of the form:
+ * Errors are returned with a json response of the form:
  *  {
  *      "error": { "message": "Error message" }
  *  }
@@ -25,63 +24,64 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
  */
 const config = require("../config");
-const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
+const { ErrBadRequest, ErrNotFound, StatusError } = require('shift-docs/util/errors');
+const { toYMDString } = require("../util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
 const { EventsRange } = require("../models/newConst");
+const handleCall = require('shift-docs/util/handleCall');
+const { parseInt, parseYmd } = require('shift-docs/util/parse');
+
+exports.get = handleCall(listEvents);
 
 // the events endpoint:
-exports.get = function(req, res, next) {
-  let id = req.query.id;
-  let start = req.query.startdate;
-  let end = req.query.enddate;
-  if (id && start && end) {
-    res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
-  } else if (id) {
-    // return the summary of a particular daily event:
-    return CalDaily.getByDailyID(id).then((daily) => {
-      if (!daily) {
-        // the id didn't match a visible event: not found, rather than a bad request.
-        // ( getByDailyID() also returns null for hidden events. )
-        res.textError("no such time", 404);
-      } else  {
-        const events = getSummaries([daily]);
-        res.set(config.api.header, config.api.version);
-        res.json({
-          events
-        });
-      }
-    }).catch(next);
-  } else {
-    // return a range of dailies between two times:
-    start = fromYMDString(start);
-    end = fromYMDString(end);
-    if (!start.isValid() || !end.isValid()) {
-      res.textError("need valid start and end times");
-    } else {
-      // add 1 so days in range is inclusive
-      // e.g. (2025-06-10 - 2025-06-01 = 9 days difference) + 1 day = 10 day range
-      const range = end.diff(start, 'day') + 1;
-      if (range < 1) {
-        res.textError("end date cannot be before start date", 422);
-      } else if (range > EventsRange.MaxDays) {
-        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`, 413);
-      } else {
-        return CalDaily.getDateRange(start, end).then((dailies) => {
-          const events = getSummaries(dailies);
-          const pagination = getPagination(start, end, events.length);
-          res.set(config.api.header, config.api.version);
-          res.json({
-            events,
-            pagination,
-          });
-        }).catch((err) => {
-          console.error("events endpoint error", err);
-          next(err);
-        });
-      }
-    }
+function listEvents(req) {
+  const pkid = parseInt(req.query.id);
+  const start = parseYmd(req.query.startdate);
+  const end = parseYmd(req.query.enddate);
+  //
+  if (pkid && (start || end)) {
+    throw new ErrBadRequest("expected only an id or date range");
   }
+  return pkid ? listDay(pkid) : listRange(start, end);
+}
+
+// promise the summary of a particular daily event
+function listDay(pkid) {
+  return CalDaily.getByDailyID(pkid).then((daily) => {
+    if (!daily) {
+      // the id didn't match a visible event: not found, rather than a bad request.
+      // ( getByDailyID() also returns null for hidden events. )
+      throw new ErrNotFound("no such time");
+    }
+    const events = getSummaries([daily]);
+    return {
+      events,
+      // no paginiztion for single evnts.
+    };
+  });
+}
+
+  // promise a range of dailies between two times:
+function listRange(start, end) {
+  if (!start || !end || !start.isValid() || !end.isValid()) {
+    throw new ErrBadRequest("need valid start and end times");
+  }
+  const range = end.diff(start, 'day') + 1; // add 1 to make test inclusive
+  if (range < 1) {
+    throw new StatusError(422, "end date cannot be before start date");
+  }
+  if (range > EventsRange.MaxDays) {
+    throw new StatusError(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
+  }
+  return CalDaily.getDateRange(start, end).then((dailies) => {
+    const events = getSummaries(dailies);
+    const pagination = getPagination(start, end, events.length);
+    return {
+      events,
+      pagination,
+    };
+  });
 }
 
 // promise an array containing json-friendly summaries of all the passed CalDaily(s)

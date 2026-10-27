@@ -172,6 +172,7 @@ module.exports = {
   ErrBadRequest,
   ErrNotFound,
   ErrForbidden,
+  StatusError,
 
   ErrorCollector,
   ErrorStrings,
