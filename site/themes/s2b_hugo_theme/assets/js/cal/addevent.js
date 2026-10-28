@@ -116,8 +116,9 @@
         return options;
     }
 
+    // note: when creating new events, all of the shiftEvent fields can be empty ( undefined )
     function populateEditForm(shiftEvent, callback) {
-        var template, rendered;
+        const container = $('#mustache-edit');
 
         if (!shiftEvent.time) {
             shiftEvent.time = DEFAULT_TIME;
@@ -139,8 +140,13 @@
         }
         shiftEvent.rideLengthOptions = populateMenuOptions(RIDE_LENGTH, shiftEvent.ridelength);
 
-        template = $('#mustache-edit').html();
-        rendered = Mustache.render(template, shiftEvent);
+        if (!shiftEvent.title) {
+            shiftEvent.title = "";
+        }
+        shiftEvent.tinyplaceholder = container.truncateString(shiftEvent.title, 24);
+
+        const template = container.html();
+        const rendered = Mustache.render(template, shiftEvent);
         callback(rendered);
 
         $('#date-select').setupDatePicker(shiftEvent['datestatuses'] || []);
@@ -213,9 +219,11 @@
                       $('#success-message').text('Your event has been updated!');
                       $('#success-modal').modal('show');
                       // update the image in case it was changed.
-                      let imgDisplay = $('div.image-display').find('a');
-                      imgDisplay.attr("href", returnVal.image);
-                      imgDisplay.find("img").attr("src", returnVal.image);
+                      if (returnVal.image) {
+                        const imgDisplay = $('div.image-display').find('a');
+                        imgDisplay.attr("href", returnVal.image);
+                        imgDisplay.find("img").attr("src", returnVal.image);
+                      }
                     } else {
                         let newUrl = 'event-submitted';
                         history.pushState({}, newUrl, newUrl);
@@ -354,6 +362,9 @@
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
         previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
         previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
+        if (!previewEvent.tinytitle) {
+            previewEvent.tinytitle = $form.truncateString(previewEvent.title, 24);
+        }
 
         $form.hide();
         mustacheData = {

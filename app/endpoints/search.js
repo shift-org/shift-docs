@@ -28,7 +28,7 @@
 const dayjs = require("dayjs");
 const config = require("../config");
 const { CalDaily } = require("../models/calDaily");
-const { EventSearch } = require("../models/calConst");
+const { EventSearch } = require("../models/newConst");
 const { getSummaries } = require("./events.js");
 const validator = require('validator');
 
@@ -45,18 +45,20 @@ exports.get = function(req, res, next) {
     // Search for the given search term, starting from today
     const startDate = dayjs().startOf('day');
     return CalDaily.getEventsBySearch(startDate, term, limit, offset, searchOldEvents).then((dailies) => {
-        return getSummaries(dailies).then((events) => {
-          // fullcount appears in every returned row; the same in every row.
-          const fullcount = events.length ? events[0].fullcount : 0;
-          res.set(config.api.header, config.api.version);
-          res.json({
-            events,
-            pagination: { 
-                offset, limit, fullcount 
-            }
-          });
+        const events = getSummaries(dailies);
+        // fullcount appears in every returned row; the same in every row.
+        const fullcount = events.length ? events[0].fullcount : 0;
+        res.set(config.api.header, config.api.version);
+        res.json({
+          events,
+          pagination: {
+              offset, limit, fullcount
+          }
         });
-      }).catch(next);
+      }).catch((err) => {
+        console.error("search endpoint error", err);
+        next(err);
+      });
   }
 }
 

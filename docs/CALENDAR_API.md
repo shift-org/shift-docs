@@ -1,17 +1,33 @@
 # Calendar API
 
+Version: 3.66.0
+
 ## General
 
 Base URL:
 * production: `https://www.shift2bikes.org/api/`
-* local development: `https://localhost:4443/api/`
+* local docker development: `https://localhost:4443/api/`
 
-Most responses are in JSON format, except for:
-* event export returns vCalendar format
+Most responses are in JSON format, except the ical endpoint and event exporting return the vCalendar format.
+
+For most endpoints, you can use curl to post json for testing. For example:
+
+    > curl -k -H 'Content-Type: application/json' -X POST --data-binary "@delete_event.json" https://localhost:4443/api/delete_event.php
+
+where `delete_event.json` might contain:
+
+    {
+      "id": "6245",
+      "secret": "example"
+    }
+
+For all endpoints, unknown json properties are ignored.
 
 ## Viewing events
 
 ### Retrieving public event data
+
+Asks for data regarding a particular instance of an event, or all events happening during a provided date range.
 
 Endpoint:
 * GET `events`
@@ -21,31 +37,29 @@ Example requests:
 * `/events.php?startdate=2019-06-01&enddate=2019-06-15`
 
 URL parameters:
-* `id`:
-  * `caldaily` event ID
-  * if `id` is provided it takes precedence; all other params will be ignored
-* `startdate`:
-  * first day of range, inclusive
-  * `YYYY-MM-DD` format
-  * if not provided, current date is used
-* `enddate`:
-  * last day of range, inclusive
-  * `YYYY-MM-DD` format
-  * if not provided, current date is used
-* `all`:
-  * for range requests only (no effect when `id` is provided)
-  * if `true`, delisted events are included, with minimal information provided in their event object; useful for clients that cache results and need to reconcile events that have been removed
+* `id`: a `caldaily` id, containing a positive integer.
+* `startdate`: first day of an inclusive date range, in `YYYY-MM-DD` format.
+* `enddate`: last day of an inclusive date range, in `YYYY-MM-DD` format.
 
-Unknown parameters are ignored.
+A valid request includes either a caldaily id, or a date range. It is invalid to request both an id and a date range.
 
-It is recommended that you always provide either an event `id` or both `startdate` and `enddate`. Relying on default or inferred values may return unexpected results.
+Responses include an http status code with a json body. The expected response codes are:
 
-Success:
-* status code: `200`
-* `events`: array of event objects; array may be empty
-* each event object: key-value pairs of all available public fields; does not contain any private fields (use `manage_event` endpoint for those)
-* when using `id` parameter, array returns 1 object; if the ID does not match a visible event, you will receive a `404` (see Errors, below)
-* for a range request, an empty `events` array is a normal `200` result: it means nothing is scheduled in that range
+* `200` (Success): The response body includes information about the requested event(s).
+* `400` (Bad Request): Either no parameters or too many were sent. Or, one of the parameters couldn't be interpreted as expected. For example, the id wasn't an integer, or one of the dates wasn't a date.
+* `404` (Not Found): The requested `id` doesn't exist, the event isn't published, or it was deleted or revoked.
+* `413` (Content Too Large): The requested date range was too large, 100 days is the maximum.
+* `422` (Unprocessable Content): The requested `enddate` was before the requested `startdate`.
+
+Success includes a json response body with:
+
+* `events`: An array of event objects. For a valid query by id, the array will contain exactly one entry. For a valid range query, it may contain zero or more entries. Zero entries -- an empty array -- means nothing is scheduled in that range.
+* each event entry contains key-value pairs of all available public fields. It does not contain any private fields. ( Only the `manage_event` endpoint returns private data. )
+
+Error responses include a json response body with:
+
+* `error`: object containing `message` key.
+* `message`: text string explaining the error.
 
 Example response for a single event:
 
@@ -119,8 +133,7 @@ Example response for a range of events:
       }
     }
 
-
-Example response for a range of events, including delisted events:
+Example response for a range of events:
 
     {
       "events": [
@@ -137,36 +150,7 @@ Example response for a range of events, including delisted events:
           "newsflash": null,
           "status": "A",
           "endtime": "10:00:00"
-        },
-        {
-          // for delisted occurrences when there are still valid occurences in the series,
-          // all event fields are provided
-          "id": "9001",
-          "title": "Late-Riser New Year's Day Ride",
-          ... // all standard fields
-          "date": "2025-01-01",
-          "caldaily_id": "10102",
-          "shareable": "https://shift2bikes.org/calendar/event-10102",
-          "cancelled": true,
-          "newsflash": "New start time",
-          "status": "D",     // D=delisted
-          "endtime": null
-        },
-        {
-          // for delisted occurences when the entire event series has been deleted,
-          // only these limited fields are provided
-          "id": "9002",
-          "deleted": true,
-          "date": "2025-01-01",
-          "caldaily_id": "10103",
-          "shareable": "https://shift2bikes.org/calendar/event-10103",
-          "cancelled": true,
-          "newsflash": null, // always null when delisted
-          "status": "D",     // D=delisted
-          "endtime": null
         }
-          // if an event is deleted when it is unpublished (aka hidden),
-          // the event is entirely gone and is not included here
       ],
       "pagination": {
         "start": "2025-01-01",
@@ -178,17 +162,7 @@ Example response for a range of events, including delisted events:
       }
     }
 
-Errors:
-* status code: `400`, `404`, `413`, or `422`
-* `error`: object containing `message` key
-* `message`: text string explaining the error
-* possible errors
-  * `id` not found (`404`); this also covers events that are unpublished or deleted
-  * `enddate` before `startdate` (`422`)
-  * date range too large, 100 days maximum (`413`)
-  * `startdate`/`enddate` not parseable, or both an `id` and a range were sent (`400`)
-
-Example error:
+Example error response:
 
     {
       "error": {
@@ -205,8 +179,9 @@ Some best practices for handling images:
 * Clients should be able to handle image request failures (e.g. 404, 429, or 5xx errors).
 * Caching is encouraged. The image file has change number after the event ID, e.g. `/eventimages/6245-3.jpg`. This number is incremented only when the image has changed. If the change number is the same, you can safely use a cached image.
 
-
 ### Counting events
+
+> **Note:** This endpoint is experimental. Its syntax and behavior may not be stable yet.
 
 Endpoint:
 * GET `ride_count`
@@ -215,24 +190,28 @@ Example request:
 * `/ride_count.php?s=2025-06-01&e=2025-08-31`
 
 URL parameters:
-* `s`:
-  * start date of range, inclusive
-  * `YYYY-MM-DD` format; required
-* `e`:
-  * end date of range, inclusive
-  * `YYYY-MM-DD` format; required
+* `s`: first day of an inclusive date range, in `YYYY-MM-DD` format.
+* `e`: last day of an inclusive date range, in `YYYY-MM-DD` format.
 
-Unknown parameters are ignored.
+Cancelled, and hidden events are excluded from all counts. `past` and `upcoming` are relative to the current date at the time of the request.
 
-Cancelled, delisted, and hidden events are excluded from all counts. `past` and `upcoming` are relative to the current date at the time of the request.
+Responses include an http status code with a json body. The expected response codes are:
 
-Success:
-* status code: `200`
-* `total`: total number of non-cancelled events in the given date range
-* `past`: number of those events whose date is before today
-* `upcoming`: number of those events whose date is today or later
+* `200` (Success):
+* `400`: `s` or `e` missing or not a valid date
 
-Example response:
+Success includes a json object containing:
+
+* `total`: total number of non-cancelled events in the given date range.
+* `past`: number of those events whose date is before today.
+* `upcoming`: number of those events whose date is today or later.
+
+Error responses include a json response body with:
+
+* `error`: object containing `message` key.
+* `message`: text string explaining the error.
+
+Example success response:
 
     {
       "total": 123,
@@ -240,21 +219,13 @@ Example response:
       "upcoming": 43
     }
 
-Errors:
-* status code: `400`
-* possible errors
-  * `s` or `e` missing or not a valid date
-
-Example error:
+Example error response:
 
     {
       "error": {
         "message": "start date was Invalid Date and end date was Invalid Date."
       }
     }
-
-> **Note:** This endpoint is experimental. Its syntax and behavior may not be stable yet.
-
 
 ### Searching events
 
@@ -279,14 +250,21 @@ URL parameters:
 * `all`:
   * if `true` or `1`, searches past events in descending order; otherwise searches today and future events in ascending order
 
-Unknown parameters are ignored.
+Responses include an http status code with a json body. The expected response codes are:
 
-Success:
-* status code: `200`
-* `events`: array of event objects in the same format as the `events` endpoint; array may be empty
+* `200` (Success): The response body includes information about zero or more events matching the requested search parameters.
+* `400` (Bad Request): Missing the `q` parameter.
+
+Error responses include a json response body with:
+
+* `error`: object containing `message` key
+* `message`: text string explaining the error
+
+Success includes a json response body with:
+* `events`: array of zero or more event objects in the same format as the `events` endpoint.
 * `pagination`: object with offset/limit/fullcount for fetching additional pages
 
-Example response:
+Example success response:
 
     {
       "events": [
@@ -302,19 +280,13 @@ Example response:
       }
     }
 
-Errors:
-* status code: `400`
-* possible errors
-  * missing `q` parameter
-
-Example error:
+Example error response:
 
     {
       "error": {
         "message": "missing search term"
       }
     }
-
 
 ### Exporting an event
 
@@ -328,7 +300,7 @@ Example request:
 
 URL parameters:
 * `event_id`:
-  * `caldaily` ID (single occurrence)
+  * `caldaily` ID (single occurrence), containing a positive integer.
   * if `event_id` is provided it takes precedence; all other params will be ignored
 * `series_id`:
   * `calevent` ID (all events in a series)
@@ -343,17 +315,12 @@ URL parameters:
   * last day of range, inclusive
   * `YYYY-MM-DD` format
   * if not provided, current date is used
-* `all`:
-  * for range requests only (no effect when `id` is provided)
-  * if `true`, delisted events are included; useful for clients that cache results and need to reconcile events that have been removed
 * `filename`:
   * if `none`, the output is plain text instead of an ICS file; useful for local debugging
 
 If multiple ID/range parameters are provided, they take precedence with decreasing specificity: `event_id`, `series_id`, `startdate`/`enddate`.
 
 If no parameters are provided, it responds with a range from 1 month prior to 6 months forward from the current date.
-
-Unknown parameters are ignored.
 
 Example response for a single event:
 
@@ -406,15 +373,21 @@ Endpoint:
 * GET `retrieve_event`
 
 URL parameters:
-* `id`: `calevent` event ID
-* `secret`: event password
+* `id`: `calevent` event ID, containing a positive integer.
+* `secret`: event password, as a string.
 
 The `retrieve_event` endpoint returns all private data for the event (if the `secret` is provided) so it can be edited. If you just want to retrieve public data to display the event, use the `event` endpoint.
 
-Success:
-* status code: `200`
+Responses include an http status code with a json body. The expected response codes are:
+
+* `200` (Success): The response body includes information about the requested event(s).
+* `400` (Bad Request): No `id` specified, or wasn't an integer.
+* `404` (Not Found): Query by `id` for an event that doesn't exist, isn't published, was deleted, or revoked; for an unpublished event without a valid `secret`.
+
+Success includes a json response body with:
+
 * key-value pairs of all available fields; the response is similar to the `event` endpoint's event object, but note that they are not identical (the `datestatuses` block, for example)
-* if a valid `secret` is provided, all stored values are returned; if not, you still get a `200` response but private fields (e.g. `email`) will be empty
+* if a valid `secret` is provided, all stored values are returned; if not, private fields (e.g. `email`) will be empty.
 
 Example response:
 
@@ -457,19 +430,12 @@ Example response:
       ]
     }
 
-Errors:
-* status code: `400` or `404`
-* possible errors
-  * no `id` specified (`400`)
-  * `id` not found (`404`); also returned for a deleted event, and for an unpublished one without a valid `secret`
-
-
 ### Adding or updating an event
 
 Endpoint:
 * POST `manage_event`
 
-Request can be sent as JSON, or as multipart/form-data containing binary image data plus JSON.
+The request can be posted as JSON, or as a multipart/form-data containing binary image data, and a field called `json` with stringified data.
 
 URL parameters:
 * none
@@ -519,8 +485,6 @@ Request body:
   * `featured`: boolean; featured ride status, set by admins and ignored if provided by the user
   * `published`: boolean; set by the server, ignored if provided by the user
 
-Unknown properties are ignored.
-
 Example JSON request:
 
     {
@@ -559,19 +523,37 @@ Example JSON request:
         ]
     }
 
-Success:
-* status code: `200`
-* if a valid `id` is provided (to update an event), a valid `secret` must also be included
-* response body is the same as the `retrieve_event` endpoint
+To add an image to the event, use a multipart/form-data request and send the image as binary. The endpoint accepts gif, jpeg, pjpeg, and png images, up to 5.5 MB.
 
-Errors:
-* status code: `400` or `403`
-* possible errors
-  * no request body or not parseable JSON (`400`)
-  * required field was not included, or has an invalid value (`400`)
-  * invalid or missing `secret` when updating (`403`); also returned for an unknown `id`, so that it isn't revealed whether the event exists
+Example multipart/form-data request:
 
-Example error:
+    -----------------------------1234123412341234123412341234
+    Content-Disposition: form-data; name="file"; filename="image.jpg"
+    Content-Type: image/jpeg
+
+    <binary image data>
+    -----------------------------1234123412341234123412341234
+    Content-Disposition: form-data; name="json"
+
+    { "id":"99999", ..., "datestatuses": [ { ... } ]}
+    -----------------------------1234123412341234123412341234--
+
+Responses include an http status code with a json body. The expected response codes are:
+
+* `200` (Success): The returned event data is valid.
+* `400` (Bad Request): The request body wasn't valid JSON, or a required field was either not included or has an invalid value. This also includes images with unsupported file types.
+* `403` (Forbidden): Returned for an unknown `id`, or a missing or mismatched `secret`.
+* `413` (Content Too Large): The posted image was too large.
+
+Success includes a json response containing:
+
+    {
+      "id": string,
+      "published": bool,
+      "image": optional, new url of published image
+    }
+
+Example generic error:
 
     {
       "error": {
@@ -579,47 +561,23 @@ Example error:
       }
     }
 
-To add an image to the event, use a multipart/form-data request and send the image as binary. Accepts gif, jpeg, pjpeg, and png images, up to 5 MB.
-
-Example multipart/form-data request:
-
-    -----------------------------1234123412341234123412341234
-    Content-Disposition: form-data; name="file"; filename="image.jpg"
-    Content-Type: image/jpeg
-    
-    <binary image data>
-    -----------------------------1234123412341234123412341234
-    Content-Disposition: form-data; name="json"
-    
-    { "id":"99999", ..., "datestatuses": [ { ... } ]}
-    -----------------------------1234123412341234123412341234--
-
-Success:
-* status code: `200`
-* response body is the same as when submitting a JSON-only request
-
-Errors:
-* status code: `400` or `413`
-* possible errors
-  * unsupported file type (`400`)
-  * file size too large (`413`)
-
-Example error:
+Example image errors:
 
     {
       "error": {
         "message": "There were errors in your fields",
         "fields": {
-          "file": "The file uploaded is not an image"
+          "image": "The file uploaded is not an image"
         }
       }
     }
-
 
 ### Deleting an event
 
 Endpoint:
 * POST `delete_event`
+
+The request can be posted as JSON, or as a form containing a single field called `json` with stringified data.
 
 URL parameters:
 * none
@@ -631,8 +589,6 @@ Request body:
 * optional fields
   * none
 
-Unknown properties are ignored.
-
 Example request:
 
     {
@@ -640,25 +596,19 @@ Example request:
         "secret": "example"
     }
 
-Success:
-* status code: `200`
-* `success` true message
+Responses include an http status code with a json body. The expected response codes are:
 
-Example response:
+* `200` (Success): The event was successfully deleted.
+* `400` (Bad Request): Returned if the request body wasn't valid JSON, or the `id` or `secret` wasn't included.
+* `403` (Forbidden): Returned when the `id` wasn't found, invalid, or a mismatched `secret` was given.
+
+Example success json:
 
     {
         "success": true
     }
 
-Errors:
-* status code: `400`, `403`, or `404`
-* possible errors
-  * no request body or not parseable JSON (`400`)
-  * `id` not included (`400`)
-  * `id` not found (`404`)
-  * invalid or missing `secret` (`403`)
-
-Example error:
+Example error json:
 
     {
       "error": {
@@ -747,3 +697,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
 * 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
 * 3.65.0: (2026-10-08) More specific error status codes, replacing some generic `400`s: `403` for a bad or missing event `secret` (manage, delete), `404` for an id that matches no event (retrieve, delete), `413` for a date range over the maximum, and `422` for an `enddate` before its `startdate` (events, ICS export). Response bodies are unchanged.
+* 3.66.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "delisted" events are no longer a thing. 3) in cases where delete would have returned 404 ( not found ), it now returns 403 ( forbidden. )

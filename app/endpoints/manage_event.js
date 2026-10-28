@@ -15,143 +15,120 @@
  *    https://localhost:4443/addevent/edit-$event_id-$secret
  *    /site/themes/s2b_hugo_theme/static/js/cal/addevent.js
  */
-const { CalEvent } = require("../models/calEvent");
-const { CalDaily } = require("../models/calDaily");
-const { uploader } = require("../uploader");
-const validator = require('validator');
-const dt = require("../util/dateTime");
-const config = require("../config");
-const emailer = require("../emailer");
-const nunjucks = require("../nunjucks");
-const { validateEvent } = require("../models/calEventValidator");
+const { parseJson } = require('shift-docs/util/parse');
+const newValidator = require('shift-docs/support/eventValidator');
+const { checkEventSecret, writeEvent, writeImage } = require('shift-docs/support/requestedEvent');
+const { ErrorCollector, FormError, ErrForbidden } = require('shift-docs/util/errors');
+const { uploader } = require('shift-docs/uploader');
+const handleCall = require('shift-docs/util/handleCall');
+const { Area, Audience } = require('shift-docs/models/newConst');
+const db = require('shift-docs/db');
+const reconcile = require('shift-docs/support/reconcile');
+const config = require('shift-docs/config');
+// for sendConfirmationEmail
+const dt = require('shift-docs/util/dateTime');
+const emailer = require('shift-docs/emailer');
+const nunjucks = require('shift-docs/nunjucks');
 
 // read multipart (and curl) posts.
-exports.post = [ uploader.makeHandler(), handleRequest ];
+exports.post = [ uploader.makeHandler(), handleCall(handleRequest) ];
 
 /**
- * read data the posted to this endpoint.
- * req.body contains parsed json.
- * req.file might exist if an image was uploaded.
- *
- * for things like validation errors, handleRequest() "successfully" generates a 400 status.
- * it should only reject due to things like database or programmer errors.
+ * read the data posted to this endpoint.
+ * - req.body contains parsed json.
+ * - req.file might exist if an image was uploaded.
+ * throws on error.
  */
-function handleRequest(req, res, next) {
-  let input = req.body;
-  // fix? the client uploads form data containing json
-  // ( rather than raw json ) because multi-part forms require that.
-  // a more rest-like api might use a separate put at some event/image url.
-  if (input && input.json) {
-    input = safeParse(input.json);
-  }
-  if (!input) {
-    return res.textError("invalid request");
-  }
-  // parse for errors
-  const data = validateEvent(input);
-  // the client code doesnt allow organizers to upload the image for new events
-  // ensuring that's the case here, simplifies the file handling (below)
-  if (req.file && !data.id) {
-    data.errors.addError("image", "Images can only be added to existing events.");
-  }
-  if (data.errors.count) {
-    return res.fieldError(data.errors.getErrors());
-  }
-  // find or make the event, then update it with the sent data.
-  // ( depending on whether an id was submitted )
-  return getOrCreateEvent(data.id, data.secret).then((evt)=> {
-    if (!evt) {
-      // getOrCreateEvent() returns null for an unknown id as well as a bad
-      // secret; 403 covers both rather than revealing which. re: #559
-      res.textError("Invalid secret, use link from email", 403);
-    } else {
-      // save the uploaded file (if any)
-      const saveImage = !req.file ? Promise.resolve() :
-        // the image gets written to disk as "id.ext"
-        uploader.write( req.file, evt.id ).then(f => {
-          // the image name gets stored in the db as "id-sequence.ext"
-          // the sequence number needs to be different for each new image.
-          // ( shift.conf strips off the sequence when the file is requested; see cache_busting.md )
-          const sequence = evt.nextChange();
-          evt.image = `${f.name}-${sequence}${f.ext}`;
-        });
-      // if the save succeeded, update the event.
-      // ( errors are handled inside uploader.js )
-      return saveImage.then(_ => {
-        return updateEvent(evt, data.values, data.statusList)
-        .then(details => {
-          res.set(config.api.header, config.api.version);
-          res.json(details);
-        });
-      });
+async function handleRequest(req) {
+  const input = parseJson(req.body);
+  const errors = new ErrorCollector();
+  const v = newValidator(input, errors);
+  const values = v.validateInput({
+    defaultArea: Area.Portland,
+    defaultAudience: Audience.General,
+    defaultDistance: null,
+    defaultLoop: false,
+    defaultSaftey: false
+  });
+  if (!input.id) {
+    v.validateTerms();
+    if (req.file) {
+      errors.addError("image", "Images can only be added to existing events.");
     }
-  }).catch(next);
+  }
+  if (errors.hasErrors()) {
+    throw new FormError(errors.getErrors());
+  }
+  return !input.id ?
+    createEvent(values) :
+    updateEvent(input, values, req.file);
 }
 
-// if no id was specified, create a new event.
-// otherwise, the id and secret are required or this returns null.
-function getOrCreateEvent(id, secret) {
-  if (!id) {
-    return Promise.resolve(CalEvent.newEvent());
-  } else {
-    return CalEvent.getByID(id).then(evt => {
-      return (evt && evt.isSecretValid(secret)) ? evt : null;
-    });
-  }
-}
-
-// promises the summary of the event after doing a successful update.
-function updateEvent(evt, values, statusList) {
-  // if the user is saving an existing event,
-  // we assume they are publishing it.
-  // ( the secret has been validated in handleRequest. )
-  const existed = evt.exists();
-  const previouslyPublished = evt.isPublished();
-
-  // NOTE: overwrites (most) fields in the event with the user's input.
-  evt.updateFromJSON(values);
-  if (existed) {
-    evt.setPublished();
-  }
-  // we dont know whether something significant changed or not:
-  // so we always have to store.
-  // ( this creates the event if it didnt exist. )
-  return evt.storeChange().then(() =>{
-    // now that the event has been stored, and it has an id: add/remove times.
-    const statusMap = new Map(statusList.map(status => [status.date, status]));
-    return CalDaily.reconcile(evt, statusMap, previouslyPublished).then((dailies) => {
-      // email the organizer about new events.
-      // ( although we dont need to wait on the email transport, doing so catches any internal exceptions )
-      let q = !existed ? sendConfirmationEmail(evt, dailies) : Promise.resolve();
-      const statuses = dailies.map(at => at.getStatus());
-      return q.then(_ => {
-        // finally, return a summary of the CalEvent and its CalDaily(s).
-        // includes private contact info ( like email, etc. )
-        // ( because this is the organizer saving their event )
-        return evt.getDetails(statuses, {includePrivate:true});
-      });
+function createEvent(values) {
+  const { event, schedule } = values;
+  return db.query.transaction((tx) => {
+    return reconcile.newEventData(tx, event, schedule);
+  }).then((next) => {
+    const { id, secret } = next;
+    return sendConfirmationEmail(id, secret, event, schedule).then((_) => {
+      return {
+        id: id.toString(),
+        // image: none
+        published: false,
+        // secret: only sent in the email
+      };
     });
   });
 }
 
-// promises a sent email
-// evt is a CalEvent; dailies is an array of CalDaily.
-function sendConfirmationEmail(evt, dailies) {
-  const url = config.site.url('addevent', `edit-${evt.id}-${evt.password}`);
-  const subject = `Shift2Bikes Secret URL for ${evt.title}`;
-  console.debug("sending confirmation for", url);
+// update all the data, or throws if it can't.
+// promises an object containing { id, published, image(url) }
+async function updateEvent(input, values, fileData) {
+  const { id, secret } = input;
+  // validate id and secret while determining publication count
+  const prevPublished = await checkEventSecret(id, secret);
+  if (prevPublished === null) {
+    // returns null for an unknown id as well as a bad
+    // secret; 403 covers both rather than revealing which. re: #559
+    throw new ErrForbidden("Invalid secret, use link from email");
+  }
+  // write the (validated) event data, updating the publication count
+  const { event, schedule } = values;
+  await writeEvent(id, event, schedule, 1 + prevPublished);
+  // then write the image data
+  const image = await (fileData && writeImage(id, fileData));
+  // return the smallest bit of data the client needs in response.
+  return {
+      id: id.toString(),
+      image: image,
+      published: true,
+  };
+}
 
-  const dates = dailies
-    .filter(d => !d.isDelisted())
-    .map(d => dt.friendlyDate(d.eventdate))
-    .join('; ');
-  const time = dt.to12HourString(dt.from24HourString(evt.eventtime));
-  const location = [evt.locname, evt.address].filter(Boolean).join(', ');
+// promises a sent email
+// evt is the prepared table data
+function sendConfirmationEmail(id, secret, evt, schedule) {
+  // direct access to the server form:
+  // const url = config.site.url(`api/v2/events/${id}.html?secret=${secret}`);
+  // backcompat access: requires a redirect somewhere
+  const url = config.site.url('addevent', `edit-${id}-${secret}`);
+  const subject = `Shift2Bikes Secret URL for ${evt.series.title}`;
+  const logMessage = `Sending confirmation for ${url}...`;
+  if (!config.isTesting) {
+    console.info(logMessage);
+  }
+  const dates = schedule
+    .filter((d) => d.is_scheduled)
+    .map((d) => dt.friendlyDate(d.ymd))
+    .join("; ");
+  const time = dt.to12HourString(dt.from24HourString(evt.series.start_time));
+  const start = evt.location[0];
+  const location = [start.place_name, start.address].filter(Boolean).join(", ");
 
   const support = config.email.support;
   const body = nunjucks.render('email.njk', {
-    organizer: evt.name,
-    title: evt.title,
+    organizer: evt.series.organizer,
+    title: evt.series.title,
     date: dates,
     time,
     location,
@@ -159,28 +136,20 @@ function sendConfirmationEmail(evt, dailies) {
     help: config.site.helpPage(),
     support: support.address || support, // a string or object
   });
-  console.debug("confirmation email body:\n", body);
+  if (!config.isTesting) {
+    console.info("confirmation email body:\n", body);
+  }
   return emailer.sendMail({
     subject,
     text: body,
     to: {
-      name: evt.name,
-      address: evt.email,
+      name: evt.series.organizer,
+      address: evt.private.private_email,
     },
     from: config.email.sender,
     replyTo: config.email.support,
     bcc: config.email.moderator, // backup copy for debugging and/or moderating
     // html
     // attachments
-  }, evt.name, evt.email, evt.title, url);
-}
-
-// read json into a javascript object.
-// returns undefined for any error.
-function safeParse(json) {
-  try {
-    return JSON.parse(json);
-  } catch (err) {
-    console.error(err);
-  }
+  });
 }

@@ -1,78 +1,44 @@
 /**
  * Delete Event: Removes an event from the calendar.
- * Expects a JSON post with an id and password.
  *
- *  You can use curl to post json for testing. For example:
- *    curl -k -H 'Content-Type: application/json' -X POST --data-binary \
- *    "@delete_event.json" https://localhost:4443/api/delete_event.php
- *  {
- *      "id": "6245",
- *      "secret": "example"
- *   }
+ * Expects a JSON post containing an `id` and its corresponding `secret`.
+ * Responds with either HTTP success ( 200 ) or an HTTP error
+ * and a json object containing a success or error message.
  *
- * If there was an error ( for example, if the id was missing or the event wasn't found )
- * returns http 400 "Bad Request" and a json error response (see util/errors.js)
- *
+ * See the CALENDAR_API.md for more details.
  */
-const config = require("../config");
-const express = require('express');
-const textError = require("../util/errors");
-const { CalEvent } = require("../models/calEvent");
-const { uploader } = require("../uploader");
+const reconcile = require('shift-docs/support/reconcile');
+const { uploader } = require('shift-docs/uploader');
+const { parseJson } = require('shift-docs/util/parse');
+const { ErrBadRequest, ErrForbidden } = require('shift-docs/util/errors');
+const handleCall = require('shift-docs/util/handleCall');
+const db = require('shift-docs/db');
 
 // the front end sends a multi-part form post
 // so... we need to handle that.
-exports.post = [ uploader.makeHandler(), handleRequest ];
+exports.post = [ uploader.makeHandler(), handleCall(postDelete) ];
 
-function handleRequest(req, res, next) {
-  let data = req.body;
-  // fix? client uploads form data containing json...
-  // probably to match manage_event where its currently required.
-  if (data && data.json) {
-    data = safeParse(data.json);
+function postDelete(req) {
+  const { id, secret } = parseJson(req.body);
+  if (!id) {
+    throw new ErrBadRequest("Missing id");
   }
-  if (!data) {
-    return res.textError('JSON could not be decoded');
+  if (!secret) {
+    throw new ErrBadRequest("Missing secret");
   }
-  if (!data.id) {
-    return res.textError('Missing id');
-  }
-  // get the event: delete seems to send an int, where manage is a string.
-  // normalize it to a string for consistency ( tbd: is that good, or even needed? )
-  return CalEvent.getByID(''+data.id).then((evt) => {
-    // verify the event exists.
-    if (!evt) {
-      return res.textError('Event not found', 404);
+  return db.query.transaction((tx) => {
+    // FIX? revoke hides the event from all queries
+    // it's nice for testing/support to not delete the data entirely
+    // tbd: maybe a chron job could delete revoked events older than a month?
+    return reconcile.revokeEntireSeries(tx, id, secret);
+    //return reconcile.deleteEntireSeries(tx, id, secret);
+  })
+  .then((count) => {
+    // note: doesn't distinguish between invalid secret and unknown event.
+    // think that's okay: we don't have to reveal more info about the event than needed.
+    if (!count) {
+      throw new ErrForbidden("Invalid secret, use link from email");
     }
-
-    // validate the password.
-    if (!evt.isSecretValid(data.secret)) {
-      return res.textError('Invalid secret, use link from email', 403);
-    }
-
-    // if the event was never published, we can delete it completely;
-    // otherwise, soft delete it.
-    let q = !evt.isPublished() ? evt.eraseEvent() : evt.softDelete();
-    q.then((_) => {
-      // note: the frontend currently doesn't use this json;
-      // instead it looks for request success ( http 200 )
-      res.set(config.api.header, config.api.version);
-      res.json({
-        success: true
-      })
-    }).catch((e) => {
-      console.error("error trying to cancel an event", e);
-      return res.textError('Server error');
-    });
-  }).catch(next);
-}
-
-// read json into a javascript object.
-// returns undefined for any error.
-function safeParse(json) {
-  try {
-    return JSON.parse(json);
-  } catch (err) {
-    console.error(err);
-  }
+    return { success: true };
+  });
 }

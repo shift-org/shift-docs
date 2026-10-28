@@ -1,27 +1,25 @@
-const app = require("../appEndpoints");
-const testdb = require("./testdb");
-const { EventSearch } = require("../models/calConst");
-//
-const { describe, it, before, after } = require("node:test");
-const assert = require("node:assert/strict");
+const assert = require('node:assert/strict');
+const { describe, it, beforeEach, afterEach } = require('node:test');
 const request = require('supertest');
+//
+const app = require('shift-docs/appEndpoints');
+const testing = require('shift-docs/testing');
+const { EventSearch } = require('shift-docs/models/newConst');
 
 describe("searching for events", () => {
-  // runs before the first test in this block.
-  before(() => {
-    return testdb.setupFakeData("search");
+  beforeEach(() => {
+    testing.configure("json");
+    return testing.setupFakeData("search");
   });
-  // runs once after the last test in this block
-  after(() => {
-    return testdb.destroy();
+  afterEach(() => {
+    return testing.reset();
   });
   // test:
-  it("errors on an empty search term", () => {
+  it("reports error 400 on an empty search term", () => {
     return request(app)
       .get('/api/search.php')
       // .query({q: "events"})
-      .expect(400)
-      .expect('Content-Type', /json/)
+      .then(testing.expectError)
       .then(res => {
         assert.ok(res.body?.error, "expects an error string");
       });
@@ -30,8 +28,7 @@ describe("searching for events", () => {
     return request(app)
       .get('/api/search.php')
       .query({q: "go", all: true})
-      .expect(200)
-      .expect('Content-Type', /json/)
+      .then(testing.expectOkay)
       .then(res => {
         assert.equal(res.body?.pagination?.fullcount, 14);
         assert.equal(res.body?.events?.length, 14);
@@ -45,8 +42,7 @@ describe("searching for events", () => {
           l: 1000000,
           all: true
         })
-      .expect(200)
-      .expect('Content-Type', /json/)
+      .then(testing.expectOkay)
       .then(res => {
         // we've been capped to the internal limits
         assert.equal(res.body?.pagination?.limit, EventSearch.Limit);
@@ -63,8 +59,7 @@ describe("searching for events", () => {
           l: 2,
           all: true
         })
-      .expect(200)
-      .expect('Content-Type', /json/)
+      .then(testing.expectOkay)
       .then(res => {
         assert.equal(res.body?.pagination.fullcount, 14);
         assert.equal(res.body?.pagination.offset, 0);
@@ -84,8 +79,7 @@ describe("searching for events", () => {
           l: 2,
           all: true
         })
-      .expect(200)
-      .expect('Content-Type', /json/)
+      .then(testing.expectOkay)
       .then(res => {
         assert.equal(res.body?.pagination?.fullcount, 14);
         assert.equal(res.body?.pagination?.offset, 2);

@@ -20,7 +20,7 @@ const wordwrap = require('wordwrapjs');
 const nunjucks = require("../nunjucks");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-const { EventsRange } = require("../models/calConst");
+const { EventsRange } = require("../models/newConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
@@ -175,7 +175,7 @@ function buildCurrent() {
   const now = dt.getNow();
   const started = now.subtract(1, 'month');
   const ended = now.add(6, 'month');
-  return CalDaily.getFullRange(started, ended).then((dailies) => {
+  return CalDaily.getDateRange(started, ended).then((dailies) => {
     return buildEntries(dailies);
   });
 }
@@ -194,8 +194,8 @@ function buildRange(start, end, includeDeleted) {
       return Promise.reject(expected(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`));
     }
     const q = includeDeleted?
-              CalDaily.getFullRange:
-              CalDaily.getRangeVisible;
+              CalDaily.getDateRange:
+              CalDaily.getDateRange;
     return q(start,end).then((dailies)=>{
       return buildEntries(dailies);
     });
@@ -211,15 +211,13 @@ function buildRange(start, end, includeDeleted) {
 function buildEntries(dailies) {
   // a cache because multiple dailies may have the same event.
   const events = new Map();
-  // generate the array of promises:
-  return Promise.all( dailies.map((at) => {
-    // make a promise for this event ( if we've never see the event before )
+  return dailies.map((at) => {
     if (!events.has(at.id)) {
-      events.set(at.id, CalEvent.getByID(at.id));
+      events.set(at.id, CalEvent.wrap(at));
     }
-    // promise the entry after the event is available:
-    return events.get(at.id).then(evt => buildCalEntry(evt, at));
-  }));
+    const evt = events.get(at.id);
+    return buildCalEntry(evt, at);
+  });
 }
 
 /**

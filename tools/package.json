@@ -18,6 +18,8 @@
     "make-fake-events": "env-cmd -f dev.env node makeFakeEvents.js",
     "new-ethereal-cfg": "env-cmd -f dev.env node newEtherealConfig.js",
     "import-mysql": "env-cmd -f dev.env node importMysql.js",
+    "sqlite-migrate": "env-cmd -f dev.env node migrate.js",
+    "mysql-migrate": "node migrate.js",
     "geo": "node geoSearch.js"
   }
 }

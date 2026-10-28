@@ -1,13 +1,40 @@
-const path = require('path');
-const fs = require("fs");
+/**
+ * Global configuration for the backend.
+ * Holds all environment, commandline options, paths, etc.
+ */
+const fs = require('node:fs');    // for reading email config
+const os = require('node:os');    // for tmpdir fallbacks
+const path = require('node:path');
+const CommandLine = require('shift-docs/util/cmdLine');
 
+// helper to read environment variables
 function env_default(field, def) {
   return process.env[field] ?? def;
 }
 
-// node server listen for its http requests
-// fix? there is no such environment variable right now.
-const listen = env_default('NODE_PORT', 3080);
+const cmdLine = new CommandLine({
+  db_debug: [
+    "Can be either 'true' or 'false'.",
+    " Defaults to 'false'. When 'true', adds extra debugging info for queries.",
+  ],
+  db: [
+    "Can be either 'sqlite' or 'mysql'.",
+    "For prod and dev it defaults to 'mysql'.",
+    "For tests, it defaults to 'sqlite'.",
+    "- 'mysql': Requires docker.",
+    "  For prod and dev it pulls its full configuration from the environment.",
+    "  Tests have a hardcoded configuration.",
+    "  This option can followed by a localhost port, '-db=mysql:61530'",
+    "- 'sqlite': Uses a sqlite database.",
+    "  This option can followed by the path to its file.",
+    "  The default is equivalent to specifying: '-db=sqlite:./bin/events.db'.",
+  ],
+});
+
+// determine the port for the node server.
+const listen = (() => {
+  return 3080;
+})();
 
 // the user facing server.
 const siteHost = siteUrl(listen);
@@ -18,20 +45,38 @@ const appPath = path.resolve(__dirname);
 // for max file size
 const bytesPerMeg = 1024*1024;
 
-const staticFiles = env_default('SHIFT_STATIC_FILES');
+// ex. npm_lifecycle_event: 'dev-setup'
+const isTesting = process.env.npm_lifecycle_event && process.env.npm_lifecycle_event.startsWith('test');
 
-const isTesting = !!(process.env.npm_lifecycle_event || "").match(/test$/);
-// read the command line parameter for db configuration
-const dbType = env_default('npm_config_db');
-const dbDebug = !!env_default('npm_config_db_debug');
+// optional directory containing front-end content.
+// if it doesnt exist, assumes the app isn't trying to serve static files.
+// ( and that there is a separate front-end running out there, ex. production. )
+const staticFiles = (() => {
+  const p = env_default('SHIFT_STATIC_FILES');
+  return !p ? null : path.resolve(appPath, p);
+})();
 
+// storage location for uploaded images.
+// forces a temp directory when running unit tests.
+const imageDestination = (() => {
+  const p = env_default('SHIFT_IMAGE_DIR');
+  if (isTesting) {
+    return os.tmpdir();
+  } else if (p) {
+    return path.resolve(appPath, p);
+  }
+})();
+
+const dbConfig = getDatabaseConfig(cmdLine.options.db, cmdLine.bool('db_debug'), isTesting);
+
+// The config object exported
 const config = {
   appPath,
   api: {
     header: 'Api-Version',
-    version: "3.65.0",
+    version: "3.66.0",
   },
-  db: getDatabaseConfig(dbType, isTesting),
+  db: dbConfig,
   // maybe bad, but some code likes to know:
   isTesting,
   // a nodemailer friendly config, or false if smtp is not configured.
@@ -40,7 +85,7 @@ const config = {
     name: "SHIFT to Bikes",
     listen,
     path: "/",
-    // used for shareable links, and the manage url sent in email
+    // used for crawl url, shareable links, and the manage url sent in email
     url(...parts) {
      const base = `${siteHost}${config.site.path}`;
      return base + parts.join("/");
@@ -49,6 +94,10 @@ const config = {
       return config.site.url("pages/calendar-faq/");
     },
     staticFiles,
+    // expose frontend content for adding and viewing events.
+    // in production: these endpoints are served via netfliy.
+    // uses path.posix to get forward slashes even on windows
+    // i forget exactly why...
     devEndpoints: !staticFiles ? null : [{
       // ex. http://localhost:3080/addevent/edit-1-d00c888b0a1d4bab8107ba2fbe2beddf
       // loads http://localhost:3080/addevent/index.html
@@ -88,8 +137,7 @@ const config = {
   },
   image: {
     // storage location for event images
-    dir: path.resolve(appPath,
-        env_default('SHIFT_IMAGE_DIR', "eventimages")),
+    dir: imageDestination,
     // used for generated event image links
     // ( see also the ngnix config )
     path: env_default('SHIFT_IMAGE_PATH', "/eventimages/"),
@@ -142,7 +190,7 @@ module.exports = config;
 // determine the user facing prefix for generating page and image links.
 // production         - https://shift2bikes.org
 // docker dev         - https://localhost:4443
-// standalone or test - http://localhost:3080
+// npm dev, npm test  - http://localhost:3080
 function siteUrl(proxyPort) {
   const hostname = env_default('SHIFT_DOMAIN', 'localhost');
   // production uses 443, docker dev uses 4443, standalone is null.
@@ -190,23 +238,18 @@ function getSmtpSettings() {
 }
 
 // our semi-agnostic database configuration
-function getDatabaseConfig(dbType, isTesting) {
-  // dbType comes from the command-line
-  // if nothing was specfied, use the MYSQL_DATABASE environment variable
-  const env = env_default('MYSQL_DATABASE')
-  if (!dbType && env) {
-    dbType = env.startsWith("sqlite") ? env : null;
-  }
-  if (!dbType) {
-    dbType =  isTesting ? 'sqlite' : 'mysql'
-  }
+function getDatabaseConfig(dbType, dbDebug, isTesting) {
+  dbType = dbType || readDbEnv(isTesting ? 'sqlite' : null);
+
   const [name, parts] = dbType.split(':');
   const config = {
     mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
     sqlite: getSqliteConfig,
   }
-  if (!name in config) {
-    throw new Error(`unknown database type '${dbType}'`)
+  if (!(name in config)) {
+    const types = Object.keys(config).join(", ");
+    const unknownConfig = `unknown database type '${dbType}'. expected one of: ${types}.`;
+    throw new Error(unknownConfig);
   }
   return {
     type: name,
@@ -215,22 +258,46 @@ function getDatabaseConfig(dbType, isTesting) {
   }
 }
 
-// the default for mysql when running dev or production
-function getMysqlDefault() {
-  return {
-    host: env_default('MYSQL_HOST', 'db'),
-    port: env_default('MYSQL_PORT', 3306), // standard mysql port.
-    user: env_default('MYSQL_USER', 'shift'),
-    pass: env_default('MYSQL_PASSWORD', 'ok124'),
-    name: env_default('MYSQL_DATABASE', 'shift'),
+// nothing specified in the env fails
+// sqlite specified in the env uses.... sqlite.
+// anything other than sqlite in the env is assumed to be a mysql spec.
+function readDbEnv(fallback, env = 'MYSQL_DATABASE') {
+  const dbType = env_default(env) || fallback;
+  if (!dbType) {
+    throw new Error(`expected db type on command line or '${env}' env variable`);
   }
+  return dbType.startsWith("sqlite") ? dbType : 'mysql';
+}
+
+// the default for mysql when running dev or production
+ // 3306 standard mysql port.
+function getMysqlDefault(port) {
+  const common = {
+    user: 'shift',
+    pass: 'ok124',
+    name: 'shift',
+  };
+  const env = {
+    user: env_default('MYSQL_USER'),
+    pass: env_default('MYSQL_PASSWORD'),
+    name: env_default('MYSQL_DATABASE'),
+    host: env_default('MYSQL_HOST', "db"),
+    port: env_default('MYSQL_PORT', 3306),
+  };
+  // normally, a port isnt assigned via the command line
+  // in that case, the environment wins over the common settings
+  // with a port, we ignore the environment
+  return Object.assign({}, common, !port ? env : {
+    host: "localhost",
+    port: port,
+  });
 }
 
 // the default for mysql when running tests
-function getMysqlTesting() {
+function getMysqlTesting(port) {
   return {
     host: "localhost",
-    port: 3308,  // custom EXTERNAL port to avoid conflicts
+    port: port ?? 3308,  // custom EXTERNAL port to avoid conflicts
     user: 'shift_test',
     pass: 'shift_test',
     name: 'shift_test',
@@ -239,9 +306,9 @@ function getMysqlTesting() {
 
 // the default for sqlite
 // if filename is null, it uses a memory database
-// paths are relative to npm's starting path.
+// relative paths are resolved using the shift root directory
 function getSqliteConfig(filename) {
-  const connection = !filename ? ":memory:" : path.resolve(appPath, filename);
+  const connection = !filename ? ":memory:" : path.resolve(appPath  , filename);
   return {
     name: connection
   };

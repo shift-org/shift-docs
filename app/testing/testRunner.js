@@ -1,0 +1,88 @@
+//
+// A custom wrapper for running multiple tests.
+//
+// Rationale: node's test runner ignores multiple files when using its only and pattern filters.
+// https://github.com/nodejs/node/issues/51384
+//
+const fs = require('node:fs');         // search for test files
+const path = require('node:path');     // building paths to run those files
+const shell = require('shelljs'); // runs node from node; what could be simpler :sob:.
+const CommandLine = require('shift-docs/util/cmdLine');
+const { globalSetup, globalTeardown } = require('shift-docs/testing/db_setup');
+
+const cmdLine = new CommandLine({
+  f: `limit to a specific filename`,
+  p: `limit to a specific sub-directory`,
+  only: `flag to invoke --test-only`,
+  pattern: `regex for --test-name-pattern`,
+});
+
+// arguments to pass to node for each test
+const testArgs = [
+  `--trace-warnings`,
+  `--test-concurrency=1`,
+  // normally we'd let node handle the global setup ( ex. starting docker )
+  // however, when running multiple tests, the setup should only happen once.
+  //`--test-global-setup=test/db_setup.js`
+];
+
+// the custom test runner
+async function runTests() {
+  const startingDir = process.cwd(); // ex. /Users/ionous/dev/shift/real-shift/app
+  const originalCmdLine = process.argv.slice(2); // skip 0 (bin/node) and 1 (testRunner.js)
+  await globalSetup();
+  _runTests(startingDir, testArgs, originalCmdLine, cmdLine.options);
+  await globalTeardown();
+}
+runTests();
+
+// helpers:
+function _runTests(dir, args, orig, options) {
+  const { only, pattern, p: subdir, f: filename, v: version } = options;
+  if (only && pattern) {
+    throw new Error(`The test runner expects at most one option. Both only and pattern were specified.`);
+  }
+  // fix: only have to look in the test directory. probably.
+  const files = findTestFiles(dir, subdir, filename);
+  const testOnly = only === 'true';
+  if (!testOnly && !pattern) {
+    // the regular test command can handle processing multiple files
+    test(version, [`--test`].concat(args, files, '--', orig));
+
+  } else if (testOnly) {
+    // find will stop running tests when something returns a non-zero error code.
+    files.find(f => test(version, [`--test-only`].concat(args, f,'--', orig)) !== 0 );
+
+  } else if (pattern) {
+    // find will stop running tests when something returns a non-zero error code.
+    files.find(f => test(version, args.concat(`--test-name-pattern="${pattern}"`, f)) !== 0 );
+  }
+}
+
+// return an array of filenames to test
+// (returned paths are relative to dir)
+function findTestFiles(dir, subdir, filename) {
+   const entries = fs.readdirSync(dir, {
+    withFileTypes: true,
+    recursive: true,
+  });
+  return entries.filter(f => {
+    const rel = path.relative(dir, f.parentPath);
+    return f.name.endsWith("_test.js") &&
+      (!rel.includes("node_modules")) &&
+      (!subdir || rel.includes(subdir)) &&
+      (!filename || f.name.includes(filename));
+  }).map(f => path.relative(dir, path.resolve(f.parentPath, f.name)));
+}
+
+function test(version, parts, dbtype) {
+  const cmdLine = `node ${parts.join(' ')}`;
+  shell.echo(cmdLine);
+  if (version) {
+    // this sets a string: so don't set it to the string "undefined" or "false"
+    shell.env["SHIFT_VERSION"] = version;
+  }
+  // note: shell.cmd is safer, but i can't get it to work with quoted text options. :shrug:
+  // ex. --test-name-pattern="date time" looks correct when echo'd but doesn't pass the pattern to node.
+  return shell.exec(cmdLine).code;
+}

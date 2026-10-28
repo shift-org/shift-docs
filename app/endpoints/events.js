@@ -5,7 +5,6 @@
  * This endpoint supports two different queries:
  *   id=caldaily_id ( the time id )
  *   startdate=YYYY-MM-DD & enddate=YYYY-MM-DD
- *   &all=true ( to include soft deleted rides )
  *
  * For example:
  *   http://localhost:3080/api/events.php?id=1893
@@ -16,8 +15,7 @@
  *    events: [ {...},  ... ]
  *  }
  *
- * If there is a problem the error code will be 400 -- or 404 when an id
- * doesn't match a visible event -- with a json response of the form:
+ * Errors are returned with a json response of the form:
  *  {
  *      "error": { "message": "Error message" }
  *  }
@@ -26,63 +24,64 @@
  *  https://github.com/shift-org/shift-docs/blob/main/docs/CALENDAR_API.md#viewing-events
  */
 const config = require("../config");
-const { fromYMDString, to24HourString, toYMDString } = require("../util/dateTime");
+const { ErrBadRequest, ErrNotFound, StatusError } = require('shift-docs/util/errors');
+const { toYMDString } = require("../util/dateTime");
 const { CalEvent } = require("../models/calEvent");
 const { CalDaily } = require("../models/calDaily");
-const { EventsRange } = require("../models/calConst");
+const { EventsRange } = require("../models/newConst");
+const handleCall = require('shift-docs/util/handleCall');
+const { parseInt, parseYmd } = require('shift-docs/util/parse');
+
+exports.get = handleCall(listEvents);
 
 // the events endpoint:
-exports.get = function(req, res, next) {
-  let id = req.query.id;
-  let start = req.query.startdate;
-  let end = req.query.enddate;
-  const includeAllEvents = (req.query.all === "true") || (req.query.all === "1");
-  if (id && start && end) {
-    res.textError("expected only an id or date range"); // fix, i think its supposed be sending a json error.
-  } else if (id) {
-    // return the summary of a particular daily event:
-    return CalDaily.getByDailyID(id).then((daily) => {
-      if (!daily) {
-        // the id didn't match a visible event: not found, rather than a bad request.
-        // ( getByDailyID() also returns null for hidden and delisted events. )
-        res.textError("no such time", 404);
-      } else  {
-        return getSummaries([daily]).then((events) => {
-          res.set(config.api.header, config.api.version);
-          res.json({
-            events
-          });
-        });
-      }
-    }).catch(next);
-  } else {
-    // return a range of dailies between two times:
-    start = fromYMDString(start);
-    end = fromYMDString(end);
-    if (!start.isValid() || !end.isValid()) {
-      res.textError("need valid start and end times");
-    } else {
-      // add 1 so days in range is inclusive
-      // e.g. (2025-06-10 - 2025-06-01 = 9 days difference) + 1 day = 10 day range
-      const range = end.diff(start, 'day') + 1;
-      if (range < 1) {
-        res.textError("end date cannot be before start date", 422);
-      } else if (range > EventsRange.MaxDays) {
-        res.textError(`event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`, 413);
-      } else {
-        return CalDaily.getRangeVisible(start, end, includeAllEvents).then((dailies) => {
-          return getSummaries(dailies).then((events) => {
-            const pagination = getPagination(start, end, events.length);
-            res.set(config.api.header, config.api.version);
-            res.json({
-              events,
-              pagination,
-            });
-          });
-        }).catch(next);
-      }
-    }
+function listEvents(req) {
+  const pkid = parseInt(req.query.id);
+  const start = parseYmd(req.query.startdate);
+  const end = parseYmd(req.query.enddate);
+  //
+  if (pkid && (start || end)) {
+    throw new ErrBadRequest("expected only an id or date range");
   }
+  return pkid ? listDay(pkid) : listRange(start, end);
+}
+
+// promise the summary of a particular daily event
+function listDay(pkid) {
+  return CalDaily.getByDailyID(pkid).then((daily) => {
+    if (!daily) {
+      // the id didn't match a visible event: not found, rather than a bad request.
+      // ( getByDailyID() also returns null for hidden events. )
+      throw new ErrNotFound("no such time");
+    }
+    const events = getSummaries([daily]);
+    return {
+      events,
+      // no paginiztion for single evnts.
+    };
+  });
+}
+
+  // promise a range of dailies between two times:
+function listRange(start, end) {
+  if (!start || !end || !start.isValid() || !end.isValid()) {
+    throw new ErrBadRequest("need valid start and end times");
+  }
+  const range = end.diff(start, 'day') + 1; // add 1 to make test inclusive
+  if (range < 1) {
+    throw new StatusError(422, "end date cannot be before start date");
+  }
+  if (range > EventsRange.MaxDays) {
+    throw new StatusError(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
+  }
+  return CalDaily.getDateRange(start, end).then((dailies) => {
+    const events = getSummaries(dailies);
+    const pagination = getPagination(start, end, events.length);
+    return {
+      events,
+      pagination,
+    };
+  });
 }
 
 // promise an array containing json-friendly summaries of all the passed CalDaily(s)
@@ -90,30 +89,19 @@ exports.get = function(req, res, next) {
 function getSummaries(dailies) {
   // a cache because multiple dailies may have the same event.
   const events = new Map();
-  // for all dailies:
-  return Promise.all( dailies.map((at) => {
-    // if this is the first time we've seen the event id:
+  return dailies.map((at) => {
+    // summarize the event the first time we see it.
     if (!events.has(at.id)) {
-      // go create the event and end time summary pair.
-      events.set(at.id, CalEvent.getByID(at.id).then(specialSummary));
+      const evt = CalEvent.wrap(at);
+      const evtJson = evt.getSummary();
+      const endTime = evt.getEndTime(); // an invalid duration generates a null here.
+      events.set(at.id, [evtJson, endTime]);
     }
-    // wait till the event summary is complete then merge it with the daily:
-    return events.get(at.id).then((specialSum) => {
-      const [ evtJson, endTime ] = specialSum;
-      return Object.assign( {}, evtJson, at.getJSON(endTime) );
-    });
-  }));
+    const [evtJson, endTime] = events.get(at.id);
+    return Object.assign({}, evtJson, at.getSchedule(endTime));
+  });
 }
 exports.getSummaries = getSummaries;
-
-// pool the events so each daily doesn't separately query for its (shared) event.
-// the end time lives on the event, but needs to appear after each daily's json,
-// so it's tacked on manually below.
-function specialSummary(evt) {
-  // an invalid duration generates a null here.
-  const endTime = to24HourString(evt.getEndTime());
-  return [ evt.getJSON(), endTime ];
-}
 
 // expects days are dayjs objects
 // and count is the number of events between the two
