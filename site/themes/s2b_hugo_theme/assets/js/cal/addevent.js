@@ -116,8 +116,9 @@
         return options;
     }
 
+    // note: when creating new events, all of the shiftEvent fields can be empty ( undefined )
     function populateEditForm(shiftEvent, callback) {
-        var template, rendered;
+        const container = $('#mustache-edit');
 
         if (!shiftEvent.time) {
             shiftEvent.time = DEFAULT_TIME;
@@ -139,8 +140,13 @@
         }
         shiftEvent.rideLengthOptions = populateMenuOptions(RIDE_LENGTH, shiftEvent.ridelength);
 
-        template = $('#mustache-edit').html();
-        rendered = Mustache.render(template, shiftEvent);
+        if (!shiftEvent.title) {
+            shiftEvent.title = "";
+        }
+        shiftEvent.tinyplaceholder = container.truncateString(shiftEvent.title, 24);
+
+        const template = container.html();
+        const rendered = Mustache.render(template, shiftEvent);
         callback(rendered);
 
         $('#date-select').setupDatePicker(shiftEvent['datestatuses'] || []);
@@ -356,6 +362,9 @@
         previewEvent['mapLink'] = $form.getMapLink(previewEvent['address']);
         previewEvent['webLink'] = $form.getWebLink(previewEvent['weburl']);
         previewEvent['contactLink'] = $form.getContactLink(previewEvent['contact']);
+        if (!previewEvent.tinytitle) {
+            previewEvent.tinytitle = $form.truncateString(previewEvent.title, 24);
+        }
 
         $form.hide();
         mustacheData = {

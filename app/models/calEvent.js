@@ -2,6 +2,15 @@ const knex = require('shift-docs/db');
 const dt = require("../util/dateTime");
 const config = require('shift-docs/config');
 
+// when allowNull is true, this can return null if there is no tinytitle;
+// when false, this will generate a tinytitle from the real title.
+// this provides compatibility with the original code which would store the generated tinytitle:
+// the v2 tables only store a tinytitle if the organizer has specified one.
+function getTinyTitle(evt, allowNull) {
+  return (evt.tinytitle || allowNull) ?
+    evt.tinytitle : (evt.title || "").substring(0, 24);
+}
+
 // helper to add methods to a returned database object.
 const methods =  {
 
@@ -40,7 +49,9 @@ const methods =  {
       // and that seems okay.
       image       : config.image.url(this.image),
       audience    : this.audience,
-      tinytitle   : this.tinytitle,
+      // when editing, includePrivate is true, and tinytitle can be null
+      // when displaying, includePrivate is false, and tinytitle is generated from title if needed,
+      tinytitle   : getTinyTitle(this, includePrivate),
       printdescr  : this.printdescr,
       datestype   : this.datestype,
       area        : this.area,
