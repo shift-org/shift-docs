@@ -98,12 +98,23 @@ const facade = {
     app.get("/eventimages/:id.:ext", imageHandler);
   },
 
+  // nginx serves the ical endpoint under other names ( see shift.conf );
+  // rewrite those here so the export link and the webcal feed work in dev.
+  // ( the rewritten url falls through to the real endpoint, mounted later. )
+  rewriteIcalAliases(app) {
+    app.get(["/api/ics.php", "/api/shift-calendar.php"], function (req, res, next) {
+      req.url = req.url.replace(/^\/api\/[^?]+/, "/api/ical.php");
+      next();
+    });
+  },
+
   makeFacade(app, config) {
     // serve vite first so its events path will override any events folder in dist
     // ( ex. if previously built with npm run build )
     facade.serveVite(app, config);
     facade.serveWebContent(app, config);
     facade.serveImages(app, config);
+    facade.rewriteIcalAliases(app);
   }
 };
 
