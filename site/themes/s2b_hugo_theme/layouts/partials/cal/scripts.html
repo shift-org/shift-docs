@@ -53,7 +53,7 @@
 </script>
 
 <!-- load on list, single ride, edit, and festival pages; not needed for grid view page -->
-{{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") }}
+{{ if or (eq .Type "calevents") (eq .Type "calevent") (eq .Type "caledit") (eq .Type "calfestival") (eq .Type "calmap") }}
   {{ $jsCalHelpers := resources.Get "js/cal/helpers.js" | minify }}
   <script src="{{ $jsCalHelpers.Permalink }}"></script>
   {{ $jsCalMain := resources.Get "js/cal/main.js" | minify }}
@@ -80,6 +80,9 @@
       } else if (window.cal_renderpage == "addevent") {
         // show blank form to add new event
         viewAddEventForm();
+      } else if (window.cal_renderpage == "calendarmap") {
+        // map of a single day's rides ( see map.js )
+        viewMap();
       } else if (params.q) {
         // view search results inline
         viewSearch(params.q, params);
@@ -95,6 +98,13 @@
       }
     });
   </script>
+{{ end }}
+
+<!-- load the map on the calendar map page only -->
+{{ if (eq .Type "calmap") }}
+  <script src="{{ absURL "lib/leaflet/leaflet.js" }}"></script>
+  {{ $jsCalMap := resources.Get "js/cal/map.js" | minify }}
+  <script src="{{ $jsCalMap.Permalink }}"></script>
 {{ end }}
 
 <!-- load FullCal scripts on calendar grid and festival pages only; not needed on list, single ride, or edit pages -->

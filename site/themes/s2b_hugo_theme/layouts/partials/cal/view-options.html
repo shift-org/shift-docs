@@ -1,4 +1,31 @@
 <p style="text-align: center;">View events as: 
   <a href="/calendar/">List</a> | 
-  <a href="/calgrid/">Grid</a>
+  <a href="/calgrid/">Grid</a><span class="map-view-link" hidden> |
+  <a href="/calmap/">Map</a></span>
 </p>
+<script>
+  // the map is still being tested: only show its link after visiting with ?map
+  // ( ?map=0 hides it again ). remembered for the browser tab with sessionStorage,
+  // shared with the calendar app ( see cal/src/support/featureFlag.js )
+  (function() {
+    const query = new URLSearchParams(location.search);
+    const key = "shift-flag-map";
+    const fromQuery = query.has('map') && !['0', 'false'].includes(query.get('map'));
+    let show = fromQuery;
+    try {
+      if (query.has('map')) {
+        if (fromQuery) {
+          sessionStorage.setItem(key, "1");
+        } else {
+          sessionStorage.removeItem(key);
+        }
+      }
+      show = !!sessionStorage.getItem(key);
+    } catch (e) {
+      // storage unavailable; just use the query.
+    }
+    document.querySelectorAll('.map-view-link').forEach(function(el) {
+      el.hidden = !show;
+    });
+  })();
+</script>
