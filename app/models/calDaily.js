@@ -218,6 +218,7 @@ class CalDaily {
       .where('eventdate', '>=', knex.toDate(firstDay))
       .where('eventdate', '<=', knex.toDate(lastDay))
       .orderBy('eventdate')
+      .orderBy('eventtime')
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
       });
@@ -252,6 +253,7 @@ class CalDaily {
       .where('eventdate', '>=', knex.toDate(firstDay))   // caldaily: instance of the event.
       .where('eventdate', '<=', knex.toDate(lastDay))
       .orderBy('eventdate')
+      .orderBy('eventtime')
       .then(function(dailies) {
         return dailies.map(at => addMethods(at));
       });

@@ -124,3 +124,26 @@ describe("getting events", () => {
       });
   });
 });
+
+describe("event order", () => {
+  before(() => {
+    return testdb.setupFakeData("events-order");
+  });
+  after(() => {
+    return testdb.destroy();
+  });
+  it("sorts events by date and then by time", () => {
+    return request(app)
+      .get('/api/events.php')
+      .query({
+        startdate: "2002-08-01",
+        enddate: "2002-08-31",
+      })
+      .expect(200)
+      .then(res => {
+        const starts = res.body.events.map(evt => `${evt.date} ${evt.time}`);
+        assert.ok(starts.length > 1);
+        assert.deepEqual(starts, starts.toSorted());
+      });
+  });
+});
