@@ -62,9 +62,10 @@ export default {
           }
           // done loading.
           const page = buildPage(evt, vm.calStart, to.fullPath);
-          vm.evt = evt; 
+          vm.evt = evt;
           // override the server's shareable with the spa's current page.
           evt.shareable = window.location;
+          vm.loadUnfurl();
           vm.$emit("pageLoaded", page);
         });
       }
@@ -81,7 +82,8 @@ export default {
     const { caldaily_id, slug } = to.params;
     return dataPool.getDaily(caldaily_id).then((evt) => {
       const page = buildPage(evt, this.calStart, to.fullPath);
-      this.evt = evt; 
+      this.evt = evt;
+      this.loadUnfurl();
       this.$emit("pageLoaded", page);
     }).catch((error) => {
       console.warn("event loading error:", error);
@@ -100,9 +102,36 @@ export default {
       },
       // the week we came from
       calStart: null,
+      // oEmbed card html for a ridewithgps link in the details (if any)
+      unfurlHtml: null,
     };
   },
+  methods: {
+    // fetch an oEmbed card for the first ridewithgps link in the details, if
+    // any. mirrors the legacy calendar's loadUnfurls; fails silently on error
+    // or CORS. unlike the legacy list (collapsed events), this is a dedicated
+    // page so the link is always visible — no need to lazy-load.
+    loadUnfurl() {
+      this.unfurlHtml = null;
+      const url = helpers.getUnfurlUrl(this.evt.details);
+      // oEmbed endpoint is ridewithgps-specific; only it is allow-listed today.
+      if (!url || !/(^|\.)ridewithgps\.com$/i.test(new URL(url).hostname)) {
+        return;
+      }
+      fetch(`https://ridewithgps.com/oembed?format=json&url=${encodeURIComponent(url)}`)
+        .then((resp) => (resp.ok ? resp.json() : null))
+        .then((data) => {
+          if (data && data.html) {
+            this.unfurlHtml = data.html;
+          }
+        })
+        .catch(() => { /* fails silently, matches legacy */ });
+    },
+  },
   computed: {
+    linkedDetails() {
+      return helpers.getLinkedDetails(this.evt.details);
+    },
     tags() {
       return calTags.buildEventTags(this.evt)
     },
@@ -187,9 +216,8 @@ export default {
         </ExternalLink>
       </Term> 
     </dl>
-    <p class="c-description">
-      {{evt.details}}
-    </p>
+    <p class="c-description" v-html="linkedDetails"></p>
+    <div v-if="unfurlHtml" class="rwgps-unfurl" v-html="unfurlHtml"></div>
     <ul class="c-detail-links" v-if="evt.id">
       <li><a :href="shareableLink" class="c-links__share" rel="bookmark">Sharable link</a></li>
       <li><a :href="exportLink" class="c-links__export">Export to calendar</a></li>
@@ -229,6 +257,16 @@ export default {
   border-top: var(--orangey-border);
   margin-top: 1em;
   padding-top: 1em;
+}
+.rwgps-unfurl {
+  margin-top: 0.75em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.rwgps-unfurl iframe {
+  display: block;
+  max-width: 100%;
 }
 .c-detail-links {
   display: flex;
