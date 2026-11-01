@@ -1,3 +1,4 @@
+const assert = require('node:assert/strict');
 const FormValidator = require('shift-docs/support/formValidator');
 const {  ErrorStrings } = require('shift-docs/util/errors');
 const { Shorthand } = require('shift-docs/util/shorthand');
@@ -59,10 +60,10 @@ class EventValidator extends FormValidator {
       return date;
     }
   }
-  // returns the db value to store ( 0 or 1 )
-  // checkboxes only send _affirmative_ state
-  // so missing means cancelled.
+  // returns the db value to store: 0, 1, or null
   optionalStatus() {
+    // if someone didn't specify a status; but did include a date
+    // assume they meant a cancelled date.
     return this.shorthand(EventStatus, EventStatus.Cancelled);
   }
   // returns the validated string to store
@@ -105,17 +106,18 @@ function readSchedule(v) {
   } else {
     return dates.map((at, i) => {
       const date = selectDate(v, at, 'date').requireDate();
+      assert.ok(typeof(date) === 'string', "unexpected date");
       const status = selectDate(v, at, 'status').optionalStatus();
+      assert.ok([0, 1, null].includes(status), "unexpected status");
       const newsflash = selectDate(v, at, 'newsflash').optionalNews();
       return {
         ymd: date, // string
-        is_scheduled: status, // 0, 1
+        is_scheduled: status, // 0, 1, or null
         news: newsflash, // string or null
       };
     });
   }
 }
-
 
 function newValidator(input, errors) {
   const v = new EventValidator(input, errors);

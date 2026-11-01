@@ -106,7 +106,7 @@ async function writeSchedule(tx, seriesId, dayData) {
     await updateDailyStatus(tx, seriesId, dayData);
   }
   // finally, remove any entries *not* in the requested dates
-  await delistMissingDays(tx, seriesId, ymds);
+   await delistMissingDays(tx, seriesId, ymds);
 }
 
 // create days for any dates not in the db.
@@ -163,22 +163,30 @@ function updateDailyStatus(tx, seriesId, dayData) {
   and ${table.schedule}.ymd = vals.ymd`, vals);
 }
 
-// hides the published series
-// ( ex. instead of completely deleting it )
-function revokeEntireSeries(tx, id, secret) {
+// hides the series; ensures id and secret are valid and match before revoking.
+// reason is an optional string describing why the ride has been revoked.
+function revokeEntireSeries(tx, id, secret, reason = null) {
   assert.ok(id, "missing id");
   assert.ok(secret, "missing secret");
-  //
+  // match the id and secret
   return tx(table.privateData)
     .where({id, secret})
-    .then(rows => {
+    .then(async(rows) => {
+      // mismatch or missing, return false
       if (!rows.length) {
         return false;
       } else {
-        return tx(table.series)
+        // otherwise, record the revocated reason
+        // ( defaulting to the string 'true' if there's no specific reason )
+        await tx(table.series)
           .where({id})
-          .update("published", null)
-          .then(rows => true);
+          .update("revoked", reason ?? "true");
+        // and delist the individual days
+        await tx(table.schedule)
+          .where({id})
+          .update("is_scheduled", null);
+        // done!
+        return true;
       }
     }); // end query
 }

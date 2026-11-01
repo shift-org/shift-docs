@@ -7,10 +7,12 @@ Version: 3.66.0
 Base URL:
 * production: `https://www.shift2bikes.org/api/`
 * local docker development: `https://localhost:4443/api/`
+* local npm development: `https://localhost:3080/api/`
 
-Most responses are in JSON format, except the ical endpoint and event exporting return the vCalendar format.
+Most responses are in JSON format, except for:
+both the ical endpoint and event export return the vCalendar format.
 
-For most endpoints, you can use curl to post json for testing. For example:
+For endpoints which accept POST ( ex. manage and delete ) you can post form data, or use curl to post json. For example:
 
     > curl -k -H 'Content-Type: application/json' -X POST --data-binary "@delete_event.json" https://localhost:4443/api/delete_event.php
 
@@ -21,7 +23,7 @@ where `delete_event.json` might contain:
       "secret": "example"
     }
 
-For all endpoints, unknown json properties are ignored.
+For all endpoints, unknown properties -- ex. unknown html form, json, or query parameters - get ignored.
 
 ## Viewing events
 
@@ -40,6 +42,7 @@ URL parameters:
 * `id`: a `caldaily` id, containing a positive integer.
 * `startdate`: first day of an inclusive date range, in `YYYY-MM-DD` format.
 * `enddate`: last day of an inclusive date range, in `YYYY-MM-DD` format.
+* `all`: when requesting a date range, and `all=true`, deleted events and delisted days are included in the response (with minimal information). This is useful for clients that cache results and need to reconcile events that have been removed. ( ex. the Bike Fun app. )
 
 A valid request includes either a caldaily id, or a date range. It is invalid to request both an id and a date range.
 
@@ -248,7 +251,7 @@ URL parameters:
   * limit — maximum number of results to return
   * integer; default and maximum `25`
 * `all`:
-  * if `true` or `1`, searches past events in descending order; otherwise searches today and future events in ascending order
+  * if `true` or `1`, searches past events in descending order; otherwise searches today and future events in ascending order. ( note: this is a different meaning of the all parameter than other endpoints. )
 
 Responses include an http status code with a json body. The expected response codes are:
 
@@ -317,6 +320,7 @@ URL parameters:
   * if not provided, current date is used
 * `filename`:
   * if `none`, the output is plain text instead of an ICS file; useful for local debugging
+* `all`: when requesting a date range, and `all=true`, deleted events and delisted days are included in the response (with minimal information). This is useful for clients that cache results and need to reconcile events that have been removed. ( ex. the Bike Fun app. )
 
 If multiple ID/range parameters are provided, they take precedence with decreasing specificity: `event_id`, `series_id`, `startdate`/`enddate`.
 
@@ -697,4 +701,4 @@ As with v1, there were probably revisions to v2 during this time, but changelog 
 * 3.63.0: (2026-06-11) Removed the `crawl` endpoint, which is no longer used by any known clients or crawlers. Removed stale Flourish/PHP references from docs and comments.
 * 3.64.0: (2026-10-01) The events and ICS export endpoints now return `404` when an id doesn't match a visible event; they previously returned `400`. (The ICS export was already documented as returning `404`.) Response bodies are unchanged. Range requests are unaffected: a range with nothing scheduled is still a `200` with an empty `events` array.
 * 3.65.0: (2026-10-08) More specific error status codes, replacing some generic `400`s: `403` for a bad or missing event `secret` (manage, delete), `404` for an id that matches no event (retrieve, delete), `413` for a date range over the maximum, and `422` for an `enddate` before its `startdate` (events, ICS export). Response bodies are unchanged.
-* 3.66.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) the "all" option was removed from the events endpoint: "delisted" events are no longer a thing. 3) in cases where delete would have returned 404 ( not found ), it now returns 403 ( forbidden. )
+* 3.66.0: (2026-10-14) 1) Narrowed the response of the `manage` endpoint. Rather than returning the whole event, it returns only a minimal status. 2) in cases where delete would have returned 404 ( not found ), it now returns 403 ( forbidden. )

@@ -13,7 +13,7 @@ module.exports = {
 
 // validate the passed id and secret
 // promises the publication count
-// returns null the id or secret is invalid, or if the ride was revoked.
+// returns null the id or secret is mismatched or invalid.
 function checkEventSecret(id, secret) {
   // knex has the annoying behavior that an undefined parameter value
   // and the calling code expects null when id or secret is missing or unmatched.
@@ -23,22 +23,7 @@ function checkEventSecret(id, secret) {
   return db
     .query("view_private_checks")
     .where({ id, secret })
-    .then((rows) => {
-      // no match?
-      if (!rows.length) {
-        return null;
-      } else {
-        // the update_check gaurentees published is non-null
-        // a null published value means "revoked"
-        const published = rows[0].published;
-        // raises an exception on a query coding error.
-        assert.ok(
-          Number.isInteger(published),
-          "expected a valid publication status",
-        );
-        return published;
-      }
-    });
+    .then((rows) => rows.length ? rows[0].published : null);
 }
 
 function writeEvent(id, event, schedule, nextPublished) {

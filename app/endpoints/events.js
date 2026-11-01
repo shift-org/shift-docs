@@ -39,11 +39,15 @@ function listEvents(req) {
   const pkid = parseInt(req.query.id);
   const start = parseYmd(req.query.startdate);
   const end = parseYmd(req.query.enddate);
+  const includeAllEvents = (req.query.all === "true") || (req.query.all === "1");
   //
   if (pkid && (start || end)) {
     throw new ErrBadRequest("expected only an id or date range");
   }
-  return pkid ? listDay(pkid) : listRange(start, end);
+  if (pkid && includeAllEvents) {
+    throw new ErrBadRequest("include all events only makes sense for range queries");
+  }
+  return pkid ? listDay(pkid) : listRange(start, end, includeAllEvents);
 }
 
 // promise the summary of a particular daily event
@@ -57,13 +61,13 @@ function listDay(pkid) {
     const events = getSummaries([daily]);
     return {
       events,
-      // no paginiztion for single evnts.
+      // no pagination for single events.
     };
   });
 }
 
   // promise a range of dailies between two times:
-function listRange(start, end) {
+function listRange(start, end, includeAllEvents) {
   if (!start || !end || !start.isValid() || !end.isValid()) {
     throw new ErrBadRequest("need valid start and end times");
   }
@@ -74,7 +78,7 @@ function listRange(start, end) {
   if (range > EventsRange.MaxDays) {
     throw new StatusError(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`);
   }
-  return CalDaily.getDateRange(start, end).then((dailies) => {
+  return CalDaily.getDateRange(start, end, includeAllEvents).then((dailies) => {
     const events = getSummaries(dailies);
     const pagination = getPagination(start, end, events.length);
     return {
@@ -98,7 +102,7 @@ function getSummaries(dailies) {
       events.set(at.id, [evtJson, endTime]);
     }
     const [evtJson, endTime] = events.get(at.id);
-    return Object.assign({}, evtJson, at.getSchedule(endTime));
+    return Object.assign({}, evtJson, at.getSchedule(evtJson.deleted, endTime));
   });
 }
 exports.getSummaries = getSummaries;

@@ -27,11 +27,7 @@ function postDelete(req) {
     throw new ErrBadRequest("Missing secret");
   }
   return db.query.transaction((tx) => {
-    // FIX? revoke hides the event from all queries
-    // it's nice for testing/support to not delete the data entirely
-    // tbd: maybe a chron job could delete revoked events older than a month?
     return reconcile.revokeEntireSeries(tx, id, secret);
-    //return reconcile.deleteEntireSeries(tx, id, secret);
   })
   .then((count) => {
     // note: doesn't distinguish between invalid secret and unknown event.

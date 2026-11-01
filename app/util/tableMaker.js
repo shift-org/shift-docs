@@ -62,6 +62,7 @@ class TableMaker {
     setDefaults(column, opt);
   }
   // 4 byte signed value (-2147483648 to 2147483647)
+  // not required ( can be null ) by default.
   integer(name, opt) {
     opt = opt || { default: 0, required: false };
     // note: in the original tables `int(11)` is a *display* size

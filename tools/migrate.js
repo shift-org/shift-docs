@@ -127,7 +127,7 @@ function buildData(out, events) {
       out.note(evt.id, `skipping because it no had scheduled days. review: ${evt.review} title: "${evt.title}"`);
     } else {
       const days = evt.allDays.filter(at => isScheduled(at) !== undefined);
-      const skips = evt.allDays.filter(at => ['S', 'D'].includes(at.eventstatus)).length;
+      const skips = evt.allDays.filter(at => at.eventstatus === 'S').length;
 
       const diff = evt.allDays.length - days.length;
       if (diff > 0 && diff !== skips) {
@@ -183,6 +183,8 @@ function seriesTable(out, evt) {
   out.insert('cal_series', {
     id: evt.id,
     published,
+    // events marked with review 'E' are marked as revoked ( aka deleted )
+    revoked: (evt.review === 'E') ? 'excluded' : undefined,
     title: evt.title,
     organizer: evt.name,
     start_time: evt.eventtime,
@@ -394,7 +396,9 @@ function getImageOverride(image) {
 }
 // ex. "png"
 function isValidExt(ext) {
-  // NOTE: this drops a random cfm file;
+  // NOTE: this drops a random cfm file; jfif is another kind of jpg.
+  // not all of these are allowed for upload;
+  // but they exist in the db already; so lets keep them as is.
   const validExts = ['gif', 'png', 'jpg','jpeg','pjpeg', 'pjp', 'jfif'];
   return validExts.includes(ext.toLowerCase());
 }
@@ -402,10 +406,9 @@ function isValidExt(ext) {
 function isScheduled(at) {
   // the complete set of event status are:
   // A, C, D, E, S. none were null.
-  // we only care about "active" and "cancelled"
-  // exclusions get rewritten into regular events.
-  // we dont need to remember deleted data
-  // skips were an artifact of scheduling.
+  // we only care about A, C, D (active, cancelled, delisted).
+  // E: exclusions get rewritten into regular events.
+  // S: skips were an artifact of scheduling.
   return EventStatus.findShorthand(at.eventstatus)?.value;
 }
 

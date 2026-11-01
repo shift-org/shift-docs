@@ -184,6 +184,8 @@ describe("managing events", () => {
           // look over the days we requested
           // to validate what wound up in the db.
           const schedule = await CalDaily.getStatusesByEventId(3);
+          assert.equal(schedule.length, 2);
+          //
           requestedSchedule.forEach((requested, i) => {
             const at = schedule[i]; // raw db data
             // one of our requested newsflashes is missing;

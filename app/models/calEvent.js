@@ -15,12 +15,15 @@ function getTinyTitle(evt, allowNull) {
 const methods =  {
 
   // aka Event::toArray in php
-  getSummary({includePrivate}= {}) {
+  getSummary({ includePrivate } = {}) {
     let duration = this.eventduration;
     if (duration <= 0) {
       duration = null;
     }
-    return {
+    return this.deleted ? {
+      id        : this.id.toString(),
+      deleted   : true,
+    } : {
       id        : this.id.toString(),
       title     : this.title,
       venue     : this.locname,
@@ -118,7 +121,6 @@ const methods =  {
   },
 
   // if the secret is valid and matches the password of this CalEvent.
-   // ( the password of the event is set at creation time, and cleared when 'deleted' )
   isSecretValid(secret) {
     return secret && (secret === this.password);
   },
@@ -137,7 +139,8 @@ function addMethods(res) {
 
 class CalEvent {
   // promises the *private* data of an event series
-  // or null, if no such event was found.
+  // or null, if no such event was found
+  // revoked rides are excluded via this query.
   static getByID(id) {
     return knex.query('view_private_events')
       .where('id', id)

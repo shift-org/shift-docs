@@ -149,8 +149,8 @@ function respondWith(cal, res, filename, events) {
 
 // Promise a single occurrence of a single event in ical format as a string.
 // id is a caldaily id.
-function buildOne(id) {
-  return CalDaily.getByDailyID(id).then((daily) => {
+function buildOne(pkid) {
+  return CalDaily.getByDailyID(pkid).then((daily) => {
     if (!daily) {
       // an id that matches nothing is "not found", not a bad request.
       return Promise.reject(expected(404, "no such event"));
@@ -193,10 +193,7 @@ function buildRange(start, end, includeDeleted) {
     if (range > EventsRange.MaxDays) {
       return Promise.reject(expected(413, `event range too large: ${range} days requested; max ${EventsRange.MaxDays} days`));
     }
-    const q = includeDeleted?
-              CalDaily.getDateRange:
-              CalDaily.getDateRange;
-    return q(start,end).then((dailies)=>{
+    return CalDaily.getDateRange(start, end, includeDeleted).then((dailies) => {
       return buildEntries(dailies);
     });
   }
