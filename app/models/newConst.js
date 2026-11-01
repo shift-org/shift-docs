@@ -4,42 +4,48 @@
 const { Shorthand } = require('shift-docs/util/shorthand.js');
 
 // example usage:
-// Area.Portland.key = "P" - sent b/t client and server.
-// Area.Portland.label = "Portland" - used for display and logging.
-// Area.Portland.value = "Portland" - what it looks like in the database.
+// Area.Portland.key   = "P"        - sent b/t client and server.
+// Area.Portland.value = "Portland" - stored in the db.
+// Area.Portland.label = "Portland" - displayed to the user ( and for logging. )
 class Area {
+  // key is first letter; the first word is both the value and label.
   static Portland  = Shorthand.Enum('Portland');
   static Clackamas = Shorthand.Enum('Clackamas');
   static Eastside  = Shorthand.Enum('Eastside');
   static Vancouver = Shorthand.Enum('Vancouver');
   static Westside  = Shorthand.Enum('Westside');
 
-  // ex. transform 'P' into "Portland"
+  // ex. transform 'P' into the Portland Shorthand object.
   static findShorthand(key) { return Shorthand.findShorthand(Area, key); }
 }
 
 class Audience {
+  // key is first letter; value is the first word; finally, the label.
   static General = Shorthand.Enum('General', "General - For adults, but kids welcome");
   static Family  = Shorthand.Enum('Family', "Family Friendly - Adults bring children");
   static Adult   = Shorthand.Enum('Adult', "21+ Only - Adults only");
 
-  // ex. transform 'G' into "General"
+  // ex. transform 'G' into the General Shorthand object.
   static findShorthand(key) { return Shorthand.findShorthand(Audience, key); }
 }
 
 // the status of a single instance of an event on a given day.
 class EventStatus {
-  static Active    = new Shorthand('A', 'Active', 1);
-  static Cancelled = new Shorthand('C', 'Cancelled', 0);
+  // key, value, label.
+  static Active    = new Shorthand('A', 1, 'Active');
+  static Cancelled = new Shorthand('C', 0, 'Cancelled');
+  static Delisted  = new Shorthand('D', null, 'Delisted');
 
-  // transform 'A' (active) into 1, and 'C' (cancelled) into 0
-  // if neither, returns undefined
+  // transform 'A', 'C', 'D' into the Active, Cancelled, Delisted Shorthand object.
   static findShorthand(key) { return Shorthand.findShorthand(EventStatus, key); }
 }
 
 // an array of common ride distances
 const Distances = [
-  new Shorthand('--', 'Unspecified', null),
+  // key, value. label.
+  new Shorthand('--', null, 'Unspecified'),
+
+  // the key and value are the same, followed by the label.
   new Shorthand('0-3', '0-3 miles'),
   new Shorthand('3-8', '3-8 miles'),
   new Shorthand('8-15','8-15 miles'),
@@ -91,6 +97,7 @@ class Showable {
     }
   }
 
+  // ex. transform 'private' into the Showable.Private object.
   static findShorthand(key) { return Shorthand.findShorthand(Showable, key); }
 }
 
