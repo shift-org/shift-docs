@@ -29,7 +29,7 @@ export default {
     const cached = caldaily_map.get(caldaily_id);
     if (cached) {
       return cached;
-    } else if (!options || options.fetch === false) {
+    } else if (!options || options.fetch !== false) {
       // grab one event:
       const url = buildUrl(API_EVENTS_URL, {id: caldaily_id});
       const resp = await fetch(url);  // fetch is built-in browser api
