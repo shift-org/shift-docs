@@ -26,7 +26,7 @@ The Ladd's 500 is annual event. It takes place on the Saturday after the second 
 * Website: [Ladds500.com](https://ladds500.com/)
 * Instagram: [@ladds500](https://www.instagram.com/ladds500/)
 * Bluesky: [@ladds500.com](https://bsky.app/profile/ladds500.com)
-* SomethingStupid: [SomethingStupid.org](https://somethingstupid.org/)
+* Something Stupid: [SomethingStupid.org](https://somethingstupid.org/)
 
 ## Support
 
