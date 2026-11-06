@@ -184,7 +184,7 @@ function seriesTable(out, evt) {
     id: evt.id,
     published,
     // events marked with review 'E' are marked as revoked ( aka deleted )
-    revoked: (evt.review === 'E') ? 'excluded' : undefined,
+    revoked: (evt.review === 'E') ? 'excluded' : null,
     title: evt.title,
     organizer: evt.name,
     start_time: evt.eventtime,
@@ -449,7 +449,7 @@ class Output {
 // (safe for the text file output)
 function formatValue(columnName, v) {
   if (v === undefined) {
-    throw new Error('invalid values');
+    throw new Error(`invalid values for ${columnName}`);
   }
   if (v === null) {
     return "NULL";
