@@ -19,16 +19,16 @@ The Ladd's 500 is a free, one day, bicycle-themed public picnic and non-competit
 
 > It's spring, let's do something stupid.
 
-The Ladd's 500 is annual event. It takes place on the Saturday after the second Friday in April (i.e. the day after the April [Midnight Mystery Ride](/pages/mmr/)). Check the [calendar](/calendar/) to find details on the latest event!
+The Ladd's 500 is annual event. It takes place on the Saturday after the second Friday in April (i.e. the day after the April [Midnight Mystery Ride](/pages/mmr/)). Check the calendar to find details on the [next event](/calendar/?q=The%20Ladds%20500)!
 
 ## Contact
 
 * Website: [Ladds500.com](https://ladds500.com/)
 * Instagram: [@ladds500](https://www.instagram.com/ladds500/)
 * Bluesky: [@ladds500.com](https://bsky.app/profile/ladds500.com)
-* Umbrella: [The Ladd's 500](https://www.umbrellapdx.org/projects)
+* SomethingStupid: [SomethingStupid.org](https://somethingstupid.org/)
 
 ## Support
 
-Help make The Ladd's 500 happen! <a href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=JB8YUKRB2KPV4" target="_blank">Donate to support The Ladd's 500</a>.
+Help make The Ladd's 500 happen! <a href="https://ladds500.com/donate">Donate to support The Ladd's 500</a>.
 
