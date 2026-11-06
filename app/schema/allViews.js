@@ -12,7 +12,7 @@ const allViews = {
   // includes rides with no days
   // includes unpublished rides ( they can be edited )
   // excludes revoked rides ( they cannot be edited )
-  view_private_events: `
+  view_private_events: () => `
 select
   *,
   secret as password,
@@ -47,7 +47,7 @@ where not deleted;
   // produces a summary of published events and their days.
   // excludes: revoked events, events with no days.
   // implicitly excludes: events which havent been published.
-  view_event_schedule: `
+  view_event_schedule: () => `
 select *
   from view_published_series
   join view_all_days using(id)
@@ -56,7 +56,7 @@ where not deleted;
 
   // approximately the calevent data from the original db:
   // returns public data about published series even if revoked.
-  view_published_series: `
+  view_published_series: () => `
 select *
   from in_event_series
   join in_event_place using(id)
@@ -70,7 +70,9 @@ where not hidden;
   // the caldaily equivalent:
   // returns *all* known days
   // ( ex. whether published, revoked, or delisted. )
-  view_all_days: `
+  view_all_days: (dbType) => {
+    collate = dbType === "mysql" ? "collate utf8mb4_general_ci" : ""
+    return `
 select
   id,
   pkid,
@@ -79,14 +81,14 @@ select
     when 1 then 'A'
     when 0 then 'C'
     when null then 'D'
-  end as eventstatus,
+  end ${collate} as eventstatus,
   news as newsflash
 from cal_schedule;
-`,
+`},
 
   // used to validate events for event edting.
   // revoked rides can't be edited, so they are excluded.
-  view_private_checks: `
+  view_private_checks: () => `
 select id, secret, published
   from cal_series
   join cal_private using(id)
@@ -95,7 +97,7 @@ where revoked is null;
 
   // series data with legacy field names
   // excludes revoked rides ( those with null published data )
-  in_event_series: `
+  in_event_series: () => `
 select
   id,
   title,
@@ -116,7 +118,7 @@ from cal_series;
   // generate public web contact info.
   // the event endpoints currently only look for web urls.
   // note: reduces empty strings to null
-  in_public_web: `
+  in_public_web: () => `
 select id,
   case when show_weburl in ('public', 'visible') and web_link != '' then web_link end as weburl,
   case when show_weburl in ('public', 'visible') and web_link != '' then web_text end as webname
@@ -126,7 +128,7 @@ where web_type = 'url';
 
   // generate private web contact info.
   // produces the 'printweburl' field to match the old code
-  in_private_web: `
+  in_private_web: () => `
  select id,
   -- share settings
   show_weburl,
@@ -145,7 +147,7 @@ where web_type = 'url';
   // the "is" expressions turn boolean tests to 0 or 1, and handle null values automatically
   // substring(str,y,z) chops str at char y, for z characters, where y=1 is the first character;
   // if str is empty, it returns empty. if str is null, it returns null. ( so coalesce is needed. )
-  in_event_tags: `
+  in_event_tags: () => `
 select
   cal_series.id,
   coalesce( substring(tag_audience.tag_value, 1, 1), 'G' ) as audience,
@@ -166,7 +168,7 @@ from cal_series
   // the public view of private contact info.
   // only includes email, phone, and contact when allowed.
   // never includes the secret.
-  in_permitted: `
+  in_permitted: () => `
 select
   id,
   case when show_email in ('public', 'visible') then private_email end as email,
@@ -176,7 +178,7 @@ from cal_private
 `,
 
   // the combined starting and ending location data for every series
-  in_event_place: `
+  in_event_place: () => `
 select
   cal_series.id as id,
   loc_start.place_name as locname,
@@ -188,14 +190,13 @@ from cal_series
   left join cal_location as loc_start on (cal_series.id = loc_start.id and loc_start.loc_type='start')
   left join cal_location as loc_end on (cal_series.id = loc_end.id and loc_end.loc_type='finish');
 `,
-
   // the pairing of id and image cache ( or image override ) filename.
   // the *real* filename is the cache name without the trailing dash.
   // the image override is used for images manually assigned by the calendar crew.
   // example returned data:
   //  123, 123-1.png
   //  738, some_override.png
-  in_event_images: `
+  in_event_images: () => `
 select
   cal_image.id,
   coalesce(
@@ -224,7 +225,8 @@ module.exports = {
     // the names of the views from bottom to top.
     const viewNames = Object.keys(allViews).reverse();
     return viewNames.map((n) => db.query.schema.createView(n, (view) => {
-      const statement = allViews[n];
+      //
+      const statement = allViews[n](db.config.type);
       return view.as(db.raw(statement));
     }));
   },
@@ -239,7 +241,8 @@ module.exports = {
       const viewNames = Object.keys(allViews).reverse();
       for (const name of viewNames) {
         await db.query.schema.createView(name, (view) => {
-          const statement = allViews[name];
+          //
+          const statement = allViews[name](db.config.type);
           return view.as(db.raw(statement));
         });
       }
