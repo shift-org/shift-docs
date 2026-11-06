@@ -8,8 +8,11 @@
 // "in_" names are internal, partial views: helpers to build other view(s).
 const allViews = {
 
-  // a summary of all events whether published or not.
-  view_private_events: `
+  // provides a summary of events for editing them.
+  // includes rides with no days
+  // includes unpublished rides ( they can be edited )
+  // excludes revoked rides ( they cannot be edited )
+  view_private_events: () => `
 select
   *,
   secret as password,
@@ -32,107 +35,90 @@ select
 
 from
   in_event_series
-  join cal_private using(id)
-  join in_event_place using(id)
-  join in_event_tags using(id)
+  join in_event_place using(id) -- always generates rows; left and inner join are the same
+  join in_event_tags using(id)  -- same.
+  left join cal_private using(id)
   left join view_all_days using(id)
   left join in_event_images using(id)
-  left join in_private_web using(id);
-`,
-
-  // the limited set of data needed for the ics feed.
-  // only includes published events.
-  view_ical_feed: `
-select *
-from view_all_days
-left join in_event_series using (id)
-left join in_event_place using (id)
-where not hidden;
+  left join in_private_web using(id)
+where not deleted;
 `,
 
   // produces a summary of published events and their days.
-  // excludes events that have yet to be published;
-  // excludes events with no days;
-  // excludes revoked events.
-  view_event_schedule: `
-select * from
-  view_public_series
-  join view_all_days using(id);
+  // excludes: revoked events, events with no days.
+  // implicitly excludes: events which havent been published.
+  view_event_schedule: () => `
+select *
+  from view_published_series
+  join view_all_days using(id)
+where not deleted;
 `,
 
   // approximately the calevent data from the original db:
-  // returns public data about published event series.
-  view_public_series: `
-select * from
-  in_event_series
-  join in_permitted using(id)
+  // returns public data about published series even if revoked.
+  view_published_series: () => `
+select *
+  from in_event_series
   join in_event_place using(id)
   join in_event_tags using(id)
+  left join in_permitted using(id)
   left join in_event_images using(id)
   left join in_public_web using(id)
 where not hidden;
 `,
 
   // the caldaily equivalent:
-  // returns the schedule of events
-  // regardless of publication status.
-  view_all_days: `
+  // returns *all* known days
+  // ( ex. whether published, revoked, or delisted. )
+  view_all_days: (dbType) => {
+    collate = dbType === "mysql" ? "collate utf8mb4_general_ci" : ""
+    return `
 select
   id,
   pkid,
-  added,
-  changed,
   ymd as eventdate,
   case is_scheduled
     when 1 then 'A'
     when 0 then 'C'
-  end as eventstatus,
+    when null then 'D'
+  end ${collate} as eventstatus,
   news as newsflash
-from cal_schedule
--- is_scheduled can become null when an organizer deletes a particular day.
-where is_scheduled is not null;
-`,
+from cal_schedule;
+`},
 
-  // used to validate events ( ex. for update event )
-  view_private_checks: `
+  // used to validate events for event edting.
+  // revoked rides can't be edited, so they are excluded.
+  view_private_checks: () => `
 select id, secret, published
-from cal_private
-join cal_series using(id)
--- revoked rides are indicated by a null published status.
-where published is not null;
-`,
-
-  // use to find series and date from a pkid
-  view_reverse_lookup: `
-select id, pkid, ymd as eventdate
-from cal_series
-join cal_schedule using(id)
-where published is not null
-and is_scheduled is not null
+  from cal_series
+  join cal_private using(id)
+where revoked is null;
 `,
 
   // series data with legacy field names
   // excludes revoked rides ( those with null published data )
-  in_event_series: `
+  in_event_series: () => `
 select
   id,
   title,
   tiny_title as tinytitle,
   organizer as name,
+  start_time as eventtime,
+  scheduled_duration as eventduration,
   details as descr,
   summary as printdescr,
   created,
   modified,
   published as changes,
-  not published as hidden
-from cal_series
-where published is not null;
+  not published as hidden,
+  revoked is not null as deleted
+from cal_series;
 `,
 
   // generate public web contact info.
   // the event endpoints currently only look for web urls.
   // note: reduces empty strings to null
-  in_public_web: `
+  in_public_web: () => `
 select id,
   case when show_weburl in ('public', 'visible') and web_link != '' then web_link end as weburl,
   case when show_weburl in ('public', 'visible') and web_link != '' then web_text end as webname
@@ -142,7 +128,7 @@ where web_type = 'url';
 
   // generate private web contact info.
   // produces the 'printweburl' field to match the old code
-  in_private_web: `
+  in_private_web: () => `
  select id,
   -- share settings
   show_weburl,
@@ -161,8 +147,8 @@ where web_type = 'url';
   // the "is" expressions turn boolean tests to 0 or 1, and handle null values automatically
   // substring(str,y,z) chops str at char y, for z characters, where y=1 is the first character;
   // if str is empty, it returns empty. if str is null, it returns null. ( so coalesce is needed. )
-  in_event_tags: `
- select
+  in_event_tags: () => `
+select
   cal_series.id,
   coalesce( substring(tag_audience.tag_value, 1, 1), 'G' ) as audience,
   coalesce( substring(tag_area.tag_value, 1, 1), 'P' ) as area,
@@ -182,39 +168,35 @@ from cal_series
   // the public view of private contact info.
   // only includes email, phone, and contact when allowed.
   // never includes the secret.
-  in_permitted: `
+  in_permitted: () => `
 select
   id,
   case when show_email in ('public', 'visible') then private_email end as email,
   case when show_phone in ('public', 'visible') then private_phone end as phone,
   case when show_contact in ('public', 'visible') then private_contact end as contact
-from cal_private;
+from cal_private
 `,
 
   // the combined starting and ending location data for every series
-  in_event_place: `
+  in_event_place: () => `
 select
   cal_series.id as id,
   loc_start.place_name as locname,
   loc_start.address as address,
-  cal_series.start_time as eventtime,
   loc_start.time_info as timedetails,
   loc_start.place_info as locdetails,
-  loc_end.place_name as locend,
-  cal_series.scheduled_duration as eventduration
-from
-  cal_series
+  loc_end.place_name as locend
+from cal_series
   left join cal_location as loc_start on (cal_series.id = loc_start.id and loc_start.loc_type='start')
   left join cal_location as loc_end on (cal_series.id = loc_end.id and loc_end.loc_type='finish');
 `,
-
   // the pairing of id and image cache ( or image override ) filename.
   // the *real* filename is the cache name without the trailing dash.
   // the image override is used for images manually assigned by the calendar crew.
   // example returned data:
   //  123, 123-1.png
   //  738, some_override.png
-  in_event_images: `
+  in_event_images: () => `
 select
   cal_image.id,
   coalesce(
@@ -243,7 +225,8 @@ module.exports = {
     // the names of the views from bottom to top.
     const viewNames = Object.keys(allViews).reverse();
     return viewNames.map((n) => db.query.schema.createView(n, (view) => {
-      const statement = allViews[n];
+      //
+      const statement = allViews[n](db.config.type);
       return view.as(db.raw(statement));
     }));
   },
@@ -258,7 +241,8 @@ module.exports = {
       const viewNames = Object.keys(allViews).reverse();
       for (const name of viewNames) {
         await db.query.schema.createView(name, (view) => {
-          const statement = allViews[name];
+          //
+          const statement = allViews[name](db.config.type);
           return view.as(db.raw(statement));
         });
       }

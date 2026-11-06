@@ -6,12 +6,12 @@ const make = TableMaker.prototype;
 const allTables = {
   cal_series: {
     id: make.primaryKey,
-    published: make.integer, // a counter of the number of times published
+    published: make.integer, // a counter of the number of times published; or null for revoked
+    revoked: [make.string, {width: 64}], // string is a short reason; 'true' if revoked by the organizer, null if valid
     title: [make.string, {width: 256}],
     organizer: [make.string, {width: 256}],
     details: [make.string, {width: 6500}], // there's a few in the 6k range
-    start_time: [make.string, {width: 10, required: true}],
-    scheduled_duration: make.integer,  // in minutes
+    start_time: [make.string, {width: 10}],
     scheduled_duration: make.integer,  // in minutes
     tiny_title: [make.string, {width: 50}],
     summary: [make.string, {width: 812} ], // was: printdescr
@@ -42,7 +42,7 @@ const allTables = {
     // note: some people have a short description here in phone
     private_phone: [make.string, {width: 64} ],
     private_contact: [make.string, {width:  256}],
-    // one of the calConst.Showable(s)
+    // one of the newConst.Showable(s)
     show_email: [make.string, {width:  12}],
     show_phone: [make.string, {width:  12}],
     show_contact: [make.string, {width:  12}],
