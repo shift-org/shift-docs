@@ -72,7 +72,8 @@ function get(req, res, next) {
 
   return getEventData(cal, event_id, series_id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
-    if (pedalp) {
+    // the closing event goes on the day after the requested range.
+    if (pedalp && end) {
       events.push( buildClosingEvent(end) );
     }
     return respondWith(cal, res, customName || filename, events);
