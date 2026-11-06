@@ -47,6 +47,11 @@ exports.uploader = {
       limits: {
         files: 1,
         fileSize: config.image.maxFileSize,
+        // the client sends a single 'json' field ( and the optional file. )
+        // leave some room for curl posts, but bound the parsing work.
+        fields: 10,
+        parts: 11,
+        fieldNameSize: 100,
         // https://github.com/mscdex/busboy#busboy-methods
         // fieldNameSize  Max field name size  100 bytes
         // fieldSize  Max field value size (in bytes)  1MB

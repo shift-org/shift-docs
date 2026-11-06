@@ -297,6 +297,28 @@ describe("managing events", () => {
         });
     });
   });
+  it("rejects multipart posts with too many fields", () => {
+    const fields = {};
+    for (let i = 0; i < 50; i++) {
+      fields[`f${i}`] = "x";
+    }
+    return request(app)
+      .post(manage_api)
+      .type('form')
+      .field(fields)
+      .then(res => {
+        testData.expectError(res, 'image');
+      });
+  });
+  it("rejects multipart posts with long field names", () => {
+    return request(app)
+      .post(manage_api)
+      .type('form')
+      .field({ ['x'.repeat(500)]: "x" })
+      .then(res => {
+        testData.expectError(res, 'image');
+      });
+  });
   it("prevents image upload on new events", () => {
     const imageSource = path.join( config.image.dir, "bike.jpg" );
     // follows from "creates a new event" which would normally succeed
