@@ -43,6 +43,15 @@ describe("ical feed", () => {
       })
       .expect(404);
   });
+  it("sends a well-formed cache-control header", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        id: 2
+      })
+      .expect(200)
+      .expect('cache-control', 'public, max-age=10800');
+  });
   it("errors on an invalid date",  () => {
     return request(app)
       .get('/api/ical.php')
@@ -159,6 +168,29 @@ describe("ical feed", () => {
   });
 });
 
+describe("ical feed order", () => {
+  before(() => {
+    return testdb.setupFakeData("ical-order");
+  });
+  after(() => {
+    return testdb.destroy();
+  });
+  it("sorts events by start time", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        startdate: "2002-08-01",
+        enddate: "2002-08-31",
+      })
+      .expect(200)
+      .then(res => {
+        const starts = res.text.match(/^DTSTART:.*$/gm);
+        assert.ok(starts.length > 1);
+        assert.deepEqual(starts, starts.toSorted());
+      });
+  });
+});
+
 const shiftHeader = [
 String.raw`VERSION:2.0`,
 String.raw`PRODID:-//shift2bikes.org//NONSGML shiftcal v2.1//EN`,
@@ -166,6 +198,7 @@ String.raw`METHOD:PUBLISH`,
 String.raw`X-WR-CALNAME:Shift Community Calendar`,
 String.raw`X-WR-CALDESC:Find fun bike events all year round.`,
 String.raw`X-WR-RELCALID:community@shift2bikes.org`,
+String.raw`X-WR-TIMEZONE:America/Los_Angeles`,
 ];
 
 const pedalpHeader = [
@@ -175,6 +208,7 @@ String.raw`METHOD:PUBLISH`,
 String.raw`X-WR-CALNAME:Pedalpalooza Bike Calendar`,
 String.raw`X-WR-CALDESC:Find fun Pedalpalooza bike events!`,
 String.raw`X-WR-RELCALID:shift@shift2bikes.org`,
+String.raw`X-WR-TIMEZONE:America/Los_Angeles`,
 ];
 
 const event1 = [

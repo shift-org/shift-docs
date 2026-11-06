@@ -16,7 +16,7 @@ menu:
 
 ## Ride safely
 
-<p class="mission-statement" style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: 24px;"><strong>Bike fun is for everyone!</strong></p>
+<p class="mission-statement"><strong>Bike fun is for everyone!</strong></p>
 
 Biking is a great source of fun, exercise, and community, and we need everyone’s help to keep bike fun safe for all. While the COVID-19 pandemic has receded from its peak and governments are continuing to ease or drop safety guidelines, the pandemic isn't really "over." Certainly, it's not over for people with disabilities, who are immunocompromised, caring for elders, and many others. To help make biking safer for everyone, there are ways for all of us to chip in. Ride leaders are especially encouraged to consider what they can do to host events where everyone feels comfortable participating.
 
