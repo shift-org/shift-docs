@@ -159,6 +159,29 @@ describe("ical feed", () => {
   });
 });
 
+describe("ical feed order", () => {
+  before(() => {
+    return testdb.setupFakeData("ical-order");
+  });
+  after(() => {
+    return testdb.destroy();
+  });
+  it("sorts events by start time", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        startdate: "2002-08-01",
+        enddate: "2002-08-31",
+      })
+      .expect(200)
+      .then(res => {
+        const starts = res.text.match(/^DTSTART:.*$/gm);
+        assert.ok(starts.length > 1);
+        assert.deepEqual(starts, starts.toSorted());
+      });
+  });
+});
+
 const shiftHeader = [
 String.raw`VERSION:2.0`,
 String.raw`PRODID:-//shift2bikes.org//NONSGML shiftcal v2.1//EN`,
