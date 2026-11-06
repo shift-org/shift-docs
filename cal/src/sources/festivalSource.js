@@ -32,8 +32,10 @@ export default {
         }, fest),
       ];
     });
+    // compare days: the end record is at the end of its day,
+    // but the range's end is the start of its last day.
     const filteredRecords = records.filter(rec => {
-      return !rec.moment.isBefore(start) && !rec.moment.isAfter(end);
+      return !rec.moment.isBefore(start, 'day') && !rec.moment.isAfter(end, 'day');
     });
     return filteredRecords;
   }
