@@ -188,8 +188,6 @@ function makeValidator(input, errors) {
     },
 
     // if not specified ( or not one of the known lengths ) returns null.
-    // note: uses hasOwn, not 'in': 'in' walks the prototype chain,
-    // which would accept "toString", "constructor", etc. as ride lengths.
     validateRideLength(field) {
       const value = getString(field);
       return Object.hasOwn(RideLength, value) ? value : null;

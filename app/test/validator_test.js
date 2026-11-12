@@ -62,8 +62,7 @@ describe('event field validation', () => {
       "bogus",
       "",
       null,
-      // these are inherited from Object.prototype;
-      // an 'in' test would let them through. re: #1089
+      // inherited from Object.prototype
       "toString",
       "constructor",
       "hasOwnProperty",
