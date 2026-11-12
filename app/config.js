@@ -116,12 +116,6 @@ const config = {
     },
   },
   cal: {
-    pedalp: {
-      name: 'Pedalpalooza Bike Calendar',
-      desc: 'Find fun Pedalpalooza bike events!',
-      guid: 'shift@shift2bikes.org',
-      filename: 'pedalpalooza-calendar',
-    },
     shift: {
       name: 'Shift Community Calendar',
       desc: 'Find fun bike events all year round.',

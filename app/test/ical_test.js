@@ -118,34 +118,6 @@ describe("ical feed", () => {
         assert.equal(res.text, emptyRange);
       });
   });
-  it("has a special pedalpalooza feed", () => {
-     return request(app)
-      .get('/api/ical.php')
-      .query({
-         startdate: "2002-08-01",
-         enddate  : "2002-08-02",
-         filename : "pedalpalooza-2024.ics",
-       })
-      .expect(200)
-      .expect('content-type', CalendarType)
-      .then(res => {
-        assert.equal(res.text, pedalpaloozaFeed);
-      });
-  });
-  it("omits the pedalpalooza closing event without an end date", async () => {
-    for (const query of [
-      { filename: "pedalpalooza.ics" },
-      { filename: "pedalpalooza.ics", id: 2 },
-    ]) {
-      const res = await request(app)
-        .get('/api/ical.php')
-        .query(query)
-        .expect(200)
-        .expect('content-type', CalendarType);
-      assert.ok(res.text.includes("X-WR-CALNAME:Pedalpalooza Bike Calendar"));
-      assert.ok(!res.text.includes("UID:pedalpalooza-"), "no closing event");
-    }
-  });
   it("can handle a canceled event", () => {
     return CalEvent.getByID(2).then(evt => {
       // todo: create a separate test where these values are nil and zero.
@@ -180,15 +152,6 @@ String.raw`METHOD:PUBLISH`,
 String.raw`X-WR-CALNAME:Shift Community Calendar`,
 String.raw`X-WR-CALDESC:Find fun bike events all year round.`,
 String.raw`X-WR-RELCALID:community@shift2bikes.org`,
-];
-
-const pedalpHeader = [
-String.raw`VERSION:2.0`,
-String.raw`PRODID:-//shift2bikes.org//NONSGML shiftcal v2.1//EN`,
-String.raw`METHOD:PUBLISH`,
-String.raw`X-WR-CALNAME:Pedalpalooza Bike Calendar`,
-String.raw`X-WR-CALDESC:Find fun Pedalpalooza bike events!`,
-String.raw`X-WR-RELCALID:shift@shift2bikes.org`,
 ];
 
 const event1 = [
@@ -269,40 +232,6 @@ String.raw`BEGIN:VCALENDAR`,
 ...shiftHeader,
 ...canceled1,
 ...event2,
-String.raw`END:VCALENDAR`,
-"" // trailing new line. i think.
-].join("\r\n");
-
-const pedalEnd = [
-String.raw`BEGIN:VEVENT`,
-String.raw`UID:pedalpalooza-2002-end@shift2bikes.org`,
-String.raw`SUMMARY:Pedalpalooza 2002 is over!`,
-String.raw`CONTACT:bikecal@shift2bikes.org`,
-String.raw`DESCRIPTION:We hope you've had a great bike summer and a great `,
-String.raw` Pedalpalooza!!!\nWhile Pedalpalooza is done\, there is still plenty of `,
-String.raw` bike fun to be found on the Shift2bikes website. And you can also `,
-String.raw` subscribe to the Shift community calendar to see those rides.\nVisit `,
-String.raw` https://shift2bikes.org/calendar/ for more details.`,
-String.raw`LOCATION:Portland\, and beyond!`,
-String.raw`STATUS:CONFIRMED`,
-// midnight on the last day
-String.raw`DTSTART:20020803T070000Z`,
-// the end of the next day
-String.raw`DTEND:20020804T065959Z`,
-// fake created date ( in the same year )
-String.raw`CREATED:20020601T070000Z`,
-String.raw`DTSTAMP:20020601T070000Z`,
-String.raw`SEQUENCE:1`,
-String.raw`URL:https://shift2bikes.org/calendar/`,
-String.raw`END:VEVENT`,
-];
-
-const pedalpaloozaFeed = [
-String.raw`BEGIN:VCALENDAR`,
-...pedalpHeader,
-...event1,
-...event2,
-...pedalEnd,
 String.raw`END:VCALENDAR`,
 "" // trailing new line. i think.
 ].join("\r\n");

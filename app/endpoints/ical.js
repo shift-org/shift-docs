@@ -15,7 +15,6 @@
  * See also:
  *   AllEvents.md
  */
-const dayjs = require ('dayjs');
 const wordwrap = require('wordwrapjs');
 const nunjucks = require("../nunjucks");
 const { CalEvent } = require("../models/calEvent");
@@ -67,15 +66,10 @@ function get(req, res, next) {
   const end = readDate(req.query.enddate);
   const includeDeleted = readBool(req.query.all);
   const customName = req.query.filename || "";
-  const pedalp = customName.startsWith("pedalp");
-  const cal = Object.assign({}, config.cal.base, pedalp? config.cal.pedalp: config.cal.shift);
+  const cal = Object.assign({}, config.cal.base, config.cal.shift);
 
   return getEventData(cal, event_id, series_id, start, end, includeDeleted).then(data => {
     const { filename, events } = data;
-    // the closing event goes on the day after the requested range.
-    if (pedalp && end) {
-      events.push( buildClosingEvent(end) );
-    }
     return respondWith(cal, res, customName || filename, events);
   }).catch(err => {
     // the code below rejects with expected() for errors we want to report.
@@ -271,40 +265,6 @@ function buildCalEntry(evt, at) {
     sequence: evt.changes + 1,
   };
 }
-
-/**
- * Create a fake closing event for pedalp.
- * @param  dayjs  lastDay of Pedalpalooza ( ex. the final day of the month )
- * @return an object containing the elements needed for producing a v-event.
- * @see buildCalEntry()
- */
-function buildClosingEvent(lastDay) {
-  const year = lastDay.year();
-  const fakeModified = dayjs(`06-01-${year}`, "MM-DD-YYYY");
-  const oneDayLater = lastDay.add(1, 'day');
-  const url = "https://shift2bikes.org/calendar/";
-  return {
-    // usually: "event-123@shift2bikes.org"
-    uid: `pedalpalooza-${year}-end@shift2bikes.org`,
-    summary: `Pedalpalooza ${year} is over!`,
-    contact: "bikecal@shift2bikes.org",
-    description: 
-    "We hope you've had a great bike summer and a great Pedalpalooza!!!\n"+
-    "While Pedalpalooza is done, there is still plenty of bike fun to be found on the Shift2bikes website. "+
-    "And you can also subscribe to the Shift community calendar to see those rides.\n"+ 
-    `Visit ${url} for more details.`,
-    location: "Portland, and beyond!",
-    status:   "CONFIRMED",
-    // create an all day event on the day after Pedalpalooza
-    start:    oneDayLater.startOf('day'),
-    end:      oneDayLater.endOf('day'),
-    created:  fakeModified,
-    modified: fakeModified,
-    sequence: 1, 
-    url,
-  };
-}
-
 
 // ---------------------------------
 // the internals:
