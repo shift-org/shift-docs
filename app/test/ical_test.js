@@ -285,7 +285,6 @@ String.raw`END:VCALENDAR`,
 ].join("\r\n");
 
 // buildCalEntry is a pure function, so these need no database.
-// re: #498 -- and the "nil and zero" todo in "can handle a canceled event".
 describe("ical duration", () => {
   const day = dt.fromYMDString("2002-08-01");
 
@@ -320,9 +319,6 @@ describe("ical duration", () => {
     assert.equal(entry.end.diff(entry.start, 'minute'), 90);
   });
 
-  // a ride without a duration may still describe its timing in free text,
-  // which prints just above this note; repeating it there reads as a
-  // contradiction. re: #498
   it("says nothing when timedetails already covers the timing", () => {
     const entry = entryFor(null, "meet 7pm, roll 7:30");
     assert.ok(!entry.description.includes(ical.UNSPECIFIED_DURATION),
