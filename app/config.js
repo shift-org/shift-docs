@@ -246,7 +246,7 @@ function getDatabaseConfig(dbType, dbDebug, isTesting) {
     mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
     sqlite: getSqliteConfig,
   }
-  if (!(name in config)) {
+  if (!Object.hasOwn(config, name)) {
     const types = Object.keys(config).join(", ");
     const unknownConfig = `unknown database type '${dbType}'. expected one of: ${types}.`;
     throw new Error(unknownConfig);

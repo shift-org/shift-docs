@@ -26,7 +26,7 @@ class CommandLine {
   // read a true/false style option.
   // or undefined if no such option was specified.
   bool(key) {
-    if (!(key in this.known)) {
+    if (!Object.hasOwn(this.known, key)) {
       console.error(`unknown key ${key}.`);
       this.printKnown(console.error);
       throw new Error("unexpected boolean key");

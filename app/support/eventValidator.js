@@ -37,7 +37,7 @@ class EventValidator extends FormValidator {
   printField(field, fallback) {
     // the rest endpoints use a single value; see if it exists
     const showable = 'show_' + field;
-    if (showable in this.input) {
+    if (Object.hasOwn(this.input, showable)) {
       return this.select(showable).shorthand(Showable, fallback);
     } else {
       // the php endpoints uses a pair of values
