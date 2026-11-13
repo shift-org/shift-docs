@@ -18,9 +18,12 @@ export default {
   methods: {
     toggle(name) {
       let next;
+      const tool = this.tools[name];
       if (name === 'home') {
         const next = this.returnLink || {name: "events"};
         return this.$router.push(next);
+      } else if (tool.route) {
+        return this.$router.push(tool.route);
       } else {
         const query = { ...this.$route.query };
         query.expanded = this.expanded != name ? name : undefined;
@@ -40,8 +43,7 @@ export default {
     <ToolButton
       :name 
       :tool 
-      :expanded="
-      name===expanded"
+      :expanded="name===expanded || !!tool?.active"
       @toggle="toggle"/>
   </template>
   </div>

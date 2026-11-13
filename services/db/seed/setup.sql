@@ -123,6 +123,9 @@ CREATE TABLE IF NOT EXISTS `calevent` (
   `password` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `ridelength` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `safetyplan` int DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
+  `geoaddress` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=11214 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

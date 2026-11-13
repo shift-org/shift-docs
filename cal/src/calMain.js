@@ -14,6 +14,7 @@ import CalSearch from './CalSearch.vue'
 import CalFavorites from './CalFavorites.vue'
 import EventDetails from './EventDetails.vue'
 import CalBeta from './CalBeta.vue'
+import CalMap from './CalMap.vue'
 // import Empty from './Empty.vue'
 
 // the source of records displayed by CalList.
@@ -54,6 +55,12 @@ const router = createRouter({
       path: '/events/:series_id(\\d+)/:caldaily_id(\\d+)/:slug?', 
       component: EventDetails 
     },
+    { 
+      // map gets an optional query containing date="YYYY-MM-DD"
+      name: "map",  
+      path: "/events/map", 
+      component: CalMap,
+    }, 
     { 
       name: "beta",  
       path: "/events/beta", 

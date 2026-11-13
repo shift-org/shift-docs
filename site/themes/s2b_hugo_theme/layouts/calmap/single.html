@@ -1,0 +1,48 @@
+{{ define "page_body" }}
+              <div class="col-md-12">
+
+                <div>
+                  {{ .Content }}
+                </div>
+
+                {{ partial "cal/view-options.html" . }}
+
+                <nav class="map-days" aria-label="Choose a day">
+                  <a id="map-prev" class="btn" href="#">&larr;<span class="sr-only"> Previous day</span></a>
+                  <form class="go-to-date" action="/calmap/" method="GET">
+                    <label for="map-date-field" class="sr-only">Day</label>
+                    <input type="date" name="date" id="map-date-field" min="2008-01-01">
+                    <button type="submit" class="btn">Go</button>
+                  </form>
+                  <a id="map-next" class="btn" href="#"><span class="sr-only">Next day </span>&rarr;</a>
+                </nav>
+
+                <h2 id="map-title" class="map-title"></h2>
+                <div id="ride-map" class="ride-map" role="region" aria-label="Map of the day's rides"></div>
+                <p id="map-empty" class="map-empty" hidden>No rides scheduled.</p>
+
+                <!-- rides without map coordinates -->
+                <div id="map-unmapped" hidden>
+                  <h2 class="map-title">Not on the map</h2>
+                  <div id="mustache-html" class="container"></div>
+                </div>
+
+                <dialog id="map-dialog" class="map-dialog" aria-label="Ride details">
+                  <button type="button" class="map-dialog-close" aria-label="Close">&times;</button>
+                  <div class="map-dialog-content"></div>
+                </dialog>
+
+                {{ partial "alert_banner.html" . }}
+
+                {{ partial "disclaimer.html" . }}
+
+              </div>
+{{ end }}
+{{ define "postscript" }}
+  {{ partial "cal/scripts.html" . }}
+  {{ partial "cal/events.html" . }}
+
+  <script type="text/javascript">
+    window.cal_renderpage = "{{ .Params.id }}";
+  </script>
+{{ end }}

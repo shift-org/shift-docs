@@ -20,6 +20,7 @@
     "import-mysql": "env-cmd -f dev.env node importMysql.js",
     "sqlite-migrate": "env-cmd -f dev.env node migrate.js",
     "mysql-migrate": "node migrate.js",
+    "geo-backfill": "env-cmd -f dev.env node geoBackfill.js",
     "geo": "node geoSearch.js"
   }
 }
