@@ -24,12 +24,18 @@ const { EventsRange } = require("../models/calConst");
 const dt = require("../util/dateTime");
 const config = require("../config");
 
+// shown in the description when the organizer didn't give a duration.
+const UNSPECIFIED_DURATION =
+  "The organizer didn't specify an end time, so this entry assumes 1 hour.";
+
 module.exports = {
 // endpoint export:
   get,
 // export for testing:
   escapeBreak,
   replace,
+  buildCalEntry,
+  UNSPECIFIED_DURATION,
 };
 
 // text|escapeBreak("HEADER") => HEADER:text
@@ -259,6 +265,8 @@ function buildCalEntry(evt, at) {
     description: [
       news,
       evt.descr, evt.timedetails,
+      // note the assumed hour, unless timedetails already covers the timing.
+      (!evt.hasDuration() && !evt.timedetails) ? UNSPECIFIED_DURATION : null,
       evt.locend? "Ends at "+ evt.locend: null,
       url
     ],
