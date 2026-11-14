@@ -7,10 +7,16 @@
 #
 # Setting these here (rather than per-session) makes utf8mb4 the durable
 # default for every connection and every `mysql` session.
+#
+# NOTE: init_connect (collation setup) doesn't run if you are 'root'.
+# you can check the character set and collation settings in mysql by running:
+# mysql> SHOW VARIABLES LIKE 'collation%';
+# mysql> SHOW VARIABLES LIKE 'char%';
 
 [mysqld]
 character-set-server=utf8mb4
 collation-server=utf8mb4_general_ci
+init_connect=SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
 
 [client]
 default-character-set=utf8mb4

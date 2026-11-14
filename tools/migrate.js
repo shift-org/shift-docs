@@ -11,7 +11,7 @@
  *  > ./shift mysql-pipe < reorg.sql
  *
  * Example via external communication with docker:
- * > npm run --silent -w tools sqlite-migrate -- -db=mysql:63064  > reorg.sql
+ * > npm run --silent -w tools mysql-migrate -- -db=mysql:54166  > reorg.sql
  *
  *  note, the first few lines may sometimes contain stray commandline logging.
  */
@@ -123,21 +123,18 @@ function buildData(out, events) {
     const evt = events[id];
     const invalid = evt.allDays.length == 1 && evt.allDays[0].pkid === null;
     if (invalid) {
-      // TBD: we could keep these i suppose.
-      // a series ith no days.
+      // TBD: keep series with no days?
       out.note(evt.id, `skipping because it no had scheduled days. review: ${evt.review} title: "${evt.title}"`);
     } else {
       const days = evt.allDays.filter(at => isScheduled(at) !== undefined);
-      const skips = evt.allDays.filter(at => ['S', 'D'].includes(at.eventstatus)).length;
+      const skips = evt.allDays.filter(at => at.eventstatus === 'S').length;
 
       const diff = evt.allDays.length - days.length;
       if (diff > 0 && diff !== skips) {
-      evt.allDays.forEach(at => {
-        console.log(at);
-      });
-       const err = out.warn(evt.id, `REMOVED ${diff} days; ${skips} skipped.`);
-       throw new Error(err);
+        evt.allDays.forEach(at => console.log(at));
+        out.error(evt.id, `REMOVED ${diff} days; ${skips} skipped.`);
       }
+      reorderTimes(evt);
       seriesTable(out, evt);
       imageTable(out, evt);
       locTable(out, evt);
@@ -172,27 +169,28 @@ function seriesTable(out, evt) {
   // zero and null are considered visible.
   const hidden = evt.hidden === 1;
   const published = !hidden ? (evt.changes || 1) : 0;
-  //
-  let { modified, created } = evt;
-  if (dt.convert(modified).isBefore(created)) {
-    const swap = modified;
-    modified = created;
-    created = modified;
-  }
 
   // munge and don't store if we can generate it.
-  const munged = (evt.title || "").substring(0, 24).trim();
-  const dbtiny = (evt.tinytitle || "").trim();
+  const munged = nullString(evt.title, 24);
+  const dbtiny = nullString(evt.tinytitle);
+  const summary = nullString(evt.printdescr);
+
+  // a few rides have the text "none" for the tiny title or summary.
+  function eatNone(str) {
+    return str === "none" ? null : str;
+  }
 
   out.insert('cal_series', {
     id: evt.id,
     published,
+    // events marked with review 'E' are marked as revoked ( aka deleted )
+    revoked: (evt.review === 'E') ? 'excluded' : null,
     title: evt.title,
     organizer: evt.name,
     start_time: evt.eventtime,
     scheduled_duration: evt.eventduration,
     tiny_title: eatNone((munged === dbtiny) ? null : dbtiny),
-    summary: eatNone(evt.printdescr || null),
+    summary: eatNone(summary),
     details: evt.descr,
     created: evt.created,
     modified: evt.modified,
@@ -215,6 +213,7 @@ function imageTable(out, evt) {
     }
   }
 }
+
 function locTable(out, evt) {
   out.insert('cal_location', {
     id: evt.id,
@@ -225,13 +224,15 @@ function locTable(out, evt) {
     place_info: evt.locdetails,
     time_info: evt.timedetails,
   });
-  const locEnd = (evt.locend + '').trim();
+
+  // only write the loc end if needed
+  const locEnd = nullString(evt.locend);
   if (locEnd) {
     out.insert('cal_location', {
       id: evt.id,
       loc_type: LocType.Finish,
       place_name: locEnd,
-      // only supported for start right now.
+      // these fields only supported for loc start right now.
       address: null,
       place_info: null,
       time_info: null,
@@ -244,29 +245,38 @@ function privateTable(out, evt) {
     const printable = !!evt[`print${field}`]; // false if never set (ie. null)
     return Showable.combine(visible, printable);
   });
+  const email = nullString(evt.email);
+  if (email === null) {
+    // ride 732, joe the plubmer, has a null email
+    out.note(evt.id, `has a null email`);
+  }
   out.insert('cal_private', {
     id: evt.id,
-    secret: evt.password || null,
-    private_email: evt.email || null,
-    private_phone: evt.phone || null,
-    private_contact: evt.contact || null,
+    secret: nullString(evt.password),
+    private_email: email,
+    private_phone: nullString(evt.phone),
+    private_contact: nullString(evt.contact),
     show_email: showEmail.value,
     show_phone: showPhone.value,
     show_contact: showContact.value,
   });
 }
+// created and modified times can be a little funky.
+function reorderTimes(evt) {
+  const { created, modified } = evt;
+  // console.log("created", dt.icalFormat(created), "modified", dt.icalFormat(modified));
+  if (dt.convert(modified).isBefore(dt.convert(created))) {
+    evt.created = modified;
+    evt.modified = created;
+  }
+}
 function scheduleTable(out, evt, days) {
   for (const at of days) {
     if (!at.pkid) {
-      throw new Error("pkid");
+      out.error(evt.id, "missing pkid");
     }
     const scheduled = isScheduled(at);
     assert(scheduled !== undefined);
-    if (evt.modified < evt.created) {
-      const swap = evt.created;
-      evt.created = evt.modified;
-      evt.modified = swap;
-    }
     out.insert('cal_schedule', {
       id: at.id,
       ymd: at.eventdate,
@@ -274,7 +284,7 @@ function scheduleTable(out, evt, days) {
       pkid: at.pkid,
       added: evt.created,
       changed: evt.modified,
-      news: at.newsflash || null,
+      news: nullString(at.newsflash),
     });
   }
 }
@@ -284,14 +294,12 @@ function tagTable(out, evt) {
   // two of which seem to be tests... dunno what's best for them.
   tags.area = evt.area ? Area.findShorthand(evt.area)?.value : Area.Portland.toString();
   if (!tags.area) {
-    const msg = out.note(evt.id, `unknown area ${evt.area}`)
-    throw new Error(msg);
+    out.error(evt.id, `unknown area ${evt.area}`);
   }
   //
   tags.audience = evt.audience ? Audience.findShorthand(evt.audience)?.value : Audience.General.toString();
   if (!tags.audience) {
-    const msg = out.note(evt.id, `unknown audience ${evt.audience}`)
-    throw new Error(msg);
+    out.error(evt.id, `unknown audience ${evt.audience}`);
   }
   // many rides have a null ridelength
   const dist = Distance.findShorthand(evt.ridelength)?.value;
@@ -301,9 +309,11 @@ function tagTable(out, evt) {
     // dunno why but series 7283 has a length of "12"
     // nothing else is like that.
     if (evt.ridelength == 12) {
-      evt.ridelength = '8-15';
+      const forcedValue = '8-15';
+      out.note(evt.id, `rewriting ride length '${evt.ridelength}' as '${forcedValue}'`);
+      evt.ridelength = forcedValue;
     } else {
-     out.note(evt.id, `unknown ride length ${evt.ridelength}`);
+      out.error(evt.id, `unknown ride length '${evt.ridelength}'`);
     }
   }
   // false zero or null
@@ -327,23 +337,29 @@ function tagTable(out, evt) {
   }
 }
 function webTable(out, evt) {
-  if (evt.weburl || evt.webname) {
+  const name = nullString(evt.webname);
+  const url = nullString(evt.weburl);
+  if (name || url) {
     const visible = true;
     const printable = !!evt.printweburl; // false if never set ( null )
     const show = Showable.combine(visible, printable);
     out.insert('cal_web', {
       id: evt.id,
       web_type: 'url',
-      web_text: evt.webname || null,
-      web_link: evt.weburl,
+      web_text: name,
+      web_link: url,
       show_weburl: show.value,
     });
   }
 }
 // ---- helpers
-function eatNone(str) {
-  return str === "none" ? null : str;
+// turn null, or empty strings into null
+// ( where empty means: only spaces or no text at all )
+// clip optionally caps the string to the passed number of characters
+function nullString(v, clip) {
+  return (v || "").substring(0, clip).trim() || null;
 }
+
 // does the passed data have an valid values other than 'series'
 function hasData(d, ignore = []) {
   const keys = Object.keys(d);
@@ -380,7 +396,9 @@ function getImageOverride(image) {
 }
 // ex. "png"
 function isValidExt(ext) {
-  // NOTE: this drops a random cfm file;
+  // NOTE: this drops a random cfm file; jfif is another kind of jpg.
+  // not all of these are allowed for upload;
+  // but they exist in the db already; so lets keep them as is.
   const validExts = ['gif', 'png', 'jpg','jpeg','pjpeg', 'pjp', 'jfif'];
   return validExts.includes(ext.toLowerCase());
 }
@@ -388,10 +406,9 @@ function isValidExt(ext) {
 function isScheduled(at) {
   // the complete set of event status are:
   // A, C, D, E, S. none were null.
-  // we only care about "active" and "cancelled"
-  // exclusions get rewritten into regular events.
-  // we dont need to remember deleted data
-  // skips were an artifact of scheduling.
+  // we only care about A, C, D (active, cancelled, delisted).
+  // E: exclusions get rewritten into regular events.
+  // S: skips were an artifact of scheduling.
   return EventStatus.findShorthand(at.eventstatus)?.value;
 }
 
@@ -413,13 +430,18 @@ class Output {
     }
     t.rows.push(cols);
   }
+  note(id, msg) {
+    this.comments.push(`note: event ${id} ${msg}`);
+    return msg;
+  }
   warn(id, msg) {
     this.comments.push(`WARNING: event ${id} ${msg}`);
     return msg;
   }
-  note(id, msg) {
-    this.comments.push(`note: event ${id} ${msg}`);
-    return msg;
+  error(id, msg) {
+    const comment = `ERROR: event ${id} ${msg}`;
+    this.comments.push(comment);
+    throw new Error(comment);
   }
 }
 
@@ -427,7 +449,7 @@ class Output {
 // (safe for the text file output)
 function formatValue(columnName, v) {
   if (v === undefined) {
-    throw new Error('invalid values');
+    throw new Error(`invalid values for ${columnName}`);
   }
   if (v === null) {
     return "NULL";
