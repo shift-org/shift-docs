@@ -205,7 +205,7 @@ function getDatabaseConfig(dbType, isTesting) {
     mysql: !isTesting ? getMysqlDefault : getMysqlTesting,
     sqlite: getSqliteConfig,
   }
-  if (!name in config) {
+  if (!Object.hasOwn(config, name)) {
     throw new Error(`unknown database type '${dbType}'`)
   }
   return {
