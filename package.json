@@ -39,8 +39,5 @@
     "preview-hugo": "npm run dev-hugo",
     "preview-cal": "npm -w cal run build",
     "preview-app": " npm -w tools run preview"
-  },
-  "devDependencies": {
-    "http-proxy-middleware": "3.0.5"
   }
 }
