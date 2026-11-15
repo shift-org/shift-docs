@@ -71,6 +71,10 @@ where not hidden;
   // returns *all* known days
   // ( ex. whether published, revoked, or delisted. )
   view_all_days: (dbType) => {
+    // views which generate strings derive their collation from the connection.
+    // ( and not the collation of the server, database, or even the other tables in the query. )
+    // the connection collation can vary based on how you connect to the db
+    // adding an explicit collation to the view works around that. /sigh.
     collate = dbType === "mysql" ? "collate utf8mb4_general_ci" : ""
     return `
 select

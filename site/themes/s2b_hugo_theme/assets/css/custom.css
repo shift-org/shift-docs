@@ -192,6 +192,17 @@ button i.fa {
   margin: 0 5px;
 }
 
+/* callout for a page's headline statement ( ex. mission statement ) */
+.mission-statement {
+  text-align: center;
+  padding: 1em;
+  color: #663300;
+  border: 1px solid #FFDD66;
+  background: #FCFAF2;
+  font-weight: bold;
+  font-size: 24px;
+}
+
 /* see https://github.com/shift-org/shift-docs/issues/326 */
 @media (forced-colors: active) {
   svg.icon, svg.logo {

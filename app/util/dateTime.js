@@ -14,6 +14,7 @@ dayjs.extend(customParseFormat);
 dayjs.tz.setDefault(localZone);
 
 module.exports = {
+  localZone,        // "America/Los_Angeles"
   friendlyDate,     // out: "Mon, Aug 8th"
   icalFormat,       // out: "20230413T041000Z"
 

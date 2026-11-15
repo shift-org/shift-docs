@@ -5,6 +5,7 @@ METHOD:PUBLISH
 X-WR-CALNAME:{{cal.name|safe}}
 X-WR-CALDESC:{{cal.desc|safe}}
 X-WR-RELCALID:{{cal.guid|safe}}
+X-WR-TIMEZONE:{{timezone|safe}}
 {% for evt in events -%}
 BEGIN:VEVENT
 UID:{{evt.uid|safe}}

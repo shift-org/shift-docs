@@ -67,7 +67,7 @@ Not a ride itself, but a great place to hang out with other bike-y folks. Come b
 
 More info: [Bike Happy Hour on BikePortland.org](https://bikeportland.org/bikehappyhour), [BikeLoud PDX](https://bikeloudpdx.org/)
 
-[Search for upcoming bike happy hours](https://www.shift2bikes.org/calendar/?q=bike%20happy%20hour)
+[Search for upcoming bike social hours](https://www.shift2bikes.org/calendar/?q=bike%20social%20hour)
 
 
 ## Thursday
@@ -85,10 +85,12 @@ More info: [ThursdayNightRide.com](https://thursdaynightride.com/)
 [Search for upcoming Thursday Night Rides](https://www.shift2bikes.org/calendar/?q=Thursday%20Night%20Ride)
 
 ### NoPo Night Ride
-* Every Thursday
+* Every Thursday (with seasonal exceptions; check calendar)
 * Starting location: Columbia Park, 7701 N Chautauqua Blvd (meet in front of the pool)
 
-Starts at and returns to Columbia Park, join for an hour-ish ramble through North Portland and beyond. Expect roughly 10 miles at a conversation-friendly pace (~10 mph) and a brief rest stop along the way. Check the calendar for the occasional pre-ride social, usually on the last Thursday of the month!
+Starts at and returns to Columbia Park, join for an hour-ish ramble through North Portland and beyond. Expect roughly 10 miles at a conversation-friendly pace (~10 mph) and a brief rest stop along the way.
+
+The ride takes breaks during the winter, so check the calendar for the latest happenings. Also look for the occasional pre-ride social, usually on the last Thursday of the month!
 
 More info: [email NoPo Night Ride](mailto:noponightriders@gmail.com)
 

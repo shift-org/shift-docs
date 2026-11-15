@@ -8,7 +8,7 @@ const testing = require('shift-docs/testing');
 describe("getting events", () => {
   beforeEach(() => {
     testing.configure("json");
-    return testing.setupTestData("deleting with forms");
+    return testing.setupTestData("getting events");
   });
   afterEach(() => {
     return testing.reset();
@@ -111,6 +111,20 @@ describe("getting events", () => {
         assert.equal(page.start, '2002-08-01');
         assert.equal(page.end, '2002-08-02');
         assert.match(page.next, /\?startdate=2002-08-03&enddate=2002-08-04$/);
+      });
+  });
+  it("sorts events by date and then by time", () => {
+    return request(app)
+      .get('/api/events.php')
+      .query({
+        startdate: "2002-08-01",
+        enddate: "2002-08-31",
+      })
+      .expect(200)
+      .then(res => {
+        const starts = res.body.events.map(evt => `${evt.date} ${evt.time}`);
+        assert.ok(starts.length > 1);
+        assert.deepEqual(starts, starts.toSorted());
       });
   });
 });

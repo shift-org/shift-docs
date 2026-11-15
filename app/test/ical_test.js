@@ -37,6 +37,15 @@ describe("ical feed", () => {
       })
       .expect(404);
   });
+  it("sends a well-formed cache-control header", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        id: 2
+      })
+      .expect(200)
+      .expect('cache-control', 'public, max-age=10800');
+  });
   it("errors on an invalid date",  () => {
     return request(app)
       .get('/api/ical.php')
@@ -128,5 +137,19 @@ describe("ical feed", () => {
       })
       .then(testing.expectOkay)
       .then(res => assert.equal(res.text, testing.expectedResults.cancelledDay));
+  });
+  it("sorts events by start time", () => {
+    return request(app)
+      .get('/api/ical.php')
+      .query({
+        startdate: "2002-08-01",
+        enddate: "2002-08-31",
+      })
+      .expect(200)
+      .then(res => {
+        const starts = res.text.match(/^DTSTART:.*$/gm);
+        assert.ok(starts.length > 1);
+        assert.deepEqual(starts, starts.toSorted());
+      });
   });
 });

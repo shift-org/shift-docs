@@ -7,7 +7,7 @@ menu:
 ---
 ## Our mission
 
-<p class="mission-statement" style="text-align: center; padding: 1em; color: #663300; border: 1px solid #FFDD66; background: #FCFAF2; font-weight: bold; font-size: 24px;"><strong>Shift’s mission is to promote inclusive bike fun.</strong></p>
+<p class="mission-statement"><strong>Shift’s mission is to promote inclusive bike fun.</strong></p>
 
 As a loose-knit and informal bunch of bike-loving folks, we ask for no membership, nor dues, only a shared passion for the bicycle in all its glory: as toy, as transportation, as a tool for social and environmental change!
 

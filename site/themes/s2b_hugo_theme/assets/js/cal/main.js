@@ -216,8 +216,8 @@ $(document).ready(function() {
                         $('#load-more').before(html);
                     } else {
                         container.html(html);
-                        lazyLoadEventImages();
                     }
+                    lazyLoadEventImages();
 
                     if (currentOffset < totalCount) {
                         $('#load-more').removeAttr('hidden');

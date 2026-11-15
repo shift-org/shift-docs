@@ -104,6 +104,7 @@ class CalDaily {
       .where('id', id)
       .whereNot('eventstatus', 'D')
       .orderBy('eventdate')
+      // .orderBy('eventtime') - all days have the same time
       .then(dailies => dailies.map(at => {
         return {
           id: at.pkid.toString(),
@@ -133,6 +134,7 @@ class CalDaily {
       .where('eventdate', '>=', min)
       .where('eventdate', '<=', max)
       .orderBy('eventdate')
+      .orderBy('eventtime')
       .then(dailies => dailies.map(addMethods));
   }
 
