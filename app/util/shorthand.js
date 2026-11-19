@@ -2,24 +2,25 @@
 // helper for the constants 
 class Shorthand {
   // key: sent b/t client and server.
-  // label: human friendly display name
-  // value: how it appears in the db
-  // both label and value will use the key if left undefined.
-  constructor(key, label, value) {
-    this.key = key;
-    this.label = label !== undefined ? label : key;
-    this.value = value !== undefined ? value : key;
+  // value: how it appears in the db.
+  // label: human friendly display name.
+  constructor(...keyValueLabel) {
+    // key is always the first argument
+    this.key = keyValueLabel[0];
+    // value is the middle argument; otherwise the first.
+    this.value = keyValueLabel[keyValueLabel.length < 3 ? 0 : 1];
+    // label is always the last argument
+    this.label = keyValueLabel[keyValueLabel.length - 1];
   }
   toString() {
     return this.key;
   }
 
-  // create an enum-like value.
-  // the name gets stored directly in the db.
-  // the first letter gets used as the shorthand key.
-  // ex. "P", and "Portland"
-  static Enum(name, label)  {
-    return new Shorthand(name[0], label || name, name);
+  // create a shorthand based on the first letter of the value.
+  // ex. the key of "Portland" becomes "P"
+  // a label can be specified, otherwise its also the value.
+  static Enum(value, label)  {
+    return new Shorthand(value[0], value, label ?? value);
   }
 
   // given a class containing a bunch of shorthand members

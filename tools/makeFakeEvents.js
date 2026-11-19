@@ -2,9 +2,9 @@
  * create one or more fake events.
  * ex. npm run -w tools make-fake-events
  */
-const knex = require("shift-docs/db");
+const db = require('shift-docs/db');
 const dt = require("shift-docs/util/dateTime");
-const { makeFakeData } = require("shift-docs/test/fakeData");
+const fakeData = require("shift-docs/testing/fakeData");
 
 // todo: improve commandline parsing
 // this uses npm's command vars ( probably a bad idea )
@@ -31,8 +31,9 @@ async function makeFakeEvents() {
   const firstDay = dt.getNow().add(args.start, 'days');
   const lastDay = firstDay.add(args.range, 'days');
   const numEvents = args.make;
-  return knex.initialize().then(_ => {
-    return makeFakeData(firstDay, lastDay, numEvents);
+  return db.initialize().then(_ => {
+    const faked = fakeData.generateFakeData(firstDay, lastDay, numEvents);
+    return fakeData.insertFakeData(db, faked);
   })
   .then(_ => {
     console.log("done");

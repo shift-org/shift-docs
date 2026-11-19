@@ -4,11 +4,15 @@ const facade = require("../facade");
 //
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
+const path = require('node:path');
 const request = require("supertest");
 
 // exercises the real (development only) image handler.
 describe("facade event images", () => {
   const app = express();
+  // during unit testing, config sets the image dir to the temp directory
+  // but, this test wants to check for the existing image files
+  config.image.dir =  path.resolve(config.appPath, "images");
   facade.serveImages(app, config);
 
   it("serves an existing image", () => {

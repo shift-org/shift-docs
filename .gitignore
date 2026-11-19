@@ -6,23 +6,22 @@ shift.overrides
 .idea/
 !services/db/*
 *.sql
+*.db
 !services/db/*.sql
 !services/db/*/*.sql
 services/db/tmp/*.sql
 *.today
 *.DS_Store
+# this is the current location of event image file upload
+# (ex. on production and during local docker development)
 backend/eventimages/
 secrets
 services/php/shift-mail.log
 services/node/shift-mail.log
 app/node_modules/
-# exclude all event images except the readme and test bike image.
-app/eventimages/*
-!app/eventimages/
-!app/eventimages/README.md
-!app/eventimages/bike.jpg
-!app/eventimages/bike-big.png
-!app/eventimages/bike-bad.tiff
+# once upon a time, this was where event images were uploaded.
+# therefore, exclude everything from this directory.
+app/eventimages/
 bin/
 node_modules/
 /frontend/.vscode

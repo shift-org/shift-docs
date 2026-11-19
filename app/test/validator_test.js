@@ -1,26 +1,33 @@
-const { ErrorCollector, makeValidator } = require("../models/calEventValidator");
-const { RideLength } = require("../models/calConst");
+const { ErrorCollector } = require('shift-docs/util/errors');
+const { EventValidator } = require('shift-docs/support/eventValidator');
+const { Area, Audience, Distance, Distances, LocType, Showable, TagName, WebType } = require('shift-docs/models/newConst');
 const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 
+function validateRideLength(testValue, errors) {
+  // the validator throws if not a string
+  const input = { ridelength: String(testValue) };
+  const v = new EventValidator(input, errors || new ErrorCollector());
+  const got = v.select('ridelength').shorthand(Distance);
+  return { value: got, errors: v.errors };
+}
+
+function validateInt(testValue, errors) {
+  // the validator throws if not a string
+  const input = { key: String(testValue) };
+  const v = new EventValidator(input, errors || new ErrorCollector());
+  const got = v.select("key").zeroInt();
+  return { value: got, errors: v.errors };
+}
+
 describe('event field validation', () => {
   it('int validator should succeed', () => {
-    const pairs = [
-      // value, expectation
-      12, 12,
-      "12", 12,
-      null, 0,
-      0, 0,
-    ];
-    for (let i = 0; i < pairs.length; i += 2) {
-      const key = "key";
-      const value = pairs[i + 0];
-      const want  = pairs[i + 1];
-      const errors = new ErrorCollector();
-      const v = makeValidator({ key: value }, errors);
-      const got = v.zeroInt(key);
-      assert.equal(got, want, `test ${i / 2}`);
-      assert.equal(errors.count, 0);
+    const list = [ 12, 0 ];
+    for (let i = 0; i < list.length; i ++) {
+      const value = list[i];
+      const res = validateInt(value);
+      assert.equal(res.value, value, `test ${i / 2}`);
+      assert.equal(res.errors.count, 0);
     }
   });
   it('int validator should fail', () => {
@@ -36,11 +43,9 @@ describe('event field validation', () => {
     // collect all of the errors
     const errors = new ErrorCollector();
     for (let i = 0; i < list.length; i++) {
-      const key = "key";
-      const v = makeValidator({ key: list[i] }, errors);
-      const got = v.zeroInt(key);
-      assert.equal(got, undefined, `test ${i / 2}`);
-      assert.equal(errors.count, i + 1, `count ${i}`);
+      const res = validateInt(list[i], errors);
+      assert.equal(res.value, undefined, `test ${i / 2}`);
+      assert.equal(res.errors.count, i + 1, `count ${i}`);
     }
     assert.equal(errors.count, list.length, "final length");
     const msg = errors.getErrors();
@@ -50,11 +55,10 @@ describe('event field validation', () => {
     assert.equal(msg.key, `Please enter a value for <span class="field-name">key</span>`);
   });
   it('ride length validator should accept the known lengths', () => {
-    for (const want of Object.keys(RideLength)) {
-      const errors = new ErrorCollector();
-      const v = makeValidator({ ridelength: want }, errors);
-      assert.equal(v.validateRideLength('ridelength'), want);
-      assert.equal(errors.count, 0);
+    for (const dist of Distances) {
+      const res = validateRideLength(dist.key);
+      assert.equal(res.value, dist.value);
+      assert.equal(res.errors.count, 0);
     }
   });
   it('ride length validator should reject anything else', () => {
@@ -70,16 +74,17 @@ describe('event field validation', () => {
       "__proto__",
     ];
     for (const bad of list) {
-      const errors = new ErrorCollector();
-      const v = makeValidator({ ridelength: bad }, errors);
-      assert.equal(v.validateRideLength('ridelength'), null, `for ${JSON.stringify(bad)}`);
+      const res = validateRideLength(bad);
+      assert.equal(res.value, undefined, `for ${JSON.stringify(bad)}`);
+      assert.notEqual(res.errors.count, 0);
     }
   });
+  // this is for an issue that has been fixed
+  // since we aren't testing all the code for leaking globals:
+  // we can nix this test now.
   it('ride length validator should not leak a global', () => {
     delete globalThis.value;
-    const errors = new ErrorCollector();
-    const v = makeValidator({ ridelength: '0-3' }, errors);
-    v.validateRideLength('ridelength');
+    validateRideLength('0-3');
     assert.equal(globalThis.value, undefined, "expected no implicit global");
   });
 });

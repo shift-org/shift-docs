@@ -5,20 +5,20 @@ const config = require('./config');
 const { initMail } = require( './emailer');
 const app = require( './appEndpoints');
 const db = require('./db');  // initialize on startup
-const tables = require("./models/tables");
+const schema = require('shift-docs/schema');
 
 // connect to the db
 db.initialize().then(async () => {
   // create db tables
-  await tables.createTables();
+  await schema.setupTables(db);
 
   // connect to the smtp server
   await initMail().then(hostName => {
     console.log("okay: verified email host", hostName);
   }).catch(e => {
-    console.error("failed smtp verification because", e.toString());
+    console.warn("Warning: Sending email will not work because", e.toString());
   }).finally(_ => {
-    console.log("and emails will log to", config.email.logfile || "console");
+    console.log("Emails will log to", config.email.logfile || "console");
   });
 
   // start a webserver to listen to all requests

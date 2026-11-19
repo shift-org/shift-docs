@@ -19,7 +19,7 @@
     
     "dev": "concurrently -k \"npm:dev-*\"",
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
-    "dev-app": "env-cmd -f tools/dev.env npm -w app start",
+    "dev-app": "env-cmd -f tools/dev.env npm -w app start --",
     "dev-hugo": "exec-bin bin/hugo/hugo -w -s site -e development -d ../bin/dist",
     "dev-cal": "env-cmd -f tools/dev.env npm -w cal run dev",
     
@@ -39,8 +39,5 @@
     "preview-hugo": "npm run dev-hugo",
     "preview-cal": "npm -w cal run build",
     "preview-app": " npm -w tools run preview"
-  },
-  "devDependencies": {
-    "http-proxy-middleware": "3.0.5"
   }
 }
