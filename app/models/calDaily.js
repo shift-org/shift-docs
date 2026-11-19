@@ -121,6 +121,9 @@ class CalDaily {
   static getDateRange(firstDay, lastDay, includeAllEvents = false) {
    const min = dt.toYMDString(firstDay);
    const max = dt.toYMDString(lastDay);
+   // fix? a manual join because view_event_schedule excludes deleted days
+   // maybe adjust view_event_schedule and the other queries instead;
+   // or add change this query into its own view.
    return knex
       .query('view_published_series')
       // ie. using(id) -- but knex doesn't support that.

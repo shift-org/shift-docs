@@ -56,7 +56,7 @@ const methods =  {
       // when displaying, includePrivate is false, and tinytitle is generated from title if needed,
       tinytitle   : getTinyTitle(this, includePrivate),
       printdescr  : this.printdescr,
-      datestype   : this.datestype,
+      datestype   : "O",                 // doesn't exist in data any more; can doubtless be removed.
       area        : this.area,
       featured    : !!this.highlight,    // false if never set ( null )
       printemail  : !!this.printemail,   // false if never set ( null )
@@ -66,11 +66,11 @@ const methods =  {
       published   : this.isPublished(),
       safetyplan  : !!this.safetyplan,   // false if never set ( null )
 
-      // only exposes private info when hide is zero
-      // ( or when private data is specifically requested )
-      email: (this.hideemail == 0 || includePrivate) ? this.private_email : null,
-      phone: (this.hidephone == 0 || includePrivate) ? this.private_phone : null,
-      contact: (this.hidecontact == 0 || includePrivate) ? this.private_contact : null,
+      // these checks are kept for extra safety.
+      // the queries themselves only exposes private info when allowed by the author.
+      email: (this.hideemail == 0 || includePrivate) ? this.email : null,
+      phone: (this.hidephone == 0 || includePrivate) ? this.phone : null,
+      contact: (this.hidecontact == 0 || includePrivate) ? this.contact : null,
 
       // note: the php code puts the end time after the daily status data
       // for now, therefore this is in CalDaily

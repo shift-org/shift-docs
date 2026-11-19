@@ -13,31 +13,12 @@ const allViews = {
   // includes unpublished rides ( they can be edited )
   // excludes revoked rides ( they cannot be edited )
   view_private_events: () => `
-select
-  *,
-  secret as password,
-
-  -- private fields are left as "private_email", etc.
-  -- the intent was to prevent accidental leakage
-  -- tbd if that's really useful or not.
-
-  -- legacy visibility settings
-  show_email not in ('public', 'visible') as hideemail,
-  show_phone not in ('public', 'visible') as hidephone,
-  show_contact not in ('public', 'visible') as hidecontact,
-  show_weburl not in ('public', 'visible') as hideweburl,
-
-  -- legacy printing settings
-  show_email in ('public', 'printable') as printemail,
-  show_phone in ('public', 'printable') as printphone,
-  show_contact in ('public', 'printable') as printcontact,
-  show_weburl in ('public', 'printable') as printweburl
-
+select *, secret as password
 from
   in_event_series
   join in_event_place using(id) -- always generates rows; left and inner join are the same
   join in_event_tags using(id)  -- same.
-  left join cal_private using(id)
+  left join in_private_legacy using(id)
   left join view_all_days using(id)
   left join in_event_images using(id)
   left join in_private_web using(id)
@@ -45,7 +26,7 @@ where not deleted;
 `,
 
   // produces a summary of published events and their days.
-  // excludes: revoked events, events with no days.
+  // excludes: revoked (deleted) events and events with no days.
   // implicitly excludes: events which havent been published.
   view_event_schedule: () => `
 select *
@@ -90,7 +71,7 @@ select
 from cal_schedule;
 `},
 
-  // used to validate events for event edting.
+  // used to validate events for event editing.
   // revoked rides can't be edited, so they are excluded.
   view_private_checks: () => `
 select id, secret, published
@@ -175,10 +156,30 @@ from cal_series
   in_permitted: () => `
 select
   id,
+  hideemail, hidephone, hidecontact,
+  printemail, printphone, printcontact,
+
   case when show_email in ('public', 'visible') then private_email end as email,
   case when show_phone in ('public', 'visible') then private_phone end as phone,
   case when show_contact in ('public', 'visible') then private_contact end as contact
-from cal_private
+from in_private_legacy;
+`,
+
+  // adds legacy print and hide settings to the cal_private data.
+  in_private_legacy: () => `
+select *,
+
+  -- legacy visibility settings
+  show_email not in ('public', 'visible') as hideemail,
+  show_phone not in ('public', 'visible') as hidephone,
+  show_contact not in ('public', 'visible') as hidecontact,
+
+  -- legacy printing settings
+  show_email in ('public', 'printable') as printemail,
+  show_phone in ('public', 'printable') as printphone,
+  show_contact in ('public', 'printable') as printcontact
+
+from cal_private;
 `,
 
   // the combined starting and ending location data for every series
