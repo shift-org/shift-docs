@@ -318,7 +318,7 @@ function tagTable(out, evt) {
   }
   // false zero or null
   if (!!evt.loopride) {
-    tags.loop = "true";
+    tags.loopride = "true";
   }
   if (!!evt.safetyplan) {
     tags.safety = "true";
