@@ -8,7 +8,7 @@ const config = require('shift-docs/config');
 // the v2 tables only store a tinytitle if the organizer has specified one.
 function getTinyTitle(evt, allowNull) {
   return (evt.tinytitle || allowNull) ?
-    evt.tinytitle : (evt.title || "").substring(0, 24);
+    evt.tinytitle : (evt.title || "").substring(0, 24).trim();
 }
 
 // helper to add methods to a returned database object.
