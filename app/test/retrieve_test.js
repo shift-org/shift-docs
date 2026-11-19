@@ -5,6 +5,9 @@ const request = require('supertest');
 const app = require('shift-docs/appEndpoints')
 const testing = require('shift-docs/testing');
 const testdb = require('shift-docs/testing/testdb');
+// for timeout testing
+const sinon = require('sinon');
+const { CalDaily } = require("../models/calDaily");
 
 describe("retrieving event data for editing", () => {
   beforeEach(() => {
@@ -83,5 +86,20 @@ describe("retrieving event data for editing", () => {
         secret: testing.user.secret,
       })
       .then(testing.expectOkay);
+  });
+  it("reports a server error when reading the event times fails", async () => {
+    const stub = sinon.stub(CalDaily, 'getStatusesByEventId')
+      .rejects(new Error("database went away"));
+    try {
+      await request(app)
+        .get('/api/retrieve_event.php')
+        .query({
+          id: 2
+        })
+        .timeout(2000)
+        .expect(500);
+    } finally {
+      stub.restore();
+    }
   });
 });

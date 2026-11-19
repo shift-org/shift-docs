@@ -198,9 +198,10 @@ function makeValidator(input, errors) {
       return validStatus;
     },
 
-    validateRideLength(rideLength) {
-      value = getString(rideLength);
-      return (value in RideLength) ? value : null;
+    // if not specified ( or not one of the known lengths ) returns null.
+    validateRideLength(field) {
+      const value = getString(field);
+      return Object.hasOwn(RideLength, value) ? value : null;
     },
   };
 }
