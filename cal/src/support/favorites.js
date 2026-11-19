@@ -107,7 +107,7 @@ function pick(evt) {
     'featured',
     'audience',
     'cancelled',
-    'safety'
+    'safetyplan'
   ].forEach(k => {
     const v = evt[k];
     if (v) {
