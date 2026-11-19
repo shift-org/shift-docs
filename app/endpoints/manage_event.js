@@ -16,7 +16,7 @@
  *    /site/themes/s2b_hugo_theme/static/js/cal/addevent.js
  */
 const { parseJson } = require('shift-docs/util/parse');
-const newValidator = require('shift-docs/support/eventValidator');
+const { newValidator } = require('shift-docs/support/eventValidator');
 const { checkEventSecret, writeEvent, writeImage } = require('shift-docs/support/requestedEvent');
 const { ErrorCollector, FormError, ErrForbidden } = require('shift-docs/util/errors');
 const { uploader } = require('shift-docs/uploader');

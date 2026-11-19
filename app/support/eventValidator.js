@@ -5,8 +5,6 @@ const { Shorthand } = require('shift-docs/util/shorthand');
 const { Area, Audience, Distance, EventStatus, LocType, Showable, TagName, WebType } = require('shift-docs/models/newConst');
 const dt = require('shift-docs/util/dateTime');
 
-module.exports = newValidator;
-
 class EventValidator extends FormValidator {
   // for validating from an object containing shorthand constants
   // ex. shorthands.Area
@@ -133,7 +131,7 @@ function newValidator(input, errors) {
     // returns a mapping of database table name to their column names and values
     // the third parameters are the options and fallbacks
     // if a fallback is undefined, the value is required.
-    validateInput({
+     validateInput({
         defaultArea = undefined,     // can be one of the Area shorthands: ex. Area.Portland
         defaultAudience = undefined, // an Audience shorthand
         defaultDistance = undefined, // a Distance shorthand, or null for unspecified
@@ -221,3 +219,9 @@ function tag(a, b) {
   }
 }
 
+
+// --------------------------
+module.exports = {
+  newValidator,
+  EventValidator, // exposed for testing
+};
