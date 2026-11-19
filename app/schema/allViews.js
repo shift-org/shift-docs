@@ -105,20 +105,24 @@ from cal_series;
   // note: reduces empty strings to null
   in_public_web: () => `
 select id,
-  case when show_weburl in ('public', 'visible') and web_link != '' then web_link end as weburl,
-  case when show_weburl in ('public', 'visible') and web_link != '' then web_text end as webname
+  show_weburl not in ('public', 'visible') as hideweburl,
+  show_weburl in ('public', 'printable') as printweburl,
+  case when show_weburl in ('public', 'visible') and web_link != '' then web_text end as webname,
+  case when show_weburl in ('public', 'visible') and web_link != '' then web_link end as weburl
+
 from cal_web
 where web_type = 'url';
 `,
 
   // generate private web contact info.
-  // produces the 'printweburl' field to match the old code
   in_private_web: () => `
  select id,
   -- share settings
   show_weburl,
 
   -- legacy data names
+  show_weburl not in ('public', 'visible') as hideweburl,
+  show_weburl in ('public', 'printable') as printweburl,
   web_text as webname,
   web_link as weburl
 
@@ -153,21 +157,29 @@ from cal_series
   // the public view of private contact info.
   // only includes email, phone, and contact when allowed.
   // never includes the secret.
+  // fix? theoretically, we don't need serve the print fields
+  // they are info for shift and the organizer (when editing).
   in_permitted: () => `
 select
   id,
   hideemail, hidephone, hidecontact,
   printemail, printphone, printcontact,
 
-  case when show_email in ('public', 'visible') then private_email end as email,
-  case when show_phone in ('public', 'visible') then private_phone end as phone,
-  case when show_contact in ('public', 'visible') then private_contact end as contact
+  case when not hideemail then email end as email,
+  case when not hidephone then phone end as phone,
+  case when not hidecontact then contact end as contact
 from in_private_legacy;
 `,
 
-  // adds legacy print and hide settings to the cal_private data.
+  // renames and expands the cal_private fields to match legacy
   in_private_legacy: () => `
-select *,
+select
+  id,
+  secret,
+
+  private_email as email,
+  private_phone as phone,
+  private_contact as contact,
 
   -- legacy visibility settings
   show_email not in ('public', 'visible') as hideemail,
