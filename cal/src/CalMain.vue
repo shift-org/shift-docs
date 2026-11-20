@@ -15,6 +15,7 @@ import { RouterLink, RouterView } from 'vue-router'
 // support:
 import siteConfig from './siteConfig.js'
 import festInfo from './pedalp.js'
+import featureFlag from './support/featureFlag.js'
 import scrollPos from './scrollPos.js';
 
 export default {
@@ -86,6 +87,13 @@ export default {
         },
         jump: {
           label: "Jump"
+        },
+        // the map is still being tested: only visible after visiting with ?map
+        map: !featureFlag("map", route.query) ? undefined : {
+          label: "Map",
+          // navigates rather than expanding a panel.
+          route: { name: "map" },
+          active: route.name === "map" && !route.query.expanded,
         },
         bikefest: !festInfo.show ? undefined : {
           label: `Bike Summer`

@@ -57,6 +57,9 @@ const methods =  {
       printcontact: !!this.printcontact, // false if never set ( null )
       published   : this.isPublished(),
       safetyplan  : !!this.safetyplan,   // false if never set ( null )
+      // map coordinates of the starting location; null if unknown.
+      latitude    : this.latitude ?? null,
+      longitude   : this.longitude ?? null,
       // note: (null==0) is false, so this wont include email, etc. by default.
       email: (this.hideemail == 0 || includePrivate) ? this.email : null,
       phone: (this.hidephone == 0 || includePrivate) ? this.phone : null,

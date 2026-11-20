@@ -342,4 +342,10 @@ $(document).ready(function() {
     window.viewEvents = viewEvents;
     window.viewEvent = viewEvent;
     window.viewSearch = viewSearch;
+    // for map.js
+    window.lazyLoadEventImages = lazyLoadEventImages;
+    window.renderEventsHTML = function(events, options) {
+        var template = $('#view-events-template').html();
+        return Mustache.render(template, processEvents(events, options));
+    };
 });
