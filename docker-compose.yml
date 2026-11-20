@@ -79,7 +79,8 @@ services:
         - SMTP_PASS
     # by default the node image will run "node"
     # https://github.com/nodejs/docker-node/blob/main/docker-entrypoint.sh
-    # override to run npm start; its prestart runs `npm ci`, installing exactly what package-lock.json lists
+    # override to run npm start; its prestart runs `npm i`. note: package-lock.json is not mounted
+    # into this container, so `npm ci` cannot be used here without also mounting it.
     command: npm start
     working_dir: /shift
     volumes:
