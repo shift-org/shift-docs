@@ -6,9 +6,10 @@ The core event data.
 
 `cal_series`:
 * `id` auto assigned integer: The event and all of its related info binds to this id. ( duplicates the existing `calevent.id` )
-* `created` : Timestamp of when the series was first added to the db.
+* `created`: Timestamp of when the series was first added to the db.
 * `modified`: Timestamp of the most recent change to the series data.
-* `published` integer or null. A positive integer value means published and visible to the world. Zero means not yet published by the organizer. Increments every time the series is saved ( for the sake of ical feeds ). `null` means "revoked" -- they are skipped by all queries.
+* `published`: A positive integer value means published and visible to the world. Zero means not yet published by the organizer. Increments every time the series is saved ( for the sake of ical feeds ).
+* `revoked`: A string containing a reason, or null if not revoked. The backend stores the string 'true' when revoked by the organizer.
 * `title` string: human readable name of the event.
 * `organizer` string: Public visible name of the person or group who authored the event.
 * `start_time` string: *local* time as HH:DD:00. **IMPORTANT**: this isn't a mysql timestamp! if an organizer on the east coast says "ride starts at 8AM" we can look in the db expect to see "08:00:00" regardless of their time zone, our time zone, or the server's timezone.
@@ -24,7 +25,7 @@ A specific instance of a given series on a particular day. These are uniquely id
 `cal_schedule`:
 * `id` ref: The series id.
 * `ymd`: Day that the event takes place as a YYYY-MM-DD string. Multiple days can exist for a single series. Individual days are unique within each series.
-* `is_scheduled`: 0 or 1, implying cancelled or active respectively.
+* `is_scheduled`: 0 (cancelled), 1 (active), or null (delisted). If a previously active day was removed without being explictly called, it is considered delisted. Deleting an event is one way this can happen.
 * `news`: When an organizer reschedules or cancels a given day, this string allows them to explain why.
 * `added`: timestamp of when this entry was created.
 * `changed`: timestamp of when this entry was last modified.
@@ -107,7 +108,6 @@ The SERIES start_time and the SCHEDULE days are stored as **strings**, `HH:MM:00
 
 Database created and modified times are stored as TIMESTAMP(s) ( ex. `2023-02-27 18:59:39` ) and are from the perspective of the server.
 
----
 # Views
 
 A few views provide backwards compatibility with the original table format:
@@ -116,7 +116,7 @@ A few views provide backwards compatibility with the original table format:
 
 Returns the scheduled days of published events, joining the event and scheduling data.
 
-## view_public_series:
+## view_published_series:
 
 Returns the public data of published events, similar to the `calevent` table data.
 
@@ -159,3 +159,13 @@ Represents a single occurrence on a particular day, similar to the `caldaily` ta
 * `eventdate`: YYYY-MM-DD string
 * `newsflash`: organizer provided string.
 * `eventstatus` either `A` ( active ) or `C` ( cancelled )
+
+# Deleted Events and Delisted Days
+
+Deleted events occur when a ride is revoked by a shift administrator, or when an organizer wants to remove public data about their event.
+
+Delisted days are a day that used to exist on the schedule, that were removed without being explicitly marked as cancelled.
+
+Deleted events and delisted days are tracked in the db for the sake of clients ( esp. the BikeFun app ) which need look at differences of data to know when something changed.
+
+This means that data is not immediately purged from the db when a ride is marked for deletion. Instead, they are flagged as "revoked" which excludes them from the API. A chron job should fully cleanout details about these events after about a month: only the `cal_series` entry will exist, and its title, description, etc. will be nulled out.
