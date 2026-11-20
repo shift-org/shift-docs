@@ -42,6 +42,14 @@ services:
       - ./services/db/conf.d/charset.cnf:/etc/mysql/conf.d/charset.cnf
     ports:
       - 3306
+    # re: #1137 - wait until MySQL is truly ready to accept connections
+    # (especially important after a MySQL version update which runs upgrade steps)
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
 
   hugo:
     # note: this container is only needed for local development.
@@ -63,6 +71,11 @@ services:
     # https://docs.docker.com/config/containers/logging/local/
     # logging:
     #  driver: local
+    # re: #1137 - wait for db to pass its healthcheck before starting node.
+    # This prevents connection errors when MySQL runs post-upgrade steps on first launch.
+    depends_on:
+      db:
+        condition: service_healthy
     links:
       - db
     environment:
