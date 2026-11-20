@@ -8,7 +8,7 @@
 {{ else }}
 <title>{{ .Title }} - {{ .Site.Title }}</title>
 {{ end }}
-<meta name="author" content="{{ .Site.Author.name }}" />
+<meta name="author" content="{{ .Site.Author.name }}">
 
 {{ if .Keywords }}
 <meta name="keywords" content="{{ delimit .Keywords ", " }}">
@@ -31,12 +31,12 @@
 <link rel="apple-touch-icon" href="{{ absURL "img/apple-touch-icon.png" }}">
 
 <!-- Facebook OpenGraph tags -->
-<meta property="og:title" content="{{ .Title }}" />
-<meta property="og:description" content="{{ .Description }}" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="{{ absURL .Site.Params.logo }}" />
-<meta property="og:image:height" content="1200" />
-<meta property="og:image:width" content="1200" />
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="{{ absURL .Site.Params.logo }}">
+<meta property="og:image:height" content="1200">
+<meta property="og:image:width" content="1200">
 
 <!-- Verification metadata for Mastodon -->
 <link href="{{ .Site.Params.verificationURL }}" rel="me">

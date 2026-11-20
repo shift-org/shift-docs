@@ -6,14 +6,14 @@
 <script src="/lib/dayjs/plugin/customParseFormat.js"></script>
 <script src="/lib/dayjs/plugin/duration.js"></script>
 
-<script type="text/javascript">
+<script>
   dayjs.extend(window.dayjs_plugin_utc)
   dayjs.extend(window.dayjs_plugin_customParseFormat)
   dayjs.extend(window.dayjs_plugin_duration)
 </script>
 
 {{- if and .Site.BuildDrafts .Site.Params.forceCurrentTime }}
-<script type="text/javascript">
+<script>
 function wrapDayjs(mockTime) {
   const realDayJs = dayjs;
   let wrapper = function dayjsMock() {

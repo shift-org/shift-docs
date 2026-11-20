@@ -7,7 +7,7 @@
 {{ $jsCalFetch := resources.Get "js/cal/fetchevents.js" | minify }}
 <script src="{{ $jsCalFetch.Permalink }}"></script>
 
-<script type="text/javascript">
+<script>
   {{/* 
     up-next is used by the homepage to display a list of upcoming events.
     the list view here is different than the /calendar and /pedalp pages.
