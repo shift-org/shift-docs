@@ -41,7 +41,7 @@ async function startupMysql(connect) {
     `-e MYSQL_DATABASE=${connect.name}`,
     `-e MYSQL_USER=${connect.user}`,
     `-e MYSQL_PASSWORD=${connect.pass}`,
-    `mysql:8.4.7`,                       // fix? pull from env somewhere.
+    `mysql:8.4.13`,                       // fix? pull from env somewhere.
     `--disable-log-bin=true`,
   `--character-set-server=utf8mb4`,
     `--collation-server=utf8mb4_unicode_ci`)).code !== 0) {
