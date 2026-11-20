@@ -2,7 +2,7 @@
 {{ $jsCalConfig := resources.Get "js/cal/config.js" | minify }}
 <script src="{{ $jsCalConfig.Permalink }}"></script>
 
-<script type="text/javascript">
+<script>
   function parseURL() {
     var urlParams = {};
     var path = window.location.pathname.split('/');
@@ -63,7 +63,7 @@
 
   {{ partial "cal/dayjs.html" . }}
 
-  <script type="text/javascript">
+  <script>
     $(document).ready(function() {
       var params = parseURL();
 
@@ -108,7 +108,7 @@
 
 <!-- only render grid view for festival pages, 2008 or later -->
 {{ if and (eq .Type "calfestival") (ge .Params.year 2008) }}
-<script type="text/javascript">
+<script>
   document.addEventListener('DOMContentLoaded', function() {
     // the values are pulled from the .md page file
     // all PP pages require start and enddates
