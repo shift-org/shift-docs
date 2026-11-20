@@ -41,6 +41,6 @@
     "preview-app": " npm -w tools run preview"
   },
   "devDependencies": {
-    "http-proxy-middleware": "3.0.5"
+    "http-proxy-middleware": "~3.0.11"
   }
 }

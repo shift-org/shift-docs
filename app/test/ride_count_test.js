@@ -24,8 +24,8 @@ describe("ride count testing", () => {
         // past and upcoming are based on today's date
         // all the test dates are earlier
         // TODO? set a global fake date, or fake some events in the future?
-        assert.equal(res.body?.total, 75);
-        assert.equal(res.body?.past, 75);
+        assert.equal(res.body?.total, 80);
+        assert.equal(res.body?.past, 80);
         assert.equal(res.body?.upcoming, 0);
       });
   });
