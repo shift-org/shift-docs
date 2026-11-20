@@ -17,13 +17,20 @@ const db = {
   query: false,
 
   // waits to open a connection.
+  // re: #1137 - after a MySQL version update the server runs upgrade steps
+  // and may refuse connections for longer than usual. Retry with backoff so the
+  // node container recovers on its own without a manual bounce.
   async initialize(name) {
     if (db.query) {
       throw new Error("db already initialized");
     }
     const connection = knex(dbConfig);
     db.query = connection;
-    await connection;
+    if (config.db.type === 'mysql') {
+      await waitForConnection(connection);
+    } else {
+      await connection;
+    }
   },
 
   // promise to close connections.
@@ -103,6 +110,32 @@ module.exports = db;
 // filter them out, mimicking what knex does internally for undefined values.
 function isSafe(v, k) {
   return (typeof v !== 'function');
+}
+
+// Probe the MySQL connection with retries and exponential backoff.
+// re: #1137 - MySQL runs upgrade steps on first launch after a version update.
+// During that window mysqld is reachable but not yet accepting queries; a raw
+// ping succeeds while SELECT 1 may still fail. Retrying here lets the node
+// process self-heal instead of requiring a manual `./shift down && ./shift up`.
+//
+// Max wait: ~63 s  (delays of 1, 2, 4, 8, 16, 32 s across 6 attempts)
+async function waitForConnection(connection, maxRetries = 6) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await connection.raw('SELECT 1');
+      return; // success
+    } catch (err) {
+      if (attempt === maxRetries) {
+        throw err;
+      }
+      const delaySec = Math.pow(2, attempt - 1); // 1, 2, 4, 8, 16, 32 …
+      console.warn(
+        `db: connection attempt ${attempt}/${maxRetries} failed (${err.code ?? err.message}),` +
+        ` retrying in ${delaySec}s\u2026`
+      );
+      await new Promise(resolve => setTimeout(resolve, delaySec * 1000));
+    }
+  }
 }
 
 // turn the shift config into knex format

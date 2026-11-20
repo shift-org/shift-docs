@@ -64,8 +64,10 @@ SCRIPT_NAME=$(basename $0)
 # ====================
 # https://www.marksayson.com/blog/wait-until-docker-containers-initialized/
 
-# Max query attempts before consider setup failed
-MAX_TRIES=5
+# Max query attempts before consider setup failed.
+# re: #1137 - MySQL version updates trigger upgrade steps that add significant
+# startup time; allow enough attempts to cover that window (~60-90 s typical).
+MAX_TRIES=20
 
 # Return true-like values if and only if logs
 # contain the expected "ready" line
