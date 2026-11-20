@@ -100,6 +100,59 @@
         return googleCalUrl.toString();
     };
 
+    // LINKABLE_DOMAINS is defined in config.js
+    var linkableHostPattern = LINKABLE_DOMAINS.map(function(domain) {
+        return '(?:[a-z0-9-]+\\.)*' + domain.replace(/\./g, '\\.');
+    }).join('|');
+
+    // an optional scheme/www, one of the allow-listed hosts, then an optional path.
+    // the negative lookbehind keeps it from matching as a suffix of a longer
+    // word/domain (eg. "evilridewithgps.com") or an email's domain part.
+    var linkableUrlPattern = new RegExp(
+        '(?<![\\w.@-])(?:https?:\\/\\/)?(?:' + linkableHostPattern + ')(?:\\/[^\\s<>"\']*)?',
+        'gi'
+    );
+
+    function escapeHtml(text) {
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // turns plain-text event details into safe html, hyperlinking any
+    // ridewithgps.com links (the rest of the text is html-escaped, not
+    // left as raw html, since this is free text from event organizers).
+    $.fn.getLinkedDetails = function(details) {
+        if (!details) {
+            return details;
+        }
+
+        var html = '';
+        var lastIndex = 0;
+        var match;
+        linkableUrlPattern.lastIndex = 0;
+
+        while ((match = linkableUrlPattern.exec(details)) !== null) {
+            // don't swallow trailing sentence punctuation into the link
+            var url = match[0].replace(/[.,!?;:'")\]}]+$/, '');
+            var start = match.index;
+            var end = start + url.length;
+
+            html += escapeHtml(details.slice(lastIndex, start));
+            var href = /^https?:\/\//i.test(url) ? url : ('https://' + url);
+            html += '<a href="' + escapeHtml(href) + '" data-unfurl-url="' + escapeHtml(href) + '" target="_blank" rel="noopener nofollow external" title="Opens in a new window">' +
+                escapeHtml(url) + '</a>';
+
+            lastIndex = end;
+            linkableUrlPattern.lastIndex = end;
+        }
+        html += escapeHtml(details.slice(lastIndex));
+        return html;
+    };
+
     $.fn.truncateString = function ( str, maxLength=250 ) {
         let text = str.substring(0,maxLength);
         if (str.length > maxLength) {
@@ -117,6 +170,43 @@
             return 1;
         }
         return 0;
+    };
+
+    // fetch oEmbed cards for any ridewithgps links in the container.
+    // uses IntersectionObserver so requests only fire when a link is actually
+    // visible (i.e. after the user expands that event's details).
+    $.fn.loadUnfurls = function() {
+        var links = this.find('a[data-unfurl-url]:not([data-unfurl-observed])');
+        if (!links.length || !('IntersectionObserver' in window)) return;
+
+        links.attr('data-unfurl-observed', '1');
+
+        var observer = new IntersectionObserver(function(entries, obs) {
+            entries.forEach(function(entry) {
+                if (!entry.isIntersecting) return;
+                obs.unobserve(entry.target);
+
+                var link = $(entry.target);
+                var eventDetails = link.closest('.event-details');
+                // one card per event — first ridewithgps link wins
+                if (!eventDetails.length || eventDetails.data('unfurl-loaded')) return;
+                eventDetails.data('unfurl-loaded', true);
+
+                var url = link.data('unfurl-url');
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://ridewithgps.com/oembed?format=json&url=' + encodeURIComponent(url),
+                    dataType: 'json',
+                    success: function(data) {
+                        if (!data.html) return;
+                        var card = $('<div class="rwgps-unfurl"></div>').html(data.html);
+                        link.closest('p.description').after(card);
+                    }
+                });
+            });
+        });
+
+        links.each(function() { observer.observe(this); });
     };
 
 } (jQuery));

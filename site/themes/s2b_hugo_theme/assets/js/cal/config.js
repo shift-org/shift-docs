@@ -50,3 +50,9 @@ const DEFAULT_RIDE_LENGTH = '--';
 // total number of days to fetch, inclusive of start and end dates;
 // minimum of 1, maximum set by server
 const DEFAULT_DAYS_TO_FETCH = 10;
+
+// domains we trust enough to auto-link inside free-text event
+// descriptions. keeps the description field from becoming an open
+// invitation for spam links while still letting people share their
+// ridewithgps.com routes. see issue #1072.
+const LINKABLE_DOMAINS = ['ridewithgps.com'];

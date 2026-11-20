@@ -349,6 +349,18 @@ h3 {
     white-space: pre-line;
 }
 
+.rwgps-unfurl {
+    margin-top: 0.75em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rwgps-unfurl iframe {
+    display: block;
+    max-width: 100%;
+}
+
 .otherButtons a {
     text-decoration: none;
 }
