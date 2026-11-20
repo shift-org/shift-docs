@@ -10,7 +10,7 @@
     "express": "~4.22.0",
     "knex": "~2.5.1",
     "lodash": "~4.18.1",
-    "multer": "~2.4.0",
+    "multer": "~2.5.0",
     "mysql2": "~3.24.6",
     "nodemailer": "~10.1.1",
     "nunjucks": "~3.2.4",

@@ -9,7 +9,7 @@
     "@faker-js/faker": "~10.6.0",
     "env-cmd": "~10.1.0",
     "express-http-proxy": "~2.1.1",
-    "http-proxy-middleware": "~3.0.5",
+    "http-proxy-middleware": "~3.0.11",
     "shift-docs": "1.0.0",
     "sqlstring": "~2.3.3"
   },
