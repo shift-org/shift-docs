@@ -88,6 +88,7 @@ services:
       - ./app:/shift/app/
       - ./tools:/shift/tools/
       - ./package.json:/shift/package.json
+      - ./package-lock.json:/shift/package-lock.json
       - modules:/shift/node_modules/
 
       # provide access to images:
