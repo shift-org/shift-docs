@@ -83,6 +83,7 @@ describe("managing events", () => {
       "read_comic", "0",
       "email", null,
       "email", "i am not an email",
+      "hideemail", null,
     ];
     let seq = Promise.resolve(""); // something to kick off the sequences.
     for (let i=0; i< pairs.length; i+=2) {
@@ -322,6 +323,7 @@ const eventData = {
   "address": "the location of the secret hideout",
   "organizer": "js test",
   "email": "test@example.com",
+  "hideemail": "1",
   "code_of_conduct": "1",
   "read_comic": "1",
   "time": "3:15 PM", // time is sent with meridian for some reason.
