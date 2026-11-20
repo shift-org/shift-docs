@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "start": "npm -w app start",
-    "prestart": "npm i --omit dev --audit false --fund false --ignore-scripts",
+    "prestart": "npm ci --omit dev --audit false --fund false --ignore-scripts",
     
     "dev": "concurrently -k \"npm:dev-*\"",
     "predev": "env-cmd -f tools/dev.env node tools/setupEventImages.js",
@@ -27,7 +27,7 @@
     "build-hugo": "exec-bin bin/hugo/hugo -s site -d ../bin/dist",
     "build-vite": "npm -w cal run build",
 
-    "predeploy": "npm i --workspaces=false && npm i -w cal",
+    "predeploy": "npm ci --include-workspace-root -w cal",
     "deploy": "concurrently --max-processes 1 -P 'npm:deploy:hugo -- {@}' 'npm:deploy:vite' --",
     "deploy:hugo": "exec-bin bin/hugo/hugo -s site",
     "deploy:vite": "npm -w cal run deploy",
